@@ -9,6 +9,7 @@ gem 'rails', '3.1.1'
 
 gem 'pg'
 gem 'json'
+gem 'rake', '0.9.2'
 
 # Gems used only for assets and not required
 # in production environments by default.
