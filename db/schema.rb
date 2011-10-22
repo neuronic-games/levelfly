@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111021081329) do
+ActiveRecord::Schema.define(:version => 20111022034440) do
 
   create_table "access_codes", :force => true do |t|
     t.integer  "campus_id"
@@ -79,7 +79,15 @@ ActiveRecord::Schema.define(:version => 20111021081329) do
     t.datetime "updated_at"
   end
 
-  create_table "campus_majors", :force => true do |t|
+  create_table "campuses", :force => true do |t|
+    t.string   "name",       :limit => 64
+    t.string   "code",       :limit => 64
+    t.boolean  "archived",                 :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "campuses_majors", :force => true do |t|
     t.integer  "campus_id"
     t.integer  "major_id"
     t.datetime "created_at"

@@ -1,21 +1,60 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  wardrobe_id: 1
-  name: MyString
+head:
+  wardrobe: basic
+  name: Head
   image_file: MyString
-  parent_item_id: 1
   available_date: 2011-10-21
   available_level: 1
   visible_date: 2011-10-21
   visible_level: 1
   archived: false
 
-two:
-  wardrobe_id: 1
-  name: MyString
+body:
+  wardrobe: basic
+  name: Body
   image_file: MyString
-  parent_item_id: 1
+  available_date: 2011-10-21
+  available_level: 1
+  visible_date: 2011-10-21
+  visible_level: 1
+  archived: false
+
+legs:
+  wardrobe: basic
+  name: Legs
+  image_file: MyString
+  available_date: 2011-10-21
+  available_level: 1
+  visible_date: 2011-10-21
+  visible_level: 1
+  archived: false
+
+feet:
+  wardrobe: basic
+  name: Feet
+  image_file: MyString
+  available_date: 2011-10-21
+  available_level: 1
+  visible_date: 2011-10-21
+  visible_level: 1
+  archived: false
+
+misc:
+  wardrobe: basic
+  name: Misc
+  image_file: MyString
+  available_date: 2011-10-21
+  available_level: 1
+  visible_date: 2011-10-21
+  visible_level: 1
+  archived: false
+
+head_shape:
+  wardrobe: basic
+  name: Head Shape
+  image_file: MyString
+  parent_item: head
   available_date: 2011-10-21
   available_level: 1
   visible_date: 2011-10-21

@@ -1,4 +1,6 @@
 Oncapus::Application.routes.draw do
+  get "wardrobe/show"
+
   get "profile/show"
 
   get "profile/new"

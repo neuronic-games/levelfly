@@ -1,4 +1,5 @@
 class ProfileController < ApplicationController
+  
   def index
   end
 
@@ -20,5 +21,8 @@ class ProfileController < ApplicationController
   end
 
   def edit
+    wardrobe_items = WardrobeItem.find(:all)
+    
+    render :text => wardrobe_items.to_json
   end
 end

@@ -1,11 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  name: MyString
-  code: MyString
+english:
+  name: English
+  code: ENGLISH
   archived: false
+  campuses: bmcc
 
-two:
-  name: MyString
-  code: MyString
+math:
+  name: Math
+  code: MATH
   archived: false
+  campuses: bmcc
