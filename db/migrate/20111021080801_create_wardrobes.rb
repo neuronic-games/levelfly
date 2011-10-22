@@ -6,7 +6,7 @@ class CreateWardrobes < ActiveRecord::Migration
       t.integer :available_level
       t.date :visible_date
       t.integer :visible_level
-      t.boolean :archived
+      t.boolean :archived, :default => false
 
       t.timestamps
     end

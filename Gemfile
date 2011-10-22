@@ -5,11 +5,9 @@ gem 'rails', '3.1.1'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-#gem 'sqlite3'
-
-gem 'pg'
+gem 'sqlite3'
+gem 'rake', '0.8.7'
 gem 'json'
-gem 'rake', '0.9.2'
 
 # Gems used only for assets and not required
 # in production environments by default.

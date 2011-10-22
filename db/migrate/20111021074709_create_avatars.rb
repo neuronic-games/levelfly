@@ -5,11 +5,12 @@ class CreateAvatars < ActiveRecord::Migration
       t.integer :level
       t.integer :points
       t.integer :badge_count
-      t.string :head , :limit=>64
+      t.string :body, :limit=>64
+      t.string :head, :limit=>64
       t.string :hair, :limit=>64
       t.string :hair_back, :limit=>64
-      t.string :facial_1
-      t.string :facial_2
+      t.string :facial_1, :limit=>64
+      t.string :facial_2, :limit=>64
       t.string :glasses, :limit=>64
       t.string :makeup, :limit=>64
       t.string :hat, :limit=>64
@@ -24,7 +25,7 @@ class CreateAvatars < ActiveRecord::Migration
       t.string :prop_1, :limit=>64
       t.string :prop_2, :limit=>64	
       t.string :background, :limit=>64
-      t.boolean :archived
+      t.boolean :archived, :default => false
 
       t.timestamps
     end

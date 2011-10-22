@@ -7,7 +7,7 @@ class CreateBadges < ActiveRecord::Migration
       t.date :visible_date
       t.integer :visible_level
       t.integer :quest_id
-      t.boolean :archived
+      t.boolean :archived, :default => false
 
       t.timestamps
     end

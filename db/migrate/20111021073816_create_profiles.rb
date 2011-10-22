@@ -8,8 +8,8 @@ class CreateProfiles < ActiveRecord::Migration
       t.string :name, :limit=>64
       t.string :full_name, :limit=>64
       t.string :salutation, :limit=>64
-      t.boolean :primary
-      t.boolean :archived
+      t.boolean :primary, :default => false
+      t.boolean :archived, :default => false
 
       t.timestamps
     end

@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -18,7 +17,7 @@ ActiveRecord::Schema.define(:version => 20111021081329) do
     t.integer  "major_id"
     t.string   "code",           :limit => 32
     t.date     "available_date"
-    t.boolean  "archived"
+    t.boolean  "archived",                     :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -35,11 +34,12 @@ ActiveRecord::Schema.define(:version => 20111021081329) do
     t.integer  "level"
     t.integer  "points"
     t.integer  "badge_count"
+    t.string   "body",        :limit => 64
     t.string   "head",        :limit => 64
     t.string   "hair",        :limit => 64
     t.string   "hair_back",   :limit => 64
-    t.string   "facial_1"
-    t.string   "facial_2"
+    t.string   "facial_1",    :limit => 64
+    t.string   "facial_2",    :limit => 64
     t.string   "glasses",     :limit => 64
     t.string   "makeup",      :limit => 64
     t.string   "hat",         :limit => 64
@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(:version => 20111021081329) do
     t.string   "prop_1",      :limit => 64
     t.string   "prop_2",      :limit => 64
     t.string   "background",  :limit => 64
-    t.boolean  "archived"
+    t.boolean  "archived",                  :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(:version => 20111021081329) do
     t.date     "visible_date"
     t.integer  "visible_level"
     t.integer  "quest_id"
-    t.boolean  "archived"
+    t.boolean  "archived",                      :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(:version => 20111021081329) do
   create_table "campus", :force => true do |t|
     t.string   "name",       :limit => 64
     t.string   "code",       :limit => 64
-    t.boolean  "archived"
+    t.boolean  "archived",                 :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(:version => 20111021081329) do
   create_table "majors", :force => true do |t|
     t.string   "name",       :limit => 64
     t.string   "code",       :limit => 32
-    t.boolean  "archived"
+    t.boolean  "archived",                 :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -102,8 +102,8 @@ ActiveRecord::Schema.define(:version => 20111021081329) do
     t.string   "name",       :limit => 64
     t.string   "full_name",  :limit => 64
     t.string   "salutation", :limit => 64
-    t.boolean  "primary"
-    t.boolean  "archived"
+    t.boolean  "primary",                  :default => false
+    t.boolean  "archived",                 :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -115,7 +115,7 @@ ActiveRecord::Schema.define(:version => 20111021081329) do
     t.integer  "available_level"
     t.date     "visible_date"
     t.integer  "visible_level"
-    t.boolean  "archived"
+    t.boolean  "archived",                      :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(:version => 20111021081329) do
     t.integer  "available_level"
     t.date     "visible_date"
     t.integer  "visible_level"
-    t.boolean  "archived"
+    t.boolean  "archived",                      :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(:version => 20111021081329) do
     t.integer  "available_level"
     t.date     "visible_date"
     t.integer  "visible_level"
-    t.boolean  "archived"
+    t.boolean  "archived",                      :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

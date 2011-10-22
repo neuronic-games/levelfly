@@ -1,0 +1,23 @@
+<div id="avatar" class="avatar_portal">
+  <img id="body" class="avatar" src="/assets/avatar/<%= @profile.avatar.body %>">
+  <img id="hair" class="avatar" src="/assets/avatar/<%= @profile.avatar.hair %>">
+  <img id="head" class="avatar" src="/assets/avatar/<%= @profile.avatar.head %>">
+  <img id="shoes" class="avatar" src="/assets/wardrobe/<%= @profile.avatar.shoes %>">
+  <img id="bottom" class="avatar" src="/assets/wardrobe/<%= @profile.avatar.bottom %>">
+  <img id="top" class="avatar" src="/assets/wardrobe/<%= @profile.avatar.top %>">
+</div>
+
+<div id="controls" class="avatar_controls">
+  <input id="full_name" name="full_name" value="<%=h @profile.full_name%>">
+  <input type="submit" name="modify" value="MODIFY">
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+  if ($("#full_name").val() == "") {
+    $("#full_name").val("Enter Full Name");
+  }
+});
+
+</script>
