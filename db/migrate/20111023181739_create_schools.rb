@@ -1,6 +1,6 @@
-class CreateCampuses < ActiveRecord::Migration
+class CreateSchools < ActiveRecord::Migration
   def change
-    create_table :campuses do |t|
+    create_table :schools do |t|
       t.string    :name,      :limit => 64
       t.string    :code,      :limit => 64
       t.boolean   :archived,                  :default => false

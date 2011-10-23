@@ -75,7 +75,7 @@ head_shape_oval:
   wardrobe: basic
   name: Oval
   item_type: head
-  image_file: /avatar/head/oval_3.png
+  image_file: avatar/head/oval_3.png
   parent_item: head_shape
   available_level: 1
   visible_level: 1
@@ -86,7 +86,7 @@ head_shape_square:
   wardrobe: basic
   name: Square
   item_type: head
-  image_file: /avatar/head/square_3.png
+  image_file: avatar/head/square_3.png
   parent_item: head_shape
   available_level: 1
   visible_level: 1
@@ -97,7 +97,7 @@ head_shape_heart:
   wardrobe: basic
   name: Heart
   item_type: head
-  image_file: /avatar/head/heart_3.png
+  image_file: avatar/head/heart_3.png
   parent_item: head_shape
   available_level: 1
   visible_level: 1
@@ -108,7 +108,7 @@ head_shape_diamond:
   wardrobe: basic
   name: Diamond
   item_type: head
-  image_file: /avatar/head/diamond_3.png
+  image_file: avatar/head/diamond_3.png
   parent_item: head_shape
   available_level: 1
   visible_level: 1
@@ -119,7 +119,7 @@ head_shape_round:
   wardrobe: basic
   name: Round
   item_type: head
-  image_file: /avatar/head/round_3.png
+  image_file: avatar/head/round_3.png
   parent_item: head_shape
   available_level: 1
   visible_level: 1
@@ -132,7 +132,7 @@ hair_short_wavy:
   wardrobe: basic
   name: Short Wavy
   item_type: hair
-  image_file: /avatar/hair/short_wavy_3.png
+  image_file: avatar/hair/short_wavy_3.png
   parent_item: hair
   available_level: 1
   visible_level: 1
@@ -143,7 +143,7 @@ hair_long_wavy:
   wardrobe: basic
   name: Long Wavy
   item_type: hair
-  image_file: /avatar/hair/long_wavy_3.png
+  image_file: avatar/hair/long_wavy_3.png
   parent_item: hair
   available_level: 1
   visible_level: 1
@@ -156,7 +156,7 @@ polo_short_sleeve_blue:
   wardrobe: basic
   name: Polo Shirt
   item_type: top
-  image_file: /basic/tops/polo_short_sleeve_blue.png
+  image_file: basic/tops/polo_short_sleeve_blue.png
   parent_item: top
   available_level: 1
   visible_level: 1
@@ -167,7 +167,7 @@ shirt_short_sleeve_cyan:
   wardrobe: basic
   name: Blue Shirt
   item_type: top
-  image_file: /basic/tops/shirt_short_sleeve_cyan.png
+  image_file: basic/tops/shirt_short_sleeve_cyan.png
   parent_item: top
   available_level: 1
   visible_level: 1
@@ -178,7 +178,7 @@ shirt_short_sleeve_pink:
   wardrobe: basic
   name: Pink Shirt
   item_type: top
-  image_file: /basic/tops/shirt_short_sleeve_pink.png
+  image_file: basic/tops/shirt_short_sleeve_pink.png
   parent_item: top
   available_level: 1
   visible_level: 1
@@ -191,7 +191,7 @@ trousers_long_brown:
   wardrobe: basic
   name: Brown Trousers
   item_type: bottom
-  image_file: /basic/bottoms/trousers_long_brown.png
+  image_file: basic/bottoms/trousers_long_brown.png
   parent_item: bottom
   available_level: 1
   visible_level: 1
@@ -202,7 +202,7 @@ skirt_short_brown:
   wardrobe: basic
   name: Brown Skirt
   item_type: bottom
-  image_file: /basic/bottoms/skirt_short_brown.png
+  image_file: basic/bottoms/skirt_short_brown.png
   parent_item: bottom
   available_level: 1
   visible_level: 1
@@ -213,7 +213,7 @@ skirt_short_pink:
   wardrobe: basic
   name: Pink Skirt
   item_type: bottom
-  image_file: /basic/bottoms/skirt_short_pink.png
+  image_file: basic/bottoms/skirt_short_pink.png
   parent_item: bottom
   available_level: 1
   visible_level: 1

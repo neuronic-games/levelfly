@@ -7,9 +7,7 @@
 bmcc:
   name: Burough of Manhattan Community College
   code: BMCC
-  archived: false
-
+  
 ccny:
   name: City College of New York
   code: CCNY
-  archived: false

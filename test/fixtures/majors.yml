@@ -3,11 +3,9 @@
 english:
   name: English
   code: ENGLISH
-  archived: false
-  campuses: bmcc
+  school: bmcc
 
 math:
   name: Math
   code: MATH
-  archived: false
-  campuses: bmcc
+  school: bmcc
