@@ -1,15 +1,2 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  campus_id: 1
-  major_id: 1
-  code: MyString
-  available_date: 2011-10-21
-  archived: false
-
-two:
-  campus_id: 1
-  major_id: 1
-  code: MyString
-  available_date: 2011-10-21
-  archived: false
