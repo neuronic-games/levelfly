@@ -3,60 +3,219 @@
 head:
   wardrobe: basic
   name: Head
-  image_file: MyString
-  available_date: 2011-10-21
-  available_level: 1
-  visible_date: 2011-10-21
-  visible_level: 1
-  archived: false
+  item_type: head
+  sort_order: 0
+  depth: 0
 
 body:
   wardrobe: basic
   name: Body
-  image_file: MyString
-  available_date: 2011-10-21
-  available_level: 1
-  visible_date: 2011-10-21
-  visible_level: 1
-  archived: false
+  item_type: body
+  sort_order: 1
+  depth: 0
 
 legs:
   wardrobe: basic
   name: Legs
-  image_file: MyString
-  available_date: 2011-10-21
-  available_level: 1
-  visible_date: 2011-10-21
-  visible_level: 1
-  archived: false
+  item_type: legs
+  sort_order: 2
+  depth: 0
 
 feet:
   wardrobe: basic
   name: Feet
-  image_file: MyString
-  available_date: 2011-10-21
-  available_level: 1
-  visible_date: 2011-10-21
-  visible_level: 1
-  archived: false
+  item_type: feet
+  sort_order: 3
+  depth: 0
 
 misc:
   wardrobe: basic
   name: Misc
-  image_file: MyString
-  available_date: 2011-10-21
-  available_level: 1
-  visible_date: 2011-10-21
-  visible_level: 1
-  archived: false
+  item_type: misc
+  sort_order: 4
+  depth: 0
+
+# HEAD
 
 head_shape:
   wardrobe: basic
   name: Head Shape
-  image_file: MyString
   parent_item: head
-  available_date: 2011-10-21
+  sort_order: 0
+  depth: 1
+
+hair:
+  wardrobe: basic
+  name: Hair
+  parent_item: head
+  sort_order: 1
+  depth: 1
+  
+# BODY
+
+top:
+  wardrobe: basic
+  name: Tops
+  parent_item: body
+  sort_order: 0
+  depth: 1
+
+# LEGS
+
+bottom:
+  wardrobe: basic
+  name: Bottoms
+  parent_item: legs
+  sort_order: 1
+  depth: 1
+
+# HEAD SHAPE
+
+head_shape_oval:
+  wardrobe: basic
+  name: Oval
+  item_type: head
+  image_file: /avatar/head/oval_3.png
+  parent_item: head_shape
   available_level: 1
-  visible_date: 2011-10-21
   visible_level: 1
-  archived: false
+  sort_order: 0
+  depth: 2
+
+head_shape_square:
+  wardrobe: basic
+  name: Square
+  item_type: head
+  image_file: /avatar/head/square_3.png
+  parent_item: head_shape
+  available_level: 1
+  visible_level: 1
+  sort_order: 1
+  depth: 2
+
+head_shape_heart:
+  wardrobe: basic
+  name: Heart
+  item_type: head
+  image_file: /avatar/head/heart_3.png
+  parent_item: head_shape
+  available_level: 1
+  visible_level: 1
+  sort_order: 3
+  depth: 2
+
+head_shape_diamond:
+  wardrobe: basic
+  name: Diamond
+  item_type: head
+  image_file: /avatar/head/diamond_3.png
+  parent_item: head_shape
+  available_level: 1
+  visible_level: 1
+  sort_order: 4
+  depth: 2
+
+head_shape_round:
+  wardrobe: basic
+  name: Round
+  item_type: head
+  image_file: /avatar/head/round_3.png
+  parent_item: head_shape
+  available_level: 1
+  visible_level: 1
+  sort_order: 5
+  depth: 2
+
+# HAIR
+
+hair_short_wavy:
+  wardrobe: basic
+  name: Short Wavy
+  item_type: hair
+  image_file: /avatar/hair/short_wavy_3.png
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 0
+  depth: 2
+
+hair_long_wavy:
+  wardrobe: basic
+  name: Long Wavy
+  item_type: hair
+  image_file: /avatar/hair/long_wavy_3.png
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 1
+  depth: 2
+
+# TOPS
+
+polo_short_sleeve_blue:
+  wardrobe: basic
+  name: Polo Shirt
+  item_type: top
+  image_file: /basic/tops/polo_short_sleeve_blue.png
+  parent_item: top
+  available_level: 1
+  visible_level: 1
+  sort_order: 0
+  depth: 2
+
+shirt_short_sleeve_cyan:
+  wardrobe: basic
+  name: Blue Shirt
+  item_type: top
+  image_file: /basic/tops/shirt_short_sleeve_cyan.png
+  parent_item: top
+  available_level: 1
+  visible_level: 1
+  sort_order: 1
+  depth: 2
+
+shirt_short_sleeve_pink:
+  wardrobe: basic
+  name: Pink Shirt
+  item_type: top
+  image_file: /basic/tops/shirt_short_sleeve_pink.png
+  parent_item: top
+  available_level: 1
+  visible_level: 1
+  sort_order: 2
+  depth: 2
+
+# BOTTOMS
+
+trousers_long_brown:
+  wardrobe: basic
+  name: Brown Trousers
+  item_type: bottom
+  image_file: /basic/bottoms/trousers_long_brown.png
+  parent_item: bottom
+  available_level: 1
+  visible_level: 1
+  sort_order: 0
+  depth: 2
+
+skirt_short_brown:
+  wardrobe: basic
+  name: Brown Skirt
+  item_type: bottom
+  image_file: /basic/bottoms/skirt_short_brown.png
+  parent_item: bottom
+  available_level: 1
+  visible_level: 1
+  sort_order: 1
+  depth: 2
+
+skirt_short_pink:
+  wardrobe: basic
+  name: Pink Skirt
+  item_type: bottom
+  image_file: /basic/bottoms/skirt_short_pink.png
+  parent_item: bottom
+  available_level: 1
+  visible_level: 1
+  sort_order: 2
+  depth: 2

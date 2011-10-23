@@ -5,6 +5,7 @@ class CreateAvatars < ActiveRecord::Migration
       t.integer :level
       t.integer :points
       t.integer :badge_count
+      t.integer :skin
       t.string :body, :limit=>64
       t.string :head, :limit=>64
       t.string :hair, :limit=>64

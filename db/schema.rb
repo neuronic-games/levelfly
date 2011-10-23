@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20111022034440) do
     t.integer  "level"
     t.integer  "points"
     t.integer  "badge_count"
+    t.integer  "skin"
     t.string   "body",        :limit => 64
     t.string   "head",        :limit => 64
     t.string   "hair",        :limit => 64
@@ -67,14 +68,6 @@ ActiveRecord::Schema.define(:version => 20111022034440) do
     t.integer  "visible_level"
     t.integer  "quest_id"
     t.boolean  "archived",                      :default => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "campus", :force => true do |t|
-    t.string   "name",       :limit => 64
-    t.string   "code",       :limit => 64
-    t.boolean  "archived",                 :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -131,12 +124,16 @@ ActiveRecord::Schema.define(:version => 20111022034440) do
   create_table "wardrobe_items", :force => true do |t|
     t.integer  "wardrobe_id"
     t.string   "name",            :limit => 64
+    t.string   "item_type",       :limit => 64
     t.string   "image_file",      :limit => 64
+    t.string   "icon_file",       :limit => 64
     t.integer  "parent_item_id"
     t.date     "available_date"
     t.integer  "available_level"
     t.date     "visible_date"
     t.integer  "visible_level"
+    t.integer  "sort_order"
+    t.integer  "depth"
     t.boolean  "archived",                      :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
