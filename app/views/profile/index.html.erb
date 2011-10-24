@@ -45,14 +45,6 @@ var _profile;
 var _avatar;
 
 $(window).load(function() {
-  if ($("#full_name").val() == "") {
-    $("#full_name").attr("readonly", "true");
-    $("#full_name").val("Enter Full Name");
-    $("#edit_controls").hide();
-    $("#wardrobe_options").hide();
-    $("#wardrobe_subcategories").hide();
-  }
-  
   // CUSTOMIZE AVATAR
   $("#modify").click(function() {
     if (_wardrobeItems == undefined) {
@@ -114,6 +106,15 @@ $(window).load(function() {
        _avatar = data.avatar;
        showAvatar();
      });  
+
+  if ($("#full_name").val() == "") {
+   $("#full_name").attr("readonly", "true");
+   $("#full_name").val("Enter Full Name");
+   $("#edit_controls").hide();
+   $("#wardrobe_options").hide();
+   $("#wardrobe_subcategories").hide();
+  }
+
 });
 
 function resetSubCategory() {
