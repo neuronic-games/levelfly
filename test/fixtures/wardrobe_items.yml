@@ -51,44 +51,79 @@ hair:
   sort_order: 1
   depth: 1
 
-facial_hair:
+makeup:
   wardrobe: basic
-  name: Facial Hair
+  name: Jewelry & Makeup
   parent_item: head
   sort_order: 2
   depth: 1
 
-makeup:
+head_marks:
   wardrobe: basic
-  name: MakeUp
+  name: Marks & Tattos
   parent_item: head
   sort_order: 3
   depth: 1
 
-facial_marks:
+head_accessories:
   wardrobe: basic
-  name: Facial Marks
+  name: Accessories
   parent_item: head
   sort_order: 4
   depth: 1
-  
+    
 # BODY
 
-top:
+casual_tops:
   wardrobe: basic
-  name: Tops
+  name: Casual
   parent_item: body
-  sort_order: 0
-  depth: 1
-
-# LEGS
-
-bottom:
-  wardrobe: basic
-  name: Bottoms
-  parent_item: legs
   sort_order: 1
   depth: 1
+
+dressy_tops:
+  wardrobe: basic
+  name: Dressy
+  parent_item: body
+  sort_order: 2
+  depth: 1
+
+blouse_tops:
+  wardrobe: basic
+  name: Blouses
+  parent_item: body
+  sort_order: 3
+  depth: 1
+  
+dresses:
+  wardrobe: basic
+  name: Dresses
+  parent_item: body
+  sort_order: 4
+  depth: 1
+  
+# LEGS
+
+casual_bottoms:
+  wardrobe: basic
+  name: Casual
+  parent_item: legs
+  sort_order: 0
+  depth: 2
+
+dressy_bottoms:
+  wardrobe: basic
+  name: Dressy
+  parent_item: legs
+  sort_order: 1
+  depth: 2
+
+skirts:
+  wardrobe: basic
+  name: Skirts
+  parent_item: legs
+  sort_order: 2
+  depth: 2
 
 # HEAD SHAPE
 
@@ -171,28 +206,15 @@ long_wavy_4:
   sort_order: 1
   depth: 2
 
-# FACIAL HAIR
-
-facial_hair_none:
-  wardrobe: basic
-  name: None
-  item_type: facial_hair
-  image_file: none
-  parent_item: facial_hair
-  available_level: 1
-  visible_level: 1
-  sort_order: 0
-  depth: 2
-
 goatee:
   wardrobe: basic
   name: Gaotee
   item_type: facial_hair
   image_file: avatar/facial_hair/goatee
-  parent_item: facial_hair
+  parent_item: hair
   available_level: 1
   visible_level: 1
-  sort_order: 1
+  sort_order: 2
   depth: 2
 
 mustache_goatee:
@@ -200,10 +222,10 @@ mustache_goatee:
   name: Mustache & Goatee
   item_type: facial_hair
   image_file: avatar/facial_hair/mustache_goatee
-  parent_item: facial_hair
+  parent_item: hair
   available_level: 1
   visible_level: 1
-  sort_order: 2
+  sort_order: 3
   depth: 2
 
 sideburns:
@@ -211,10 +233,10 @@ sideburns:
   name: Sideburns
   item_type: facial_hair
   image_file: avatar/facial_hair/sideburns
-  parent_item: facial_hair
+  parent_item: hair
   available_level: 1
   visible_level: 1
-  sort_order: 3
+  sort_order: 4
   depth: 2
 
 sideburns_long:
@@ -222,10 +244,10 @@ sideburns_long:
   name: Long Sideburns
   item_type: facial_hair
   image_file: avatar/facial_hair/sideburns_long
-  parent_item: facial_hair
+  parent_item: hair
   available_level: 1
   visible_level: 1
-  sort_order: 4
+  sort_order: 5
   depth: 2
 
 mustache:
@@ -233,48 +255,26 @@ mustache:
   name: Mustache
   item_type: facial_hair
   image_file: avatar/facial_hair/mustache
-  parent_item: facial_hair
+  parent_item: hair
   available_level: 1
   visible_level: 1
-  sort_order: 5
+  sort_order: 8
   depth: 2
 
-# FACIAL MARKS
-
-facial_marks_none:
-  wardrobe: basic
-  name: None
-  item_type: facial_1
-  image_file: none
-  parent_item: facial_marks
-  available_level: 1
-  visible_level: 1
-  sort_order: 5
-  depth: 2
+# Marks & Tattos
 
 mole:
   wardrobe: basic
   name: Mole
   item_type: facial_marks
   image_file: avatar/facial_marks/mole
-  parent_item: facial_marks
-  available_level: 1
-  visible_level: 1
-  sort_order: 5
-  depth: 2
-  
-# MAKEUP
-
-makeup_none:
-  wardrobe: basic
-  name: None
-  item_type: makeup
-  image_file: none
-  parent_item: makeup
+  parent_item: head_marks
   available_level: 1
   visible_level: 1
   sort_order: 0
   depth: 2
+  
+# MAKEUP
 
 makeup_red_lips:
   wardrobe: basic
@@ -284,7 +284,29 @@ makeup_red_lips:
   parent_item: makeup
   available_level: 1
   visible_level: 1
+  sort_order: 0
+  depth: 2
+
+necklace_silver:
+  wardrobe: basic
+  name: Silver Necklace
+  item_type: necklace
+  image_file: basic/necklace/necklace_silver
+  parent_item: makeup
+  available_level: 1
+  visible_level: 1
   sort_order: 1
+  depth: 2
+
+earring_silver:
+  wardrobe: basic
+  name: Silver Earrings
+  item_type: earrings
+  image_file: basic/earrings/earring_silver
+  parent_item: makeup
+  available_level: 1
+  visible_level: 1
+  sort_order: 2
   depth: 2
 
 # TOPS
@@ -294,33 +316,33 @@ polo_short_sleeve_blue:
   name: Polo Shirt
   item_type: top
   image_file: basic/tops/polo_short_sleeve_blue
-  parent_item: top
+  parent_item: casual_tops
   available_level: 1
   visible_level: 1
   sort_order: 0
-  depth: 2
+  depth: 3
 
 shirt_short_sleeve_cyan:
   wardrobe: basic
   name: Blue Shirt
   item_type: top
   image_file: basic/tops/shirt_short_sleeve_cyan
-  parent_item: top
+  parent_item: casual_tops
   available_level: 1
   visible_level: 1
   sort_order: 1
-  depth: 2
+  depth: 3
 
 shirt_short_sleeve_pink:
   wardrobe: basic
   name: Pink Shirt
   item_type: top
   image_file: basic/tops/shirt_short_sleeve_pink
-  parent_item: top
+  parent_item: blouse_tops
   available_level: 1
   visible_level: 1
-  sort_order: 2
-  depth: 2
+  sort_order: 0
+  depth: 3
 
 # BOTTOMS
 
@@ -329,47 +351,36 @@ trousers_long_brown:
   name: Brown Trousers
   item_type: bottom
   image_file: basic/bottoms/trousers_long_brown
-  parent_item: bottom
+  parent_item: dressy_bottoms
   available_level: 1
   visible_level: 1
   sort_order: 0
-  depth: 2
+  depth: 3
 
 skirt_short_brown:
   wardrobe: basic
   name: Brown Skirt
   item_type: bottom
   image_file: basic/bottoms/skirt_short_brown
-  parent_item: bottom
+  parent_item: skirts
   available_level: 1
   visible_level: 1
   sort_order: 1
-  depth: 2
+  depth: 3
 
 skirt_short_pink:
   wardrobe: basic
   name: Pink Skirt
   item_type: bottom
   image_file: basic/bottoms/skirt_short_pink
-  parent_item: bottom
+  parent_item: skirts
   available_level: 1
   visible_level: 1
   sort_order: 2
-  depth: 2
+  depth: 3
 
 # PROPS
 
-prop_none:
-  wardrobe: basic
-  name: None
-  item_type: prop
-  image_file: none
-  parent_item: props
-  available_level: 1
-  visible_level: 1
-  sort_order: 0
-  depth: 2
-  
 guitar_black:
   wardrobe: basic
   name: Guitar
@@ -379,4 +390,49 @@ guitar_black:
   available_level: 1
   visible_level: 1
   sort_order: 1
+  depth: 2
+  
+# FEET
+
+casual_shoes:
+  wardrobe: basic
+  name: Casual Shoes
+  parent_item: feet
+  sort_order: 1
+  depth: 1
+
+dress_shoes:
+  wardrobe: basic
+  name: Dress Shoes
+  parent_item: feet
+  sort_order: 2
+  depth: 1
+  
+heels:
+  wardrobe: basic
+  name: Heels
+  parent_item: feet
+  sort_order: 3
+  depth: 1
+  
+shoe_pink:
+  wardrobe: basic
+  name: Pink Pumps
+  item_type: shoes
+  image_file: basic/shoes/shoe_pink
+  parent_item: heels
+  available_level: 1
+  visible_level: 1
+  sort_order: 0
+  depth: 2
+
+sneakers_gray:
+  wardrobe: basic
+  name: Gray Sneakers
+  item_type: shoes
+  image_file: basic/shoes/sneakers_gray
+  parent_item: casual_shoes
+  available_level: 1
+  visible_level: 1
+  sort_order: 0
   depth: 2

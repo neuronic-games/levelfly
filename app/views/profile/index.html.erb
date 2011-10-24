@@ -96,11 +96,16 @@ $(window).load(function() {
     _profile.full_name = $("#full_name").val();
   });
   
+  // Click a wardrobe option
   $(".wardrobe_item").click(function() {
     image_file = $(this).attr("image_file");
     if (image_file != undefined) {
-      // Display the item on the avatar
       item_type = $(this).attr("item_type");
+      if (image_file == _avatar[item_type]) {
+        // Already applied? Remove this item
+        image_file = "null";
+      }
+      // Display the item on the avatar
       $("#"+item_type).attr("src", "/assets/wardrobe/"+image_file+".png");
       _avatar[item_type] = image_file
       // Check if there is a back layer
