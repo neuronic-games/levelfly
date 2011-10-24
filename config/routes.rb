@@ -9,6 +9,10 @@ Oncapus::Application.routes.draw do
 
   get "profile/index"
 
+  get "profile/save"
+
+  get "profile/avatar"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -58,7 +62,7 @@ Oncapus::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'profile#show'
+  root :to => 'profile#index'
 
   # See how all your routes lay out with "rake routes"
 

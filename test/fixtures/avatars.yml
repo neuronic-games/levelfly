@@ -1,12 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  profile_id: 1
+default:
+  profile: default
   level: 1
-  points: 1
-  badge_count: 1
-  head: MyString
-  hair: MyString
+  points: 0
+  badge_count: 0
+  skin: 3
+  body: avatar/body/body_3.png
+  head: avatar/head/heart_3.png
+  hair: avatar/hair/short_wavy_3.png
   hair_back: MyString
   facial_1: MyString
   facial_2: MyString
@@ -16,37 +18,11 @@ one:
   earrings: MyString
   jewelry: 
   necklace: MyString
-  top: MyString
+  top: basic/tops/shirt_short_sleeve_cyan.png
   top_back: MyString
-  bottom: MyString
+  bottom: basic/bottoms/trousers_long_brown.png
   bottom_back: MyString
-  shoes: MyString
-  prop_1: MyString
-  prop_2: MyString
-  background: MyString
-  archived: false
-
-two:
-  profile_id: 1
-  level: 1
-  points: 1
-  badge_count: 1
-  head: MyString
-  hair: MyString
-  hair_back: MyString
-  facial_1: MyString
-  facial_2: MyString
-  glasses: MyString
-  makeup: MyString
-  hat: MyString
-  earrings: MyString
-  jewelry: 
-  necklace: MyString
-  top: MyString
-  top_back: MyString
-  bottom: MyString
-  bottom_back: MyString
-  shoes: MyString
+  shoes: basic/shoes/sneakers_gray.png
   prop_1: MyString
   prop_2: MyString
   background: MyString

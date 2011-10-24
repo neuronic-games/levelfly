@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(:version => 20111023181739) do
 
   create_table "access_codes", :force => true do |t|
-    t.integer  "campus_id"
+    t.integer  "school_id"
     t.integer  "major_id"
     t.string   "code",           :limit => 32
     t.date     "available_date"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(:version => 20111023181739) do
 
   create_table "profiles", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "campus_id"
+    t.integer  "school_id"
     t.integer  "major_id"
     t.string   "code",       :limit => 64
     t.string   "name",       :limit => 64

@@ -4,18 +4,13 @@ class ProfileController < ApplicationController
   end
 
   def show
-    id = params[:id]
-    if id.nil?
-      @profile = Profile.new
-      @profile.avatar = Avatar.new
-      @profile.avatar.skin = 3
-      @profile.avatar.body = "avatar/body/body_3.png"
-      @profile.avatar.head = "avatar/head/heart_3.png"
-      @profile.avatar.hair = "avatar/hair/short_wavy_3.png"
-      @profile.avatar.top = "basic/tops/shirt_short_sleeve_cyan.png"
-      @profile.avatar.bottom = "basic/bottoms/trousers_long_brown.png"
-      @profile.avatar.shoes = "basic/shoes/sneakers_gray.png"
+    if session[:profile_id].blank?
+      @profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
+    else
+      @profile = Profile.find(session[:profile_id])
     end
+
+    render :text => {"profile"=>@profile, "avatar"=>@profile.avatar}.to_json
   end
 
   def new
@@ -27,5 +22,35 @@ class ProfileController < ApplicationController
       :order => "depth, sort_order")
     
     render :text => wardrobe_items.to_json
+  end
+  
+  def save
+    id = params[:id]
+    profile = params[:profile]
+    avatar = params[:avatar]
+    if profile["code"] == "DEFAULT"
+      # Save a new profile
+      @profile = Profile.new
+      @avatar = Avatar.new
+    else
+      @profile = Profile.find(id)
+      @avatar = @profile.avatar
+    end
+
+    @profile.full_name = profile["full_name"]
+    @profile.save
+
+    @avatar.head = avatar["head"]
+    @avatar.body = avatar["body"]
+    @avatar.top = avatar["top"]
+    @avatar.bottom = avatar["bottom"]
+    @avatar.hair = avatar["hair"]
+    @avatar.shoes = avatar["shoes"]
+    @avatar.profile_id = @profile.id
+    @avatar.save
+
+    session[:profile_id] = @profile.id
+    
+    render :text => {"profile"=>@profile, "avatar"=>@avatar}.to_json
   end
 end

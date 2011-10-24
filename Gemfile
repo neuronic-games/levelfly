@@ -10,7 +10,7 @@ group :production do
   gem 'pg'
 end
 group :development, :test do
-  gem 'sqlite3'
+  gem 'mysql'
 end
 
 gem 'rake', '0.8.7'

@@ -23,16 +23,22 @@ html {
   height: 688px;
 }
 
-.avatar_controls {
+.avatar_stats {
   position: absolute;
   left: 20px;
   top: 20px;
 }
 
+.avatar_controls {
+  position: absolute;
+  left: 20px;
+  top: 50px;
+}
+
 .wardrobe_options {
   position: absolute;
   left: 20px;
-  top: 100px;
+  top: 120px;
   height: 200px;
 }
 
@@ -65,4 +71,12 @@ html {
 
 .clickable {
   cursor: pointer;
+}
+
+.button {
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+  margin: 5px;
+  background-color: #ddd;
 }
