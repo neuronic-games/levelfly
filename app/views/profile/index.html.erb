@@ -1,10 +1,21 @@
 <div id="avatar" class="avatar_portal">
+  <img id="background" class="avatar">
   <img id="body" class="avatar">
+  <img id="hat_back" class="avatar">
+  <img id="hair_back" class="avatar">
   <img id="shoes" class="avatar">
   <img id="bottom" class="avatar">
+  <img id="necklace" class="avatar">
   <img id="top" class="avatar">
-  <img id="hair" class="avatar">
   <img id="head" class="avatar">
+  <img id="earrings" class="avatar">
+  <img id="facial_marks" class="avatar">
+  <img id="facial_hair" class="avatar">
+  <img id="makeup" class="avatar">
+  <img id="glasses" class="avatar">
+  <img id="hair" class="avatar">
+  <img id="hat" class="avatar">
+  <img id="prop" class="avatar">
 </div>
 
 <div id="controls" class="avatar_stats">
@@ -25,7 +36,7 @@
     <div id="category_body" class="wardrobe_item clickable" value="body">Body</div>
     <div id="category_legs" class="wardrobe_item clickable" value="legs">Legs</div>
     <div id="category_feet" class="wardrobe_item clickable" value="feet">Feet</div>
-    <div id="category_misc" class="wardrobe_item clickable" value="misc">Misc</div>
+    <div id="category_prop" class="wardrobe_item clickable" value="prop">Prop</div>
   </div>
 
   <div id="wardrobe_subcategories" class="wardrobe_subcategories">
@@ -90,8 +101,14 @@ $(window).load(function() {
     if (image_file != undefined) {
       // Display the item on the avatar
       item_type = $(this).attr("item_type");
-      $("#"+item_type).attr("src", "/assets/wardrobe/"+image_file);
+      $("#"+item_type).attr("src", "/assets/wardrobe/"+image_file+".png");
       _avatar[item_type] = image_file
+      // Check if there is a back layer
+      if (item_type == "hair" || item_type == "hat") {
+        item_type_back = item_type + "_back";
+        _avatar[item_type_back] = image_file + "_back";
+        $("#"+item_type_back).attr("src", "/assets/wardrobe/"+image_file+"_back.png");
+      }
     } else {
       id = $(this).attr("value");
       resetSubCategory();
@@ -145,12 +162,23 @@ function showSubCategory(id) {
 
 function showAvatar() {
   $("#full_name").val(_profile.full_name);
-  $("#body").attr("src", "/assets/wardrobe/"+_avatar.body);
-  $("#head").attr("src", "/assets/wardrobe/"+_avatar.head);
-  $("#bottom").attr("src", "/assets/wardrobe/"+_avatar.bottom);
-  $("#top").attr("src", "/assets/wardrobe/"+_avatar.top);
-  $("#hair").attr("src", "/assets/wardrobe/"+_avatar.hair);
-  $("#shoes").attr("src", "/assets/wardrobe/"+_avatar.shoes);
+  $("#background").attr("src", "/assets/wardrobe/"+_avatar.background+".png");
+  $("#body").attr("src", "/assets/wardrobe/"+_avatar.body+".png");
+  $("#hat_back").attr("src", "/assets/wardrobe/"+_avatar.hat_back+".png");
+  $("#hair_back").attr("src", "/assets/wardrobe/"+_avatar.hair_back+".png");
+  $("#shoes").attr("src", "/assets/wardrobe/"+_avatar.shoes+".png");
+  $("#bottom").attr("src", "/assets/wardrobe/"+_avatar.bottom+".png");
+  $("#necklace").attr("src", "/assets/wardrobe/"+_avatar.necklace+".png");
+  $("#top").attr("src", "/assets/wardrobe/"+_avatar.top+".png");
+  $("#head").attr("src", "/assets/wardrobe/"+_avatar.head+".png");
+  $("#earrings").attr("src", "/assets/wardrobe/"+_avatar.earrings+".png");
+  $("#facial_marks").attr("src", "/assets/wardrobe/"+_avatar.facial_marks+".png");
+  $("#facial_hair").attr("src", "/assets/wardrobe/"+_avatar.facial_hair+".png");
+  $("#makeup").attr("src", "/assets/wardrobe/"+_avatar.makeup+".png");
+  $("#glasses").attr("src", "/assets/wardrobe/"+_avatar.glasses+".png");
+  $("#hair").attr("src", "/assets/wardrobe/"+_avatar.hair+".png");
+  $("#hat").attr("src", "/assets/wardrobe/"+_avatar.hat+".png");
+  $("#prop").attr("src", "/assets/wardrobe/"+_avatar.prop+".png");
 }
 
 //-->

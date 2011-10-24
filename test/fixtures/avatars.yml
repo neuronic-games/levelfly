@@ -6,24 +6,10 @@ default:
   points: 0
   badge_count: 0
   skin: 3
-  body: avatar/body/body_3.png
-  head: avatar/head/heart_3.png
-  hair: avatar/hair/short_wavy_3.png
-  hair_back: MyString
-  facial_1: MyString
-  facial_2: MyString
-  glasses: MyString
-  makeup: MyString
-  hat: MyString
-  earrings: MyString
-  jewelry: 
-  necklace: MyString
-  top: basic/tops/shirt_short_sleeve_cyan.png
-  top_back: MyString
-  bottom: basic/bottoms/trousers_long_brown.png
-  bottom_back: MyString
-  shoes: basic/shoes/sneakers_gray.png
-  prop_1: MyString
-  prop_2: MyString
-  background: MyString
-  archived: false
+  body: avatar/body/body_3
+  head: avatar/head/heart_3
+  hair: avatar/hair/short_wavy_4
+  hair_back: avatar/hair/short_wavy_4_back
+  top: basic/tops/shirt_short_sleeve_cyan
+  bottom: basic/bottoms/trousers_long_brown
+  shoes: basic/shoes/sneakers_gray

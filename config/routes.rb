@@ -13,6 +13,8 @@ Oncapus::Application.routes.draw do
 
   get "profile/avatar"
 
+  get "profile/reset"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
