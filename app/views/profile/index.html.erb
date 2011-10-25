@@ -54,6 +54,7 @@
 var _wardrobeItems;
 var _profile;
 var _avatar;
+var _currentSubCategory;
 
 $(window).load(function() {
   // CUSTOMIZE AVATAR
@@ -100,6 +101,7 @@ $(window).load(function() {
   $(".wardrobe_item").click(function() {
     image_file = $(this).attr("image_file");
     if (image_file != undefined) {
+      // Clicked on an option that can be applied
       item_type = $(this).attr("item_type");
       if (image_file == _avatar[item_type]) {
         // Already applied? Remove this item
@@ -114,10 +116,12 @@ $(window).load(function() {
         _avatar[item_type_back] = image_file + "_back";
         $("#"+item_type_back).attr("src", "/assets/wardrobe/"+image_file+"_back.png");
       }
+      showSubCategory(_currentSubCategory);
+
     } else {
-      id = $(this).attr("value");
+      _currentSubCategory = $(this).attr("value");
       resetSubCategory();
-      showSubCategory(id);
+      showSubCategory(_currentSubCategory);
       $("#wardrobe_subcategories").show();
     }
   });
@@ -154,11 +158,21 @@ function showSubCategory(id) {
     if (_wardrobeItems[i].parent_item_id == id) {
       $("#subcategory_"+idx).html(_wardrobeItems[i].name);
       $("#subcategory_"+idx).attr("value", _wardrobeItems[i].id);
-      if (_wardrobeItems[i].image_file != undefined) {
+      // Set the image file
+      item_type = _wardrobeItems[i].item_type;
+      image_file = _wardrobeItems[i].image_file;
+      if (image_file != undefined) {
         $("#subcategory_"+idx).attr("image_file", _wardrobeItems[i].image_file);
       }
-      if (_wardrobeItems[i].item_type != undefined) {
-        $("#subcategory_"+idx).attr("item_type", _wardrobeItems[i].item_type);
+      // Set the item type
+      if (item_type != undefined) {
+        $("#subcategory_"+idx).attr("item_type", item_type);
+      }
+      // Is the item currently used?
+      if (image_file != null && image_file == _avatar[item_type]) {
+        $("#subcategory_"+idx).addClass("selected");
+      } else {
+        $("#subcategory_"+idx).removeClass("selected");
       }
       idx = idx + 1;
     }
