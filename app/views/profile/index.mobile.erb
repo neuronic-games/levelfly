@@ -108,13 +108,13 @@ $(window).load(function() {
         image_file = "null";
       }
       // Display the item on the avatar
-      $("#"+item_type).attr("src", "/assets/wardrobe/"+image_file+".png");
+      $("#"+item_type).attr("src", "/images/wardrobe/"+image_file+".png");
       _avatar[item_type] = image_file
       // Check if there is a back layer
       if (item_type == "hair" || item_type == "hat") {
         item_type_back = item_type + "_back";
         _avatar[item_type_back] = image_file + "_back";
-        $("#"+item_type_back).attr("src", "/assets/wardrobe/"+image_file+"_back.png");
+        $("#"+item_type_back).attr("src", "/images/wardrobe/"+image_file+"_back.png");
       }
       showSubCategory(_currentSubCategory);
 
@@ -181,23 +181,23 @@ function showSubCategory(id) {
 
 function showAvatar() {
   $("#full_name").val(_profile.full_name);
-  $("#background").attr("src", "/assets/wardrobe/"+_avatar.background+".png");
-  $("#body").attr("src", "/assets/wardrobe/"+_avatar.body+".png");
-  $("#hat_back").attr("src", "/assets/wardrobe/"+_avatar.hat_back+".png");
-  $("#hair_back").attr("src", "/assets/wardrobe/"+_avatar.hair_back+".png");
-  $("#shoes").attr("src", "/assets/wardrobe/"+_avatar.shoes+".png");
-  $("#bottom").attr("src", "/assets/wardrobe/"+_avatar.bottom+".png");
-  $("#necklace").attr("src", "/assets/wardrobe/"+_avatar.necklace+".png");
-  $("#top").attr("src", "/assets/wardrobe/"+_avatar.top+".png");
-  $("#head").attr("src", "/assets/wardrobe/"+_avatar.head+".png");
-  $("#earrings").attr("src", "/assets/wardrobe/"+_avatar.earrings+".png");
-  $("#facial_marks").attr("src", "/assets/wardrobe/"+_avatar.facial_marks+".png");
-  $("#facial_hair").attr("src", "/assets/wardrobe/"+_avatar.facial_hair+".png");
-  $("#makeup").attr("src", "/assets/wardrobe/"+_avatar.makeup+".png");
-  $("#glasses").attr("src", "/assets/wardrobe/"+_avatar.glasses+".png");
-  $("#hair").attr("src", "/assets/wardrobe/"+_avatar.hair+".png");
-  $("#hat").attr("src", "/assets/wardrobe/"+_avatar.hat+".png");
-  $("#prop").attr("src", "/assets/wardrobe/"+_avatar.prop+".png");
+  $("#background").attr("src", "/images/wardrobe/"+_avatar.background+".png");
+  $("#body").attr("src", "/images/wardrobe/"+_avatar.body+".png");
+  $("#hat_back").attr("src", "/images/wardrobe/"+_avatar.hat_back+".png");
+  $("#hair_back").attr("src", "/images/wardrobe/"+_avatar.hair_back+".png");
+  $("#shoes").attr("src", "/images/wardrobe/"+_avatar.shoes+".png");
+  $("#bottom").attr("src", "/images/wardrobe/"+_avatar.bottom+".png");
+  $("#necklace").attr("src", "/images/wardrobe/"+_avatar.necklace+".png");
+  $("#top").attr("src", "/images/wardrobe/"+_avatar.top+".png");
+  $("#head").attr("src", "/images/wardrobe/"+_avatar.head+".png");
+  $("#earrings").attr("src", "/images/wardrobe/"+_avatar.earrings+".png");
+  $("#facial_marks").attr("src", "/images/wardrobe/"+_avatar.facial_marks+".png");
+  $("#facial_hair").attr("src", "/images/wardrobe/"+_avatar.facial_hair+".png");
+  $("#makeup").attr("src", "/images/wardrobe/"+_avatar.makeup+".png");
+  $("#glasses").attr("src", "/images/wardrobe/"+_avatar.glasses+".png");
+  $("#hair").attr("src", "/images/wardrobe/"+_avatar.hair+".png");
+  $("#hat").attr("src", "/images/wardrobe/"+_avatar.hat+".png");
+  $("#prop").attr("src", "/images/wardrobe/"+_avatar.prop+".png");
 }
 
 //-->
