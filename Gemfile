@@ -15,6 +15,7 @@ end
 
 gem 'rake', '0.8.7'
 gem 'json'
+gem 'devise'
 
 # Gems used only for assets and not required
 # in production environments by default.

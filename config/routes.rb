@@ -1,4 +1,7 @@
 Oncapus::Application.routes.draw do
+
+  devise_for :users
+
   get "wardrobe/show"
 
   get "profile/show"

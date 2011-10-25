@@ -1,18 +1,28 @@
 class ProfileController < ApplicationController
+  before_filter :authenticate_user!
   
   def index
   end
 
   def show
-    if session[:profile_id].blank?
-      @profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
-    else
-      @profile = Profile.find_by_id(session[:profile_id])
-      if @profile.nil?
-        @profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
+    if current_user
+      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      if @profile
+        session[:profile_id] = @profile.id
       end
     end
-
+    
+    if @profile.nil?
+      if session[:profile_id].blank?
+        @profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
+      else
+        @profile = Profile.find_by_id(session[:profile_id])
+        if @profile.nil?
+          @profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
+        end
+      end
+    end
+    
     render :text => {"profile"=>@profile, "avatar"=>@profile.avatar}.to_json
   end
 
@@ -41,6 +51,7 @@ class ProfileController < ApplicationController
     end
 
     @profile.full_name = profile["full_name"]
+    @profile.user_id = current_user.id if current_user
     @profile.save
 
     @avatar.skin = avatar["skin"]
