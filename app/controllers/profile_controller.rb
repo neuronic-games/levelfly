@@ -5,18 +5,16 @@ class ProfileController < ApplicationController
   end
 
   def show
-    if current_user
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-      if @profile
-        session[:profile_id] = @profile.id
-      end
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    if @profile
+      user_session[:profile_id] = @profile.id
     end
     
     if @profile.nil?
-      if session[:profile_id].blank?
+      if user_session[:profile_id].blank?
         @profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
       else
-        @profile = Profile.find_by_id(session[:profile_id])
+        @profile = Profile.find_by_id(user_session[:profile_id])
         if @profile.nil?
           @profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
         end
@@ -75,13 +73,13 @@ class ProfileController < ApplicationController
     @avatar.profile_id = @profile.id
     @avatar.save
 
-    session[:profile_id] = @profile.id
+    user_session[:profile_id] = @profile.id
     
     render :text => {"profile"=>@profile, "avatar"=>@avatar}.to_json
   end
   
   def reset
-    session[:profile_id] = nil
+    user_session[:profile_id] = nil
     render :text => {"status"=>"ok"}.to_json
   end
   
