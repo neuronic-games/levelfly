@@ -2,19 +2,13 @@ Oncapus::Application.routes.draw do
 
   devise_for :users
 
-  get "wardrobe/show"
+  get "profile/index"
 
   get "profile/show"
 
-  get "profile/new"
-
   get "profile/edit"
 
-  get "profile/index"
-
   get "profile/save"
-
-  get "profile/avatar"
 
   get "profile/reset"
 

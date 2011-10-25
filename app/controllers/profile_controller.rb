@@ -24,9 +24,6 @@ class ProfileController < ApplicationController
     render :text => {"profile"=>@profile, "avatar"=>@profile.avatar}.to_json
   end
 
-  def new
-  end
-
   def edit
     wardrobe_items = WardrobeItem.find(:all, 
       :conditions => ["archived = ?", false],

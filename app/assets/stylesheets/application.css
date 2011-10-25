@@ -5,3 +5,7 @@
  *= require_self
  *= require_tree . 
 */
+
+/* This file is not called directly from the layout, and is only used to compile the assets on deployment.
+   The layouts application.html and application.mobile loads the respective css files directly. - TAM
+*/
