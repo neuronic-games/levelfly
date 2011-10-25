@@ -5,6 +5,10 @@ gem 'rails', '3.1.1'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
+# We don't really need sqlite for the project, but if we don't add it
+# the "RAILS_ENV=production bundle exec rake assets:precompile" commands errors.
+gem 'sqlite3'
+
 # Database drivers for different environments
 group :production do
   gem 'pg'
