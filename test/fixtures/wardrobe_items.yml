@@ -335,7 +335,7 @@ shirt_short_sleeve_cyan:
 
 shirt_short_sleeve_pink:
   wardrobe: basic
-  name: Pink Shirt
+  name: Pink Blouse
   item_type: top
   image_file: basic/tops/shirt_short_sleeve_pink
   parent_item: blouse_tops
