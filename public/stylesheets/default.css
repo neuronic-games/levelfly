@@ -57,7 +57,7 @@
 .avatar_controls {
   position:absolute; 
   left: 395px; 
-  top: 810px; 
+  top: 780px; 
   font-family:Arial, Helvetica, sans-serif; 
   color:#19546E;
   text-align: center;
@@ -103,7 +103,7 @@
   top: 0px;
   left: 0px;
   width: 640px;
-  height: 960px;
+  height: 920px;
   background-image: url(/images/ui/bg_640.jpg);
   background-repeat:no-repeat;
   visibility: hidden;

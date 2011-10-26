@@ -8,7 +8,6 @@ body{
   width: 640px;
   height: 920px;
 }
-
 .wrapper .header {
   height: 143px;
   margin-top: 30px;
@@ -125,7 +124,7 @@ body{
 }
 .wrapper .bottom {
   height: 105px;
-  margin-top: 34px;
+  margin-top: -5px;
   float: left;
   margin-left: 0px;
   width: 640px;
@@ -166,7 +165,7 @@ body{
 
 .signin {
   width: 640px;
-  height: 960px;
+  height: 920px;
   padding: 50px;
   font-family: 'Metrophobic', sans-serif;
   font-size: 18px;
