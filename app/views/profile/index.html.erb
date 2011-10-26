@@ -19,7 +19,9 @@
 </div>
 
 <div id="controls" class="avatar_stats">
-  <input id="full_name" name="full_name" class="input">
+  <p><input id="full_name" name="full_name" class="input" readonly="true"></p>
+  <p><input id="school" name="school" class="input" readonly="true"></p>
+  <p><input id="major" name="major" class="input" readonly="true"></p>
 </div>
 
 <div id="show_controls" class="avatar_controls">
@@ -48,6 +50,12 @@
   </div>
 </div>
 
+<div>
+<% if user_signed_in? %>
+  <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+<% end %>
+</div>
+
 <script type="text/javascript">
 <!--
 
@@ -55,13 +63,15 @@ var _wardrobeItems;
 var _profile;
 var _avatar;
 var _currentSubCategory;
+var _major;
+var _school;
 
 $(window).load(function() {
   // CUSTOMIZE AVATAR
   $("#modify").click(function() {
     if (_wardrobeItems == undefined) {
       // Fillup the wardrobe for the first time
-      $.getJSON("/profile/edit", { },
+      $.getJSON("/profile/edit",
          function(data){
            for (i=0; i<data.length; i++) {
              if (data[i].depth == 0) {
@@ -76,10 +86,19 @@ $(window).load(function() {
     $("#edit_controls").show();
     $("#wardrobe_options").show();
     $("#full_name").removeAttr("readonly");
+    $("#full_name").val("Enter Full Name");
+    $("#full_name").focus();
+    $("#full_name").select();
   })
 
   // SAVE AVATAR
   $("#save").click(function() {
+    if (_school != undefined) {
+      _profile.school_id = _school.id;
+    }
+    if (_major != undefined) {
+      _profile.major_id = _major.id;
+    }
     $.getJSON("/profile/save", { id: _profile.id, profile: _profile, avatar: _avatar },
        function(data){
          _profile = data.profile;
@@ -126,16 +145,20 @@ $(window).load(function() {
     }
   });
   
-  $.getJSON("/profile/show", { },
+  $.getJSON("/profile/show",
      function(data){
        _profile = data.profile;
        _avatar = data.avatar;
+       _major = data.major;
+       _school = data.school;
        showAvatar();
+       if (data.new_profile == true) {
+         acceptCode();
+       }
      });  
 
   if ($("#full_name").val() == "") {
    $("#full_name").attr("readonly", "true");
-   $("#full_name").val("Enter Full Name");
    $("#edit_controls").hide();
    $("#wardrobe_options").hide();
    $("#wardrobe_subcategories").hide();
@@ -181,6 +204,12 @@ function showSubCategory(id) {
 
 function showAvatar() {
   $("#full_name").val(_profile.full_name);
+  if (_major != undefined) {
+    $("#major").val(_major.name);
+  }
+  if (_school != undefined) {
+    $("#school").val(_school.code);
+  }
   $("#background").attr("src", "/images/wardrobe/"+_avatar.background+".png");
   $("#body").attr("src", "/images/wardrobe/"+_avatar.body+".png");
   $("#hat_back").attr("src", "/images/wardrobe/"+_avatar.hat_back+".png");
@@ -198,6 +227,13 @@ function showAvatar() {
   $("#hair").attr("src", "/images/wardrobe/"+_avatar.hair+".png");
   $("#hat").attr("src", "/images/wardrobe/"+_avatar.hat+".png");
   $("#prop").attr("src", "/images/wardrobe/"+_avatar.prop+".png");
+}
+
+function acceptCode() {
+  $.get('/profile/accept_code', function(data) {
+    $('#dialog').html(data);
+  })
+  .success(function() { showDialog(true); });
 }
 
 //-->

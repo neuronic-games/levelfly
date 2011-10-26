@@ -1,2 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
+bmcc_english:
+  school: bmcc
+  major: english
+  code: THX1138

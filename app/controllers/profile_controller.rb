@@ -10,18 +10,22 @@ class ProfileController < ApplicationController
       user_session[:profile_id] = @profile.id
     end
     
+    new_profile = false
+    
     if @profile.nil?
       if user_session[:profile_id].blank?
         @profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
+        new_profile = true
       else
         @profile = Profile.find_by_id(user_session[:profile_id])
         if @profile.nil?
           @profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
+          new_profile = true
         end
       end
     end
     
-    render :text => {"profile"=>@profile, "avatar"=>@profile.avatar}.to_json
+    render :text => {"profile"=>@profile, "avatar"=>@profile.avatar, "new_profile"=>new_profile, "major"=>@profile.major, "school"=>@profile.school}.to_json
   end
 
   def edit
@@ -46,6 +50,8 @@ class ProfileController < ApplicationController
     end
 
     @profile.full_name = profile["full_name"]
+    @profile.major_id = profile["major_id"]
+    @profile.school_id = profile["school_id"]
     @profile.user_id = current_user.id if current_user
     @profile.save
 
@@ -75,9 +81,20 @@ class ProfileController < ApplicationController
     render :text => {"profile"=>@profile, "avatar"=>@avatar}.to_json
   end
   
-  def reset
-    user_session[:profile_id] = nil
-    render :text => {"status"=>"ok"}.to_json
+  def accept_code
+    render :partial => "/profile/code_dialog"
   end
   
+  def validate_code
+    code = params[:code]
+    access_code = AccessCode.find_by_code(code)
+    major = nil
+    school = nil
+    if access_code
+      major = access_code.major
+      school = access_code.school
+    end
+    render :text => {"major"=>major, "school"=>school}.to_json
+  end
+
 end

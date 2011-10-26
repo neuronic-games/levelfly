@@ -6,6 +6,17 @@ html {
   background: white;
 }
 
+.input, .input_readonly {
+  border: none;
+  height: 20px;
+  font-family: "Courier New", Courier, monospace; 
+  font-size: 12pt;
+  font-weight: bold;
+  line-height: 20px;
+  background-color: #ddd;
+  width: 200px;
+}
+
 .avatar_portal {
   position: absolute;
   left: 400px;
@@ -31,14 +42,14 @@ html {
 
 .avatar_controls {
   position: absolute;
-  left: 20px;
-  top: 50px;
+  left: 240px;
+  top: 70px;
 }
 
 .wardrobe_options {
   position: absolute;
-  left: 20px;
-  top: 120px;
+  left: 100px;
+  top: 150px;
   height: 200px;
 }
 
@@ -83,4 +94,19 @@ html {
   border-radius: 10px;
   margin: 5px;
   background-color: #ddd;
+}
+
+.dialog {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  right: 50px;
+  bottom: 50px;
+  background-color: #555;
+  visibility: hidden;
+}
+
+.dialog_contents {
+  padding: 50px;
+  color: white;
 }

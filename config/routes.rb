@@ -10,8 +10,10 @@ Oncapus::Application.routes.draw do
 
   get "profile/save"
 
-  get "profile/reset"
+  get "profile/accept_code"
 
+  get "profile/validate_code"
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

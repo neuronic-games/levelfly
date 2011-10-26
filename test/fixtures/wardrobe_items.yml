@@ -206,6 +206,39 @@ long_wavy_4:
   sort_order: 1
   depth: 2
 
+long_straight_3:
+  wardrobe: basic
+  name: Long Straight
+  item_type: hair
+  image_file: avatar/hair/long_straight_3
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 2
+  depth: 2
+  
+short_straight_2:
+  wardrobe: basic
+  name: Short Straight
+  item_type: hair
+  image_file: avatar/hair/short_straight_2
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 3
+  depth: 2
+  
+sort_curly_3:
+  wardrobe: basic
+  name: Short Curly
+  item_type: hair
+  image_file: avatar/hair/sort_curly_3
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 4
+  depth: 2
+  
 goatee:
   wardrobe: basic
   name: Gaotee
@@ -228,37 +261,26 @@ mustache_goatee:
   sort_order: 3
   depth: 2
 
-sideburns:
+friendily_mutton_chops_3:
   wardrobe: basic
-  name: Sideburns
+  name: Mutton Chops
   item_type: facial_hair
-  image_file: avatar/facial_hair/sideburns
+  image_file: avatar/facial_hair/friendily_mutton_chops_3
   parent_item: hair
   available_level: 1
   visible_level: 1
   sort_order: 4
   depth: 2
 
-sideburns_long:
+short_box_beard:
   wardrobe: basic
-  name: Long Sideburns
+  name: Short Box
   item_type: facial_hair
-  image_file: avatar/facial_hair/sideburns_long
+  image_file: avatar/facial_hair/short_box_beard
   parent_item: hair
   available_level: 1
   visible_level: 1
   sort_order: 5
-  depth: 2
-
-mustache:
-  wardrobe: basic
-  name: Mustache
-  item_type: facial_hair
-  image_file: avatar/facial_hair/mustache
-  parent_item: hair
-  available_level: 1
-  visible_level: 1
-  sort_order: 8
   depth: 2
 
 # Marks & Tattos

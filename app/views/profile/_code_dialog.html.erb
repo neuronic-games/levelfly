@@ -1,0 +1,22 @@
+<div class="dialog_contents">
+  <p>If your professor has given you an access code, enter it now. Don't worry if you don't know your code; just leave it blank.</p>
+  <p><input type="text" id="code" name="code"></p>
+  <p><input id="use_code" name="use_code" type="button" class="clickable button" value="CONTINUE"></p>
+</div>
+
+<script type="text/javascript">
+<!--
+
+$("#use_code").click(function() {
+  $.getJSON("/profile/validate_code", { code: $("#code").val() },
+     function(data){
+       _major = data.major;
+       _school = data.school;
+       showAvatar();
+     });
+
+  showDialog(false);
+});
+
+//--!>
+</script>
