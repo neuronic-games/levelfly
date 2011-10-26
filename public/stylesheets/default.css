@@ -86,10 +86,6 @@
 .wardrobe_subcategories > .wardrobe_item {
 }
 
-.selected {
-  color: #fff;
-}
-
 .clickable {
   cursor: pointer;
 }

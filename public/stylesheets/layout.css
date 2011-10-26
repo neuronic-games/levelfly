@@ -49,6 +49,7 @@ body{
   height: 640px;
   padding-left: 30px;
   /* [disabled]background-color: #333; */
+  color: #FFF;
 }
 .wrapper .selections .lev2 {
   background-color: #1D4D67;
@@ -102,7 +103,6 @@ body{
   font-family: 'Ubuntu Condensed', sans-serif;
   font-size: 18px;
   /* [disabled]font-weight: bold; */
-  color: #FFF;
 }
 .wrapper .selections .lev2 .btn {
   width: 122px;
@@ -113,7 +113,9 @@ body{
   text-align: center;
   font-family: 'Ubuntu Condensed', sans-serif;
   font-size: 18px;
-  color: #FFF;
+}
+.selected {
+  color: #32748b;
 }
 .wrapper .selections .btn img {
   margin-left: 11px;
