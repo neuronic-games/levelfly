@@ -1,0 +1,210 @@
+body{
+  margin:0px;
+  padding:0px;
+  background-image: url(/images/ui/bg_640.jpg);
+  background-repeat:no-repeat;
+}
+.wrapper {
+  width: 640px;
+  height: 920px;
+}
+
+.wrapper .header {
+  height: 143px;
+  margin-top: 30px;
+  margin-left: 30px;
+}
+.wrapper .level {
+  background-image: url(/images/ui/levelbg.png);
+  height: 240px;
+  background-repeat: no-repeat;
+  width: 138px;
+  float: right;
+  margin-top: -183px;
+}
+.wrapper .header .icon {
+  float: left;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 36px;
+  font-weight: bold;
+  color: #007594;
+  /* [disabled]background-image: url(/images/ui/levelbg.png); */
+  background-repeat: no-repeat;
+}
+.wrapper .header .title {
+  background-image: url(/images/ui/tibg.png);
+  background-repeat: no-repeat;
+  height: 117px;
+  margin-left: 10px;
+  
+}
+.wrapper .avat {
+  margin-left: 0px;
+  float: left;
+  margin-top: -70px;
+}
+.wrapper .selections {
+  width: 340px;
+  float: left;
+  height: 640px;
+  padding-left: 30px;
+  /* [disabled]background-color: #333; */
+}
+.wrapper .selections .lev2 {
+  background-color: #1D4D67;
+  float: left;
+  height: 529px;
+  width: 128px;
+  margin-top: 50px;
+  -webkit-border-radius: 5px;
+}
+.wrapper .selections .indi {
+  position: absolute;
+  width: 50px;
+  height: 40px;
+  left: 162px;
+  top: 262px;
+}
+.wrapper .selections .lev1 {
+  float: left;
+  background-color: #1D4D67;
+  height: 529px;
+  width: 128px;
+  margin-left: 50px;
+  margin-top: 50px;
+  -webkit-border-radius: 5px;
+}
+.wrapper .selections #uparr {
+  width: 54px;
+  height: 36px;
+  position: absolute;
+  background-image: url(/images/ui/uparr.png);
+  left: 246px;
+  top: 192px;
+  background-repeat: no-repeat;
+}
+.wrapper .selections #dwnarr {
+  width: 58px;
+  height: 33px;
+  position: absolute;
+  background-image: url(/images/ui/dwarr.png);
+  background-repeat: no-repeat;
+  left: 244px;
+  top: 766px;
+}
+.wrapper .selections .lev1 .btn {
+  width: 122px;
+  height: 101px;
+  margin: 4px auto;
+  background-image: url(/images/ui/btnbg.png);
+  background-repeat: no-repeat;
+  text-align: center;
+  font-family: 'Ubuntu Condensed', sans-serif;
+  font-size: 18px;
+  /* [disabled]font-weight: bold; */
+  color: #FFF;
+}
+.wrapper .selections .lev2 .btn {
+  width: 122px;
+  height: 101px;
+  margin: 4px auto;
+  background-image: url(/images/ui/btnbg.png);
+  background-repeat: no-repeat;
+  text-align: center;
+  font-family: 'Ubuntu Condensed', sans-serif;
+  font-size: 18px;
+  color: #FFF;
+}
+.wrapper .selections .btn img {
+  margin-left: 11px;
+  margin-top: 15px;
+  width: 60px;
+  height: 60px;
+}
+.wrapper .bottom {
+  height: 105px;
+  margin-top: 34px;
+  float: left;
+  margin-left: 0px;
+  width: 640px;
+  background-image: url(/images/ui/bottombg.png);
+  background-repeat: repeat-x;
+}
+.wrapper .bottom .botbtn {
+  width: 105px;
+  height: 105px;
+  /* [disabled]padding: 5px; */
+  border-right-width: medium;
+  border-right-style: solid;
+  border-right-color: #666;
+  float: left;
+  color: #FFF;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+}
+.wrapper .bottom .botbtn img {
+  margin-top: 10px;
+  /* [disabled]margin: 4px auto; */
+}
+.wrapper .bottom .others {
+  width: 95px;
+  height: 105px;
+  float: left;
+  text-align: center;
+  color: #FFF;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+}
+.wrapper .bottom .others img {
+  margin-top: 40px;
+}
+
+.signin {
+  width: 640px;
+  height: 960px;
+  padding: 50px;
+  font-family: 'Metrophobic', sans-serif;
+  font-size: 18px;
+  font-weight: normal;
+  color: #FFF;
+}
+
+.signin h2 {
+  font-family: 'Amatic SC', cursive;
+  font-size: 60px;
+  color: #FFF;
+}
+
+.signin input[type="text"], input[type="email"], input[type="password"]{
+  width: 520px;
+  margin-bottom: 20px;
+  border: none;
+  background: #2d5e6b;
+  font-family: 'Ubuntu Condensed', sans-serif;
+  font-size: 30px;
+  color: #FFF;
+}
+
+.signin input[type="submit"], input[type="button"] {
+  width: 123px;
+  height: 103px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: none;
+  background: transparent url(/images/ui/btnbg.png) no-repeat scroll top right;
+  text-align: center;
+  font-family: 'Ubuntu Condensed', sans-serif;
+  font-size: 18px;
+  color: #FFF;
+}
+
+.signin a {
+  color: #FFF;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}

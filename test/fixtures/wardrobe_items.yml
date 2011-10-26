@@ -40,6 +40,7 @@ props:
 head_shape:
   wardrobe: basic
   name: Head Shape
+  item_type: head_shape
   parent_item: head
   sort_order: 0
   depth: 1
@@ -47,6 +48,7 @@ head_shape:
 hair:
   wardrobe: basic
   name: Hair
+  item_type: hair
   parent_item: head
   sort_order: 1
   depth: 1
@@ -54,13 +56,14 @@ hair:
 makeup:
   wardrobe: basic
   name: Jewelry & Makeup
+  item_type: jewelry_makeup
   parent_item: head
   sort_order: 2
   depth: 1
 
 head_marks:
   wardrobe: basic
-  name: Marks & Tattos
+  name: Marks & Tattoos
   parent_item: head
   sort_order: 3
   depth: 1
@@ -184,22 +187,22 @@ head_shape_round:
 
 # HAIR
 
-short_wavy_4:
+short_wavy_3:
   wardrobe: basic
   name: Short Wavy
   item_type: hair
-  image_file: avatar/hair/short_wavy_4
+  image_file: avatar/hair/short_wavy_3
   parent_item: hair
   available_level: 1
   visible_level: 1
   sort_order: 0
   depth: 2
 
-long_wavy_4:
+long_wavy_3:
   wardrobe: basic
   name: Long Wavy
   item_type: hair
-  image_file: avatar/hair/long_wavy_4
+  image_file: avatar/hair/long_wavy_3
   parent_item: hair
   available_level: 1
   visible_level: 1
@@ -239,26 +242,15 @@ sort_curly_3:
   sort_order: 4
   depth: 2
   
-goatee:
+goatee_3:
   wardrobe: basic
   name: Gaotee
   item_type: facial_hair
-  image_file: avatar/facial_hair/goatee
+  image_file: avatar/facial_hair/goatee_3
   parent_item: hair
   available_level: 1
   visible_level: 1
   sort_order: 2
-  depth: 2
-
-mustache_goatee:
-  wardrobe: basic
-  name: Mustache & Goatee
-  item_type: facial_hair
-  image_file: avatar/facial_hair/mustache_goatee
-  parent_item: hair
-  available_level: 1
-  visible_level: 1
-  sort_order: 3
   depth: 2
 
 friendily_mutton_chops_3:
@@ -266,6 +258,17 @@ friendily_mutton_chops_3:
   name: Mutton Chops
   item_type: facial_hair
   image_file: avatar/facial_hair/friendily_mutton_chops_3
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 3
+  depth: 2
+
+mustache_goatee_3:
+  wardrobe: basic
+  name: Mustache & Goatee
+  item_type: facial_hair
+  image_file: avatar/facial_hair/mustache_goatee_3
   parent_item: hair
   available_level: 1
   visible_level: 1
@@ -283,7 +286,7 @@ short_box_beard:
   sort_order: 5
   depth: 2
 
-# Marks & Tattos
+# Marks & Tattoos
 
 mole:
   wardrobe: basic

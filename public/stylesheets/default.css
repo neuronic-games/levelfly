@@ -2,19 +2,35 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-html {
-  background: white;
-}
-
 .input, .input_readonly {
   border: none;
-  height: 20px;
-  font-family: "Courier New", Courier, monospace; 
-  font-size: 12pt;
-  font-weight: bold;
-  line-height: 20px;
-  background-color: #ddd;
-  width: 200px;
+}
+
+.full_name {
+  padding-top: 5px;
+  font-family: 'Amatic SC', cursive;
+  font-size: 60px;
+  color: #FFF;
+  width: 300px;
+  height: 80px;
+  overflow: hidden;
+}
+
+.major {
+  font-family: 'Metrophobic', sans-serif;
+  font-size: 25px;
+  font-weight: normal;
+  text-transform: uppercase;
+  color: #FFF;
+}
+
+.level_text {
+  font-family: 'Metrophobic', sans-serif;
+  font-size: 30px;
+  font-weight: normal;
+  text-transform: uppercase;
+  text-align: center;
+  color: #007594;
 }
 
 .avatar_portal {
@@ -28,8 +44,6 @@ html {
 
 .avatar {
   position: absolute;
-  left: 0;
-  top: 0px;
   width: 251px;
   height: 688px;
 }
@@ -41,22 +55,20 @@ html {
 }
 
 .avatar_controls {
-  position: absolute;
-  left: 240px;
-  top: 70px;
+  position:absolute; 
+  left: 395px; 
+  top: 810px; 
+  font-family:Arial, Helvetica, sans-serif; 
+  color:#19546E;
+  text-align: center;
+  font-weight:bold; 
+  width: 205px;
 }
 
 .wardrobe_options {
-  position: absolute;
-  left: 100px;
-  top: 150px;
-  height: 200px;
 }
 
 .wardrobe_categories {
-  position: absolute;
-  left: 0px;
-  top: 0px;
 }
 
 .wardrobe_subcategories {
@@ -66,18 +78,12 @@ html {
 }
 
 .wardrobe_item {
-  width: 100px;
-  height: 100px;
-  border-radius: 10px;
-  margin: 5px;
 }
 
 .wardrobe_categories > .wardrobe_item {
-  background-color: #aaa;
 }
 
 .wardrobe_subcategories > .wardrobe_item {
-  background-color: #ccc;
 }
 
 .selected {
@@ -98,11 +104,12 @@ html {
 
 .dialog {
   position: absolute;
-  top: 50px;
-  left: 50px;
-  right: 50px;
-  bottom: 50px;
-  background-color: #555;
+  top: 0px;
+  left: 0px;
+  width: 640px;
+  height: 960px;
+  background-image: url(/images/ui/bg_640.jpg);
+  background-repeat:no-repeat;
   visibility: hidden;
 }
 
