@@ -199,6 +199,7 @@ body{
   font-family: 'Ubuntu Condensed', sans-serif;
   font-size: 18px;
   color: #FFF;
+  cursor: pointer;
 }
 
 .signin a {

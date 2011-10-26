@@ -87,7 +87,7 @@ class ProfileController < ApplicationController
   
   def validate_code
     code = params[:code]
-    access_code = AccessCode.find_by_code(code)
+    access_code = AccessCode.find(:first, :conditions => ["code like ?", code])
     major = nil
     school = nil
     if access_code
