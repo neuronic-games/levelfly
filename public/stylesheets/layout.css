@@ -210,3 +210,14 @@ body{
 .uppercase {
   text-transform: uppercase;
 }
+
+.waiting {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 640px;
+  height: 920px;
+  text-align: center;
+  padding-top: 420px;
+  visibility: hidden;
+}

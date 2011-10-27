@@ -112,6 +112,7 @@ $(window).load(function() {
       modifyAvatar();
     } else {
       saveAvatar();
+      showProfile();
     }
   });
 
@@ -138,8 +139,9 @@ $(window).load(function() {
         _avatar[item_type_back] = image_file + "_back";
         $("#"+item_type_back).attr("src", "/images/wardrobe/"+image_file+"_back.png");
       }
+      saveAvatar();
+      // Refresh the current list of options in case option stat has changed
       showSubCategory(_currentSubCategory);
-
     } else {
       _currentSubCategory = $(this).attr("value");
       resetSubCategory();
@@ -245,6 +247,7 @@ function showAvatar() {
 
 function modifyAvatar() {
   if (_wardrobeItems == undefined) {
+    showSpinner(true);
     // Fill-up the wardrobe for the first time
     $.getJSON("/profile/edit",
        function(data){
@@ -255,6 +258,7 @@ function modifyAvatar() {
          }
          _wardrobeItems = data;
          prepWardrobeIcons();
+         showSpinner(false);
        });  
   }
   
@@ -276,12 +280,13 @@ function saveAvatar() {
      function(data){
        _profile = data.profile;
        _avatar = data.avatar;
-       
-       $("#show_controls").show();
-       $("#edit_controls").hide();
-       $("#wardrobe_options").hide();
      });
-  
+}
+
+function showProfile() {
+  $("#show_controls").show();
+  $("#edit_controls").hide();
+  $("#wardrobe_options").hide();
 }
 
 function acceptCode() {
