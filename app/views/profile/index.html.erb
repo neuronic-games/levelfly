@@ -17,7 +17,7 @@
   </div>
 
   <div class="selections">
-
+	
     <div id="wardrobe_options" class="wardrobe_options">
     
       <div id="wardrobe_categories" class="wardrobe_categories lev2">
@@ -27,9 +27,8 @@
         <div id="category_feet" class="btn wardrobe_item clickable" value="feet"></div>
         <div id="category_prop" class="btn wardrobe_item clickable" value="prop"></div>
       </div>
-    
-      <div id="wardrobe_subcategories" class="lev1">
-        <div class="indi nav_button">
+	  <div id="wardrobe_subcategories" class="lev1">
+        <div class="indi">
           <img src="/images/ui/arrowb.png" width="46" height="35" style="margin-top:10px;" />
         </div>
 
@@ -42,7 +41,7 @@
         <div id="subcategory_3" class="btn wardrobe_item clickable"></div>
         <div id="subcategory_4" class="btn wardrobe_item clickable"></div>
       </div>
-
+	  <div id="select_note" class="selection_instructions">What would you like <br />to change?</div>
     </div>
     </div>
     
@@ -65,7 +64,13 @@
       <img id="hat" class="avatar">
       <img id="prop" class="avatar">
     </div>
-
+	<div class="color_palette">
+	  <div id="color_1" class="clickable"></div>
+	  <div id="color_2" class="clickable"></div>
+	  <div id="color_3" class="clickable"></div>
+	  <div id="color_4" class="clickable"></div>
+	  <div id="color_5" class="clickable"></div>
+	</div>
     <div id="show_controls" class="avatar_controls">TOUCH TO MODIFY</div>
 
     <div id="edit_controls" class="avatar_controls">TOUCH TO COMPLETE</div>
@@ -103,6 +108,7 @@ var _avatar;
 var _currentSubCategory;
 var _major;
 var _school;
+var _itemForColor = new Array("head_shape","hair");
 
 $(window).load(function() {
 
@@ -123,10 +129,43 @@ $(window).load(function() {
   // Click a wardrobe option
   $(".wardrobe_item").click(function() {
     image_file = $(this).attr("image_file");
-    if (image_file != undefined) {
+	show_colorpalette = false;
+	
+	current_tab_category = $(this).attr("id");
+	// move indication icon to according position
+	if(current_tab_category == "category_head") {
+	 $(".indi").css("margin-top","10px");
+	} else if(current_tab_category == "category_body") {
+	 $(".indi").css("margin-top","110px");
+	} else if(current_tab_category == "category_legs") {
+	 $(".indi").css("margin-top","215px");
+	} else if(current_tab_category == "category_feet") {
+	 $(".indi").css("margin-top","320px");
+	} else if(current_tab_category == "category_prop") {
+	 $(".indi").css("margin-top","425px");
+	}
+	
+	//check the clicked item typed with array for showing color pallete
+	_item_type = $(this).attr("item_type");
+	$.each(_itemForColor, function(key, value) {
+	  if(_item_type == value) {
+	    show_colorpalette = true;
+	  }
+	});
+	
+	if(show_colorpalette) {
+	  $(".color_palette").show();
+	}
+	else {
+	  $(".color_palette").hide();
+	}
+	
+	//alert($(this).attr("item_type"));
+	
+	if (image_file != undefined) {
       // Clicked on an option that can be applied
       item_type = $(this).attr("item_type");
-      if (image_file == _avatar[item_type]) {
+	  if (image_file == _avatar[item_type]) {
         // Already applied? Remove this item
         image_file = "null";
       }
@@ -146,8 +185,30 @@ $(window).load(function() {
       _currentSubCategory = $(this).attr("value");
       resetSubCategory();
       showSubCategory(_currentSubCategory);
-      $("#wardrobe_subcategories").show();
+	  $("#wardrobe_subcategories").show();
+      //$("#wardrobe_subcategories").animate({width: ['toggle', 'swing']});
+	  $("#select_note").hide();
     }
+  });
+  
+  $("#color_1").click(function(){
+   $("#body").attr("src", "/images/wardrobe/avatar/body/body_1.png");
+  });
+  
+  $("#color_2").click(function(){
+   $("#body").attr("src", "/images/wardrobe/avatar/body/body_2.png");
+  });
+  
+  $("#color_3").click(function(){
+   $("#body").attr("src", "/images/wardrobe/avatar/body/body_3.png");
+  });
+  
+  $("#color_4").click(function(){
+   $("#body").attr("src", "/images/wardrobe/avatar/body/body_4.png");
+  });
+  
+  $("#color_5").click(function(){
+   $("#body").attr("src", "/images/wardrobe/avatar/body/body_5.png");
   });
   
   $.getJSON("/profile/show",
@@ -165,6 +226,7 @@ $(window).load(function() {
   $("#edit_controls").hide();
   $("#wardrobe_options").hide();
   $("#wardrobe_subcategories").hide();
+  $("#select_note").show();
 
 });
 
@@ -181,7 +243,7 @@ function prepWardrobeIcons() {
   for (i=0; i<_wardrobeItems.length; i++) {
     if (_wardrobeItems[i].depth == 0) {
       item_type = _wardrobeItems[i].item_type;
-      $("#category_"+item_type).attr("value", _wardrobeItems[i].id);
+	  $("#category_"+item_type).attr("value", _wardrobeItems[i].id);
       $("#category_"+item_type).html("<img src='/images/wardrobe/icon/"+item_type+"_icon.png' /><br/>"+_wardrobeItems[i].name);
       $("#category_"+item_type).attr("item_type", item_type);
     }
@@ -195,7 +257,7 @@ function showSubCategory(id) {
       $("#subcategory_"+idx).attr("value", _wardrobeItems[i].id);
       // Set the image file
       item_type = _wardrobeItems[i].item_type;
-      image_file = _wardrobeItems[i].image_file;
+	  image_file = _wardrobeItems[i].image_file;
       if (image_file == undefined) {
         $("#subcategory_"+idx).html("<img src='/images/wardrobe/icon/"+item_type+"_icon.png' /><br/>"+_wardrobeItems[i].name);
       } else {
@@ -215,6 +277,12 @@ function showSubCategory(id) {
 
       idx = idx + 1;
     }
+  }
+  // Show up & down navigation arrow if items exceeds more than 5
+  if(idx>5) {
+   $(".nav_button").show();
+  } else {
+   $(".nav_button").hide();
   }
 }
 
@@ -248,7 +316,7 @@ function showAvatar() {
 function modifyAvatar() {
   if (_wardrobeItems == undefined) {
     showSpinner(true);
-    // Fill-up the wardrobe for the first time
+	// Fill-up the wardrobe for the first time
     $.getJSON("/profile/edit",
        function(data){
          for (i=0; i<data.length; i++) {
@@ -266,6 +334,7 @@ function modifyAvatar() {
   $("#edit_controls").show();
   $("#wardrobe_options").show();
   $("#wardrobe_subcategories").hide();
+  $("#select_note").show();
   $(".nav_button").hide();
 }
 

@@ -114,18 +114,25 @@ casual_bottoms:
   sort_order: 0
   depth: 2
 
+denim_bottoms:
+  wardrobe: basic
+  name: Denim
+  parent_item: legs
+  sort_order: 1
+  depth: 2
+
 dressy_bottoms:
   wardrobe: basic
   name: Dressy
   parent_item: legs
-  sort_order: 1
+  sort_order: 2
   depth: 2
 
 skirts:
   wardrobe: basic
   name: Skirts
   parent_item: legs
-  sort_order: 2
+  sort_order: 3
   depth: 2
 
 # HEAD SHAPE
@@ -198,6 +205,17 @@ short_wavy_3:
   sort_order: 0
   depth: 2
 
+short_wavy_3_back:
+  wardrobe: basic
+  name: Short Wavy Back
+  item_type: hair
+  image_file: avatar/hair/short_wavy_3_back
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 1
+  depth: 2
+
 long_wavy_3:
   wardrobe: basic
   name: Long Wavy
@@ -206,7 +224,18 @@ long_wavy_3:
   parent_item: hair
   available_level: 1
   visible_level: 1
-  sort_order: 1
+  sort_order: 2
+  depth: 2
+
+long_wavy_3_back:
+  wardrobe: basic
+  name: Long Wavy Back
+  item_type: hair
+  image_file: avatar/hair/long_wavy_3_back
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 3
   depth: 2
 
 long_straight_3:
@@ -217,31 +246,262 @@ long_straight_3:
   parent_item: hair
   available_level: 1
   visible_level: 1
-  sort_order: 2
+  sort_order: 4
   depth: 2
-  
-short_straight_2:
+
+long_straight_3_back:
+  wardrobe: basic
+  name: Long Straight Back
+  item_type: hair
+  image_file: avatar/hair/long_straight_3_back
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 5
+  depth: 2
+
+long_straight_5:
+  wardrobe: basic
+  name: Long Straight Black
+  item_type: hair
+  image_file: avatar/hair/long_straight_5
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 6
+  depth: 2
+
+long_straight_5_back:
+  wardrobe: basic
+  name: Long Straight Black Back
+  item_type: hair
+  image_file: avatar/hair/long_straight_5_back
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 7
+  depth: 2
+
+long_straight_6:
+  wardrobe: basic
+  name: Long Straight Red
+  item_type: hair
+  image_file: avatar/hair/long_straight_6
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 8
+  depth: 2
+
+long_straight_6_back:
+  wardrobe: basic
+  name: Long Straight Red Back
+  item_type: hair
+  image_file: avatar/hair/long_straight_6_back
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 9
+  depth: 2
+
+short_straight_1:
   wardrobe: basic
   name: Short Straight
+  item_type: hair
+  image_file: avatar/hair/short_straight_1
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 10
+  depth: 2
+
+short_straight_1_back:
+  wardrobe: basic
+  name: Short Straight Back
+  item_type: hair
+  image_file: avatar/hair/short_straight_1_back
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 11
+  depth: 2
+
+short_straight_2:
+  wardrobe: basic
+  name: Short Straight Golden
   item_type: hair
   image_file: avatar/hair/short_straight_2
   parent_item: hair
   available_level: 1
   visible_level: 1
-  sort_order: 3
+  sort_order: 12
   depth: 2
-  
-sort_curly_3:
+
+short_straight_2_back:
+  wardrobe: basic
+  name: Short Straight Golden Back
+  item_type: hair
+  image_file: avatar/hair/short_straight_2_back
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 13
+  depth: 2
+
+short_straight_6:
+  wardrobe: basic
+  name: Short Straight Red
+  item_type: hair
+  image_file: avatar/hair/short_straight_6
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 14
+  depth: 2
+
+short_straight_6_back:
+  wardrobe: basic
+  name: Short Straight Red Back
+  item_type: hair
+  image_file: avatar/hair/short_straight_6_back
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 15
+  depth: 2
+
+short_curly_1:
   wardrobe: basic
   name: Short Curly
+  item_type: hair
+  image_file: avatar/hair/short_curly_1
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 16
+  depth: 2
+
+short_curly_1_back:
+  wardrobe: basic
+  name: Short Curly Back
+  item_type: hair
+  image_file: avatar/hair/short_curly_1_back
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 17
+  depth: 2
+
+short_curly_2:
+  wardrobe: basic
+  name: Short Curly Green
+  item_type: hair
+  image_file: avatar/hair/short_curly_2
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 18
+  depth: 2
+
+short_curly_2_back:
+  wardrobe: basic
+  name: Short Curly Green Back
+  item_type: hair
+  image_file: avatar/hair/short_curly_2_back
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 19
+  depth: 2
+
+sort_curly_3:
+  wardrobe: basic
+  name: Short Curly Brown
   item_type: hair
   image_file: avatar/hair/sort_curly_3
   parent_item: hair
   available_level: 1
   visible_level: 1
-  sort_order: 4
+  sort_order: 20
   depth: 2
-  
+
+sort_curly_3_back:
+  wardrobe: basic
+  name: Short Curly Brown Back
+  item_type: hair
+  image_file: avatar/hair/sort_curly_3_back
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 21
+  depth: 2
+
+sort_curly_4:
+  wardrobe: basic
+  name: Short Curly Dark Brown
+  item_type: hair
+  image_file: avatar/hair/sort_curly_4
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 22
+  depth: 2
+
+sort_curly_4_back:
+  wardrobe: basic
+  name: Short Curly Dark Brown Back
+  item_type: hair
+  image_file: avatar/hair/sort_curly_4_back
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 23
+  depth: 2
+
+sort_curly_5:
+  wardrobe: basic
+  name: Short Curly Black
+  item_type: hair
+  image_file: avatar/hair/sort_curly_5
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 24
+  depth: 2
+
+sort_curly_5_back:
+  wardrobe: basic
+  name: Short Curly Black Back
+  item_type: hair
+  image_file: avatar/hair/sort_curly_5_back
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 25
+  depth: 2
+
+sort_curly_6:
+  wardrobe: basic
+  name: Short Curly Red
+  item_type: hair
+  image_file: avatar/hair/sort_curly_6
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 26
+  depth: 2  
+
+sort_curly_6_back:
+  wardrobe: basic
+  name: Short Curly Red Back
+  item_type: hair
+  image_file: avatar/hair/sort_curly_6_back
+  parent_item: hair
+  available_level: 1
+  visible_level: 1
+  sort_order: 27
+  depth: 2
+
 goatee_3:
   wardrobe: basic
   name: Gaotee
@@ -358,6 +618,50 @@ shirt_short_sleeve_cyan:
   sort_order: 1
   depth: 3
 
+short_sleeve_tattoo:
+  wardrobe: basic
+  name: Short Sleeve Tatto
+  item_type: top
+  image_file: basic/tops/short_sleeve_tattoo
+  parent_item: casual_tops
+  available_level: 1
+  visible_level: 1
+  sort_order: 2
+  depth: 3
+ 
+short_sleeve_black:
+  wardrobe: basic
+  name: Short Sleeve Black
+  item_type: top
+  image_file: basic/tops/short_sleeve_black
+  parent_item: casual_tops
+  available_level: 1
+  visible_level: 1
+  sort_order: 3
+  depth: 3
+
+short_sleeve_gray:
+  wardrobe: basic
+  name: Short Sleeve Gray
+  item_type: top
+  image_file: basic/tops/short_sleeve_gray
+  parent_item: casual_tops
+  available_level: 1
+  visible_level: 1
+  sort_order: 4
+  depth: 3
+
+short_sleeve_purple:
+  wardrobe: basic
+  name: Short Sleeve Purple
+  item_type: top
+  image_file: basic/tops/short_sleeve_purple
+  parent_item: casual_tops
+  available_level: 1
+  visible_level: 1
+  sort_order: 5
+  depth: 3
+  
 shirt_short_sleeve_pink:
   wardrobe: basic
   name: Pink Blouse
@@ -381,6 +685,28 @@ trousers_long_brown:
   visible_level: 1
   sort_order: 0
   depth: 3
+  
+trousers_long_denim_blue:
+  wardrobe: basic
+  name: Blue Long Denim Trousers
+  item_type: bottom
+  image_file: basic/bottoms/trousers_long_denim_blue
+  parent_item: denim_bottoms
+  available_level: 1
+  visible_level: 1
+  sort_order: 1
+  depth: 3
+ 
+trousers_short_denim_blue:
+  wardrobe: basic
+  name: Blue Short Denim Trousers
+  item_type: bottom
+  image_file: basic/bottoms/trousers_short_denim_blue
+  parent_item: denim_bottoms
+  available_level: 1
+  visible_level: 1
+  sort_order: 2
+  depth: 3
 
 skirt_short_brown:
   wardrobe: basic
@@ -390,7 +716,7 @@ skirt_short_brown:
   parent_item: skirts
   available_level: 1
   visible_level: 1
-  sort_order: 1
+  sort_order: 3
   depth: 3
 
 skirt_short_pink:
@@ -401,7 +727,7 @@ skirt_short_pink:
   parent_item: skirts
   available_level: 1
   visible_level: 1
-  sort_order: 2
+  sort_order: 4
   depth: 3
 
 # PROPS
