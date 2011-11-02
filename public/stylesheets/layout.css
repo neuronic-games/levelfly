@@ -62,8 +62,11 @@ body{
   position: absolute;
   width: 50px;
   height: 40px;
-  left: 162px;
-  top: 262px;
+  /*left: 162px;*/
+  left:-45px;
+  /*top: 262px;*/
+  top:25px;
+  display:none;
 }
 .wrapper .selections .lev1 {
   float: left;
@@ -79,8 +82,10 @@ body{
   height: 36px;
   position: absolute;
   background-image: url(/images/ui/uparr.png);
-  left: 246px;
-  top: 192px;
+  /*left: 246px;*/
+  left:38px;
+  /*top: 192px;*/
+  top:-28px;
   background-repeat: no-repeat;
 }
 .wrapper .selections #dwnarr {
@@ -89,8 +94,10 @@ body{
   position: absolute;
   background-image: url(/images/ui/dwarr.png);
   background-repeat: no-repeat;
-  left: 244px;
-  top: 766px;
+  /*left: 244px;*/
+  left:38px;
+  /*top: 766px;*/
+  top:526px;
 }
 .wrapper .selections .lev1 .btn {
   width: 122px;

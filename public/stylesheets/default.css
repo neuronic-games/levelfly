@@ -73,8 +73,16 @@
 
 .wardrobe_subcategories {
   position: absolute;
-  left: 140px;
+  left: 0px;
   top: 0px;
+  border:1px solid red;
+}
+
+#wardrobe_subcategories {
+  position: absolute;
+  left: -20px;
+  /*top: 0px;*/
+  z-index:-1;
 }
 
 .wardrobe_item {
@@ -93,8 +101,8 @@
   margin-top: 50px;
   padding-top: 70px;
   text-transform:uppercase;
-  font-family: 'Metrophobic', sans-serif;
-  font-size:42px;
+  font-family: 'Ubuntu Condensed', sans-serif;
+  font-size:46px;
   text-align:center;
   color:#71B6CF;
 }
@@ -107,7 +115,13 @@
   display:none;
 }
 
-.color_palette div {
+.color_palette  #head_color, #hair_color{
+  width:300px;
+  border:none;
+  display:none
+}
+
+.color_palette #color_1, #color_2, #color_3, #color_4, #color_5 , #hair_color_1, #hair_color_2, #hair_color_3, #hair_color_4, #hair_color_5 {
   width:40px; 
   height:40px; 
   float:left; 
@@ -133,6 +147,26 @@
 
 .color_palette #color_5 {
   background-color:#553A1C; 
+}
+
+.color_palette #hair_color_1 {
+  background-color:#96947B;
+}
+
+.color_palette #hair_color_2 {
+  background-color:#A18B48;
+}
+
+.color_palette #hair_color_3 {
+  background-color:#4E3422; 
+}
+
+.color_palette #hair_color_4 {
+  background-color:#41240F; 
+}
+
+.color_palette #hair_color_5 {
+  background-color:#1A1818; 
 }
 
 .clickable {

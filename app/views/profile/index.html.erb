@@ -34,14 +34,18 @@
 
         <div id="uparr" class="nav_button"></div>
         <div id="dwnarr" class="nav_button"></div>
-
-        <div id="subcategory_0" class="btn wardrobe_item clickable"></div>
-        <div id="subcategory_1" class="btn wardrobe_item clickable"></div>
-        <div id="subcategory_2" class="btn wardrobe_item clickable"></div>
-        <div id="subcategory_3" class="btn wardrobe_item clickable"></div>
-        <div id="subcategory_4" class="btn wardrobe_item clickable"></div>
+		<div id="subcate_scroll" style="float:left;height:528px;overflow:hidden;padding-left:3px;">
+          <div id="subcategory_container" style="float:left">
+		    <div id="subcategory_0" class="btn wardrobe_item clickable"></div>
+            <div id="subcategory_1" class="btn wardrobe_item clickable"></div>
+            <div id="subcategory_2" class="btn wardrobe_item clickable"></div>
+            <div id="subcategory_3" class="btn wardrobe_item clickable"></div>
+            <div id="subcategory_4" class="btn wardrobe_item clickable"></div>
+		    <div id="subcategory_5" class="btn wardrobe_item clickable"></div>
+		  </div>
+		</div>
       </div>
-	  <div id="select_note" class="selection_instructions">What would you like <br />to change?</div>
+	  <div id="select_note" class="selection_instructions">What would you like to change?</div>
     </div>
     </div>
     
@@ -65,11 +69,20 @@
       <img id="prop" class="avatar">
     </div>
 	<div class="color_palette">
-	  <div id="color_1" class="clickable"></div>
-	  <div id="color_2" class="clickable"></div>
-	  <div id="color_3" class="clickable"></div>
-	  <div id="color_4" class="clickable"></div>
-	  <div id="color_5" class="clickable"></div>
+	  <div id="head_color">
+	    <div id="color_1" class="clickable"></div>
+	    <div id="color_2" class="clickable"></div>
+	    <div id="color_3" class="clickable"></div>
+	    <div id="color_4" class="clickable"></div>
+	    <div id="color_5" class="clickable"></div>
+	  </div>
+	  <div id="hair_color">
+	    <div id="hair_color_1" class="clickable"></div>
+	    <div id="hair_color_2" class="clickable"></div>
+	    <div id="hair_color_3" class="clickable"></div>
+	    <div id="hair_color_4" class="clickable"></div>
+	    <div id="hair_color_5" class="clickable"></div>
+	  </div>
 	</div>
     <div id="show_controls" class="avatar_controls">TOUCH TO MODIFY</div>
 
@@ -108,10 +121,9 @@ var _avatar;
 var _currentSubCategory;
 var _major;
 var _school;
-var _itemForColor = new Array("head_shape","hair");
+var _itemForColor = new Array("head", "head_shape","hair");
 
 $(window).load(function() {
-
   // CUSTOMIZE AVATAR
   $("#modify").click(function() {
     if ($("#wardrobe_options").css("display") == "none") {
@@ -132,6 +144,7 @@ $(window).load(function() {
 	show_colorpalette = false;
 	
 	current_tab_category = $(this).attr("id");
+	
 	// move indication icon to according position
 	if(current_tab_category == "category_head") {
 	 $(".indi").css("margin-top","10px");
@@ -147,17 +160,32 @@ $(window).load(function() {
 	
 	//check the clicked item typed with array for showing color pallete
 	_item_type = $(this).attr("item_type");
+	//alert(_item_type); // debug
 	$.each(_itemForColor, function(key, value) {
-	  if(_item_type == value) {
+	  if(current_tab_category != "category_head" && _item_type == value) {
 	    show_colorpalette = true;
 	  }
 	});
 	
 	if(show_colorpalette) {
-	  $(".color_palette").show();
+	  if (_item_type == "head_shape" || _item_type == "head") {
+	    $("#head_color").show();
+		$("#hair_color").hide();
+	  } else if (_item_type == "hair") {
+	    $("#hair_color").show();
+		$("#head_color").hide();
+	  }
+	  else {
+	    $("#hair_color").hide();
+		$("#head_color").hide();
+	  }
+	  
+	  $(".color_palette").css("left", parseInt($("#"+current_tab_category).position().left) + 370);
+	  $(".color_palette").css("top", parseInt($("#"+current_tab_category).position().top) + 280);
+	  $(".color_palette").fadeIn();
 	}
 	else {
-	  $(".color_palette").hide();
+	  $(".color_palette").fadeOut();
 	}
 	
 	//alert($(this).attr("item_type"));
@@ -180,35 +208,93 @@ $(window).load(function() {
       }
       saveAvatar();
       // Refresh the current list of options in case option stat has changed
-      showSubCategory(_currentSubCategory);
+	  showSubCategory(_currentSubCategory);
     } else {
       _currentSubCategory = $(this).attr("value");
       resetSubCategory();
       showSubCategory(_currentSubCategory);
-	  $("#wardrobe_subcategories").show();
-      //$("#wardrobe_subcategories").animate({width: ['toggle', 'swing']});
-	  $("#select_note").hide();
+	  wardrobeSubCategorySlide('show');
     }
+
   });
   
+  $("#uparr").click(function(){
+	var divOffset = $('#subcate_scroll').offset().top;
+    var pOffset = $('#subcategory_container div:eq(5)').offset().top;
+	alert(divOffset + "===" + pOffset)
+	var pScroll = pOffset - divOffset;
+    $('#subcate_scroll').animate({scrollTop: '+=' + pScroll + 'px'}, 1000);
+  });
+  
+  //Color 1 change for body & head
   $("#color_1").click(function(){
-   $("#body").attr("src", "/images/wardrobe/avatar/body/body_1.png");
+    $("#body").attr("src", "/images/wardrobe/avatar/body/body_1.png");
+    var str = _avatar.head;
+    var newStr = str.substring(0, str.length-1)+"1";
+    $("#head").attr("src", "/images/wardrobe/"+newStr+".png"); 
   });
-  
+  //Color 2 change for body & head
   $("#color_2").click(function(){
-   $("#body").attr("src", "/images/wardrobe/avatar/body/body_2.png");
+    $("#body").attr("src", "/images/wardrobe/avatar/body/body_2.png");
+    var str = _avatar.head;
+    var newStr = str.substring(0, str.length-1)+"2";
+    $("#head").attr("src", "/images/wardrobe/"+newStr+".png"); 
   });
-  
+  //Color 3 change for body & head
   $("#color_3").click(function(){
-   $("#body").attr("src", "/images/wardrobe/avatar/body/body_3.png");
+    $("#body").attr("src", "/images/wardrobe/avatar/body/body_3.png");
+    var str = _avatar.head;
+    var newStr = str.substring(0, str.length-1)+"3";
+    $("#head").attr("src", "/images/wardrobe/"+newStr+".png"); 
   });
-  
+  //Color 4 change for body & head
   $("#color_4").click(function(){
-   $("#body").attr("src", "/images/wardrobe/avatar/body/body_4.png");
+    $("#body").attr("src", "/images/wardrobe/avatar/body/body_4.png");
+    var str = _avatar.head;
+    var newStr = str.substring(0, str.length-1)+"4";
+    $("#head").attr("src", "/images/wardrobe/"+newStr+".png"); 
+  });
+  //Color 5 change for body & head
+  $("#color_5").click(function(){
+    $("#body").attr("src", "/images/wardrobe/avatar/body/body_5.png");
+    var str = _avatar.head;
+    var newStr = str.substring(0, str.length-1)+"5";
+    $("#head").attr("src", "/images/wardrobe/"+newStr+".png"); 
   });
   
-  $("#color_5").click(function(){
-   $("#body").attr("src", "/images/wardrobe/avatar/body/body_5.png");
+  //Color 1 change for hair
+  $("#hair_color_1").click(function(){
+    var str = _avatar.hair;
+    var newStr = str.substring(0, str.length-1)+"1";
+	$("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
+  });
+  
+  //Color 2 change for hair
+  $("#hair_color_2").click(function(){
+    var str = _avatar.hair;
+    var newStr = str.substring(0, str.length-1)+"2";
+	$("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
+  });
+  
+  //Color 3 change for hair
+  $("#hair_color_3").click(function(){
+    var str = _avatar.hair;
+    var newStr = str.substring(0, str.length-1)+"3";
+	$("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
+  });
+  
+  //Color 4 change for hair
+  $("#hair_color_4").click(function(){
+    var str = _avatar.hair;
+    var newStr = str.substring(0, str.length-1)+"4";
+	$("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
+  });
+  
+  //Color 5 change for hair
+  $("#hair_color_1").click(function(){
+    var str = _avatar.hair;
+    var newStr = str.substring(0, str.length-1)+"5";
+	$("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
   });
   
   $.getJSON("/profile/show",
@@ -225,7 +311,9 @@ $(window).load(function() {
 
   $("#edit_controls").hide();
   $("#wardrobe_options").hide();
-  $("#wardrobe_subcategories").hide();
+  //$("#wardrobe_subcategories").hide();
+  wardrobeSubCategorySlide('hide');
+  $(".color_palette").fadeOut();
   $("#select_note").show();
 
 });
@@ -268,7 +356,8 @@ function showSubCategory(id) {
       if (item_type != undefined) {
         $("#subcategory_"+idx).attr("item_type", item_type);
       }
-      // Is the item currently used?
+	  
+	  // Is the item currently used?
       if (image_file != null && image_file == _avatar[item_type]) {
         $("#subcategory_"+idx).addClass("selected");
       } else {
@@ -333,7 +422,9 @@ function modifyAvatar() {
   $("#show_controls").hide();
   $("#edit_controls").show();
   $("#wardrobe_options").show();
-  $("#wardrobe_subcategories").hide();
+  //$("#wardrobe_subcategories").hide();
+  wardrobeSubCategorySlide('hide');
+  $(".color_palette").fadeOut();
   $("#select_note").show();
   $(".nav_button").hide();
 }
@@ -356,6 +447,7 @@ function showProfile() {
   $("#show_controls").show();
   $("#edit_controls").hide();
   $("#wardrobe_options").hide();
+  $(".color_palette").fadeOut();
 }
 
 function acceptCode() {
@@ -363,6 +455,19 @@ function acceptCode() {
     $('#dialog').html(data);
   })
   .success(function() { showDialog(true); });
+}
+
+//Show hide wardrobe subcategory menu items (with slide effect)
+function wardrobeSubCategorySlide(action) {
+  if (action == 'show') {
+    $("#wardrobe_subcategories").show();
+    $("#wardrobe_subcategories").animate({left: '150px'},500 ,function(){$(".indi").show();$("#wardrobe_subcategories").css('z-index' , '1');});
+	$("#select_note").hide();
+  } else if (action == 'hide') {
+	$("#wardrobe_subcategories").hide();
+    $("#wardrobe_subcategories").animate({left: '0px'},500 ,function(){$(".indi").hide();$("#wardrobe_subcategories").css('z-index' , '-1');});
+	$("#select_note").show();
+  }
 }
 
 //-->
