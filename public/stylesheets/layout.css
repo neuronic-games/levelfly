@@ -50,7 +50,7 @@ body{
   /* [disabled]background-color: #333; */
   color: #FFF;
 }
-.wrapper .selections .lev2 {
+.wrapper .selections .lev0 {
   background-color: #1D4D67;
   float: left;
   height: 529px;
@@ -73,10 +73,21 @@ body{
   background-color: #1D4D67;
   height: 529px;
   width: 128px;
-  margin-left: 50px;
-  margin-top: 50px;
+  /*margin-left: 50px;
+  margin-top: 50px;*/
   -webkit-border-radius: 5px;
 }
+
+.wrapper .selections .lev2{
+  float: left;
+  background-color: #1D4D67;
+  height: 529px;
+  width: 128px;
+  margin-left: 270px;
+  margin-top: 0px;
+  -webkit-border-radius: 5px;
+}
+
 .wrapper .selections #uparr {
   width: 54px;
   height: 36px;
@@ -98,6 +109,16 @@ body{
   left:38px;
   /*top: 766px;*/
   top:526px;
+}
+.wrapper .selections .lev0 .btn {
+  width: 122px;
+  height: 101px;
+  margin: 4px auto;
+  background-image: url(/images/ui/btnbg.png);
+  background-repeat: no-repeat;
+  text-align: center;
+  font-family: 'Ubuntu Condensed', sans-serif;
+  font-size: 18px;
 }
 .wrapper .selections .lev1 .btn {
   width: 122px;

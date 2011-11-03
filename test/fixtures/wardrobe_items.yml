@@ -112,28 +112,28 @@ casual_bottoms:
   name: Casual
   parent_item: legs
   sort_order: 0
-  depth: 2
+  depth: 1
 
 denim_bottoms:
   wardrobe: basic
   name: Denim
   parent_item: legs
   sort_order: 1
-  depth: 2
+  depth: 1
 
 dressy_bottoms:
   wardrobe: basic
   name: Dressy
   parent_item: legs
   sort_order: 2
-  depth: 2
+  depth: 1
 
 skirts:
   wardrobe: basic
   name: Skirts
   parent_item: legs
   sort_order: 3
-  depth: 2
+  depth: 1
 
 # HEAD SHAPE
 
@@ -741,7 +741,7 @@ guitar_black:
   available_level: 1
   visible_level: 1
   sort_order: 1
-  depth: 2
+  depth: 1
   
 # FEET
 

@@ -78,11 +78,30 @@
   border:1px solid red;
 }
 
+#subcategory_wrapper {
+  overflow:hidden;
+  width:300px;
+  height:529px;
+  left:140px;
+  margin-top:50px;
+  margin-left:15px;
+  position:absolute
+}
+
 #wardrobe_subcategories {
   position: absolute;
-  left: -20px;
-  /*top: 0px;*/
   z-index:-1;
+}
+
+#subcategory_scroll {
+  float:left;
+  height:528px;
+  overflow:hidden;
+  padding-left:3px;
+}
+
+#subcategory_container {
+  float:left;
 }
 
 .wardrobe_item {

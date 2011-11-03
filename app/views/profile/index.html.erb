@@ -20,31 +20,51 @@
 	
     <div id="wardrobe_options" class="wardrobe_options">
     
-      <div id="wardrobe_categories" class="wardrobe_categories lev2">
+      <div id="wardrobe_categories" class="wardrobe_categories lev0">
         <div id="category_head" class="btn wardrobe_item clickable" value="head"></div>
         <div id="category_body" class="btn wardrobe_item clickable" value="body"></div>
         <div id="category_legs" class="btn wardrobe_item clickable" value="legs"></div>
         <div id="category_feet" class="btn wardrobe_item clickable" value="feet"></div>
         <div id="category_prop" class="btn wardrobe_item clickable" value="prop"></div>
       </div>
-	  <div id="wardrobe_subcategories" class="lev1">
-        <div class="indi">
-          <img src="/images/ui/arrowb.png" width="46" height="35" style="margin-top:10px;" />
-        </div>
-
-        <div id="uparr" class="nav_button"></div>
-        <div id="dwnarr" class="nav_button"></div>
-		<div id="subcate_scroll" style="float:left;height:528px;overflow:hidden;padding-left:3px;">
-          <div id="subcategory_container" style="float:left">
-		    <div id="subcategory_0" class="btn wardrobe_item clickable"></div>
-            <div id="subcategory_1" class="btn wardrobe_item clickable"></div>
-            <div id="subcategory_2" class="btn wardrobe_item clickable"></div>
-            <div id="subcategory_3" class="btn wardrobe_item clickable"></div>
-            <div id="subcategory_4" class="btn wardrobe_item clickable"></div>
-		    <div id="subcategory_5" class="btn wardrobe_item clickable"></div>
+	  <div id="subcategory_wrapper">
+	    <div id="wardrobe_subcategories" class="lev1">
+          <div class="indi">
+            <img src="/images/ui/arrowb.png" width="46" height="35" style="margin-top:10px;" />
+          </div>
+		
+          <div id="uparr" class="nav_button"></div>
+          <div id="dwnarr" class="nav_button"></div>
+		  <div id="subcategory_scroll">
+            <div id="subcategory_container">
+		      <div id="subcategory_level_1_0" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_1_1" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_1_2" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_1_3" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_1_4" class="btn wardrobe_item clickable"></div>
+		    </div>
 		  </div>
-		</div>
-      </div>
+        </div>
+		
+		<div id="wardrobe_subcategories" class="lev2">
+          <div class="indi">
+            <img src="/images/ui/arrowb.png" width="46" height="35" style="margin-top:10px;" />
+          </div>
+		
+          <div id="uparr" class="nav_button"></div>
+          <div id="dwnarr" class="nav_button"></div>
+		  <div id="subcategory_scroll" style="float:left;height:528px;overflow:hidden;padding-left:3px;">
+            <div id="subcategory_container" style="float:left">
+		      <div id="subcategory_level_2_0" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_1" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_2" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_3" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_4" class="btn wardrobe_item clickable"></div>
+		    </div>
+		  </div>
+        </div>
+		
+	  </div>
 	  <div id="select_note" class="selection_instructions">What would you like to change?</div>
     </div>
     </div>
@@ -114,7 +134,6 @@
 
 <script type="text/javascript">
 <!--
-
 var _wardrobeItems;
 var _profile;
 var _avatar;
@@ -142,7 +161,6 @@ $(window).load(function() {
   $(".wardrobe_item").click(function() {
     image_file = $(this).attr("image_file");
 	show_colorpalette = false;
-	
 	current_tab_category = $(this).attr("id");
 	
 	// move indication icon to according position
@@ -188,8 +206,6 @@ $(window).load(function() {
 	  $(".color_palette").fadeOut();
 	}
 	
-	//alert($(this).attr("item_type"));
-	
 	if (image_file != undefined) {
       // Clicked on an option that can be applied
       item_type = $(this).attr("item_type");
@@ -211,11 +227,11 @@ $(window).load(function() {
 	  showSubCategory(_currentSubCategory);
     } else {
       _currentSubCategory = $(this).attr("value");
-      resetSubCategory();
+	  _item_depth = $(this).attr("item_depth");
+	  resetSubCategory(_item_depth);
       showSubCategory(_currentSubCategory);
-	  wardrobeSubCategorySlide('show');
+	  wardrobeSubCategorySlide('show',_item_depth);
     }
-
   });
   
   $("#uparr").click(function(){
@@ -318,12 +334,15 @@ $(window).load(function() {
 
 });
 
-function resetSubCategory() {
+function resetSubCategory(depth) {
+  depth = parseInt(depth) + 1;
   for (i=0; i<5; i++) {
-    $("#subcategory_"+i).html("");
-    $("#subcategory_"+i).removeAttr("value");
-    $("#subcategory_"+i).removeAttr("image_file");
-    $("#subcategory_"+i).removeAttr("item_type");
+    if(typeof(depth) != 'undefined') {
+      $("#subcategory_level_" + depth + "_"+i).html("");
+      $("#subcategory_level_" + depth + "_"+i).removeAttr("value");
+      $("#subcategory_level_" + depth + "_"+i).removeAttr("image_file");
+      $("#subcategory_level_" + depth + "_"+i).removeAttr("item_type");
+    }	
   }
 }
 
@@ -331,9 +350,11 @@ function prepWardrobeIcons() {
   for (i=0; i<_wardrobeItems.length; i++) {
     if (_wardrobeItems[i].depth == 0) {
       item_type = _wardrobeItems[i].item_type;
+	  item_depth = _wardrobeItems[i].depth;
 	  $("#category_"+item_type).attr("value", _wardrobeItems[i].id);
       $("#category_"+item_type).html("<img src='/images/wardrobe/icon/"+item_type+"_icon.png' /><br/>"+_wardrobeItems[i].name);
       $("#category_"+item_type).attr("item_type", item_type);
+	  $("#category_"+item_type).attr("item_depth", item_depth);
     }
   }
 }
@@ -342,26 +363,32 @@ function showSubCategory(id) {
   idx = 0;
   for (i=0; i<_wardrobeItems.length; i++) {
     if (_wardrobeItems[i].parent_item_id == id) {
-      $("#subcategory_"+idx).attr("value", _wardrobeItems[i].id);
+	  cat_depth = _wardrobeItems[i].depth;
+	  $("#subcategory_level_" + cat_depth + "_" +idx).attr("value", _wardrobeItems[i].id);
       // Set the image file
       item_type = _wardrobeItems[i].item_type;
 	  image_file = _wardrobeItems[i].image_file;
-      if (image_file == undefined) {
-        $("#subcategory_"+idx).html("<img src='/images/wardrobe/icon/"+item_type+"_icon.png' /><br/>"+_wardrobeItems[i].name);
+	  if (image_file == undefined) {
+        $("#subcategory_level_" + cat_depth + "_" +idx).html("<img src='/images/wardrobe/icon/"+item_type+"_icon.png' /><br/>"+_wardrobeItems[i].name);
       } else {
-        $("#subcategory_"+idx).html("<img src='/images/wardrobe/icon/"+image_file+"_icon.png' /><br/>"+_wardrobeItems[i].name);
-        $("#subcategory_"+idx).attr("image_file", _wardrobeItems[i].image_file);
-      }
-      // Set the item type
-      if (item_type != undefined) {
-        $("#subcategory_"+idx).attr("item_type", item_type);
+        $("#subcategory_level_" + cat_depth + "_" +idx).html("<img src='/images/wardrobe/icon/"+image_file+"_icon.png' /><br/>"+_wardrobeItems[i].name);
+        $("#subcategory_level_" + cat_depth + "_" +idx).attr("image_file", _wardrobeItems[i].image_file);
       }
 	  
+      // Set the item type
+      if (item_type != undefined) {
+        $("#subcategory_level_" + cat_depth + "_" +idx).attr("item_type", item_type);
+      }
+	  // set the depth
+	  item_depth = _wardrobeItems[i].depth;
+	  if (item_depth != undefined) {
+        $("#subcategory_level_" + cat_depth + "_" +idx).attr("item_depth", item_depth);
+      }
 	  // Is the item currently used?
       if (image_file != null && image_file == _avatar[item_type]) {
-        $("#subcategory_"+idx).addClass("selected");
+        $("#subcategory_level_" + cat_depth + "_" +idx).addClass("selected");
       } else {
-        $("#subcategory_"+idx).removeClass("selected");
+        $("#subcategory_level_" + cat_depth + "_" +idx).removeClass("selected");
       }
 
       idx = idx + 1;
@@ -414,7 +441,7 @@ function modifyAvatar() {
            }
          }
          _wardrobeItems = data;
-         prepWardrobeIcons();
+		 prepWardrobeIcons();
          showSpinner(false);
        });  
   }
@@ -457,15 +484,36 @@ function acceptCode() {
   .success(function() { showDialog(true); });
 }
 
+var _last_status_lev1 = null;
+var _last_status_lev2 = null;
+var _last_status_lev3 = null;
+
 //Show hide wardrobe subcategory menu items (with slide effect)
-function wardrobeSubCategorySlide(action) {
+function wardrobeSubCategorySlide(action,depth) {
   if (action == 'show') {
-    $("#wardrobe_subcategories").show();
-    $("#wardrobe_subcategories").animate({left: '150px'},500 ,function(){$(".indi").show();$("#wardrobe_subcategories").css('z-index' , '1');});
+    if(depth==0) {
+      $(".lev1").show();
+	  $(".lev1").animate({right: '125px'},500 ,function(){$(".lev1").css('z-index' , '1');});
+	  _last_status_lev1 = 'shown';
+	  
+	  if(_last_status_lev2=='shown') {
+	    $(".lev2").css('z-index' , '-1');
+	    $(".lev2").animate({right: '-175px'},500 ,function(){$(".lev2").hide()});
+		_last_status_lev1 = 'left';
+	  }
+	} else if (depth==1) {
+	  $(".lev1").css('z-index' , '-1');
+	  $(".lev1").animate({right: '385px'},500 ,function(){$(".lev1").hide();});
+	  $(".lev2").show();
+	  $(".lev2").animate({right: '125px'},500 ,function(){$(".lev2").css('z-index' , '1');});
+	  _last_status_lev2 = 'shown';
+	}
 	$("#select_note").hide();
+	$(".indi").show();
   } else if (action == 'hide') {
-	$("#wardrobe_subcategories").hide();
-    $("#wardrobe_subcategories").animate({left: '0px'},500 ,function(){$(".indi").hide();$("#wardrobe_subcategories").css('z-index' , '-1');});
+	$(".lev1").hide();
+	$(".lev2").hide();
+    $(".lev1").animate({right: '0px'},500 ,function(){$(".indi").hide();$(".lev1").css('z-index' , '-1');});
 	$("#select_note").show();
   }
 }
