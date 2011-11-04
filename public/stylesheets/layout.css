@@ -63,8 +63,9 @@ body{
   width: 50px;
   height: 40px;
   /*left: 162px;*/
-  left:-45px;
+  left:1px;
   /*top: 262px;*/
+  display:none;
   top:25px;
   display:none;
 }
@@ -94,9 +95,9 @@ body{
   position: absolute;
   background-image: url(/images/ui/uparr.png);
   /*left: 246px;*/
-  left:38px;
+  left: 240px;
   /*top: 192px;*/
-  top:-28px;
+  top:200px;
   background-repeat: no-repeat;
 }
 .wrapper .selections #dwnarr {
@@ -106,9 +107,9 @@ body{
   background-image: url(/images/ui/dwarr.png);
   background-repeat: no-repeat;
   /*left: 244px;*/
-  left:38px;
+  left:240px;
   /*top: 766px;*/
-  top:526px;
+  top:757px;
 }
 .wrapper .selections .lev0 .btn {
   width: 122px;

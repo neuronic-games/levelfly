@@ -128,10 +128,16 @@
 
 .color_palette {
   position:absolute;
-  width:250px;
-  left:365px;
+  width:270px;
+  left:320px;
   top:600px;
   display:none;
+}
+
+.color_palette #color_palette_left_arrow {
+  width:20px;
+  float:left;
+  padding-top:4px;
 }
 
 .color_palette  #head_color, #hair_color{
@@ -149,11 +155,11 @@
 }
 
 .color_palette #color_1 {
-  background-color:#F3DDC3; 
+  background-color:#E5E4E2; 
 }
 
 .color_palette #color_2 {
-  background-color:#E8B57A; 
+  background-color:#D8C078; 
 }
 
 .color_palette #color_3 {
