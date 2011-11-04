@@ -605,7 +605,7 @@ polo_short_sleeve_blue:
   available_level: 1
   visible_level: 1
   sort_order: 0
-  depth: 3
+  depth: 2
 
 shirt_short_sleeve_cyan:
   wardrobe: basic
@@ -616,7 +616,7 @@ shirt_short_sleeve_cyan:
   available_level: 1
   visible_level: 1
   sort_order: 1
-  depth: 3
+  depth: 2
 
 short_sleeve_tattoo:
   wardrobe: basic
@@ -627,7 +627,7 @@ short_sleeve_tattoo:
   available_level: 1
   visible_level: 1
   sort_order: 2
-  depth: 3
+  depth: 2
  
 short_sleeve_black:
   wardrobe: basic
@@ -638,7 +638,7 @@ short_sleeve_black:
   available_level: 1
   visible_level: 1
   sort_order: 3
-  depth: 3
+  depth: 2
 
 short_sleeve_gray:
   wardrobe: basic
@@ -649,7 +649,7 @@ short_sleeve_gray:
   available_level: 1
   visible_level: 1
   sort_order: 4
-  depth: 3
+  depth: 2
 
 short_sleeve_purple:
   wardrobe: basic
@@ -660,7 +660,7 @@ short_sleeve_purple:
   available_level: 1
   visible_level: 1
   sort_order: 5
-  depth: 3
+  depth: 2
   
 shirt_short_sleeve_pink:
   wardrobe: basic
@@ -671,7 +671,7 @@ shirt_short_sleeve_pink:
   available_level: 1
   visible_level: 1
   sort_order: 0
-  depth: 3
+  depth: 2
 
 # BOTTOMS
 
