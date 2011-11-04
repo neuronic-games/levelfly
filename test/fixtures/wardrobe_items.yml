@@ -684,7 +684,7 @@ trousers_long_brown:
   available_level: 1
   visible_level: 1
   sort_order: 0
-  depth: 3
+  depth: 2
   
 trousers_long_denim_blue:
   wardrobe: basic
@@ -695,7 +695,7 @@ trousers_long_denim_blue:
   available_level: 1
   visible_level: 1
   sort_order: 1
-  depth: 3
+  depth: 2
  
 trousers_short_denim_blue:
   wardrobe: basic
@@ -706,7 +706,7 @@ trousers_short_denim_blue:
   available_level: 1
   visible_level: 1
   sort_order: 2
-  depth: 3
+  depth: 2
 
 skirt_short_brown:
   wardrobe: basic
@@ -717,7 +717,7 @@ skirt_short_brown:
   available_level: 1
   visible_level: 1
   sort_order: 3
-  depth: 3
+  depth: 2
 
 skirt_short_pink:
   wardrobe: basic
@@ -728,7 +728,7 @@ skirt_short_pink:
   available_level: 1
   visible_level: 1
   sort_order: 4
-  depth: 3
+  depth: 2
 
 # PROPS
 
