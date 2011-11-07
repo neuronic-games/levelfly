@@ -80,12 +80,12 @@
 
 #subcategory_wrapper {
   overflow:hidden;
-  width:300px;
+  width:230px;
   height:529px;
-  left:140px;
+  left:180px;
   margin-top:50px;
-  margin-left:15px;
-  position:absolute
+  margin-left:19px;
+  position:absolute;
 }
 
 #wardrobe_subcategories {
@@ -175,23 +175,23 @@
 }
 
 .color_palette #hair_color_1 {
-  background-color:#96947B;
+  background-color:#E8E7E7;
 }
 
 .color_palette #hair_color_2 {
-  background-color:#A18B48;
+  background-color:#E2C13A;
 }
 
 .color_palette #hair_color_3 {
-  background-color:#4E3422; 
+  background-color:#A52121; 
 }
 
 .color_palette #hair_color_4 {
-  background-color:#41240F; 
+  background-color:#531A1A; 
 }
 
 .color_palette #hair_color_5 {
-  background-color:#000000; 
+  background-color:#030000; 
 }
 
 .clickable {
