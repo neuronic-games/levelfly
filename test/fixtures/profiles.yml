@@ -2,3 +2,9 @@
 
 default:
   code: DEFAULT
+  
+admin:
+  user: admin
+  school: bmcc
+  major: english
+  full_name: Admin
