@@ -15,6 +15,9 @@
 
 <script type="text/javascript">
 <!--
+if(_profile.full_name != undefined) {
+ $("#dialog_full_name").val(_profile.full_name);
+}
 
 $("#use_code").click(function() {
   $.getJSON("/profile/validate_code", { full_name: $("#dialog_full_name").val(), code: $("#dialog_code").val() },
@@ -22,6 +25,7 @@ $("#use_code").click(function() {
        _major = data.major;
        _school = data.school;
        _profile.full_name = $("#dialog_full_name").val();
+			 saveAvatar();
        showAvatar();
      });
 

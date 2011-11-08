@@ -54,7 +54,7 @@ class ProfileController < ApplicationController
     @profile.school_id = profile["school_id"]
     @profile.user_id = current_user.id if current_user
     @profile.save
-
+    
     @avatar.skin = avatar["skin"]
     @avatar.background = avatar["background"]
     @avatar.body = avatar["body"]
@@ -84,6 +84,18 @@ class ProfileController < ApplicationController
   def accept_code
     render :partial => "/profile/code_dialog"
   end
+	
+	def change_major
+	  render :partial => "/profile/major_dialog"
+	end
+	
+	def list_major
+	  major = Major.find(:all, 
+      :conditions => ["archived = ?", false],
+      :order => "created_at")
+    
+    render :text => major.to_json
+	end
   
   def validate_code
     code = params[:code].to_s.upcase

@@ -206,6 +206,28 @@
   background-color: #ddd;
 }
 
+#major_container {
+  width:550px;
+	margin:auto;
+	float:left;
+}
+
+#major_container  ul{
+  list-style:none;
+}
+
+#major_container ul li {
+  display:inline;
+}
+
+#major_container ul li div{
+  width:130px;
+	float:left;
+	text-align:center;
+	margin:15px;
+	font-family: 'Ubuntu Condensed', sans-serif;
+}
+
 .dialog {
   position: absolute;
   top: 0px;

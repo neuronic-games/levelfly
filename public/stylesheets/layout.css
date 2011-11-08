@@ -202,7 +202,13 @@ body{
   color: #FFF;
 }
 
-.signin h2 {
+.signin h2  {
+  font-family: 'Amatic SC', cursive;
+  font-size: 60px;
+  color: #FFF;
+}
+
+.majorlist h2 {
   font-family: 'Amatic SC', cursive;
   font-size: 60px;
   color: #FFF;
