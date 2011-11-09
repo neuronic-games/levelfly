@@ -1,5 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
+accounting:
+  name: Accounting
+  code: ACCOUNTING
+  school: bmcc
+
+arts:
+  name: Arts
+  code: ARTS
+  school: bmcc
+
 english:
   name: English
   code: ENGLISH
@@ -8,4 +18,14 @@ english:
 math:
   name: Math
   code: MATH
+  school: bmcc
+
+nursing:
+  name: Nursing
+  code: NURSING
+  school: bmcc
+
+science:
+  name: Science
+  code: SCIENCE
   school: bmcc

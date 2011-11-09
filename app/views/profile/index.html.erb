@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class="header">
     <div class="icon clickable">
-      <img id="icon_major" src="/images/ui/titico.png" width="147" height="139" />
+      <img id="icon_major" src="/images/major_icons/null.png" width="130" height="135" />
       <div style="position:absolute; left: 520px; top: 30px; padding-left:10px;" class="level_text">
         Level<br/>
         <img src="/images/ui/level.png" width="82" height="60" style="margin-left:0px;"/>
@@ -159,14 +159,14 @@ $(window).load(function() {
   $(".input").blur(function() {
   });
 
-	// Change full name
-	$("#full_name").click(function () {
-	  wardrobeSubCategorySlide('hide');
-	  acceptCode();
-	});
+  // Change full name
+  $("#full_name").click(function () {
+    wardrobeSubCategorySlide('hide');
+    changeName();
+  });
   // Click a wardrobe option
   $(".wardrobe_item").click(function() {
-	  image_file = $(this).attr("image_file");
+    image_file = $(this).attr("image_file");
     show_colorpalette = false;
     current_tab_category = $(this).attr("id");
     _item_depth = $(this).attr("item_depth");
@@ -241,13 +241,13 @@ $(window).load(function() {
         wardrobeSubCategorySlide('show', _item_depth);
       }
   });
-	
-	//Change major
-	$("#icon_major").click(function () {
-	  wardrobeSubCategorySlide('hide');
-	  changeMajor();
-	});
-	
+  
+  //Change major
+  $("#icon_major").click(function () {
+    wardrobeSubCategorySlide('hide');
+    changeMajor();
+  });
+  
   //Scroll up the subcategories
   $("#dwnarr").click(function () {
     //alert(_last_status_lev1+"=="+_last_status_lev2) //debug
@@ -367,7 +367,7 @@ $(window).load(function() {
   
   $.getJSON("/profile/show",
      function(data){
-		   _profile = data.profile;
+       _profile = data.profile;
        _avatar = data.avatar;
        _major = data.major;
        _school = data.school;
@@ -459,10 +459,10 @@ function showAvatar() {
   $("#full_name").html(_profile.full_name);
   if (_major != undefined) {
     $("#major").html(_major.name);
-		$("#icon_major").attr("src","/images/major_icons/" + _major.code.toLowerCase() + ".png")
+    $("#icon_major").attr("src", "/images/major_icons/" + _major.code + ".png");
   }
 
-	if (_school != undefined) {
+  if (_school != undefined) {
     $("#school").html(_school.code);
   }
   $("#background").attr("src", "/images/wardrobe/"+_avatar.background+".png");
@@ -518,25 +518,25 @@ function saveAvatar() {
   if (_major != undefined) {
     _profile.major_id = _major.id;
   }
-	
+  
   /*
-	$.getJSON("/profile/save", { id: _profile.id, profile: _profile, avatar: _avatar },
+  $.getJSON("/profile/save", { id: _profile.id, profile: _profile, avatar: _avatar },
     function(data){
       _profile = data.profile;
-			alert("==="+_profile.full_name);
+      alert("==="+_profile.full_name);
       _avatar = data.avatar;
   });
-	*/
-	// Send the requesturl: a_cross_domain_url,
+  */
+  // Send the requesturl: a_cross_domain_url,
    
-	$.ajax({
+  $.ajax({
     url: "/profile/save",
-		data: { id: _profile.id, profile: _profile, avatar: _avatar }, 
-		type: 'post',
-		dataType: 'json',
+    data: { id: _profile.id, profile: _profile, avatar: _avatar }, 
+    type: 'post',
+    dataType: 'json',
     success: function(data){
       _profile = data.profile;
-		  _avatar = data.avatar;
+      _avatar = data.avatar;
     }
   });
 }
@@ -555,8 +555,15 @@ function acceptCode() {
   .success(function() { showDialog(true); });
 }
 
+function changeName() {
+  $.get('/profile/change_name', function(data) {
+    $('#dialog').html(data);
+  })
+  .success(function() { showDialog(true); });
+}
+
 function changeMajor() {
-	$.get('/profile/change_major', function(data) {
+  $.get('/profile/change_major', function(data) {
     $('#dialog').html(data);
   })
   .success(function() { showDialog(true); });

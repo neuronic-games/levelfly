@@ -84,18 +84,17 @@ class ProfileController < ApplicationController
   def accept_code
     render :partial => "/profile/code_dialog"
   end
-	
-	def change_major
-	  render :partial => "/profile/major_dialog"
-	end
-	
-	def list_major
-	  major = Major.find(:all, 
+
+  def change_name
+    render :partial => "/profile/name_dialog"
+  end
+  
+  def change_major
+    @majors = Major.find(:all, 
       :conditions => ["archived = ?", false],
-      :order => "created_at")
-    
-    render :text => major.to_json
-	end
+      :order => "name")
+    render :partial => "/profile/major_dialog"
+  end
   
   def validate_code
     code = params[:code].to_s.upcase

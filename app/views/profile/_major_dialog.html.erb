@@ -1,30 +1,26 @@
 <div class="dialog_contents majorlist">
   <h2>Select your major</h2>
-	<div id="major_container">
-		<ul>
-		  
-		</ul>
-	</div>
+  <div id="major_container">
+    <ul>
+      <% @majors.each do |major| %>
+      <li><div id="<%=h major.id %>" name="<%=h major.name %>" code="<%=h major.code %>" class="major_icon clickable"><img src="/images/major_icons/<%=h major.code %>.png" /><%=h major.name %></div></li>
+      <% end %>
+    </ul>
+  </div>
 </div>
+
 <script type="text/javascript">
-
 <!--
-  $.getJSON("/profile/list_major",
-     function(data){
-		   $.each(data, function(key, val) {
-				  $("#major_container ul").append('<li id="' + val.id + '" class="random"> <div class="clickable"><img src="/images/major_icons/' + val.code.toLowerCase() + '.png" />' + val.name + '<div></li>');
-       });
-  }).complete(function() { 
-    $(".random").click(function(){
-	    if(_major !=undefined) {
-			 _major.id = $(this).attr("id");
-			} else {
-			 _profile.major_id = $(this).attr("id");
-			}
-			saveAvatar();
-		  showDialog(false);
-	  });
- });
+  $(".major_icon").click(function(){
+    if(_major != undefined) {
+      _major.id = $(this).attr("id");
+      _major.name = $(this).attr("name");
+      _major.code = $(this).attr("code");
+    }
+    saveAvatar();
+    showAvatar();
+    showDialog(false);
+  });
+  
 //--!>
-
 </script>

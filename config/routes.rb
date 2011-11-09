@@ -8,15 +8,18 @@ Oncapus::Application.routes.draw do
 
   get "profile/edit"
 
+  get "profile/save"
   post "profile/save"
-	
+  
   get "profile/accept_code"
 
   get "profile/validate_code"
-	
-	get "profile/change_major"
   
-	get "profile/list_major"
+  get "profile/change_major"
+  
+  get "profile/change_name"
+
+  get "profile/list_major"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

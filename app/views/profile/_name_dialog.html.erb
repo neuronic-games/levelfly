@@ -1,0 +1,25 @@
+<div class="dialog_contents signin">
+  <h2>Change My Name</h2>
+  
+  <p>Full Name<br />
+  <input type="text" id="dialog_full_name" name="full_name"></p>
+  
+  <input id="submit" name="submit" type="submit" class="clickable button" value="CONTINUE">
+</div>
+
+<script type="text/javascript">
+<!--
+if (_profile.full_name != undefined) {
+ $("#dialog_full_name").val(_profile.full_name).focus();
+}
+
+$("#submit").click(function() {
+  _profile.full_name = $("#dialog_full_name").val();
+  saveAvatar();
+  showAvatar();
+
+  showDialog(false);
+});
+
+//--!>
+</script>
