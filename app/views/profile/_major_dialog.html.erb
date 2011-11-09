@@ -3,7 +3,7 @@
   <div id="major_container">
     <ul>
       <% @majors.each do |major| %>
-      <li><div id="<%=h major.id %>" name="<%=h major.name %>" code="<%=h major.code %>" class="major_icon clickable"><img src="/images/major_icons/<%=h major.code %>.png" /><%=h major.name %></div></li>
+      <li><div id="<%=h major.id %>" name="<%=h major.name %>" code="<%=h major.code %>" class="major_icon clickable"><img src="/images/majors/<%=h major.code %>.png" /><%=h major.name %></div></li>
       <% end %>
     </ul>
   </div>

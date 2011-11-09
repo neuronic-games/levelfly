@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class="header">
     <div class="icon clickable">
-      <img id="icon_major" src="/images/major_icons/null.png" width="130" height="135" />
+      <img id="icon_major" src="/images/majors/null.png" width="130" height="135" />
     </div>
     <div class="level level_text">
       <!--Level Details goes here-->
@@ -449,7 +449,7 @@ function showAvatar() {
   $("#full_name").html(_profile.full_name);
   if (_major != undefined) {
     $("#major").html(_major.name);
-    $("#icon_major").attr("src", "/images/major_icons/" + _major.code + ".png");
+    $("#icon_major").attr("src", "/images/majors/" + _major.code + ".png");
   }
 
   if (_school != undefined) {
