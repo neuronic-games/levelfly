@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111025044634) do
+ActiveRecord::Schema.define(:version => 20111109084832) do
 
   create_table "access_codes", :force => true do |t|
     t.integer  "school_id"
@@ -56,6 +56,9 @@ ActiveRecord::Schema.define(:version => 20111025044634) do
     t.boolean  "archived",                   :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "eyes",         :limit => 64
+    t.string   "nose",         :limit => 64
+    t.string   "mouth",        :limit => 64
   end
 
   create_table "badges", :force => true do |t|

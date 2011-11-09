@@ -31,6 +31,11 @@
   text-transform: uppercase;
   text-align: center;
   color: #007594;
+	padding-top:20px;
+	/*position:absolute; 
+	left: 520px; 
+	top: 30px; 
+	padding-left:10px;*/
 }
 
 .avatar_portal {
@@ -65,6 +70,10 @@
   width: 205px;
 }
 
+.user_states {
+  margin-top:20px;
+}
+
 .wardrobe_options {
 }
 
@@ -76,6 +85,52 @@
   left: 0px;
   top: 0px;
   border:1px solid red;
+}
+
+#user_stats {
+  margin-top:10px;
+  font-family: 'Metrophobic', sans-serif;
+  word-spacing:5px;
+  font-size: 25px;
+}
+
+.stats_container{
+  float:left;
+  width:300px;
+  height:170px;
+}
+
+.stats_container div{
+  margin-top:10px;
+  float:left;
+	width:280px;
+}
+
+.stats_container #quest_points {
+	color: #FFB71B;
+}
+
+#level_meter {
+  width:280px;
+  background-image:url("/images/ui/lvlmter.png");
+  height:51px;
+  word-spacing:5px;
+  color:#3393B1;
+}
+
+#level_meter #progressbar{
+  background-image:url("/images/ui/prgsbar.png");
+  background-repeat:repeat-x;
+  width:120px;
+  margin:3px auto auto 2px;
+  height:45px;
+}
+
+#progressbar #progress_stats {
+  width:268px;
+  text-align:center;
+  font-size:20px;
+  text-transform:uppercase;
 }
 
 #subcategory_wrapper {

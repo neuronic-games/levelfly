@@ -19,7 +19,7 @@ body{
   background-repeat: no-repeat;
   width: 138px;
   float: right;
-  margin-top: -183px;
+  margin-top: -30px;
 }
 .wrapper .header .icon {
   float: left;
@@ -65,9 +65,8 @@ body{
   /*left: 162px;*/
   left:155px;
   /*top: 262px;*/
-  display:none;
+  /*display:none;*/
   top:265px;
-  display:none;
 }
 .wrapper .selections .lev1 {
   float: left;
@@ -97,7 +96,7 @@ body{
   /*left: 246px;*/
   left: 240px;
   /*top: 192px;*/
-  top:200px;
+  top:195px;
   background-repeat: no-repeat;
 }
 .wrapper .selections #dwnarr {
@@ -109,7 +108,7 @@ body{
   /*left: 244px;*/
   left:240px;
   /*top: 766px;*/
-  top:757px;
+  top:755px;
 }
 .wrapper .selections .lev0 .btn {
   width: 122px;
