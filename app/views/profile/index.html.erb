@@ -73,22 +73,22 @@
         <div id="wardrobe_subcategories" class="lev2">
           <div id="subcategory_scroll">
             <div id="subcategory_container">
-							<div id="subcategory_level_2_0" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_1" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_2" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_3" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_4" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_5" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_6" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_7" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_8" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_9" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_10" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_11" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_12" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_13" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_14" class="btn wardrobe_item clickable"></div>
-						</div>
+              <div id="subcategory_level_2_0" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_1" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_2" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_3" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_4" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_5" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_6" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_7" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_8" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_9" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_10" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_11" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_12" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_13" class="btn wardrobe_item clickable"></div>
+              <div id="subcategory_level_2_14" class="btn wardrobe_item clickable"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -126,11 +126,11 @@
       <div id="color_5" class="clickable"></div>
     </div>
     <div id="hair_color">
-      <div id="hair_color_1" class="clickable"></div>
-      <div id="hair_color_2" class="clickable"></div>
-      <div id="hair_color_3" class="clickable"></div>
-      <div id="hair_color_4" class="clickable"></div>
-      <div id="hair_color_5" class="clickable"></div>
+      <div id="hair_color_1" value="1" class="clickable hair_color"></div>
+      <div id="hair_color_2" value="2" class="clickable hair_color"></div>
+      <div id="hair_color_3" value="3" class="clickable hair_color"></div>
+      <div id="hair_color_4" value="4" class="clickable hair_color"></div>
+      <div id="hair_color_5" value="5" class="clickable hair_color"></div>
     </div>
   </div>
   <div id="show_controls" class="avatar_controls">TOUCH TO MODIFY</div>
@@ -200,13 +200,13 @@ $(window).load(function() {
     show_colorpalette = false; //Set for color palette
     current_tab_category = $(this).attr("id");
     _item_depth = $(this).attr("item_depth");
-		
-		// move indication icon to according position
-		if(_item_depth==0) {
-			$(".indi").animate({top: parseInt($("#"+current_tab_category).position().top) + 50 +'px'},250);
-		}
     
-		//check the clicked item typed with array for showing color pallete
+    // move indication icon to according position
+    if(_item_depth==0) {
+      $(".indi").animate({top: parseInt($("#"+current_tab_category).position().top) + 50 +'px'},250);
+    }
+    
+    //check the clicked item typed with array for showing color pallete
     _item_type = $(this).attr("item_type");
     //alert(_item_depth); // debug
     $.each(_itemForColor, function(key, value) {
@@ -215,8 +215,8 @@ $(window).load(function() {
       }
     });
     
-		//Check if need to show the color palette
-		if(show_colorpalette) {
+    //Check if need to show the color palette
+    if(show_colorpalette) {
       if (_item_type == "head_shape" || _item_type == "head") {
         $("#head_color").show();
         $("#hair_color").hide();
@@ -226,10 +226,10 @@ $(window).load(function() {
       }
       else {
         $("#hair_color").hide();
-				$("#head_color").hide();
+        $("#head_color").hide();
       }
-			
-			//Show & move color palette
+      
+      //Show & move color palette
       $(".color_palette").animate({left: parseInt($("#"+current_tab_category).position().left) + 330 +'px'},250);
       $(".color_palette").animate({top: parseInt($("#"+current_tab_category).position().top) + 280 +'px'},250);
       $(".color_palette").fadeIn(80);
@@ -238,30 +238,30 @@ $(window).load(function() {
     }
 
     if (image_file != undefined) {
-			// Clicked on an option that can be applied
-			item_type = $(this).attr("item_type");
-			if (image_file == _avatar[item_type]) {
-				// Already applied? Remove this item
-				image_file = "null";
-			}
-			// Display the item on the avatar
-			$("#"+item_type).attr("src", "/images/wardrobe/"+image_file+".png");
-			_avatar[item_type] = image_file
-			// Check if there is a back layer
-			if (item_type == "hair" || item_type == "hat") {
-				item_type_back = item_type + "_back";
-				_avatar[item_type_back] = image_file + "_back";
-				$("#"+item_type_back).attr("src", "/images/wardrobe/"+image_file+"_back.png");
-			}
-			saveAvatar();
-			// Refresh the current list of options in case option stat has changed
-			showSubCategory(_currentSubCategory, _item_type);
-		} else {
-			_currentSubCategory = $(this).attr("value");
-			resetSubCategory(_item_depth);
-			showSubCategory(_currentSubCategory, _item_type);
-			wardrobeSubCategorySlide('show', _item_depth);
-		}
+      // Clicked on an option that can be applied
+      item_type = $(this).attr("item_type");
+      if (image_file == _avatar[item_type]) {
+        // Already applied? Remove this item
+        image_file = "null";
+      }
+      // Display the item on the avatar
+      $("#"+item_type).attr("src", "/images/wardrobe/"+image_file+".png");
+      _avatar[item_type] = image_file
+      // Check if there is a back layer
+      if (item_type == "hair" || item_type == "hat") {
+        item_type_back = item_type + "_back";
+        _avatar[item_type_back] = image_file + "_back";
+        $("#"+item_type_back).attr("src", "/images/wardrobe/"+image_file+"_back.png");
+      }
+      saveAvatar();
+      // Refresh the current list of options in case option stat has changed
+      showSubCategory(_currentSubCategory, _item_type);
+    } else {
+      _currentSubCategory = $(this).attr("value");
+      resetSubCategory(_item_depth);
+      showSubCategory(_currentSubCategory, _item_type);
+      wardrobeSubCategorySlide('show', _item_depth);
+    }
   });
   
   //Change major
@@ -351,45 +351,19 @@ $(window).load(function() {
     var newStr = str.substring(0, str.length-1)+"5";
     $("#head").attr("src", "/images/wardrobe/"+newStr+".png"); 
   });
-  
-  //Color 1 change for hair
-  $("#hair_color_1").click(function(){
-    var str = _avatar.hair;
-    var newStr = str.substring(0, str.length-1)+"1";
-  $("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
-  });
 
-  //Color 2 change for hair
-  $("#hair_color_2").click(function(){
+  // Hair color change
+  $(".hair_color").click(function(){
     var str = _avatar.hair;
-    var newStr = str.substring(0, str.length-1)+"2";
-  $("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
-  });
-
-  //Color 3 change for hair
-  $("#hair_color_3").click(function(){
-    var str = _avatar.hair;
-    var newStr = str.substring(0, str.length-1)+"3";
-  $("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
-  });
-
-  //Color 4 change for hair
-  $("#hair_color_4").click(function(){
-    var str = _avatar.hair;
-    var newStr = str.substring(0, str.length-1)+"4";
-  $("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
-  });
-
-  //Color 5 change for hair
-  $("#hair_color_1").click(function(){
-    var str = _avatar.hair;
-    var newStr = str.substring(0, str.length-1)+"5";
-  $("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
+    var value = $(this).attr("value");
+    var newStr = str.substring(0, str.length-1)+value;
+    $("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
+    $("#hair_back").attr("src", "/images/wardrobe/"+newStr+"_back.png"); 
   });
   
   $.getJSON("/profile/show",
      function(data){
-			 _profile = data.profile;
+       _profile = data.profile;
        _avatar = data.avatar;
        _major = data.major;
        _school = data.school;
@@ -399,7 +373,7 @@ $(window).load(function() {
        showAvatar();
      }
   );
-	showProfile();
+  showProfile();
 });
 
 function resetSubCategory(depth) {
@@ -481,11 +455,11 @@ function showAvatar() {
   if (_school != undefined) {
     $("#school").html(_school.code);
   }
-	
-	if(_avatar.points !=null) {
-		//$("#quest_points").html(_avatar.points);
-	}
-	
+  
+  if(_avatar.points !=null) {
+    //$("#quest_points").html(_avatar.points);
+  }
+  
   $("#background").attr("src", "/images/wardrobe/"+_avatar.background+".png");
   $("#avatar_body").attr("src", "/images/wardrobe/"+_avatar.body+".png"); //Id changed by vaibhav because having id "body" is creating problem with jQuery.position()
   $("#hat_back").attr("src", "/images/wardrobe/"+_avatar.hat_back+".png");
@@ -540,8 +514,8 @@ function saveAvatar() {
     _profile.major_id = _major.id;
   }
   
-	//Save avatar data
-	$.ajax({ //Previously was with getJson but having problem of too many parameters in request URI so switched to $.ajax with post
+  //Save avatar data
+  $.ajax({ //Previously was with getJson but having problem of too many parameters in request URI so switched to $.ajax with post
     url: "/profile/save",
     data: { id: _profile.id, profile: _profile, avatar: _avatar }, 
     type: 'post',
@@ -557,10 +531,10 @@ function showProfile() {
   $("#show_controls").show();
   $("#edit_controls").hide();
   $("#wardrobe_options").hide();
-	$("#user_stats").show();
+  $("#user_stats").show();
   $(".color_palette").fadeOut();
-	wardrobeSubCategorySlide('hide');
-	$("#select_note").show();
+  wardrobeSubCategorySlide('hide');
+  $("#select_note").show();
 }
 
 function acceptCode() {

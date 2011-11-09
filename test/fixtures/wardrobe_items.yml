@@ -204,55 +204,55 @@ head_shape_round:
 
 # HAIR
 
-short_wavy_3:
+short_wavy:
   wardrobe: basic
   name: Short Wavy
   item_type: hair
-  image_file: avatar/hair/short_wavy_3
+  image_file: avatar/hair/short_wavy_4
   parent_item: hair
   available_level: 1
   visible_level: 1
   sort_order: 0
   depth: 2
 
-long_wavy_3:
+long_wavy:
   wardrobe: basic
   name: Long Wavy
   item_type: hair
-  image_file: avatar/hair/long_wavy_3
+  image_file: avatar/hair/long_wavy_4
   parent_item: hair
   available_level: 1
   visible_level: 1
   sort_order: 1
   depth: 2
 
-long_straight_3:
+long_straight:
   wardrobe: basic
   name: Long Straight
   item_type: hair
-  image_file: avatar/hair/long_straight_3
+  image_file: avatar/hair/long_straight_4
   parent_item: hair
   available_level: 1
   visible_level: 1
   sort_order: 2
   depth: 2
 
-short_straight_1:
+short_straight:
   wardrobe: basic
   name: Short Straight
   item_type: hair
-  image_file: avatar/hair/short_straight_1
+  image_file: avatar/hair/short_straight_4
   parent_item: hair
   available_level: 1
   visible_level: 1
   sort_order: 3
   depth: 2
 
-sort_curly_3:
+sort_curly:
   wardrobe: basic
   name: Short Curly
   item_type: hair
-  image_file: avatar/hair/short_curly_3
+  image_file: avatar/hair/short_curly_4
   parent_item: hair
   available_level: 1
   visible_level: 1
