@@ -31,13 +31,17 @@
   text-transform: uppercase;
   text-align: center;
   color: #007594;
-	padding-top:20px;
-	/*position:absolute; 
-	left: 520px; 
-	top: 30px; 
-	padding-left:10px;*/
+  padding-top:20px;
 }
 
+.stat_numbers {
+  font-family: 'Black Ops One', cursive;
+  font-size: 65px;
+  text-shadow: 0px -1px 10px #fff; /* horizontal-offset vertical-offset 'blur' colour */
+  -moz-text-shadow: 0px -1px 10px #fff;
+  -webkit-text-shadow: 0px -1px 10px #fff;
+
+}
 .avatar_portal {
   position: absolute;
   left: 400px;
@@ -88,7 +92,7 @@
 }
 
 #user_stats {
-  margin-top:10px;
+  margin-top:35px;
   font-family: 'Metrophobic', sans-serif;
   word-spacing:5px;
   font-size: 25px;
@@ -97,20 +101,32 @@
 .stats_container{
   float:left;
   width:300px;
-  height:170px;
+  height:150px;
 }
 
 .stats_container div{
   margin-top:10px;
   float:left;
-	width:280px;
+  width:280px;
 }
 
 .stats_container #quest_points {
-	color: #FFB71B;
+  color: #FFB71B;
 }
 
-#level_meter {
+.stats_container #badge_count {
+  background-image:url("/images/ui/badge.png");
+  background-repeat:no-repeat;
+  background-position:0 2px;
+  padding: 50px 0 0 35px;
+  float:left;
+  width:110px;
+  height:100px;
+  color:#67441B;
+  font-size:50px !important;
+}
+
+.stats_container #level_meter {
   width:280px;
   background-image:url("/images/ui/lvlmter.png");
   height:51px;
@@ -118,10 +134,10 @@
   color:#3393B1;
 }
 
-#level_meter #progressbar{
+.stats_container #level_meter #progressbar{
   background-image:url("/images/ui/prgsbar.png");
   background-repeat:repeat-x;
-  width:120px;
+  /*width:120px;*/
   margin:3px auto auto 2px;
   height:45px;
 }

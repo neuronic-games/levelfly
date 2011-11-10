@@ -1,12 +1,14 @@
 <div class="wrapper">
   <div class="header">
     <div class="icon clickable">
-      <img id="icon_major" src="/images/major_icons/null.png" width="130" height="135" />
+      <img id="icon_major" src="/images/majors/null.png" width="130" height="135" />
     </div>
     <div class="level level_text">
       <!--Level Details goes here-->
       Level<br/>
-      <img src="/images/ui/level.png" width="82" height="60" style="margin-left:0px;"/>
+      <span id="avatar_level" class="stat_numbers">
+        5
+      </span>
     </div>
     <div class="title">
       <div id="full_name" name="full_name" class="full_name clickable"></div>
@@ -23,7 +25,7 @@
         <!-- level meter with progressbar -->
         <div id="level_meter">
           <div id="progressbar">
-            <div id="progress_stats">460 unitl level 6</div>
+            <div id="progress_stats">460 until level 6</div>
           </div>
         </div>
         <!-- level meter ends -->
@@ -32,16 +34,16 @@
         <div>
           QUEST POINTS
         </div>
-        <div id="quest_points">
-          <img src="/images/ui/points.png" width="180" height="70"/>
+        <div id="quest_points" class="stat_numbers">
+          1057
         </div>
       </div>
       <div class="stats_container">
         <div>
           BADGES EARNED
         </div>
-        <div id="badge_earned">
-          <img src="/images/badges/badge.png"/>
+        <div id="badge_count" class="stat_numbers">
+          09
         </div>
       </div>
     </div>
@@ -62,37 +64,15 @@
         <div id="wardrobe_subcategories" class="lev1">
           <div id="subcategory_scroll">
             <div id="subcategory_container">
-						<!--
-              <div id="subcategory_level_1_0" class="btn wardrobe_item clickable"></div>
-              <div id="subcategory_level_1_1" class="btn wardrobe_item clickable"></div>
-              <div id="subcategory_level_1_2" class="btn wardrobe_item clickable"></div>
-              <div id="subcategory_level_1_3" class="btn wardrobe_item clickable"></div>
-              <div id="subcategory_level_1_4" class="btn wardrobe_item clickable"></div>
-						-->
+              <!-- subcategory items will dynamically append over here (for level 1) -->
             </div>
           </div>
         </div>
         <div id="wardrobe_subcategories" class="lev2">
           <div id="subcategory_scroll">
             <div id="subcategory_container">
-							<!-- 
-							<div id="subcategory_level_2_0" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_1" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_2" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_3" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_4" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_5" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_6" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_7" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_8" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_9" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_10" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_11" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_12" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_13" class="btn wardrobe_item clickable"></div>
-							<div id="subcategory_level_2_14" class="btn wardrobe_item clickable"></div>
-						-->
-						</div>
+              <!-- subcategory items will dynamically append over here (for level 2) -->
+            </div>
           </div>
         </div>
       </div>
@@ -123,18 +103,18 @@
       <img src="/images/ui/left_arrow.png" border="0" />
     </div>
     <div id="head_color">
-      <div id="color_1" class="clickable"></div>
-      <div id="color_2" class="clickable"></div>
-      <div id="color_3" class="clickable"></div>
-      <div id="color_4" class="clickable"></div>
-      <div id="color_5" class="clickable"></div>
+      <div id="color_1" value="1" class="clickable head_color"></div>
+      <div id="color_2" value="2" class="clickable head_color"></div>
+      <div id="color_3" value="3" class="clickable head_color"></div>
+      <div id="color_4" value="4" class="clickable head_color"></div>
+      <div id="color_5" value="5" class="clickable head_color"></div>
     </div>
     <div id="hair_color">
-      <div id="hair_color_1" class="clickable"></div>
-      <div id="hair_color_2" class="clickable"></div>
-      <div id="hair_color_3" class="clickable"></div>
-      <div id="hair_color_4" class="clickable"></div>
-      <div id="hair_color_5" class="clickable"></div>
+      <div id="hair_color_1" value="1" class="clickable hair_color"></div>
+      <div id="hair_color_2" value="2" class="clickable hair_color"></div>
+      <div id="hair_color_3" value="3" class="clickable hair_color"></div>
+      <div id="hair_color_4" value="4" class="clickable hair_color"></div>
+      <div id="hair_color_5" value="5" class="clickable hair_color"></div>
     </div>
   </div>
   <div id="show_controls" class="avatar_controls">TOUCH TO MODIFY</div>
@@ -171,6 +151,7 @@ var _currentSubCategory;
 var _major;
 var _school;
 var _itemForColor = new Array("head", "head_shape","hair");
+var _level_meter =  new Array(100, 150, 200, 350, 400, 500, 550, 700, 750, 900);
 
 $(document).ajaxSend(function(e, xhr, options) {
   var token = $("meta[name='csrf-token']").attr("content");
@@ -204,13 +185,13 @@ $(window).load(function() {
     show_colorpalette = false; //Set for color palette
     current_tab_category = $(this).attr("id");
     _item_depth = $(this).attr("item_depth");
-		
-		// move indication icon to according position
-		if(_item_depth==0) {
-			$(".indi").animate({top: parseInt($("#"+current_tab_category).position().top) + 50 +'px'},250);
-		}
     
-		//check the clicked item typed with array for showing color pallete
+    // move indication icon to according position
+    if(_item_depth==0) {
+      $(".indi").animate({top: parseInt($("#"+current_tab_category).position().top) + 50 +'px'},250);
+    }
+    
+    //check the clicked item typed with array for showing color pallete
     _item_type = $(this).attr("item_type");
     //alert(_item_depth); // debug
     $.each(_itemForColor, function(key, value) {
@@ -219,53 +200,41 @@ $(window).load(function() {
       }
     });
     
-		//Check if need to show the color palette
-		if(show_colorpalette) {
-      if (_item_type == "head_shape" || _item_type == "head") {
-        $("#head_color").show();
-        $("#hair_color").hide();
-      } else if (_item_type == "hair") {
-        $("#hair_color").show();
-        $("#head_color").hide();
-      }
-      else {
-        $("#hair_color").hide();
-				$("#head_color").hide();
-      }
-			
-			//Show & move color palette
-      $(".color_palette").animate({left: parseInt($("#"+current_tab_category).position().left) + 330 +'px'},250);
-      $(".color_palette").animate({top: parseInt($("#"+current_tab_category).position().top) + 280 +'px'},250);
-      $(".color_palette").fadeIn(80);
+    if(show_colorpalette) {
+      showColorPalette(_item_type, current_tab_category);
     } else {
       $(".color_palette").fadeOut();
     }
-
+    
     if (image_file != undefined) {
-			// Clicked on an option that can be applied
-			item_type = $(this).attr("item_type");
-			if (image_file == _avatar[item_type]) {
-				// Already applied? Remove this item
-				image_file = "null";
-			}
-			// Display the item on the avatar
-			$("#"+item_type).attr("src", "/images/wardrobe/"+image_file+".png");
-			_avatar[item_type] = image_file
-			// Check if there is a back layer
-			if (item_type == "hair" || item_type == "hat") {
-				item_type_back = item_type + "_back";
-				_avatar[item_type_back] = image_file + "_back";
-				$("#"+item_type_back).attr("src", "/images/wardrobe/"+image_file+"_back.png");
-			}
-			saveAvatar();
-			// Refresh the current list of options in case option stat has changed
-			showSubCategory(_currentSubCategory, _item_type);
-		} else {
-			_currentSubCategory = $(this).attr("value");
-			resetSubCategory();
-			showSubCategory(_currentSubCategory, _item_type);
-			wardrobeSubCategorySlide('show', _item_depth);
-		}
+      
+      // Clicked on an option that can be applied
+      item_type = $(this).attr("item_type");
+      if (image_file == _avatar[item_type]) {
+        // Already applied? Remove this item
+        image_file = "null";
+      }
+      // Display the item on the avatar
+      $("#"+item_type).attr("src", "/images/wardrobe/"+image_file+".png");
+      _avatar[item_type] = image_file
+      // Check if there is a back layer
+      if (item_type == "hair" || item_type == "hat") {
+        item_type_back = item_type + "_back";
+        _avatar[item_type_back] = image_file + "_back";
+        $("#"+item_type_back).attr("src", "/images/wardrobe/"+image_file+"_back.png");
+      }
+      saveAvatar();
+      // Refresh the current list of options in case option stat has changed
+      //showSubCategory(_currentSubCategory, _item_type);
+      showSubcategoryStat($(this));
+    } else {
+      _currentSubCategory = $(this).attr("value");
+      if(_item_depth==0) {
+        resetSubCategory(1);
+      }
+      showSubCategory(_currentSubCategory, _item_type);
+      wardrobeSubCategorySlide('show', _item_depth);
+    }
   });
   
   //Change major
@@ -319,81 +288,28 @@ $(window).load(function() {
       marginTop: "+=" + 525 + "px"
     }, 500);
   });
-  
-  //Color 1 change for body & head
-  $("#color_1").click(function(){
-    $("#avatar_body").attr("src", "/images/wardrobe/avatar/body/body_1.png");
+
+  //Color change for body & head
+  $(".head_color").click(function(){
     var str = _avatar.head;
-    var newStr = str.substring(0, str.length-1)+"1";
+    var value = $(this).attr("value");
+    var newStr = str.substring(0, str.length-1)+value;
+    $("#avatar_body").attr("src", "/images/wardrobe/avatar/body/body_"+value+".png");
     $("#head").attr("src", "/images/wardrobe/"+newStr+".png"); 
-  });
-  //Color 2 change for body & head
-  $("#color_2").click(function(){
-    $("#avatar_body").attr("src", "/images/wardrobe/avatar/body/body_2.png");
-    var str = _avatar.head;
-    var newStr = str.substring(0, str.length-1)+"2";
-    $("#head").attr("src", "/images/wardrobe/"+newStr+".png"); 
-  });
-  //Color 3 change for body & head
-  $("#color_3").click(function(){
-    $("#avatar_body").attr("src", "/images/wardrobe/avatar/body/body_3.png");
-    var str = _avatar.head;
-    var newStr = str.substring(0, str.length-1)+"3";
-    $("#head").attr("src", "/images/wardrobe/"+newStr+".png"); 
-  });
-  //Color 4 change for body & head
-  $("#color_4").click(function(){
-    $("#avatar_body").attr("src", "/images/wardrobe/avatar/body/body_4.png");
-    var str = _avatar.head;
-    var newStr = str.substring(0, str.length-1)+"4";
-    $("#head").attr("src", "/images/wardrobe/"+newStr+".png"); 
-  });
-  //Color 5 change for body & head
-  $("#color_5").click(function(){
-    $("#avatar_body").attr("src", "/images/wardrobe/avatar/body/body_5.png");
-    var str = _avatar.head;
-    var newStr = str.substring(0, str.length-1)+"5";
-    $("#head").attr("src", "/images/wardrobe/"+newStr+".png"); 
-  });
-  
-  //Color 1 change for hair
-  $("#hair_color_1").click(function(){
-    var str = _avatar.hair;
-    var newStr = str.substring(0, str.length-1)+"1";
-  $("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
   });
 
-  //Color 2 change for hair
-  $("#hair_color_2").click(function(){
+  // Hair color change
+  $(".hair_color").click(function(){
     var str = _avatar.hair;
-    var newStr = str.substring(0, str.length-1)+"2";
-  $("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
-  });
-
-  //Color 3 change for hair
-  $("#hair_color_3").click(function(){
-    var str = _avatar.hair;
-    var newStr = str.substring(0, str.length-1)+"3";
-  $("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
-  });
-
-  //Color 4 change for hair
-  $("#hair_color_4").click(function(){
-    var str = _avatar.hair;
-    var newStr = str.substring(0, str.length-1)+"4";
-  $("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
-  });
-
-  //Color 5 change for hair
-  $("#hair_color_1").click(function(){
-    var str = _avatar.hair;
-    var newStr = str.substring(0, str.length-1)+"5";
-  $("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
+    var value = $(this).attr("value");
+    var newStr = str.substring(0, str.length-1)+value;
+    $("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
+    $("#hair_back").attr("src", "/images/wardrobe/"+newStr+"_back.png"); 
   });
   
   $.getJSON("/profile/show",
      function(data){
-			 _profile = data.profile;
+       _profile = data.profile;
        _avatar = data.avatar;
        _major = data.major;
        _school = data.school;
@@ -403,21 +319,43 @@ $(window).load(function() {
        showAvatar();
      }
   );
-	showProfile();
+  showProfile();
 });
 
+function showColorPalette(_item_type, current_tab_category) {
+  //Check if need to show the color palette
+  if (_item_type == "head_shape" || _item_type == "head") {
+    $("#head_color").show();
+    $("#hair_color").hide();
+  } else if (_item_type == "hair") {
+    $("#hair_color").show();
+    $("#head_color").hide();
+  }else {
+    $("#hair_color").hide();
+    $("#head_color").hide();
+  }
+  //Show & move color palette
+  $(".color_palette").animate({left: parseInt($("#"+current_tab_category).position().left) + 330 +'px'},250);
+  $(".color_palette").animate({top: parseInt($("#"+current_tab_category).position().top) + 280 +'px'},250);
+  $(".color_palette").fadeIn(80);
+}
+
+function showSubcategoryStat(item) {
+  if(item.hasClass("selected")) {
+    $(".lev1 #subcategory_scroll #subcategory_container div").addClass("selected");
+    item.removeClass("selected");
+  } else {
+    $(".lev2 #subcategory_scroll #subcategory_container div").removeClass("selected");
+    item.addClass("selected");
+  } 
+}
+
 function resetSubCategory(depth) {
-  /*depth = parseInt(depth) + 1;
-  for (i=0; i<_wardrobeItems.length; i++) {
-    if(typeof(depth) != 'undefined') {
-      $("#subcategory_level_" + depth + "_"+i).html("");
-      $("#subcategory_level_" + depth + "_"+i).removeAttr("value");
-      $("#subcategory_level_" + depth + "_"+i).removeAttr("image_file");
-      $("#subcategory_level_" + depth + "_"+i).removeAttr("item_type");
-    }  
-  }*/
-	$(".lev1 #subcategory_scroll #subcategory_container").html("");
-	$(".lev2 #subcategory_scroll #subcategory_container").html("");
+  if(depth==1) {
+    $(".lev1 #subcategory_scroll #subcategory_container").html("");
+  } else if(depth==2) {
+    $(".lev2 #subcategory_scroll #subcategory_container").html("");
+  }
 }
 
 function prepWardrobeIcons() {
@@ -435,19 +373,19 @@ function prepWardrobeIcons() {
 
 function showSubCategory(id, parent_item_type) {
   idx = 0;
-	
   for (i=0; i<_wardrobeItems.length; i++) {
     if (_wardrobeItems[i].parent_item_id == id) {
       cat_depth = _wardrobeItems[i].depth;
-			if(cat_depth == 1) {
-				parent_item = $(".lev1 #subcategory_scroll #subcategory_container");
-			} else if (cat_depth == 2) {
-				parent_item = $(".lev2 #subcategory_scroll #subcategory_container");
-			}
-			parent_item.append(
-					'<div id="subcategory_level_' + cat_depth + '_' + idx +'" class="btn wardrobe_item clickable"></div>'
-			);
-			//resetSubCategory(cat_depth);
+      if(cat_depth == 1) {
+        parent_item = $(".lev1 #subcategory_scroll #subcategory_container");
+      } else if (cat_depth == 2) {
+        parent_item = $(".lev2 #subcategory_scroll #subcategory_container");
+      }
+      
+      parent_item.append(
+        '<div id="subcategory_level_' + cat_depth + '_' + idx +'" class="btn wardrobe_item clickable"></div>'
+      );
+      
       $("#subcategory_level_" + cat_depth + "_" +idx).attr("value", _wardrobeItems[i].id);
       // Set the image file
       item_type = _wardrobeItems[i].item_type;
@@ -490,17 +428,32 @@ function showAvatar() {
   $("#full_name").html(_profile.full_name);
   if (_major != undefined) {
     $("#major").html(_major.name);
-    $("#icon_major").attr("src", "/images/major_icons/" + _major.code + ".png");
+    $("#icon_major").attr("src", "/images/majors/" + _major.code + ".png");
   }
 
   if (_school != undefined) {
     $("#school").html(_school.code);
   }
-	
-	if(_avatar.points !=null) {
-		//$("#quest_points").html(_avatar.points);
-	}
-	
+  
+  if(_avatar.points ==null) {
+    _avatar.points = 0;
+  }
+  
+  if(_avatar.badge_count ==null) {
+    _avatar.badge_count = 0;
+  }
+
+  if(_avatar.level ==null) {
+    _avatar.level = 1;
+  }
+
+  $("#quest_points").html(_avatar.points);
+  $("#badge_count") .html((parseInt(_avatar.badge_count, 10) + 100).toString().substr(1));
+  $("#avatar_level").html(_avatar.level);
+  
+  $("#progress_stats").html(_level_meter[_avatar.level]+" until level "+_avatar.level);
+  $("#progressbar").css("width", parseInt(_level_meter[_avatar.level] / 4.5)+"px");
+
   $("#background").attr("src", "/images/wardrobe/"+_avatar.background+".png");
   $("#avatar_body").attr("src", "/images/wardrobe/"+_avatar.body+".png"); //Id changed by vaibhav because having id "body" is creating problem with jQuery.position()
   $("#hat_back").attr("src", "/images/wardrobe/"+_avatar.hat_back+".png");
@@ -555,8 +508,8 @@ function saveAvatar() {
     _profile.major_id = _major.id;
   }
   
-	//Save avatar data
-	$.ajax({ //Previously was with getJson but having problem of too many parameters in request URI so switched to $.ajax with post
+  //Save avatar data
+  $.ajax({ //Previously was with getJson but having problem of too many parameters in request URI so switched to $.ajax with post
     url: "/profile/save",
     data: { id: _profile.id, profile: _profile, avatar: _avatar }, 
     type: 'post',
@@ -572,10 +525,10 @@ function showProfile() {
   $("#show_controls").show();
   $("#edit_controls").hide();
   $("#wardrobe_options").hide();
-	$("#user_stats").show();
+  $("#user_stats").show();
   $(".color_palette").fadeOut();
-	wardrobeSubCategorySlide('hide');
-	$("#select_note").show();
+  wardrobeSubCategorySlide('hide');
+  $("#select_note").show();
 }
 
 function acceptCode() {
@@ -610,30 +563,24 @@ function wardrobeSubCategorySlide(action,depth) {
   $(".lev2 #subcategory_scroll #subcategory_container").css("marginTop" , "0px");
   if (action == 'show') {
     if(depth==0) {
-      $(".lev1").show();
-      $(".lev1").animate({right: '100px'},500 ,function(){$(".lev1").css('z-index' , '1');});
+      $(".lev1").show().animate({right: '100px'},500 ,function(){$(".lev1").css('z-index' , '1');});
       _last_status_lev1 = 'shown';
-
+      
       if(_last_status_lev2=='shown') {
-        $(".lev2").css('z-index' , '-1');
-        $(".lev2").animate({right: '-175px'},500 ,function(){$(".lev2").hide()});
-        //_last_status_lev1 = 'left';
+        $(".lev2").css('z-index' , '-1').animate({right: '-175px'},500 ,function(){$(".lev2").hide();resetSubCategory(2);});
       }
     } else if (depth==1) {
-      $(".lev1").css('z-index' , '-1');
-      $(".lev1").animate({right: '385px'},500 ,function(){$(".lev1").hide();});
-      $(".lev2").show();
-      $(".lev2").animate({right: '100px'},500 ,function(){$(".lev2").css('z-index' , '1');});
+      $(".lev1").css('z-index' , '-1').animate({right: '385px'},500 ,function(){$(".lev1").hide();resetSubCategory(1);});
+      $(".lev2").show().animate({right: '100px'},500 ,function(){$(".lev2").css('z-index' , '1');});
       _last_status_lev2 = 'shown';
       _last_status_lev1 = 'left';
     }
     $("#select_note").hide();
     $(".indi").show();
   } else if (action == 'hide') {
-    $(".lev1").hide();
-    $(".lev2").hide();
+    $(".lev1").hide().animate({right: '0px'},500 ,function(){$(".lev1").css('z-index' , '-1');resetSubCategory(1);});
+    $(".lev2").hide(function() {resetSubCategory(2);});
     $(".indi").hide();
-    $(".lev1").animate({right: '0px'},500 ,function(){$(".lev1").css('z-index' , '-1');});
     $("#select_note").show();
   }
 }
