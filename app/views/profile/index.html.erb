@@ -25,7 +25,7 @@
         <!-- level meter with progressbar -->
         <div id="level_meter">
           <div id="progressbar">
-            <div id="progress_stats">460 until level 6</div>
+            <div id="progress_stats"></div>
           </div>
         </div>
         <!-- level meter ends -->
@@ -316,9 +316,21 @@ $(window).load(function() {
        if (data.new_profile == true) {
          acceptCode();
        }
+       jStorage.flush()
+       jStorage.set("j_profile",data.profile);
+       jStorage.set("j_avatar",data.avatar);
+       jStorage.set("j_major",data.major);
+       //jStorage.set("j_school",data.school);
        showAvatar();
      }
-  );
+  ).error(function() { 
+    alert("Showing from stograge");
+    _profile = jStorage.get("j_profile");
+    _avatar = jStorage.get("j_avatar");
+    _major = jStorage.get("j_major");
+    //_school = jStorage.get("j_school");
+    showAvatar();
+  });
   showProfile();
 });
 
@@ -452,7 +464,7 @@ function showAvatar() {
   $("#avatar_level").html(_avatar.level);
   
   $("#progress_stats").html(_level_meter[_avatar.level]+" until level "+_avatar.level);
-  $("#progressbar").css("width", parseInt(_level_meter[_avatar.level] / 4.5)+"px");
+  $("#progressbar").animate({width :parseInt(_level_meter[_avatar.level] / 4.5)+"px"},1000);
 
   $("#background").attr("src", "/images/wardrobe/"+_avatar.background+".png");
   $("#avatar_body").attr("src", "/images/wardrobe/"+_avatar.body+".png"); //Id changed by vaibhav because having id "body" is creating problem with jQuery.position()
@@ -584,6 +596,5 @@ function wardrobeSubCategorySlide(action,depth) {
     $("#select_note").show();
   }
 }
-
 //-->
 </script>

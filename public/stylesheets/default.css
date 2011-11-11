@@ -149,7 +149,7 @@
 .stats_container #level_meter #progressbar{
   background-image:url("/images/ui/prgsbar.png");
   background-repeat:repeat-x;
-  /*width:120px;*/
+  width:0px;
   margin:3px auto auto 2px;
   height:45px;
 }
