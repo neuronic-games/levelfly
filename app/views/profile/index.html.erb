@@ -212,11 +212,14 @@ $(window).load(function() {
       item_type = $(this).attr("item_type");
       if (image_file == _avatar[item_type]) {
         // Already applied? Remove this item
-        image_file = "null";
+        if (item_type != "hair" && item_type != "head") {
+          image_file = "null";
+        }
       }
       // Display the item on the avatar
       $("#"+item_type).attr("src", "/images/wardrobe/"+image_file+".png");
       _avatar[item_type] = image_file
+      
       // Check if there is a back layer
       if (item_type == "hair" || item_type == "hat") {
         item_type_back = item_type + "_back";
@@ -295,7 +298,10 @@ $(window).load(function() {
     var value = $(this).attr("value");
     var newStr = str.substring(0, str.length-1)+value;
     $("#avatar_body").attr("src", "/images/wardrobe/avatar/body/body_"+value+".png");
-    $("#head").attr("src", "/images/wardrobe/"+newStr+".png"); 
+    $("#head").attr("src", "/images/wardrobe/"+newStr+".png");
+    _avatar["head"] = newStr;
+    _avatar["body"] = "avatar/body/body_"+value;
+    saveAvatar();
   });
 
   // Hair color change
@@ -304,7 +310,10 @@ $(window).load(function() {
     var value = $(this).attr("value");
     var newStr = str.substring(0, str.length-1)+value;
     $("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
-    $("#hair_back").attr("src", "/images/wardrobe/"+newStr+"_back.png"); 
+    $("#hair_back").attr("src", "/images/wardrobe/"+newStr+"_back.png");
+    _avatar["hair"] = newStr;
+    _avatar["hair_back"] = newStr+"_back";
+    saveAvatar();
   });
   
   $.getJSON("/profile/show",
