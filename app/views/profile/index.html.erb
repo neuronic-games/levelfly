@@ -152,6 +152,7 @@ var _major;
 var _school;
 var _itemForColor = new Array("head", "head_shape","hair");
 var _level_meter =  new Array(100, 150, 200, 350, 400, 500, 550, 700, 750, 900);
+var _subItemsArray = new Array();
 
 $(document).ajaxSend(function(e, xhr, options) {
   var token = $("meta[name='csrf-token']").attr("content");
@@ -263,6 +264,7 @@ $(window).load(function() {
       var offset2 = scroller_h - wrapper_h;
       //alert(offset2); //debug
       scroller.stop().animate({marginTop:"-" + offset2 + "px"}, 500);
+      //scroller.stop().animate({marginTop:"-525px"}, 500);
       return;
     }
     scroller.stop().animate({
@@ -272,6 +274,7 @@ $(window).load(function() {
   
   //Scroll down the subcategories
   $("#uparr").click(function () {
+
     //alert(_last_status_lev1+"=="+_last_status_lev2) //debug
     if(_last_status_lev1 != null && _last_status_lev1=="shown") {
       var wrapper = $(".lev1 #subcategory_scroll");
@@ -394,8 +397,16 @@ function prepWardrobeIcons() {
 
 function showSubCategory(id, parent_item_type) {
   idx = 0;
+  subItemsAttr = new Object();
   for (i=0; i<_wardrobeItems.length; i++) {
     if (_wardrobeItems[i].parent_item_id == id) {
+      // Set the image file
+      item_type = _wardrobeItems[i].item_type;
+      // set the depth
+      item_depth = _wardrobeItems[i].depth;
+      image_file = _wardrobeItems[i].image_file;
+      item_value = _wardrobeItems[i].id
+    if(idx<5){
       cat_depth = _wardrobeItems[i].depth;
       if(cat_depth == 1) {
         parent_item = $(".lev1 #subcategory_scroll #subcategory_container");
@@ -407,10 +418,8 @@ function showSubCategory(id, parent_item_type) {
         '<div id="subcategory_level_' + cat_depth + '_' + idx +'" class="btn wardrobe_item clickable"></div>'
       );
       
-      $("#subcategory_level_" + cat_depth + "_" +idx).attr("value", _wardrobeItems[i].id);
-      // Set the image file
-      item_type = _wardrobeItems[i].item_type;
-      image_file = _wardrobeItems[i].image_file;
+      $("#subcategory_level_" + cat_depth + "_" +idx).attr("value", item_value);
+      
       if (image_file == undefined) {
         // Not a leaf node
         $("#subcategory_level_" + cat_depth + "_" +idx).html("<img src='/images/wardrobe/icon/level" + cat_depth + "/" + parent_item_type + "/" + item_type + "_icon.png' /><br/>"+_wardrobeItems[i].name);
@@ -423,8 +432,7 @@ function showSubCategory(id, parent_item_type) {
       if (item_type != undefined) {
         $("#subcategory_level_" + cat_depth + "_" +idx).attr("item_type", item_type);
       }
-      // set the depth
-      item_depth = _wardrobeItems[i].depth;
+      
       if (item_depth != undefined) {
         $("#subcategory_level_" + cat_depth + "_" +idx).attr("item_depth", item_depth);
       }
@@ -434,8 +442,13 @@ function showSubCategory(id, parent_item_type) {
       } else {
         $("#subcategory_level_" + cat_depth + "_" +idx).removeClass("selected");
       }
-      idx = idx + 1;
     }
+    subItemsAttr.item_depth = item_depth;
+    subItemsAttr.item_value = item_value;
+    subItemsAttr.image_file = image_file;
+    _subItemsArray[idx] = subItemsAttr;
+		idx = idx + 1;
+  }
   }
   // Show up & down navigation arrow if items exceeds more than 5
   if (idx>5) {

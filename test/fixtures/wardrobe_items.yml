@@ -342,6 +342,18 @@ earring_silver:
   sort_order: 2
   depth: 2
 
+nose_stud:
+  wardrobe: basic
+  name: Nose Stud
+  item_type: earrings
+  image_file: basic/earrings/nose_stud
+  parent_item: makeup
+  available_level: 1
+  visible_level: 1
+  sort_order: 3
+  depth: 2
+
+
 # TOPS
 
 polo_short_sleeve_blue:
@@ -374,9 +386,79 @@ shirt_short_sleeve_cyan:
   parent_item: dressy_tops
   available_level: 1
   visible_level: 1
-  sort_order: 0
+  sort_order: 2
   depth: 2
 
+short_sleeve_gray:
+  wardrobe: basic
+  name: Gray T-Shirt
+  item_type: top
+  image_file: basic/tops/short_sleeve_gray
+  parent_item: dressy_tops
+  available_level: 1
+  visible_level: 1
+  sort_order: 3
+  depth: 2
+
+short_sleeve_purple:
+  wardrobe: basic
+  name: Purple T-Shirt
+  item_type: top
+  image_file: basic/tops/short_sleeve_purple
+  parent_item: dressy_tops
+  available_level: 1
+  visible_level: 1
+  sort_order: 4
+  depth: 2
+
+short_sleeve_tattoo:
+  wardrobe: basic
+  name: Tatto T-Shirt
+  item_type: top
+  image_file: basic/tops/short_sleeve_tattoo
+  parent_item: dressy_tops
+  available_level: 1
+  visible_level: 1
+  sort_order: 5
+  depth: 2
+
+skiny_black:
+  wardrobe: basic
+  name: Skiny Black T-Shirt
+  item_type: top
+  image_file: basic/tops/skiny_black
+  parent_item: dressy_tops
+  available_level: 1
+  visible_level: 1
+  sort_order: 6
+  depth: 2
+
+
+#BLOUSES
+
+shirt_short_sleeve_pink:
+  wardrobe: basic
+  name: Pink Shirt
+  item_type: blouse_tops
+  image_file: basic/tops/shirt_short_sleeve_pink
+  parent_item: dressy_tops
+  available_level: 1
+  visible_level: 1
+  sort_order: 3
+  depth: 2
+
+#DRESSES
+
+brown_dress:
+  wardrobe: basic
+  name: Brown Dress
+  item_type: dress
+  image_file: basic/dress/brown_dress
+  parent_item: dresses
+  available_level: 1
+  visible_level: 1
+  sort_order: 0
+  depth: 2
 
 # BOTTOMS
 
@@ -447,7 +529,74 @@ guitar_black:
   visible_level: 1
   sort_order: 1
   depth: 1
-  
+
+bongo_drum:
+  wardrobe: basic
+  name: Bongo Drum
+  item_type: prop
+  image_file: basic/props/bongo_drum
+  parent_item: props
+  available_level: 1
+  visible_level: 1
+  sort_order: 2
+  depth: 1
+
+camera:
+  wardrobe: basic
+  name: Camera
+  item_type: prop
+  image_file: basic/props/camera
+  parent_item: props
+  available_level: 1
+  visible_level: 1
+  sort_order: 3
+  depth: 1
+
+headphone:
+  wardrobe: basic
+  name: Headphone
+  item_type: prop
+  image_file: basic/props/headphone
+  parent_item: props
+  available_level: 1
+  visible_level: 1
+  sort_order: 4
+  depth: 1
+
+pink_teddy:
+  wardrobe: basic
+  name: Pinky Teddy
+  item_type: prop
+  image_file: basic/props/pink_teddy
+  parent_item: props
+  available_level: 1
+  visible_level: 1
+  sort_order: 5
+  depth: 1
+
+side_bag:
+  wardrobe: basic
+  name: Side Bag
+  item_type: prop
+  image_file: basic/props/side_bag
+  parent_item: props
+  available_level: 1
+  visible_level: 1
+  sort_order: 6
+  depth: 1
+
+skateboard:
+  wardrobe: basic
+  name: Skateboard
+  item_type: prop
+  image_file: basic/props/skateboard
+  parent_item: props
+  available_level: 1
+  visible_level: 1
+  sort_order: 7
+  depth: 1
+
+
 # FEET
 
 casual_shoes:
@@ -493,5 +642,38 @@ sneakers_gray:
   parent_item: casual_shoes
   available_level: 1
   visible_level: 1
-  sort_order: 0
+  sort_order: 1
+  depth: 2
+
+slippers_brown:
+  wardrobe: basic
+  name: Brown Slippers
+  item_type: shoes
+  image_file: basic/shoes/slippers_brown
+  parent_item: casual_shoes
+  available_level: 1
+  visible_level: 1
+  sort_order: 2
+  depth: 2
+
+slippers_purple:
+  wardrobe: basic
+  name: Purple Slippers
+  item_type: shoes
+  image_file: basic/shoes/slippers_purple
+  parent_item: casual_shoes
+  available_level: 1
+  visible_level: 1
+  sort_order: 3
+  depth: 2
+
+sports_shoe_purple:
+  wardrobe: basic
+  name: Purple Sports Shoe
+  item_type: shoes
+  image_file: basic/shoes/sports_shoe_purple
+  parent_item: casual_shoes
+  available_level: 1
+  visible_level: 1
+  sort_order: 4
   depth: 2
