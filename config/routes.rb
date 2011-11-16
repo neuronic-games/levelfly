@@ -20,6 +20,16 @@ Oncapus::Application.routes.draw do
   get "profile/change_name"
 
   get "profile/list_major"
+  
+  get "task/index"
+
+  get "task/show"
+
+  get "task/edit"
+
+  get "task/save"
+  post "task/save"
+  match 'task' => 'task#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -1,0 +1,124 @@
+<div class="wrapper">
+  <div class="menu_container">
+    <ul>
+      <li>
+        <a href="javascript:void(0)" value="1" class="active">SUMMARY</a>
+      </li>
+      <li>
+        <a href="javascript:void(0)" value="2" >AWARDS</a>
+      </li>
+      <li>
+        <a href="javascript:void(0)" value="3" >RESOURCES</a>
+      </li>
+      <li>
+        <a href="javascript:void(0)" value="4" >NOTIFICATION</a>
+      </li>
+    </ul>
+  </div>
+  <form name="frm_task" id="frm_task" enctype="multipart/form-data">
+    <div id="div_1" class="form_container">
+      <div class="frm_label">
+        Task
+      </div>
+      <div class="frm_input">
+        <input type="text" name="task" id="task" class="large" />
+      </div>
+      <div class="frm_label">
+        Description
+      </div>
+      <div class="frm_input">
+        <textarea name="descr" id="descr" rows="10"></textarea>
+      </div>
+      <div class="frm_label">
+        Due Date
+      </div>
+      <div class="frm_input">
+        <select name="due_date" id="due_date">
+          <option>TBD</option>
+        </select>
+      </div>
+    </div>
+    <div id="div_2" class="form_container hide">
+      <div class="frm_label">
+        Points
+      </div>
+      <div class="frm_input">
+        <input type="text" name="points" id="points" class="small" />
+      </div>
+      <div class="frm_label">
+        Outcomes
+      </div>
+      <div class="frm_input">
+        <input type="text" name="outcomes" id="outcomes" class="medium" />&nbsp;&nbsp;
+        <input type="text" name="percentage" id="percentage" class="small" />
+      </div>
+    </div>
+    <div id="div_3" class="form_container hide">
+      <div class="frm_label">
+        Attachment
+      </div>
+      <div class="frm_input">
+        <input type="file" name="resources" id="resources" />
+      </div>
+    </div>
+    <div id="div_4" class="form_container hide">
+      <div class="frm_label">
+        Email
+      </div>
+      <div class="frm_input">
+        <input type="text" name="email" id="email" class="large" />
+      </div>
+      <div class="frm_label">
+        Facebook Id
+      </div>
+      <div class="frm_input">
+        <input type="text" name="facebook" id="facebook" class="large" />
+      </div>
+      <div class="frm_label">
+        
+      </div>
+      <div class="frm_input">
+        <input type="button" name="btn_task" id="btn_task" value="Create Task"/>
+      </div>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+  //Toggle Tabs
+  $(".menu_container a").click(function(){
+    idx = $(this).attr("value");
+    $(".menu_container a").removeClass("active");
+    $(this).addClass("active");
+    for(i=0;i<5;i++){
+      if(idx != i){
+        $("#div_"+i).hide();
+      }
+    }
+    $("#div_"+idx).fadeIn();
+  });
+  //Submit
+  $("#btn_task").click(function(){
+    task = $("#task").val();
+    descr = $("#descr").val();
+    due_date = $("#due_date").val();
+    var dataString = 'task='+ task + '&descr=' + descr + '&due_date=' + due_date;  
+    //alert (dataString);return false;  
+    $.ajax({  
+      type: "POST",  
+      url: "/task/save",  
+      data: dataString,  
+      success: function(data) {  
+        if (data) {
+          alert("data saved");
+        } else {
+          alert("ERROR");
+        }
+      }
+    });  
+    return false;  
+  });
+});
+-->
+</script>
