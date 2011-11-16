@@ -439,7 +439,7 @@ skiny_black:
 shirt_short_sleeve_pink:
   wardrobe: basic
   name: Pink Shirt
-  item_type: blouse_tops
+  item_type: top
   image_file: basic/tops/shirt_short_sleeve_pink
   parent_item: blouse_tops
   available_level: 1
@@ -452,7 +452,7 @@ shirt_short_sleeve_pink:
 brown_dress:
   wardrobe: basic
   name: Brown Dress
-  item_type: dress
+  item_type: top
   image_file: basic/tops/brown_dress
   parent_item: dresses
   available_level: 1
