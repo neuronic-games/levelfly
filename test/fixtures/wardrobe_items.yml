@@ -394,7 +394,7 @@ short_sleeve_gray:
   name: Gray T-Shirt
   item_type: top
   image_file: basic/tops/short_sleeve_gray
-  parent_item: dressy_tops
+  parent_item: casual_tops
   available_level: 1
   visible_level: 1
   sort_order: 3
@@ -405,7 +405,7 @@ short_sleeve_purple:
   name: Purple T-Shirt
   item_type: top
   image_file: basic/tops/short_sleeve_purple
-  parent_item: dressy_tops
+  parent_item: casual_tops
   available_level: 1
   visible_level: 1
   sort_order: 4
@@ -416,7 +416,7 @@ short_sleeve_tattoo:
   name: Tatto T-Shirt
   item_type: top
   image_file: basic/tops/short_sleeve_tattoo
-  parent_item: dressy_tops
+  parent_item: casual_tops
   available_level: 1
   visible_level: 1
   sort_order: 5
@@ -427,7 +427,7 @@ skiny_black:
   name: Skiny Black T-Shirt
   item_type: top
   image_file: basic/tops/skiny_black
-  parent_item: dressy_tops
+  parent_item: casual_tops
   available_level: 1
   visible_level: 1
   sort_order: 6
@@ -441,7 +441,7 @@ shirt_short_sleeve_pink:
   name: Pink Shirt
   item_type: blouse_tops
   image_file: basic/tops/shirt_short_sleeve_pink
-  parent_item: dressy_tops
+  parent_item: blouse_tops
   available_level: 1
   visible_level: 1
   sort_order: 3
@@ -453,7 +453,7 @@ brown_dress:
   wardrobe: basic
   name: Brown Dress
   item_type: dress
-  image_file: basic/dress/brown_dress
+  image_file: basic/tops/brown_dress
   parent_item: dresses
   available_level: 1
   visible_level: 1
