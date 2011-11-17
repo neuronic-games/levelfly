@@ -13,91 +13,124 @@
       <li>
         <a href="javascript:void(0)" value="4" >NOTIFICATION</a>
       </li>
+      <li>
+        <a href="javascript:void(0)" value="5" >PEOPLE</a>
+      </li>
     </ul>
   </div>
-  <form name="frm_task" id="frm_task" enctype="multipart/form-data">
-    <div id="div_1" class="form_container">
-      <div class="frm_label">
-        Task
+  <div class="content_container">
+    <form name="frm_task" id="frm_task" enctype="multipart/form-data">
+      <div id="div_1" class="form_container">
+        <div class="frm_label">
+          Task
+        </div>
+        <div class="frm_input">
+          <input type="text" name="task" id="task" class="large" />
+        </div>
+        <div class="frm_label">
+          Description
+        </div>
+        <div class="frm_input">
+          <textarea name="descr" id="descr" rows="10"></textarea>
+        </div>
+        <div class="frm_label">
+          Due Date
+        </div>
+        <div class="frm_input">
+          <input type="text" name="due_date" id="due_date" class="medium" />
+        </div>
+        <div class="frm_button">
+          <input type="button" name="btn_summary" id="btn_summary" value="Save"/>
+        </div>
       </div>
-      <div class="frm_input">
-        <input type="text" name="task" id="task" class="large" />
+      <div id="div_2" class="form_container hide">
+        <div class="frm_label">
+          Points
+        </div>
+        <div class="frm_input">
+          <input type="text" name="points" id="points" class="small" />
+        </div>
+        <div class="frm_label">
+          Outcomes
+        </div>
+        <div class="frm_input" id="outcome_container">
+          <input type="text" name="outcomes[]" id="outcomes_1" class="medium" />&nbsp;&nbsp;
+          <input type="text" name="percentage[]" id="percentage_1" class="small" onblur="setPecentages($(this).val());"/>&nbsp;&nbsp;
+          <label id="points_label_1"></label>
+        </div>
+        <div class="frm_button">
+          <input type="button" name="btn_outcome" id="btn_outcome" value="Save"/>
+        </div>
       </div>
-      <div class="frm_label">
-        Description
+      <div id="div_3" class="form_container hide">
+        <div class="frm_label">
+          Attachment
+        </div>
+        <div class="frm_input">
+          <input type="file" name="resources" id="resources" />
+        </div>
+        <div class="frm_button">
+          <input type="button" name="btn_attachment" id="btn_attachment" value="Save"/>
+        </div>
       </div>
-      <div class="frm_input">
-        <textarea name="descr" id="descr" rows="10"></textarea>
+      <div id="div_4" class="form_container hide">
+        <div class="frm_label">
+          Email
+        </div>
+        <div class="frm_input">
+          <input type="text" name="email" id="email" class="large" />
+        </div>
+        <div class="frm_label">
+          Facebook Id
+        </div>
+        <div class="frm_input">
+          <input type="text" name="facebook" id="facebook" class="large" />
+        </div>
+        <div class="frm_button">
+          <input type="button" name="btn_notification" id="btn_notification" value="Save"/>
+        </div>
       </div>
-      <div class="frm_label">
-        Due Date
+      <div id="div_5" class="form_container hide">
+        <div class="frm_label">
+          Organizer
+        </div>
+        <div class="frm_input">
+          <input type="text" name="organizer" id="organizer" class="medium" />
+        </div>
+        <div class="frm_label small_label">
+          Participants
+        </div>
+        <div class="frm_input" id="participants_container">
+          <input type="checkbox" name="chk_participants[]" id="chk_participants_1" />
+          <input type="text" name="participants[]" id="participants_1" class="medium" />
+        </div>
+        <div class="frm_button">
+          <input type="button" name="btn_notification" id="btn_notification" value="Save"/>
+        </div>
       </div>
-      <div class="frm_input">
-        <select name="due_date" id="due_date">
-          <option>TBD</option>
-        </select>
-      </div>
-    </div>
-    <div id="div_2" class="form_container hide">
-      <div class="frm_label">
-        Points
-      </div>
-      <div class="frm_input">
-        <input type="text" name="points" id="points" class="small" />
-      </div>
-      <div class="frm_label">
-        Outcomes
-      </div>
-      <div class="frm_input">
-        <input type="text" name="outcomes" id="outcomes" class="medium" />&nbsp;&nbsp;
-        <input type="text" name="percentage" id="percentage" class="small" />
-      </div>
-    </div>
-    <div id="div_3" class="form_container hide">
-      <div class="frm_label">
-        Attachment
-      </div>
-      <div class="frm_input">
-        <input type="file" name="resources" id="resources" />
-      </div>
-    </div>
-    <div id="div_4" class="form_container hide">
-      <div class="frm_label">
-        Email
-      </div>
-      <div class="frm_input">
-        <input type="text" name="email" id="email" class="large" />
-      </div>
-      <div class="frm_label">
-        Facebook Id
-      </div>
-      <div class="frm_input">
-        <input type="text" name="facebook" id="facebook" class="large" />
-      </div>
-      <div class="frm_label">
-        
-      </div>
-      <div class="frm_input">
-        <input type="button" name="btn_task" id="btn_task" value="Create Task"/>
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
 <script type="text/javascript">
 <!--
+var _counter = 2;
+var _counter_people = 2;
+var _percent = 100;
+
 $(document).ready(function(){
   //Toggle Tabs
   $(".menu_container a").click(function(){
     idx = $(this).attr("value");
     $(".menu_container a").removeClass("active");
     $(this).addClass("active");
-    for(i=0;i<5;i++){
+    for(i=0;i<6;i++){
       if(idx != i){
         $("#div_"+i).hide();
       }
     }
     $("#div_"+idx).fadeIn();
   });
+  
   //Submit
   $("#btn_task").click(function(){
     task = $("#task").val();
@@ -119,6 +152,83 @@ $(document).ready(function(){
     });  
     return false;  
   });
-});
+  
+  $(function() {
+    $("#due_date").datepicker();
+    
+    var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+    
+    $("#outcome_container .medium").live("keydown.autocomplete", function() {
+        $(this).autocomplete({
+          source: availableTags,
+          select: function(event, ui){
+            addNode('outcome');
+            percent_node = _counter - 2
+            points = $("#points").val();
+            $("#percentage_"+percent_node).val(_percent+"%");
+            $("#points_label_"+percent_node).html(points);
+          }
+        });
+    });
+    
+    $("#participants_container .medium").live("keydown.autocomplete", function() {
+      $(this).autocomplete({
+        source: availableTags,
+        select: function(event, ui){
+          addNode('people');
+        }
+      });
+    });
+    
+  }); // $(function) ends
+}); //document.ready ends
+
+//Adding text field nodes for outcomes
+function addNode(element) {
+  if(element == "outcome") {
+    var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counter);
+    newNode.css("marginTop" , "20px");
+    newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" value="" class="medium"> &nbsp;&nbsp;<input type="text" name="percentage[]" id="percentage_' + _counter + '" value="" class="small" onblur="setPecentages($(this).val());">');
+    newNode.appendTo("#outcome_container");
+    _counter++;
+  } else if (element == "people") {
+    var newNode = $(document.createElement('div')).attr("id", 'people_node_div' + _counter_people);
+    newNode.css("marginTop" , "20px");
+    newNode.html('<input type="checkbox" name="chk_participants[]" id="chk_participants_'+ _counter_people +'" /><input type="text" name="participants[]" id="participants_' + _counter_people + '" value="" class="medium">');
+    newNode.appendTo("#participants_container");
+    _counter_people++;
+  }
+}
+
+//Showing Percentage/points for each outcome
+function setPecentages(val) {
+  perc = parseInt($.trim(val.replace('%', '')));
+  if(perc != 100) {
+    _percent = _percent - perc;
+  }
+}
 -->
 </script>

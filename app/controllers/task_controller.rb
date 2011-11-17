@@ -30,4 +30,7 @@ class TaskController < ApplicationController
   
   def edit
   end
+  
+  def search_outcomes
+  end
 end
