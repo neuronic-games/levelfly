@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111109084832) do
+ActiveRecord::Schema.define(:version => 20111116043020) do
 
   create_table "access_codes", :force => true do |t|
     t.integer  "school_id"
@@ -81,6 +82,31 @@ ActiveRecord::Schema.define(:version => 20111109084832) do
     t.datetime "updated_at"
   end
 
+  create_table "object_profiles", :force => true do |t|
+    t.integer  "object_id"
+    t.string   "object_type",  :limit => 64
+    t.integer  "profile_id"
+    t.string   "profile_type", :limit => 1
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "outcome_tasks", :force => true do |t|
+    t.integer  "task_id"
+    t.integer  "outcome_id"
+    t.decimal  "points_percentage", :precision => 10, :scale => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "outcomes", :force => true do |t|
+    t.string   "name",        :limit => 64
+    t.text     "descr"
+    t.integer  "category_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "profiles", :force => true do |t|
     t.integer  "user_id"
     t.integer  "school_id"
@@ -111,6 +137,20 @@ ActiveRecord::Schema.define(:version => 20111109084832) do
     t.string   "name",       :limit => 64
     t.string   "code",       :limit => 64
     t.boolean  "archived",                 :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tasks", :force => true do |t|
+    t.string   "name",           :limit => 64
+    t.text     "descr"
+    t.date     "due_date"
+    t.date     "available_date"
+    t.date     "visible_date"
+    t.integer  "category_id"
+    t.boolean  "notify_wall"
+    t.boolean  "is_template"
+    t.boolean  "archived"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

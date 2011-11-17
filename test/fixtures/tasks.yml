@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  descr: MyText
+  due_date: 2011-11-16
+  available_date: 2011-11-16
+  visible_date: 2011-11-16
+  category_id: 1
+  notify_wall: false
+  is_template: false
+  archived: false
+
+two:
+  name: MyString
+  descr: MyText
+  due_date: 2011-11-16
+  available_date: 2011-11-16
+  visible_date: 2011-11-16
+  category_id: 1
+  notify_wall: false
+  is_template: false
+  archived: false
