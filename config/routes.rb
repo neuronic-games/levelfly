@@ -29,6 +29,8 @@ Oncapus::Application.routes.draw do
 
   get "task/save"
   post "task/save"
+  get "task/upload_resource"
+  post "task/upload_resource"
   match 'task' => 'task#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.

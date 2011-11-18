@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111116043020) do
+ActiveRecord::Schema.define(:version => 20111118112125) do
 
   create_table "access_codes", :force => true do |t|
     t.integer  "school_id"
@@ -82,15 +82,6 @@ ActiveRecord::Schema.define(:version => 20111116043020) do
     t.datetime "updated_at"
   end
 
-  create_table "object_profiles", :force => true do |t|
-    t.integer  "object_id"
-    t.string   "object_type",  :limit => 64
-    t.integer  "profile_id"
-    t.string   "profile_type", :limit => 1
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "outcome_tasks", :force => true do |t|
     t.integer  "task_id"
     t.integer  "outcome_id"
@@ -103,6 +94,15 @@ ActiveRecord::Schema.define(:version => 20111116043020) do
     t.string   "name",        :limit => 64
     t.text     "descr"
     t.integer  "category_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "participants", :force => true do |t|
+    t.integer  "object_id"
+    t.string   "object_type",  :limit => 64
+    t.integer  "profile_id"
+    t.string   "profile_type", :limit => 1
     t.datetime "created_at"
     t.datetime "updated_at"
   end

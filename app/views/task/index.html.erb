@@ -25,22 +25,19 @@
           Task
         </div>
         <div class="frm_input">
-          <input type="text" name="task" id="task" class="large" />
+          <input type="text" name="task" id="task" class="large" onblur='jStorage.set("task_name",$(this).val());'/>
         </div>
         <div class="frm_label">
           Description
         </div>
         <div class="frm_input">
-          <textarea name="descr" id="descr" rows="10"></textarea>
+          <textarea name="descr" id="descr" rows="10" onblur='jStorage.set("task_descr",$(this).val());'></textarea>
         </div>
         <div class="frm_label">
           Due Date
         </div>
         <div class="frm_input">
-          <input type="text" name="due_date" id="due_date" class="medium" />
-        </div>
-        <div class="frm_button">
-          <input type="button" name="btn_summary" id="btn_summary" value="Save"/>
+          <input type="text" name="due_date" id="due_date" class="medium" onblur='jStorage.set("task_due_date",$(this).val());'/>
         </div>
       </div>
       <div id="div_2" class="form_container hide">
@@ -48,29 +45,18 @@
           Points
         </div>
         <div class="frm_input">
-          <input type="text" name="points" id="points" class="small" />
+          <input type="text" name="points" id="points" class="small" onblur='jStorage.set("task_points",$(this).val());'/>
         </div>
         <div class="frm_label">
           Outcomes
         </div>
         <div class="frm_input" id="outcome_container">
-          <input type="text" name="outcomes[]" id="outcomes_1" class="medium" />&nbsp;&nbsp;
-          <input type="text" name="percentage[]" id="percentage_1" class="small" onblur="setPecentages($(this).val());"/>&nbsp;&nbsp;
-          <label id="points_label_1"></label>
-        </div>
-        <div class="frm_button">
-          <input type="button" name="btn_outcome" id="btn_outcome" value="Save"/>
+          <input type="text" name="outcomes[]" id="outcomes_1" class="medium" onblur='jStorage.set("task_outcomes_1",$(this).val());'/>
         </div>
       </div>
       <div id="div_3" class="form_container hide">
-        <div class="frm_label">
-          Attachment
-        </div>
-        <div class="frm_input">
-          <input type="file" name="resources" id="resources" />
-        </div>
-        <div class="frm_button">
-          <input type="button" name="btn_attachment" id="btn_attachment" value="Save"/>
+        <div id="upload_container" style="width:600px;margin:auto;">
+          <!-- input type="file" name="resources" id="resources" / -->
         </div>
       </div>
       <div id="div_4" class="form_container hide">
@@ -86,16 +72,13 @@
         <div class="frm_input">
           <input type="text" name="facebook" id="facebook" class="large" />
         </div>
-        <div class="frm_button">
-          <input type="button" name="btn_notification" id="btn_notification" value="Save"/>
-        </div>
       </div>
       <div id="div_5" class="form_container hide">
         <div class="frm_label">
           Organizer
         </div>
         <div class="frm_input">
-          <input type="text" name="organizer" id="organizer" class="medium" />
+          <input type="text" name="organizer" id="organizer" class="medium" onblur='jStorage.set("task_organizer",$(this).val());'/>
         </div>
         <div class="frm_label small_label">
           Participants
@@ -104,10 +87,11 @@
           <input type="checkbox" name="chk_participants[]" id="chk_participants_1" />
           <input type="text" name="participants[]" id="participants_1" class="medium" />
         </div>
-        <div class="frm_button">
-          <input type="button" name="btn_notification" id="btn_notification" value="Save"/>
-        </div>
       </div>
+      <div class="frm_button">
+        <input type="button" name="btn_task" id="btn_task" value="Save"/>
+      </div>
+      <input type="hidden" name="task_id" id="task_id_hdn" value="" />
     </form>
   </div>
 </div>
@@ -130,13 +114,16 @@ $(document).ready(function(){
     }
     $("#div_"+idx).fadeIn();
   });
-  
+    
+  task_id = $("#task_id_hdn").val();
+  task = jStorage.get("task_name");
+  descr = jStorage.get("task_descr");
+  due_date = jStorage.get("task_due_date");
+  task_points = jStorage.get("task_points");
+    
   //Submit
   $("#btn_task").click(function(){
-    task = $("#task").val();
-    descr = $("#descr").val();
-    due_date = $("#due_date").val();
-    var dataString = 'task='+ task + '&descr=' + descr + '&due_date=' + due_date;  
+    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&due_date=' + due_date + '&task_points=' +task_points ;  
     //alert (dataString);return false;  
     $.ajax({  
       type: "POST",  
@@ -144,7 +131,8 @@ $(document).ready(function(){
       data: dataString,  
       success: function(data) {  
         if (data) {
-          alert("data saved");
+          alert("data saved"+data.task.id);
+          $("#task_id_hdn").val(data.task.id);
         } else {
           alert("ERROR");
         }
@@ -154,64 +142,80 @@ $(document).ready(function(){
   });
   
   $(function() {
+    //Due date datepicker
     $("#due_date").datepicker();
     
-    var availableTags = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme"
-    ];
+    //For Autocomplete tags
+    var outComeTags = [];
+    var participantsTags = [];
+    var i = 0;
+    var j = 0;
+    
+    <% @outcomes.each do |outcome| %>
+      outComeTags[i] = "<%=outcome.name %>";
+      i++;
+    <% end %>
+    
+    <% @participants.each do |participant| %>
+      participantsTags[j] = "<%=participant.object_type %>";
+      j++;
+    <% end %>
     
     $("#outcome_container .medium").live("keydown.autocomplete", function() {
         $(this).autocomplete({
-          source: availableTags,
+          source: outComeTags,
           select: function(event, ui){
-            addNode('outcome');
-            percent_node = _counter - 2
-            points = $("#points").val();
-            $("#percentage_"+percent_node).val(_percent+"%");
-            $("#points_label_"+percent_node).html(points);
+            
           }
         });
     });
     
+    $("#outcome_container .medium").live("focusout", function(){
+      current_node = _counter - 1;
+      if($("#outcomes_"+current_node).val()!="") {
+        addNode('outcome');
+        /*percent_node = _counter - 2
+        points = $("#points").val();
+        $("#percentage_"+percent_node).val(_percent+"%");
+        $("#points_label_"+percent_node).html(points);*/
+      }
+    });
+    
     $("#participants_container .medium").live("keydown.autocomplete", function() {
       $(this).autocomplete({
-        source: availableTags,
+        source: participantsTags,
         select: function(event, ui){
           addNode('people');
         }
       });
     });
     
+  // Setup html5 file upload
+  $("#upload_container").pluploadQueue({
+    // General settings
+    runtimes : 'html5',
+    url : '/task/upload_resource',
+    max_file_size : '10mb',
+    chunk_size : '1mb',
+    unique_names : true,
+    filters : [
+      {title : "Image files", extensions : "jpg,gif,png"},
+      {title : "Zip files", extensions : "zip"}
+    ],
+    // Resize images on clientside if we can
+    resize : {width : 320, height : 240, quality : 90}
+  });
+    
   }); // $(function) ends
 }); //document.ready ends
 
-//Adding text field nodes for outcomes
+//Adding text field nodes for outcomes/peoples
 function addNode(element) {
   if(element == "outcome") {
     var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counter);
     newNode.css("marginTop" , "20px");
-    newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" value="" class="medium"> &nbsp;&nbsp;<input type="text" name="percentage[]" id="percentage_' + _counter + '" value="" class="small" onblur="setPecentages($(this).val());">');
+    //newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" value="" class="medium"> &nbsp;&nbsp;<input type="text" name="percentage[]" id="percentage_' + _counter + '" value="" class="small" onblur="setPecentages($(this).val());">');
+    newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" value="" class="medium">');
     newNode.appendTo("#outcome_container");
     _counter++;
   } else if (element == "people") {
