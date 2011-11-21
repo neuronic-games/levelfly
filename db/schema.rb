@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111118112125) do
+ActiveRecord::Schema.define(:version => 20111121062554) do
 
   create_table "access_codes", :force => true do |t|
     t.integer  "school_id"
@@ -72,6 +73,34 @@ ActiveRecord::Schema.define(:version => 20111118112125) do
     t.datetime "updated_at"
   end
 
+  create_table "categories", :force => true do |t|
+    t.string   "name",       :limit => 64
+    t.text     "descr"
+    t.boolean  "archived"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "courses", :force => true do |t|
+    t.string   "name",       :limit => 64
+    t.text     "descr"
+    t.string   "code"
+    t.integer  "campus_id"
+    t.boolean  "archived"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "departments", :force => true do |t|
+    t.string   "name",       :limit => 64
+    t.text     "descr"
+    t.string   "code"
+    t.boolean  "archived"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "campus_id"
+  end
+
   create_table "majors", :force => true do |t|
     t.integer  "school_id"
     t.string   "name",       :limit => 64
@@ -79,6 +108,7 @@ ActiveRecord::Schema.define(:version => 20111118112125) do
     t.boolean  "archived",                 :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "campus_id"
   end
 
   create_table "outcome_tasks", :force => true do |t|
@@ -130,6 +160,7 @@ ActiveRecord::Schema.define(:version => 20111118112125) do
     t.boolean  "archived",                      :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "campus_id"
   end
 
   create_table "schools", :force => true do |t|
@@ -152,6 +183,7 @@ ActiveRecord::Schema.define(:version => 20111118112125) do
     t.boolean  "archived"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "campus_id"
   end
 
   create_table "users", :force => true do |t|
