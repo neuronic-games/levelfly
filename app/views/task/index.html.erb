@@ -51,7 +51,8 @@
           Outcomes
         </div>
         <div class="frm_input" id="outcome_container">
-          <input type="text" name="outcomes[]" id="outcomes_1" class="medium" onblur='javascript:setStorage("task_outcomes_1", $(this).val())'/>
+          <input type="text" name="outcomes[]" id="outcomes_1" rel="percentage_1" class="medium" onblur='javascript:setStorage("task_outcomes_1", $(this).val())'/> &nbsp;&nbsp;
+          <input type="text" name="percentage[]" id="percentage_1" rel="outcomes_1" class="small" onblur="javascript:setPercentages($(this));"/>
         </div>
       </div>
       <div id="div_3" class="form_container hide">
@@ -204,7 +205,7 @@ $(document).ready(function(){
     
     $("#participants_container .medium").live("keydown.autocomplete", function() {
       $(this).autocomplete({
-        source: participantsTags,
+        source: _participantsTags,
         select: function(event, ui){
           addNode('people');
         }
@@ -236,7 +237,7 @@ function setStorage(key,value){
     jStorage.set(key, value);
   }
 }
-
+//Get temp storage
 function getStorage(key) {
   var val
   if(jStorage.get(key)!=""){
@@ -250,8 +251,8 @@ function addNode(element) {
   if(element == "outcome") {
     var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counter);
     newNode.css("marginTop" , "20px");
-    //newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" value="" class="medium"> &nbsp;&nbsp;<input type="text" name="percentage[]" id="percentage_' + _counter + '" value="" class="small" onblur="setPecentages($(this).val());">');
-    newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" value="" class="medium" onblur="javascript:setStorage(\'task_outcomes_'+_counter+'\', $(this).val())" />');
+    newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" rel="outcomes_' + _counter + '" value="" class="medium" onblur="javascript:setStorage(\'task_outcomes_'+_counter+'\', $(this).val())" /> &nbsp;&nbsp;<input type="text" name="percentage[]" id="percentage_' + _counter + '" rel="outcomes_' + _counter + '" value="" class="small" onblur="javascript:setPercentages($(this));">');
+    //newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" value="" class="medium" onblur="javascript:setStorage(\'task_outcomes_'+_counter+'\', $(this).val())" />');
     newNode.appendTo("#outcome_container");
     _counter++;
   } else if (element == "people") {
@@ -264,11 +265,34 @@ function addNode(element) {
 }
 
 //Showing Percentage/points for each outcome
-function setPecentages(val) {
-  perc = parseInt($.trim(val.replace('%', '')));
-  if(perc != 100) {
-    _percent = _percent - perc;
-  }
+function setPercentages(obj) {
+  var total = 0;
+  var objVal = parseInt($.trim(obj.val().replace('%', '')));
+  $.each($('input[name$="percentage[]"]'), function() {
+      rel = $(this).attr("rel");
+      if($("#"+rel).val()) {  
+        val = $(this).val();
+        if(val!="") {
+          val = parseInt($.trim(val.replace('%', '')));
+        }else{
+          val = 0;
+        }
+        if(total>=0) {
+          total = parseInt(total) + parseInt(val);
+        }
+        if(total>=100) {
+          total = total - 100;
+          obj.val(total);
+        } else {
+          total = 100 - total; 
+          alert(total)
+          obj.val(objVal + total);
+        }
+        //if($(this.id))
+      }
+  });
+  //alert(total);
+  //obj.val(total);
 }
 -->
 </script>
