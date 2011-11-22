@@ -61,18 +61,14 @@
         <img src="/images/ui/arrowb.png" width="46" height="35" />
       </div>
       <div id="subcategory_wrapper">
-        <div id="wardrobe_subcategories" class="lev1">
-          <div id="subcategory_scroll">
-            <div id="subcategory_container">
-              <!-- subcategory items will dynamically append over here (for level 1) -->
-            </div>
+        <div class="lev1 wardrobe_subcategories">
+          <div class="subcategory_scroll">
+            <!-- subcategory items will dynamically append over here (for level 1) -->
           </div>
         </div>
-        <div id="wardrobe_subcategories" class="lev2">
-          <div id="subcategory_scroll">
-            <div id="subcategory_container">
-              <!-- subcategory items will dynamically append over here (for level 2) -->
-            </div>
+        <div class="lev2 wardrobe_subcategories">
+          <div class="subcategory_scroll">
+            <!-- subcategory items will dynamically append over here (for level 2) -->
           </div>
         </div>
       </div>
@@ -147,12 +143,73 @@
 var _wardrobeItems;
 var _profile;
 var _avatar;
-var _currentSubCategory;
 var _major;
 var _school;
 var _itemForColor = new Array("head", "head_shape","hair");
 var _level_meter =  new Array(100, 150, 200, 350, 400, 500, 550, 700, 750, 900);
-var _subItemsArray = new Array();
+
+OC = {
+  SubCategory: {
+    data: null,
+    cursor: 0,
+    section_size: 5,
+    depth: 1,
+    parent_item_type: null,
+    
+    load: function(data, parent_item_type) {
+      this.data = data || [];
+      this.cursor = 0;
+      this.depth = (data && data.length) ? data[0].depth : this.depth;
+      this.parent_item_type = parent_item_type;
+      var $scroll = $('.lev' + this.depth + ' .subcategory_scroll');
+
+      $scroll.scrollTop(0).empty().append(this.makeSection(this.data.slice(0, this.section_size)));
+      (this.data.length > this.section_size) ? $(".nav_button").fadeIn(1000) : $(".nav_button").fadeOut();
+    },
+    
+    scroll: function(direction) {
+      var new_cursor = (direction == 'up' ? this.cursor - this.section_size : this.cursor + this.section_size),
+          i = (new_cursor + this.data.length) % this.data.length,
+          newData = [],
+          scrollTo,
+          $scroll = $('.lev' + this.depth + ' .subcategory_scroll'),
+          $current_section = $('.subcategory_container', $scroll);
+
+      for (var j = 0; j < this.section_size; j++) newData.push(this.data[(i + j) % this.data.length]);
+
+      if (direction == 'up') {
+        $current_section.before(this.makeSection(newData));
+        $scroll.scrollTop(529);
+        scrollTo = 0;
+      } else {
+        $current_section.after(this.makeSection(newData));
+        $scroll.scrollTop(0);
+        scrollTo = 529;
+      }
+      
+      $scroll.animate({ scrollTop: scrollTo }, {
+        duration: 500,
+        complete: function() { $current_section.remove(); }
+      })
+      this.cursor = i;
+    },
+    
+    makeSection: function(data) {
+      var $container = $('<div class="subcategory_container"></div>'),
+          parent_item_type = this.parent_item_type;
+
+      $.each(data, function(i) {
+        var $div = $('<div class="btn wardrobe_item clickable"></div>').data('model', this),
+            image_file = this.image_file || ("level" + this.depth + "/" + parent_item_type + "/" + this.item_type);
+
+        if (this.image_file && this.image_file == _avatar[this.item_type]) $div.addClass('selected');
+        $div.append('<img src="/images/wardrobe/icon/' + image_file + '_icon.png" /><br/>' + this.name);
+        $container.append($div);
+      });
+      return $container;
+    }
+  }
+};
 
 $(document).ajaxSend(function(e, xhr, options) {
   var token = $("meta[name='csrf-token']").attr("content");
@@ -182,62 +239,54 @@ $(window).load(function() {
   });
   // Click a wardrobe option
   $(".wardrobe_item").live('click', function() {
-    image_file = $(this).attr("image_file");
-    show_colorpalette = false; //Set for color palette
-    current_tab_category = $(this).attr("id");
-    _item_depth = $(this).attr("item_depth");
-    
+    var $this = $(this),
+        model = $this.data('model'),
+        show_colorpalette = false; //Set for color palette
+
     // move indication icon to according position
-    if(_item_depth==0) {
-      $(".indi").animate({top: parseInt($("#"+current_tab_category).position().top) + 50 +'px'},250);
+    if(model.depth == 0) {
+      $(".indi").animate({top: parseInt($this.position().top) + 50 +'px'},250);
     }
     
     //check the clicked item typed with array for showing color pallete
-    _item_type = $(this).attr("item_type");
-    //alert(_item_depth); // debug
     $.each(_itemForColor, function(key, value) {
-      if(parseInt(_item_depth) > 1 && _item_type == value) {
+      if(parseInt(model.depth) > 1 && model.item_type == value) {
         show_colorpalette = true;
       }
     });
     
     if(show_colorpalette) {
-      showColorPalette(_item_type, current_tab_category);
+      showColorPalette(model.item_type, $this);
     } else {
       $(".color_palette").fadeOut();
     }
     
-    if (image_file != undefined) {
-      
+    if (model.image_file) {
       // Clicked on an option that can be applied
-      item_type = $(this).attr("item_type");
-      if (image_file == _avatar[item_type]) {
+      if (model.image_file == _avatar[model.item_type]) {
         // Already applied? Remove this item
-        if (item_type != "hair" && item_type != "head") {
-          image_file = "null";
+        if (model.item_type != "hair" && model.item_type != "head") {
+          _avatar[model.item_type] = "null";
         }
       }
+      console.log(model.item_type, model.image_file);
       // Display the item on the avatar
-      $("#"+item_type).attr("src", "/images/wardrobe/"+image_file+".png");
-      _avatar[item_type] = image_file
+      $("#" + model.item_type).attr("src", "/images/wardrobe/" + model.image_file + ".png");
+      _avatar[model.item_type] = model.image_file
       
       // Check if there is a back layer
-      if (item_type == "hair" || item_type == "hat") {
-        item_type_back = item_type + "_back";
-        _avatar[item_type_back] = image_file + "_back";
-        $("#"+item_type_back).attr("src", "/images/wardrobe/"+image_file+"_back.png");
+      if (model.item_type == "hair" || model.item_type == "hat") {
+        item_type_back = model.item_type + "_back";
+        _avatar[item_type_back] = model.image_file + "_back";
+        $("#"+item_type_back).attr("src", "/images/wardrobe/" + model.image_file + "_back.png");
       }
       saveAvatar();
       // Refresh the current list of options in case option stat has changed
-      //showSubCategory(_currentSubCategory, _item_type);
-      showSubcategoryStat($(this));
+      showSubcategoryStat($this);
     } else {
-      _currentSubCategory = $(this).attr("value");
-      if(_item_depth==0) {
-        resetSubCategory(1);
-      }
-      showSubCategory(_currentSubCategory, _item_type);
-      wardrobeSubCategorySlide('show', _item_depth);
+      if (model.depth == 0) resetSubCategory(1);
+      wardrobeSubCategorySlide('show', model.depth);
+      OC.SubCategory.load(model.children, model.item_type);
     }
   });
   
@@ -248,52 +297,10 @@ $(window).load(function() {
   });
   
   //Scroll up the subcategories
-  $("#dwnarr").click(function () {
-    //alert(_last_status_lev1+"=="+_last_status_lev2) //debug
-    if(_last_status_lev1 != null && _last_status_lev1=="shown") {
-      var wrapper = $(".lev1 #subcategory_scroll");
-      var scroller = $(".lev1 #subcategory_scroll #subcategory_container");
-    } else if (_last_status_lev2 != null && _last_status_lev2=="shown") {
-      var wrapper = $(".lev2 #subcategory_scroll");
-      var scroller = $(".lev2 #subcategory_scroll #subcategory_container");
-    }
-    var wrapper_h = wrapper.outerHeight();
-    var scroller_h = scroller.outerHeight();
-    var scroller_top = parseInt(scroller.css("marginTop"));
-    if((scroller_top - wrapper_h - 525) < - scroller_h ){
-      var offset2 = scroller_h - wrapper_h;
-      //alert(offset2); //debug
-      scroller.stop().animate({marginTop:"-" + offset2 + "px"}, 500);
-      //scroller.stop().animate({marginTop:"-525px"}, 500);
-      return;
-    }
-    scroller.stop().animate({
-      marginTop: "-=" + 525 + "px"
-    }, 500);
-  });
+  $("#dwnarr").click(function () { OC.SubCategory.scroll('down'); });
   
   //Scroll down the subcategories
-  $("#uparr").click(function () {
-
-    //alert(_last_status_lev1+"=="+_last_status_lev2) //debug
-    if(_last_status_lev1 != null && _last_status_lev1=="shown") {
-      var wrapper = $(".lev1 #subcategory_scroll");
-      var scroller = $(".lev1 #subcategory_scroll #subcategory_container");
-    } else if (_last_status_lev2 != null && _last_status_lev2=="shown") {
-      var wrapper = $(".lev2 #subcategory_scroll");
-      var scroller = $(".lev2 #subcategory_scroll #subcategory_container");
-    }
-    var wrapper_h = wrapper.outerHeight();
-    var scroller_top = scroller.css("marginTop");
-    var offset = parseInt(scroller_top) + parseInt(wrapper_h);
-    if(offset > 0){
-       $(scroller).stop().animate({marginTop:0}, 500);
-       return;
-    }
-    $(scroller).stop().animate({
-      marginTop: "+=" + 525 + "px"
-    }, 500);
-  });
+  $("#uparr").click(function () { OC.SubCategory.scroll('up'); });
 
   //Color change for body & head
   $(".head_color").click(function(){
@@ -346,7 +353,7 @@ $(window).load(function() {
   showProfile();
 });
 
-function showColorPalette(_item_type, current_tab_category) {
+function showColorPalette(_item_type, $this) {
   //Check if need to show the color palette
   if (_item_type == "head_shape" || _item_type == "head") {
     $("#head_color").show();
@@ -359,40 +366,31 @@ function showColorPalette(_item_type, current_tab_category) {
     $("#head_color").hide();
   }
   //Show & move color palette
-  $(".color_palette").animate({left: parseInt($("#"+current_tab_category).position().left) + 330 +'px'},250);
-  $(".color_palette").animate({top: parseInt($("#"+current_tab_category).position().top) + 280 +'px'},250);
+  $(".color_palette").animate({left: parseInt($this.position().left) + 330 +'px'},250);
+  $(".color_palette").animate({top: parseInt($this.position().top) + 280 +'px'},250);
   $(".color_palette").fadeIn(80);
 }
 
 function showSubcategoryStat(item) {
-  if(item.hasClass("selected")) {
-    $(".lev1 #subcategory_scroll #subcategory_container div").addClass("selected");
-    item.removeClass("selected");
-  } else {
-    $(".lev2 #subcategory_scroll #subcategory_container div").removeClass("selected");
-    item.addClass("selected");
-  } 
+  var select = !item.hasClass('selected');
+  item.closest('.subcategory_container').find('div').removeClass('selected');
+  item.toggleClass('selected', select);
 }
 
 function resetSubCategory(depth) {
   if(depth==1) {
-    $(".lev1 #subcategory_scroll #subcategory_container").html("");
+    $(".lev1 .subcategory_scroll .subcategory_container").html("");
   } else if(depth==2) {
-    $(".lev2 #subcategory_scroll #subcategory_container").html("");
+    $(".lev2 .subcategory_scroll .subcategory_container").html("");
   }
 }
 
 function prepWardrobeIcons() {
-  for (i=0; i<_wardrobeItems.length; i++) {
-    if (_wardrobeItems[i].depth == 0) {
-      item_type = _wardrobeItems[i].item_type;
-      item_depth = _wardrobeItems[i].depth;
-      $("#category_"+item_type).attr("value", _wardrobeItems[i].id);
-        $("#category_"+item_type).html("<img src='/images/wardrobe/icon/level0/"+item_type+"_icon.png' /><br/>"+_wardrobeItems[i].name);
-        $("#category_"+item_type).attr("item_type", item_type);
-      $("#category_"+item_type).attr("item_depth", item_depth);
-    }
-  }
+  $.each(_wardrobeItems, function() {
+    $("#category_" + this.item_type)
+      .html("<img src='/images/wardrobe/icon/level0/" + this.item_type + "_icon.png' /><br/>" + this.name)
+      .data('model', this);
+  });
 }
 
 // forward: dir=1, backward: dir=-1, skip=5
@@ -423,73 +421,6 @@ function getSubCategorySubList(curIdx, dir, skip) {
     }
   }
   return finalList;
-}
-
-function showSubCategory(id, parent_item_type) {
-}
-
-function showSubCategory(id, parent_item_type) {
-  idx = 0;
-  subItemsAttr = new Object();
-  for (i=0; i<_wardrobeItems.length; i++) {
-    if (_wardrobeItems[i].parent_item_id == id) {
-      // Set the image file
-      item_type = _wardrobeItems[i].item_type;
-      // set the depth
-      item_depth = _wardrobeItems[i].depth;
-      image_file = _wardrobeItems[i].image_file;
-      item_value = _wardrobeItems[i].id;
-      
-      if (idx < 5) {
-        cat_depth = _wardrobeItems[i].depth;
-        if(cat_depth == 1) {
-          parent_item = $(".lev1 #subcategory_scroll #subcategory_container");
-        } else if (cat_depth == 2) {
-          parent_item = $(".lev2 #subcategory_scroll #subcategory_container");
-        }
-      
-        parent_item.append(
-          '<div id="subcategory_level_' + cat_depth + '_' + idx +'" class="btn wardrobe_item clickable"></div>'
-        );
-      
-        $("#subcategory_level_" + cat_depth + "_" +idx).attr("value", item_value);
-      
-        if (image_file == undefined) {
-          // Not a leaf node
-          $("#subcategory_level_" + cat_depth + "_" +idx).html("<img src='/images/wardrobe/icon/level" + cat_depth + "/" + parent_item_type + "/" + item_type + "_icon.png' /><br/>"+_wardrobeItems[i].name);
-        } else {
-          $("#subcategory_level_" + cat_depth + "_" +idx).html("<img src='/images/wardrobe/icon/"+image_file+"_icon.png' /><br/>"+_wardrobeItems[i].name);
-          $("#subcategory_level_" + cat_depth + "_" +idx).attr("image_file", _wardrobeItems[i].image_file);
-        }
-
-        // Set the item type
-        if (item_type != undefined) {
-          $("#subcategory_level_" + cat_depth + "_" +idx).attr("item_type", item_type);
-        }
-      
-        if (item_depth != undefined) {
-          $("#subcategory_level_" + cat_depth + "_" +idx).attr("item_depth", item_depth);
-        }
-        // Is the item currently used?
-        if (image_file != null && image_file == _avatar[item_type]) {
-          $("#subcategory_level_" + cat_depth + "_" +idx).addClass("selected");
-        } else {
-          $("#subcategory_level_" + cat_depth + "_" +idx).removeClass("selected");
-        }
-      }
-      subItemsAttr.item_depth = item_depth;
-      subItemsAttr.item_value = item_value;
-      subItemsAttr.image_file = image_file;
-      _subItemsArray[idx] = subItemsAttr;
-      idx = idx + 1;
-    }
-  }
-  // Show up & down navigation arrow if items exceeds more than 5
-  if (idx>5) {
-   $(".nav_button").fadeIn(1000);
-  } else {
-   $(".nav_button").fadeOut();
-  }
 }
 
 function showAvatar() {
@@ -552,7 +483,7 @@ function modifyAvatar() {
             $("#category_"+data[i].item_type).attr("value", data[i].id);
           }
         }
-        _wardrobeItems = data;
+        _wardrobeItems = buildWardrobeTree(data);
         prepWardrobeIcons();
         showSpinner(false);
       });  
@@ -627,8 +558,8 @@ var _last_status_lev3 = null;
 // Show hide wardrobe subcategory menu items (with slide effect)
 function wardrobeSubCategorySlide(action,depth) {
   // Reset the subcategory divs as may shifted while the vertical scorlling.
-  $(".lev1 #subcategory_scroll #subcategory_container").css("marginTop" , "0px");
-  $(".lev2 #subcategory_scroll #subcategory_container").css("marginTop" , "0px");
+  $(".lev1 .subcategory_scroll #subcategory_container").css("marginTop" , "0px");
+  $(".lev2 .subcategory_scroll #subcategory_container").css("marginTop" , "0px");
   if (action == 'show') {
     if(depth==0) {
       $(".lev1").show().animate({right: '100px'},500 ,function(){$(".lev1").css('z-index' , '1');});
@@ -651,6 +582,28 @@ function wardrobeSubCategorySlide(action,depth) {
     $(".indi").hide();
     $("#select_note").show();
   }
+}
+
+function buildWardrobeTree(data) {
+  var roots = pluck(data, 'id');
+  jQuery.each(data, function() {
+    if (this.parent_item_id && roots[this.parent_item_id]) roots[this.parent_item_id].children ?
+      roots[this.parent_item_id].children.push(this) :
+      roots[this.parent_item_id].children = [this];
+  });
+  return filter(jQuery.map(roots, function(r) {return r;}), function() { return !this.parent_item_id});
+}
+
+function filter(data, filterFn) {
+  var select = [];
+  jQuery.each(data, function() { if (filterFn.apply(this)) select.push(this); });
+  return select;
+}
+
+function pluck(data, property) {
+  var select = {};
+  jQuery.each(data, function() { if (this[property]) select[this[property]] = this; });
+  return select;
 }
 //-->
 </script>

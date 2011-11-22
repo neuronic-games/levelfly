@@ -80,13 +80,6 @@
 .wardrobe_categories {
 }
 
-.wardrobe_subcategories {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  border:1px solid red;
-}
-
 #user_stats {
   margin-top:35px;
   font-family: 'Metrophobic', sans-serif;
@@ -171,19 +164,19 @@
   position:absolute;
 }
 
-#wardrobe_subcategories {
+.wardrobe_subcategories {
   position: absolute;
   z-index:-1;
 }
 
-#subcategory_scroll {
+.subcategory_scroll {
   float:left;
   height:528px;
   overflow:hidden;
   padding-left:3px;
 }
 
-#subcategory_container {
+.subcategory_container {
   float:left;
 }
 
