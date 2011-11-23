@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111121062554) do
+ActiveRecord::Schema.define(:version => 20111123063151) do
 
   create_table "access_codes", :force => true do |t|
     t.integer  "school_id"
@@ -74,11 +74,13 @@ ActiveRecord::Schema.define(:version => 20111121062554) do
   end
 
   create_table "categories", :force => true do |t|
-    t.string   "name",       :limit => 64
-    t.text     "descr"
+    t.string   "name",          :limit => 64
     t.boolean  "archived"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "course_id"
+    t.integer  "percent_value"
+    t.integer  "campus_id"
   end
 
   create_table "courses", :force => true do |t|
@@ -111,6 +113,16 @@ ActiveRecord::Schema.define(:version => 20111121062554) do
     t.integer  "campus_id"
   end
 
+  create_table "outcome_grades", :force => true do |t|
+    t.integer  "campus_id"
+    t.integer  "course_id"
+    t.integer  "outcome_id"
+    t.integer  "profile_id"
+    t.integer  "grade"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "outcome_tasks", :force => true do |t|
     t.integer  "task_id"
     t.integer  "outcome_id"
@@ -125,6 +137,7 @@ ActiveRecord::Schema.define(:version => 20111121062554) do
     t.integer  "category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "course_id"
   end
 
   create_table "participants", :force => true do |t|
@@ -171,6 +184,16 @@ ActiveRecord::Schema.define(:version => 20111121062554) do
     t.datetime "updated_at"
   end
 
+  create_table "task_grades", :force => true do |t|
+    t.integer  "campus_id"
+    t.integer  "course_id"
+    t.integer  "task_id"
+    t.integer  "profile_id"
+    t.integer  "grade"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "tasks", :force => true do |t|
     t.string   "name",           :limit => 64
     t.text     "descr"
@@ -184,6 +207,8 @@ ActiveRecord::Schema.define(:version => 20111121062554) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "campus_id"
+    t.integer  "course_id"
+    t.integer  "level"
   end
 
   create_table "users", :force => true do |t|
