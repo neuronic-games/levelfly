@@ -31,6 +31,7 @@ class TaskController < ApplicationController
     @task.name = params[:task]
     @task.descr = params[:descr]
     @task.due_date = params[:due_date]
+    @task.level = params[:level]
     
     if @task.save
       if !params[:outcomes].empty?

@@ -9,6 +9,7 @@ Oncapus::Application.routes.draw do
   get "profile/edit"
 
   get "profile/save"
+  
   post "profile/save"
   
   get "profile/accept_code"
@@ -28,10 +29,26 @@ Oncapus::Application.routes.draw do
   get "task/edit"
 
   get "task/save"
+  
   post "task/save"
+  
   get "task/upload_resource"
+  
   post "task/upload_resource"
+  
   match 'task' => 'task#index'
+  
+  get "course/index"
+
+  get "course/show"
+
+  get "course/edit"
+
+  get "course/save"
+  
+  post "course/save"
+  
+  match 'course' => 'course#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

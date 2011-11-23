@@ -5,16 +5,7 @@
         <a href="javascript:void(0)" value="1" class="active">SUMMARY</a>
       </li>
       <li>
-        <a href="javascript:void(0)" value="2" >AWARDS</a>
-      </li>
-      <li>
-        <a href="javascript:void(0)" value="3" >RESOURCES</a>
-      </li>
-      <li>
-        <a href="javascript:void(0)" value="4" >NOTIFICATION</a>
-      </li>
-      <li>
-        <a href="javascript:void(0)" value="5" >PEOPLE</a>
+        <a href="javascript:void(0)" value="2" >PEOPLE</a>
       </li>
     </ul>
   </div>
@@ -22,98 +13,115 @@
     <form name="frm_task" id="frm_task" enctype="multipart/form-data">
       <div id="div_1" class="form_container">
         <div class="frm_label">
-          Task
+          Course
         </div>
         <div class="frm_input">
-          <input type="text" name="task" id="task" class="large" onblur='javascript:setStorage("task_name", $(this).val())'/>
+          <input type="text" name="course_name" id="course_name" class="large" onBlur='javascript:setStorage("course_name", $(this).val())' />
         </div>
         <div class="frm_label">
           Description
         </div>
         <div class="frm_input">
-          <textarea name="descr" id="descr" rows="10" onblur='javascript:setStorage("task_descr", $(this).val())'></textarea>
+          <textarea name="course_descr" id="course_descr" rows="10" onBlur='javascript:setStorage("course_descr", $(this).val())'></textarea>
         </div>
         <div class="frm_label">
-          Due Date
+          Code
         </div>
         <div class="frm_input">
-          <input type="text" name="due_date" id="due_date" class="medium" />
+          <input type="text" name="course_code" id="course_code" class="small" onBlur='javascript:setStorage("course_code", $(this).val())' />
         </div>
       </div>
       <div id="div_2" class="form_container hide">
-        <div class="frm_label">
-          Level
-        </div>
-        <div class="frm_input">
-          <div class="level_radio">
-            <input type="radio" name="level" id="level_easy" value="1" onClick='javascript:setStorage("task_level", $(this).val())' />
-          </div>
-          <div class="level_label">
-            Easy
-          </div>
-          <div class="level_radio">
-            <input type="radio" name="level" id="level_easy" value="2" onClick='javascript:setStorage("task_level", $(this).val())' />
-          </div>
-          <div class="level_label">
-            Medium
-          </div>
-          <div class="level_radio">
-            <input type="radio" name="level" id="level_easy" value="3"  onClick='javascript:setStorage("task_level", $(this).val())' />
-          </div>
-          <div class="level_label">
-            Hard
-          </div>
-        </div>
-        <div class="frm_label">
-          Outcomes
-        </div>
-        <div class="frm_input" id="outcome_container">
-          <input type="text" name="outcomes[]" id="outcomes_1" rel="percentage_1" class="medium" onblur='javascript:setStorage("task_outcomes_1", $(this).val())'/> &nbsp;&nbsp;
-          <!-- input type="text" name="percentage[]" id="percentage_1" rel="outcomes_1" class="small" onblur="javascript:setPercentages($(this));"/ -->
-        </div>
-      </div>
-      <div id="div_3" class="form_container hide">
-        <div id="upload_container" style="width:600px;margin:auto;">
-          <!-- input type="file" name="resources" id="resources" / -->
-        </div>
-      </div>
-      <div id="div_4" class="form_container hide">
-        <div class="frm_label">
-          Email
-        </div>
-        <div class="frm_input">
-          <input type="text" name="email" id="email" class="large" />
-        </div>
-        <div class="frm_label">
-          Facebook Id
-        </div>
-        <div class="frm_input">
-          <input type="text" name="facebook" id="facebook" class="large" />
-        </div>
-      </div>
-      <div id="div_5" class="form_container hide">
-        <div class="frm_label">
-          Organizer
-        </div>
-        <div class="frm_input">
-          <input type="text" name="organizer" id="organizer" class="medium" onblur='javascript:setStorage("task_organizer", $(this).val())'/>
-        </div>
         <div class="frm_label small_label">
           Participants
         </div>
         <div class="frm_input" id="participants_container">
+          <% @people.each do |p| %>
           <input type="checkbox" name="chk_participants[]" id="chk_participants_1" />
-          <input type="text" name="participants[]" id="participants_1" class="medium" />
+          <input type="text" name="participants[]" value="<%= p.full_name %>" id="participants_1" class="medium" />
+          <% end %>
         </div>
       </div>
       <div class="frm_button">
-        <input type="button" name="btn_task" id="btn_task" value="Save"/>
+        <input type="button" name="btn_course" id="btn_course" value="Save"/>
       </div>
-      <input type="hidden" name="task_id" id="task_id_hdn" value="" />
+      <input type="hidden" name="course_id" id="course_id_hdn" value="" />
+      <input type="hidden" name="campus_id" id="course_campus_id_hdn" value="<%= @profile.school_id %>" />
     </form>
   </div>
 </div>
 <script type="text/javascript">
+<!-- 
+
+//Set CSRF Token (Required for ajax request (post))
+$(document).ajaxSend(function(e, xhr, options) {
+  var token = $("meta[name='csrf-token']").attr("content");
+  xhr.setRequestHeader("X-CSRF-Token", token);
+});
+
+$(document).ready(function(){
+  
+  //Toggle Tabs
+  $(".menu_container a").click(function(){
+    idx = $(this).attr("value");
+    $(".menu_container a").removeClass("active");
+    $(this).addClass("active");
+    for(i=0;i<3;i++){
+      if(idx != i){
+        $("#div_"+i).hide();
+      }
+    }
+    $("#div_"+idx).fadeIn();
+  });
+  
+  //Submit data
+  $("#btn_course").click(function(){
+    //Get data from offline storage
+    course_id = $("#course_id_hdn").val();
+    course = getStorage("course_name");
+    descr = getStorage("course_descr");
+    code = getStorage("course_code");
+    //campus_id = getStorage("course_campus_id");
+    campus_id = $("#course_campus_id_hdn").val();
+    
+    var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&campus_id=' + campus_id;  
+    //alert (dataString);return false;  
+    $.ajax({  
+      type: "POST",  
+      url: "/course/save",  
+      data: dataString,
+      dataType:"json",
+      success: function(data) {
+        if (data) {
+          alert("Data Saved");
+          $("#course_id_hdn").val(data.course.id);
+        } else {
+          alert("ERROR");
+        }
+      }
+    });  
+    return false;  
+  });
+  
+});
+
+//Set temp storage
+function setStorage(key,value){
+  //alert(key +"==="+ value);//debug
+  if(value!=""){
+    jStorage.set(key, value);
+  }
+}
+//Get temp storage
+function getStorage(key) {
+  var val
+  if(jStorage.get(key)!=""){
+    val = jStorage.get(key);
+  }
+  return val;
+}
+-->
+/*
 <!--
 //For dynamic added nodes
 var _counter = 2;
@@ -191,15 +199,9 @@ $(document).ready(function(){
     });
     
     //fill up the outcome tags object
-    <% @outcomes.each do |outcome| %>
-      _outComeTags[i] = "<%=outcome.name %>";
-      i++;
-    <% end %>
+    
     //fill up the participants tags object
-    <% @participants.each do |participant| %>
-      _participantsTags[j] = "<%=participant.object_type %>";
-      j++;
-    <% end %>
+    
     
     $("#outcome_container .medium").live("keydown.autocomplete", function() {
       $(this).autocomplete({
@@ -309,4 +311,5 @@ function setPercentages(obj) {
   //obj.val(total);
 }
 -->
+*/
 </script>
