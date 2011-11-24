@@ -35,23 +35,44 @@
         <div class="frm_label small_label">
           Participants
         </div>
-        <div class="frm_input" id="participants_container">
+        <div class="frm_input">
           <% @people.each do |p| %>
-          <input type="checkbox" name="chk_participants[]" id="chk_participants_1" />
-          <input type="text" name="participants[]" value="<%= p.full_name %>" id="participants_1" class="medium" />
+          <div class="frm_input" id="people_div_<%=p.id%>">
+            <input type="checkbox" name="chk_people[]"  id="<%=p.id%>" />
+            <input type="text" name="people[]" value="<%= p.full_name %>" readonly="true" id="people_<%=p.id%>" class="medium" />
+            <input type="hidden" name="people_id[]" value="<%= p.id %>" id="people_email_<%=p.id%>" class="medium" />
+          </div>
           <% end %>
+          <div class="frm_input" id="add_people_container" style="padding-left:22px;">
+            <input type="text" name="add_people_email[]" value="Type in email to add" class="medium node" id="add_people_email_1"/>
+          </div>
         </div>
       </div>
       <div class="frm_button">
         <input type="button" name="btn_course" id="btn_course" value="Save"/>
       </div>
       <input type="hidden" name="course_id" id="course_id_hdn" value="" />
-      <input type="hidden" name="campus_id" id="course_campus_id_hdn" value="<%= @profile.school_id %>" />
+      <input type="hidden" name="campus_id" id="course_campus_id_hdn" value="<%= @profile.campus_id %>" />
     </form>
+  </div>
+  <div class="left_button hide" id="remove_bt_div">
+    <input type="button" name="btn_remove" id="btn_remove" class="big_btn" value="Remove All"/>
   </div>
 </div>
 <script type="text/javascript">
 <!-- 
+//For dynamic added nodes
+var _counter = 2;
+
+var _peopleObject = [];
+var _addPeopleEmailObject = [];
+
+//set people email to offline storage
+$.each($('input[name="people_id[]"]'), function() {
+  //alert($(this).attr('id') +"==="+ $(this).val()) 
+  setStorage($(this).attr('id'), $(this).val());
+});
+
 
 //Set CSRF Token (Required for ajax request (post))
 $(document).ajaxSend(function(e, xhr, options) {
@@ -71,6 +92,12 @@ $(document).ready(function(){
         $("#div_"+i).hide();
       }
     }
+    if(idx == 2) {
+      $("#remove_bt_div").fadeIn();
+    } else {
+     $("#remove_bt_div").hide();
+    }
+    
     $("#div_"+idx).fadeIn();
   });
   
@@ -84,7 +111,21 @@ $(document).ready(function(){
     //campus_id = getStorage("course_campus_id");
     campus_id = $("#course_campus_id_hdn").val();
     
-    var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&campus_id=' + campus_id;  
+    //get people id from offline storage
+    i = 0;
+    $.each($('input[name="people_id[]"]'), function() {
+      _peopleObject[i] = getStorage($(this).attr('id'));
+      i++;
+    });
+    
+    //get people email from offline storage
+    i = 0;
+    $.each($('input[name="add_people_email[]"]'), function() {
+      _addPeopleEmailObject[i] = getStorage($(this).attr('id'));
+      i++;
+    });
+    
+    var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&campus_id=' + campus_id + '&people_id=' + _peopleObject + '&people_email=' + _addPeopleEmailObject;  
     //alert (dataString);return false;  
     $.ajax({  
       type: "POST",  
@@ -103,149 +144,41 @@ $(document).ready(function(){
     return false;  
   });
   
-});
-
-//Set temp storage
-function setStorage(key,value){
-  //alert(key +"==="+ value);//debug
-  if(value!=""){
-    jStorage.set(key, value);
-  }
-}
-//Get temp storage
-function getStorage(key) {
-  var val
-  if(jStorage.get(key)!=""){
-    val = jStorage.get(key);
-  }
-  return val;
-}
--->
-/*
-<!--
-//For dynamic added nodes
-var _counter = 2;
-var _counter_people = 2;
-//For percent counter
-var _percent = 100;
-//For Autocomplete tags
-var _outComeTags = [];
-var _participantsTags = [];
-var i = 0;
-var j = 0;
-//Set CSRF Token (Required for ajax request (post))
-$(document).ajaxSend(function(e, xhr, options) {
-  var token = $("meta[name='csrf-token']").attr("content");
-  xhr.setRequestHeader("X-CSRF-Token", token);
-});
-
-$(document).ready(function(){
-  //Flush the previous offline storage
-  jStorage.flush()
-  //Toggle Tabs
-  $(".menu_container a").click(function(){
-    idx = $(this).attr("value");
-    $(".menu_container a").removeClass("active");
-    $(this).addClass("active");
-    for(i=0;i<6;i++){
-      if(idx != i){
-        $("#div_"+i).hide();
-      }
+  $("#add_people_container .node").live("focus", function(){
+    pval = $(this).val();
+    if(pval=="Type in email to add") {
+      $(this).val("");
     }
-    $("#div_"+idx).fadeIn();
-  });
-    
-  //Submit data
-  $("#btn_task").click(function(){
-    //Get data from offline storage
-    task_id = $("#task_id_hdn").val();
-    task = getStorage("task_name");
-    descr = getStorage("task_descr");
-    due_date = getStorage("task_due_date");
-    level = getStorage("task_level");
-    
-    //For outcome data object (gather values from dynamic created nodes)
-    var outcomeObject = [];
-    //Prepare all outcomes created as nodes
-    for(i=1; i<_counter; i++) {
-      storage_key = "task_outcomes_"+i;
-      outcomeObject[i] = getStorage(storage_key);
-    }
-    
-    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level ;  
-    //alert (dataString);return false;  
-    $.ajax({  
-      type: "POST",  
-      url: "/task/save",  
-      data: dataString,
-      dataType:"json",
-      success: function(data) {
-        if (data) {
-          alert("Data Saved");
-          $("#task_id_hdn").val(data.task.id);
-        } else {
-          alert("ERROR");
-        }
-      }
-    });  
-    return false;  
   });
   
-  $(function() {
-    //Due date datepicker
-    $("#due_date").datepicker({
-      dateFormat: 'yy-mm-dd',
-      onSelect: function(dateText, inst) {setStorage("task_due_date", dateText);}
-    });
+  $("#add_people_container .node").live("focusout", function(){
+    var current_node = _counter - 1;
+    var filter=/^.+@.+\..{2,3}$/
+    var pval = $("#add_people_email_"+current_node).val();
     
-    //fill up the outcome tags object
-    
-    //fill up the participants tags object
-    
-    
-    $("#outcome_container .medium").live("keydown.autocomplete", function() {
-      $(this).autocomplete({
-        source: _outComeTags,
-        select: function(event, ui){
-        
-        }
-      });
-    });
-    
-    $("#outcome_container .medium").live("focusout", function(){
-      current_node = _counter - 1;
-      if($("#outcomes_"+current_node).val()!="") {
-        addNode('outcome');
+    if(pval != "" && pval!="Type in email to add") {
+      if(filter.test(pval)) {
+        setStorage("add_people_email_"+current_node, pval);
+        addNode();
+      } else {
+        alert("Please enter a valid email");
+      }
+    } else {
+      $("#add_people_email_"+current_node).val("Type in email to add");
+    }
+  });
+  
+  //Remove people nodes
+   $("#btn_remove").live("click", function(){
+    $("input[name='chk_people[]']").each(function(){
+      if(this.checked) {
+        div_id = $(this).attr('id');
+        $("#people_div_"+div_id).remove();
       }
     });
-    
-    $("#participants_container .medium").live("keydown.autocomplete", function() {
-      $(this).autocomplete({
-        source: _participantsTags,
-        select: function(event, ui){
-          addNode('people');
-        }
-      });
-    });
-    
-  // Setup html5 file upload
-  $("#upload_container").pluploadQueue({
-    // General settings
-    runtimes : 'html5',
-    url : '/task/upload_resource',
-    max_file_size : '10mb',
-    chunk_size : '1mb',
-    unique_names : true,
-    filters : [
-      {title : "Image files", extensions : "jpg,gif,png"},
-      {title : "Zip files", extensions : "zip"}
-    ],
-    // Resize images on clientside if we can
-    resize : {width : 320, height : 240, quality : 90}
   });
-    
-  }); // $(function) ends
-}); //document.ready ends
+  
+});
 
 //Set temp storage
 function setStorage(key,value){
@@ -262,54 +195,13 @@ function getStorage(key) {
   }
   return val;
 }
-//Adding text field nodes for outcomes/peoples
-function addNode(element) {
-  if(element == "outcome") {
-    var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counter);
+//Adding text field nodes for peoples
+function addNode() {
+    var newNode = $(document.createElement('div')).attr("id", 'people_node_div' + _counter);
     newNode.css("marginTop" , "20px");
-    //newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" rel="outcomes_' + _counter + '" value="" class="medium" onblur="javascript:setStorage(\'task_outcomes_'+_counter+'\', $(this).val())" /> &nbsp;&nbsp;<input type="text" name="percentage[]" id="percentage_' + _counter + '" rel="outcomes_' + _counter + '" value="" class="small" onblur="javascript:setPercentages($(this));">');
-    newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" value="" class="medium" onblur="javascript:setStorage(\'task_outcomes_'+_counter+'\', $(this).val())" />');
-    newNode.appendTo("#outcome_container");
+    newNode.html('<input type="text" name="add_people_email[]" value="Type in email to add" class="medium node" id="add_people_email_' + _counter + '" />');
+    newNode.appendTo("#add_people_container");
     _counter++;
-  } else if (element == "people") {
-    var newNode = $(document.createElement('div')).attr("id", 'people_node_div' + _counter_people);
-    newNode.css("marginTop" , "20px");
-    newNode.html('<input type="checkbox" name="chk_participants[]" id="chk_participants_'+ _counter_people +'" /><input type="text" name="participants[]" id="participants_' + _counter_people + '" value="" class="medium">');
-    newNode.appendTo("#participants_container");
-    _counter_people++;
-  }
-}
-
-//Showing Percentage/points for each outcome
-function setPercentages(obj) {
-  var total = 0;
-  var objVal = parseInt($.trim(obj.val().replace('%', '')));
-  $.each($('input[name$="percentage[]"]'), function() {
-      rel = $(this).attr("rel");
-      if($("#"+rel).val()) {  
-        val = $(this).val();
-        if(val!="") {
-          val = parseInt($.trim(val.replace('%', '')));
-        }else{
-          val = 0;
-        }
-        if(total>=0) {
-          total = parseInt(total) + parseInt(val);
-        }
-        if(total>=100) {
-          total = total - 100;
-          obj.val(total);
-        } else {
-          total = 100 - total; 
-          alert(total)
-          obj.val(objVal + total);
-        }
-        //if($(this.id))
-      }
-  });
-  //alert(total);
-  //obj.val(total);
 }
 -->
-*/
 </script>

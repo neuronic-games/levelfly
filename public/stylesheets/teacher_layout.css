@@ -76,6 +76,11 @@ div .frm_button{
   margin:370px 25px 0 0;
   text-align:right;
 }
+div .left_button {
+  widht:200px;
+  float:left;
+  margin:20px 0 0 12px;
+}
 div .level_radio {
   width:20px;
   float:left;
@@ -101,6 +106,9 @@ input {
 .small {
   width:50px;
 }
+.node {
+  font-style:italic;
+}
 textarea {
   border:1px solid #A9A9A9;
   width:400px;
@@ -113,6 +121,9 @@ select {
 input[type=button] {
   cursor:pointer;
   width:100px;
+}
+.big_btn {
+  width:140px !important;
 }
 input[type=file] {
   border:none;
