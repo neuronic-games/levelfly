@@ -25,7 +25,7 @@ class CourseController < ApplicationController
     
     if @course.save
       # Participant record for master
-      participant = Participant.find(:first, :conditions => ["object_id = ? AND profile_id = ?", @course.id, user_session[:profile_id]])
+      participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]])
       if !participant
         @participant = Participant.new
         @participant.object_id = @course.id
@@ -64,7 +64,7 @@ class CourseController < ApplicationController
       
       # Participant record for student (looping on coming people_id)
       peoples_array.each do |p_id|
-        participant = Participant.find(:first, :conditions => ["object_id = ? AND profile_id = ?", @course.id, p_id])
+        participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", @course.id, p_id])
         if !participant
           @participant = Participant.new
           @participant.object_id = @course.id

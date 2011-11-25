@@ -34,6 +34,17 @@
           <textarea name="descr" id="descr" rows="10" onblur='javascript:setStorage("task_descr", $(this).val())'></textarea>
         </div>
         <div class="frm_label">
+          Course
+        </div>
+        <div class="frm_input">
+          <select name="course" id="course">
+            <option value="">SELECT</option>
+            <% @courses.each do |c| %>
+            <option value="<%= c.id %>"><%= c.name %></option>
+            <% end %>
+          </select>
+        </div>
+        <div class="frm_label">
           Due Date
         </div>
         <div class="frm_input">
@@ -96,21 +107,24 @@
           Organizer
         </div>
         <div class="frm_input">
-          <input type="text" name="organizer" id="organizer" class="medium" onblur='javascript:setStorage("task_organizer", $(this).val())'/>
+          <input type="text" name="organizer" id="organizer" value="<%=@profile.full_name%>" readonly="true" class="medium" onblur='javascript:setStorage("task_organizer", $(this).val())'/>
         </div>
         <div class="frm_label small_label">
           Participants
         </div>
         <div class="frm_input" id="participants_container">
-          <input type="checkbox" name="chk_participants[]" id="chk_participants_1" />
-          <input type="text" name="participants[]" id="participants_1" class="medium" />
+        
         </div>
       </div>
       <div class="frm_button">
         <input type="button" name="btn_task" id="btn_task" value="Save"/>
       </div>
       <input type="hidden" name="task_id" id="task_id_hdn" value="" />
+      <input type="hidden" name="campus_id" id="course_campus_id_hdn" value="<%= @profile.campus_id %>" />
     </form>
+  </div>
+  <div class="left_button hide" id="task_remove_bt_div">
+    <input type="button" name="task_btn_remove" id="task_btn_remove" class="big_btn" value="Remove All"/>
   </div>
 </div>
 <script type="text/javascript">
@@ -125,6 +139,10 @@ var _outComeTags = [];
 var _participantsTags = [];
 var i = 0;
 var j = 0;
+
+var _taskPeopleObject = [];
+var _addTaskPeopleEmailObject = [];
+
 //Set CSRF Token (Required for ajax request (post))
 $(document).ajaxSend(function(e, xhr, options) {
   var token = $("meta[name='csrf-token']").attr("content");
@@ -144,6 +162,13 @@ $(document).ready(function(){
         $("#div_"+i).hide();
       }
     }
+    
+    if(idx == 5) {
+      $("#task_remove_bt_div").fadeIn();
+    } else {
+     $("#task_remove_bt_div").hide();
+    }
+    
     $("#div_"+idx).fadeIn();
   });
     
@@ -155,6 +180,8 @@ $(document).ready(function(){
     descr = getStorage("task_descr");
     due_date = getStorage("task_due_date");
     level = getStorage("task_level");
+    course_id = getStorage("task_course");
+    campus_id = $("#course_campus_id_hdn").val();
     
     //For outcome data object (gather values from dynamic created nodes)
     var outcomeObject = [];
@@ -164,7 +191,21 @@ $(document).ready(function(){
       outcomeObject[i] = getStorage(storage_key);
     }
     
-    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level ;  
+    //get people id from offline storage
+    i = 0;
+    $.each($('input[name="task_people_id[]"]'), function() {
+      _taskPeopleObject[i] = getStorage($(this).attr('id'));
+      i++;
+    });
+    
+    //get people email from offline storage
+    i = 0;
+    $.each($('input[name="add_task_people_email[]"]'), function() {
+      _addTaskPeopleEmailObject[i] = getStorage($(this).attr('id'));
+      i++;
+    });
+    
+    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&campus_id=' +campus_id;  
     //alert (dataString);return false;  
     $.ajax({  
       type: "POST",  
@@ -183,6 +224,15 @@ $(document).ready(function(){
     return false;  
   });
   
+  $("#course").live( "change", function(){
+    //alert($(this).val()); return false;
+    courseId = $(this).val();
+    $.get('/task/task_people/', {course_id:courseId}, function(data) {
+      $('#participants_container').html(data);
+      setStorage('task_course', courseId)
+    })
+  });
+  
   $(function() {
     //Due date datepicker
     $("#due_date").datepicker({
@@ -196,10 +246,6 @@ $(document).ready(function(){
       i++;
     <% end %>
     //fill up the participants tags object
-    <% @participants.each do |participant| %>
-      _participantsTags[j] = "<%=participant.object_type %>";
-      j++;
-    <% end %>
     
     $("#outcome_container .medium").live("keydown.autocomplete", function() {
       $(this).autocomplete({
@@ -221,28 +267,62 @@ $(document).ready(function(){
       $(this).autocomplete({
         source: _participantsTags,
         select: function(event, ui){
-          addNode('people');
+          //addNode('people');
         }
       });
     });
     
-  // Setup html5 file upload
-  $("#upload_container").pluploadQueue({
-    // General settings
-    runtimes : 'html5',
-    url : '/task/upload_resource',
-    max_file_size : '10mb',
-    chunk_size : '1mb',
-    unique_names : true,
-    filters : [
-      {title : "Image files", extensions : "jpg,gif,png"},
-      {title : "Zip files", extensions : "zip"}
-    ],
-    // Resize images on clientside if we can
-    resize : {width : 320, height : 240, quality : 90}
-  });
+    $("#add_task_people_container .node").live("focus", function(){
+      pval = $(this).val();
+      if(pval=="Type in email to add") {
+        $(this).val("");
+      }
+    });
     
+    $("#add_task_people_container .node").live("focusout", function(){
+      pval = $(this).val();
+      var current_node = _counter_people - 1;
+      var filter=/^.+@.+\..{2,3}$/
+      var pval = $("#add_task_people_email_"+current_node).val();
+      if(pval != "" && pval!="Type in email to add") {
+        if(filter.test(pval)) {
+          setStorage("add_task_people_email_"+current_node, pval);
+          addNode('people');
+        } else {
+          alert("Please enter a valid email");
+        }
+      } else {
+         $("#add_task_people_email_"+current_node).val("Type in email to add");
+      }
+    });
+    
+    //Remove people nodes
+    $("#task_btn_remove").live("click", function(){
+      $("input[name='chk_task_people[]']").each(function(){
+        if(this.checked) {
+          div_id = $(this).attr('id');
+          $("#task_people_div_"+div_id).remove();
+        }
+      });
+    });
+    
+    // Setup html5 file upload
+    $("#upload_container").pluploadQueue({
+      // General settings
+      runtimes : 'html5',
+      url : '/task/upload_resource',
+      max_file_size : '10mb',
+      chunk_size : '1mb',
+      unique_names : true,
+      filters : [
+        {title : "Image files", extensions : "jpg,gif,png"},
+        {title : "Zip files", extensions : "zip"}
+      ],
+      // Resize images on clientside if we can
+      resize : {width : 320, height : 240, quality : 90}
+    });
   }); // $(function) ends
+  
 }); //document.ready ends
 
 //Set temp storage
@@ -265,48 +345,17 @@ function addNode(element) {
   if(element == "outcome") {
     var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counter);
     newNode.css("marginTop" , "20px");
-    //newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" rel="outcomes_' + _counter + '" value="" class="medium" onblur="javascript:setStorage(\'task_outcomes_'+_counter+'\', $(this).val())" /> &nbsp;&nbsp;<input type="text" name="percentage[]" id="percentage_' + _counter + '" rel="outcomes_' + _counter + '" value="" class="small" onblur="javascript:setPercentages($(this));">');
     newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" value="" class="medium" onblur="javascript:setStorage(\'task_outcomes_'+_counter+'\', $(this).val())" />');
     newNode.appendTo("#outcome_container");
     _counter++;
   } else if (element == "people") {
-    var newNode = $(document.createElement('div')).attr("id", 'people_node_div' + _counter_people);
+    var newNode = $(document.createElement('div')).attr("id", 'task people_node_div' + _counter_people);
     newNode.css("marginTop" , "20px");
-    newNode.html('<input type="checkbox" name="chk_participants[]" id="chk_participants_'+ _counter_people +'" /><input type="text" name="participants[]" id="participants_' + _counter_people + '" value="" class="medium">');
-    newNode.appendTo("#participants_container");
+    newNode.html('<input type="text" name="add_task_people_email[]" value="Type in email to add" class="medium node" id="add_task_people_email_' + _counter_people + '" />');
+    newNode.appendTo("#add_task_people_container");
     _counter_people++;
   }
 }
 
-//Showing Percentage/points for each outcome
-function setPercentages(obj) {
-  var total = 0;
-  var objVal = parseInt($.trim(obj.val().replace('%', '')));
-  $.each($('input[name$="percentage[]"]'), function() {
-      rel = $(this).attr("rel");
-      if($("#"+rel).val()) {  
-        val = $(this).val();
-        if(val!="") {
-          val = parseInt($.trim(val.replace('%', '')));
-        }else{
-          val = 0;
-        }
-        if(total>=0) {
-          total = parseInt(total) + parseInt(val);
-        }
-        if(total>=100) {
-          total = total - 100;
-          obj.val(total);
-        } else {
-          total = 100 - total; 
-          alert(total)
-          obj.val(objVal + total);
-        }
-        //if($(this.id))
-      }
-  });
-  //alert(total);
-  //obj.val(total);
-}
 -->
 </script>

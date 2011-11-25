@@ -9,7 +9,7 @@ body{
   margin:50px auto;
   padding:20px;
   border:1px solid #A9A9A9;
-  height:450px;
+  height:480px;
 }
 .menu_container {
   width:600px;
@@ -34,7 +34,7 @@ body{
 
 .content_container {
   float:left;
-  height:350px;
+  height:380px;
   overflow:auto;
 }
 .form_container {
@@ -73,7 +73,7 @@ div .frm_button{
   position:absolute;
   right: 360px;
   width:120px;
-  margin:370px 25px 0 0;
+  margin:400px 25px 0 0;
   text-align:right;
 }
 div .left_button {

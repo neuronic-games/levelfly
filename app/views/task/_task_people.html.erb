@@ -1,0 +1,17 @@
+<% @people.each do |p| %>
+<div class="frm_input" id="task_people_div_<%=p.id%>">
+  <input type="checkbox" name="chk_task_people[]"  id="<%=p.id%>" />
+  <input type="text" name="task_people[]" value="<%= p.full_name %>" readonly="true" id="task_people_<%=p.id%>" class="medium" />
+  <input type="hidden" name="task_people_id[]" value="<%= p.id %>" id="task_people_email_<%=p.id%>" class="medium" />
+</div>
+<% end %>
+<div class="frm_input" id="add_task_people_container" style="padding-left:22px;">
+  <input type="text" name="add_task_people_email[]" value="Type in email to add" class="medium node" id="add_task_people_email_1"/>
+</div>
+<script type="text/javascript">
+  //set task people email to offline storage
+  $.each($('input[name="task_people_id[]"]'), function() {
+    //alert($(this).attr('id') +"==="+ $(this).val()) 
+    setStorage($(this).attr('id'), $(this).val());
+  });
+</script>

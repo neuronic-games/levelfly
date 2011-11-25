@@ -3,11 +3,13 @@ class TaskController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @outcomes = Outcome.find(:all, 
-      :order => "name")
-      
-    @participants = Participant.find(:all,  
-      :order => "object_type")
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    if @profile
+      user_session[:profile_id] = @profile.id
+    end
+    
+    @outcomes = Outcome.find(:all, :order => "name")
+    @courses = Course.find(:all, :joins=>"INNER JOIN participants ON participants.object_id = courses.id AND participants.object_type = 'Course' AND participants.profile_type = 'M' AND participants.profile_id = #{@profile.id}")
   end
 
   def show
@@ -15,11 +17,6 @@ class TaskController < ApplicationController
   
   def save
     status = false
-    
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    if @profile
-      user_session[:profile_id] = @profile.id
-    end
     
     if params[:id] && !params[:id].empty?
       @task = Task.find(params[:id])
@@ -32,6 +29,8 @@ class TaskController < ApplicationController
     @task.descr = params[:descr]
     @task.due_date = params[:due_date]
     @task.level = params[:level]
+    @task.campus_id = params[:campus_id]
+    @task.course_id = params[:course_id]
     
     if @task.save
       if !params[:outcomes].empty?
@@ -57,7 +56,7 @@ class TaskController < ApplicationController
         end
       end
       # Participant record
-      participant = Participant.find(:first, :conditions => ["object_id = ? AND profile_id = ?", @task.id, user_session[:profile_id]])
+      participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Task' AND profile_id = ?", @task.id, user_session[:profile_id]])
       if !participant
         @participant = Participant.new
         @participant.object_id = @task.id
@@ -66,6 +65,47 @@ class TaskController < ApplicationController
         @participant.profile_type = "M"
         @participant.save
       end
+      
+      peoples_array = params[:people_id].split(",")
+      peoples_email_array = params[:people_email].split(",")
+      peoples_email_array.each do |p_email|
+        user = User.find(:first, :conditions=>["email = ?", p_email])
+        if(user)
+          profile = Profile.find(:first, :conditions=>["user_id = ?", user.id])
+          peoples_array.push(profile.id)
+        else
+          @user =  User.create(
+            :email => p_email, 
+            :password => Devise.friendly_token[0,20], 
+            :confirmed_at => DateTime.now
+          )
+          if @user.save!
+            @profile = Profile.create(
+              :user_id => @user.id, 
+              :campus_id => @task.campus_id,
+              :name => @user.email, 
+              :full_name => @user.email
+            )
+            if @profile.save!
+              peoples_array.push(@profile.id)
+            end
+          end
+        end
+      end
+      
+      # Participant record for student (looping on coming people_id)
+      peoples_array.each do |p_id|
+        participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Task' AND profile_id = ?", @task.id, p_id])
+        if !participant
+          @participant = Participant.new
+          @participant.object_id = @task.id
+          @participant.object_type = "Task"
+          @participant.profile_id = p_id
+          @participant.profile_type = "S"
+          @participant.save
+        end
+      end
+      
       status = true
     end
     
@@ -84,5 +124,12 @@ class TaskController < ApplicationController
     file = File.join("public/resources", params[:name])
     FileUtils.cp tmp.path, file
     render :nothing => true
+  end
+  
+  def task_people
+    if !params[:course_id].nil?
+      @people = Profile.find(:all, :joins=>"INNER JOIN participants ON participants.object_id = #{params[:course_id]} AND participants.object_type = 'Course' AND participants.profile_id = profiles.id AND participants.profile_type = 'S' AND participants.profile_id != #{current_user.id}")
+      render :partial => "/task/task_people"
+    end
   end
 end

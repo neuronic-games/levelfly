@@ -36,6 +36,8 @@ Oncapus::Application.routes.draw do
   
   post "task/upload_resource"
   
+  get "task/task_people"
+  
   match 'task' => 'task#index'
   
   get "course/index"
