@@ -29,7 +29,7 @@ class TaskController < ApplicationController
     @task.descr = params[:descr]
     @task.due_date = params[:due_date]
     @task.level = params[:level]
-    @task.campus_id = params[:campus_id]
+    @task.school_id = params[:school_id]
     @task.course_id = params[:course_id]
     
     if @task.save
@@ -82,7 +82,7 @@ class TaskController < ApplicationController
           if @user.save!
             @profile = Profile.create(
               :user_id => @user.id, 
-              :campus_id => @task.campus_id,
+              :school_id => @task.school_id,
               :name => @user.email, 
               :full_name => @user.email
             )

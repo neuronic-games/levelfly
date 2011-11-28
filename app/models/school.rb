@@ -1,4 +1,4 @@
-class Campus < ActiveRecord::Base
+class School < ActiveRecord::Base
   has_many :profile
   has_many :majors
   has_many :access_codes

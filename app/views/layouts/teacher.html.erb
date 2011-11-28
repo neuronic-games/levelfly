@@ -23,6 +23,17 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
- <%= yield %>
+  <div id="wrapper">
+    <div id="sidebar_left">
+      <div id="sidebar_container">
+        Menu here
+      </div>
+    </div><!-- sidebar_left -->
+    <div id="header">
+    </div><!-- header -->
+    <div id="container">
+      <%= yield %>
+    </div><!-- container -->
+  </div><!-- wrapper -->
 </body>
 </html>

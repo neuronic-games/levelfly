@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="content_wrapper">
   <div class="menu_container">
     <ul>
       <li>
@@ -52,7 +52,7 @@
         <input type="button" name="btn_course" id="btn_course" value="Save"/>
       </div>
       <input type="hidden" name="course_id" id="course_id_hdn" value="" />
-      <input type="hidden" name="campus_id" id="course_campus_id_hdn" value="<%= @profile.campus_id %>" />
+      <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
     </form>
   </div>
   <div class="left_button hide" id="remove_bt_div">
@@ -108,8 +108,7 @@ $(document).ready(function(){
     course = getStorage("course_name");
     descr = getStorage("course_descr");
     code = getStorage("course_code");
-    //campus_id = getStorage("course_campus_id");
-    campus_id = $("#course_campus_id_hdn").val();
+    school_id = $("#course_school_id_hdn").val();
     
     //get people id from offline storage
     i = 0;
@@ -125,7 +124,7 @@ $(document).ready(function(){
       i++;
     });
     
-    var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&campus_id=' + campus_id + '&people_id=' + _peopleObject + '&people_email=' + _addPeopleEmailObject;  
+    var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&school_id=' + school_id + '&people_id=' + _peopleObject + '&people_email=' + _addPeopleEmailObject;  
     //alert (dataString);return false;  
     $.ajax({  
       type: "POST",  

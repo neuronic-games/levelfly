@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="content_wrapper">
   <div class="menu_container">
     <ul>
       <li>
@@ -120,7 +120,7 @@
         <input type="button" name="btn_task" id="btn_task" value="Save"/>
       </div>
       <input type="hidden" name="task_id" id="task_id_hdn" value="" />
-      <input type="hidden" name="campus_id" id="course_campus_id_hdn" value="<%= @profile.campus_id %>" />
+      <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
     </form>
   </div>
   <div class="left_button hide" id="task_remove_bt_div">
@@ -181,7 +181,7 @@ $(document).ready(function(){
     due_date = getStorage("task_due_date");
     level = getStorage("task_level");
     course_id = getStorage("task_course");
-    campus_id = $("#course_campus_id_hdn").val();
+    school_id = $("#course_school_id_hdn").val();
     
     //For outcome data object (gather values from dynamic created nodes)
     var outcomeObject = [];
@@ -205,7 +205,7 @@ $(document).ready(function(){
       i++;
     });
     
-    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&campus_id=' +campus_id;  
+    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id;  
     //alert (dataString);return false;  
     $.ajax({  
       type: "POST",  

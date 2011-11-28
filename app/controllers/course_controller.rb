@@ -7,7 +7,7 @@ class CourseController < ApplicationController
     if @profile
       user_session[:profile_id] = @profile.id
     end
-    @people = Profile.find(:all, :conditions => ["user_id != ? AND campus_id = ?", current_user.id, @profile.campus_id ])
+    @people = Profile.find(:all, :conditions => ["user_id != ? AND school_id = ?", current_user.id, @profile.school_id ])
   end
   
   def save
@@ -21,7 +21,7 @@ class CourseController < ApplicationController
     @course.name = params[:course]
     @course.descr = params[:descr]
     @course.code = params[:code]
-    @course.campus_id = params[:campus_id]
+    @course.school_id = params[:school_id]
     
     if @course.save
       # Participant record for master
@@ -51,7 +51,7 @@ class CourseController < ApplicationController
           if @user.save!
             @profile = Profile.create(
               :user_id => @user.id, 
-              :campus_id => @course.campus_id,
+              :school_id => @course.school_id,
               :name => @user.email, 
               :full_name => @user.email
             )

@@ -11,10 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111124104647) do
+ActiveRecord::Schema.define(:version => 20111128062238) do
 
   create_table "access_codes", :force => true do |t|
-    t.integer  "campus_id"
+    t.integer  "school_id"
     t.integer  "major_id"
     t.string   "code",           :limit => 32
     t.date     "available_date"
@@ -73,14 +73,6 @@ ActiveRecord::Schema.define(:version => 20111124104647) do
     t.datetime "updated_at"
   end
 
-  create_table "campus", :force => true do |t|
-    t.string   "name",       :limit => 64
-    t.string   "code",       :limit => 64
-    t.boolean  "archived",                 :default => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "campus_majors", :force => true do |t|
     t.integer  "campus_id"
     t.integer  "major_id"
@@ -95,14 +87,14 @@ ActiveRecord::Schema.define(:version => 20111124104647) do
     t.datetime "updated_at"
     t.integer  "course_id"
     t.integer  "percent_value"
-    t.integer  "campus_id"
+    t.integer  "school_id"
   end
 
   create_table "courses", :force => true do |t|
     t.string   "name",       :limit => 64
     t.text     "descr"
     t.string   "code"
-    t.integer  "campus_id"
+    t.integer  "school_id"
     t.boolean  "archived"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -115,7 +107,7 @@ ActiveRecord::Schema.define(:version => 20111124104647) do
     t.boolean  "archived"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "campus_id"
+    t.integer  "school_id"
   end
 
   create_table "majors", :force => true do |t|
@@ -129,7 +121,7 @@ ActiveRecord::Schema.define(:version => 20111124104647) do
   end
 
   create_table "outcome_grades", :force => true do |t|
-    t.integer  "campus_id"
+    t.integer  "school_id"
     t.integer  "course_id"
     t.integer  "outcome_id"
     t.integer  "profile_id"
@@ -153,6 +145,7 @@ ActiveRecord::Schema.define(:version => 20111124104647) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "course_id"
+    t.integer  "school_id"
   end
 
   create_table "participants", :force => true do |t|
@@ -166,7 +159,7 @@ ActiveRecord::Schema.define(:version => 20111124104647) do
 
   create_table "profiles", :force => true do |t|
     t.integer  "user_id"
-    t.integer  "campus_id"
+    t.integer  "school_id"
     t.integer  "major_id"
     t.string   "code",       :limit => 64
     t.string   "name",       :limit => 64
@@ -188,11 +181,19 @@ ActiveRecord::Schema.define(:version => 20111124104647) do
     t.boolean  "archived",                      :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "campus_id"
+    t.integer  "school_id"
+  end
+
+  create_table "schools", :force => true do |t|
+    t.string   "name",       :limit => 64
+    t.string   "code",       :limit => 64
+    t.boolean  "archived",                 :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "task_grades", :force => true do |t|
-    t.integer  "campus_id"
+    t.integer  "school_id"
     t.integer  "course_id"
     t.integer  "task_id"
     t.integer  "profile_id"
@@ -213,7 +214,7 @@ ActiveRecord::Schema.define(:version => 20111124104647) do
     t.boolean  "archived"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "campus_id"
+    t.integer  "school_id"
     t.integer  "course_id"
     t.integer  "level"
   end
