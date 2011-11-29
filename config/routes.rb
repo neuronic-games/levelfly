@@ -25,7 +25,9 @@ Oncapus::Application.routes.draw do
   get "task/index"
 
   get "task/show"
-
+  
+  get "task/new"
+  
   get "task/edit"
 
   get "task/save"

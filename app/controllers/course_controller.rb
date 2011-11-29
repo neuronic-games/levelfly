@@ -1,5 +1,5 @@
 class CourseController < ApplicationController
-  layout 'teacher'
+  layout 'main'
   before_filter :authenticate_user!
   
   def index

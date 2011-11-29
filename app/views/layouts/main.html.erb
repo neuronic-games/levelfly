@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OnCampus</title>
+  <meta name="viewport" content="width=device-width;" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="/images/ios_icon.png">
+  <link href='http://fonts.googleapis.com/css?family=Metrophobic' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/main_layout.css" media="screen" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/ui/jquery.ui.all.css" media="screen" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/ui/jquery.ui.autocomplete.css" media="screen" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/stylesheets/fileupload/css/jquery.plupload.queue.css" type="text/css" media="screen" />
+  <%= javascript_include_tag "application" %>
+  <script src="/assets/ui/jquery.ui.core.js"></script>
+  <script src="/assets/ui/jquery.ui.widget.js"></script>
+  <script src="/assets/ui/jquery.ui.position.js"></script>
+  <script src="/assets/ui/jquery.ui.autocomplete.js"></script>
+  <script src="/assets/ui/jquery.ui.datepicker.js"></script>
+  <script type="text/javascript" src="/assets/fileupload/plupload.js"></script>
+  <script type="text/javascript" src="/assets/fileupload/plupload.html5.js"></script>
+  <script type="text/javascript" src="/assets/fileupload/jquery.plupload.queue.js"></script>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div id="wrapper">
+    <div id="header">
+      <div id="avatar_thumb">
+      </div>
+      <div id="avatar_info">
+        <div id="avatar_name">
+          <%=user_session[:profile_name]%>
+        </div>
+        <div id="logout">
+          <a href="/users/sign_out" data-method="delete" rel="nofollow">Logout</a>
+        </div>
+        <div id="avatar_major">
+          <%=user_session[:profile_major]%>, <%=user_session[:profile_school]%>
+        </div>
+      </div>
+    </div><!-- header -->
+    <div id="sidebar_left">
+      <div id="sidebar_container">
+        <div id="sidebar_menu_top">
+          <div class="top_menu_item">
+          </div>
+          <div class="top_menu_item">
+          </div>
+          <div class="top_menu_item">
+          </div>
+          <div class="top_menu_item">
+          </div>
+        </div><!-- sidebar_menu_top -->
+        <div id="sidebar_menu_middle">
+          <div class="middle_menu_item">
+          </div>
+        </div><!-- sidebar_menu_middle -->
+        <div id="sidebar_menu_bottom">
+          <div id="root_level" class="hide">
+            <input type="button" name="menu_btn_courses" id="menu_btn_courses" value="Courses"/>
+            <input type="button" name="menu_btn_tasks" id="menu_btn_tasks" value="Tasks"/>
+            <input type="button" name="menu_btn_grades" id="menu_btn_grades" value="Grades"/>
+          </div>
+          <div id="crud_level">
+            <input type="button" name="menu_btn_add_tasks" id="menu_btn_add_tasks" value="Add"/>
+            <input type="button" name="menu_btn_hide_tasks" id="menu_btn_hide_tasks" value="Hide"/>
+            <input type="button" name="menu_btn_fav_tasks" id="menu_btn_fav_tasks" value="Fav"/>
+            <input type="button" name="menu_btn_print_tasks" id="menu_btn_print_tasks" value="Print"/>
+          </div>
+        </div><!-- sidebar_menu_bottom -->
+      </div><!-- sidebar_container -->
+    </div><!-- sidebar_left -->
+    <div id="container">
+      <%= yield %>
+    </div><!-- container -->
+  </div><!-- wrapper -->
+</body>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#menu_btn_add_tasks").click(function(){
+      $.ajax({  
+        type: "GET",  
+        url: "/task/new",  
+        success: function(data) {
+          if (data) {
+            $("#container").html(data);
+            $("#crud_level").hide($("#root_level").show());
+          } else {
+            alert("ERROR");
+          }
+        }
+      });  
+    });
+  });
+</script>
+</html>

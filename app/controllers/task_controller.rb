@@ -1,15 +1,38 @@
 class TaskController < ApplicationController
-  layout 'teacher'
+  layout 'main'
   before_filter :authenticate_user!
   
   def index
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if @profile
       user_session[:profile_id] = @profile.id
+      user_session[:profile_name] = @profile.full_name
+      user_session[:profile_major] = @profile.major.name
+      user_session[:profile_school] = @profile.school.code
     end
-    
+    @tasks = Task.find(
+      :all, 
+      :joins=>"
+        INNER JOIN participants ON participants.object_id = tasks.id 
+        AND participants.object_type = 'Task' 
+        AND participants.profile_id = #{@profile.id}
+      " 
+    )
+  end
+  
+  def new
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @outcomes = Outcome.find(:all, :order => "name")
-    @courses = Course.find(:all, :joins=>"INNER JOIN participants ON participants.object_id = courses.id AND participants.object_type = 'Course' AND participants.profile_type = 'M' AND participants.profile_id = #{@profile.id}")
+    @courses = Course.find(
+      :all, 
+      :joins=>"
+        INNER JOIN participants ON participants.object_id = courses.id 
+        AND participants.object_type = 'Course' 
+        AND participants.profile_type = 'M' 
+        AND participants.profile_id = #{@profile.id}
+      "
+    )
+    render :partial => "/task/new"
   end
 
   def show
