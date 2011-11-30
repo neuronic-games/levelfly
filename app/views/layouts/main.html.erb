@@ -56,12 +56,12 @@
           </div>
         </div><!-- sidebar_menu_middle -->
         <div id="sidebar_menu_bottom">
-          <div id="root_level" class="hide">
+          <div id="root_level">
             <input type="button" name="menu_btn_courses" id="menu_btn_courses" value="Courses"/>
             <input type="button" name="menu_btn_tasks" id="menu_btn_tasks" value="Tasks"/>
             <input type="button" name="menu_btn_grades" id="menu_btn_grades" value="Grades"/>
           </div>
-          <div id="crud_level">
+          <div id="crud_level" class="hide">
             <input type="button" name="menu_btn_add_tasks" id="menu_btn_add_tasks" value="Add"/>
             <input type="button" name="menu_btn_hide_tasks" id="menu_btn_hide_tasks" value="Hide"/>
             <input type="button" name="menu_btn_fav_tasks" id="menu_btn_fav_tasks" value="Fav"/>
@@ -77,7 +77,7 @@
 </body>
 <script type="text/javascript">
   $(document).ready(function(){
-    $("#menu_btn_add_tasks").click(function(){
+    $("#menu_btn_tasks").click(function(){
       $.ajax({  
         type: "GET",  
         url: "/task/new",  
@@ -91,6 +91,22 @@
         }
       });  
     });
+    
+    $("#menu_btn_courses").click(function(){
+      $.ajax({  
+        type: "GET",  
+        url: "/course/new",  
+        success: function(data) {
+          if (data) {
+            $("#container").html(data);
+            $("#crud_level").hide($("#root_level").show());
+          } else {
+            alert("ERROR");
+          }
+        }
+      });  
+    });
+    
   });
 </script>
 </html>

@@ -38,11 +38,15 @@ Oncapus::Application.routes.draw do
   
   post "task/upload_resource"
   
-  get "task/task_people"
+  get "task/course_peoples"
   
-  match 'task' => 'task#index'
+  get "task/course_categories"
+  
+  get "task/course_outcomes"
   
   get "course/index"
+  
+  get "course/new"
 
   get "course/show"
 
@@ -52,7 +56,12 @@ Oncapus::Application.routes.draw do
   
   post "course/save"
   
+  match 'task' => 'task#index'
+    
+  match 'main' => 'course#index'
+  
   match 'course' => 'course#index'
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

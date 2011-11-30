@@ -1,0 +1,6 @@
+<select name="course_categories" id="course_categories" onblur='javascript:setStorage("task_category", $(this).val())'>
+  <option value="null">SELECT</option>
+  <% @categories.each do |c| %>
+  <option value="<%= c.id %>"><%= c.name %></option>
+  <% end %>
+</select>

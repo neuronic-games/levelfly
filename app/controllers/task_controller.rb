@@ -4,12 +4,7 @@ class TaskController < ApplicationController
   
   def index
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    if @profile
-      user_session[:profile_id] = @profile.id
-      user_session[:profile_name] = @profile.full_name
-      user_session[:profile_major] = @profile.major.name
-      user_session[:profile_school] = @profile.school.code
-    end
+    
     @tasks = Task.find(
       :all, 
       :include => [:participants], 
@@ -44,28 +39,21 @@ class TaskController < ApplicationController
     @task.level = params[:level]
     @task.school_id = params[:school_id]
     @task.course_id = params[:course_id]
+    @task.category_id = params[:category_id]
     
     if @task.save
       if !params[:outcomes].empty?
         outcomes_array = params[:outcomes].split(",")
         outcomes_array.each do |o|
-          if o != ""
-            @outcome = Outcome.find_by_name(o)
-            if(!@outcome)
-              @outcome = Outcome.new
-              @outcome.name = o
-              @outcome.save
-            end
-            outcome_task = OutcomeTask.find(:first, :conditions => ["task_id = ? AND outcome_id = ?", @task.id, @outcome.id])
+            outcome_task = OutcomeTask.find(:first, :conditions => ["task_id = ? AND outcome_id = ?", @task.id, o])
             if !outcome_task
               # OutcomeTask record
               @outcome_task = OutcomeTask.new
               @outcome_task.task_id = @task.id
-              @outcome_task.outcome_id = @outcome.id
-              @outcome_task.points_percentage = params[:points]
+              @outcome_task.outcome_id = o
+              #@outcome_task.points_percentage = params[:points]
               @outcome_task.save
             end
-          end
         end
       end
       # Participant record
@@ -139,10 +127,25 @@ class TaskController < ApplicationController
     render :nothing => true
   end
   
-  def task_people
+  def course_categories
     if !params[:course_id].nil?
-      @people = Profile.find(:all, :joins=>"INNER JOIN participants ON participants.object_id = #{params[:course_id]} AND participants.object_type = 'Course' AND participants.profile_id = profiles.id AND participants.profile_type = 'S' AND participants.profile_id != #{current_user.id}")
-      render :partial => "/task/task_people"
+      @categories = Category.find(:all, :conditions=>["course_id = ?", params[:course_id]])
+      render :partial => "/task/course_categories"
     end
   end
+  
+  def course_outcomes
+    if !params[:course_id].nil?
+      @outcomes = Outcome.find(:all, :conditions=>["course_id = ?", params[:course_id]])
+      render :partial => "/task/course_outcomes"
+    end
+  end
+  
+  def course_peoples
+    if !params[:course_id].nil?
+      @people = Profile.find(:all, :joins=>"INNER JOIN participants ON participants.object_id = #{params[:course_id]} AND participants.object_type = 'Course' AND participants.profile_id = profiles.id AND participants.profile_type = 'S' AND participants.profile_id != #{current_user.id}")
+      render :partial => "/task/course_peoples"
+    end
+  end
+  
 end

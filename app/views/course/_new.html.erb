@@ -1,0 +1,281 @@
+<div class="content_wrapper">
+  <div class="menu_container">
+    <ul>
+      <li>
+        <a href="javascript:void(0)" value="1" class="active">SUMMARY</a>
+      </li>
+      <li>
+        <a href="javascript:void(0)" value="2" >PEOPLE</a>
+      </li>
+      <li>
+        <a href="javascript:void(0)" value="3" >OUTCOMES</a>
+      </li>
+      <li>
+        <a href="javascript:void(0)" value="4" >CATEGORIES</a>
+      </li>
+    </ul>
+  </div>
+  <div class="content_container">
+    <form name="frm_task" id="frm_task" enctype="multipart/form-data">
+      <div id="div_1" class="form_container">
+        <div class="frm_label">
+          Course
+        </div>
+        <div class="frm_input">
+          <input type="text" name="course_name" id="course_name" class="large" onBlur='javascript:setStorage("course_name", $(this).val())' />
+        </div>
+        <div class="frm_label">
+          Description
+        </div>
+        <div class="frm_input">
+          <textarea name="course_descr" id="course_descr" rows="10" onBlur='javascript:setStorage("course_descr", $(this).val())'></textarea>
+        </div>
+        <div class="frm_label">
+          Code
+        </div>
+        <div class="frm_input">
+          <input type="text" name="course_code" id="course_code" class="small" onBlur='javascript:setStorage("course_code", $(this).val())' />
+        </div>
+      </div>
+      <div id="div_2" class="form_container hide">
+        <div class="frm_label small_label">
+          Participants
+        </div>
+        <div class="frm_input">
+          <% @people.each do |p| %>
+          <div class="frm_input" id="people_div_<%=p.id%>">
+            <input type="checkbox" name="chk_people[]"  id="<%=p.id%>" />
+            <input type="text" name="people[]" value="<%= p.full_name %>" readonly="true" id="people_<%=p.id%>" class="medium" />
+            <input type="hidden" name="people_id[]" value="<%= p.id %>" id="people_email_<%=p.id%>" class="medium" />
+          </div>
+          <% end %>
+          <div class="frm_input" id="add_people_container" style="padding-left:22px;">
+            <input type="text" name="add_people_email[]" value="Type in email to add" class="medium node" id="add_people_email_1"/>
+          </div>
+        </div>
+      </div>
+      <div id="div_3" class="form_container hide">
+        <div class="frm_label small_label">
+          Outcomes
+        </div>
+        <div class="frm_input" id="add_outcome_container">
+          <input type="text" name="outcomes[]" id="outcomes_1" class="medium" /> &nbsp;&nbsp;
+        </div>
+      </div>
+      <div id="div_4" class="form_container hide">
+        <div class="frm_label small_label">
+          Categories
+        </div>
+        <div class="frm_input" id="add_category_container">
+          <input type="text" name="categories[]" id="categories_1" class="medium" /> &nbsp;&nbsp;
+        </div>
+      </div>
+      <div class="frm_button">
+        <input type="button" name="btn_course" id="btn_course" value="Save"/>
+      </div>
+      <input type="hidden" name="course_id" id="course_id_hdn" value="" />
+      <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
+    </form>
+  </div>
+  <div class="left_button hide" id="remove_bt_div">
+    <input type="button" name="btn_remove" id="btn_remove" class="big_btn" value="Remove All"/>
+  </div>
+</div>
+<script type="text/javascript">
+<!-- 
+//For dynamic added nodes
+var _counterPeople = 2;
+var _counterOutcome = 2;
+var _counterCategory = 2;
+
+var _peopleObject = [];
+var _addPeopleEmailObject = [];
+var _outcomesObject = [];
+var _categoriesObject = [];
+
+//set people email to offline storage
+$.each($('input[name="people_id[]"]'), function() {
+  //alert($(this).attr('id') +"==="+ $(this).val()) 
+  setStorage($(this).attr('id'), $(this).val());
+});
+
+
+//Set CSRF Token (Required for ajax request (post))
+$(document).ajaxSend(function(e, xhr, options) {
+  var token = $("meta[name='csrf-token']").attr("content");
+  xhr.setRequestHeader("X-CSRF-Token", token);
+});
+
+$(document).ready(function(){
+  
+  //Toggle Tabs
+  $(".menu_container a").click(function(){
+    idx = $(this).attr("value");
+    $(".menu_container a").removeClass("active");
+    $(this).addClass("active");
+    for(i=0;i<5;i++){
+      if(idx != i){
+        $("#div_"+i).hide();
+      }
+    }
+    if(idx == 2) {
+      $("#remove_bt_div").fadeIn();
+    } else {
+     $("#remove_bt_div").hide();
+    }
+    
+    $("#div_"+idx).fadeIn();
+  });
+  
+  //Submit data
+  $("#btn_course").click(function(){
+    //Get data from offline storage
+    course_id = $("#course_id_hdn").val();
+    course = getStorage("course_name");
+    descr = getStorage("course_descr");
+    code = getStorage("course_code");
+    school_id = $("#course_school_id_hdn").val();
+    
+    //get people id from offline storage
+    i = 0;
+    $.each($('input[name="people_id[]"]'), function() {
+      _peopleObject[i] = getStorage($(this).attr('id'));
+      i++;
+    });
+    
+    //get people email from offline storage
+    j = 0;
+    $.each($('input[name="add_people_email[]"]'), function() {
+      _addPeopleEmailObject[j] = getStorage($(this).attr('id'));
+      j++;
+    });
+    
+    //get outcomes from offline storage
+    k = 0;
+    $.each($('input[name="outcomes[]"]'), function() {
+      _outcomesObject[k] = getStorage($(this).attr('id'));
+      k++;
+    });
+    
+    //get outcomes from offline storage
+    l = 0;
+    $.each($('input[name="categories[]"]'), function() {
+      _categoriesObject[l] = getStorage($(this).attr('id'));
+      l++;
+    });
+    
+    var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&school_id=' + school_id + '&people_id=' + _peopleObject + '&people_email=' + _addPeopleEmailObject + '&outcomes=' + _outcomesObject + '&categories=' + _categoriesObject;  
+    //alert (dataString);return false;  
+    $.ajax({  
+      type: "POST",  
+      url: "/course/save",  
+      data: dataString,
+      dataType:"json",
+      success: function(data) {
+        if (data) {
+          alert("Data Saved");
+          $("#course_id_hdn").val(data.course.id);
+        } else {
+          alert("ERROR");
+        }
+      }
+    });  
+    return false;  
+  });
+  
+  //For people node
+  $("#add_people_container .node").live("focus", function(){
+    pval = $(this).val();
+    if(pval=="Type in email to add") {
+      $(this).val("");
+    }
+  });
+  
+  $("#add_people_container .node").live("focusout", function(){
+    var current_node = _counterPeople - 1;
+    var filter=/^.+@.+\..{2,3}$/
+    var pval = $("#add_people_email_"+current_node).val();
+    
+    if(pval != "" && pval!="Type in email to add") {
+      if(filter.test(pval)) {
+        setStorage("add_people_email_"+current_node, pval);
+        addNode('people');
+      } else {
+        alert("Please enter a valid email");
+      }
+    } else {
+      $("#add_people_email_"+current_node).val("Type in email to add");
+    }
+  });
+  
+  //Remove people nodes
+   $("#btn_remove").live("click", function(){
+    $("input[name='chk_people[]']").each(function(){
+      if(this.checked) {
+        div_id = $(this).attr('id');
+        $("#people_div_"+div_id).remove();
+      }
+    });
+  });
+  
+  //For outcomes node
+  $("#add_outcome_container .medium").live("focusout", function(){
+    current_node = _counterOutcome - 1;
+    val = $("#outcomes_"+current_node).val();
+    if(val!="") {
+      addNode('outcome');
+      setStorage("outcomes_"+current_node, val);
+    }
+  });
+  
+  //For categories node
+  $("#add_category_container .medium").live("focusout", function(){
+    current_node = _counterCategory - 1;
+    val = $("#categories_"+current_node).val();
+    if(val!="") {
+      addNode('category');
+      setStorage("categories_"+current_node, val);
+    }
+  });
+  
+});
+
+//Set temp storage
+function setStorage(key,value){
+  //alert(key +"==="+ value);//debug
+  if(value!=""){
+    jStorage.set(key, value);
+  }
+}
+//Get temp storage
+function getStorage(key) {
+  var val
+  if(jStorage.get(key)!=""){
+    val = jStorage.get(key);
+  }
+  return val;
+}
+//Adding text field nodes for peoples
+function addNode(element) {
+  if(element=="people") {
+    var newNode = $(document.createElement('div')).attr("id", 'people_node_div' + _counterPeople);
+    newNode.css("marginTop" , "20px");
+    newNode.html('<input type="text" name="add_people_email[]" value="Type in email to add" class="medium node" id="add_people_email_' + _counterPeople + '" />');
+    newNode.appendTo("#add_people_container");
+    _counterPeople++;
+  } else if(element=="outcome"){
+    var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counterOutcome);
+    newNode.css("marginTop" , "20px");
+    newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="medium"  />');
+    newNode.appendTo("#add_outcome_container");
+    _counterOutcome++;
+  } else if(element=="category"){
+    var newNode = $(document.createElement('div')).attr("id", 'category_node_div' + _counterCategory);
+    newNode.css("marginTop" , "20px");
+    newNode.html('<input type="text" name="categories[]" id="categories_' + _counterCategory + '" value="" class="medium"  />');
+    newNode.appendTo("#add_category_container");
+    _counterCategory++;
+  }
+}
+-->
+</script>

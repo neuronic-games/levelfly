@@ -152,12 +152,13 @@ float:left;
 }
 
 .content_container {
+  width:700px;
   float:left;
   height:380px;
   overflow:auto;
 }
 .form_container {
-  width:630px;
+  width:670px;
   margin:auto;
   float:left;
   padding-top:25px;
@@ -190,7 +191,7 @@ div .frm_input {
 }
 div .frm_button{
   position:absolute;
-  right: 360px;
+  right: 200px;
   width:120px;
   margin:400px 25px 0 0;
   text-align:right;

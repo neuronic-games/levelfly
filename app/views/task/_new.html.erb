@@ -43,6 +43,9 @@
             <option value="<%= c.id %>"><%= c.name %></option>
             <% end %>
           </select>
+          <div id="categories_container" class="hide" style="margin-top:10px;">
+            
+          </div>
         </div>
         <div class="frm_label">
           Due Date
@@ -78,9 +81,8 @@
         <div class="frm_label">
           Outcomes
         </div>
-        <div class="frm_input" id="outcome_container">
-          <input type="text" name="outcomes[]" id="outcomes_1" rel="percentage_1" class="medium" onblur='javascript:setStorage("task_outcomes_1", $(this).val())'/> &nbsp;&nbsp;
-          <!-- input type="text" name="percentage[]" id="percentage_1" rel="outcomes_1" class="small" onblur="javascript:setPercentages($(this));"/ -->
+        <div class="frm_input" id="outcomes_container">
+          
         </div>
       </div>
       <div id="div_3" class="form_container hide">
@@ -182,30 +184,38 @@ $(document).ready(function(){
     level = getStorage("task_level");
     course_id = getStorage("task_course");
     school_id = $("#course_school_id_hdn").val();
-    
+    category_id = getStorage("task_category");
     //For outcome data object (gather values from dynamic created nodes)
     var outcomeObject = [];
     //Prepare all outcomes created as nodes
-    for(i=1; i<_counter; i++) {
+    /*for(i=1; i<_counter; i++) {
       storage_key = "task_outcomes_"+i;
       outcomeObject[i] = getStorage(storage_key);
-    }
+    }*/
+    i = 0
+    $("input[name='chk_outcomes[]']").each(function(){
+        if(this.checked) {
+          storage_key = $(this).attr('id');
+          outcomeObject[i] = getStorage(storage_key);
+          i++
+        }
+    });
     
     //get people id from offline storage
-    i = 0;
+    j = 0;
     $.each($('input[name="task_people_id[]"]'), function() {
-      _taskPeopleObject[i] = getStorage($(this).attr('id'));
-      i++;
+      _taskPeopleObject[j] = getStorage($(this).attr('id'));
+      j++;
     });
     
     //get people email from offline storage
-    i = 0;
+    k = 0;
     $.each($('input[name="add_task_people_email[]"]'), function() {
-      _addTaskPeopleEmailObject[i] = getStorage($(this).attr('id'));
-      i++;
+      _addTaskPeopleEmailObject[k] = getStorage($(this).attr('id'));
+      k++;
     });
     
-    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id;  
+    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id;  
     //alert (dataString);return false;  
     $.ajax({  
       type: "POST",  
@@ -227,10 +237,22 @@ $(document).ready(function(){
   $("#course").live( "change", function(){
     //alert($(this).val()); return false;
     courseId = $(this).val();
-    $.get('/task/task_people/', {course_id:courseId}, function(data) {
-      $('#participants_container').html(data);
-      setStorage('task_course', courseId)
-    })
+    //To fill out the categories
+    $.get('/task/course_categories/', {course_id:courseId}, function(data) {
+      $('#categories_container').html(data);
+      $('#categories_container').show();
+      setStorage('task_course', courseId);
+    }).complete(function(){
+      //To fill out the outcomes
+      $.get('/task/course_outcomes/', {course_id:courseId}, function(data) {
+        $('#outcomes_container').html(data);
+      }).complete(function(){
+        //To fill out the participants
+        $.get('/task/course_peoples/', {course_id:courseId}, function(data) {
+          $('#participants_container').html(data);
+        });
+      });
+    });
   });
   
   $(function() {
@@ -238,29 +260,6 @@ $(document).ready(function(){
     $("#due_date").datepicker({
       dateFormat: 'yy-mm-dd',
       onSelect: function(dateText, inst) {setStorage("task_due_date", dateText);}
-    });
-    
-    //fill up the outcome tags object
-    <% @outcomes.each do |outcome| %>
-      _outComeTags[i] = "<%=outcome.name %>";
-      i++;
-    <% end %>
-    //fill up the participants tags object
-    
-    $("#outcome_container .medium").live("keydown.autocomplete", function() {
-      $(this).autocomplete({
-        source: _outComeTags,
-        select: function(event, ui){
-      
-        }
-      });
-    });
-    
-    $("#outcome_container .medium").live("focusout", function(){
-      current_node = _counter - 1;
-      if($("#outcomes_"+current_node).val()!="") {
-        addNode('outcome');
-      }
     });
     
     $("#participants_container .medium").live("keydown.autocomplete", function() {

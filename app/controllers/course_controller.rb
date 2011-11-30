@@ -6,8 +6,21 @@ class CourseController < ApplicationController
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if @profile
       user_session[:profile_id] = @profile.id
+      user_session[:profile_name] = @profile.full_name
+      user_session[:profile_major] = @profile.major.name
+      user_session[:profile_school] = @profile.school.code
     end
+    @courses = Course.find(
+      :all, 
+      :include => [:participants], 
+      :conditions => ["participants.profile_id = ?", @profile.id]
+    )
+  end
+  
+  def new
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @people = Profile.find(:all, :conditions => ["user_id != ? AND school_id = ?", current_user.id, @profile.school_id ])
+    render :partial => "/course/new"
   end
   
   def save
@@ -24,6 +37,27 @@ class CourseController < ApplicationController
     @course.school_id = params[:school_id]
     
     if @course.save
+      #Save categories
+      categories_array = params[:categories].split(",")
+      categories_array.each do |category|
+        @category = Category.create(
+          :name=> category,
+          :course_id=> @course.id,
+          :school_id=> @course.school_id
+        )
+      end
+      
+      #Save outcomes
+      outcomes_array = params[:outcomes].split(",")
+      outcomes_array.each do |outcome|
+        @outcome = Outcome.create(
+          :name=> outcome,
+          :descr=> outcome,
+          :course_id=> @course.id,
+          :school_id=> @course.school_id
+        )
+      end
+      
       # Participant record for master
       participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]])
       if !participant
@@ -74,8 +108,6 @@ class CourseController < ApplicationController
           @participant.save
         end
       end
-      #participant = Participant.find(:first, :conditions => ["object_id = ? AND profile_id = ?", @course.id, user_session[:profile_id]])
-      
     end
     
     render :text => {"course"=>@course}.to_json
