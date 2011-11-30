@@ -51,7 +51,7 @@ class ProfileController < ApplicationController
 
     @profile.full_name = profile["full_name"]
     @profile.major_id = profile["major_id"]
-    @profile.campus_id = profile["campus_id"]
+    @profile.school_id = profile["school_id"]
     @profile.user_id = current_user.id if current_user
     @profile.save
     
@@ -100,12 +100,12 @@ class ProfileController < ApplicationController
     code = params[:code].to_s.upcase
     access_code = AccessCode.find_by_code(code)
     major = nil
-    campus = nil
+    school = nil
     if access_code
       major = access_code.major
-      campus = access_code.campus
+      school = access_code.school
     end
-    render :text => {"major"=>major, "school"=>campus}.to_json
+    render :text => {"major"=>major, "school"=>school}.to_json
   end
 
 end
