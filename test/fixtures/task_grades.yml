@@ -1,14 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  campus_id: 1
+  school_id: 1
   course_id: 1
   task_id: 1
   profile_id: 1
   grade: 1
 
 two:
-  campus_id: 1
+  school_id: 1
   course_id: 1
   task_id: 1
   profile_id: 1
