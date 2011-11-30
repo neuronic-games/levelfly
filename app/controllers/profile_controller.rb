@@ -25,7 +25,7 @@ class ProfileController < ApplicationController
       end
     end
     
-    render :text => {"profile"=>@profile, "avatar"=>@profile.avatar, "new_profile"=>new_profile, "major"=>@profile.major, "school"=>@profile.campus}.to_json
+    render :text => {"profile"=>@profile, "avatar"=>@profile.avatar, "new_profile"=>new_profile, "major"=>@profile.major, "school"=>@profile.school}.to_json
   end
 
   def edit
