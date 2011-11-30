@@ -1,3 +1,4 @@
 class Course < ActiveRecord::Base
-  belongs_to :participant
+  belongs_to :school
+  has_many :participants, :as => :object
 end

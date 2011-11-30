@@ -12,26 +12,16 @@ class TaskController < ApplicationController
     end
     @tasks = Task.find(
       :all, 
-      :joins=>"
-        INNER JOIN participants ON participants.object_id = tasks.id 
-        AND participants.object_type = 'Task' 
-        AND participants.profile_id = #{@profile.id}
-      " 
-    )
+      :include => [:participants], 
+      :conditions => ["participants.profile_id = ?", @profile.id])
   end
   
   def new
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @outcomes = Outcome.find(:all, :order => "name")
-    @courses = Course.find(
-      :all, 
-      :joins=>"
-        INNER JOIN participants ON participants.object_id = courses.id 
-        AND participants.object_type = 'Course' 
-        AND participants.profile_type = 'M' 
-        AND participants.profile_id = #{@profile.id}
-      "
-    )
+    @courses = Course.find(:all, 
+      :include => [:participants], 
+      :conditions => ["participants.profile_id = ? and participants.profile_type = ?", @profile.id, 'M'])
     render :partial => "/task/new"
   end
 
