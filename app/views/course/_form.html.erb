@@ -22,19 +22,19 @@
           Course
         </div>
         <div class="frm_input">
-          <input type="text" name="course_name" id="course_name" class="large" onBlur='javascript:setStorage("course_name", $(this).val())' />
+          <input type="text" name="course_name" id="course_name" class="large" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("course_name", $(this).val())' />
         </div>
         <div class="frm_label">
           Description
         </div>
         <div class="frm_input">
-          <textarea name="course_descr" id="course_descr" rows="10" onBlur='javascript:setStorage("course_descr", $(this).val())'></textarea>
+          <textarea name="course_descr" id="course_descr" rows="10" onBlur='javascript:setStorage("course_descr", $(this).val())'><%=@course.descr if @course%></textarea>
         </div>
         <div class="frm_label">
           Code
         </div>
         <div class="frm_input">
-          <input type="text" name="course_code" id="course_code" class="small" onBlur='javascript:setStorage("course_code", $(this).val())' />
+          <input type="text" name="course_code" id="course_code" value="<%=@course.code if @course%>" class="small" onBlur='javascript:setStorage("course_code", $(this).val())' />
         </div>
       </div>
       <div id="div_2" class="form_container hide">
@@ -73,7 +73,7 @@
       <div class="frm_button">
         <input type="button" name="btn_course" id="btn_course" value="Save"/>
       </div>
-      <input type="hidden" name="course_id" id="course_id_hdn" value="" />
+      <input type="hidden" name="course_id" id="course_id_hdn" value="<%=@course.id if @course%>" />
       <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
     </form>
   </div>
@@ -99,7 +99,11 @@ $.each($('input[name="people_id[]"]'), function() {
   setStorage($(this).attr('id'), $(this).val());
 });
 
-
+//set storage on load while view of course
+if($("#course_name").val()!="") {setStorage("course_name", $("#course_name").val());}
+if($("#course_descr").val()!="") {setStorage("course_descr", $("#course_descr").val());}
+if($("#course_code").val()!="") {setStorage("course_code", $("#course_code").val());}
+  
 //Set CSRF Token (Required for ajax request (post))
 $(document).ajaxSend(function(e, xhr, options) {
   var token = $("meta[name='csrf-token']").attr("content");
@@ -255,7 +259,7 @@ function getStorage(key) {
   }
   return val;
 }
-//Adding text field nodes for peoples
+//Adding text field nodes for peoples, outcomes, categories
 function addNode(element) {
   if(element=="people") {
     var newNode = $(document.createElement('div')).attr("id", 'people_node_div' + _counterPeople);

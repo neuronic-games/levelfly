@@ -25,13 +25,13 @@
           Task
         </div>
         <div class="frm_input">
-          <input type="text" name="task" id="task" class="large" onblur='javascript:setStorage("task_name", $(this).val())'/>
+          <input type="text" name="task" id="task" class="large" value="<%=@task.name if @task %>" onblur='javascript:setStorage("task_name", $(this).val())'/>
         </div>
         <div class="frm_label">
           Description
         </div>
         <div class="frm_input">
-          <textarea name="descr" id="descr" rows="10" onblur='javascript:setStorage("task_descr", $(this).val())'></textarea>
+          <textarea name="descr" id="descr" rows="10" onblur='javascript:setStorage("task_descr", $(this).val())'><%=@task.descr if @task %></textarea>
         </div>
         <div class="frm_label">
           Course
@@ -121,7 +121,7 @@
       <div class="frm_button">
         <input type="button" name="btn_task" id="btn_task" value="Save"/>
       </div>
-      <input type="hidden" name="task_id" id="task_id_hdn" value="" />
+      <input type="hidden" name="task_id" id="task_id_hdn" value="<%=@task.id if @task %>" />
       <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
     </form>
   </div>
@@ -153,7 +153,7 @@ $(document).ajaxSend(function(e, xhr, options) {
 
 $(document).ready(function(){
   //Flush the previous offline storage
-  jStorage.flush()
+  //jStorage.flush()
   //Toggle Tabs
   $(".menu_container a").click(function(){
     idx = $(this).attr("value");

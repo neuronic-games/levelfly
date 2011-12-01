@@ -1,0 +1,35 @@
+<div class="content_wrapper">
+  <table width="95%" align="center" cellspacing="0" cellpadding="4">
+    <tr class="tbl_header">
+      <td width="40%">
+        Task
+      </td>
+      <td>
+        Created on
+      </td>
+      <td>
+        Category
+      </td>
+    </tr>
+    <% @tasks.each do |t| %>
+    <tr class="<%= cycle("even", "odd") %>">
+      <td>
+        <a href="/task/show/<%=t.id%>" class="view"><%=t.name%></a>
+      </td>
+      <td>
+        <%=t.created_at %>
+      </td>
+      <td>
+        <%=t.category.name %>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+</div>
+<script type="text/javascript">
+  //prepare show links
+  $('a.view').click(function() { 
+    $("#container").load(this.href); 
+    return false; 
+  });
+</script>

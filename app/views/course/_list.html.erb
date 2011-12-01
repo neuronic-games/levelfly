@@ -1,0 +1,29 @@
+<div class="content_wrapper">
+  <table width="95%" align="center" cellspacing="0" cellpadding="4">
+    <tr class="tbl_header">
+      <td width="40%">
+        Course
+      </td>
+      <td>
+        Created on
+      </td>
+    </tr>
+    <% @courses.each do |c| %>
+    <tr class="<%= cycle("even", "odd") %>">
+      <td>
+        <a href="/course/show/<%=c.id%>" class="view"><%=c.name%></a>
+      </td>
+      <td>
+        <%=c.created_at %>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+</div>
+<script type="text/javascript">
+  //prepare show links
+  $('a.view').click(function() { 
+    $("#container").load(this.href); 
+    return false; 
+  });
+</script>

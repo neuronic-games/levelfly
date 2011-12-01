@@ -15,12 +15,44 @@ class CourseController < ApplicationController
       :include => [:participants], 
       :conditions => ["participants.profile_id = ?", @profile.id]
     )
+    respond_to do |wants|
+      wants.html do
+        if request.xhr?
+          render :partial => "/course/list"
+        else
+          render
+        end
+      end
+    end
   end
   
   def new
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @people = Profile.find(:all, :conditions => ["user_id != ? AND school_id = ?", current_user.id, @profile.school_id ])
-    render :partial => "/course/new"
+    respond_to do |wants|
+      wants.html do
+        if request.xhr?
+          render :partial => "/course/form"
+        else
+          render
+        end
+      end
+    end
+  end
+  
+  def show
+    @course = Course.find_by_id(params[:id])
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @people = Profile.find(:all, :conditions => ["user_id != ? AND school_id = ?", current_user.id, @profile.school_id ])
+    respond_to do |wants|
+      wants.html do
+        if request.xhr?
+          render :partial => "/course/form"
+        else
+          render
+        end
+      end
+    end
   end
   
   def save

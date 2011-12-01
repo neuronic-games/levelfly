@@ -62,6 +62,10 @@ Oncapus::Application.routes.draw do
   
   match 'course' => 'course#index'
   
+  match 'course/show/:id' => 'course#show'
+  
+  match 'task/show/:id' => 'task#show'
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

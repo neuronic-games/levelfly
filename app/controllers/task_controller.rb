@@ -8,7 +8,11 @@ class TaskController < ApplicationController
     @tasks = Task.find(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.profile_id = ?", @profile.id])
+      :conditions => ["participants.profile_id = ?", @profile.id]
+    )
+    if request.xhr?
+      render :partial => "/task/list"
+    end
   end
   
   def new
@@ -17,10 +21,33 @@ class TaskController < ApplicationController
     @courses = Course.find(:all, 
       :include => [:participants], 
       :conditions => ["participants.profile_id = ? and participants.profile_type = ?", @profile.id, 'M'])
-    render :partial => "/task/new"
+    respond_to do |wants|
+      wants.html do
+        if request.xhr?
+          render :partial => "/task/form"
+        else
+          render
+        end
+      end
+    end
   end
 
   def show
+    @task = Task.find_by_id(params[:id])
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @outcomes = Outcome.find(:all, :order => "name")
+    @courses = Course.find(:all, 
+      :include => [:participants], 
+      :conditions => ["participants.profile_id = ? and participants.profile_type = ?", @profile.id, 'M'])
+    respond_to do |wants|
+      wants.html do
+        if request.xhr?
+          render :partial => "/task/form"
+        else
+          render
+        end
+      end
+    end
   end
   
   def save

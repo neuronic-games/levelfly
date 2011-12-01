@@ -122,6 +122,7 @@ float:left;
   border:1px solid #A9A9A9;
   margin:3px;
   cursor:pointer;
+  text-align:center;
 }
 .content_wrapper {
   width:700px;
