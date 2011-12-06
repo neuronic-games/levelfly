@@ -8,16 +8,22 @@
         Created on
       </td>
       <td>
+        Level
+      </td>
+      <td>
         Category
       </td>
     </tr>
     <% @tasks.each do |t| %>
     <tr class="<%= cycle("even", "odd") %>">
       <td>
-        <a href="/task/show/<%=t.id%>" class="view"><%=t.name%></a>
+        <a href="/task/show/<%=t.id%>" id="<%=t.id%>" class="view"><%=t.name%></a>
       </td>
       <td>
         <%=t.created_at %>
+      </td>
+      <td>
+        <%=t.level %>
       </td>
       <td>
         <%=t.category.name %>
@@ -29,7 +35,10 @@
 <script type="text/javascript">
   //prepare show links
   $('a.view').click(function() { 
-    $("#container").load(this.href); 
+    $("#container").load(this.href);
+    task_id = $(this).attr("id");
+    $("#menu_btn_dup").attr("data","id="+task_id);
+    $("#menu_btn_dup").show();
     return false; 
   });
 </script>

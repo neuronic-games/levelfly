@@ -1,8 +1,8 @@
 <% @people.each do |p| %>
-<div class="frm_input" id="task_people_div_<%=p.id%>">
-  <input type="checkbox" name="chk_task_people[]"  id="<%=p.id%>" />
-  <input type="text" name="task_people[]" value="<%= p.full_name %>" readonly="true" id="task_people_<%=p.id%>" class="medium" />
-  <input type="hidden" name="task_people_id[]" value="<%= p.id %>" id="task_people_email_<%=p.id%>" class="medium" />
+<div class="frm_input" id="task_people_div_<%=p.profile.id%>">
+  <input type="checkbox" name="chk_task_people[]"  id="<%=p.profile.id%>" />
+  <input type="text" name="task_people[]" value="<%= p.profile.full_name %>" readonly="true" id="task_people_<%=p.profile.id%>" class="medium" />
+  <input type="hidden" name="task_people_id[]" value="<%= p.profile.id %>" id="task_people_email_<%=p.profile.id%>" class="medium" />
 </div>
 <% end %>
 <div class="frm_input" id="add_task_people_container" style="padding-left:22px;">

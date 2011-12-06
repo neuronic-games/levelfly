@@ -10,8 +10,14 @@ class TaskController < ApplicationController
       :include => [:participants], 
       :conditions => ["participants.profile_id = ?", @profile.id]
     )
-    if request.xhr?
-      render :partial => "/task/list"
+    respond_to do |wants|
+      wants.html do
+        if request.xhr?
+          render :partial => "/task/list"
+        else
+          render
+        end
+      end
     end
   end
   
@@ -35,10 +41,17 @@ class TaskController < ApplicationController
   def show
     @task = Task.find_by_id(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    @outcomes = Outcome.find(:all, :order => "name")
-    @courses = Course.find(:all, 
+    @outcomes = Outcome.find(:all, :include=>[:outcome_tasks], :conditions =>["outcome_tasks.task_id = ?", @task.id], :order => "name")
+    @courses = Course.find(
+      :all, 
       :include => [:participants], 
-      :conditions => ["participants.profile_id = ? and participants.profile_type = ?", @profile.id, 'M'])
+      :conditions => ["participants.profile_id = ? and participants.profile_type = ?", @profile.id, 'M']
+    )
+    @people = Participant.find(
+      :all, 
+      :include => [:profile], 
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @task.course_id]
+    )
     respond_to do |wants|
       wants.html do
         if request.xhr?
@@ -146,6 +159,40 @@ class TaskController < ApplicationController
   def edit
   end
   
+  def duplicate
+    if params[:id] && !params[:id].empty?
+      @task = Task.find(params[:id])
+      @dup_task = Task.new
+      @dup_task.name = "#{@task.name} Copy"
+      @dup_task.descr = @task.descr
+      @dup_task.due_date = @task.due_date
+      @dup_task.level = @task.level
+      @dup_task.school_id = @task.school_id
+      @dup_task.course_id = @task.course_id
+      @dup_task.category_id = @task.category_id
+      if @dup_task.save
+        #Outcome tasks duplicate
+        @task.outcome_tasks.each do |o_t|
+          @dup_task_outcome = OutcomeTask.new
+          @dup_task_outcome.task_id = @dup_task.id
+          @dup_task_outcome.outcome_id = o_t.outcome_id
+          @dup_task_outcome.points_percentage = o_t.points_percentage
+          @dup_task_outcome.save
+        end
+        #Participant duplicate
+        @task.participants.each do |p|
+          @dup_task_participant = Participant.new
+          @dup_task_participant.object_id = @dup_task.id
+          @dup_task_participant.object_type = p.object_type
+          @dup_task_participant.profile_id = p.profile_id
+          @dup_task_participant.profile_type = p.profile_type
+          @dup_task_participant.save
+        end
+      end
+    end
+    render :nothing => true
+  end
+  
   def upload_resource 
     tmp = params[:file]
     require 'fileutils'
@@ -170,7 +217,12 @@ class TaskController < ApplicationController
   
   def course_peoples
     if !params[:course_id].nil?
-      @people = Profile.find(:all, :joins=>"INNER JOIN participants ON participants.object_id = #{params[:course_id]} AND participants.object_type = 'Course' AND participants.profile_id = profiles.id AND participants.profile_type = 'S' AND participants.profile_id != #{current_user.id}")
+      @people = Participant.find(
+        :all, 
+        :include => [:profile], 
+        :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", params[:course_id]]
+      )
+      #@people = Profile.find(:all, :joins=>"INNER JOIN participants ON participants.object_id = #{params[:course_id]} AND participants.object_type = 'Course' AND participants.profile_id = profiles.id AND participants.profile_type = 'S' AND participants.profile_id != #{current_user.id}")
       render :partial => "/task/course_peoples"
     end
   end

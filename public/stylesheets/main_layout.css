@@ -45,7 +45,7 @@ body{
   width:110px;
   margin:5px auto auto 3px;
   height:125px;
-  padding:90px 0 0 5px;
+  padding:60px 0 0 5px;
 }
 #root_level input[type=button],  #crud_level input[type=button]{
   margin-top:10px;
@@ -100,12 +100,10 @@ float:left;
   height:83%;
   margin:105px auto;
 }
-#container {
-  float:right;
-  width:75%;
-  height:90%;
-  margin-top:25px;
-  padding-top:30px;
+#container  {
+  float:left;
+  width:100%;
+  padding-left:35px;
 }
 .top_menu_item {
   float:left;

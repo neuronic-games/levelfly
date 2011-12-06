@@ -65,6 +65,7 @@
           </div><!-- root_level -->
           <div id="crud_level">
             <input type="button" name="menu_btn_add" id="menu_btn_add" rel="/course/new" value="Add" class="menu_btn"/>
+            <input type="button" name="menu_btn_dup" id="menu_btn_dup" value="Duplicate" class="menu_btn hide"/>
             <input type="button" name="menu_btn_hide" id="menu_btn_hide" value="Hide"/>
             <input type="button" name="menu_btn_fav" id="menu_btn_fav" value="Fav"/>
             <input type="button" name="menu_btn_print" id="menu_btn_print" value="Print"/>
@@ -72,9 +73,11 @@
         </div><!-- sidebar_menu_bottom -->
       </div><!-- sidebar_container -->
     </div><!-- sidebar_left -->
-    <div id="container">
-      <%= yield %>
-    </div><!-- container -->
+    <div style="width:85%;height:90%;float:right;margin-top:5px;margin-top:55px;">
+      <div id="container">
+        <%= yield %>
+      </div><!-- container -->
+    </div>
   </div><!-- wrapper -->
 </body>
 <script type="text/javascript">
@@ -93,6 +96,7 @@
       $("#menu_btn_add, #menu_btn_hide, #menu_btn_fav, #menu_btn_print").removeAttr("rel");
       if(rel) {
         $("#menu_btn_add").attr("rel",rel+"new");
+        $("#menu_btn_dup").attr("rel",rel+"duplicate");
         $("#menu_btn_hide").attr("rel",rel+"hide");
         $("#menu_btn_fav").attr("rel",rel+"fav");
         $("#menu_btn_print").attr("rel",rel+"print");
@@ -103,10 +107,12 @@
     //Fill up the #container with according call
     $(".menu_btn").live("click",function(){
       var target = $(this).attr("rel");
+      var data = $(this).attr("data");
       if(target) {
         $.ajax({
           type: "GET",  
-          url: target,  
+          url: target,
+          data: data,
           success: function(data) {
             if (data) {
               $("#container").html(data);

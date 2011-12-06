@@ -44,6 +44,8 @@ Oncapus::Application.routes.draw do
   
   get "task/course_outcomes"
   
+  get "task/duplicate"
+  
   get "course/index"
   
   get "course/new"

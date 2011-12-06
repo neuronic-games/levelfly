@@ -1,3 +1,38 @@
+<script type="text/javascript">
+<!--
+//Set temp storage
+function setStorage(key,value){
+  //alert(key +"==="+ value);//debug
+  if(value!=""){
+    jStorage.set(key, value);
+  }
+}
+//Get temp storage
+function getStorage(key) {
+  var val
+  if(jStorage.get(key)!=""){
+    val = jStorage.get(key);
+  }
+  return val;
+}
+//Adding text field nodes for outcomes/peoples
+function addNode(element) {
+  if(element == "outcome") {
+    var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counter);
+    newNode.css("marginTop" , "20px");
+    newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" value="" class="medium" onblur="javascript:setStorage(\'task_outcomes_'+_counter+'\', $(this).val())" />');
+    newNode.appendTo("#outcome_container");
+    _counter++;
+  } else if (element == "people") {
+    var newNode = $(document.createElement('div')).attr("id", 'task people_node_div' + _counter_people);
+    newNode.css("marginTop" , "20px");
+    newNode.html('<input type="text" name="add_task_people_email[]" value="Type in email to add" class="medium node" id="add_task_people_email_' + _counter_people + '" />');
+    newNode.appendTo("#add_task_people_container");
+    _counter_people++;
+  }
+}
+-->
+</script>
 <div class="content_wrapper">
   <div class="menu_container">
     <ul>
@@ -40,7 +75,7 @@
           <select name="course" id="course">
             <option value="">SELECT</option>
             <% @courses.each do |c| %>
-            <option value="<%= c.id %>"><%= c.name %></option>
+            <option value="<%= c.id %>" <%=@task.course_id==c.id ? "Selected" : ""  if @task %>><%= c.name %></option>
             <% end %>
           </select>
           <div id="categories_container" class="hide" style="margin-top:10px;">
@@ -51,7 +86,7 @@
           Due Date
         </div>
         <div class="frm_input">
-          <input type="text" name="due_date" id="due_date" class="medium" />
+          <input type="text" name="due_date" id="due_date" class="medium" value="<%=@task.due_date if @task %>"/>
         </div>
       </div>
       <div id="div_2" class="form_container hide">
@@ -60,19 +95,19 @@
         </div>
         <div class="frm_input">
           <div class="level_radio">
-            <input type="radio" name="level" id="level_easy" value="1" onClick='javascript:setStorage("task_level", $(this).val())' />
+            <input type="radio" name="level" id="level_easy" value="1" onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==1 ? "checked" : ""  if @task %>/>
           </div>
           <div class="level_label">
             Easy
           </div>
           <div class="level_radio">
-            <input type="radio" name="level" id="level_easy" value="2" onClick='javascript:setStorage("task_level", $(this).val())' />
+            <input type="radio" name="level" id="level_easy" value="2" onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==2 ? "checked" : ""  if @task %>/>
           </div>
           <div class="level_label">
             Medium
           </div>
           <div class="level_radio">
-            <input type="radio" name="level" id="level_easy" value="3"  onClick='javascript:setStorage("task_level", $(this).val())' />
+            <input type="radio" name="level" id="level_easy" value="3"  onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==3 ? "checked" : ""  if @task %>/>
           </div>
           <div class="level_label">
             Hard
@@ -82,7 +117,9 @@
           Outcomes
         </div>
         <div class="frm_input" id="outcomes_container">
-          
+          <% if @outcomes %>
+            <%= render :partial => "course_outcomes" %>
+          <% end %>
         </div>
       </div>
       <div id="div_3" class="form_container hide">
@@ -115,7 +152,9 @@
           Participants
         </div>
         <div class="frm_input" id="participants_container">
-        
+          <% if @people %>
+            <%= render :partial => "course_peoples" %>
+          <% end %>
         </div>
       </div>
       <div class="frm_button">
@@ -127,6 +166,9 @@
   </div>
   <div class="left_button hide" id="task_remove_bt_div">
     <input type="button" name="task_btn_remove" id="task_btn_remove" class="big_btn" value="Remove All"/>
+  </div>
+  <div class="left_button hide" id="task_remove_bt_outcome__div">
+    <input type="button" name="task_btn_outcome_remove" id="task_btn_outcome_remove" class="big_btn" value="Remove All"/>
   </div>
 </div>
 <script type="text/javascript">
@@ -169,6 +211,12 @@ $(document).ready(function(){
       $("#task_remove_bt_div").fadeIn();
     } else {
      $("#task_remove_bt_div").hide();
+    }
+    
+    if(idx == 2) {
+      $("#task_remove_bt_outcome__div").fadeIn();
+    } else {
+      $("#task_remove_bt_outcome__div").fadeOut();
     }
     
     $("#div_"+idx).fadeIn();
@@ -305,6 +353,16 @@ $(document).ready(function(){
       });
     });
     
+    //Remove outcome nodes
+    $("#task_btn_outcome_remove").live("click", function(){
+      $("input[name='chk_outcomes[]']").each(function(){
+        if(this.checked) {
+          div_id = $(this).attr('id');
+          $("#task_outcome_div_"+div_id).remove();
+        }
+      });
+    });
+    
     // Setup html5 file upload
     $("#upload_container").pluploadQueue({
       // General settings
@@ -323,38 +381,5 @@ $(document).ready(function(){
   }); // $(function) ends
   
 }); //document.ready ends
-
-//Set temp storage
-function setStorage(key,value){
-  //alert(key +"==="+ value);//debug
-  if(value!=""){
-    jStorage.set(key, value);
-  }
-}
-//Get temp storage
-function getStorage(key) {
-  var val
-  if(jStorage.get(key)!=""){
-    val = jStorage.get(key);
-  }
-  return val;
-}
-//Adding text field nodes for outcomes/peoples
-function addNode(element) {
-  if(element == "outcome") {
-    var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counter);
-    newNode.css("marginTop" , "20px");
-    newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" value="" class="medium" onblur="javascript:setStorage(\'task_outcomes_'+_counter+'\', $(this).val())" />');
-    newNode.appendTo("#outcome_container");
-    _counter++;
-  } else if (element == "people") {
-    var newNode = $(document.createElement('div')).attr("id", 'task people_node_div' + _counter_people);
-    newNode.css("marginTop" , "20px");
-    newNode.html('<input type="text" name="add_task_people_email[]" value="Type in email to add" class="medium node" id="add_task_people_email_' + _counter_people + '" />');
-    newNode.appendTo("#add_task_people_container");
-    _counter_people++;
-  }
-}
-
 -->
 </script>

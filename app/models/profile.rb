@@ -3,4 +3,5 @@ class Profile < ActiveRecord::Base
   belongs_to :major
   belongs_to :school
   belongs_to :user
+  belongs_to :participant
 end
