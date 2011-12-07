@@ -1,0 +1,122 @@
+<div class="content_wrapper">
+  <div class="content_container">
+    <div id="wardrobe_fields">
+      <div class="frm_input">
+        <input type="text" name="wardrobe_item_name" id="wardrobe_item_name" value="Name" rel="Name" class="medium" style="width:250px;" onblur='javascript:setStorage("wardrobe_item_name", $(this).val())'/>
+      </div>
+      <div class="frm_input">
+        <label>Item type</label> <br />
+        <select name="wardrobe_item_type" id="wardrobe_item_type" onblur='javascript:setStorage("wardrobe_item_type", $(this).val())'>
+          <option value="">Select item type</option>
+          <option value="head">head</option>
+          <option value="hair">hair</option>
+          <option value="dressy">dressy</option>
+          <option value="necklace">necklace</option>
+          <option value="top">top</option>
+          <option value="bottom">bottom</option>
+          <option value="facial_hair">facial hair</option>
+        </select>
+      </div>
+      <div class="frm_input">
+        <label>Available At</label> <br />
+        <input type="text" name="wardrobe_item_available_date" id="wardrobe_item_available_date" value="Date" rel="Date" class="medium" style="width:250px;" />
+        <input type="text" name="wardrobe_item_available_level" id="wardrobe_item_available_level" value="Level" rel="Level" class="medium" style="width:250px;margin-top:15px;" onblur='javascript:setStorage("wardrobe_item_available_level", $(this).val())' />
+      </div>
+      <div class="frm_input">
+        <label>Visible At</label> <br />
+        <input type="text" name="wardrobe_item_visible_date" id="wardrobe_item_visible_date" value="Date" rel="Date" class="medium" style="width:250px;" />
+        <input type="text" name="wardrobe_item_visible_level" id="wardrobe_item_visible_level" value="Level" rel="Level" class="medium" style="width:250px;margin-top:15px;" onblur='javascript:setStorage("wardrobe_item_visible_level", $(this).val())' />
+      </div>
+    </div>
+    <div id="wardrobe_icon">
+      Drop Icon
+    </div>
+    <div id="wardrobe_image">
+    </div>
+  </div>
+  <div class="frm_button" style="width:400px;">
+    <input type="button" name="btn_dont_save" id="btn_dont_save" value="Don't save"/> &nbsp;
+    <input type="button" name="btn_save" id="btn_save" value="Save"/>
+    <input type="hidden" name="wardrobe_item_id_hdn" id="wardrobe_item_id_hdn" value="" />
+  </div>
+</div>
+<script type="text/javascript">
+<!--
+//Set CSRF Token (Required for ajax request (post))
+$(document).ajaxSend(function(e, xhr, options) {
+  var token = $("meta[name='csrf-token']").attr("content");
+  xhr.setRequestHeader("X-CSRF-Token", token);
+});
+
+$(document).ready(function(){
+  //on focus
+  $(".medium").live("focus", function(){
+    chk_val = $(this).attr("rel");
+    cur_val = $(this).val();
+    if(chk_val) {
+      if(chk_val == cur_val) {
+        $(this).val("");
+      } else if(cur_val=="") {
+        $(this).val(chk_val);
+      }
+    }
+  }); //foucs ends
+  
+  //focus out
+  $(".medium").live("focusout", function(){
+    chk_val = $(this).attr("rel");
+    cur_val = $(this).val();
+    if(chk_val) {
+      if(cur_val=="") {
+        $(this).val(chk_val);
+      }
+    }
+  }); //foucs out ends
+  
+  //Date datepicker
+  $("#wardrobe_item_available_date, #wardrobe_item_visible_date").datepicker({
+    dateFormat: 'yy-mm-dd',
+    beforeShow: function() { 
+      chk_val = $(this).attr("rel");
+      storage_key = $(this).attr("id");
+      cur_val = $(this).val();
+      if(chk_val) {
+        if(chk_val == cur_val) {
+          $(this).val("");
+        } else if(cur_val=="") {
+          $(this).val(chk_val);
+        }
+      }
+    },
+    onSelect: function(dateText, inst) {setStorage(storage_key, dateText);}
+  });
+  
+  // Save wardrobe
+  $("#btn_save").live("click", function(){
+    wardrobe_id = $("#wardrobe_item_id_hdn").val();
+    wardrobe_item = getStorage("wardrobe_item_name");
+    visible_date = getStorage("wardrobe_item_visible_date");
+    visible_level = getStorage("wardrobe_item_visible_level");
+    available_date = getStorage("wardrobe_item_available_date");
+    available_level = getStorage("wardrobe_item_available_level");
+    item_type = getStorage("wardrobe_item_type");
+    var dataString = 'id='+ wardrobe_id +'&wardrobe_item='+ wardrobe_item + '&visible_date=' + visible_date + '&visible_level=' + visible_level + '&available_date=' + available_date + '&available_level=' + available_level + '&item_type=' + item_type ;
+    //alert (dataString);return false;  
+    $.ajax({  
+      type: "POST",  
+      url: "/wardrobe/save",  
+      data: dataString,
+      dataType:"json",
+      success: function(data) {
+        if (data) {
+          $("#wardrobe_item_id_hdn").val(data.wardrobe_item.id);
+        } else {
+          alert("ERROR");
+        }
+      }
+    }); //ajax ends  
+    return false;  
+  }); //Save wardrobe ends
+}); //document ready ends
+-->
+</script>

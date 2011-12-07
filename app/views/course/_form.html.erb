@@ -244,21 +244,6 @@ $(document).ready(function(){
   
 });
 
-//Set temp storage
-function setStorage(key,value){
-  //alert(key +"==="+ value);//debug
-  if(value!=""){
-    jStorage.set(key, value);
-  }
-}
-//Get temp storage
-function getStorage(key) {
-  var val
-  if(jStorage.get(key)!=""){
-    val = jStorage.get(key);
-  }
-  return val;
-}
 //Adding text field nodes for peoples, outcomes, categories
 function addNode(element) {
   if(element=="people") {

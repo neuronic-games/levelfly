@@ -13,3 +13,19 @@ function showSpinner(visible) {
     $("#waiting").css("visibility", "hidden");
   }
 }
+
+//Set temp storage
+function setStorage(key,value){
+  //alert(key +"==="+ value);//debug
+  if(value!=""){
+    jStorage.set(key, value);
+  }
+}
+//Get temp storage
+function getStorage(key) {
+  var val
+  if(jStorage.get(key)!=""){
+    val = jStorage.get(key);
+  }
+  return val;
+}

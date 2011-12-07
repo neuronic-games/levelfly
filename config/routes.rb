@@ -58,6 +58,16 @@ Oncapus::Application.routes.draw do
   
   post "course/save"
   
+  get "wardrobe/new"
+
+  get "wardrobe/show"
+
+  get "wardrobe/edit"
+
+  get "wardrobe/save"
+  
+  post "wardrobe/save"
+  
   match 'task' => 'task#index'
     
   match 'main' => 'course#index'

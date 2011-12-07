@@ -1,20 +1,5 @@
 <script type="text/javascript">
 <!--
-//Set temp storage
-function setStorage(key,value){
-  //alert(key +"==="+ value);//debug
-  if(value!=""){
-    jStorage.set(key, value);
-  }
-}
-//Get temp storage
-function getStorage(key) {
-  var val
-  if(jStorage.get(key)!=""){
-    val = jStorage.get(key);
-  }
-  return val;
-}
 //Adding text field nodes for outcomes/peoples
 function addNode(element) {
   if(element == "outcome") {
@@ -370,7 +355,9 @@ $(document).ready(function(){
       url : '/task/upload_resource',
       max_file_size : '10mb',
       chunk_size : '1mb',
+      autostart : true,
       unique_names : true,
+      multiple_queues : true,
       filters : [
         {title : "Image files", extensions : "jpg,gif,png"},
         {title : "Zip files", extensions : "zip"}
