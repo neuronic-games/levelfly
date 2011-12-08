@@ -126,6 +126,25 @@ float:left;
   height:300px;
   margin:25px 5px;
 }
+#head_items {
+  width:700px;
+  float:left;
+  padding:5px;
+}
+#head_left {
+  width:300px;
+  float:left;
+}
+#head_right {
+  width:350px;
+  float:right;
+  margin-right:15px;
+  text-align:right
+}
+.marked_item {
+  background-color:#A9A9A9;
+  color:#fff
+}
 .top_menu_item {
   float:left;
   width:20px;
@@ -187,6 +206,18 @@ float:left;
   font-weight:bold;
   font-size:20px;
 }
+.row_container {
+  float:left;
+  width:205px;
+  margin:5px;
+  border:1px solid #A9A9A9;
+  padding:5px;
+}
+.row_container  li{
+  list-style:none;
+  padding:2px;
+  cursor:pointer;
+}
 .show {
   display:block;
 }
@@ -213,7 +244,7 @@ div .frm_button{
   position:absolute;
   right: 200px;
   width:120px;
-  margin:400px 25px 0 0;
+  margin:450px 25px 0 0;
   text-align:right;
 }
 div .left_button {
@@ -259,7 +290,10 @@ textarea {
 select {
   border:1px solid #A9A9A9;
   width:250px;
-  height:30px;
+  height:40px;
+  font-size:20px;
+  font-family:'Metrophobic',sans-serif;
+  padding:5px;
 }
 input[type=button] {
   cursor:pointer;

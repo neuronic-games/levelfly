@@ -5,17 +5,7 @@
         <input type="text" name="wardrobe_item_name" id="wardrobe_item_name" value="Name" rel="Name" class="medium" style="width:250px;" onblur='javascript:setStorage("wardrobe_item_name", $(this).val())'/>
       </div>
       <div class="frm_input">
-        <label>Item type</label> <br />
-        <select name="wardrobe_item_type" id="wardrobe_item_type" onblur='javascript:setStorage("wardrobe_item_type", $(this).val())'>
-          <option value="">Select item type</option>
-          <option value="head">head</option>
-          <option value="hair">hair</option>
-          <option value="dressy">dressy</option>
-          <option value="necklace">necklace</option>
-          <option value="top">top</option>
-          <option value="bottom">bottom</option>
-          <option value="facial_hair">facial hair</option>
-        </select>
+        <%=collection_select(:wardrobe, :item_type, WardrobeItemType.all, :name, :name , {:include_blank => "Type"} , :onchange => "javascript:setStorage('wardrobe_item_type', $(this).val())") %>
       </div>
       <div class="frm_input">
         <label>Available At</label> <br />
@@ -38,6 +28,8 @@
     <input type="button" name="btn_dont_save" id="btn_dont_save" value="Don't save"/> &nbsp;
     <input type="button" name="btn_save" id="btn_save" value="Save"/>
     <input type="hidden" name="wardrobe_item_id_hdn" id="wardrobe_item_id_hdn" value="" />
+    <input type="hidden" name="wardrobe_item_parent_id_hdn" id="wardrobe_item_parent_id_hdn" value="<%=@wardrobe_item_id if @wardrobe_item_id%>" />
+    
   </div>
 </div>
 <script type="text/javascript">
@@ -94,13 +86,14 @@ $(document).ready(function(){
   // Save wardrobe
   $("#btn_save").live("click", function(){
     wardrobe_id = $("#wardrobe_item_id_hdn").val();
+    wardrobe_parent_id = $("#wardrobe_item_parent_id_hdn").val();
     wardrobe_item = getStorage("wardrobe_item_name");
     visible_date = getStorage("wardrobe_item_visible_date");
     visible_level = getStorage("wardrobe_item_visible_level");
     available_date = getStorage("wardrobe_item_available_date");
     available_level = getStorage("wardrobe_item_available_level");
     item_type = getStorage("wardrobe_item_type");
-    var dataString = 'id='+ wardrobe_id +'&wardrobe_item='+ wardrobe_item + '&visible_date=' + visible_date + '&visible_level=' + visible_level + '&available_date=' + available_date + '&available_level=' + available_level + '&item_type=' + item_type ;
+    var dataString = 'id='+ wardrobe_id + '&parent_id=' + wardrobe_parent_id + '&wardrobe_item='+ wardrobe_item + '&visible_date=' + visible_date + '&visible_level=' + visible_level + '&available_date=' + available_date + '&available_level=' + available_level + '&item_type=' + item_type ;
     //alert (dataString);return false;  
     $.ajax({  
       type: "POST",  
@@ -109,6 +102,7 @@ $(document).ready(function(){
       dataType:"json",
       success: function(data) {
         if (data) {
+          alert("Data saved");
           $("#wardrobe_item_id_hdn").val(data.wardrobe_item.id);
         } else {
           alert("ERROR");

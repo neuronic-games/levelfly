@@ -1,9 +1,105 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  name: MyString
+  name: blouse
   archived: false
 
 two:
-  name: MyString
+  name: blouse_tops
+  archived: false
+
+three:
+  name: body
+  archived: false
+  
+four:
+  name: bottom
+  archived: false
+
+five:
+  name: casuals
+  archived: false
+
+six:
+  name: dress
+  archived: false
+
+seven:
+  name: dressy
+  archived: false
+
+eight:
+  name: earrings
+  archived: false
+
+nine:
+  name: facial_hair
+  archived: false
+
+ten:
+  name: facial_marks
+  archived: false
+
+eleven:
+  name: feet
+  archived: false
+
+twelve:
+  name: festive
+  archived: false
+
+thirteen:
+  name: hair
+  archived: false
+
+fourteen:
+  name: head
+  archived: false
+
+fifteen:
+  name: head_marks
+  archived: false
+
+sixteen:
+  name: head_shape
+  archived: false
+
+seventeen:
+  name: heels
+  archived: false
+
+eighteen:
+  name: jewelry_makeup
+  archived: false
+
+ninteen:
+  name: legs
+  archived: false
+
+twenty:
+  name: makeup
+  archived: false
+
+twenty_one:
+  name: necklace
+  archived: false
+
+twnety_two:
+  name: prop
+  archived: false
+
+twenty_three:
+  name: shoes
+  archived: false
+
+twenty_four:
+  name: shorts
+  archived: false
+
+twenty_five:
+  name: skirt
+  archived: false
+
+twenty_six:
+  name: top
   archived: false
