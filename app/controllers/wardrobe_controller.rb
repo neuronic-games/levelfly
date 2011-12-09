@@ -4,8 +4,15 @@ class WardrobeController < ApplicationController
   
   def index
     @wardrobe_item_lvel_0 = WardrobeItem.find(:all, :conditions=>["depth = 0"])
-    @wardrobe_item_lvel_1 = WardrobeItem.find(:all, :conditions=>["depth = 1"])
-    @wardrobe_item_lvel_2 = WardrobeItem.find(:all, :conditions=>["depth = 2"])
+    respond_to do |wants|
+      wants.html do
+        if request.xhr?
+          render :partial => "/wardrobe/list"
+        else
+          render
+        end
+      end
+    end
   end
   
   def show
@@ -43,5 +50,14 @@ class WardrobeController < ApplicationController
     @wardrobe_item.item_type = params[:item_type]
     @wardrobe_item.save
     render :text => {"wardrobe_item"=>@wardrobe_item}.to_json
+  end
+  
+  def load_wardrobe_items
+    if params[:wardrobe_item_id] && !params[:wardrobe_item_id].empty?
+      @wardrobe_items = WardrobeItem.find(:all, :conditions=>["parent_item_id = ?", params[:wardrobe_item_id]])
+      render :partial => "/wardrobe/wardrobe_items"
+    else
+      render :nothing => true
+    end
   end
 end

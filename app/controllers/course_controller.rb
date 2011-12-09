@@ -44,9 +44,9 @@ class CourseController < ApplicationController
     @course = Course.find_by_id(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     #@people = Profile.find(:all, :conditions => ["user_id != ? AND school_id = ?", current_user.id, @profile.school_id ])
-    @people = Participant.find(
+    @people = Profile.find(
       :all, 
-      :include => [:profile], 
+      :include => [:participants], 
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @course.id]
     )
     respond_to do |wants|

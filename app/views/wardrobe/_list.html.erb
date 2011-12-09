@@ -1,3 +1,6 @@
+<div class="screen_title">
+  WARDEROBE ITEMS
+</div>
 <div class="content_wrapper">
   <div id="head_items">
     <div id="head_left">
@@ -11,22 +14,18 @@
   <div class="content_container">
     <div class="row_container">
       <% @wardrobe_item_lvel_0.each do |lev0| %>
-        <li  id="<%=lev0.id%>"><%=lev0.name%></li>
+        <li  id="<%=lev0.id%>" rel="<%=lev0.depth%>"><%=lev0.name%></li>
       <% end %>
     </div>
-    <div class="row_container">
-      <% @wardrobe_item_lvel_1.each do |lev1| %>
-        <li id="<%=lev1.id%>"><%=lev1.name%></li>
-      <% end %>
+    <div class="row_container" id="wi_level_1">
+      
     </div>
-    <div class="row_container">
-      <% @wardrobe_item_lvel_2.each do |lev2| %>
-        <li id="<%=lev2.id%>"><%=lev2.name%></li>
-      <% end %>
+    <div class="row_container" id="wi_level_2">
+      
     </div>
   </div>
   <div class="frm_button" style="width:400px;">
-    <input type="button" name="btn_add" id="btn_add" value="Add" rel="/wardrobe/new" /> &nbsp;
+    <input type="button" name="btn_add" id="btn_add" value="Add" rel="/wardrobe/new" disabled="true" /> &nbsp;
     <input type="button" name="btn_edit" id="btn_edit" value="Edit" rel="/wardrobe/edit"/>
     <input type="hidden" name="hdn_edit_id" id="hdn_edit_id" value="" />
   </div>
@@ -42,14 +41,38 @@ $(document).ajaxSend(function(e, xhr, options) {
 $(document).ready(function(){
   //List item selectable
   $('.row_container li').live('click', function(){
+    
+    var wardrobe_item_id = $(this).attr('id');
+    var level = parseInt($(this).attr('rel'));
+    var level_container = level + 1;
+    var data = "wardrobe_item_id="+wardrobe_item_id;
+    
+    if(level == 1){
+      $("#btn_add").attr("disabled",false);
+    } else {
+      $("#btn_add").attr("disabled",true);
+    }
+    
     //Remove previous selected item
     $('.row_container li').each(function() {
       $(this).removeClass('marked_item');
     });
     //Mark the current one selected
     $(this).addClass('marked_item');
-    edit_id = $(this).attr('id');
-    $('#hdn_edit_id').val(edit_id);
+    
+    if(level_container<3) {
+      $('#wi_level_2').html("");
+      $('#wi_level_'+level_container).html('<center>Loading...</center>');
+      $.ajax({
+        type: 'GET',
+        url: '/wardrobe/load_wardrobe_items',
+        data: data,
+        success: function(data){
+          $('#wi_level_'+level_container).html(data);
+        }
+      });
+    }
+    $('#hdn_edit_id').val(wardrobe_item_id);
   }); // Li select ends
   
   //Move list item up
@@ -57,12 +80,14 @@ $(document).ready(function(){
   var current = $('.marked_item');
   current.prev().before(current);
   });
+  
   //Move list item down
   $('#btn_down').live('click', function(){
     var current = $('.marked_item');
     current.next().after(current);
   });
  
+  //Add/Edit Call
   $('#btn_add, #btn_edit').live('click', function(){
     var target = $(this).attr('rel');
     var wardrobe_item_id = $('#hdn_edit_id').val();
@@ -71,7 +96,7 @@ $(document).ready(function(){
       $.ajax({
         type: 'GET',
         url: target,
-        data:data,
+        data: data,
         success: function(data){
           if(data) {
             $("#container").html(data);

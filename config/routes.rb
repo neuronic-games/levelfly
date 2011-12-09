@@ -70,11 +70,15 @@ Oncapus::Application.routes.draw do
   
   post "wardrobe/save"
   
+  get "wardrobe/load_wardrobe_items"
+  
   match 'task' => 'task#index'
     
   match 'main' => 'course#index'
   
   match 'course' => 'course#index'
+  
+  match 'wardrobe' => 'wardrobe#index'
   
   match 'course/show/:id' => 'course#show'
   

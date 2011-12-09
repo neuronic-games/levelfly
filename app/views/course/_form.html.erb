@@ -1,3 +1,6 @@
+<div class="screen_title">
+  VIEW COURSE
+</div>
 <div class="content_wrapper">
   <div class="menu_container">
     <ul>
@@ -43,10 +46,10 @@
         </div>
         <div class="frm_input">
           <% @people.each do |p| %>
-          <div class="frm_input" id="people_div_<%=p.profile.id%>">
+          <div class="frm_input" id="people_div_<%=p.id%>">
             <input type="checkbox" name="chk_people[]"  id="<%=p.id%>" />
-            <input type="text" name="people[]" value="<%= p.profile.full_name %>" readonly="true" id="people_<%=p.profile.id%>" class="medium" />
-            <input type="hidden" name="people_id[]" value="<%= p.profile.id %>" id="people_email_<%=p.profile.id%>" class="medium" />
+            <input type="text" name="people[]" value="<%= p.full_name %>" readonly="true" id="people_<%=p.id%>" class="medium" />
+            <input type="hidden" name="people_id[]" value="<%= p.id %>" id="people_email_<%=p.id%>" class="medium" />
           </div>
           <% end %>
           <div class="frm_input" id="add_people_container" style="padding-left:22px;">

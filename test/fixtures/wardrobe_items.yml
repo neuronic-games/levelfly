@@ -58,7 +58,7 @@ jewelry_makeup:
   name: Jewelry & Makeup
   item_type: jewelry_makeup
   parent_item: head
-  sort_order: 3
+  sort_order: 2
   depth: 1
 
 head_marks:
@@ -66,7 +66,7 @@ head_marks:
   name: Marks & Tattoos
   item_type: head_marks
   parent_item: head
-  sort_order: 4
+  sort_order: 3
   depth: 1
 
 # BODY
@@ -129,12 +129,20 @@ dressy_bottoms:
   sort_order: 1
   depth: 1
 
+denim_bottoms:
+  wardrobe: basic
+  name: Denim Bottoms
+  parent_item: legs
+  item_type: denim
+  sort_order: 2
+  depth: 1
+
 shorts_bottoms:
   wardrobe: basic
   name: Shorts
   parent_item: legs
   item_type: shorts
-  sort_order: 2
+  sort_order: 3
   depth: 1
 
 skirts:
@@ -142,7 +150,7 @@ skirts:
   name: Skirts
   parent_item: legs
   item_type: skirt
-  sort_order: 3
+  sort_order: 4
   depth: 1
 
 # HEAD SHAPE
@@ -314,7 +322,7 @@ makeup_red_lips:
   name: Lipstick
   item_type: makeup
   image_file: avatar/makeup/makeup_red_lips
-  parent_item: makeup
+  parent_item: jewelry_makeup
   available_level: 1
   visible_level: 1
   sort_order: 0
@@ -325,7 +333,7 @@ necklace_silver:
   name: Silver Necklace
   item_type: necklace
   image_file: basic/necklace/necklace_silver
-  parent_item: makeup
+  parent_item: jewelry_makeup
   available_level: 1
   visible_level: 1
   sort_order: 1
@@ -336,7 +344,7 @@ earring_silver:
   name: Silver Earrings
   item_type: earrings
   image_file: basic/earrings/earring_silver
-  parent_item: makeup
+  parent_item: jewelry_makeup
   available_level: 1
   visible_level: 1
   sort_order: 2
@@ -347,7 +355,7 @@ nose_stud:
   name: Nose Stud
   item_type: earrings
   image_file: basic/earrings/nose_stud
-  parent_item: makeup
+  parent_item: jewelry_makeup
   available_level: 1
   visible_level: 1
   sort_order: 3

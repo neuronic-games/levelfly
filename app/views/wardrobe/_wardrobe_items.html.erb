@@ -1,0 +1,7 @@
+<% if !@wardrobe_items.empty? %>
+  <% @wardrobe_items.each do |wi| %>
+    <li  id="<%=wi.id%>" rel="<%=wi.depth%>" ><%=wi.name%></li>
+  <% end %>
+<% else %>
+  <center>No children item</center>
+<% end %>
