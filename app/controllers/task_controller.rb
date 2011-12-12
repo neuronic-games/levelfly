@@ -195,6 +195,14 @@ class TaskController < ApplicationController
   
   def upload_resource 
     tmp = params[:file]
+    AWS::S3::Base.establish_connection!(
+      access_key_id: 'AKIAJMV6IAIXZQJJ2GHQ',
+      secret_access_key: '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'
+    )
+    AWS::S3::S3Object.store(
+      key, File.open(f), 'com.neuronicgames.oncampus.test',
+      :access => :public_read, 'Cache-Control' => 'max-age=315360000'
+    )
     require 'fileutils'
     file = File.join("public/resources", params[:name])
     FileUtils.cp tmp.path, file

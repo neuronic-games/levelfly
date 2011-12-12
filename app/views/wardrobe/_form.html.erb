@@ -2,20 +2,20 @@
   <div class="content_container">
     <div id="wardrobe_fields">
       <div class="frm_input">
-        <input type="text" name="wardrobe_item_name" id="wardrobe_item_name" value="Name" rel="Name" class="medium" style="width:250px;" onblur='javascript:setStorage("wardrobe_item_name", $(this).val())'/>
+        <input type="text" name="wardrobe_item_name" id="wardrobe_item_name" value='<%= @wardrobe_item ? @wardrobe_item.name : "Name" %>' rel="Name" class="medium" style="width:250px;" onblur='javascript:setStorage("wardrobe_item_name", $(this).val())'/>
       </div>
       <div class="frm_input">
-        <%=collection_select(:wardrobe, :item_type, WardrobeItemType.all, :name, :name , {:include_blank => "Type"} , :onchange => "javascript:setStorage('wardrobe_item_type', $(this).val())") %>
+        <%=collection_select(:wardrobe, :item_type, WardrobeItemType.all, :name, :name , {:include_blank => "Type", :selected => @wardrobe_item ? @wardrobe_item.item_type : ""} , :onchange => "javascript:setStorage('wardrobe_item_type', $(this).val())") %>
       </div>
       <div class="frm_input">
         <label>Available At</label> <br />
-        <input type="text" name="wardrobe_item_available_date" id="wardrobe_item_available_date" value="Date" rel="Date" class="medium" style="width:250px;" />
-        <input type="text" name="wardrobe_item_available_level" id="wardrobe_item_available_level" value="Level" rel="Level" class="medium" style="width:250px;margin-top:15px;" onblur='javascript:setStorage("wardrobe_item_available_level", $(this).val())' />
+        <input type="text" name="wardrobe_item_available_date" id="wardrobe_item_available_date" value='<%= @wardrobe_item && !@wardrobe_item.available_date.nil?  ? @wardrobe_item.available_date : "Date" %>' rel="Date" class="medium" style="width:250px;" />
+        <input type="text" name="wardrobe_item_available_level" id="wardrobe_item_available_level" value='<%= @wardrobe_item && !@wardrobe_item.available_level.nil? ? @wardrobe_item.available_level : "Level" %>' rel="Level" class="medium" style="width:250px;margin-top:15px;" onblur='javascript:setStorage("wardrobe_item_available_level", $(this).val())' />
       </div>
       <div class="frm_input">
         <label>Visible At</label> <br />
-        <input type="text" name="wardrobe_item_visible_date" id="wardrobe_item_visible_date" value="Date" rel="Date" class="medium" style="width:250px;" />
-        <input type="text" name="wardrobe_item_visible_level" id="wardrobe_item_visible_level" value="Level" rel="Level" class="medium" style="width:250px;margin-top:15px;" onblur='javascript:setStorage("wardrobe_item_visible_level", $(this).val())' />
+        <input type="text" name="wardrobe_item_visible_date" id="wardrobe_item_visible_date" value='<%= @wardrobe_item && !@wardrobe_item.visible_date.nil?  ? @wardrobe_item.visible_date : "Date" %>' rel="Date" class="medium" style="width:250px;" />
+        <input type="text" name="wardrobe_item_visible_level" id="wardrobe_item_visible_level" value='<%= @wardrobe_item && !@wardrobe_item.visible_level.nil? ? @wardrobe_item.visible_level : "Level" %>' rel="Level" class="medium" style="width:250px;margin-top:15px;" onblur='javascript:setStorage("wardrobe_item_visible_level", $(this).val())' />
       </div>
     </div>
     <div id="wardrobe_icon">
@@ -27,9 +27,8 @@
   <div class="frm_button" style="width:400px;">
     <input type="button" name="btn_dont_save" id="btn_dont_save" value="Don't save"/> &nbsp;
     <input type="button" name="btn_save" id="btn_save" value="Save"/>
-    <input type="hidden" name="wardrobe_item_id_hdn" id="wardrobe_item_id_hdn" value="" />
-    <input type="hidden" name="wardrobe_item_parent_id_hdn" id="wardrobe_item_parent_id_hdn" value="<%=@wardrobe_item_id if @wardrobe_item_id%>" />
-    
+    <input type="hidden" name="wardrobe_item_id_hdn" id="wardrobe_item_id_hdn" value="<%=@wardrobe_item.id if @wardrobe_item%>" />
+    <input type="hidden" name="wardrobe_item_parent_id_hdn" id="wardrobe_item_parent_id_hdn" value="<%=@wardrobe_item_parent_id if @wardrobe_item_parent_id%>" />
   </div>
 </div>
 <script type="text/javascript">
@@ -39,6 +38,15 @@ $(document).ajaxSend(function(e, xhr, options) {
   var token = $("meta[name='csrf-token']").attr("content");
   xhr.setRequestHeader("X-CSRF-Token", token);
 });
+
+//set storage on load while view of course
+if($("#wardrobe_item_name").val()!="") {setStorage("wardrobe_item_name", $("#wardrobe_item_name").val());}
+if($("#wardrobe_item_visible_date").val()!="") {setStorage("wardrobe_item_visible_date", $("#wardrobe_item_visible_date").val());}
+if($("#wardrobe_item_visible_level").val()!="") {setStorage("wardrobe_item_visible_level", $("#wardrobe_item_visible_level").val());}
+if($("#wardrobe_item_available_date").val()!="") {setStorage("wardrobe_item_available_date", $("#wardrobe_item_available_date").val());}
+if($("#wardrobe_item_available_level").val()!="") {setStorage("wardrobe_item_available_level", $("#wardrobe_item_available_level").val());}
+if($("#wardrobe_item_type").val()!="") {setStorage("wardrobe_item_type", $("#wardrobe_item_type").val());}
+
 
 $(document).ready(function(){
   //on focus

@@ -7,8 +7,8 @@
       <%=collection_select(:wardrobe, :id, Wardrobe.all, :id, :name) %>
     </div>
     <div id="head_right">
-      <input type="button" name="btn_up" id="btn_up" value="Move Up"/> &nbsp;
-      <input type="button" name="btn_down" id="btn_down" value="Move Dn"/>
+      <input type="button" name="btn_up" id="btn_up" value="Move Up" disabled="true"/> &nbsp;
+      <input type="button" name="btn_down" id="btn_down" value="Move Dn" disabled="true"/>
     </div>
   </div>
   <div class="content_container">
@@ -26,7 +26,7 @@
   </div>
   <div class="frm_button" style="width:400px;">
     <input type="button" name="btn_add" id="btn_add" value="Add" rel="/wardrobe/new" disabled="true" /> &nbsp;
-    <input type="button" name="btn_edit" id="btn_edit" value="Edit" rel="/wardrobe/edit"/>
+    <input type="button" name="btn_edit" id="btn_edit" value="Edit" rel="/wardrobe/show" disabled="true" />
     <input type="hidden" name="hdn_edit_id" id="hdn_edit_id" value="" />
   </div>
 </div>
@@ -47,16 +47,29 @@ $(document).ready(function(){
     var level_container = level + 1;
     var data = "wardrobe_item_id="+wardrobe_item_id;
     
+    //Enable/Disable add button
     if(level == 1){
       $("#btn_add").attr("disabled",false);
     } else {
       $("#btn_add").attr("disabled",true);
     }
     
+    //Enable/Disable edit/up/down buttons
+    if(level == 2){
+      $("#btn_edit").attr("disabled",false);
+      $("#btn_up").attr("disabled",false);
+      $("#btn_down").attr("disabled",false);
+    } else {
+      $("#btn_edit").attr("disabled",true);
+      $("#btn_up").attr("disabled",true);
+      $("#btn_down").attr("disabled",true);
+    }
+    
     //Remove previous selected item
     $('.row_container li').each(function() {
       $(this).removeClass('marked_item');
     });
+    
     //Mark the current one selected
     $(this).addClass('marked_item');
     
@@ -77,14 +90,16 @@ $(document).ready(function(){
   
   //Move list item up
   $('#btn_up').live('click', function(){
-  var current = $('.marked_item');
-  current.prev().before(current);
+    var current = $('#wi_level_2 .marked_item');
+    current.prev().before(current);
+    saveSortOrder();
   });
   
   //Move list item down
   $('#btn_down').live('click', function(){
-    var current = $('.marked_item');
+    var current = $('#wi_level_2 .marked_item');
     current.next().after(current);
+    saveSortOrder();
   });
  
   //Add/Edit Call
@@ -108,5 +123,32 @@ $(document).ready(function(){
     }
   });
 }); //document ready ends
+
+//Saving sort order Ajax call
+function saveSortOrder() {
+  var items_ids = new Array();
+  i = 0
+  $('#wi_level_2 li').each(function(){
+    id = parseInt($(this).attr('id'));
+    items_ids[i] = id;
+    i++;
+  });
+  
+  if(items_ids.length>0) {
+    data = 'item_ids='+items_ids;
+    $.ajax({
+      type: 'POST',
+      url: '/wardrobe/save_sort_order',
+      data: data,
+      success: function(data){
+        if(data) {
+          //alert("Sort order saved")
+        } else {
+          alert("Error");
+        }
+      }
+    });
+  }
+}
 -->
 </script>
