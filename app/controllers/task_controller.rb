@@ -194,25 +194,36 @@ class TaskController < ApplicationController
   end
   
   def upload_resource 
+    #!/usr/bin/env ruby
+
+    require 'rubygems'
+    require 'aws/s3'
+    bucket = 'com.neuronicgames.oncampus.test/test'
     tmp = params[:file]
+    
+    #require 'fileutils'
+    #file = File.join("public/resources", params[:name])
+    #FileUtils.cp tmp.path, file
+    
+    base_name = File.basename(params[:name])
     AWS::S3::Base.establish_connection!(
       access_key_id: 'AKIAJMV6IAIXZQJJ2GHQ',
       secret_access_key: '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'
     )
+    
     AWS::S3::S3Object.store(
-      key, File.open(f), 'com.neuronicgames.oncampus.test',
-      :access => :public_read, 'Cache-Control' => 'max-age=315360000'
+      base_name,
+      File.open(tmp.path),
+      bucket
     )
-    require 'fileutils'
-    file = File.join("public/resources", params[:name])
-    FileUtils.cp tmp.path, file
+    
     render :nothing => true
   end
   
   def course_categories
     if !params[:course_id].nil?
       @categories = Category.find(:all, :conditions=>["course_id = ?", params[:course_id]])
-      render :partial => "/task/course_categories"
+      render :partial => "/task/course_categories", :locals=>{:categories=>@categories}
     end
   end
   

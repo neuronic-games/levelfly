@@ -66,8 +66,10 @@ function addNode(element) {
             <option value="<%= c.id %>" <%=@task.course_id==c.id ? "Selected" : ""  if @task %>><%= c.name %></option>
             <% end %>
           </select>
-          <div id="categories_container" class="hide" style="margin-top:10px;">
-            
+          <div id="categories_container" class='<%= @task ? "" : "hide" %>' style="margin-top:10px;">
+            <% if @task %>
+              <%= render :partial => "course_categories", :locals=>{:categories=>@task.course.categories} %>
+            <% end %>
           </div>
         </div>
         <div class="frm_label">
@@ -89,13 +91,13 @@ function addNode(element) {
             Easy
           </div>
           <div class="level_radio">
-            <input type="radio" name="level" id="level_easy" value="2" onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==2 ? "checked" : ""  if @task %>/>
+            <input type="radio" name="level" id="level_medium" value="2" onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==2 ? "checked" : ""  if @task %>/>
           </div>
           <div class="level_label">
             Medium
           </div>
           <div class="level_radio">
-            <input type="radio" name="level" id="level_easy" value="3"  onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==3 ? "checked" : ""  if @task %>/>
+            <input type="radio" name="level" id="level_high" value="3"  onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==3 ? "checked" : ""  if @task %>/>
           </div>
           <div class="level_label">
             Hard
@@ -174,13 +176,21 @@ var j = 0;
 
 var _taskPeopleObject = [];
 var _addTaskPeopleEmailObject = [];
-
+var token = $("meta[name='csrf-token']").attr("content");
 //Set CSRF Token (Required for ajax request (post))
 $(document).ajaxSend(function(e, xhr, options) {
-  var token = $("meta[name='csrf-token']").attr("content");
   xhr.setRequestHeader("X-CSRF-Token", token);
 });
 
+//set storage on load while view of course
+if($("#task").val()!="") {setStorage("task_name", $("#task").val());}
+if($("#descr").val()!="") {setStorage("task_descr", $("#descr").val());}
+if($("#course").val()!="") {setStorage("task_course", $("#course").val());}
+if($("#due_date").val()!="") {setStorage("task_due_date", $("#due_date").val());}
+if($("#level").val()!="") {setStorage("task_level", $("#level").val());}
+if($("#course_categories") && $("#course_categories").val()!="") {setStorage("task_category", $("#course_categories").val());}
+
+ 
 $(document).ready(function(){
   //Flush the previous offline storage
   //jStorage.flush()
@@ -221,13 +231,10 @@ $(document).ready(function(){
     course_id = getStorage("task_course");
     school_id = $("#course_school_id_hdn").val();
     category_id = getStorage("task_category");
+    
     //For outcome data object (gather values from dynamic created nodes)
     var outcomeObject = [];
-    //Prepare all outcomes created as nodes
-    /*for(i=1; i<_counter; i++) {
-      storage_key = "task_outcomes_"+i;
-      outcomeObject[i] = getStorage(storage_key);
-    }*/
+    
     i = 0
     $("input[name='chk_outcomes[]']").each(function(){
         if(this.checked) {
@@ -359,7 +366,12 @@ $(document).ready(function(){
       max_file_size : '10mb',
       chunk_size : '1mb',
       unique_names : true,
+      multipart: true,
+      multipart_params: {
+        'authenticity_token' : token //For csrf-authentication
+      },
       multiple_queues : true,
+      
       filters : [
         {title : "Image files", extensions : "jpg,gif,png"},
         {title : "Zip files", extensions : "zip"}
