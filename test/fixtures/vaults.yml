@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  vault_type: MyString
+  object_id: 1
+  object_type: MyString
+  account: MyString
+  secret: MyString
+  folder: MyString
+
+two:
+  vault_type: MyString
+  object_id: 1
+  object_type: MyString
+  account: MyString
+  secret: MyString
+  folder: MyString

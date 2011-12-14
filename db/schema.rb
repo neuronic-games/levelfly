@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111207131824) do
+ActiveRecord::Schema.define(:version => 20111214073323) do
 
   create_table "access_codes", :force => true do |t|
     t.integer  "school_id"
@@ -160,14 +160,17 @@ ActiveRecord::Schema.define(:version => 20111207131824) do
     t.integer  "user_id"
     t.integer  "school_id"
     t.integer  "major_id"
-    t.string   "code",       :limit => 64
-    t.string   "name",       :limit => 64
-    t.string   "full_name",  :limit => 64
-    t.string   "salutation", :limit => 64
-    t.boolean  "primary",                  :default => false
-    t.boolean  "archived",                 :default => false
+    t.string   "code",          :limit => 64
+    t.string   "name",          :limit => 64
+    t.string   "full_name",     :limit => 64
+    t.string   "salutation",    :limit => 64
+    t.boolean  "primary",                     :default => false
+    t.boolean  "archived",                    :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "like_given"
+    t.integer  "like_received"
+    t.integer  "post_count"
   end
 
   create_table "quests", :force => true do |t|
@@ -235,6 +238,17 @@ ActiveRecord::Schema.define(:version => 20111207131824) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "vaults", :force => true do |t|
+    t.string   "vault_type",  :limit => 32
+    t.integer  "object_id"
+    t.string   "object_type", :limit => 64
+    t.string   "account"
+    t.string   "secret"
+    t.string   "folder"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "wardrobe_item_types", :force => true do |t|
     t.string   "name",       :limit => 32

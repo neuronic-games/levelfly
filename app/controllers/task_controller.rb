@@ -206,9 +206,10 @@ class TaskController < ApplicationController
     #FileUtils.cp tmp.path, file
     
     base_name = File.basename(params[:name])
+    
     AWS::S3::Base.establish_connection!(
-      access_key_id: 'AKIAJMV6IAIXZQJJ2GHQ',
-      secret_access_key: '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'
+      :access_key_id     => 'AKIAJMV6IAIXZQJJ2GHQ',
+      :secret_access_key => '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'
     )
     
     AWS::S3::S3Object.store(
