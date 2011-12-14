@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111214073323) do
+ActiveRecord::Schema.define(:version => 20111214101736) do
 
   create_table "access_codes", :force => true do |t|
     t.integer  "school_id"
@@ -19,6 +19,13 @@ ActiveRecord::Schema.define(:version => 20111214073323) do
     t.string   "code",           :limit => 32
     t.date     "available_date"
     t.boolean  "archived",                     :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "attachments", :force => true do |t|
+    t.string   "object_type", :limit => 64
+    t.integer  "object_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

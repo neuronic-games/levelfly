@@ -4,7 +4,6 @@ class TaskController < ApplicationController
   
   def index
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    
     @tasks = Task.find(
       :all, 
       :include => [:participants], 
@@ -194,30 +193,13 @@ class TaskController < ApplicationController
   end
   
   def upload_resource 
-    #!/usr/bin/env ruby
-
-    require 'rubygems'
-    require 'aws/s3'
-    bucket = 'com.neuronicgames.oncampus.test/test'
     tmp = params[:file]
-    
+    file_name = params[:name]
+    school_id = params[:school_id]
     #require 'fileutils'
     #file = File.join("public/resources", params[:name])
     #FileUtils.cp tmp.path, file
-    
-    base_name = File.basename(params[:name])
-    
-    AWS::S3::Base.establish_connection!(
-      :access_key_id     => 'AKIAJMV6IAIXZQJJ2GHQ',
-      :secret_access_key => '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'
-    )
-    
-    AWS::S3::S3Object.store(
-      base_name,
-      File.open(tmp.path),
-      bucket
-    )
-    
+    Attachment.aws_upload(school_id, file_name, tmp)
     render :nothing => true
   end
   

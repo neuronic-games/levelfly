@@ -368,10 +368,11 @@ $(document).ready(function(){
       unique_names : true,
       multipart: true,
       multipart_params: {
-        'authenticity_token' : token //For csrf-authentication
+        'authenticity_token' : token,  //For csrf-authentication
+        'school_id' : $("#course_school_id_hdn").val()
       },
       multiple_queues : true,
-      
+      multiple_upload: true,
       filters : [
         {title : "Image files", extensions : "jpg,gif,png"},
         {title : "Zip files", extensions : "zip"}
