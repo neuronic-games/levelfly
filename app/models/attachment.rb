@@ -2,16 +2,30 @@ require 'rubygems'
 require 'aws/s3'
 class Attachment < ActiveRecord::Base
   belongs_to :tasks
-  @@aws_bucket = nil
   
   def self.aws_bucket(bucket)
-    @@aws_bucket = bucket
+    
+    create = true
+    begin
+      AWS::S3::Bucket.find(bucket)
+      create = false
+    rescue
+    end
+
+    begin
+      if create
+        AWS::S3::Bucket.create(bucket)
+      end
+    rescue
+    end
+    
   end
   
   def self.aws_connection(school_id)
-    connect = false
+    @vault = nil
     if school_id
-      @vault = Vault.find(:first, :conditions => ["object_id = ? AND object_type='School' AND vault_type= 'AWS S3'", school_id])
+      @vault = Vault.find(:first, 
+        :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
       if @vault
         self.aws_bucket(@vault.folder)
         if AWS::S3::Base.establish_connection!(
@@ -22,16 +36,18 @@ class Attachment < ActiveRecord::Base
         end
       end
     end
-    return connect
+    return @vault
   end
   
   def self.aws_upload(school_id, filename, temp_path)
-    if self.aws_connection(school_id)
+    @vault = self.aws_connection(school_id)
+    if @vault
       base_name = File.basename(filename)
       AWS::S3::S3Object.store(
         base_name,
         File.open(temp_path.path),
-        @@aws_bucket
+        @vault.folder,
+        :access => :public_read
       )
     else
       puts 'not connect!!'

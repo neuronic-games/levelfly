@@ -18,6 +18,8 @@ class WardrobeController < ApplicationController
   def show
     if params[:id]
       @profile = Profile.find(:first,  :select => "school_id", :conditions=>["user_id = ?", current_user.id])
+      @vault = Vault.find(:first, 
+        :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", @profile.school_id])
       @wardrobe_item = WardrobeItem.find(params[:id])
       respond_to do |wants|
         wants.html do
@@ -34,6 +36,8 @@ class WardrobeController < ApplicationController
 
   def new
     @profile = Profile.find(:first,  :select => "school_id", :conditions=>["user_id = ?", current_user.id])
+    @vault = Vault.find(:first, 
+      :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", @profile.school_id])
     respond_to do |wants|
       wants.html do
         if params[:id] && !params[:id].empty?
@@ -94,9 +98,6 @@ class WardrobeController < ApplicationController
     tmp = params[:file]
     file_name = params[:name]
     school_id = params[:school_id]
-    #require 'fileutils'
-    #file = File.join("public/resources", params[:name])
-    #FileUtils.cp tmp.path, file
     Attachment.aws_upload(school_id, file_name, tmp)
     render :nothing => true
   end

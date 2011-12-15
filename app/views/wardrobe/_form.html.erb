@@ -137,7 +137,6 @@ $(document).ready(function(){
     container: 'wardrobe_image',
     max_file_size : '10mb',
     url : '/wardrobe/upload_wardrobe_image',
-    resize : {width : 290, height : 290, quality : 90},
     multipart_params: {
       'authenticity_token' : token,  //For csrf-authentication
       'school_id' : $("#school_id_hdn").val()
@@ -159,10 +158,9 @@ $(document).ready(function(){
   
   uploader.bind('FileUploaded', function(up, file) {
     $("#image_progress").html('');
-    $("#image_progress").html('<img id="full_image" alt="Preview not available"/>');
-    $("#full_image").attr('src', 'https://s3.amazonaws.com/com.neuronicgames.oncampus.test/test/'+file.name);
+    $("#image_progress").html('<img id="full_image" alt="Preview not available" />');
+    $("#full_image").attr('src', 'http://s3.amazonaws.com/<%= @vault.folder %>/' + file.name);
   });
-  
   
   //Icon Uploader for Icon Image
   var iconUploader = new plupload.Uploader({
@@ -171,7 +169,6 @@ $(document).ready(function(){
     container: 'wardrobe_icon',
     max_file_size : '10mb',
     url : '/wardrobe/upload_wardrobe_image',
-    resize : {width : 290, height : 290, quality : 90},
     multipart_params: {
       'authenticity_token' : token ,  //For csrf-authentication
       'school_id' : $("#school_id_hdn").val()
@@ -194,7 +191,7 @@ $(document).ready(function(){
   iconUploader.bind('FileUploaded', function(up, file) {
     $("#icon_progress").html('');
     $("#icon_progress").html('<img id="icon_image" alt="Preview not available"/>');
-    $("#icon_image").attr('src', 'https://s3.amazonaws.com/com.neuronicgames.oncampus.test/test/'+file.name);
+    $("#icon_image").attr('src', 'http://s3.amazonaws.com/<%= @vault.folder %>/' + file.name);
   });
   
 }); //document ready ends

@@ -125,30 +125,30 @@ float:left;
 }
 #icon_progress{
   margin:5px auto;
-  width:90px;
-  height:90px;
+  width:60px;
+  height:60px;
   text-align:center;
 }
 #icon_progress img{
-  width:90px;
-  height:90px;
+  width:60px;
+  height:60px;
 }
 #wardrobe_image{
   float:left;
   border:1px solid #A9A9A9;
-  width:300px;
-  height:300px;
+  width:241px;
+  height:660px;
   margin:25px 5px;
 }
 #image_progress{
   margin:5px auto;
-  width:290px;
-  height:290px;
+  width:241px;
+  height:660px;
   text-align:center;
 }
 #image_progress img{
-  width:290px;
-  height:290px;
+  width:241px;
+  height:660px;
 }
 #head_items {
   width:700px;
