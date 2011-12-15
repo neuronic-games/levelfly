@@ -74,6 +74,8 @@ Oncapus::Application.routes.draw do
   
   post "wardrobe/save_sort_order"
   
+  post "wardrobe/upload_wardrobe_image"
+  
   match 'task' => 'task#index'
     
   match 'main' => 'course#index'

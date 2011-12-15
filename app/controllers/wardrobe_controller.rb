@@ -17,6 +17,7 @@ class WardrobeController < ApplicationController
   
   def show
     if params[:id]
+      @profile = Profile.find(:first,  :select => "school_id", :conditions=>["user_id = ?", current_user.id])
       @wardrobe_item = WardrobeItem.find(params[:id])
       respond_to do |wants|
         wants.html do
@@ -32,6 +33,7 @@ class WardrobeController < ApplicationController
   end
 
   def new
+    @profile = Profile.find(:first,  :select => "school_id", :conditions=>["user_id = ?", current_user.id])
     respond_to do |wants|
       wants.html do
         if params[:id] && !params[:id].empty?
@@ -87,5 +89,16 @@ class WardrobeController < ApplicationController
     end
     render :text => {"status"=>status}.to_json
   end
-
+  
+  def upload_wardrobe_image 
+    tmp = params[:file]
+    file_name = params[:name]
+    school_id = params[:school_id]
+    #require 'fileutils'
+    #file = File.join("public/resources", params[:name])
+    #FileUtils.cp tmp.path, file
+    Attachment.aws_upload(school_id, file_name, tmp)
+    render :nothing => true
+  end
+  
 end

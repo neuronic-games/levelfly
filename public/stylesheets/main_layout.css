@@ -110,7 +110,6 @@ float:left;
   float:left;
   width:775px;
   margin-top:105px;
-  /*border:1px solid green;*/
 }
 #wardrobe_fields{
   float:left;
@@ -121,10 +120,18 @@ float:left;
   float:left;
   border:1px solid #A9A9A9;
   width:100px;
-  height:70px;
-  text-align:center;
-  padding-top:30px;
+  height:100px;
   margin:25px 5px;
+}
+#icon_progress{
+  margin:5px auto;
+  width:90px;
+  height:90px;
+  text-align:center;
+}
+#icon_progress img{
+  width:90px;
+  height:90px;
 }
 #wardrobe_image{
   float:left;
@@ -132,6 +139,16 @@ float:left;
   width:300px;
   height:300px;
   margin:25px 5px;
+}
+#image_progress{
+  margin:5px auto;
+  width:290px;
+  height:290px;
+  text-align:center;
+}
+#image_progress img{
+  width:290px;
+  height:290px;
 }
 #head_items {
   width:700px;

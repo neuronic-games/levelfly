@@ -1,3 +1,6 @@
+<div class="screen_title">
+  WARDROBE
+</div>
 <div class="content_wrapper">
   <div class="content_container">
     <div id="wardrobe_fields">
@@ -19,9 +22,14 @@
       </div>
     </div>
     <div id="wardrobe_icon">
-      Drop Icon
+      <div id="icon_progress">
+        Drop Icon
+      </div>
     </div>
     <div id="wardrobe_image">
+      <div id="image_progress">
+        Drop Image
+      </div>
     </div>
   </div>
   <div class="frm_button" style="width:400px;">
@@ -29,13 +37,14 @@
     <input type="button" name="btn_save" id="btn_save" value="Save"/>
     <input type="hidden" name="wardrobe_item_id_hdn" id="wardrobe_item_id_hdn" value="<%=@wardrobe_item.id if @wardrobe_item%>" />
     <input type="hidden" name="wardrobe_item_parent_id_hdn" id="wardrobe_item_parent_id_hdn" value="<%=@wardrobe_item_parent_id if @wardrobe_item_parent_id%>" />
+    <input type="hidden" name="school_id_hdn" id="school_id_hdn" value="<%=@profile.school_id if @profile%>" />
   </div>
 </div>
 <script type="text/javascript">
 <!--
 //Set CSRF Token (Required for ajax request (post))
+var token = $("meta[name='csrf-token']").attr("content");
 $(document).ajaxSend(function(e, xhr, options) {
-  var token = $("meta[name='csrf-token']").attr("content");
   xhr.setRequestHeader("X-CSRF-Token", token);
 });
 
@@ -119,6 +128,77 @@ $(document).ready(function(){
     }); //ajax ends  
     return false;  
   }); //Save wardrobe ends
+  
+  
+  //Uploader for Large Image
+  var uploader = new plupload.Uploader({
+    runtimes : 'html5',
+    drop_element: 'wardrobe_image',
+    container: 'wardrobe_image',
+    max_file_size : '10mb',
+    url : '/wardrobe/upload_wardrobe_image',
+    resize : {width : 290, height : 290, quality : 90},
+    multipart_params: {
+      'authenticity_token' : token,  //For csrf-authentication
+      'school_id' : $("#school_id_hdn").val()
+    },
+    filters : [
+      {title : "Image files", extensions : "jpg,gif,png,JPG,PNG,GIF,JPEG"}
+    ]
+  });
+  
+  uploader.init();
+  
+  uploader.bind('FilesAdded', function(up, files) {
+    uploader.start();
+  });
+
+  uploader.bind('UploadProgress', function(up, file) {
+    $("#image_progress").html('<span>' + file.percent + "%</span>");
+  });
+  
+  uploader.bind('FileUploaded', function(up, file) {
+    $("#image_progress").html('');
+    $("#image_progress").html('<img id="full_image" alt="Preview not available"/>');
+    $("#full_image").attr('src', 'https://s3.amazonaws.com/com.neuronicgames.oncampus.test/test/'+file.name);
+  });
+  
+  
+  //Icon Uploader for Icon Image
+  var iconUploader = new plupload.Uploader({
+    runtimes : 'html5',
+    drop_element: 'wardrobe_icon',
+    container: 'wardrobe_icon',
+    max_file_size : '10mb',
+    url : '/wardrobe/upload_wardrobe_image',
+    resize : {width : 290, height : 290, quality : 90},
+    multipart_params: {
+      'authenticity_token' : token ,  //For csrf-authentication
+      'school_id' : $("#school_id_hdn").val()
+    },
+    filters : [
+      {title : "Image files", extensions : "jpg,gif,png,JPG,PNG,GIF,JPEG"}
+    ]
+  });
+  
+  iconUploader.init();
+  
+  iconUploader.bind('FilesAdded', function(up, files) {
+    iconUploader.start();
+  });
+
+  iconUploader.bind('UploadProgress', function(up, file) {
+    $("#icon_progress").html('<span>' + file.percent + "%</span>");
+  });
+  
+  iconUploader.bind('FileUploaded', function(up, file) {
+    $("#icon_progress").html('');
+    $("#icon_progress").html('<img id="icon_image" alt="Preview not available"/>');
+    $("#icon_image").attr('src', 'https://s3.amazonaws.com/com.neuronicgames.oncampus.test/test/'+file.name);
+  });
+  
 }); //document ready ends
+
+
 -->
 </script>
