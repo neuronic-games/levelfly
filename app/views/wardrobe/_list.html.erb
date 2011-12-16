@@ -105,8 +105,9 @@ $(document).ready(function(){
   //Add/Edit Call
   $('#btn_add, #btn_edit').live('click', function(){
     var target = $(this).attr('rel');
+    var wardrobe_id = $('#wardrobe_id').val();
     var wardrobe_item_id = $('#hdn_edit_id').val();
-    var data = "id="+wardrobe_item_id;
+    var data = "id="+wardrobe_item_id+"&wardrobe_id="+wardrobe_id;
     if(target) {
       $.ajax({
         type: 'GET',

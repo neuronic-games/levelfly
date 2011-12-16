@@ -23,12 +23,20 @@
     </div>
     <div id="wardrobe_icon">
       <div id="icon_progress">
-        Drop Icon
+        <% if @wardrobe_item && !@wardrobe_item.icon_file.nil? %>
+          <img src="<%=@wardrobe_item.icon_file %>" />
+        <% else %>
+          Drop Icon
+        <% end %>
       </div>
     </div>
     <div id="wardrobe_image">
       <div id="image_progress">
-        Drop Image
+        <% if @wardrobe_item && !@wardrobe_item.image_file.nil? %>
+          <img src="<%=@wardrobe_item.image_file %>" />
+        <% else %>
+          Drop Image
+        <% end %>
       </div>
     </div>
   </div>
@@ -36,12 +44,17 @@
     <input type="button" name="btn_dont_save" id="btn_dont_save" value="Don't save"/> &nbsp;
     <input type="button" name="btn_save" id="btn_save" value="Save"/>
     <input type="hidden" name="wardrobe_item_id_hdn" id="wardrobe_item_id_hdn" value="<%=@wardrobe_item.id if @wardrobe_item%>" />
+    <input type="hidden" name="wardrobe_id_hdn" id="wardrobe_id_hdn" value="<%=@wardrobe_id if @wardrobe_id%>" />
     <input type="hidden" name="wardrobe_item_parent_id_hdn" id="wardrobe_item_parent_id_hdn" value="<%=@wardrobe_item_parent_id if @wardrobe_item_parent_id%>" />
     <input type="hidden" name="school_id_hdn" id="school_id_hdn" value="<%=@profile.school_id if @profile%>" />
+    <input type="hidden" name="wardrobe_item_icon_hdn" id="wardrobe_item_icon_hdn" value="<%=@wardrobe_item.icon_file if @wardrobe_item%>" />
+    <input type="hidden" name="wardrobe_item_image_hdn" id="wardrobe_item_image_hdn" value="<%=@wardrobe_item.image_file if @wardrobe_item%>" />
+    <input type="hidden" name="wardrobe_item_depth_hdn" id="wardrobe_item_depth_hdn" value="<%=@wardrobe_item && !@wardrobe_item.depth.nil? ? @wardrobe_item.depth : 2 %>" />
   </div>
 </div>
 <script type="text/javascript">
 <!--
+
 //Set CSRF Token (Required for ajax request (post))
 var token = $("meta[name='csrf-token']").attr("content");
 $(document).ajaxSend(function(e, xhr, options) {
@@ -102,15 +115,19 @@ $(document).ready(function(){
   
   // Save wardrobe
   $("#btn_save").live("click", function(){
-    wardrobe_id = $("#wardrobe_item_id_hdn").val();
+    wardrobe_id = $("#wardrobe_id_hdn").val();
+    wardrobe_item_id = $("#wardrobe_item_id_hdn").val();
     wardrobe_parent_id = $("#wardrobe_item_parent_id_hdn").val();
+    wardrobe_item_image = $("#wardrobe_item_image_hdn").val();
+    wardrobe_item_icon = $("#wardrobe_item_icon_hdn").val();
+    wardrobe_item_depth = $("#wardrobe_item_depth_hdn").val();
     wardrobe_item = getStorage("wardrobe_item_name");
     visible_date = getStorage("wardrobe_item_visible_date");
     visible_level = getStorage("wardrobe_item_visible_level");
     available_date = getStorage("wardrobe_item_available_date");
     available_level = getStorage("wardrobe_item_available_level");
     item_type = getStorage("wardrobe_item_type");
-    var dataString = 'id='+ wardrobe_id + '&parent_id=' + wardrobe_parent_id + '&wardrobe_item='+ wardrobe_item + '&visible_date=' + visible_date + '&visible_level=' + visible_level + '&available_date=' + available_date + '&available_level=' + available_level + '&item_type=' + item_type ;
+    var dataString = 'id='+ wardrobe_item_id + '&wardrobe_id=' + wardrobe_id + '&parent_id=' + wardrobe_parent_id + '&wardrobe_item='+ wardrobe_item + '&visible_date=' + visible_date + '&visible_level=' + visible_level + '&available_date=' + available_date + '&available_level=' + available_level + '&item_type=' + item_type + '&icon=' + wardrobe_item_icon + '&image=' + wardrobe_item_image + '&depth=' + wardrobe_item_depth ;
     //alert (dataString);return false;  
     $.ajax({  
       type: "POST",  
@@ -119,8 +136,9 @@ $(document).ready(function(){
       dataType:"json",
       success: function(data) {
         if (data) {
-          alert("Data saved");
-          $("#wardrobe_item_id_hdn").val(data.wardrobe_item.id);
+          //alert("Data saved");
+          //$("#wardrobe_item_id_hdn").val(data.wardrobe_item.id);
+          $("#container").load('/wardrobe/index');
         } else {
           alert("ERROR");
         }
@@ -157,9 +175,11 @@ $(document).ready(function(){
   });
   
   uploader.bind('FileUploaded', function(up, file) {
+    image_uploaded = 'http://s3.amazonaws.com/<%= @vault.folder %>/' + file.name;
     $("#image_progress").html('');
     $("#image_progress").html('<img id="full_image" alt="Preview not available" />');
-    $("#full_image").attr('src', 'http://s3.amazonaws.com/<%= @vault.folder %>/' + file.name);
+    $("#full_image").attr('src',image_uploaded );
+    $("#wardrobe_item_image_hdn").val(image_uploaded);
   });
   
   //Icon Uploader for Icon Image
@@ -189,9 +209,11 @@ $(document).ready(function(){
   });
   
   iconUploader.bind('FileUploaded', function(up, file) {
+    icon_uploaded = 'http://s3.amazonaws.com/<%= @vault.folder %>/' + file.name;
     $("#icon_progress").html('');
     $("#icon_progress").html('<img id="icon_image" alt="Preview not available"/>');
-    $("#icon_image").attr('src', 'http://s3.amazonaws.com/<%= @vault.folder %>/' + file.name);
+    $("#icon_image").attr('src', icon_uploaded);
+    $("#wardrobe_item_icon_hdn").val(icon_uploaded);
   });
   
 }); //document ready ends

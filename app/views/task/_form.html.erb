@@ -267,8 +267,9 @@ $(document).ready(function(){
       dataType:"json",
       success: function(data) {
         if (data) {
-          alert("Data Saved");
+          //alert("Data Saved");
           $("#task_id_hdn").val(data.task.id);
+          $("#container").load('/task/index');
         } else {
           alert("ERROR");
         }

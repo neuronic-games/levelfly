@@ -180,8 +180,9 @@ $(document).ready(function(){
       dataType:"json",
       success: function(data) {
         if (data) {
-          alert("Data Saved");
+          //alert("Data Saved");
           $("#course_id_hdn").val(data.course.id);
+          $("#container").load('/course/index');
         } else {
           alert("ERROR");
         }
