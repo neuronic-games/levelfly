@@ -24,10 +24,12 @@
       
     </div>
   </div>
-  <div class="frm_button" style="width:400px;">
+  <input type="hidden" name="hdn_edit_id" id="hdn_edit_id" value="" />
+</div>
+<div id="sidebar_right">
+  <div id="crud_level">
     <input type="button" name="btn_add" id="btn_add" value="Add" rel="/wardrobe/new" disabled="true" /> &nbsp;
     <input type="button" name="btn_edit" id="btn_edit" value="Edit" rel="/wardrobe/show" disabled="true" />
-    <input type="hidden" name="hdn_edit_id" id="hdn_edit_id" value="" />
   </div>
 </div>
 <script type="text/javascript">
@@ -105,8 +107,9 @@ $(document).ready(function(){
   //Add/Edit Call
   $('#btn_add, #btn_edit').live('click', function(){
     var target = $(this).attr('rel');
+    var wardrobe_id = $('#wardrobe_id').val();
     var wardrobe_item_id = $('#hdn_edit_id').val();
-    var data = "id="+wardrobe_item_id;
+    var data = "id="+wardrobe_item_id+"&wardrobe_id="+wardrobe_id;
     if(target) {
       $.ajax({
         type: 'GET',

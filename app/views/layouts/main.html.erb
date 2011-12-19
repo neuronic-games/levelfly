@@ -63,9 +63,9 @@
         
         <div id="sidebar_menu_bottom">
           <div id="root_level">
-            <input type="button" name="menu_btn_courses" id="menu_btn_courses" rel="/course/" value="Courses" class="menu_btn root"/>
-            <input type="button" name="menu_btn_tasks" id="menu_btn_tasks" rel="/task/" value="Tasks" class="menu_btn root"/>
-            <input type="button" name="menu_btn_grades" id="menu_btn_grades" value="Grades"class="menu_btn"/>
+            <input type="button" name="menu_btn_courses" id="menu_btn_courses" rel="/course/" value="Courses" class="menu_btn"/>
+            <input type="button" name="menu_btn_tasks" id="menu_btn_tasks" rel="/task/" value="Tasks" class="menu_btn"/>
+            <input type="button" name="menu_btn_grades" id="menu_btn_grades" value="Grades"class="menu_btn" />
             <input type="button" name="menu_btn_wardrobe" id="menu_btn_wardrobe" rel="/wardrobe/" value="Wardrobe"class="menu_btn"/>
           </div><!-- root_level -->
         </div><!-- sidebar_menu_bottom -->
@@ -76,15 +76,6 @@
     <div id="container">
       <%= yield %>
     </div><!-- container -->
-    <div id="sidebar_right">
-      <div id="crud_level">
-        <input type="button" name="menu_btn_add" id="menu_btn_add" rel="/course/new" value="Add" class="menu_btn"/>
-        <input type="button" name="menu_btn_dup" id="menu_btn_dup" value="Duplicate" class="menu_btn hide"/>
-        <input type="button" name="menu_btn_hide" id="menu_btn_hide" value="Hide"/>
-        <input type="button" name="menu_btn_fav" id="menu_btn_fav" value="Fav"/>
-        <input type="button" name="menu_btn_print" id="menu_btn_print" value="Print"/>
-      </div><!-- crud_level -->
-    </div>
   </div><!-- wrapper -->
 </body>
 <script type="text/javascript">
@@ -98,6 +89,7 @@
     });
     
     //Crud level switch
+    /*
     $(".root").live("click",function(){
       var rel = $(this).attr("rel");
       $("#menu_btn_add, #menu_btn_hide, #menu_btn_fav, #menu_btn_print").removeAttr("rel");
@@ -110,7 +102,7 @@
       }
       //$("#root_level").fadeOut($("#crud_level").fadeIn());
     });
-    
+    */
     //Fill up the #container with according call
     $(".menu_btn").live("click",function(){
       var target = $(this).attr("rel");

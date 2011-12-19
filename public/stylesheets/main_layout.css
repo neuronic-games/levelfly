@@ -19,7 +19,7 @@ body{
 #sidebar_right {
   float:right;
   width:95px;
-  height:650px;
+  height:500px;
 }
 #sidebar_menu_top {
   width:115px;
@@ -47,7 +47,7 @@ body{
 }
 #crud_level {
   width:110px;
-  margin:350px auto auto 0px;
+  margin:200px auto auto 0px;
   height:125px;
   float:right;
   /*padding:60px 0 0 5px;*/
@@ -108,7 +108,7 @@ float:left;
 }
 #container  {
   float:left;
-  width:775px;
+  width:870px;
   margin-top:105px;
 }
 #wardrobe_fields{
@@ -188,9 +188,9 @@ float:left;
   text-align:center;
 }
 .content_wrapper {
-  float:right;
+  float:left;
   width:750px;
-  margin:0px auto;
+  margin:0px auto auto 15px;
   padding-top:20px;
   border:1px solid #A9A9A9;
   border-bottom:none;
@@ -224,7 +224,7 @@ float:left;
 .content_container {
   width:710px;
   float:left;
-  height:380px;
+  height:415px;
   margin-left:20px;
   overflow:scroll;
 }

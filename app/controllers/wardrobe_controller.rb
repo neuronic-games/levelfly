@@ -21,6 +21,7 @@ class WardrobeController < ApplicationController
       @vault = Vault.find(:first, 
         :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", @profile.school_id])
       @wardrobe_item = WardrobeItem.find(params[:id])
+      @wardrobe_id = @wardrobe_item.wardrobe_id
       respond_to do |wants|
         wants.html do
         @wardrobe_item_parent_id = @wardrobe_item.parent_item_id
@@ -42,6 +43,7 @@ class WardrobeController < ApplicationController
       wants.html do
         if params[:id] && !params[:id].empty?
           @wardrobe_item_parent_id = params[:id]
+          @wardrobe_id = params[:wardrobe_id]
           if request.xhr?
             render :partial => "/wardrobe/form"
           else
@@ -60,14 +62,19 @@ class WardrobeController < ApplicationController
       @wardrobe_item = WardrobeItem.new
     end
     @wardrobe_item.name = params[:wardrobe_item]
+    @wardrobe_item.wardrobe_id = params[:wardrobe_id]
     @wardrobe_item.parent_item_id = params[:parent_id]
     @wardrobe_item.visible_date = params[:visible_date]
     @wardrobe_item.visible_level = params[:visible_level]
     @wardrobe_item.available_date = params[:available_date]
     @wardrobe_item.available_level = params[:available_level]
     @wardrobe_item.item_type = params[:item_type]
+    @wardrobe_item.icon_file = params[:icon]
+    @wardrobe_item.image_file = params[:image]
+    @wardrobe_item.depth = params[:depth]
     @wardrobe_item.save
     render :text => {"wardrobe_item"=>@wardrobe_item}.to_json
+    #redirect_to 'index'
   end
   
   def load_wardrobe_items
