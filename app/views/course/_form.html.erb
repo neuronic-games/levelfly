@@ -64,12 +64,13 @@
         <div class="frm_input">
           <% if @course %>
             <% @course.outcomes.each do |o| %>
-              <div style="margin-top:10px;">
-                <input type="text" name="outcomes[]" value="<%= o.name %>" class="medium" readonly="true" /> &nbsp;&nbsp;
+              <div style="margin-top:5px;" id="outcome_div_<%=o.id%>">
+                <input type="checkbox" name="chk_outcome[]"  id="<%=o.id%>" value="<%=o.id%>" />
+                <input type="text" name="loaded_outcomes[]" value="<%= o.name %>" class="medium" readonly="true" /> &nbsp;&nbsp;
               </div>
             <% end %>
           <% end %>
-          <div id="add_outcome_container" style="margin-top:10px;">
+          <div id="add_outcome_container" style="margin:10px 0 0 22px;">
             <input type="text" name="outcomes[]" id="outcomes_1" class="medium" /> &nbsp;&nbsp;
           </div>
         </div>
@@ -81,12 +82,13 @@
         <div class="frm_input">
           <% if @course %>
             <% @course.categories.each do |c| %>
-              <div style="margin-top:10px;">
-                <input type="text" name="categories[]" value="<%= c.name %>" class="medium" readonly="true" /> &nbsp;&nbsp;
+              <div style="margin-top:10px;" id="category_div_<%=c.id%>">
+                <input type="checkbox" name="chk_categories[]"  id="<%=c.id%>" value="<%=c.id%>" />
+                <input type="text" name="loaded_categories[]" value="<%= c.name %>" class="medium" readonly="true" /> &nbsp;&nbsp;
               </div>
             <% end %>
           <% end %>
-          <div  id="add_category_container" style="margin-top:10px;">
+          <div  id="add_category_container" style="margin:10px 0 0 22px;">
             <input type="text" name="categories[]" id="categories_1" class="medium" /> &nbsp;&nbsp;
           </div>
         </div>
@@ -103,12 +105,15 @@
       <input type="button" name="menu_btn_hide" id="menu_btn_hide" value="Hide"/>
       <input type="button" name="menu_btn_fav" id="menu_btn_fav" value="Fav"/>
       <input type="button" name="menu_btn_print" id="menu_btn_print" value="Print"/>
+      <input type="button" name="btn_outcome_remove" id="btn_outcome_remove" class="hide" value="Remove"/>
+      <input type="button" name="btn_category_remove" id="btn_category_remove" class="hide" value="Remove"/>
     <% end %>
-    <input type="button" name="btn_remove" id="btn_remove" class="hide" value="Remove"/>
+    <input type="button" name="btn_people_remove" id="btn_people_remove" class="hide" value="Remove"/>
   </div><!-- crud_level -->
 </div>
 <script type="text/javascript">
 <!-- 
+jStorage.flush();
 //For dynamic added nodes
 var _counterPeople = 2;
 var _counterOutcome = 2;
@@ -119,8 +124,8 @@ var _addPeopleEmailObject = [];
 var _outcomesObject = [];
 var _categoriesObject = [];
 
-//set people email to offline storage
-$.each($('input[name="people_id[]"]'), function() {
+//set outcomes to offline storage
+$.each($('input[name="outcomes[]"], input[name="people_id[]"], input[name="categories[]"]'), function() {
   //alert($(this).attr('id') +"==="+ $(this).val()) 
   setStorage($(this).attr('id'), $(this).val());
 });
@@ -137,7 +142,6 @@ $(document).ajaxSend(function(e, xhr, options) {
 });
 
 $(document).ready(function(){
-  
   //Toggle Tabs
   $(".menu_container a").click(function(){
     idx = $(this).attr("value");
@@ -149,9 +153,21 @@ $(document).ready(function(){
       }
     }
     if(idx == 2) {
-      $("#btn_remove").fadeIn();
+      $("#btn_people_remove").fadeIn();
     } else {
-     $("#btn_remove").hide();
+     $("#btn_people_remove").hide();
+    }
+    
+    if(idx == 3) {
+      $("#btn_outcome_remove").fadeIn();
+    } else {
+      $("#btn_outcome_remove").fadeOut();
+    }
+    
+    if(idx == 4) {
+      $("#btn_category_remove").fadeIn();
+    } else {
+      $("#btn_category_remove").fadeOut();
     }
     
     $("#div_"+idx).fadeIn();
@@ -240,7 +256,7 @@ $(document).ready(function(){
   });
   
   //Remove people nodes
-   $("#btn_remove").live("click", function(){
+  $("#btn_people_remove").live("click", function(){
     $("input[name='chk_people[]']").each(function(){
       if(this.checked) {
         div_id = $(this).attr('id');
@@ -259,6 +275,33 @@ $(document).ready(function(){
     }
   });
   
+  //Remove outcome nodes
+  $("#btn_outcome_remove").live("click", function(){
+    
+    var outcome_id = []
+    i = 0
+    $("input[name='chk_outcome[]']").each(function(){
+      if(this.checked) {
+        id = $(this).attr('id');
+        outcome_id[i] = id;
+        i++;
+        $("#outcome_div_"+id).remove();
+      }
+    });
+    
+    var dataString = 'outcomes='+outcome_id;
+    
+    $.ajax({  
+      type: "POST",  
+      url: "/course/remove_course_outcomes",  
+      data: dataString,
+      dataType:"json",
+      success: function(data) {
+        
+      }
+    });  
+  });
+  
   //For categories node
   $("#add_category_container .medium").live("focusout", function(){
     current_node = _counterCategory - 1;
@@ -267,6 +310,33 @@ $(document).ready(function(){
       addNode('category');
       setStorage("categories_"+current_node, val);
     }
+  });
+  
+  //Remove category nodes
+  $("#btn_category_remove").live("click", function(){
+    
+    var category_id = []
+    i = 0
+    $("input[name='chk_categories[]']").each(function(){
+      if(this.checked) {
+        id = $(this).attr('id');
+        category_id[i] = id;
+        i++;
+        $("#category_div_"+id).remove();
+      }
+    });
+    
+    var dataString = 'categories='+category_id;
+    
+    $.ajax({  
+      type: "POST",  
+      url: "/course/remove_course_categories",  
+      data: dataString,
+      dataType:"json",
+      success: function(data) {
+        
+      }
+    });  
   });
   
 });

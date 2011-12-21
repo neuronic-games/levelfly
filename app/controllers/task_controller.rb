@@ -22,7 +22,6 @@ class TaskController < ApplicationController
   
   def new
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    @outcomes = Outcome.find(:all, :order => "name")
     @courses = Course.find(:all, 
       :include => [:participants], 
       :conditions => ["participants.profile_id = ? and participants.profile_type = ?", @profile.id, 'M'])
@@ -40,7 +39,8 @@ class TaskController < ApplicationController
   def show
     @task = Task.find_by_id(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    @outcomes = Outcome.find(:all, :include=>[:outcome_tasks], :conditions =>["outcome_tasks.task_id = ?", @task.id], :order => "name")
+    #@outcomes = Outcome.find(:all, :include=>[:outcome_tasks], :conditions =>["outcome_tasks.task_id = ?", @task.id], :order => "name")
+    @outcomes = Outcome.find(:all, :conditions =>["course_id = ?", @task.course_id], :order => "name")
     @courses = Course.find(
       :all, 
       :include => [:participants], 
@@ -82,11 +82,12 @@ class TaskController < ApplicationController
     
     if @task.save
       if !params[:outcomes].empty?
+        OutcomeTask.delete_all(["outcome_id NOT IN (?) AND task_id = ?", params[:outcomes], @task.id])
         outcomes_array = params[:outcomes].split(",")
         outcomes_array.each do |o|
             outcome_task = OutcomeTask.find(:first, :conditions => ["task_id = ? AND outcome_id = ?", @task.id, o])
             if !outcome_task
-              # OutcomeTask record
+              #OutcomeTask record
               @outcome_task = OutcomeTask.new
               @outcome_task.task_id = @task.id
               @outcome_task.outcome_id = o

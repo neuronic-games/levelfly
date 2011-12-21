@@ -29,3 +29,7 @@ function getStorage(key) {
   }
   return val;
 }
+//Delete temp storage key
+function deleteStorage(key) {
+  jStorage.deleteKey(key);
+}

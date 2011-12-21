@@ -160,11 +160,11 @@ function addNode(element) {
     <input type="button" name="menu_btn_fav" id="menu_btn_fav" value="Fav"/>
     <input type="button" name="menu_btn_print" id="menu_btn_print" value="Print"/>
     <input type="button" name="task_btn_remove" id="task_btn_remove" class="hide" value="Remove"/>
-    <input type="button" name="task_btn_outcome_remove" id="task_btn_outcome_remove" class="hide" value="Remove"/>
   </div><!-- crud_level -->
 </div>
 <script type="text/javascript">
 <!--
+jStorage.flush();
 //For dynamic added nodes
 var _counter = 2;
 var _counter_people = 2;
@@ -212,13 +212,6 @@ $(document).ready(function(){
     } else {
      $("#task_btn_remove").hide();
     }
-    
-    if(idx == 2) {
-      $("#task_btn_outcome_remove").fadeIn();
-    } else {
-      $("#task_btn_outcome_remove").fadeOut();
-    }
-    
     $("#div_"+idx).fadeIn();
   });
   
@@ -240,8 +233,8 @@ $(document).ready(function(){
     i = 0
     $("input[name='chk_outcomes[]']").each(function(){
         if(this.checked) {
-          storage_key = $(this).attr('id');
-          outcomeObject[i] = getStorage(storage_key);
+          storage_key = "task_outcomes_"+$(this).attr('id');
+          outcomeObject[i] =  getStorage(storage_key);
           i++
         }
     });
@@ -347,16 +340,6 @@ $(document).ready(function(){
         if(this.checked) {
           div_id = $(this).attr('id');
           $("#task_people_div_"+div_id).remove();
-        }
-      });
-    });
-    
-    //Remove outcome nodes
-    $("#task_btn_outcome_remove").live("click", function(){
-      $("input[name='chk_outcomes[]']").each(function(){
-        if(this.checked) {
-          div_id = $(this).attr('id');
-          $("#task_outcome_div_"+div_id).remove();
         }
       });
     });

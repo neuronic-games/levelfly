@@ -57,7 +57,7 @@
 </div>
 <script type="text/javascript">
 <!--
-
+jStorage.flush();
 //Set CSRF Token (Required for ajax request (post))
 var token = $("meta[name='csrf-token']").attr("content");
 $(document).ajaxSend(function(e, xhr, options) {

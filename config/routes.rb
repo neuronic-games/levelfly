@@ -58,6 +58,10 @@ Oncapus::Application.routes.draw do
   
   post "course/save"
   
+  post "course/remove_course_outcomes"
+  
+  post "course/remove_course_categories"
+  
   get "wardrobe/index"
   
   get "wardrobe/new"

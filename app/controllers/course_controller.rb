@@ -150,4 +150,20 @@ class CourseController < ApplicationController
     render :text => {"course"=>@course}.to_json
   end
   
+  def remove_course_outcomes
+    if params[:outcomes] && !params[:outcomes].nil?
+      outcome_array = params[:outcomes].split(',')
+      Outcome.destroy(outcome_array)
+      render :text => {"status"=>"true"}.to_json
+    end
+  end
+  
+  def remove_course_categories
+    if params[:categories] && !params[:categories].nil?
+      category_array = params[:categories].split(',')
+      Category.destroy(category_array)
+      render :text => {"status"=>"true"}.to_json
+    end
+  end
+  
 end
