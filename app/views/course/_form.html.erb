@@ -66,7 +66,7 @@
             <% @course.outcomes.each do |o| %>
               <div style="margin-top:5px;" id="outcome_div_<%=o.id%>">
                 <input type="checkbox" name="chk_outcome[]"  id="<%=o.id%>" value="<%=o.id%>" />
-                <input type="text" name="loaded_outcomes[]" value="<%= o.name %>" class="medium" readonly="true" /> &nbsp;&nbsp;
+                <input type="text" name="loaded_outcomes[]" value="<%= o.name %>" rel="<%=o.id%>" class="medium" /> &nbsp;&nbsp;
               </div>
             <% end %>
           <% end %>
@@ -84,7 +84,7 @@
             <% @course.categories.each do |c| %>
               <div style="margin-top:10px;" id="category_div_<%=c.id%>">
                 <input type="checkbox" name="chk_categories[]"  id="<%=c.id%>" value="<%=c.id%>" />
-                <input type="text" name="loaded_categories[]" value="<%= c.name %>" class="medium" readonly="true" /> &nbsp;&nbsp;
+                <input type="text" name="loaded_categories[]" value="<%= c.name %>" rel="<%=c.id%>" class="medium" /> &nbsp;&nbsp;
               </div>
             <% end %>
           <% end %>
@@ -143,7 +143,7 @@ $(document).ajaxSend(function(e, xhr, options) {
 
 $(document).ready(function(){
   //Toggle Tabs
-  $(".menu_container a").click(function(){
+  $(".menu_container a").unbind('click').bind('click', function(){
     idx = $(this).attr("value");
     $(".menu_container a").removeClass("active");
     $(this).addClass("active");
@@ -174,7 +174,7 @@ $(document).ready(function(){
   });
   
   //Submit data
-  $("#btn_course").click(function(){
+  $("#btn_course").unbind('click').bind('click', function(){
     //Get data from offline storage
     course_id = $("#course_id_hdn").val();
     course = getStorage("course_name");
@@ -230,15 +230,63 @@ $(document).ready(function(){
     return false;  
   });
   
+  //For updating outcomes (in course view screen)
+  $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
+    var outcome_id = $(this).attr('rel');
+    var outcome = $(this).val();
+    var dataString = 'outcome_id=' + outcome_id + '&outcome=' + outcome
+    if(outcome_id) {
+      //alert (dataString);return false;
+      $.ajax({  
+        type: "POST",  
+        url: "/course/update_course_outcomes",  
+        data: dataString,
+        dataType:"json",
+        success: function(data) {
+          if (data) {
+            // To Do
+          } else {
+            alert("ERROR");
+          }
+        }
+      });  
+      return false; 
+    }
+  });
+  
+  //For updating outcomes (in course view screen)
+  $('input[name="loaded_categories[]"]').unbind('blur').bind('blur', function(){
+    var category_id = $(this).attr('rel');
+    var category = $(this).val();
+    var dataString = 'category_id=' + category_id + '&category=' + category
+    if(category_id) {
+      //alert (dataString);return false;
+      $.ajax({  
+        type: "POST",  
+        url: "/course/update_course_categories",  
+        data: dataString,
+        dataType:"json",
+        success: function(data) {
+          if (data) {
+           // To Do
+          } else {
+            alert("ERROR");
+          }
+        }
+      });  
+      return false; 
+    }
+  });
+  
   //For people node
-  $("#add_people_container .node").live("focus", function(){
+  $("#add_people_container .node").unbind('focus').bind("focus", function(){
     pval = $(this).val();
     if(pval=="Type in email to add") {
       $(this).val("");
     }
   });
   
-  $("#add_people_container .node").live("focusout", function(){
+  $("#add_people_container .node").unbind('focusout').bind("focusout", function(){
     var current_node = _counterPeople - 1;
     var filter=/^.+@.+\..{2,3}$/
     var pval = $("#add_people_email_"+current_node).val();
@@ -256,7 +304,7 @@ $(document).ready(function(){
   });
   
   //Remove people nodes
-  $("#btn_people_remove").live("click", function(){
+  $("#btn_people_remove").unbind('click').bind("click", function(){
     $("input[name='chk_people[]']").each(function(){
       if(this.checked) {
         div_id = $(this).attr('id');
@@ -266,7 +314,7 @@ $(document).ready(function(){
   });
   
   //For outcomes node
-  $("#add_outcome_container .medium").live("focusout", function(){
+  $("#add_outcome_container .medium").unbind('focusout').bind("focusout", function(){
     current_node = _counterOutcome - 1;
     val = $("#outcomes_"+current_node).val();
     if(val!="") {
@@ -276,7 +324,7 @@ $(document).ready(function(){
   });
   
   //Remove outcome nodes
-  $("#btn_outcome_remove").live("click", function(){
+  $("#btn_outcome_remove").unbind('click').bind("click", function(){
     
     var outcome_id = []
     i = 0
@@ -303,7 +351,7 @@ $(document).ready(function(){
   });
   
   //For categories node
-  $("#add_category_container .medium").live("focusout", function(){
+  $("#add_category_container .medium").unbind('focusout').bind("focusout", function(){
     current_node = _counterCategory - 1;
     val = $("#categories_"+current_node).val();
     if(val!="") {
@@ -313,7 +361,7 @@ $(document).ready(function(){
   });
   
   //Remove category nodes
-  $("#btn_category_remove").live("click", function(){
+  $("#btn_category_remove").unbind('click').bind("click", function(){
     
     var category_id = []
     i = 0

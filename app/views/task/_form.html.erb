@@ -197,7 +197,7 @@ $(document).ready(function(){
   //Flush the previous offline storage
   //jStorage.flush()
   //Toggle Tabs
-  $(".menu_container a").click(function(){
+  $(".menu_container a").unbind('click').bind('click', function(){
     idx = $(this).attr("value");
     $(".menu_container a").removeClass("active");
     $(this).addClass("active");
@@ -216,7 +216,7 @@ $(document).ready(function(){
   });
   
   //Submit data
-  $("#btn_task").click(function(){
+  $("#btn_task").unbind('click').bind('click', function(){
     //Get data from offline storage
     task_id = $("#task_id_hdn").val();
     task = getStorage("task_name");
@@ -273,7 +273,7 @@ $(document).ready(function(){
     return false;  
   });
   
-  $("#course").live( "change", function(){
+  $("#course").unbind('change').bind( "change", function(){
     //alert($(this).val()); return false;
     courseId = $(this).val();
     //To fill out the categories
@@ -301,7 +301,7 @@ $(document).ready(function(){
       onSelect: function(dateText, inst) {setStorage("task_due_date", dateText);}
     });
     
-    $("#participants_container .medium").live("keydown.autocomplete", function() {
+    $("#participants_container .medium").unbind('keydown.autocomplete').bind("keydown.autocomplete", function() {
       $(this).autocomplete({
         source: _participantsTags,
         select: function(event, ui){
@@ -310,14 +310,14 @@ $(document).ready(function(){
       });
     });
     
-    $("#add_task_people_container .node").live("focus", function(){
+    $("#add_task_people_container .node").unbind('focus').bind("focus", function(){
       pval = $(this).val();
       if(pval=="Type in email to add") {
         $(this).val("");
       }
     });
     
-    $("#add_task_people_container .node").live("focusout", function(){
+    $("#add_task_people_container .node").unbind('focusout').bind("focusout", function(){
       pval = $(this).val();
       var current_node = _counter_people - 1;
       var filter=/^.+@.+\..{2,3}$/
@@ -335,7 +335,7 @@ $(document).ready(function(){
     });
     
     //Remove people nodes
-    $("#task_btn_remove").live("click", function(){
+    $("#task_btn_remove").unbind('click').bind("click", function(){
       $("input[name='chk_task_people[]']").each(function(){
         if(this.checked) {
           div_id = $(this).attr('id');

@@ -158,6 +158,24 @@ class CourseController < ApplicationController
     end
   end
   
+  def update_course_outcomes
+    if params[:outcome_id] && !params[:outcome_id].empty?
+      outcome = Outcome.find(params[:outcome_id])
+      outcome.name = params[:outcome] if params[:outcome] && !params[:outcome].empty?
+      outcome.save
+    end
+    render :nothing =>true
+  end
+  
+  def update_course_categories
+    if params[:category_id] && !params[:category_id].empty?
+      category = Category.find(params[:category_id])
+      category.name = params[:category] if params[:category] && !params[:category].empty?
+      category.save
+    end
+    render :nothing =>true
+  end
+  
   def remove_course_categories
     if params[:categories] && !params[:categories].nil?
       category_array = params[:categories].split(',')

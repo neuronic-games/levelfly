@@ -75,7 +75,7 @@ if($("#wardrobe_item_type").val()!="") {setStorage("wardrobe_item_type", $("#war
 
 $(document).ready(function(){
   //on focus
-  $(".medium").live("focus", function(){
+  $(".medium").unbind('focus').bind("focus", function(){
     chk_val = $(this).attr("rel");
     cur_val = $(this).val();
     if(chk_val) {
@@ -88,7 +88,7 @@ $(document).ready(function(){
   }); //foucs ends
   
   //focus out
-  $(".medium").live("focusout", function(){
+  $(".medium").unbind('focusout').bind("focusout", function(){
     chk_val = $(this).attr("rel");
     cur_val = $(this).val();
     if(chk_val) {
@@ -117,7 +117,7 @@ $(document).ready(function(){
   });
   
   // Save wardrobe
-  $("#btn_save").live("click", function(){
+  $("#btn_save").unbind('click').bind("click", function(){
     wardrobe_id = $("#wardrobe_id_hdn").val();
     wardrobe_item_id = $("#wardrobe_item_id_hdn").val();
     wardrobe_parent_id = $("#wardrobe_item_parent_id_hdn").val();
@@ -139,9 +139,10 @@ $(document).ready(function(){
       dataType:"json",
       success: function(data) {
         if (data) {
-          //alert("Data saved");
-          //$("#wardrobe_item_id_hdn").val(data.wardrobe_item.id);
-          $("#container").load('/wardrobe/index');
+          //$("#container").load('/wardrobe/index');
+          $("#wardrobe_form_container").hide();
+          $("#wardrobe_form_container").html("");
+          $("#wardrobe_list_container").show();
         } else {
           alert("ERROR");
         }
@@ -149,6 +150,13 @@ $(document).ready(function(){
     }); //ajax ends  
     return false;  
   }); //Save wardrobe ends
+  
+  //Don't save button
+  $('#btn_dont_save').unbind('click').bind('click',function(){
+    $("#wardrobe_form_container").hide();
+    $("#wardrobe_form_container").html("");
+    $("#wardrobe_list_container").show();
+  });
   
   
   //Uploader for Large Image

@@ -1,36 +1,41 @@
-<div class="screen_title">
-  WARDEROBE ITEMS
+<div id="wardrobe_list_container">
+  <div class="screen_title">
+    WARDEROBE ITEMS
+  </div>
+  <div class="content_wrapper">
+    <div id="head_items">
+      <div id="head_left">
+        <%=collection_select(:wardrobe, :id, Wardrobe.all, :id, :name) %>
+      </div>
+      <div id="head_right">
+        <input type="button" name="btn_up" id="btn_up" value="Move Up" disabled="true"/> &nbsp;
+        <input type="button" name="btn_down" id="btn_down" value="Move Dn" disabled="true"/>
+      </div>
+    </div>
+    <div class="content_container">
+      <div class="row_container">
+        <% @wardrobe_item_lvel_0.each do |lev0| %>
+          <li  id="<%=lev0.id%>" rel="<%=lev0.depth%>"><%=lev0.name%></li>
+        <% end %>
+      </div>
+      <div class="row_container" id="wi_level_1">
+        
+      </div>
+      <div class="row_container" id="wi_level_2">
+        
+      </div>
+    </div>
+    <input type="hidden" name="hdn_edit_id" id="hdn_edit_id" value="" />
+  </div>
+  <div id="sidebar_right">
+    <div id="crud_level">
+      <input type="button" name="btn_add" id="btn_add" value="Add" rel="/wardrobe/new" disabled="true" /> &nbsp;
+      <input type="button" name="btn_edit" id="btn_edit" value="Edit" rel="/wardrobe/show" disabled="true" />
+    </div>
+  </div>
 </div>
-<div class="content_wrapper">
-  <div id="head_items">
-    <div id="head_left">
-      <%=collection_select(:wardrobe, :id, Wardrobe.all, :id, :name) %>
-    </div>
-    <div id="head_right">
-      <input type="button" name="btn_up" id="btn_up" value="Move Up" disabled="true"/> &nbsp;
-      <input type="button" name="btn_down" id="btn_down" value="Move Dn" disabled="true"/>
-    </div>
-  </div>
-  <div class="content_container">
-    <div class="row_container">
-      <% @wardrobe_item_lvel_0.each do |lev0| %>
-        <li  id="<%=lev0.id%>" rel="<%=lev0.depth%>"><%=lev0.name%></li>
-      <% end %>
-    </div>
-    <div class="row_container" id="wi_level_1">
-      
-    </div>
-    <div class="row_container" id="wi_level_2">
-      
-    </div>
-  </div>
-  <input type="hidden" name="hdn_edit_id" id="hdn_edit_id" value="" />
-</div>
-<div id="sidebar_right">
-  <div id="crud_level">
-    <input type="button" name="btn_add" id="btn_add" value="Add" rel="/wardrobe/new" disabled="true" /> &nbsp;
-    <input type="button" name="btn_edit" id="btn_edit" value="Edit" rel="/wardrobe/show" disabled="true" />
-  </div>
+<div id="wardrobe_form_container" class="hide">
+  <!-- to load wardrobe form -->
 </div>
 <script type="text/javascript">
 <!--
@@ -42,7 +47,7 @@ $(document).ajaxSend(function(e, xhr, options) {
 
 $(document).ready(function(){
   //List item selectable
-  $('.row_container li').live('click', function(){
+  $('.row_container').delegate('li', 'click', function(){
     
     var wardrobe_item_id = $(this).attr('id');
     var level = parseInt($(this).attr('rel'));
@@ -91,21 +96,21 @@ $(document).ready(function(){
   }); // Li select ends
   
   //Move list item up
-  $('#btn_up').live('click', function(){
+  $('#btn_up').unbind('click').bind('click', function(){
     var current = $('#wi_level_2 .marked_item');
     current.prev().before(current);
     saveSortOrder();
   });
   
   //Move list item down
-  $('#btn_down').live('click', function(){
+  $('#btn_down').unbind('click').bind('click', function(){
     var current = $('#wi_level_2 .marked_item');
     current.next().after(current);
     saveSortOrder();
   });
  
   //Add/Edit Call
-  $('#btn_add, #btn_edit').live('click', function(){
+  $('#btn_add, #btn_edit').unbind('click').bind('click', function(){
     var target = $(this).attr('rel');
     var wardrobe_id = $('#wardrobe_id').val();
     var wardrobe_item_id = $('#hdn_edit_id').val();
@@ -117,7 +122,10 @@ $(document).ready(function(){
         data: data,
         success: function(data){
           if(data) {
-            $("#container").html(data);
+            //$("#container").html(data);
+            $("#wardrobe_form_container").html(data);
+            $("#wardrobe_list_container").hide();
+            $("#wardrobe_form_container").show();
           } else {
             alert("Error");
           }
