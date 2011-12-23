@@ -164,6 +164,24 @@ float:left;
   float:right;
   text-align:right
 }
+#upload_container {
+  width:600px;
+  margin:auto;
+  border:1px solid #A9A9A9;
+  min-height:350px;
+}
+#upload_container ul li{
+  list-style:none;
+  line-height:30px;
+}
+#upload_container ul li .file_name {
+  width:400px;
+  float:left;
+}
+#upload_container ul li .file_remove{
+  width:100px;
+  float:right;
+}
 .marked_item {
   background-color:#A9A9A9;
   color:#fff

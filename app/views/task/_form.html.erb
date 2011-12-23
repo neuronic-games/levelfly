@@ -113,8 +113,15 @@ function addNode(element) {
         </div>
       </div>
       <div id="div_3" class="form_container hide">
-        <div id="upload_container" style="width:600px;margin:auto;">
-          <!-- input type="file" name="resources" id="resources" / -->
+        <div id="upload_container">
+          <ul id="filelist">
+            <li>
+              <div class="file_name">File name</div>
+              <div class="file_remove">
+                <a href="#">Remove</a>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
       <div id="div_4" class="form_container hide">
@@ -345,7 +352,7 @@ $(document).ready(function(){
     });
     
     // Setup html5 file upload
-    $("#upload_container").pluploadQueue({
+    /*$("#upload_container").pluploadQueue({
       // General settings
       runtimes : 'html5',
       url : '/task/upload_resource',
@@ -366,6 +373,47 @@ $(document).ready(function(){
       // Resize images on clientside if we can
       resize : {width : 320, height : 240, quality : 90}
     });
+    var uploader = $("#upload_container").pluploadQueue();
+    uploader.bind('FilesAdded', function(up, files) {
+      uploader.start();
+    });*/
+    
+    //Uploader file upload
+    var uploader = new plupload.Uploader({
+      runtimes : 'html5',
+      drop_element: 'upload_container',
+      container: 'upload_container',
+      max_file_size : '10mb',
+      url : '/task/upload_resource',
+      multipart_params: {
+        'authenticity_token' : token,  //For csrf-authentication
+        'school_id' : $("#course_school_id_hdn").val()
+      },
+    });
+    
+    uploader.init();
+    
+    uploader.bind('FilesAdded', function(up, files) {
+      for (var i in files) {
+        var item = '<li><div class="file_name" id="filename_'+files[i].id+'">'+files[i].name+'</div><div class="file_remove" id="fileremove_'+files[i].id+'"></div></li>';
+        $('#filelist').append(item);
+      }
+      uploader.start();
+    });
+
+    uploader.bind('UploadProgress', function(up, file) {
+      $('#fileremove_'+file.id).html('<span>Uploading..</span>');
+    });
+    
+    uploader.bind('Error', function(up, err) {
+      $('#fileremove_'+err.file.id).html('Error!!');
+      up.refresh();
+    });
+    
+    uploader.bind('FileUploaded', function(up, file) {
+      $('#fileremove_'+file.id).html('<a href="#">Remove</a>');
+    });
+    
   }); // $(function) ends
   
 }); //document.ready ends
