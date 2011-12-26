@@ -200,7 +200,7 @@ class TaskController < ApplicationController
     #require 'fileutils'
     #file = File.join("public/resources", params[:name])
     #FileUtils.cp tmp.path, file
-    Attachment.aws_upload(school_id, file_name, tmp)
+    Attachment.aws_upload(school_id, file_name, tmp.path)
     render :nothing => true
   end
   

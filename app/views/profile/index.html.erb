@@ -137,7 +137,6 @@
     </div>
   </div>
 </div>
-
 <script type="text/javascript">
 <!--
 var _wardrobeItems;
@@ -507,17 +506,61 @@ function saveAvatar() {
     _profile.major_id = _major.id;
   }
   
-  //Save avatar data
-  $.ajax({ //Previously was with getJson but having problem of too many parameters in request URI so switched to $.ajax with post
-    url: "/profile/save",
-    data: { id: _profile.id, profile: _profile, avatar: _avatar }, 
-    type: 'post',
-    dataType: 'json',
-    success: function(data){
-      _profile = data.profile;
-      _avatar = data.avatar;
-    }
-  });
+  //Canvas operation for saving avatar thumbnail
+  var newCanvas = document.createElement('canvas');
+  newCanvas.height = '114';
+  newCanvas.width = '114';
+  
+  var drawImageWidth = 120;
+  var drawImageHeight = 350;
+  
+  var ctx = newCanvas.getContext("2d");
+  
+  var sources = {
+      body: '/images/wardrobe/'+_avatar.body+'.png',
+      hat: '/images/wardrobe/'+_avatar.hat+'.png',
+      prop: '/images/wardrobe/'+_avatar.prop+'.png',
+      glasses: '/images/wardrobe/'+_avatar.glasses+'.png',
+      facial_hair: '/images/wardrobe/'+_avatar.facial_hair+'.png',
+      facial_marks: '/images/wardrobe/'+_avatar.facial_marks+'.png',
+      earrings: '/images/wardrobe/'+_avatar.earrings+'.png',
+      necklace: '/images/wardrobe/'+_avatar.necklace+'.png',
+      top: '/images/wardrobe/'+_avatar.top+'.png',
+      hair: '/images/wardrobe/'+_avatar.hair+'.png',
+      hair_back: '/images/wardrobe/'+_avatar.hair_back+'.png',
+      face: '/images/wardrobe/'+_avatar.head+'.png',
+  };
+
+  loadCanvasImages(sources, function(images){
+    
+    ctx.drawImage(images.body, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.hat, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.glasses, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.earrings, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.necklace, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.top, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.prop, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.hair, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.hair_back, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.face, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.facial_hair, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.facial_marks, 0,5,drawImageWidth,drawImageHeight);
+    
+    var dataURL = newCanvas.toDataURL('image/jpg');
+    var base64 = dataURL.replace(/^data:image\/(png|jpg);base64,/, '') ;
+  
+    //Save avatar data
+    $.ajax({ //Previously was with getJson but having problem of too many parameters in request URI so switched to $.ajax with post
+      url: "/profile/save",
+      data: { id: _profile.id, profile: _profile, avatar: _avatar, avatar_img: base64 }, 
+      type: 'post',
+      dataType: 'json',
+      success: function(data){
+        _profile = data.profile;
+        _avatar = data.avatar;
+      }
+    }); //Ajax
+  }); //loadCanvasImages
 }
 
 function showProfile() {
@@ -605,5 +648,26 @@ function pluck(data, property) {
   jQuery.each(data, function() { if (this[property]) select[this[property]] = this; });
   return select;
 }
+
+//function to load images for canvas operation
+function loadCanvasImages(sources, callback){
+  var images = {};
+  var loadedImages = 0;
+  var numImages = 0;
+  // get num of sources
+  for (var src in sources) {
+      numImages++;
+  }
+  for (var src in sources) {
+    images[src] = new Image();
+    images[src].onload = function(){
+      if (++loadedImages >= numImages) {
+        callback(images);
+      }
+    };
+    images[src].src = sources[src];
+  }
+}
+
 //-->
 </script>

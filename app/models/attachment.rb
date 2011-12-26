@@ -39,14 +39,16 @@ class Attachment < ActiveRecord::Base
     return @vault
   end
   
-  def self.aws_upload(school_id, filename, temp_path)
+  def self.aws_upload(school_id, filename, temp_image, dataURL=false)
     @vault = self.aws_connection(school_id)
     if @vault
       base_name = File.basename(filename)
+      file_to_upload = dataURL ? temp_image : File.open(temp_image)
+      bucket_folder = dataURL ? @vault.folder+"/avatar_thumb" : @vault.folder+"/resources" 
       AWS::S3::S3Object.store(
         base_name,
-        File.open(temp_path.path),
-        @vault.folder,
+        file_to_upload,
+        bucket_folder,
         :access => :public_read
       )
     else

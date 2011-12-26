@@ -105,7 +105,7 @@ class WardrobeController < ApplicationController
     tmp = params[:file]
     file_name = params[:name]
     school_id = params[:school_id]
-    Attachment.aws_upload(school_id, file_name, tmp)
+    Attachment.aws_upload(school_id, file_name, tmp.path)
     render :nothing => true
   end
   

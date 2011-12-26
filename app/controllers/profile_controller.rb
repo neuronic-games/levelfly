@@ -74,10 +74,12 @@ class ProfileController < ApplicationController
     @avatar.hat = avatar["hat"]
     @avatar.prop = avatar["prop"]
     @avatar.profile_id = @profile.id
-    @avatar.save
-
-    user_session[:profile_id] = @profile.id
     
+    if @avatar.save
+      file_name = "avatar_#{user_session[:profile_id]}.jpg"
+      Attachment.aws_upload(@profile.school_id, file_name, Base64.decode64(params[:avatar_img]),true)
+    end
+    user_session[:profile_id] = @profile.id
     render :text => {"profile"=>@profile, "avatar"=>@avatar}.to_json
   end
   
