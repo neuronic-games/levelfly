@@ -2,7 +2,11 @@ require 'rubygems'
 require 'aws/s3'
 class Attachment < ActiveRecord::Base
   belongs_to :tasks
-  has_attached_file :resource
+  has_attached_file :resource,
+    :storage => :s3,
+    :s3_credentials => { :access_key_id     => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECR'] },
+    :path => "resources/:filename",
+    :bucket => ENV['S3_BUCK']
   
   def self.aws_bucket(bucket)
     create = true

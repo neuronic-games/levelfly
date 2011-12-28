@@ -1,11 +1,13 @@
 class AddResourceFieldsToAttachment < ActiveRecord::Migration
   def self.up
-    change_table :attachments do |t|
-      t.has_attached_file :resource
-    end
+    add_column :attachments, :resource_file_name, :string
+    add_column :attachments, :resource_content_type, :string
+    add_column :attachments, :resource_file_size, :integer
   end
 
   def self.down
-    drop_attached_file :attachments, :resource
+    remove_column :attachments, :resource_file_name
+    remove_column :attachments, :resource_content_type
+    remove_column :attachments, :resource_file_size
   end
 end
