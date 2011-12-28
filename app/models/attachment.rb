@@ -2,9 +2,9 @@ require 'rubygems'
 require 'aws/s3'
 class Attachment < ActiveRecord::Base
   belongs_to :tasks
+  has_attached_file :resource
   
   def self.aws_bucket(bucket)
-    
     create = true
     begin
       AWS::S3::Bucket.find(bucket)
@@ -18,14 +18,13 @@ class Attachment < ActiveRecord::Base
       end
     rescue
     end
-    
   end
   
   def self.aws_connection(school_id)
     @vault = nil
     if school_id
-      @vault = Vault.find(:first, 
-        :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
+      @vault = Vault.find(:first,
+      :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
       if @vault
         self.aws_bucket(@vault.folder)
         if AWS::S3::Base.establish_connection!(

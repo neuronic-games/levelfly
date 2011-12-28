@@ -67,10 +67,16 @@ body{
 }
 #avatar_thumb {
   float:left;
-  width:65px;
-  height:65px;
+  width:70px;
+  height:70px;
   border:1px solid #A9A9A9;
-  margin:5px auto auto 18px;
+  margin:4px auto auto 15px;
+}
+#avatar_thumb img{
+  width:85px;
+  height:75px;
+  margin-left:-10px;
+  margin-top:-8px;
 }
 #avatar_info {
   width:250px;
@@ -164,10 +170,18 @@ float:left;
   float:right;
   text-align:right
 }
+#upload_header {
+  background:#A9A9A9;
+  color:#fff;
+  font-size:18px;
+  text-align:center;
+  padding-top:5px;
+  height:30px;
+}
 #upload_container {
   width:600px;
   margin:auto;
-  border:1px solid #A9A9A9;
+  border:5px solid #A9A9A9;
   min-height:350px;
 }
 #upload_container ul li{
