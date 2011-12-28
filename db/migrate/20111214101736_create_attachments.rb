@@ -3,7 +3,6 @@ class CreateAttachments < ActiveRecord::Migration
     create_table :attachments do |t|
       t.string :object_type, :limit=>64
       t.integer :object_id
-      
       t.timestamps
     end
   end
