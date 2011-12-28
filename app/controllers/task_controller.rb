@@ -194,13 +194,16 @@ class TaskController < ApplicationController
   end
   
   def upload_resource 
-    tmp = params[:file]
-    file_name = params[:name]
     school_id = params[:school_id]
-    #require 'fileutils'
-    #file = File.join("public/resources", params[:name])
-    #FileUtils.cp tmp.path, file
-    Attachment.aws_upload(school_id, file_name, tmp.path)
+    @vault = Vault.find(:first,
+      :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
+    if @vault
+      ENV['S3_KEY'] = @vault.account
+      ENV['S3_SECR'] = @vault.secret
+      ENV['S3_BUCK'] = @vault.folder
+    end
+    @attachment = Attachment.new(:resource=>params[:file],:object_type=>"task",:object_id=>33) #to do {task creation while file upload if task is not created}
+    @attachment.save
     render :nothing => true
   end
   
