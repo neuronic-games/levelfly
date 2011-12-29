@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'aws/s3'
 class Attachment < ActiveRecord::Base
+  belongs_to :object, :polymorphic => true
   belongs_to :tasks
   has_attached_file :resource,
     :storage => :s3,

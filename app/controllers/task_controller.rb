@@ -81,7 +81,7 @@ class TaskController < ApplicationController
     @task.category_id = params[:category_id]
     
     if @task.save
-      if !params[:outcomes].empty?
+      if params[:outcomes] && !params[:outcomes].empty?
         OutcomeTask.delete_all(["outcome_id NOT IN (?) AND task_id = ?", params[:outcomes], @task.id])
         outcomes_array = params[:outcomes].split(",")
         outcomes_array.each do |o|
@@ -107,49 +107,49 @@ class TaskController < ApplicationController
         @participant.save
       end
       
-      peoples_array = params[:people_id].split(",")
-      peoples_email_array = params[:people_email].split(",")
-      peoples_email_array.each do |p_email|
-        user = User.find(:first, :conditions=>["email = ?", p_email])
-        if(user)
-          profile = Profile.find(:first, :conditions=>["user_id = ?", user.id])
-          peoples_array.push(profile.id)
-        else
-          @user =  User.create(
-            :email => p_email, 
-            :password => Devise.friendly_token[0,20], 
-            :confirmed_at => DateTime.now
-          )
-          if @user.save!
-            @profile = Profile.create(
-              :user_id => @user.id, 
-              :school_id => @task.school_id,
-              :name => @user.email, 
-              :full_name => @user.email
+      if params[:people_id] && !params[:people_id].empty?
+        peoples_array = params[:people_id].split(",")
+        peoples_email_array = params[:people_email].split(",")
+        peoples_email_array.each do |p_email|
+          user = User.find(:first, :conditions=>["email = ?", p_email])
+          if(user)
+            profile = Profile.find(:first, :conditions=>["user_id = ?", user.id])
+            peoples_array.push(profile.id)
+          else
+            @user =  User.create(
+              :email => p_email, 
+              :password => Devise.friendly_token[0,20], 
+              :confirmed_at => DateTime.now
             )
-            if @profile.save!
-              peoples_array.push(@profile.id)
+            if @user.save!
+              @profile = Profile.create(
+                :user_id => @user.id, 
+                :school_id => @task.school_id,
+                :name => @user.email, 
+                :full_name => @user.email
+              )
+              if @profile.save!
+                peoples_array.push(@profile.id)
+              end
             end
           end
         end
-      end
       
-      # Participant record for student (looping on coming people_id)
-      peoples_array.each do |p_id|
-        participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Task' AND profile_id = ?", @task.id, p_id])
-        if !participant
-          @participant = Participant.new
-          @participant.object_id = @task.id
-          @participant.object_type = "Task"
-          @participant.profile_id = p_id
-          @participant.profile_type = "S"
-          @participant.save
+        # Participant record for student (looping on coming people_id)
+        peoples_array.each do |p_id|
+          participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Task' AND profile_id = ?", @task.id, p_id])
+          if !participant
+            @participant = Participant.new
+            @participant.object_id = @task.id
+            @participant.object_type = "Task"
+            @participant.profile_id = p_id
+            @participant.profile_type = "S"
+            @participant.save
+          end
         end
       end
-      
       status = true
     end
-    
     render :text => {"status"=>status, "task"=>@task}.to_json
   end
   
@@ -195,16 +195,28 @@ class TaskController < ApplicationController
   
   def upload_resource 
     school_id = params[:school_id]
-    @vault = Vault.find(:first,
-      :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
+    task_id = params[:task_id]
+    @vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
     if @vault
-      ENV['S3_KEY'] = @vault.account
+      ENV['S3_KEY']  = @vault.account
       ENV['S3_SECR'] = @vault.secret
       ENV['S3_BUCK'] = @vault.folder
+      @attachment = Attachment.new(:resource=>params[:file],:object_type=>"task",:object_id=>task_id)
+      @attachment.save
     end
-    @attachment = Attachment.new(:resource=>params[:file],:object_type=>"task",:object_id=>33) #to do {task creation while file upload if task is not created}
-    @attachment.save
-    render :nothing => true
+     render :text => {"attachment"=>@attachment}.to_json
+    #render :nothing => true
+  end
+  
+  def remove_attachment
+    if params[:attachment_id] && !params[:attachment_id].empty?
+      @attachment = Attachment.find(params[:attachment_id])
+      if @attachment
+        @attachment.resource.destroy
+        @attachment.destroy
+      end
+    end
+    render :text => {"status"=>status, "attachment_id"=>@attachment.id}.to_json
   end
   
   def course_categories

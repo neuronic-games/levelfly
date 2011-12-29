@@ -4,5 +4,6 @@ class Task < ActiveRecord::Base
   belongs_to :task
   belongs_to :course
   has_many :participants, :as => :object
+  has_many :attachments, :as => :object
   has_many :outcome_tasks
 end

@@ -117,6 +117,22 @@ function addNode(element) {
           <div id="upload_header">Drag & drop files to upload</div>
           <ul id="filelist">
             <!-- file list here -->
+            <% if @task %>
+              <% @task.attachments.each do |a| %>
+                <li id="item_<%=a.id%>">
+                  <div class="file_name" id="filename_<%= a.id %>">
+                    <a href="<%=a.resource.url%>" target="_blank">
+                      <%=a.resource_file_name%>
+                    </a>
+                  </div>
+                  <div class="file_remove" id="fileremove_<%=a.id%>">
+                    <a href="javascript:void(0)" class="remove_resource" id="<%= a.id %>">
+                      Remove
+                    </a>
+                  </div>
+                </li>
+              <% end %>
+            <% end %>
           </ul>
         </div>
       </div>
@@ -347,33 +363,6 @@ $(document).ready(function(){
       });
     });
     
-    // Setup html5 file upload
-    /*$("#upload_container").pluploadQueue({
-      // General settings
-      runtimes : 'html5',
-      url : '/task/upload_resource',
-      max_file_size : '10mb',
-      chunk_size : '1mb',
-      unique_names : true,
-      multipart: true,
-      multipart_params: {
-        'authenticity_token' : token,  //For csrf-authentication
-        'school_id' : $("#course_school_id_hdn").val()
-      },
-      multiple_queues : true,
-      multiple_upload: true,
-      filters : [
-        {title : "Image files", extensions : "jpg,gif,png"},
-        {title : "Zip files", extensions : "zip"}
-      ],
-      // Resize images on clientside if we can
-      resize : {width : 320, height : 240, quality : 90}
-    });
-    var uploader = $("#upload_container").pluploadQueue();
-    uploader.bind('FilesAdded', function(up, files) {
-      uploader.start();
-    });*/
-    
     //Uploader file upload
     var uploader = new plupload.Uploader({
       runtimes : 'html5',
@@ -383,11 +372,26 @@ $(document).ready(function(){
       url : '/task/upload_resource',
       multipart_params: {
         'authenticity_token' : token,  //For csrf-authentication
-        'school_id' : $("#course_school_id_hdn").val()
+        'school_id' : $("#course_school_id_hdn").val(),
+        'task_id' : $("#task_id_hdn").val()
       },
     });
     
     uploader.init();
+    
+    uploader.bind('BeforeUpload', function(up, file){
+      if($("#task_id_hdn").val() == '') {
+        
+        var task_name = getStorage("task_name");
+        var task_due_date = getStorage("task_due_date");
+        var task_course = getStorage("task_course");
+        var task_category = getStorage("task_category");
+        
+        $.getJSON('/task/save/', {task:task_name, course_id:task_course, category_id: task_category, due_date:task_due_date}, function(data) {
+          $('#task_id_hdn').val(data.task.id);
+        });
+      }
+    });
     
     uploader.bind('FilesAdded', function(up, files) {
       for (var i in files) {
@@ -411,6 +415,14 @@ $(document).ready(function(){
     });
     
   }); // $(function) ends
+  
+  $('.file_remove').delegate('a', 'click', function(){
+    var attachment_id = $(this).attr("id");
+    $.getJSON('/task/remove_attachment/', {attachment_id:attachment_id}, function(data) {
+      //alert("removed");
+      $('#item_'+attachment_id).remove();
+    });
+  });
   
 }); //document.ready ends
 -->
