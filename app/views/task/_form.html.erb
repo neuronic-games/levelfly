@@ -22,61 +22,74 @@ function addNode(element) {
   VIEW TASK
 </div>
 <div class="content_wrapper">
-  <div class="menu_container">
-    <ul>
-      <li>
-        <a href="javascript:void(0)" value="1" class="active">SUMMARY</a>
-      </li>
-      <li>
-        <a href="javascript:void(0)" value="2" >AWARDS</a>
-      </li>
-      <li>
-        <a href="javascript:void(0)" value="3" >RESOURCES</a>
-      </li>
-      <li>
-        <a href="javascript:void(0)" value="4" >NOTIFICATION</a>
-      </li>
-      <li>
-        <a href="javascript:void(0)" value="5" >PEOPLE</a>
-      </li>
-    </ul>
-  </div>
   <div class="content_container">
     <form name="frm_task" id="frm_task" enctype="multipart/form-data">
       <div id="div_1" class="form_container">
-        <div class="frm_label">
-          Task
-        </div>
-        <div class="frm_input">
-          <input type="text" name="task" id="task" class="large" value="<%=@task.name if @task %>" onblur='javascript:setStorage("task_name", $(this).val())'/>
-        </div>
-        <div class="frm_label">
-          Description
-        </div>
-        <div class="frm_input">
-          <textarea name="descr" id="descr" rows="10" onblur='javascript:setStorage("task_descr", $(this).val())'><%=@task.descr if @task %></textarea>
-        </div>
-        <div class="frm_label">
-          Course
-        </div>
-        <div class="frm_input">
-          <select name="course" id="course">
-            <option value="">SELECT</option>
-            <% @courses.each do |c| %>
-            <option value="<%= c.id %>" <%=@task.course_id==c.id ? "Selected" : ""  if @task %>><%= c.name %></option>
-            <% end %>
-          </select>
-          <div id="categories_container" class='<%= @task ? "" : "hide" %>' style="margin-top:10px;">
-            <% if @task %>
-              <%= render :partial => "course_categories", :locals=>{:categories=>@task.course.categories} %>
-            <% end %>
+        <div class="left_form_container">
+          <div class="thumbnail_large">
+          </div>
+          <div id="resource_container">
+            <ul id="filelist">
+              <!-- file list here -->
+              <% if @task %>
+                <% @task.attachments.each do |a| %>
+                  <li id="item_<%=a.id%>">
+                    <div class="file_name" id="filename_<%= a.id %>">
+                      <a href="<%=a.resource.url%>" target="_blank">
+                        <%=a.resource_file_name%>
+                      </a>
+                    </div>
+                    <div class="file_remove" id="fileremove_<%=a.id%>">
+                      <a href="javascript:void(0)" class="remove_resource" id="<%= a.id %>">
+                        Remove
+                      </a>
+                    </div>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
+          <div id="upload_container">
+            DROP A FILE HERE TO MAKE IT AVAILABLE FOR ALL PARTICIPANTS
           </div>
         </div>
-        <div class="frm_label">
-          Due Date
-        </div>
-        <div class="frm_input">
-          <input type="text" name="due_date" id="due_date" class="medium" value="<%=@task.due_date if @task %>"/>
+        <div class="right_form_container">
+          <div style="width:420px;background:#D4D6D7;padding:5px 5px 10px 5px;float:left">
+            <p>Select a course and category first to apply the starting information that you have setup for new tasks</p>
+            <div style="float:left;width:210px;">
+              <span>Course</span>
+              <select name="course" id="course">
+                <option value="">SELECT</option>
+                <% @courses.each do |c| %>
+                <option value="<%= c.id %>" <%=@task.course_id==c.id ? "Selected" : ""  if @task %>><%= c.name %></option>
+                <% end %>
+              </select>
+            </div>
+            <div style="float:left;width:210px;">
+              <span>Category</span>
+              <div id="categories_container" class='<%= @task ? "" : "hide" %>'>
+                <% if @task %>
+                  <%= render :partial => "course_categories", :locals=>{:categories=>@task.course.categories} %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="frm_input">
+            <span>Task</span>
+            <input type="text" name="task" id="task" class="large" value="<%=@task.name if @task %>" onblur='javascript:setStorage("task_name", $(this).val())'/>
+          </div>
+          <div class="frm_input">
+            <span>Due date</span> <br />
+             <input type="text" name="due_date" id="due_date" class="medium" value="<%=@task.due_date if @task %>"/>
+          </div>
+          <div class="frm_input">
+            <span>Shared Notes</span> <br />
+            <textarea name="descr" id="descr" rows="10" onblur='javascript:setStorage("task_descr", $(this).val())'><%=@task.descr if @task %></textarea>
+          </div>
+          <div class="frm_input">
+            <span>Private Notes</span> <br />
+            <textarea name="notes" id="notes" rows="10"></textarea>
+          </div>
         </div>
       </div>
       <div id="div_2" class="form_container hide">
@@ -113,44 +126,6 @@ function addNode(element) {
         </div>
       </div>
       <div id="div_3" class="form_container hide">
-        <div id="upload_container">
-          <div id="upload_header">Drag & drop files to upload</div>
-          <ul id="filelist">
-            <!-- file list here -->
-            <% if @task %>
-              <% @task.attachments.each do |a| %>
-                <li id="item_<%=a.id%>">
-                  <div class="file_name" id="filename_<%= a.id %>">
-                    <a href="<%=a.resource.url%>" target="_blank">
-                      <%=a.resource_file_name%>
-                    </a>
-                  </div>
-                  <div class="file_remove" id="fileremove_<%=a.id%>">
-                    <a href="javascript:void(0)" class="remove_resource" id="<%= a.id %>">
-                      Remove
-                    </a>
-                  </div>
-                </li>
-              <% end %>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-      <div id="div_4" class="form_container hide">
-        <div class="frm_label">
-          Email
-        </div>
-        <div class="frm_input">
-          <input type="text" name="email" id="email" class="large" />
-        </div>
-        <div class="frm_label">
-          Facebook Id
-        </div>
-        <div class="frm_input">
-          <input type="text" name="facebook" id="facebook" class="large" />
-        </div>
-      </div>
-      <div id="div_5" class="form_container hide">
         <div class="frm_label">
           Organizer
         </div>
@@ -171,18 +146,30 @@ function addNode(element) {
     </form>
   </div>
 </div>
+<div class="menu_container">
+  <div>
+    <a href="javascript:void(0)" value="1" class="active">Task</a>
+  </div>
+  <div>
+    <a href="javascript:void(0)" value="2" >Grading</a>
+  </div>
+  <div>
+    <a href="javascript:void(0)" value="3" >Participants</a>
+  </div>
+</div>
 <div id="sidebar_right">
   <div id="crud_level">
     <input type="button" name="btn_task" id="btn_task" value="Save"/>
-    <input type="button" name="menu_btn_duplicate" id="menu_btn_duplicate" rel="/task/duplicate" value="Duplicate" class="menu_btn"/>
+    <!-- input type="button" name="menu_btn_duplicate" id="menu_btn_duplicate" rel="/task/duplicate" value="Duplicate" class="menu_btn"/>
     <input type="button" name="menu_btn_hide" id="menu_btn_hide" value="Hide"/>
-    <input type="button" name="menu_btn_fav" id="menu_btn_fav" value="Fav"/>
+    <input type="button" name="menu_btn_fav" id="menu_btn_fav" value="Fav" /-->
     <input type="button" name="menu_btn_print" id="menu_btn_print" value="Print"/>
     <input type="button" name="task_btn_remove" id="task_btn_remove" class="hide" value="Remove"/>
   </div><!-- crud_level -->
 </div>
 <script type="text/javascript">
 <!--
+//Flush the previous offline storage
 jStorage.flush();
 //For dynamic added nodes
 var _counter = 2;
@@ -213,20 +200,19 @@ if($("#course_categories") && $("#course_categories").val()!="") {setStorage("ta
 
  
 $(document).ready(function(){
-  //Flush the previous offline storage
-  //jStorage.flush()
+  
   //Toggle Tabs
   $(".menu_container a").unbind('click').bind('click', function(){
     idx = $(this).attr("value");
     $(".menu_container a").removeClass("active");
     $(this).addClass("active");
-    for(i=0;i<6;i++){
+    for(i=0;i<4;i++){
       if(idx != i){
         $("#div_"+i).hide();
       }
     }
     
-    if(idx == 5) {
+    if(idx == 3) {
       $("#task_btn_remove").fadeIn();
     } else {
      $("#task_btn_remove").hide();
@@ -374,7 +360,7 @@ $(document).ready(function(){
         'authenticity_token' : token,  //For csrf-authentication
         'school_id' : $("#course_school_id_hdn").val(),
         'task_id' : $("#task_id_hdn").val()
-      },
+      }
     });
     
     uploader.init();
@@ -395,7 +381,7 @@ $(document).ready(function(){
     
     uploader.bind('FilesAdded', function(up, files) {
       for (var i in files) {
-        var item = '<li><div class="file_name" id="filename_'+files[i].id+'">'+files[i].name+'</div><div class="file_remove" id="fileremove_'+files[i].id+'"></div></li>';
+        var item = '<li id="item_'+files[i].id+'"><div class="file_name" id="filename_'+files[i].id+'">'+files[i].name+'</div><div class="file_remove" id="fileremove_'+files[i].id+'"></div></li>';
         $('#filelist').append(item);
       }
       uploader.start();
@@ -410,13 +396,16 @@ $(document).ready(function(){
       up.refresh();
     });
     
-    uploader.bind('FileUploaded', function(up, file) {
-      $('#fileremove_'+file.id).html('<a href="#">Remove</a>');
+    uploader.bind('FileUploaded', function(up, file, info) {
+      var obj = jQuery.parseJSON( info.response);
+      $('#filename_'+file.id).html('<a href="'+ obj.resource_url +' " target="_blank">' + obj.attachment.resource_file_name + '</a>');
+      $('#fileremove_'+file.id).html('<a href="javascript:void(0)" class="remove_resource" id="' + obj.attachment.id + '"> Remove </a>');
+      $('#item_'+file.id).attr('id', 'item_'+obj.attachment.id);
     });
     
   }); // $(function) ends
   
-  $('.file_remove').delegate('a', 'click', function(){
+  $('#filelist').delegate('.file_remove a', 'click', function(){
     var attachment_id = $(this).attr("id");
     $.getJSON('/task/remove_attachment/', {attachment_id:attachment_id}, function(data) {
       //alert("removed");
