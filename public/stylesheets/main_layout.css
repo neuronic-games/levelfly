@@ -8,18 +8,18 @@ body{
   border:1px solid #A9A9A9;
   width:1000px;
   margin:10px auto;
-  height:650px;
+  height:750px;
 }
 #sidebar_left {
   width:100px;
-  height:650px;
+  height:750px;
   float:left;
   border-right:1px solid #A9A9A9
 }
 #sidebar_right {
   float:right;
   width:95px;
-  height:500px;
+  height:600px;
 }
 #sidebar_menu_top {
   width:115px;
@@ -47,7 +47,7 @@ body{
 }
 #crud_level {
   width:110px;
-  margin:200px auto auto 0px;
+  margin:300px auto auto 0px;
   height:125px;
   float:right;
   /*padding:60px 0 0 5px;*/
@@ -109,8 +109,14 @@ float:left;
 }
 #sidebar_container {
   width:100px;
-  height:545px;
+  height:645px;
   margin:105px 0px;
+}
+#slide_in_container {
+  border-right:1px solid #A9A9A9;
+  width:23px;
+  height:750px;
+  float:left;
 }
 #container  {
   float:left;
@@ -178,23 +184,39 @@ float:left;
   padding-top:5px;
   height:30px;
 }
-#upload_container {
-  width:600px;
-  margin:auto;
-  border:5px solid #A9A9A9;
-  min-height:350px;
+#resource_container {
+  width:150px;
+  margin:20px 10px;
+  float:left;
+  height:180px;
+  overflow:hidden;
 }
-#upload_container ul li{
+#resource_container ul {
+  margin:0px;
+  padding:0px;
+}
+#resource_container ul li{
   list-style:none;
   line-height:30px;
 }
-#upload_container ul li .file_name {
-  width:400px;
+#resource_container ul li .file_name {
+  width:100px;
+  font-size:12px;
   float:left;
 }
-#upload_container ul li .file_remove{
-  width:100px;
-  float:right;
+#resource_container ul li .file_remove{
+  width:20px;
+  font-size:10px;
+  float:left;
+}
+#upload_container {
+  float:left;
+  width:125px;
+  text-align:center;
+  font-size:12px;
+  height:175px;
+  margin:5px 10px;
+  word-spacing:2px;
 }
 .marked_item {
   background-color:#A9A9A9;
@@ -226,27 +248,41 @@ float:left;
   padding-top:20px;
   border:1px solid #A9A9A9;
   border-bottom:none;
-  height:480px;
+  height:578px;
+  background:#fff;
 }
 .menu_container {
-  width:600px;
-  margin:auto;
-  float:left;
+  width:100px;
+  position:absolute;
+  right:185px;
+  margin-top:20px;
 }
 .menu_container ul {
-  padding-left:5px;
+  padding-left:0px;
 }
 .menu_container ul li {
-  display:inline;
-  padding:20px;
+  /*display:inline;*/
+  list-style:none;
+  padding:10px 5px;
 }
 .menu_container ul li  .active{
   font-weight:bold;
   text-decoration:none;
   color: #292827;
 }
-.menu_container ul li  a{
+
+.menu_container div {
+  float:left;
+  width:70px;
+  border:1px solid #A9A9A9;
+  font-size:14px;
+  padding:5px;
+  margin-top:5px;
+}
+
+.menu_container div  a{
   color: #292827;
+  text-decoration:none;
 }
 .screen_title { 
   height:40px;
@@ -256,9 +292,9 @@ float:left;
 .content_container {
   width:710px;
   float:left;
-  height:415px;
+  height:575px;
   margin-left:20px;
-  overflow:scroll;
+  overflow:auto;
 }
 .form_container {
   width:670px;
@@ -269,6 +305,21 @@ float:left;
 .form_container label {
   font-weight:bold;
   font-size:20px;
+}
+.left_form_container {
+  float:left;
+  width:250px;
+}
+.right_form_container{
+  float:left;
+  width:420px;
+}
+.thumbnail_large {
+  float:left;
+  width:125px;
+  height:125px;
+  border: 1px solid #A9A9A9;
+  margin-left:10px;
 }
 .row_container {
   float:left;
@@ -355,11 +406,11 @@ textarea {
 }
 select {
   border:1px solid #A9A9A9;
-  width:250px;
-  height:40px;
-  font-size:20px;
+  width:160px;
+  height:25px;
+  font-size:15px;
   font-family:'Metrophobic',sans-serif;
-  padding:5px;
+  padding:2px;
 }
 input[type=button] {
   cursor:pointer;
