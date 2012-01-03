@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  profile_id: 1
+  parent_id: 1
+  parent_type: MyString
+  content: MyText
+  post_date: 2012-01-02 17:50:38
+  archived: false
+
+two:
+  profile_id: 1
+  parent_id: 1
+  parent_type: MyString
+  content: MyText
+  post_date: 2012-01-02 17:50:38
+  archived: false

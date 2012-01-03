@@ -39,7 +39,12 @@ class TaskController < ApplicationController
   def show
     @task = Task.find_by_id(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @vault = Vault.find(:first, :conditions => ["object_id = ? AND object_type = 'school'", @profile.school_id])
     #@outcomes = Outcome.find(:all, :include=>[:outcome_tasks], :conditions =>["outcome_tasks.task_id = ?", @task.id], :order => "name")
+    ENV['S3_KEY']  = @vault.account
+    ENV['S3_SECR'] = @vault.secret
+    ENV['S3_BUCK'] = @vault.folder
+    
     @outcomes = Outcome.find(:all, :conditions =>["course_id = ?", @task.course_id], :order => "name")
     @courses = Course.find(
       :all, 
@@ -202,10 +207,13 @@ class TaskController < ApplicationController
       ENV['S3_SECR'] = @vault.secret
       ENV['S3_BUCK'] = @vault.folder
       @attachment = Attachment.new(:resource=>params[:file],:object_type=>"task",:object_id=>task_id)
-      @attachment.save
+      if @attachment.save
+        @url = @attachment.resource.url
+        render :text => {"status_me"=>"Y", "attachment"=>@attachment, "resource_url" => @url}.to_json
+      else
+        render :nothing => true
+      end
     end
-     render :text => {"attachment"=>@attachment}.to_json
-    #render :nothing => true
   end
   
   def remove_attachment
