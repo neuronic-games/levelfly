@@ -187,4 +187,19 @@ class CourseController < ApplicationController
     end
   end
   
+  def post_message
+    if params[:parent_id] && !params[:parent_id].nil?
+      @message = Message.create(
+        :profile_id=>user_session[:profile_id], 
+        :parent_id=>params[:parent_id], 
+        :parent_type=>params[:parent_type], 
+        :content=>params[:content],
+        :post_date=>DateTime.now
+      )
+      if @message.save
+        render :partial => "/course/messages"
+      end
+    end
+  end
+  
 end

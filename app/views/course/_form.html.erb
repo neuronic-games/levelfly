@@ -39,6 +39,25 @@
         <div class="frm_input">
           <input type="text" name="course_code" id="course_code" value="<%=@course.code if @course%>" class="small" onBlur='javascript:setStorage("course_code", $(this).val())' />
         </div>
+        <% if @course %>
+          <!-- Message -->
+          <div id="msg_input" class="message_input hide">
+            <label>Message</label> <br />
+              <textarea id="msg_content" name="msg_content" cols="15" rows="6"></textarea> <br />
+              <input type="button" name="sbmt_msg" class="sbmt_msg" id="<%=@course.id%>" rel="Course" value="Post" />
+          </div>
+          <div class="frm_label">&nbsp;</div>
+          <div class="frm_input">
+            <div id="message_wrapper" class="message_wrapper">
+              &nbsp;
+            </div>
+          </div>
+          <div class="frm_label">&nbsp;</div>
+          <div class="frm_input">
+            <input type="button" name="post_msg" id="post_msg" value="Post Message" class="big_btn" onclick="javascript:$('#msg_input').fadeIn()"/>
+          </div>
+          <!-- Message ends -->
+        <% end %>
       </div>
       <div id="div_2" class="form_container hide">
         <div class="frm_label small_label">
@@ -383,6 +402,24 @@ $(document).ready(function(){
       dataType:"json",
       success: function(data) {
         
+      }
+    });  
+  });
+  
+  //Post Message
+  $(".sbmt_msg").unbind('click').bind("click", function() {
+    parent_id = $(this).attr("id");
+    parent_type = $(this).attr("rel");
+    message = $("#msg_content").val();
+    var dataString = {parent_id:parent_id, parent_type:parent_type, content: message};
+    //alert(dataString.content);return false;
+    $.ajax({  
+      type: "POST",  
+      url: "/course/post_message",  
+      data: dataString,
+      success: function(data) {
+        $("#message_wrapper").append(data);
+        $("#msg_input").fadeOut();
       }
     });  
   });
