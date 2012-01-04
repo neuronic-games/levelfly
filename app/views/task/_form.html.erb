@@ -259,7 +259,7 @@ $(document).ready(function(){
     });
     
     var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id;  
-    //alert (dataString);return false;  
+    alert (dataString);return false;  
     $.ajax({  
       type: "POST",  
       url: "/task/save",  
@@ -365,7 +365,12 @@ $(document).ready(function(){
     
     uploader.init();
     
-    uploader.bind('BeforeUpload', function(up, file){
+    uploader.bind('FilesAdded', function(up, files) {
+      for (var i in files) {
+        var item = '<li id="item_'+files[i].id+'"><div class="file_name" id="filename_'+files[i].id+'">'+files[i].name+'</div><div class="file_remove" id="fileremove_'+files[i].id+'"></div></li>';
+        $('#filelist').append(item);
+      }
+      
       if($("#task_id_hdn").val() == '') {
         
         var task_name = getStorage("task_name");
@@ -375,16 +380,12 @@ $(document).ready(function(){
         
         $.getJSON('/task/save/', {task:task_name, course_id:task_course, category_id: task_category, due_date:task_due_date}, function(data) {
           $('#task_id_hdn').val(data.task.id);
+          uploader.settings.multipart_params.task_id = data.task.id;
+          uploader.start();
         });
+      }else{
+        uploader.start();
       }
-    });
-    
-    uploader.bind('FilesAdded', function(up, files) {
-      for (var i in files) {
-        var item = '<li id="item_'+files[i].id+'"><div class="file_name" id="filename_'+files[i].id+'">'+files[i].name+'</div><div class="file_remove" id="fileremove_'+files[i].id+'"></div></li>';
-        $('#filelist').append(item);
-      }
-      uploader.start();
     });
 
     uploader.bind('UploadProgress', function(up, file) {
