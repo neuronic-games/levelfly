@@ -259,7 +259,7 @@ $(document).ready(function(){
     });
     
     var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id;  
-    alert (dataString);return false;  
+    //alert (dataString);return false;  
     $.ajax({  
       type: "POST",  
       url: "/task/save",  

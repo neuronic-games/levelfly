@@ -435,3 +435,67 @@ table .odd {
 .odd td, .even td {
   padding-left:10px;
 }
+
+/* message */
+.message_wrapper {
+  float:left;
+  width:400px;
+  height:auto;
+}
+.message_input {
+  position:absolute;
+  border:5px solid #A9A9A9;
+  width:430px;
+  height:200px;
+  z-index:10;
+  top:40%;
+  left:36%;
+  background:#fff;
+  padding:10px;
+}
+.message_container {
+  float:left;
+  width:420px;
+  height:auto;
+  padding:5px;
+}
+.avatar_thumb {
+  width:70px;
+  height:70px;
+  border:2px solid #A9A9A9;
+  float:left;
+}
+.avatar_thumb img {
+  margin:-8px 0 0 -10px;
+  width:85px;
+  height:75px;
+}
+.message_content {
+  width:310px;
+  height:65px;
+  float:left;
+  margin-left:10px;
+  font-size:12px;
+  border:1px solid #A9A9A9;
+  padding:5px;
+}
+.message_content #content {
+  width:310px;
+  height:50px;
+  float:left;
+}
+.message_content #info {
+  width:310px;
+  height:15px;
+  float:left;
+}
+.message_content #info #time {
+  float:left;
+  width:100px;
+}
+.message_content #info #links {
+  float:right;
+  width:200px;
+  text-align:right;
+}
+/* message */
