@@ -5,13 +5,11 @@ class CourseController < ApplicationController
   def index
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if @profile
-      @vault = Vault.find(:first, 
-      :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", @profile.school_id])
       user_session[:profile_id] = @profile.id
       user_session[:profile_name] = @profile.full_name
       user_session[:profile_major] = @profile.major.name
       user_session[:profile_school] = @profile.school.code
-      user_session[:vault] = @vault.folder
+      user_session[:vault] = @profile.school.vaults[0].folder
     end
     @courses = Course.find(
       :all, 
@@ -197,7 +195,11 @@ class CourseController < ApplicationController
         :post_date=>DateTime.now
       )
       if @message.save
-        render :partial => "/course/messages"
+        if params[:parent_type] == "Message"
+          render :partial => "/course/comments", :locals => { :comment => @message }
+        else
+          render :partial => "/course/messages", :locals => { :message => @message }
+        end
       end
     end
   end

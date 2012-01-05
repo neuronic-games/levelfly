@@ -44,17 +44,26 @@
           <div id="msg_input" class="message_input hide">
             <label>Message</label> <br />
               <textarea id="msg_content" name="msg_content" cols="15" rows="6"></textarea> <br />
-              <input type="button" name="sbmt_msg" class="sbmt_msg" id="<%=@course.id%>" rel="Course" value="Post" />
+              <span>
+                <input type="button" name="sbmt_msg" class="sbmt_msg" title="msg_content" id="<%=@course.id%>" rel="Course" value="Post" />
+              </span>
+              &nbsp;
+              <span>
+                <a href="javascript:void(0)" onclick="javascript:$('#msg_input').fadeOut()">Cancel</a>
+              </span>
           </div>
-          <div class="frm_label">&nbsp;</div>
+          <div class="frm_label">
+            <input type="button" name="post_msg" id="post_msg" value="Post Message" class="big_btn" onclick="javascript:$('#msg_input').fadeIn()"/>
+          </div>
           <div class="frm_input">
             <div id="message_wrapper" class="message_wrapper">
               &nbsp;
+              <% if @course.messages %>
+                <% @course.messages.each do |message| %>
+                  <%= render :partial => "messages", :locals => {:message=>message} %>
+                <% end %>
+              <% end %>
             </div>
-          </div>
-          <div class="frm_label">&nbsp;</div>
-          <div class="frm_input">
-            <input type="button" name="post_msg" id="post_msg" value="Post Message" class="big_btn" onclick="javascript:$('#msg_input').fadeIn()"/>
           </div>
           <!-- Message ends -->
         <% end %>
@@ -410,7 +419,8 @@ $(document).ready(function(){
   $(".sbmt_msg").unbind('click').bind("click", function() {
     parent_id = $(this).attr("id");
     parent_type = $(this).attr("rel");
-    message = $("#msg_content").val();
+    text = $(this).attr("title");
+    message = $("#"+text).val();
     var dataString = {parent_id:parent_id, parent_type:parent_type, content: message};
     //alert(dataString.content);return false;
     $.ajax({  
@@ -418,8 +428,13 @@ $(document).ready(function(){
       url: "/course/post_message",  
       data: dataString,
       success: function(data) {
-        $("#message_wrapper").append(data);
-        $("#msg_input").fadeOut();
+        if(parent_type=="Course") {
+          $("#message_wrapper").append(data);
+          $("#msg_input").fadeOut();
+        } else if (parent_type=="Message") {
+          $("#post_comment_"+parent_id).hide();
+          $("#messsage_box_"+parent_id).append(data);
+        }
       }
     });  
   });
