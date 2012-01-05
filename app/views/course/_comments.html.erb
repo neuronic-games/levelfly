@@ -1,0 +1,18 @@
+<div class="comment_container">
+  <div class="comment_content">
+    <div id="content">
+      <%=comment.content%>
+    </div>
+    <div id="info">
+      <div id="time">
+        4 hours ago
+      </div>
+      <div id="links">
+        <a class="sbmt_msg">Like</a>
+      </div>
+    </div>
+  </div>
+  <div class="avatar_thumb_comment">
+    <img src="https://s3.amazonaws.com/<%=comment.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=comment.profile.id%>.jpg" />
+  </div>
+</div>

@@ -439,7 +439,7 @@ table .odd {
 /* message */
 .message_wrapper {
   float:left;
-  width:400px;
+  width:480px;
   height:auto;
 }
 .message_input {
@@ -455,23 +455,23 @@ table .odd {
 }
 .message_container {
   float:left;
-  width:420px;
+  width:480px;
   height:auto;
   padding:5px;
 }
-.avatar_thumb {
+.message_container .avatar_thumb {
   width:70px;
   height:70px;
   border:2px solid #A9A9A9;
   float:left;
 }
-.avatar_thumb img {
+.message_container .avatar_thumb img {
   margin:-8px 0 0 -10px;
   width:85px;
   height:75px;
 }
 .message_content {
-  width:310px;
+  width:360px;
   height:65px;
   float:left;
   margin-left:10px;
@@ -480,12 +480,12 @@ table .odd {
   padding:5px;
 }
 .message_content #content {
-  width:310px;
-  height:50px;
+  width:360px;
+  min-height:50px;
   float:left;
 }
 .message_content #info {
-  width:310px;
+  width:360px;
   height:15px;
   float:left;
 }
@@ -497,5 +497,64 @@ table .odd {
   float:right;
   width:200px;
   text-align:right;
+}
+.comment_input {
+  float:right;
+  width:350px;
+  margin:5px 25px 5px 0;
+  height:70px;
+}
+.comment_input textarea {
+  width:340px;
+}
+.comment_input input[type=button] {
+  width:50px !important;
+  height:20px !important;
+  font-size:12px !important;
+  float:right !important;
+  margin-right:5px !important;
+}
+.comment_container {
+  float:right;
+  width:370px;
+  min-height:80px;
+  padding-top:5px;
+  margin-right:25px;
+}
+.comment_content {
+  float:left;
+  width:290px;
+  font-size:12px;
+  border:1px solid #A9A9A9;
+}
+.comment_content #content{
+  width:290px;
+  padding:2px;
+  float:left;
+  min-height:50px;
+}
+.comment_content #info {
+  width:290ox;
+  float:left;
+}
+.comment_content #info #time{
+  width:200px;
+  float:left;
+}
+.comment_content #info #links{
+  width:90px;
+  float:right;
+}
+.comment_container  .avatar_thumb_comment{
+  float:right;
+  width:60px;
+  min-height:60px;
+  border:2px solid #A9A9A9;
+}
+.comment_container  .avatar_thumb_comment img {
+  width:75px;
+  height:70px;
+  margin-left:-10px;
+  margin-top:-5px;
 }
 /* message */
