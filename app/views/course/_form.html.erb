@@ -2,71 +2,56 @@
   VIEW COURSE
 </div>
 <div class="content_wrapper">
-  <div class="menu_container">
-    <ul>
-      <li>
-        <a href="javascript:void(0)" value="1" class="active">SUMMARY</a>
-      </li>
-      <li>
-        <a href="javascript:void(0)" value="2" >PEOPLE</a>
-      </li>
-      <li>
-        <a href="javascript:void(0)" value="3" >OUTCOMES</a>
-      </li>
-      <li>
-        <a href="javascript:void(0)" value="4" >CATEGORIES</a>
-      </li>
-    </ul>
-  </div>
   <div class="content_container">
     <form name="frm_task" id="frm_task" enctype="multipart/form-data">
       <div id="div_1" class="form_container">
-        <div class="frm_label">
-          Course
-        </div>
-        <div class="frm_input">
-          <input type="text" name="course_name" id="course_name" class="large" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("course_name", $(this).val())' />
-        </div>
-        <div class="frm_label">
-          Description
-        </div>
-        <div class="frm_input">
-          <textarea name="course_descr" id="course_descr" rows="10" onBlur='javascript:setStorage("course_descr", $(this).val())'><%=@course.descr if @course%></textarea>
-        </div>
-        <div class="frm_label">
-          Code
-        </div>
-        <div class="frm_input">
-          <input type="text" name="course_code" id="course_code" value="<%=@course.code if @course%>" class="small" onBlur='javascript:setStorage("course_code", $(this).val())' />
-        </div>
-        <% if @course %>
-          <!-- Message -->
-          <div id="msg_input" class="message_input hide">
-            <label>Message</label> <br />
-              <textarea id="msg_content" name="msg_content" cols="15" rows="6"></textarea> <br />
-              <span>
-                <input type="button" name="sbmt_msg" class="sbmt_msg" title="msg_content" id="<%=@course.id%>" rel="Course" value="Post" />
-              </span>
-              &nbsp;
-              <span>
-                <a href="javascript:void(0)" onclick="javascript:$('#msg_input').fadeOut()">Cancel</a>
-              </span>
+        <div class="left_form_container">
+          <div class="thumbnail_large" id="task_image">
+            
           </div>
-          <div class="frm_label">
-            <input type="button" name="post_msg" id="post_msg" value="Post Message" class="big_btn" onclick="javascript:$('#msg_input').fadeIn()"/>
+        </div>
+        <div class="right_form_container">
+          <div class="frm_input">
+            <span>Course</span>
+            <input type="text" name="course_name" id="course_name" class="large" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("course_name", $(this).val())' />
           </div>
           <div class="frm_input">
-            <div id="message_wrapper" class="message_wrapper">
-              &nbsp;
-              <% if @course.messages %>
-                <% @course.messages.each do |message| %>
-                  <%= render :partial => "messages", :locals => {:message=>message} %>
-                <% end %>
-              <% end %>
-            </div>
+            <span>Description</span>
+            <textarea name="course_descr" id="course_descr" rows="10" onBlur='javascript:setStorage("course_descr", $(this).val())'><%=@course.descr if @course%></textarea>
           </div>
-          <!-- Message ends -->
-        <% end %>
+          <div class="frm_input">
+            <span>Code</span> <br />
+            <input type="text" name="course_code" id="course_code" value="<%=@course.code if @course%>" class="small" onBlur='javascript:setStorage("course_code", $(this).val())' />
+          </div>
+          <% if @course %>
+            <!-- Message -->
+            <div id="msg_input" class="message_input hide">
+              <label>Message</label> <br />
+                <textarea id="msg_content" name="msg_content" cols="15" rows="6"></textarea> <br />
+                <span>
+                  <input type="button" name="sbmt_msg" class="sbmt_msg" title="msg_content" id="<%=@course.id%>" rel="Course" value="Post" />
+                </span>
+                &nbsp;
+                <span>
+                  <a href="javascript:void(0)" onclick="javascript:$('#msg_input').fadeOut()">Cancel</a>
+                </span>
+            </div>
+            <div class="frm_label">
+              <input type="button" name="post_msg" id="post_msg" value="Post Message" class="big_btn" onclick="javascript:$('#msg_input').fadeIn()"/>
+            </div>
+            <div class="frm_input">
+              <div id="message_wrapper" class="message_wrapper">
+                &nbsp;
+                <% if @course.messages %>
+                  <% @course.messages.each do |message| %>
+                    <%= render :partial => "messages", :locals => {:message=>message} %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+            <!-- Message ends -->
+          <% end %>
+        </div>
       </div>
       <div id="div_2" class="form_container hide">
         <div class="frm_label small_label">
@@ -124,6 +109,20 @@
       <input type="hidden" name="course_id" id="course_id_hdn" value="<%=@course.id if @course%>" />
       <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
     </form>
+  </div>
+</div>
+<div class="menu_container">
+  <div>
+    <a href="javascript:void(0)" value="1" class="active">SUMMARY</a>
+  </div>
+  <div>
+    <a href="javascript:void(0)" value="2" >PEOPLE</a>
+  </div>
+  <div>
+    <a href="javascript:void(0)" value="3" >OUTCOMES</a>
+  </div>
+  <div>
+    <a href="javascript:void(0)" value="4" >CATEGORIES</a>
   </div>
 </div>
 <div id="sidebar_right">

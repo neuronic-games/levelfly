@@ -314,12 +314,26 @@ float:left;
   float:left;
   width:420px;
 }
+.right_form_container #course_category{
+  width:420px;
+  background:#D4D6D7;
+  padding:5px 5px 10px 5px;
+  float:left
+}
+#course_dropdown, #category_dropdown {
+  float:left;
+  width:210px;
+}
 .thumbnail_large {
   float:left;
   width:125px;
   height:125px;
   border: 1px solid #A9A9A9;
   margin-left:10px;
+}
+.thumbnail_large img{
+  width:125px;
+  height:125px;
 }
 .row_container {
   float:left;
@@ -439,13 +453,13 @@ table .odd {
 /* message */
 .message_wrapper {
   float:left;
-  width:480px;
+  width:420px;
   height:auto;
 }
 .message_input {
   position:absolute;
   border:5px solid #A9A9A9;
-  width:430px;
+  width:370px;
   height:200px;
   z-index:10;
   top:40%;
@@ -455,7 +469,7 @@ table .odd {
 }
 .message_container {
   float:left;
-  width:480px;
+  width:420px;
   height:auto;
   padding:5px;
 }
@@ -471,7 +485,7 @@ table .odd {
   height:75px;
 }
 .message_content {
-  width:360px;
+  width:300px;
   height:65px;
   float:left;
   margin-left:10px;
@@ -480,12 +494,12 @@ table .odd {
   padding:5px;
 }
 .message_content #content {
-  width:360px;
+  width:300px;
   min-height:50px;
   float:left;
 }
 .message_content #info {
-  width:360px;
+  width:300px;
   height:15px;
   float:left;
 }
@@ -495,17 +509,17 @@ table .odd {
 }
 .message_content #info #links {
   float:right;
-  width:200px;
+  width:180px;
   text-align:right;
 }
 .comment_input {
   float:right;
-  width:350px;
+  width:290px;
   margin:5px 25px 5px 0;
   height:70px;
 }
 .comment_input textarea {
-  width:340px;
+  width:280px;
 }
 .comment_input input[type=button] {
   width:50px !important;
@@ -516,33 +530,33 @@ table .odd {
 }
 .comment_container {
   float:right;
-  width:370px;
+  width:310px;
   min-height:80px;
   padding-top:5px;
   margin-right:25px;
 }
 .comment_content {
   float:left;
-  width:290px;
+  width:230px;
   font-size:12px;
   border:1px solid #A9A9A9;
 }
 .comment_content #content{
-  width:290px;
+  width:230px;
   padding:2px;
   float:left;
   min-height:50px;
 }
 .comment_content #info {
-  width:290ox;
+  width:230ox;
   float:left;
 }
 .comment_content #info #time{
-  width:200px;
+  width:140px;
   float:left;
 }
 .comment_content #info #links{
-  width:90px;
+  width:60px;
   float:right;
 }
 .comment_container  .avatar_thumb_comment{
