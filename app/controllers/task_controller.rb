@@ -4,6 +4,9 @@ class TaskController < ApplicationController
   
   def index
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    ENV['S3_KEY']  = @profile.school.vaults[0].account
+    ENV['S3_SECR'] = @profile.school.vaults[0].secret
+    ENV['S3_BUCK'] = @profile.school.vaults[0].folder
     @tasks = Task.find(
       :all, 
       :include => [:participants], 
@@ -39,11 +42,11 @@ class TaskController < ApplicationController
   def show
     @task = Task.find_by_id(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    @vault = Vault.find(:first, :conditions => ["object_id = ? AND object_type = 'school'", @profile.school_id])
+    #@vault = Vault.find(:first, :conditions => ["object_id = ? AND object_type = 'school'", @profile.school_id])
     #@outcomes = Outcome.find(:all, :include=>[:outcome_tasks], :conditions =>["outcome_tasks.task_id = ?", @task.id], :order => "name")
-    ENV['S3_KEY']  = @vault.account
-    ENV['S3_SECR'] = @vault.secret
-    ENV['S3_BUCK'] = @vault.folder
+    ENV['S3_KEY']  = @profile.school.vaults[0].account
+    ENV['S3_SECR'] = @profile.school.vaults[0].secret
+    ENV['S3_BUCK'] = @profile.school.vaults[0].folder
     
     @outcomes = Outcome.find(:all, :conditions =>["course_id = ?", @task.course_id], :order => "name")
     @courses = Course.find(
@@ -77,13 +80,18 @@ class TaskController < ApplicationController
       @task = Task.new
     end
     
-    @task.name = params[:task]
-    @task.descr = params[:descr]
-    @task.due_date = params[:due_date]
-    @task.level = params[:level]
-    @task.school_id = params[:school_id]
-    @task.course_id = params[:course_id]
-    @task.category_id = params[:category_id]
+    @task.name = params[:task] if params[:task]
+    @task.descr = params[:descr] if params[:descr]
+    @task.due_date = params[:due_date] if params[:due_date]
+    @task.level = params[:level] if params[:level]
+    @task.school_id = params[:school_id] if params[:school_id]
+    @task.course_id = params[:course_id] if params[:course_id]
+    @task.category_id = params[:category_id] if params[:category_id]
+    
+    if params[:file]
+      @task.image.destroy if @task.image
+      @task.image = params[:file]
+    end
     
     if @task.save
       if params[:outcomes] && !params[:outcomes].empty?
@@ -154,8 +162,13 @@ class TaskController < ApplicationController
         end
       end
       status = true
+      if params[:file]
+        image_url = @task.image.url
+      else
+        image_url = ""
+      end
     end
-    render :text => {"status"=>status, "task"=>@task}.to_json
+    render :text => {"status"=>status, "task"=>@task, "image_url"=>image_url}.to_json
   end
   
   def create
@@ -200,7 +213,7 @@ class TaskController < ApplicationController
   
   def upload_resource 
     school_id = params[:school_id]
-    task_id = params[:task_id]
+    task_id = params[:id]
     @vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
     if @vault
       ENV['S3_KEY']  = @vault.account
@@ -209,7 +222,7 @@ class TaskController < ApplicationController
       @attachment = Attachment.new(:resource=>params[:file],:object_type=>"task",:object_id=>task_id)
       if @attachment.save
         @url = @attachment.resource.url
-        render :text => {"status_me"=>"Y", "attachment"=>@attachment, "resource_url" => @url}.to_json
+        render :text => {"attachment"=>@attachment, "resource_url" => @url}.to_json
       else
         render :nothing => true
       end
