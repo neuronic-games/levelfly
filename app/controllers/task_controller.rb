@@ -4,9 +4,6 @@ class TaskController < ApplicationController
   
   def index
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    ENV['S3_KEY']  = @profile.school.vaults[0].account
-    ENV['S3_SECR'] = @profile.school.vaults[0].secret
-    ENV['S3_BUCK'] = @profile.school.vaults[0].folder
     @tasks = Task.find(
       :all, 
       :include => [:participants], 
@@ -44,10 +41,6 @@ class TaskController < ApplicationController
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     #@vault = Vault.find(:first, :conditions => ["object_id = ? AND object_type = 'school'", @profile.school_id])
     #@outcomes = Outcome.find(:all, :include=>[:outcome_tasks], :conditions =>["outcome_tasks.task_id = ?", @task.id], :order => "name")
-    ENV['S3_KEY']  = @profile.school.vaults[0].account
-    ENV['S3_SECR'] = @profile.school.vaults[0].secret
-    ENV['S3_BUCK'] = @profile.school.vaults[0].folder
-    
     @outcomes = Outcome.find(:all, :conditions =>["course_id = ?", @task.course_id], :order => "name")
     @courses = Course.find(
       :all, 
@@ -216,9 +209,6 @@ class TaskController < ApplicationController
     task_id = params[:id]
     @vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
     if @vault
-      ENV['S3_KEY']  = @vault.account
-      ENV['S3_SECR'] = @vault.secret
-      ENV['S3_BUCK'] = @vault.folder
       @attachment = Attachment.new(:resource=>params[:file],:object_type=>"task",:object_id=>task_id)
       if @attachment.save
         @url = @attachment.resource.url

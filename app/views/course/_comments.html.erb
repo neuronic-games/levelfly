@@ -5,7 +5,7 @@
     </div>
     <div id="info">
       <div id="time">
-        4 hours ago
+        <%= time_ago_in_words(comment.created_at) %> ago
       </div>
       <div id="links">
         <a class="sbmt_msg">Like</a>

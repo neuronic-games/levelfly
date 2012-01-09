@@ -6,8 +6,8 @@
     <form name="frm_task" id="frm_task" enctype="multipart/form-data">
       <div id="div_1" class="form_container">
         <div class="left_form_container">
-          <div class="thumbnail_large" id="task_image">
-            
+          <div class="thumbnail_large" id="course_image">
+            <img id="course_thumb" src='<%= @course && @course.image_file_name ? @course.image.url : "/images/majors/ACCOUNTING.png" %>' alt="Course image" />
           </div>
         </div>
         <div class="right_form_container">
@@ -163,8 +163,8 @@ if($("#course_descr").val()!="") {setStorage("course_descr", $("#course_descr").
 if($("#course_code").val()!="") {setStorage("course_code", $("#course_code").val());}
   
 //Set CSRF Token (Required for ajax request (post))
+var token = $("meta[name='csrf-token']").attr("content");
 $(document).ajaxSend(function(e, xhr, options) {
-  var token = $("meta[name='csrf-token']").attr("content");
   xhr.setRequestHeader("X-CSRF-Token", token);
 });
 
@@ -427,6 +427,7 @@ $(document).ready(function(){
       url: "/course/post_message",  
       data: dataString,
       success: function(data) {
+        $("#"+text).val("");
         if(parent_type=="Course") {
           $("#message_wrapper").append(data);
           $("#msg_input").fadeOut();
@@ -436,6 +437,45 @@ $(document).ready(function(){
         }
       }
     });  
+  });
+  
+  //Uploader task image upload
+  var course_uploader = new plupload.Uploader({
+    runtimes: 'html5',
+    drop_element: 'course_image',
+    container: 'course_image',
+    max_file_size: '5mb',
+    resize : {width : 125, height : 125},
+    url: '/course/save',
+    multipart_params: {
+      'authenticity_token' : token,  //For csrf-authentication
+      'school_id' : $("#course_school_id_hdn").val(),
+      'id' : $("#course_id_hdn").val()
+    },
+    filters : [
+      {title : "Image files", extensions : "jpg,gif,png,JPG,PNG,GIF,JPEG"}
+    ]
+  });
+  
+  course_uploader.init();
+  
+  course_uploader.bind('FilesAdded', function(up, files) {
+    course_uploader.settings.multipart_params.course = getStorage("course_name");
+    course_uploader.settings.multipart_params.code = getStorage("course_code");
+    course_uploader.settings.multipart_params.descr = getStorage("course_descr");
+    course_uploader.start();
+  });
+  
+  course_uploader.bind('UploadProgress', function(up, file) {
+    $('#course_image').html('<center>Uploading..</center>');
+  });
+  
+  course_uploader.bind('FileUploaded', function(up, file, info) {
+    var obj = jQuery.parseJSON( info.response);
+    courseImg = $('<img >').attr('src',obj.image_url);
+    course_uploader.settings.multipart_params.id = obj.course.id;
+    $('#course_id_hdn').val(obj.course.id);
+    $('#course_image').html(courseImg);
   });
   
 });

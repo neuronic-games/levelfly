@@ -10,6 +10,8 @@ class CourseController < ApplicationController
       user_session[:profile_major] = @profile.major.name
       user_session[:profile_school] = @profile.school.code
       user_session[:vault] = @profile.school.vaults[0].folder
+      #Set AWS credentials
+      set_aws_vault(@profile.school.vaults[0])
     end
     @courses = Course.find(
       :all, 
@@ -69,31 +71,40 @@ class CourseController < ApplicationController
       @course = Course.new
     end
     
-    @course.name = params[:course]
-    @course.descr = params[:descr]
-    @course.code = params[:code]
-    @course.school_id = params[:school_id]
+    @course.name = params[:course] if params[:course]
+    @course.descr = params[:descr] if params[:descr]
+    @course.code = params[:code] if params[:code]
+    @course.school_id = params[:school_id] if params[:school_id]
+    
+    if params[:file]
+      @course.image.destroy if @course.image
+      @course.image = params[:file]
+    end
     
     if @course.save
       #Save categories
-      categories_array = params[:categories].split(",")
-      categories_array.each do |category|
-        @category = Category.create(
-          :name=> category,
-          :course_id=> @course.id,
-          :school_id=> @course.school_id
-        )
+      if params[:categories] && !params[:categories].empty?
+        categories_array = params[:categories].split(",")
+        categories_array.each do |category|
+          @category = Category.create(
+            :name=> category,
+            :course_id=> @course.id,
+            :school_id=> @course.school_id
+          )
+        end
       end
       
       #Save outcomes
-      outcomes_array = params[:outcomes].split(",")
-      outcomes_array.each do |outcome|
-        @outcome = Outcome.create(
-          :name=> outcome,
-          :descr=> outcome,
-          :course_id=> @course.id,
-          :school_id=> @course.school_id
-        )
+      if params[:outcomes] && !params[:outcomes].empty?
+        outcomes_array = params[:outcomes].split(",")
+        outcomes_array.each do |outcome|
+          @outcome = Outcome.create(
+            :name=> outcome,
+            :descr=> outcome,
+            :course_id=> @course.id,
+            :school_id=> @course.school_id
+          )
+        end
       end
       
       # Participant record for master
@@ -107,48 +118,54 @@ class CourseController < ApplicationController
         @participant.save
       end
       
-      peoples_array = params[:people_id].split(",")
-      peoples_email_array = params[:people_email].split(",")
-      peoples_email_array.each do |p_email|
-        user = User.find(:first, :conditions=>["email = ?", p_email])
-        if(user)
-          profile = Profile.find(:first, :conditions=>["user_id = ?", user.id])
-          peoples_array.push(profile.id)
-        else
-          @user =  User.create(
-            :email => p_email, 
-            :password => Devise.friendly_token[0,20], 
-            :confirmed_at => DateTime.now
-          )
-          if @user.save!
-            @profile = Profile.create(
-              :user_id => @user.id, 
-              :school_id => @course.school_id,
-              :name => @user.email, 
-              :full_name => @user.email
+      if params[:people_id] && !params[:people_id].empty?
+        peoples_array = params[:people_id].split(",")
+        peoples_email_array = params[:people_email].split(",")
+        peoples_email_array.each do |p_email|
+          user = User.find(:first, :conditions=>["email = ?", p_email])
+          if(user)
+            profile = Profile.find(:first, :conditions=>["user_id = ?", user.id])
+            peoples_array.push(profile.id)
+          else
+            @user =  User.create(
+              :email => p_email, 
+              :password => Devise.friendly_token[0,20], 
+              :confirmed_at => DateTime.now
             )
-            if @profile.save!
-              peoples_array.push(@profile.id)
+            if @user.save!
+              @profile = Profile.create(
+                :user_id => @user.id, 
+                :school_id => @course.school_id,
+                :name => @user.email, 
+                :full_name => @user.email
+              )
+              if @profile.save!
+                peoples_array.push(@profile.id)
+              end
             end
           end
         end
-      end
-      
-      # Participant record for student (looping on coming people_id)
-      peoples_array.each do |p_id|
-        participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", @course.id, p_id])
-        if !participant
-          @participant = Participant.new
-          @participant.object_id = @course.id
-          @participant.object_type = "Course"
-          @participant.profile_id = p_id
-          @participant.profile_type = "S"
-          @participant.save
+        # Participant record for student (looping on coming people_id)
+        peoples_array.each do |p_id|
+          participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", @course.id, p_id])
+          if !participant
+            @participant = Participant.new
+            @participant.object_id = @course.id
+            @participant.object_type = "Course"
+            @participant.profile_id = p_id
+            @participant.profile_type = "S"
+            @participant.save
+          end
         end
+      end
+      if params[:file]
+        image_url = @course.image.url
+      else
+        image_url = ""
       end
     end
     
-    render :text => {"course"=>@course}.to_json
+    render :text => {"course"=>@course, "image_url"=>image_url}.to_json
   end
   
   def remove_course_outcomes

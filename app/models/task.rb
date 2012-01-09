@@ -8,7 +8,7 @@ class Task < ActiveRecord::Base
   has_many :outcome_tasks
   has_attached_file :image,
     :storage => :s3,
-    :s3_credentials => { :access_key_id     => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECR'] },
+    :s3_credentials => { :access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECR'] },
     :path => "resources/:filename",
     :bucket => ENV['S3_BUCK']
 end

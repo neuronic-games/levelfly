@@ -9,7 +9,7 @@
     </div>
     <div id="info">
       <div id="time">
-        4 hours ago
+        <%= time_ago_in_words(message.created_at) %> ago
       </div>
       <div id="links">
         <a href="javascript:void(0)" onclick="javascript:$('#post_comment_<%=message.id%>').show()">Comment</a>
@@ -23,9 +23,9 @@
   <!-- comments ends -->
 </div>
 <div class="comment_input hide" id="post_comment_<%=message.id%>">
-  <textarea name="comment" name="cmnt_content" id="cmnt_content" rows="2"></textarea>
+  <textarea name="comment" name="cmnt_content" id="cmnt_content_<%=message.id%>" rows="2"></textarea>
   <span>
-    <input type="button" value="Post" class="sbmt_msg" id="<%=message.id%>" title="cmnt_content" rel="Message" />
+    <input type="button" value="Post" class="sbmt_msg" id="<%=message.id%>" title="cmnt_content_<%=message.id%>" rel="Message" />
   </span>
   &nbsp;
   <span>
