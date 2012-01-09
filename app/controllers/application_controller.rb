@@ -19,4 +19,10 @@ class ApplicationController < ActionController::Base
     request.format = :mobile if mobile_device?
   end
   
+  def set_aws_vault(vault)
+    ENV['S3_KEY']  = vault.account
+    ENV['S3_SECR'] = vault.secret
+    ENV['S3_BUCK'] = vault.folder
+  end
+  
 end

@@ -69,7 +69,7 @@ function addNode(element) {
             <div id="category_dropdown">
               <span>Category</span>
               <div id="categories_container" class='<%= @task ? "" : "hide" %>'>
-                <% if @task %>
+                <% if @task && @task.category_id!=0 %>
                   <%= render :partial => "course_categories", :locals=>{:categories=>@task.course.categories} %>
                 <% end %>
               </div>
@@ -143,7 +143,7 @@ function addNode(element) {
         </div>
       </div>
       <input type="hidden" name="task_id" id="task_id_hdn" value="<%=@task.id if @task %>" />
-      <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
+      <input type="hidden" name="school_id" id="task_school_id_hdn" value="<%= @profile.school_id %>" />
     </form>
   </div>
 </div>
@@ -230,7 +230,7 @@ $(document).ready(function(){
     due_date = getStorage("task_due_date");
     level = getStorage("task_level");
     course_id = getStorage("task_course");
-    school_id = $("#course_school_id_hdn").val();
+    school_id = $("#task_school_id_hdn").val();
     category_id = getStorage("task_category");
     
     //For outcome data object (gather values from dynamic created nodes)
@@ -353,7 +353,7 @@ $(document).ready(function(){
     //For file uploads
     var base_params = {
         'authenticity_token' : token,  //For csrf-authentication
-        'school_id' : $("#course_school_id_hdn").val(),
+        'school_id' : $("#task_school_id_hdn").val(),
         'id' : $("#task_id_hdn").val()
     }
     
@@ -375,10 +375,10 @@ $(document).ready(function(){
     
     task_uploader.bind('FilesAdded', function(up, files) {
       //files[0].name = 'task_'+getStorage("task_name")+'_'+files[0].name;
-      uploader.settings.multipart_params.task = getStorage("task_name");
-      uploader.settings.multipart_params.course_id = getStorage("task_course");
-      uploader.settings.multipart_params.category_id = getStorage("task_category");
-      uploader.settings.multipart_params.due_date = getStorage("task_due_date");
+      task_uploader.settings.multipart_params.task = getStorage("task_name");
+      task_uploader.settings.multipart_params.course_id = getStorage("task_course");
+      task_uploader.settings.multipart_params.category_id = getStorage("task_category");
+      task_uploader.settings.multipart_params.due_date = getStorage("task_due_date");
       task_uploader.start();
     });
     
@@ -389,7 +389,7 @@ $(document).ready(function(){
     task_uploader.bind('FileUploaded', function(up, file, info) {
       var obj = jQuery.parseJSON( info.response);
       taskImg = $('<img >').attr('src',obj.image_url);
-      uploader.settings.multipart_params.id = obj.task.id;
+      task_uploader.settings.multipart_params.id = obj.task.id;
       $('#task_id_hdn').val(obj.task.id);
       $('#task_image').html(taskImg);
     });
