@@ -68,8 +68,6 @@ Oncapus::Application.routes.draw do
   
   post "course/update_course_categories"
   
-  post "course/post_message"
-  
   get "wardrobe/index"
   
   get "wardrobe/new"
@@ -88,6 +86,14 @@ Oncapus::Application.routes.draw do
   
   post "wardrobe/upload_wardrobe_image"
   
+  get "message/index"
+  
+  post "message/save"
+  
+  post "message/like"
+  
+  post "message/unlike"
+  
   match 'task' => 'task#index'
     
   match 'main' => 'course#index'
@@ -95,6 +101,8 @@ Oncapus::Application.routes.draw do
   match 'course' => 'course#index'
   
   match 'wardrobe' => 'wardrobe#index'
+  
+  match 'message' => 'message#index'
   
   match 'course/show/:id' => 'course#show'
   

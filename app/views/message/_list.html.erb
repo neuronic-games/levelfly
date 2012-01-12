@@ -1,0 +1,70 @@
+<div class="screen_title">
+  VIEW MESSAGES
+</div>
+<div class="content_wrapper">
+  <div class="content_container">
+    <!-- Message -->
+    <div class="frm_input">
+      <div id="message_wrapper" class="message_wrapper">
+        &nbsp;
+        <% if @messages %>
+          <% @messages.each do |message| %>
+            <%= render :partial => "/message/messages", :locals => {:message=>message} %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <!-- Message ends -->
+  </div>
+</div>
+<script type="text/javascript">
+<!-- 
+//Post Message
+  $('.message_wrapper').delegate('.sbmt_msg', 'click', function(){
+  //$(".sbmt_msg").unbind('click').bind("click", function() {
+    parent_id = $(this).attr("id");
+    parent_type = $(this).attr("rel");
+    text = $(this).attr("title");
+    message = $("#"+text).val();
+    var dataString = {parent_id:parent_id, parent_type:parent_type, content: message};
+    //alert(dataString.content);return false;
+    $.ajax({  
+      type: "POST",  
+      url: "/message/save",  
+      data: dataString,
+      success: function(data) {
+        $("#"+text).val("");
+        if(parent_type=="Course") {
+          $("#message_wrapper").append(data);
+          $("#msg_input").fadeOut();
+        } else if (parent_type=="Message") {
+          $("#post_comment_"+parent_id).hide();
+          $("#messsage_box_"+parent_id).append(data);
+        }
+      }
+    });  
+  });
+  
+  //Like/Unlike a message or comment
+  $('.message_wrapper').delegate('.like', 'click', function(){
+    if(this.id){
+      action = $(this).attr('rel');
+      controller = this;
+      $.ajax({  
+        type: "POST",  
+        url: "/message/"+action,
+        dataType: 'json',
+        data: {message_id:this.id},
+        success: function(data) {
+          if (data) {
+            $(controller).attr('rel',data.action);
+            $(controller).text(data.action.toUpperCase());
+            $('#count_'+controller.id).html(data.count);
+          }
+        }
+      });
+    }
+  });
+  
+-->
+</script>

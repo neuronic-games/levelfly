@@ -185,11 +185,6 @@ var j = 0;
 
 var _taskPeopleObject = [];
 var _addTaskPeopleEmailObject = [];
-var token = $("meta[name='csrf-token']").attr("content");
-//Set CSRF Token (Required for ajax request (post))
-$(document).ajaxSend(function(e, xhr, options) {
-  xhr.setRequestHeader("X-CSRF-Token", token);
-});
 
 //set storage on load while view of course
 if($("#task").val()!="") {setStorage("task_name", $("#task").val());}

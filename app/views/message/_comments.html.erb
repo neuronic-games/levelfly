@@ -8,7 +8,12 @@
         <%= time_ago_in_words(comment.created_at) %> ago
       </div>
       <div id="links">
-        <a class="sbmt_msg">Like</a>
+        <span id="count_<%=comment.id%>">
+          <%=comment.like%>
+        </span>
+        <span id="link_<%=comment.id%>">
+          <a href="javascript:void(0)" class="like" rel="<%=user_like(comment.profile_id, comment.id) ? "unlike" : "like" %>" id="<%=comment.id%>"><%=user_like(comment.profile_id, comment.id) ? "UNLIKE" : "LIKE" %></a>
+        </span>
       </div>
     </div>
   </div>

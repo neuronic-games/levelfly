@@ -12,13 +12,23 @@
         <%= time_ago_in_words(message.created_at) %> ago
       </div>
       <div id="links">
-        <a href="javascript:void(0)" onclick="javascript:$('#post_comment_<%=message.id%>').show()">Comment</a>
+        <span id="count_<%=message.id%>">
+          <%=message.like%>
+        </span>
+        <span id="link_<%=message.id%>">
+          <a href="javascript:void(0)" id="<%=message.id%>" rel="<%=user_like(message.profile_id, message.id) ? "unlike" : "like" %>" class="like">
+            <%=user_like(message.profile_id, message.id) ? "UNLIKE" : "LIKE" %>
+          </a>
+        </span>
+        <span>
+          <a href="javascript:void(0)" onclick="javascript:$('#post_comment_<%=message.id%>').show()">COMMENT</a>
+        </span>
       </div>
     </div>
   </div>
   <!-- comments -->
   <% Message.find(:all, :conditions=>["parent_id = ? AND parent_type='Message'", message.id]).each do |comment|%>
-    <%= render :partial => "comments", :locals => {:comment=>comment} %>
+    <%= render :partial => "/message/comments", :locals => {:comment=>comment} %>
   <% end %>
   <!-- comments ends -->
 </div>

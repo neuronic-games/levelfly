@@ -39,12 +39,6 @@
 </div>
 <script type="text/javascript">
 <!--
-//Set CSRF Token (Required for ajax request (post))
-$(document).ajaxSend(function(e, xhr, options) {
-  var token = $("meta[name='csrf-token']").attr("content");
-  xhr.setRequestHeader("X-CSRF-Token", token);
-});
-
 $(document).ready(function(){
   //List item selectable
   $('.row_container').delegate('li', 'click', function(){

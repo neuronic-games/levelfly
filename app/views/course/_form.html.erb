@@ -44,7 +44,7 @@
                 &nbsp;
                 <% if @course.messages %>
                   <% @course.messages.each do |message| %>
-                    <%= render :partial => "messages", :locals => {:message=>message} %>
+                    <%= render :partial => "/message/messages", :locals => {:message=>message} %>
                   <% end %>
                 <% end %>
               </div>
@@ -162,12 +162,6 @@ if($("#course_name").val()!="") {setStorage("course_name", $("#course_name").val
 if($("#course_descr").val()!="") {setStorage("course_descr", $("#course_descr").val());}
 if($("#course_code").val()!="") {setStorage("course_code", $("#course_code").val());}
   
-//Set CSRF Token (Required for ajax request (post))
-var token = $("meta[name='csrf-token']").attr("content");
-$(document).ajaxSend(function(e, xhr, options) {
-  xhr.setRequestHeader("X-CSRF-Token", token);
-});
-
 $(document).ready(function(){
   //Toggle Tabs
   $(".menu_container a").unbind('click').bind('click', function(){
@@ -415,7 +409,8 @@ $(document).ready(function(){
   });
   
   //Post Message
-  $(".sbmt_msg").unbind('click').bind("click", function() {
+  $('.right_form_container').delegate('.sbmt_msg', 'click', function(){
+  //$(".sbmt_msg").unbind('click').bind("click", function() {
     parent_id = $(this).attr("id");
     parent_type = $(this).attr("rel");
     text = $(this).attr("title");
@@ -424,7 +419,7 @@ $(document).ready(function(){
     //alert(dataString.content);return false;
     $.ajax({  
       type: "POST",  
-      url: "/course/post_message",  
+      url: "/message/save",  
       data: dataString,
       success: function(data) {
         $("#"+text).val("");
@@ -437,6 +432,27 @@ $(document).ready(function(){
         }
       }
     });  
+  });
+  
+  //Like/Unlike a message or comment
+  $('.message_wrapper').delegate('.like', 'click', function(){
+    if(this.id){
+      action = $(this).attr('rel');
+      controller = this;
+      $.ajax({  
+        type: "POST",  
+        url: "/message/"+action,
+        dataType: 'json',
+        data: {message_id:this.id},
+        success: function(data) {
+          if (data) {
+            $(controller).attr('rel',data.action);
+            $(controller).text(data.action.toUpperCase());
+            $('#count_'+controller.id).html(data.count);
+          }
+        }
+      });
+    }
   });
   
   //Uploader task image upload

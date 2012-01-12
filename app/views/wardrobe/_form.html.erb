@@ -58,11 +58,6 @@
 <script type="text/javascript">
 <!--
 jStorage.flush();
-//Set CSRF Token (Required for ajax request (post))
-var token = $("meta[name='csrf-token']").attr("content");
-$(document).ajaxSend(function(e, xhr, options) {
-  xhr.setRequestHeader("X-CSRF-Token", token);
-});
 
 //set storage on load while view of course
 if($("#wardrobe_item_name").val()!="") {setStorage("wardrobe_item_name", $("#wardrobe_item_name").val());}

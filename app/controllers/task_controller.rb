@@ -155,11 +155,7 @@ class TaskController < ApplicationController
         end
       end
       status = true
-      if params[:file]
-        image_url = @task.image.url
-      else
-        image_url = ""
-      end
+      image_url = params[:file] ? @task.image.url : ""
     end
     render :text => {"status"=>status, "task"=>@task, "image_url"=>image_url}.to_json
   end

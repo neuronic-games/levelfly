@@ -49,6 +49,7 @@
         
         <div id="sidebar_menu_bottom">
           <div id="root_level">
+            <input type="button" name="menu_btn_courses" id="menu_btn_courses" rel="/message/" value="Messages" class="menu_btn"/>
             <input type="button" name="menu_btn_courses" id="menu_btn_courses" rel="/course/" value="Courses" class="menu_btn"/>
             <input type="button" name="menu_btn_tasks" id="menu_btn_tasks" rel="/task/" value="Tasks" class="menu_btn"/>
             <input type="button" name="menu_btn_grades" id="menu_btn_grades" value="Grades"class="menu_btn" />
@@ -66,6 +67,12 @@
 </body>
 <script type="text/javascript">
 <!--
+  var token = $("meta[name='csrf-token']").attr("content");
+  //Set CSRF Token (Required for ajax request (post))
+  $(document).ajaxSend(function(e, xhr, options) {
+    xhr.setRequestHeader("X-CSRF-Token", token);
+  });
+
   $(document).ready(function(){
     
     //Home switch

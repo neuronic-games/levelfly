@@ -158,13 +158,8 @@ class CourseController < ApplicationController
           end
         end
       end
-      if params[:file]
-        image_url = @course.image.url
-      else
-        image_url = ""
-      end
+      image_url = params[:file] ? @course.image.url : ""
     end
-    
     render :text => {"course"=>@course, "image_url"=>image_url}.to_json
   end
   
@@ -201,24 +196,4 @@ class CourseController < ApplicationController
       render :text => {"status"=>"true"}.to_json
     end
   end
-  
-  def post_message
-    if params[:parent_id] && !params[:parent_id].nil?
-      @message = Message.create(
-        :profile_id=>user_session[:profile_id], 
-        :parent_id=>params[:parent_id], 
-        :parent_type=>params[:parent_type], 
-        :content=>params[:content],
-        :post_date=>DateTime.now
-      )
-      if @message.save
-        if params[:parent_type] == "Message"
-          render :partial => "/course/comments", :locals => { :comment => @message }
-        else
-          render :partial => "/course/messages", :locals => { :message => @message }
-        end
-      end
-    end
-  end
-  
 end
