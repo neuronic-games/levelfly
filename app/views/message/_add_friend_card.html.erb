@@ -1,0 +1,43 @@
+<div class="message_container">
+  <div style="width:240px;float:left;">
+    <div class="avatar_thumb">
+      <img src="https://s3.amazonaws.com/<%=profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=profile.id%>.jpg" id="<%=profile.id%>" class="profile"/>
+    </div>
+    <div style="float:left;width:150px;padding:2px;">
+      <span><%=profile.full_name%></span><br />
+      <span><%=@profile.major.name if @profile.major%></span><span><%=profile.school.code%></span>
+    </div>
+  </div>
+  <div style="width:240px;float:left;margin-top:5px;">
+    <span>Like Received: <%=profile.like_received ? profile.like_received : 0 %></span> <br />
+    <span>Like Given: <%=profile.like_given ? profile.like_given : 0 %></span> <br />
+    <textarea name="message" id="message" style="width:235px;"></textarea>
+    <div style="float:right;width:220px;text-align:right">
+      <input type="button" name="btn_add" id="btn_add" rel="<%=profile.id%>" class="small" value="Add" />
+      <input type="button" name="btn_dnt_add" class="small" value="Don't Add" onclick="javascript:$('#friend_box').hide()"/>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+<!--
+$('#btn_add').click(function(){
+  profile_id = $(this).attr('rel');
+  message = $('#message').val();
+  var dataString = {parent_id:profile_id, parent_type:"Profile", content: message, message_type: "Friend"};
+  if(profile_id) {
+    $.ajax({  
+      type: "POST",  
+      url: "/message/save",
+      datatype: 'json',
+      data: dataString,
+      success: function(data) {
+        if (data.status="sent") {
+          $('#friend_box').html('<center>Friend request sent!!</center>');
+          $('#friend_box').fadeOut(1500);
+        }
+      }
+    });
+  }
+});
+-->
+</script>

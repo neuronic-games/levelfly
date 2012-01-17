@@ -3,22 +3,25 @@ class MessageController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @messages = Message.find(:all, :conditions=>["profile_id = ? AND parent_type !='Message'", user_session[:profile_id]])
+    @messages = Message.find(:all, :conditions=>["parent_type !='Message' AND message_type !='Friend'"])
     render :partial => "list"
   end
   
   def save
     if params[:parent_id] && !params[:parent_id].nil?
-      @message = Message.create(
-        :profile_id=>user_session[:profile_id], 
-        :parent_id=>params[:parent_id], 
-        :parent_type=>params[:parent_type], 
-        :content=>params[:content],
-        :post_date=>DateTime.now
-      )
+      @message = Message.new
+      @message.profile_id = user_session[:profile_id]
+      @message.parent_id = params[:parent_id]
+      @message.parent_type = params[:parent_type]
+      @message.content = params[:content]
+      @message.message_type = params[:message_type] if params[:message_type]
+      @message.post_date = DateTime.now
+      
       if @message.save
         if params[:parent_type] == "Message"
           render :partial => "comments", :locals => {:comment => @message}
+        elseif params[:parent_type] == "Profile"
+          render :text => {"status"=>"sent"}.to_json
         else
           render :partial => "messages", :locals => {:message => @message}
         end
@@ -48,6 +51,13 @@ class MessageController < ApplicationController
         @like.destroy if @like
         render :text => {"action"=>"like", "count"=>@message.like}.to_json
       end
+    end
+  end
+  
+  def add_friend_card
+    if params[:profile_id] && !params[:profile_id].nil?
+      @profile = Profile.find(params[:profile_id])
+      render :partial => "add_friend_card", :locals => {:profile => @profile}
     end
   end
 end

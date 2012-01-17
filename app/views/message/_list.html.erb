@@ -15,6 +15,11 @@
       </div>
     </div>
     <!-- Message ends -->
+    <!-- Add Friend -->
+    <div id="friend_box" style="width:250px;height:210px;position:absolute;border:1px solid #A9A9A9;right:320px;top:300px;" class="hide">
+      
+    </div>
+    <!-- Add Friend ends -->
   </div>
 </div>
 <script type="text/javascript">
@@ -64,6 +69,20 @@
         }
       });
     }
+  });
+  
+  $('.message_wrapper').delegate('.profile', 'click', function(){
+    $.ajax({  
+      type: "POST",  
+      url: "/message/add_friend_card",
+      data: {profile_id:this.id},
+      success: function(data) {
+        if (data) {
+          $('#friend_box').html(data);
+          $('#friend_box').show();
+        }
+      }
+    });
   });
   
 -->

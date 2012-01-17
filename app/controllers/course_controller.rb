@@ -7,7 +7,7 @@ class CourseController < ApplicationController
     if @profile
       user_session[:profile_id] = @profile.id
       user_session[:profile_name] = @profile.full_name
-      user_session[:profile_major] = @profile.major.name
+      user_session[:profile_major] = @profile.major.name if @profile.major
       user_session[:profile_school] = @profile.school.code
       user_session[:vault] = @profile.school.vaults[0].folder
       #Set AWS credentials
