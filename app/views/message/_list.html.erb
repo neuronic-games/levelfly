@@ -13,8 +13,23 @@
           <% end %>
         <% end %>
       </div>
+      <div id="friend_requests" style="border-top:2px solid #A9A9A9;float:left;width:400px;margin:20px 0 0 2px;">
+        <h2>Friend Requests</h2>
+        <% if @friend_requests %>
+          <% @friend_requests.each do |friend_request| %>
+            <%= render :partial => "/message/friend_requests", :locals => {:friend_request=>friend_request} %>
+          <% end %>
+        <% end %>
+      </div>
     </div>
     <!-- Message ends -->
+    <div style="float:right;width:300px; margin-top:40px;">
+      <% if @friend %>
+        <% @friend.each do |friend| %>
+          <%= render :partial => "/message/friend_list", :locals => {:friend=>friend} %>
+        <% end %>
+      <% end %>
+    </div>
     <!-- Add Friend -->
     <div id="friend_box" style="width:250px;height:210px;position:absolute;border:1px solid #A9A9A9;right:320px;top:300px;" class="hide">
       

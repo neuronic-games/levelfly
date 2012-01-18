@@ -96,6 +96,8 @@ Oncapus::Application.routes.draw do
   
   post "message/add_friend_card"
   
+  post "message/respond_to_friend_request"
+  
   match 'task' => 'task#index'
     
   match 'main' => 'course#index'

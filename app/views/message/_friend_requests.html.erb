@@ -1,0 +1,47 @@
+<div class="message_container" id="request_box_<%=friend_request.id%>">
+  <div class="avatar_thumb">
+    <img src="https://s3.amazonaws.com/<%=friend_request.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=friend_request.profile.id%>.jpg" id="<%=friend_request.profile.id%>" class="profile"/>
+  </div>
+  <div class="message_content">
+    <div id="content">
+      <%=friend_request.profile.full_name%> <br />
+      <%=friend_request.content%>
+    </div>
+    <div id="info">
+      <div id="time">
+        <%= time_ago_in_words(friend_request.created_at) %> ago
+      </div>
+      <div id="links">
+        <span>
+          <a href="javascript:void(0)" class="friend-request" rel="add" id="<%=friend_request.id%>">Add</a>
+        </span>
+        <span>
+          <a href="javascript:void(0)" class="friend-request" rel="dntadd" id="<%=friend_request.id%>">Don't add</a>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+<!--
+$('.friend-request').click(function(){
+  message_id = this.id;
+  action = $(this).attr('rel');
+  alert(action)
+  var dataString = {message_id:message_id, activity:action};
+  if(message_id) {
+    $.ajax({  
+      type: "POST",  
+      url: "/message/respond_to_friend_request",
+      datatype: 'json',
+      data: dataString,
+      success: function(data) {
+        if (data.status="done") {
+          $('#request_box_'+message_id).fadeOut(1500);
+        }
+      }
+    });
+  }
+});
+-->
+</script>

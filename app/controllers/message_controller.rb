@@ -4,6 +4,8 @@ class MessageController < ApplicationController
   
   def index
     @messages = Message.find(:all, :conditions=>["parent_type !='Message' AND message_type !='Friend'"])
+    @friend_requests = Message.find(:all, :conditions=>["message_type ='Friend' AND parent_id = ?", user_session[:profile_id]])
+    @friend = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' And profile_type = 'F'", user_session[:profile_id]])
     render :partial => "list"
   end
   
@@ -59,5 +61,28 @@ class MessageController < ApplicationController
       @profile = Profile.find(params[:profile_id])
       render :partial => "add_friend_card", :locals => {:profile => @profile}
     end
+  end
+  
+  def respond_to_friend_request
+    if params[:message_id] && !params[:message_id].nil?
+      @message = Message.find(params[:message_id])
+      if @message
+        if params[:activity] && !params[:activity].nil?
+          if params[:activity] == "add"
+            @participant = Participant.new
+            @participant.object_id = @message.parent_id
+            @participant.object_type = "User"
+            @participant.profile_id = @message.profile_id
+            @participant.profile_type = "F"
+            if @participant.save
+              @message.destroy
+            end
+          else
+            @message.destroy
+          end
+        end
+      end
+    end
+    render :text => {"status"=>"done"}.to_json
   end
 end
