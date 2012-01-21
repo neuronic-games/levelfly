@@ -11,22 +11,33 @@
   <div style="width:240px;float:left;margin-top:5px;">
     <span>Like Received: <%=profile.like_received ? profile.like_received : 0 %></span> <br />
     <span>Like Given: <%=profile.like_given ? profile.like_given : 0 %></span> <br />
-    <textarea name="message" id="message" style="width:235px;"></textarea>
-    <div style="float:right;width:220px;text-align:right">
-      <input type="button" name="btn_add" id="btn_add" rel="<%=profile.id%>" class="small" value="Add" />
-      <input type="button" name="btn_dnt_add" class="small" value="Don't Add" onclick="javascript:$('#friend_box').hide()"/>
+    <div id="msg_input" class="hide">
+      <textarea name="message" id="message" style="width:235px;"></textarea>
+    </div>
+    <div id="note_btn" style="float:right;width:240px;text-align:right" class="hide">
+      <input type="button" name="btn_note_add" id="btn_note_add" rel="<%=profile.id%>" value="Add" class="small_btn"/>
+      <input type="button" name="btn_note_dnt_add" id="btn_note_dnt_add" value="Don't Add" />
+    </div>
+    <div id="msg_btn" style="float:right;width:240px;text-align:right" class="hide">
+      <input type="button" name="btn_msg_send" id="btn_msg_send" rel="<%=profile.id%>" class="small_btn" value="Send" />
+      <input type="button" name="btn_msg_dnt_send" id="btn_msg_dnt_send" value="Don't Send" />
+    </div>
+    <div id="root_btn" style="float:right;width:240px;text-align:right;margin:50px 0 0 0;">
+      <input type="button" name="btn_note" id="btn_note" rel="<%=profile.id%>" value="Note" class="small_btn" />
+      <input type="button" name="btn_msg" id="btn_msg" rel="<%=profile.id%>" value="Message" />
+      <input type="button" name="btn_frnd" id="btn_frnd" rel="<%=profile.id%>" value="Friend" class="small_btn" />
     </div>
   </div>
 </div>
 <script type="text/javascript">
 <!--
-$('#btn_add').click(function(){
+$('#btn_frnd').click(function(){
   profile_id = $(this).attr('rel');
   message = $('#message').val();
   var dataString = {parent_id:profile_id, parent_type:"Profile", content: message, message_type: "Friend"};
   if(profile_id) {
     $.ajax({  
-      type: "POST",  
+      type: "POST",
       url: "/message/save",
       datatype: 'json',
       data: dataString,
@@ -38,6 +49,27 @@ $('#btn_add').click(function(){
       }
     });
   }
+});
+
+$('#btn_note').click(function(){
+  $('#root_btn').hide();
+  $('#msg_input').show();
+  $('#msg_btn').hide();
+  $('#note_btn').show();
+});
+
+$('#btn_msg').click(function(){
+  $('#root_btn').hide();
+  $('#msg_input').show();
+  $('#note_btn').hide();
+  $('#msg_btn').show();
+});
+
+$('#btn_msg_dnt_send, #btn_note_dnt_add').click(function(){
+  $('#root_btn').show();
+  $('#msg_input').hide();
+  $('#note_btn').hide();
+  $('#msg_btn').hide();
 });
 -->
 </script>

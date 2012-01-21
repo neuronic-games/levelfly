@@ -46,7 +46,7 @@ class CourseController < ApplicationController
   def show
     @course = Course.find_by_id(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    #@people = Profile.find(:all, :conditions => ["user_id != ? AND school_id = ?", current_user.id, @profile.school_id ])
+    @wall = Wall.find(:first,:conditions=>["parent_id = ? AND parent_type='Course'", @course.id])
     @people = Profile.find(
       :all, 
       :include => [:participants], 
@@ -82,6 +82,16 @@ class CourseController < ApplicationController
     end
     
     if @course.save
+      if params[:wall_id] && !params[:wall_id].empty?
+        wall_id = params[:wall_id]
+      else
+        #Create wall
+        @wall = Wall.create(
+          :parent_id =>@course.id,
+          :parent_type =>"Course"
+        )
+        wall_id = @wall.id
+      end
       #Save categories
       if params[:categories] && !params[:categories].empty?
         categories_array = params[:categories].split(",")
@@ -115,7 +125,12 @@ class CourseController < ApplicationController
         @participant.object_type = "Course"
         @participant.profile_id = user_session[:profile_id]
         @participant.profile_type = "M"
-        @participant.save
+        if @participant.save
+          Feed.create(
+            :profile_id => user_session[:profile_id],
+            :wall_id =>wall_id
+          )
+        end
       end
       
       if params[:people_id] && !params[:people_id].empty?
@@ -154,7 +169,12 @@ class CourseController < ApplicationController
             @participant.object_type = "Course"
             @participant.profile_id = p_id
             @participant.profile_type = "S"
-            @participant.save
+            if @participant.save
+              Feed.create(
+                :profile_id => @participant.profile_id,
+                :wall_id =>wall_id
+              )
+            end
           end
         end
       end

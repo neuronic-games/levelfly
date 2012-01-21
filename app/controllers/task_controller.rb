@@ -110,7 +110,13 @@ class TaskController < ApplicationController
         @participant.object_type = "Task"
         @participant.profile_id = user_session[:profile_id]
         @participant.profile_type = "M"
-        @participant.save
+        if @participant.save
+          Feed.create(
+            :object_id => @task.id,
+            :object_type => "Task",
+            :profile_id => user_session[:profile_id]
+          )
+        end
       end
       
       if params[:people_id] && !params[:people_id].empty?
@@ -150,7 +156,13 @@ class TaskController < ApplicationController
             @participant.object_type = "Task"
             @participant.profile_id = p_id
             @participant.profile_type = "S"
-            @participant.save
+            if @participant.save
+              Feed.create(
+                :object_id => @task.id,
+                :object_type => "Task",
+                :profile_id => @participant.profile_id
+              )
+            end
           end
         end
       end

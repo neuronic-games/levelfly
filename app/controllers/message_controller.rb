@@ -3,7 +3,8 @@ class MessageController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @messages = Message.find(:all, :conditions=>["parent_type !='Message' AND message_type !='Friend'"])
+    wall_ids = Feed.all(:select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
+    @messages = Message.find(:all, :conditions => ["wall_id in (?)", wall_ids])
     @friend_requests = Message.find(:all, :conditions=>["message_type ='Friend' AND parent_id = ?", user_session[:profile_id]])
     @friend = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' And profile_type = 'F'", user_session[:profile_id]])
     render :partial => "list"
@@ -17,6 +18,7 @@ class MessageController < ApplicationController
       @message.parent_type = params[:parent_type]
       @message.content = params[:content]
       @message.message_type = params[:message_type] if params[:message_type]
+      @message.wall_id = params[:wall_id]
       @message.post_date = DateTime.now
       
       if @message.save
@@ -75,6 +77,11 @@ class MessageController < ApplicationController
             @participant.profile_id = @message.profile_id
             @participant.profile_type = "F"
             if @participant.save
+              Feed.create(
+                :object_id => @participant.object_id,
+                :object_type => "Profile",
+                :profile_id => @participant.profile_id
+              )
               @message.destroy
             end
           else

@@ -430,6 +430,9 @@ input[type=button] {
   cursor:pointer;
   width:100px;
 }
+.small_btn{
+  width:65px !important;
+}
 input[type=file] {
   border:none;
 }

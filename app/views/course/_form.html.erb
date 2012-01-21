@@ -107,6 +107,7 @@
         </div>
       </div>
       <input type="hidden" name="course_id" id="course_id_hdn" value="<%=@course.id if @course%>" />
+      <input type="hidden" name="wall_id" id="course_wall_id_hdn" value="<%= @wall.id if @wall && !@wall.nil? %>" />
       <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
     </form>
   </div>
@@ -202,6 +203,7 @@ $(document).ready(function(){
     descr = getStorage("course_descr");
     code = getStorage("course_code");
     school_id = $("#course_school_id_hdn").val();
+    wall_id = $("#course_wall_id_hdn").val();
     
     //get people id from offline storage
     i = 0;
@@ -231,7 +233,7 @@ $(document).ready(function(){
       l++;
     });
     
-    var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&school_id=' + school_id + '&people_id=' + _peopleObject + '&people_email=' + _addPeopleEmailObject + '&outcomes=' + _outcomesObject + '&categories=' + _categoriesObject;  
+    var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&school_id=' + school_id + '&people_id=' + _peopleObject + '&people_email=' + _addPeopleEmailObject + '&outcomes=' + _outcomesObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id;  
     //alert (dataString);return false;  
     $.ajax({  
       type: "POST",  
@@ -415,7 +417,8 @@ $(document).ready(function(){
     parent_type = $(this).attr("rel");
     text = $(this).attr("title");
     message = $("#"+text).val();
-    var dataString = {parent_id:parent_id, parent_type:parent_type, content: message};
+    wall_id = $("#course_wall_id_hdn").val();
+    var dataString = {parent_id:parent_id, parent_type:parent_type, content: message, wall_id:wall_id};
     //alert(dataString.content);return false;
     $.ajax({  
       type: "POST",  
