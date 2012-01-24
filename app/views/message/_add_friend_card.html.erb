@@ -31,10 +31,15 @@
 </div>
 <script type="text/javascript">
 <!--
-$('#btn_frnd').click(function(){
+$('#btn_frnd, #btn_msg_send').click(function(){
   profile_id = $(this).attr('rel');
-  message = $('#message').val();
-  var dataString = {parent_id:profile_id, parent_type:"Profile", content: message, message_type: "Friend"};
+  message_type = $(this).attr('value');;
+  if(message_type == "Friend") {
+    message = "Friend Request!!!";
+  } else {
+    message = $('#message').val();
+  }
+  var dataString = {parent_id:profile_id, parent_type:"Profile", content: message, message_type: message_type};
   if(profile_id) {
     $.ajax({  
       type: "POST",

@@ -142,6 +142,36 @@ function addNode(element) {
           <% end %>
         </div>
       </div>
+      <div id="div_4" class="form_container hide">
+        <% if @task %>
+          <!-- Message -->
+          <div id="msg_input" class="message_input hide">
+            <label>Message</label> <br />
+              <textarea id="msg_content" name="msg_content" cols="15" rows="6"></textarea> <br />
+              <span>
+                <input type="button" name="sbmt_msg" class="sbmt_msg" title="msg_content" id="<%=@task.id%>" rel="Task" value="Post" />
+              </span>
+              &nbsp;
+              <span>
+                <a href="javascript:void(0)" onclick="javascript:$('#msg_input').fadeOut()">Cancel</a>
+              </span>
+          </div>
+          <div class="frm_label">
+            <input type="button" name="post_msg" id="post_msg" value="Post Message" class="big_btn" onclick="javascript:$('#msg_input').fadeIn()"/>
+          </div>
+          <div class="frm_input">
+            <div id="message_wrapper" class="message_wrapper">
+              &nbsp;
+              <% if @task.messages %>
+                <% @task.messages.each do |message| %>
+                  <%= render :partial => "/message/messages", :locals => {:message=>message} %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+          <!-- Message ends -->
+        <% end %>
+      </div>
       <input type="hidden" name="task_id" id="task_id_hdn" value="<%=@task.id if @task %>" />
       <input type="hidden" name="school_id" id="task_school_id_hdn" value="<%= @profile.school_id %>" />
     </form>
@@ -156,6 +186,9 @@ function addNode(element) {
   </div>
   <div>
     <a href="javascript:void(0)" value="3" >Participants</a>
+  </div>
+  <div>
+    <a href="javascript:void(0)" value="4" >Messages</a>
   </div>
 </div>
 <div id="sidebar_right">
@@ -186,7 +219,7 @@ var j = 0;
 var _taskPeopleObject = [];
 var _addTaskPeopleEmailObject = [];
 
-//set storage on load while view of course
+//set storage on load while view of task
 if($("#task").val()!="") {setStorage("task_name", $("#task").val());}
 if($("#descr").val()!="") {setStorage("task_descr", $("#descr").val());}
 if($("#course").val()!="") {setStorage("task_course", $("#course").val());}
@@ -448,6 +481,52 @@ $(document).ready(function(){
       //alert("removed");
       $('#item_'+attachment_id).remove();
     });
+  });
+  
+  //Post Message
+  $('#div_4').delegate('.sbmt_msg', 'click', function(){
+    parent_id = $(this).attr("id");
+    parent_type = $(this).attr("rel");
+    text = $(this).attr("title");
+    message = $("#"+text).val();
+    var dataString = {parent_id:parent_id, parent_type:parent_type, content: message};
+    //alert(dataString.content);return false;
+    $.ajax({  
+      type: "POST",  
+      url: "/message/save",  
+      data: dataString,
+      success: function(data) {
+        $("#"+text).val("");
+        if(parent_type=="Task") {
+          $("#message_wrapper").append(data);
+          $("#msg_input").fadeOut();
+        } else if (parent_type=="Message") {
+          $("#post_comment_"+parent_id).hide();
+          $("#messsage_box_"+parent_id).append(data);
+        }
+      }
+    });  
+  });
+  
+  //Like/Unlike a message or comment
+  $('.message_wrapper').delegate('.like', 'click', function(){
+    if(this.id){
+      action = $(this).attr('rel');
+      controller = this;
+      $.ajax({  
+        type: "POST",  
+        url: "/message/"+action,
+        dataType: 'json',
+        data: {message_id:this.id},
+        success: function(data) {
+          if (data) {
+            $(controller).attr('rel',data.action);
+            $(controller).text(data.action.toUpperCase());
+            $('#count_'+controller.id).html(data.count);
+          }
+        }
+      });
+    }
   });
   
 }); //document.ready ends

@@ -18,16 +18,17 @@ class MessageController < ApplicationController
       @message.parent_type = params[:parent_type]
       @message.content = params[:content]
       @message.message_type = params[:message_type] if params[:message_type]
-      @message.wall_id = params[:wall_id]
+      @message.wall_id = Wall.get_wall_id(params[:parent_id], params[:parent_type]) #params[:wall_id]
       @message.post_date = DateTime.now
       
       if @message.save
-        if params[:parent_type] == "Message"
-          render :partial => "comments", :locals => {:comment => @message}
-        elseif params[:parent_type] == "Profile"
-          render :text => {"status"=>"sent"}.to_json
-        else
-          render :partial => "messages", :locals => {:message => @message}
+        case params[:parent_type]
+          when "Message"
+            render :partial => "comments", :locals => {:comment => @message}
+          when "Profile"
+            render :text => {"status"=>"sent"}.to_json
+          else
+            render :partial => "messages", :locals => {:message => @message}
         end
       end
     end

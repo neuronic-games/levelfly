@@ -87,6 +87,8 @@ class TaskController < ApplicationController
     end
     
     if @task.save
+      #get wall id
+      wall_id = Wall.get_wall_id(@task.id,"Task")
       if params[:outcomes] && !params[:outcomes].empty?
         OutcomeTask.delete_all(["outcome_id NOT IN (?) AND task_id = ?", params[:outcomes], @task.id])
         outcomes_array = params[:outcomes].split(",")
@@ -112,9 +114,8 @@ class TaskController < ApplicationController
         @participant.profile_type = "M"
         if @participant.save
           Feed.create(
-            :object_id => @task.id,
-            :object_type => "Task",
-            :profile_id => user_session[:profile_id]
+            :profile_id => user_session[:profile_id],
+            :wall_id =>wall_id
           )
         end
       end
@@ -158,9 +159,8 @@ class TaskController < ApplicationController
             @participant.profile_type = "S"
             if @participant.save
               Feed.create(
-                :object_id => @task.id,
-                :object_type => "Task",
-                :profile_id => @participant.profile_id
+                :profile_id => @participant.profile_id,
+                :wall_id =>wall_id
               )
             end
           end

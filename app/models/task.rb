@@ -5,6 +5,7 @@ class Task < ActiveRecord::Base
   belongs_to :course
   has_many :participants, :as => :object
   has_many :attachments, :as => :object
+  has_many :messages, :as => :parent
   has_many :outcome_tasks
   has_attached_file :image,
     :storage => :s3,

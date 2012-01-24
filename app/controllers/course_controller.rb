@@ -82,16 +82,8 @@ class CourseController < ApplicationController
     end
     
     if @course.save
-      if params[:wall_id] && !params[:wall_id].empty?
-        wall_id = params[:wall_id]
-      else
-        #Create wall
-        @wall = Wall.create(
-          :parent_id =>@course.id,
-          :parent_type =>"Course"
-        )
-        wall_id = @wall.id
-      end
+      #get wall id
+      wall_id = Wall.get_wall_id(@course.id,"Course")
       #Save categories
       if params[:categories] && !params[:categories].empty?
         categories_array = params[:categories].split(",")
