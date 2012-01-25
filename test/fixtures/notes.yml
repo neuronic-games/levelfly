@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  profile_id: 
+  about_object_id: 
+  about_object_type: MyString
+  content: MyText
+
+two:
+  profile_id: 
+  about_object_id: 
+  about_object_type: MyString
+  content: MyText

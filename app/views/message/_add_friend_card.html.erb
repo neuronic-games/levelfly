@@ -15,66 +15,73 @@
       <textarea name="message" id="message" style="width:235px;"></textarea>
     </div>
     <div id="note_btn" style="float:right;width:240px;text-align:right" class="hide">
-      <input type="button" name="btn_note_add" id="btn_note_add" rel="<%=profile.id%>" value="Add" class="small_btn"/>
-      <input type="button" name="btn_note_dnt_add" id="btn_note_dnt_add" value="Don't Add" />
+      <input type="button" name="btn_note_add" id="Note" rel="add_note" value="Add" class="small_btn send_btn"/>
+      <input type="button" name="btn_note_dnt_add" id="btn_note_dnt_add" rel="switch" value="Don't Add" />
     </div>
     <div id="msg_btn" style="float:right;width:240px;text-align:right" class="hide">
-      <input type="button" name="btn_msg_send" id="btn_msg_send" rel="<%=profile.id%>" class="small_btn" value="Send" />
-      <input type="button" name="btn_msg_dnt_send" id="btn_msg_dnt_send" value="Don't Send" />
+      <input type="button" name="btn_msg_send" id="Message" rel="save" class="small_btn send_btn" value="Send" />
+      <input type="button" name="btn_msg_dnt_send" id="btn_msg_dnt_send" rel="switch" value="Don't Send" />
     </div>
     <div id="root_btn" style="float:right;width:240px;text-align:right;margin:50px 0 0 0;">
-      <input type="button" name="btn_note" id="btn_note" rel="<%=profile.id%>" value="Note" class="small_btn" />
-      <input type="button" name="btn_msg" id="btn_msg" rel="<%=profile.id%>" value="Message" />
-      <input type="button" name="btn_frnd" id="btn_frnd" rel="<%=profile.id%>" value="Friend" class="small_btn" />
+      <input type="button" name="btn_note" id="btn_note" rel="switch" value="Note" class="small_btn" />
+      <input type="button" name="btn_msg" id="btn_msg" rel="switch" value="Message" />
+      <input type="button" name="btn_frnd" id="Friend" rel="save" value="Friend" class="small_btn send_btn" />
     </div>
   </div>
 </div>
+<input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=profile.id%>" />
 <script type="text/javascript">
 <!--
-$('#btn_frnd, #btn_msg_send').click(function(){
-  profile_id = $(this).attr('rel');
-  message_type = $(this).attr('value');;
-  if(message_type == "Friend") {
-    message = "Friend Request!!!";
+//Toggle card screen
+$('input[rel=switch]').click(function(){
+  if(this.value=="Note") {
+    $('#root_btn').hide();
+    $('#msg_input').show();
+    $('#msg_btn').hide();
+    $('#note_btn').show();
+  } else if(this.value=="Message") {
+    $('#root_btn').hide();
+    $('#msg_input').show();
+    $('#note_btn').hide();
+    $('#msg_btn').show();
   } else {
-    message = $('#message').val();
+    $('#root_btn').show();
+    $('#msg_input').hide();
+    $('#note_btn').hide();
+    $('#msg_btn').hide();
   }
-  var dataString = {parent_id:profile_id, parent_type:"Profile", content: message, message_type: message_type};
+});
+
+//Send messages (& friend requests) + Add notes
+$('.send_btn').click(function(){
+  profile_id = $('#hdn_profile_id').val();
+  message_type = $(this).attr('id');
+  method = $(this).attr('rel');
+  message = message_type == "Friend" ? "Friend Request!!!" : $('#message').val();
+  var dataString = {
+    parent_id:profile_id,
+    parent_type:"Profile",
+    content: message,
+    message_type: message_type
+  };
+  //alert(profile_id);return false;
   if(profile_id) {
-    $.ajax({  
+    $.ajax({
       type: "POST",
-      url: "/message/save",
+      url: "/message/"+method,
       datatype: 'json',
       data: dataString,
+      error: function(){alert("ERROR!!")},
       success: function(data) {
-        if (data.status="sent") {
-          $('#friend_box').html('<center>Friend request sent!!</center>');
+        if (data.status="save") {
+          response_msg = (message_type == "Friend") ? "<center>Friend request sent!!</center>" : 
+                         (message_type == "Message") ? "<center>Message has been sent!!</center>" : "<center>Note added!!</center>";
+          $('#friend_box').html(response_msg);
           $('#friend_box').fadeOut(1500);
         }
       }
     });
   }
-});
-
-$('#btn_note').click(function(){
-  $('#root_btn').hide();
-  $('#msg_input').show();
-  $('#msg_btn').hide();
-  $('#note_btn').show();
-});
-
-$('#btn_msg').click(function(){
-  $('#root_btn').hide();
-  $('#msg_input').show();
-  $('#note_btn').hide();
-  $('#msg_btn').show();
-});
-
-$('#btn_msg_dnt_send, #btn_note_dnt_add').click(function(){
-  $('#root_btn').show();
-  $('#msg_input').hide();
-  $('#note_btn').hide();
-  $('#msg_btn').hide();
 });
 -->
 </script>

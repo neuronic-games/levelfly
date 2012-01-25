@@ -3,7 +3,7 @@ class MessageController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    wall_ids = Feed.all(:select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
+    wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
     @messages = Message.find(:all, :conditions => ["wall_id in (?)", wall_ids])
     @friend_requests = Message.find(:all, :conditions=>["message_type ='Friend' AND parent_id = ?", user_session[:profile_id]])
     @friend = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' And profile_type = 'F'", user_session[:profile_id]])
@@ -26,7 +26,7 @@ class MessageController < ApplicationController
           when "Message"
             render :partial => "comments", :locals => {:comment => @message}
           when "Profile"
-            render :text => {"status"=>"sent"}.to_json
+            render :text => {"status"=>"save"}.to_json
           else
             render :partial => "messages", :locals => {:message => @message}
         end
@@ -92,5 +92,17 @@ class MessageController < ApplicationController
       end
     end
     render :text => {"status"=>"done"}.to_json
+  end
+  
+  def add_note
+    if params[:parent_id] && !params[:parent_id].nil?
+      @note = Note.new
+      @note.profile_id = user_session[:profile_id]
+      @note.about_object_id = params[:parent_id]
+      @note.about_object_type = "Note"
+      if @note.save
+        render :text => {"status"=>"save"}.to_json
+      end
+    end
   end
 end

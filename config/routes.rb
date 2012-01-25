@@ -98,6 +98,8 @@ Oncapus::Application.routes.draw do
   
   post "message/respond_to_friend_request"
   
+  post "message/add_note"
+  
   match 'task' => 'task#index'
     
   match 'main' => 'course#index'
