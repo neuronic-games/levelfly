@@ -13,7 +13,7 @@
           <% end %>
         <% end %>
       </div>
-      <div id="friend_requests" style="border-top:2px solid #A9A9A9;float:left;width:400px;margin:20px 0 0 2px;">
+      <div id="friend_requests">
         <h2>Friend Requests</h2>
         <% if @friend_requests %>
           <% @friend_requests.each do |friend_request| %>
@@ -23,7 +23,7 @@
       </div>
     </div>
     <!-- Message ends -->
-    <div style="float:right;width:300px; margin-top:40px;">
+    <div class="friend_list">
       <% if @friend %>
         <% @friend.each do |friend| %>
           <%= render :partial => "/message/friend_list", :locals => {:friend=>friend} %>
@@ -31,7 +31,7 @@
       <% end %>
     </div>
     <!-- Add Friend -->
-    <div id="friend_box" style="width:250px;height:210px;position:absolute;border:1px solid #A9A9A9;right:320px;top:300px;" class="hide">
+    <div id="avatar_card" class="hide">
       
     </div>
     <!-- Add Friend ends -->
@@ -54,12 +54,12 @@
       data: dataString,
       success: function(data) {
         $("#"+text).val("");
-        if(parent_type=="Course") {
-          $("#message_wrapper").append(data);
-          $("#msg_input").fadeOut();
-        } else if (parent_type=="Message") {
+        if (parent_type=="Message") {
           $("#post_comment_"+parent_id).hide();
           $("#messsage_box_"+parent_id).append(data);
+        } else {
+          $("#message_wrapper").append(data);
+          $("#msg_input").fadeOut();
         }
       }
     });  
@@ -93,8 +93,8 @@
       data: {profile_id:this.id},
       success: function(data) {
         if (data) {
-          $('#friend_box').html(data);
-          $('#friend_box').show();
+          $('#avatar_card').html(data);
+          $('#avatar_card').show();
         }
       }
     });

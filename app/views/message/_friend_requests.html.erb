@@ -27,7 +27,6 @@
 $('.friend-request').click(function(){
   message_id = this.id;
   action = $(this).attr('rel');
-  alert(action)
   var dataString = {message_id:message_id, activity:action};
   if(message_id) {
     $.ajax({  

@@ -417,8 +417,7 @@ $(document).ready(function(){
     parent_type = $(this).attr("rel");
     text = $(this).attr("title");
     message = $("#"+text).val();
-    wall_id = $("#course_wall_id_hdn").val();
-    var dataString = {parent_id:parent_id, parent_type:parent_type, content: message, wall_id:wall_id};
+    var dataString = {parent_id:parent_id, parent_type:parent_type, content: message};
     //alert(dataString.content);return false;
     $.ajax({  
       type: "POST",  

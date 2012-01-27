@@ -1,35 +1,35 @@
 <div class="message_container">
-  <div style="width:240px;float:left;">
+  <div class="inner_container">
     <div class="avatar_thumb">
       <img src="https://s3.amazonaws.com/<%=profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=profile.id%>.jpg" id="<%=profile.id%>" class="profile"/>
     </div>
-    <div style="float:left;width:150px;padding:2px;">
+    <div class="info_container">
       <span><%=profile.full_name%></span><br />
       <span><%=@profile.major.name if @profile.major%></span><span><%=profile.school.code%></span>
     </div>
   </div>
-  <div style="width:240px;float:left;margin-top:5px;">
+  <div class="button_container">
     <span>Like Received: <%=profile.like_received ? profile.like_received : 0 %></span> <br />
     <span>Like Given: <%=profile.like_given ? profile.like_given : 0 %></span> <br />
     <div id="msg_input" class="hide">
-      <textarea name="message" id="message" style="width:235px;"></textarea>
+      <textarea name="message" id="message" class="msg_txt"></textarea>
     </div>
-    <div id="note_btn" style="float:right;width:240px;text-align:right" class="hide">
+    <div id="note_btn"class="hide note_btn">
       <input type="button" name="btn_note_add" id="Note" rel="add_note" value="Add" class="small_btn send_btn"/>
       <input type="button" name="btn_note_dnt_add" id="btn_note_dnt_add" rel="switch" value="Don't Add" />
     </div>
-    <div id="msg_btn" style="float:right;width:240px;text-align:right" class="hide">
+    <div id="msg_btn" class="hide msg_btn">
       <input type="button" name="btn_msg_send" id="Message" rel="save" class="small_btn send_btn" value="Send" />
       <input type="button" name="btn_msg_dnt_send" id="btn_msg_dnt_send" rel="switch" value="Don't Send" />
     </div>
-    <div id="root_btn" style="float:right;width:240px;text-align:right;margin:50px 0 0 0;">
+    <div id="root_btn" class="root_btn">
       <input type="button" name="btn_note" id="btn_note" rel="switch" value="Note" class="small_btn" />
       <input type="button" name="btn_msg" id="btn_msg" rel="switch" value="Message" />
       <input type="button" name="btn_frnd" id="Friend" rel="save" value="Friend" class="small_btn send_btn" />
     </div>
   </div>
 </div>
-<input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=profile.id%>" />
+<input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=profile.id%>"/>
 <script type="text/javascript">
 <!--
 //Toggle card screen
@@ -69,15 +69,13 @@ $('.send_btn').click(function(){
     $.ajax({
       type: "POST",
       url: "/message/"+method,
-      datatype: 'json',
+      dataType: 'json',
       data: dataString,
       error: function(){alert("ERROR!!")},
       success: function(data) {
-        if (data.status="save") {
-          response_msg = (message_type == "Friend") ? "<center>Friend request sent!!</center>" : 
-                         (message_type == "Message") ? "<center>Message has been sent!!</center>" : "<center>Note added!!</center>";
-          $('#friend_box').html(response_msg);
-          $('#friend_box').fadeOut(1500);
+        if (data.status=="save") {
+          $('#avatar_card').html(data.message);
+          $('#avatar_card').fadeOut(1500);
         }
       }
     });
