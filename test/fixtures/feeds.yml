@@ -1,11 +1,1 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-one:
-  profile_id: 1
-  object_id: 1
-  object_type: MyString
-
-two:
-  profile_id: 1
-  object_id: 1
-  object_type: MyString
