@@ -1,14 +1,49 @@
-<div class="message_container" id="friend_box_<%=friend.id%>" style="background:#D7D7D7;margin:5px;width:250px;float:right">
+<div class="message_container friend_box" id="friend_box_<%=friend.id%>">
   <div class="avatar_thumb">
     <img src="https://s3.amazonaws.com/<%=friend.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=friend.profile_id%>.jpg" id="<%=friend.profile_id%>" class="profile"/>
   </div>
-  <div style="float:left;width:150px;padding:2px;">
+  <div class="info_container">
     <span><%=friend.profile.full_name%></span><br />
     <span><%=friend.profile.major.name if friend.profile.major%></span>, &nbsp;<span><%=friend.profile.school.code%></span>
   </div>
-  <div style="float:right;width:100px;text-align:right">
-    <a href="javascritp:void(0)">Message</a>
+  <div id="frnd_msg" class="hide">
+    <textarea name="message" id="message_<%=friend.profile.id%>" class="msg_txt"></textarea>
+    <div id="frnd_msg_btn" class="msg_btn">
+      <input type="button" name="btn_msg_send" id="btn_msg_send" rel="<%=friend.profile.id%>" class="small_btn" value="Send" />
+      <input type="button" name="btn_msg_dnt_send" id="btn_msg_dnt_send" value="Don't Send" onClick="javascript:$('#frnd_msg').hide();$('#frnd_root_btn').show();"/>
+    </div>
+  </div>
+  <div id="frnd_root_btn" class="root_btn">
+    <input type="button" name="btn_msg" id="btn_msg" value="Message" onClick="javascript:$('#frnd_root_btn').hide();$('#frnd_msg').show();"/>
   </div>
 </div>
 <script type="text/javascript">
+<!--
+  $('#btn_msg_send').click(function(){
+    alert("clicked");
+    profile_id = $(this).attr('rel');
+    if(profile_id) {
+      message = $('#message_'+profile_id).val();
+      var dataString = {
+        parent_id:profile_id,
+        parent_type:"Profile",
+        content: message
+      };
+      //alert(profile_id);return false;
+      $.ajax({
+        type: "POST",
+        url: "/message/save",
+        dataType: 'json',
+        data: dataString,
+        error: function(){alert("ERROR!!")},
+        success: function(data) {
+          if (data.status=="save") {
+            $('#frnd_msg').hide();
+            $('#frnd_root_btn').show();
+          }
+        }
+      });
+    }
+  });
+-->
 </script>

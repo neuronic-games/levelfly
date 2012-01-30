@@ -8,10 +8,10 @@ class CourseController < ApplicationController
       user_session[:profile_id] = @profile.id
       user_session[:profile_name] = @profile.full_name
       user_session[:profile_major] = @profile.major.name if @profile.major
-      user_session[:profile_school] = @profile.school.code
-      user_session[:vault] = @profile.school.vaults[0].folder
+      user_session[:profile_school] = @profile.school.code if @profile.school
+      user_session[:vault] = @profile.school.vaults[0].folder if @profile.school
       #Set AWS credentials
-      set_aws_vault(@profile.school.vaults[0])
+      set_aws_vault(@profile.school.vaults[0]) if @profile.school
     end
     @courses = Course.find(
       :all, 

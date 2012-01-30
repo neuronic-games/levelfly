@@ -4,9 +4,9 @@ class MessageController < ApplicationController
   
   def index
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
-    @messages = Message.find(:all, :conditions => ["wall_id in (?)", wall_ids])
-    @friend_requests = Message.find(:all, :conditions=>["message_type ='Friend' AND parent_id = ?", user_session[:profile_id]])
-    @friend = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' And profile_type = 'F'", user_session[:profile_id]])
+    @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?)", wall_ids, false])
+    @friend_requests = Message.find(:all, :conditions=>["message_type ='Friend' AND parent_id = ? AND (archived is NULL or archived = ?)", user_session[:profile_id], false])
+    @friend = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", user_session[:profile_id]])
     render :partial => "list"
   end
   
@@ -26,7 +26,8 @@ class MessageController < ApplicationController
           when "Message"
             render :partial => "comments", :locals => {:comment => @message}
           when "Profile"
-            render :text => {"status"=>"save"}.to_json
+            message = (params[:message_type]=="Friend") ? "Friend request has been sent!!" : "Message has been sent!!"
+            render :text => {"status"=>"save", "message"=>message}.to_json
           else
             render :partial => "messages", :locals => {:message => @message}
         end
@@ -72,26 +73,41 @@ class MessageController < ApplicationController
       if @message
         if params[:activity] && !params[:activity].nil?
           if params[:activity] == "add"
-            @participant = Participant.new
-            @participant.object_id = @message.parent_id
-            @participant.object_type = "User"
-            @participant.profile_id = @message.profile_id
-            @participant.profile_type = "F"
-            if @participant.save
+            @friend_participant = Participant.new
+            @friend_participant.object_id = @message.parent_id
+            @friend_participant.object_type = "User"
+            @friend_participant.profile_id = @message.profile_id
+            @friend_participant.profile_type = "F"
+            if @friend_participant.save
               Feed.create(
-                :object_id => @participant.object_id,
-                :object_type => "Profile",
-                :profile_id => @participant.profile_id
+                :wall_id => @message.wall_id,
+                :profile_id => @friend_participant.profile_id
               )
-              @message.destroy
+              #Participant record for friend
+              @participant = Participant.new
+              @participant.object_id = @message.profile_id
+              @participant.object_type = "User"
+              @participant.profile_id = @message.parent_id
+              @participant.profile_type = "F"
+              if @participant.save
+                #Feed for friend participant
+                Feed.create(
+                  :wall_id => @message.wall_id,
+                  :profile_id => @participant.profile_id
+                )
+              end
+              @message.archived = true
+              @message.save
             end
           else
-            @message.destroy
+            @message.archived = true
+            @message.save
           end
         end
       end
     end
-    render :text => {"status"=>"done"}.to_json
+    #render :text => {"status"=>"done"}.to_json
+    render :partial => "friend_list", :locals=>{:friend=>@friend_participant}
   end
   
   def add_note

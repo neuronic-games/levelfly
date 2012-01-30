@@ -582,4 +582,14 @@ table .odd {
   margin-left:-10px;
   margin-top:-5px;
 }
-/* message */
+#friend_requests {border-top:2px solid #A9A9A9;float:left;width:400px;margin:20px 0 0 2px;}
+.friend_list {float:right;width:300px; margin-top:40px;}
+.friend_box {background:#D7D7D7;margin:5px;width:250px;float:right}
+/* Avatar card*/
+#avatar_card{width:250px;height:210px;position:absolute;border:1px solid #A9A9A9;right:320px;top:300px;background:#fff;}
+#avatar_card .inner_container{width:240px;float:left;}
+.info_container{float:left;width:150px;padding:2px;}
+#avatar_card .button_container{width:240px;float:left;margin-top:5px;}
+.msg_txt{width:235px;}
+.note_btn,.msg_btn,.root_btn {float:right;width:240px;text-align:right}
+#avatar_card #root_btn {margin:50px 0 0 0;}
