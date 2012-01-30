@@ -1,5 +1,5 @@
-#require 'rubygems'
-#require 'aws/s3'
+require 'rubygems'
+require 'aws/s3'
 class Attachment < ActiveRecord::Base
   belongs_to :object, :polymorphic => true
   belongs_to :tasks

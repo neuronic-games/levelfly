@@ -73,16 +73,29 @@ class MessageController < ApplicationController
       if @message
         if params[:activity] && !params[:activity].nil?
           if params[:activity] == "add"
-            @participant = Participant.new
-            @participant.object_id = @message.parent_id
-            @participant.object_type = "User"
-            @participant.profile_id = @message.profile_id
-            @participant.profile_type = "F"
-            if @participant.save
+            @friend_participant = Participant.new
+            @friend_participant.object_id = @message.parent_id
+            @friend_participant.object_type = "User"
+            @friend_participant.profile_id = @message.profile_id
+            @friend_participant.profile_type = "F"
+            if @friend_participant.save
               Feed.create(
                 :wall_id => @message.wall_id,
-                :profile_id => @participant.profile_id
+                :profile_id => @friend_participant.profile_id
               )
+              #Participant record for friend
+              @participant = Participant.new
+              @participant.object_id = @message.profile_id
+              @participant.object_type = "User"
+              @participant.profile_id = @message.parent_id
+              @participant.profile_type = "F"
+              if @participant.save
+                #Feed for friend participant
+                Feed.create(
+                  :wall_id => @message.wall_id,
+                  :profile_id => @participant.profile_id
+                )
+              end
               @message.archived = true
               @message.save
             end
@@ -93,7 +106,8 @@ class MessageController < ApplicationController
         end
       end
     end
-    render :text => {"status"=>"done"}.to_json
+    #render :text => {"status"=>"done"}.to_json
+    render :partial => "friend_list", :locals=>{:friend=>@friend_participant}
   end
   
   def add_note

@@ -2,10 +2,9 @@
 
 one:
   profile_id: 1
-  object_id: 1
-  object_type: MyString
+  wall_id: 1
 
 two:
   profile_id: 1
-  object_id: 1
-  object_type: MyString
+  wall_id: 1
+

@@ -5,7 +5,7 @@
     </div>
     <div class="info_container">
       <span><%=profile.full_name%></span><br />
-      <span><%=@profile.major.name if @profile.major%></span><span><%=profile.school.code%></span>
+      <span><%=profile.major.name if profile.major%></span><span><%=profile.school.code%></span>
     </div>
   </div>
   <div class="button_container">
@@ -25,7 +25,11 @@
     <div id="root_btn" class="root_btn">
       <input type="button" name="btn_note" id="btn_note" rel="switch" value="Note" class="small_btn" />
       <input type="button" name="btn_msg" id="btn_msg" rel="switch" value="Message" />
-      <input type="button" name="btn_frnd" id="Friend" rel="save" value="Friend" class="small_btn send_btn" />
+      <% if is_friend(user_session[:profile_id], profile.id) %>
+        <input type="button" name="btn_unfrnd" id="Unfriend" rel="save" value="Unfriend" class="small_btn" />
+      <% else %>
+        <input type="button" name="btn_frnd" id="Friend" rel="save" value="Friend" class="small_btn send_btn" />
+      <% end %>
     </div>
   </div>
 </div>

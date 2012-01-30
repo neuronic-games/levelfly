@@ -23,7 +23,7 @@
       </div>
     </div>
     <!-- Message ends -->
-    <div class="friend_list">
+    <div id="friend_list" class="friend_list">
       <% if @friend %>
         <% @friend.each do |friend| %>
           <%= render :partial => "/message/friend_list", :locals => {:friend=>friend} %>

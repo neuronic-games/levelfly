@@ -35,8 +35,9 @@ $('.friend-request').click(function(){
       datatype: 'json',
       data: dataString,
       success: function(data) {
-        if (data.status="done") {
+        if (data) {
           $('#request_box_'+message_id).fadeOut(1500);
+          $('#friend_list').append(data);
         }
       }
     });
