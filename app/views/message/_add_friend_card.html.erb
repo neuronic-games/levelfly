@@ -26,7 +26,7 @@
       <input type="button" name="btn_note" id="btn_note" rel="switch" value="Note" class="small_btn" />
       <input type="button" name="btn_msg" id="btn_msg" rel="switch" value="Message" />
       <% if is_friend(user_session[:profile_id], profile.id) %>
-        <input type="button" name="btn_unfrnd" id="Unfriend" rel="save" value="Unfriend" class="small_btn" />
+        <input type="button" name="btn_unfrnd" id="unfriend" value="Unfriend" class="small_btn" />
       <% else %>
         <input type="button" name="btn_frnd" id="Friend" rel="save" value="Friend" class="small_btn send_btn" />
       <% end %>
@@ -73,13 +73,34 @@ $('.send_btn').click(function(){
     $.ajax({
       type: "POST",
       url: "/message/"+method,
-      dataType: 'json',
+      dataType: "json",
       data: dataString,
       error: function(){alert("ERROR!!")},
       success: function(data) {
         if (data.status=="save") {
           $('#avatar_card').html(data.message);
           $('#avatar_card').fadeOut(1500);
+        }
+      }
+    });
+  }
+});
+
+//Unfriend
+$('#unfriend').click(function(){
+  profile_id = $('#hdn_profile_id').val();
+  if(profile_id) {
+    var dataString = {profile_id:profile_id}
+    $.ajax({
+      type: "POST",
+      url: "/message/unfriend",
+      dataType: "json",
+      data: dataString,
+      error: function(){alert("ERROR!!")},
+      success: function(data) {
+        if (data.status) {
+          $('#avatar_card').fadeOut(1500);
+          $('#friend_box_'+profile_id).remove();
         }
       }
     });

@@ -68,6 +68,10 @@ Oncapus::Application.routes.draw do
   
   post "course/update_course_categories"
   
+  post "course/get_participants"
+  
+  post "course/add_participant"
+  
   get "wardrobe/index"
   
   get "wardrobe/new"
@@ -99,6 +103,8 @@ Oncapus::Application.routes.draw do
   post "message/respond_to_friend_request"
   
   post "message/add_note"
+  
+  post "message/unfriend"
   
   match 'task' => 'task#index'
     

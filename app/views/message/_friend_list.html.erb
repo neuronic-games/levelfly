@@ -1,4 +1,4 @@
-<div class="message_container friend_box" id="friend_box_<%=friend.id%>">
+<div class="message_container friend_box" id="friend_box_<%=friend.profile_id%>">
   <div class="avatar_thumb">
     <img src="https://s3.amazonaws.com/<%=friend.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=friend.profile_id%>.jpg" id="<%=friend.profile_id%>" class="profile"/>
   </div>
@@ -7,9 +7,9 @@
     <span><%=friend.profile.major.name if friend.profile.major%></span>, &nbsp;<span><%=friend.profile.school.code%></span>
   </div>
   <div id="frnd_msg" class="hide">
-    <textarea name="message" id="message_<%=friend.profile.id%>" class="msg_txt"></textarea>
+    <textarea name="message" id="message_<%=friend.profile_id%>" class="msg_txt"></textarea>
     <div id="frnd_msg_btn" class="msg_btn">
-      <input type="button" name="btn_msg_send" id="btn_msg_send" rel="<%=friend.profile.id%>" class="small_btn" value="Send" />
+      <input type="button" name="btn_msg_send" id="btn_msg_send" rel="<%=friend.profile_id%>" class="small_btn" value="Send" />
       <input type="button" name="btn_msg_dnt_send" id="btn_msg_dnt_send" value="Don't Send" onClick="javascript:$('#frnd_msg').hide();$('#frnd_root_btn').show();"/>
     </div>
   </div>

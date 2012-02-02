@@ -1,0 +1,9 @@
+<ul class="people_node">
+<% if !peoples.empty? %>
+  <% peoples.each do |p| %>
+    <li class="<%= cycle("even", "odd") %>" id="<%=p.id%>"><%=p.full_name%></li>
+  <% end %>
+<% else %>
+  <li>No match found</li>
+<% end %>
+</ul>

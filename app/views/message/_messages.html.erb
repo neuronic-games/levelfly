@@ -1,6 +1,6 @@
 <div class="message_container" id="messsage_box_<%=message.id%>">
   <div class="avatar_thumb">
-    <img src="https://s3.amazonaws.com/<%=message.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=message.profile.id%>.jpg" id="<%=message.profile.id%>" class="profile"/>
+    <img src="https://s3.amazonaws.com/<%=message.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=message.profile_id%>.jpg" id="<%=message.profile_id%>" class='<%= (message.profile_id==user_session[:profile_id]) ? "" : "profile" %>' />
   </div>
   <div class="message_content">
     <div id="content">

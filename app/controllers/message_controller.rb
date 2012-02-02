@@ -98,16 +98,39 @@ class MessageController < ApplicationController
               end
               @message.archived = true
               @message.save
+              render :partial => "friend_list", :locals=>{:friend=>@friend_participant}
             end
           else
             @message.archived = true
             @message.save
+            render :nothing=>true
           end
         end
       end
     end
-    #render :text => {"status"=>"done"}.to_json
-    render :partial => "friend_list", :locals=>{:friend=>@friend_participant}
+    
+  end
+  
+  def unfriend
+    status = false
+    if params[:profile_id] && ![:profile_id].nil?
+      @friend_participant = Participant.find(
+        :first, 
+        :conditions=>["object_id = ? AND profile_id = ? AND profile_type = 'F'", user_session[:profile_id], params[:profile_id]]
+      )
+      if @friend_participant
+        @friend_participant.delete
+        @participant = Participant.find(
+          :first, 
+          :conditions=>["object_id = ? AND profile_id = ? AND profile_type = 'F'",params[:profile_id] , user_session[:profile_id]]
+        )
+        if @participant
+          @participant.delete
+        end
+        status = true
+      end
+    end
+    render :text => {"status"=>status}.to_json
   end
   
   def add_note

@@ -58,15 +58,25 @@
           Participants
         </div>
         <div class="frm_input">
-          <% @people.each do |p| %>
-          <div class="frm_input" id="people_div_<%=p.id%>">
-            <input type="checkbox" name="chk_people[]"  id="<%=p.id%>" />
-            <input type="text" name="people[]" value="<%= p.full_name %>" readonly="true" id="people_<%=p.id%>" class="medium" />
-            <input type="hidden" name="people_id[]" value="<%= p.id %>" id="people_email_<%=p.id%>" class="medium" />
+          <input type="text" name="add_people_email[]" class="medium" id="add_people_text"/> 
+          <input type="button" name="btn_add_people" id="btn_add_people" value="Add" />
+          <div class="frm_input" id="add_people_container">
           </div>
+        </div>
+        <div class="frm_label small_label">
+          &nbsp;
+        </div>
+        <div id="course_people" class="frm_input">
+          <% if @peoples %>
+            <%= render :partial => "/course/participant_list", :locals => {:peoples=>@peoples} %>
           <% end %>
-          <div class="frm_input" id="add_people_container" style="padding-left:22px;">
-            <input type="text" name="add_people_email[]" value="Type in email to add" class="medium node" id="add_people_email_1"/>
+        </div>
+        <div id="participant_list" class="hide">
+          <div style="width:40px;height:10px;float:right;padding:2px;">
+            <a href="javascript:void(0)" onClick="javascript:$('#participant_list').hide();">Close</a>
+          </div>
+          <div id="participant_list_inner">
+              Loading...
           </div>
         </div>
       </div>
@@ -146,8 +156,9 @@ jStorage.flush();
 var _counterPeople = 2;
 var _counterOutcome = 2;
 var _counterCategory = 2;
-
 var _peopleObject = [];
+
+
 var _addPeopleEmailObject = [];
 var _outcomesObject = [];
 var _categoriesObject = [];
@@ -277,7 +288,7 @@ $(document).ready(function(){
     }
   });
   
-  //For updating outcomes (in course view screen)
+  //For updating categories (in course view screen)
   $('input[name="loaded_categories[]"]').unbind('blur').bind('blur', function(){
     var category_id = $(this).attr('rel');
     var category = $(this).val();
@@ -301,26 +312,80 @@ $(document).ready(function(){
     }
   });
   
+  //List people (participants)
+  $("#btn_add_people").click(function() {
+    $("#participant_list").show();
+    text = $("#add_people_text").val();
+    school_id = $("#course_school_id_hdn").val();
+    dataString = {school_id:school_id, search_text:text};
+    if (school_id && text!="") {
+      $.ajax({  
+        type: "POST",  
+        url: "/course/get_participants",  
+        data: dataString,
+        success: function(data) {
+          if (data) {
+            $("#participant_list_inner").html(data);
+          } else {
+            alert("ERROR");
+          }
+        }
+      }); 
+    }
+  });
+  
+  //Add people (participant) to course
+  $("#participant_list").delegate(".people_node li", "click", function(){
+    course_id = $("#course_id_hdn").val();
+    profile_id = $(this).attr("id");
+    profile_name = $(this).text();
+    node_class = $(this).attr("class");
+    dataString = {course_id:course_id, profile_id:profile_id};
+    if (profile_id && course_id) {
+      $.ajax({  
+        type: "POST",  
+        url: "/course/add_participant",  
+        data: dataString,
+        dataType: "json",
+        success: function(data) {
+          if (data.status) {
+            participant_node = $('<li></li>');
+            participant_node.text(profile_name);
+            participant_node.class = node_class;
+            participant_node.id = profile_id;
+            $("#course_people ul").append(participant_node);
+            $("#participant_list").hide();
+          } else {
+            //alert("ERROR");
+            $("#participant_list").hide();
+          }
+        }
+      }); 
+    }
+  });
+  
   //For people node
-  $("#add_people_container .node").unbind('focus').bind("focus", function(){
+  //$("#add_people_container .node").unbind('focus').bind("focus", function(){
+  $("#add_people_container").delegate(".node", "focus", function(){
     pval = $(this).val();
     if(pval=="Type in email to add") {
       $(this).val("");
     }
   });
   
-  $("#add_people_container .node").unbind('focusout').bind("focusout", function(){
+  //$("#add_people_container .node").unbind('focusout').bind("focusout", function(){
+  $("#add_people_container").delegate(".node", "focusout", function(){
     var current_node = _counterPeople - 1;
     var filter=/^.+@.+\..{2,3}$/
     var pval = $("#add_people_email_"+current_node).val();
     
     if(pval != "" && pval!="Type in email to add") {
-      if(filter.test(pval)) {
+      //if(filter.test(pval)) {
         setStorage("add_people_email_"+current_node, pval);
         addNode('people');
-      } else {
+      /*} else {
         alert("Please enter a valid email");
-      }
+      }*/
     } else {
       $("#add_people_email_"+current_node).val("Type in email to add");
     }
