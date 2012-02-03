@@ -13,15 +13,15 @@
         <div class="right_form_container">
           <div class="frm_input">
             <span>Course</span>
-            <input type="text" name="course_name" id="course_name" class="large" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("course_name", $(this).val())' />
+            <input type="text" name="course_name" id="course_name" class="large" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("course_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
           </div>
           <div class="frm_input">
             <span>Description</span>
-            <textarea name="course_descr" id="course_descr" rows="10" onBlur='javascript:setStorage("course_descr", $(this).val())'><%=@course.descr if @course%></textarea>
+            <textarea name="course_descr" id="course_descr" rows="10" onBlur='javascript:setStorage("course_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
           </div>
           <div class="frm_input">
             <span>Code</span> <br />
-            <input type="text" name="course_code" id="course_code" value="<%=@course.code if @course%>" class="small" onBlur='javascript:setStorage("course_code", $(this).val())' />
+            <input type="text" name="course_code" id="course_code" value="<%=@course.code if @course%>" class="small" onBlur='javascript:setStorage("course_code", $(this).val());$("#hdn_is_page_change").val(true);' />
           </div>
           <% if @course %>
             <!-- Message -->
@@ -58,7 +58,7 @@
           Participants
         </div>
         <div class="frm_input">
-          <input type="text" name="add_people_email[]" class="medium" id="add_people_text"/> 
+          <input type="text" name="add_people_email[]" class="medium" id="add_people_text" /> 
           <input type="button" name="btn_add_people" id="btn_add_people" value="Add" />
           <div class="frm_input" id="add_people_container">
           </div>
@@ -127,18 +127,18 @@
     <a href="javascript:void(0)" value="1" class="active">SUMMARY</a>
   </div>
   <div>
-    <a href="javascript:void(0)" value="2" >PEOPLE</a>
+    <a href="javascript:void(0)" value="2" id="people_tab" class="sbmt_course" >PEOPLE</a>
   </div>
   <div>
-    <a href="javascript:void(0)" value="3" >OUTCOMES</a>
+    <a href="javascript:void(0)" value="3" id="outcome_tab"  class="sbmt_course" >OUTCOMES</a>
   </div>
   <div>
-    <a href="javascript:void(0)" value="4" >CATEGORIES</a>
+    <a href="javascript:void(0)" value="4" id="category_tab" class="sbmt_course" >CATEGORIES</a>
   </div>
 </div>
 <div id="sidebar_right">
   <div id="crud_level">
-    <input type="button" name="btn_course" id="btn_course" value="Save"/>
+    <input type="button" name="btn_course" id="btn_course" class="sbmt_course" value="Save"/>
     <% if @course%>
       <input type="button" name="menu_btn_hide" id="menu_btn_hide" value="Hide"/>
       <input type="button" name="menu_btn_fav" id="menu_btn_fav" value="Fav"/>
@@ -147,6 +147,7 @@
       <input type="button" name="btn_category_remove" id="btn_category_remove" class="hide" value="Remove"/>
     <% end %>
     <input type="button" name="btn_people_remove" id="btn_people_remove" class="hide" value="Remove"/>
+    <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@course ? false : true %>" />
   </div><!-- crud_level -->
 </div>
 <script type="text/javascript">
@@ -157,8 +158,6 @@ var _counterPeople = 2;
 var _counterOutcome = 2;
 var _counterCategory = 2;
 var _peopleObject = [];
-
-
 var _addPeopleEmailObject = [];
 var _outcomesObject = [];
 var _categoriesObject = [];
@@ -170,10 +169,10 @@ $.each($('input[name="outcomes[]"], input[name="people_id[]"], input[name="categ
 });
 
 //set storage on load while view of course
-if($("#course_name").val()!="") {setStorage("course_name", $("#course_name").val());}
-if($("#course_descr").val()!="") {setStorage("course_descr", $("#course_descr").val());}
-if($("#course_code").val()!="") {setStorage("course_code", $("#course_code").val());}
-  
+if($("#course_name").val()!="") {setStorage("course_name", $("#course_name").val());} else {setStorage("course_name", "New Course");}
+if($("#course_descr").val()!="") {setStorage("course_descr", $("#course_descr").val());} else {setStorage("course_descr", "New Course Description");}
+if($("#course_code").val()!="") {setStorage("course_code", $("#course_code").val());} else {setStorage("course_code", "New Course Code");}
+
 $(document).ready(function(){
   //Toggle Tabs
   $(".menu_container a").unbind('click').bind('click', function(){
@@ -204,64 +203,15 @@ $(document).ready(function(){
     }
     
     $("#div_"+idx).fadeIn();
+    is_page_change = $("#hdn_is_page_change").val();
+    if(is_page_change=="true") {
+      save_course(this.id);
+    }
   });
   
   //Submit data
   $("#btn_course").unbind('click').bind('click', function(){
-    //Get data from offline storage
-    course_id = $("#course_id_hdn").val();
-    course = getStorage("course_name");
-    descr = getStorage("course_descr");
-    code = getStorage("course_code");
-    school_id = $("#course_school_id_hdn").val();
-    wall_id = $("#course_wall_id_hdn").val();
-    
-    //get people id from offline storage
-    i = 0;
-    $.each($('input[name="people_id[]"]'), function() {
-      _peopleObject[i] = getStorage($(this).attr('id'));
-      i++;
-    });
-    
-    //get people email from offline storage
-    j = 0;
-    $.each($('input[name="add_people_email[]"]'), function() {
-      _addPeopleEmailObject[j] = getStorage($(this).attr('id'));
-      j++;
-    });
-    
-    //get outcomes from offline storage
-    k = 0;
-    $.each($('input[name="outcomes[]"]'), function() {
-      _outcomesObject[k] = getStorage($(this).attr('id'));
-      k++;
-    });
-    
-    //get outcomes from offline storage
-    l = 0;
-    $.each($('input[name="categories[]"]'), function() {
-      _categoriesObject[l] = getStorage($(this).attr('id'));
-      l++;
-    });
-    
-    var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&school_id=' + school_id + '&people_id=' + _peopleObject + '&people_email=' + _addPeopleEmailObject + '&outcomes=' + _outcomesObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id;  
-    //alert (dataString);return false;  
-    $.ajax({  
-      type: "POST",  
-      url: "/course/save",  
-      data: dataString,
-      dataType:"json",
-      success: function(data) {
-        if (data) {
-          //alert("Data Saved");
-          $("#course_id_hdn").val(data.course.id);
-          $("#container").load('/course/index');
-        } else {
-          alert("ERROR");
-        }
-      }
-    });  
-    return false;  
+    save_course(this.id);
   });
   
   //For updating outcomes (in course view screen)
@@ -315,6 +265,7 @@ $(document).ready(function(){
   //List people (participants)
   $("#btn_add_people").click(function() {
     $("#participant_list").show();
+    $("#participant_list_inner").html("Loading...");
     text = $("#add_people_text").val();
     school_id = $("#course_school_id_hdn").val();
     dataString = {school_id:school_id, search_text:text};
@@ -355,50 +306,18 @@ $(document).ready(function(){
             participant_node.id = profile_id;
             $("#course_people ul").append(participant_node);
             $("#participant_list").hide();
+            $("#hdn_is_page_change").val(true);
           } else {
-            //alert("ERROR");
-            $("#participant_list").hide();
+            if(data.already_added) {
+              alert("This participant is already added to this course!!");
+            } else {
+              alert("ERROR");
+              $("#participant_list").hide();
+            }
           }
         }
       }); 
     }
-  });
-  
-  //For people node
-  //$("#add_people_container .node").unbind('focus').bind("focus", function(){
-  $("#add_people_container").delegate(".node", "focus", function(){
-    pval = $(this).val();
-    if(pval=="Type in email to add") {
-      $(this).val("");
-    }
-  });
-  
-  //$("#add_people_container .node").unbind('focusout').bind("focusout", function(){
-  $("#add_people_container").delegate(".node", "focusout", function(){
-    var current_node = _counterPeople - 1;
-    var filter=/^.+@.+\..{2,3}$/
-    var pval = $("#add_people_email_"+current_node).val();
-    
-    if(pval != "" && pval!="Type in email to add") {
-      //if(filter.test(pval)) {
-        setStorage("add_people_email_"+current_node, pval);
-        addNode('people');
-      /*} else {
-        alert("Please enter a valid email");
-      }*/
-    } else {
-      $("#add_people_email_"+current_node).val("Type in email to add");
-    }
-  });
-  
-  //Remove people nodes
-  $("#btn_people_remove").unbind('click').bind("click", function(){
-    $("input[name='chk_people[]']").each(function(){
-      if(this.checked) {
-        div_id = $(this).attr('id');
-        $("#people_div_"+div_id).remove();
-      }
-    });
   });
   
   //For outcomes node
@@ -407,6 +326,7 @@ $(document).ready(function(){
     val = $("#outcomes_"+current_node).val();
     if(val!="") {
       addNode('outcome');
+      $("#hdn_is_page_change").val(true);
       setStorage("outcomes_"+current_node, val);
     }
   });
@@ -445,6 +365,7 @@ $(document).ready(function(){
     if(val!="") {
       addNode('category');
       setStorage("categories_"+current_node, val);
+      $("#hdn_is_page_change").val(true);
     }
   });
   
@@ -562,6 +483,51 @@ $(document).ready(function(){
   });
   
 });
+
+//Save course
+function save_course(channel) {
+  //Get data from offline storage
+  course_id = $("#course_id_hdn").val();
+  course = getStorage("course_name");
+  descr = getStorage("course_descr");
+  code = getStorage("course_code");
+  school_id = $("#course_school_id_hdn").val();
+  wall_id = $("#course_wall_id_hdn").val();
+  
+  //get outcomes from offline storage
+  k = 0;
+  $.each($('input[name="outcomes[]"]'), function() {
+    _outcomesObject[k] = getStorage($(this).attr('id'));
+    k++;
+  });
+  
+  //get categories from offline storage
+  l = 0;
+  $.each($('input[name="categories[]"]'), function() {
+    _categoriesObject[l] = getStorage($(this).attr('id'));
+    l++;
+  });
+  
+  var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&school_id=' + school_id + '&people_id=' + _peopleObject + '&people_email=' + _addPeopleEmailObject + '&outcomes=' + _outcomesObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id;  
+  //alert (dataString);return false;  
+  $.ajax({
+    type: "POST",  
+    url: "/course/save",  
+    data: dataString,
+    dataType:"json",
+    success: function(data) {
+      if (data) {
+        $("#course_id_hdn").val(data.course.id);
+        if(channel=="btn_course") {
+          $("#container").load('/course/index');
+        }
+      } else {
+        alert("ERROR");
+      }
+    }
+  });  
+  return false;  
+}
 
 //Adding text field nodes for peoples, outcomes, categories
 function addNode(element) {
