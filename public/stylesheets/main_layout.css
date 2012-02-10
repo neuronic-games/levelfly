@@ -453,6 +453,14 @@ input[type=file] {
   list-style:none;
   line-height:30px;
 }
+.people_name {
+  width:200px;
+  float:left;
+}
+.people_delete {
+  width:60px;
+  float:right;
+}
 table .tbl_header {
   background-color:#A9A9A9;
   color:#fff;

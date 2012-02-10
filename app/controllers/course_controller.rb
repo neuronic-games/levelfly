@@ -136,7 +136,7 @@ class CourseController < ApplicationController
       search_text =  "#{params[:search_text]}%"
       @peoples = Profile.find(:all, :conditions => ["user_id != ? AND school_id = ? AND (name LIKE ? OR full_name LIKE ?)", current_user.id, params[:school_id],search_text,search_text])
       if !@peoples.empty?
-        render :partial=>"participant_list", :locals=>{:peoples=>@peoples}
+        render :partial=>"participant_list", :locals=>{:peoples=>@peoples, :mode=>"result" }
       else
         render :text=> "No match found"
       end
@@ -169,6 +169,18 @@ class CourseController < ApplicationController
       end
     end
     render :text => {"status"=>status, "already_added" => already_added}.to_json
+  end
+  
+  def delete_participant
+    status = false
+    if params[:profile_id] && params[:course_id]
+      participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ? ", params[:course_id], params[:profile_id]]) 
+      if participant
+        participant.delete
+        status = true
+      end
+    end
+    render :text => {"status"=>status}.to_json
   end
   
   def remove_course_outcomes

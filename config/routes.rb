@@ -72,6 +72,8 @@ Oncapus::Application.routes.draw do
   
   post "course/add_participant"
   
+  post "course/delete_participant"
+  
   get "wardrobe/index"
   
   get "wardrobe/new"

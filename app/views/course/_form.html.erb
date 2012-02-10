@@ -68,7 +68,7 @@
         </div>
         <div id="course_people" class="frm_input">
           <% if @peoples %>
-            <%= render :partial => "/course/participant_list", :locals => {:peoples=>@peoples} %>
+            <%= render :partial => "/course/participant_list", :locals => {:peoples=>@peoples, :mode=>"list"} %>
           <% end %>
         </div>
         <div id="participant_list" class="hide">
@@ -146,7 +146,6 @@
       <input type="button" name="btn_outcome_remove" id="btn_outcome_remove" class="hide" value="Remove"/>
       <input type="button" name="btn_category_remove" id="btn_category_remove" class="hide" value="Remove"/>
     <% end %>
-    <input type="button" name="btn_people_remove" id="btn_people_remove" class="hide" value="Remove"/>
     <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@course ? false : true %>" />
   </div><!-- crud_level -->
 </div>
@@ -157,8 +156,6 @@ jStorage.flush();
 var _counterPeople = 2;
 var _counterOutcome = 2;
 var _counterCategory = 2;
-var _peopleObject = [];
-var _addPeopleEmailObject = [];
 var _outcomesObject = [];
 var _categoriesObject = [];
 
@@ -301,9 +298,11 @@ $(document).ready(function(){
         success: function(data) {
           if (data.status) {
             participant_node = $('<li></li>');
-            participant_node.text(profile_name);
             participant_node.class = node_class;
             participant_node.id = profile_id;
+            partcipant_html = '<div class="people_name">' + profile_name + '</div>';
+            partcipant_html += '<div class="people_delete"><a href="javascript:void(0)">Delete</a></div>';
+            participant_node.append(partcipant_html);
             $("#course_people ul").append(participant_node);
             $("#participant_list").hide();
             $("#hdn_is_page_change").val(true);
@@ -317,6 +316,28 @@ $(document).ready(function(){
           }
         }
       }); 
+    }
+  });
+  
+  //Delete participant 
+  $(".people_node li").delegate(".people_delete a", "click", function(){
+    //alert($(this).attr("rel"));
+    profile_id = $(this).attr("rel");
+    course_id = $("#course_id_hdn").val(); 
+    dataString = {course_id:course_id, profile_id:profile_id};
+    if(profile_id) {
+      $.ajax({  
+        type: "POST",  
+        url: "/course/delete_participant",  
+        data: dataString,
+        success: function(data) {
+          if (data) {
+            $("#"+profile_id).remove();
+          } else {
+            alert("ERROR");
+          }
+        }
+      });
     }
   });
   
@@ -508,7 +529,7 @@ function save_course(channel) {
     l++;
   });
   
-  var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&school_id=' + school_id + '&people_id=' + _peopleObject + '&people_email=' + _addPeopleEmailObject + '&outcomes=' + _outcomesObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id;  
+  var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id;  
   //alert (dataString);return false;  
   $.ajax({
     type: "POST",  
@@ -521,6 +542,7 @@ function save_course(channel) {
         if(channel=="btn_course") {
           $("#container").load('/course/index');
         }
+        $("#hdn_is_page_change").val(false);
       } else {
         alert("ERROR");
       }
