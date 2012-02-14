@@ -218,6 +218,16 @@ float:left;
   margin:5px 10px;
   word-spacing:2px;
 }
+.waiting {
+  position: absolute;
+  top: 0px;
+  left: 180px;
+  width: 1000px;
+  height: 470px;
+  text-align: center;
+  visibility: hidden;
+  padding-top:280px;
+}
 .marked_item {
   background-color:#A9A9A9;
   color:#fff

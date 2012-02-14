@@ -33,7 +33,6 @@ class CourseController < ApplicationController
   
   def new
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    #@peoples = Profile.find(:all, :conditions => ["user_id != ? AND school_id = ?", current_user.id, @profile.school_id ])
     respond_to do |wants|
       wants.html do
         if request.xhr?

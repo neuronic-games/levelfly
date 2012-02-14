@@ -39,8 +39,6 @@ class TaskController < ApplicationController
   def show
     @task = Task.find_by_id(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    #@vault = Vault.find(:first, :conditions => ["object_id = ? AND object_type = 'school'", @profile.school_id])
-    #@outcomes = Outcome.find(:all, :include=>[:outcome_tasks], :conditions =>["outcome_tasks.task_id = ?", @task.id], :order => "name")
     @outcomes = Outcome.find(:all, :conditions =>["course_id = ?", @task.course_id], :order => "name")
     @courses = Course.find(
       :all, 
@@ -65,7 +63,6 @@ class TaskController < ApplicationController
   
   def save
     status = false
-    
     if params[:id] && !params[:id].empty?
       @task = Task.find(params[:id])
     else
@@ -259,7 +256,6 @@ class TaskController < ApplicationController
         :include => [:profile], 
         :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", params[:course_id]]
       )
-      #@people = Profile.find(:all, :joins=>"INNER JOIN participants ON participants.object_id = #{params[:course_id]} AND participants.object_type = 'Course' AND participants.profile_id = profiles.id AND participants.profile_type = 'S' AND participants.profile_id != #{current_user.id}")
       render :partial => "/task/course_peoples"
     end
   end

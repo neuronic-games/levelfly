@@ -213,6 +213,7 @@ $(document).ready(function(){
   
   //For updating outcomes (in course view screen)
   $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
+    showSpinner(true);
     var outcome_id = $(this).attr('rel');
     var outcome = $(this).val();
     var dataString = 'outcome_id=' + outcome_id + '&outcome=' + outcome
@@ -225,7 +226,7 @@ $(document).ready(function(){
         dataType:"json",
         success: function(data) {
           if (data) {
-            // To Do
+            showSpinner(false);
           } else {
             alert("ERROR");
           }
@@ -237,6 +238,7 @@ $(document).ready(function(){
   
   //For updating categories (in course view screen)
   $('input[name="loaded_categories[]"]').unbind('blur').bind('blur', function(){
+    showSpinner(true);
     var category_id = $(this).attr('rel');
     var category = $(this).val();
     var dataString = 'category_id=' + category_id + '&category=' + category
@@ -249,7 +251,7 @@ $(document).ready(function(){
         dataType:"json",
         success: function(data) {
           if (data) {
-           // To Do
+           showSpinner(false);
           } else {
             alert("ERROR");
           }
@@ -261,6 +263,7 @@ $(document).ready(function(){
   
   //List people (participants)
   $("#btn_add_people").click(function() {
+    showSpinner(true);
     $("#participant_list").show();
     $("#participant_list_inner").html("Loading...");
     text = $("#add_people_text").val();
@@ -277,6 +280,7 @@ $(document).ready(function(){
           } else {
             alert("ERROR");
           }
+          showSpinner(false);
         }
       }); 
     }
@@ -284,6 +288,7 @@ $(document).ready(function(){
   
   //Add people (participant) to course
   $("#participant_list").delegate(".people_node li", "click", function(){
+    showSpinner(true);
     course_id = $("#course_id_hdn").val();
     profile_id = $(this).attr("id");
     profile_name = $(this).text();
@@ -314,6 +319,7 @@ $(document).ready(function(){
               $("#participant_list").hide();
             }
           }
+          showSpinner(false);
         }
       }); 
     }
@@ -321,7 +327,7 @@ $(document).ready(function(){
   
   //Delete participant 
   $(".people_node li").delegate(".people_delete a", "click", function(){
-    //alert($(this).attr("rel"));
+    showSpinner(true);
     profile_id = $(this).attr("rel");
     course_id = $("#course_id_hdn").val(); 
     dataString = {course_id:course_id, profile_id:profile_id};
@@ -336,6 +342,7 @@ $(document).ready(function(){
           } else {
             alert("ERROR");
           }
+          showSpinner(false);
         }
       });
     }
@@ -354,7 +361,7 @@ $(document).ready(function(){
   
   //Remove outcome nodes
   $("#btn_outcome_remove").unbind('click').bind("click", function(){
-    
+    showSpinner(true);
     var outcome_id = []
     i = 0
     $("input[name='chk_outcome[]']").each(function(){
@@ -374,7 +381,7 @@ $(document).ready(function(){
       data: dataString,
       dataType:"json",
       success: function(data) {
-        
+        showSpinner(false);
       }
     });  
   });
@@ -392,7 +399,7 @@ $(document).ready(function(){
   
   //Remove category nodes
   $("#btn_category_remove").unbind('click').bind("click", function(){
-    
+    showSpinner(true);
     var category_id = []
     i = 0
     $("input[name='chk_categories[]']").each(function(){
@@ -412,14 +419,14 @@ $(document).ready(function(){
       data: dataString,
       dataType:"json",
       success: function(data) {
-        
+        showSpinner(false);
       }
     });  
   });
   
   //Post Message
   $('.right_form_container').delegate('.sbmt_msg', 'click', function(){
-  //$(".sbmt_msg").unbind('click').bind("click", function() {
+    showSpinner(true);
     parent_id = $(this).attr("id");
     parent_type = $(this).attr("rel");
     text = $(this).attr("title");
@@ -439,12 +446,14 @@ $(document).ready(function(){
           $("#post_comment_"+parent_id).hide();
           $("#messsage_box_"+parent_id).append(data);
         }
+        showSpinner(false);
       }
     });  
   });
   
   //Like/Unlike a message or comment
   $('.message_wrapper').delegate('.like', 'click', function(){
+    showSpinner(true);
     if(this.id){
       action = $(this).attr('rel');
       controller = this;
@@ -459,6 +468,7 @@ $(document).ready(function(){
             $(controller).text(data.action.toUpperCase());
             $('#count_'+controller.id).html(data.count);
           }
+          showSpinner(false);
         }
       });
     }
@@ -485,6 +495,7 @@ $(document).ready(function(){
   course_uploader.init();
   
   course_uploader.bind('FilesAdded', function(up, files) {
+    showSpinner(true);
     course_uploader.settings.multipart_params.course = getStorage("course_name");
     course_uploader.settings.multipart_params.code = getStorage("course_code");
     course_uploader.settings.multipart_params.descr = getStorage("course_descr");
@@ -501,12 +512,14 @@ $(document).ready(function(){
     course_uploader.settings.multipart_params.id = obj.course.id;
     $('#course_id_hdn').val(obj.course.id);
     $('#course_image').html(courseImg);
+    showSpinner(false);
   });
   
 });
 
 //Save course
 function save_course(channel) {
+  showSpinner(true);
   //Get data from offline storage
   course_id = $("#course_id_hdn").val();
   course = getStorage("course_name");
@@ -540,11 +553,14 @@ function save_course(channel) {
       if (data) {
         $("#course_id_hdn").val(data.course.id);
         if(channel=="btn_course") {
-          $("#container").load('/course/index');
+          $("#container").load('/course/index', function(){
+            showSpinner(false);
+          });
         }
         $("#hdn_is_page_change").val(false);
       } else {
         alert("ERROR");
+        showSpinner(false);
       }
     }
   });  

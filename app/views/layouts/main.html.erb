@@ -63,6 +63,7 @@
     <div id="container">
       <%= yield %>
     </div><!-- container -->
+    <div id="waiting" class="waiting"><img src="/images/ajax-loader.gif"></div>
   </div><!-- wrapper -->
 </body>
 <script type="text/javascript">
@@ -77,27 +78,12 @@
     
     //Home switch
     $("#btn_home").live("click",function(){
-      //$("#crud_level").fadeOut($("#root_level").fadeIn());
       $("#container").html("");
     });
     
-    //Crud level switch
-    /*
-    $(".root").live("click",function(){
-      var rel = $(this).attr("rel");
-      $("#menu_btn_add, #menu_btn_hide, #menu_btn_fav, #menu_btn_print").removeAttr("rel");
-      if(rel) {
-        $("#menu_btn_add").attr("rel",rel+"new");
-        $("#menu_btn_dup").attr("rel",rel+"duplicate");
-        $("#menu_btn_hide").attr("rel",rel+"hide");
-        $("#menu_btn_fav").attr("rel",rel+"fav");
-        $("#menu_btn_print").attr("rel",rel+"print");
-      }
-      //$("#root_level").fadeOut($("#crud_level").fadeIn());
-    });
-    */
     //Fill up the #container with according call
     $(".menu_btn").live("click",function(){
+      showSpinner(true);
       var target = $(this).attr("rel");
       var data = $(this).attr("data");
       if(target) {
@@ -111,6 +97,7 @@
             } else {
               alert("ERROR");
             }
+            showSpinner(false);
           }
         });
       }

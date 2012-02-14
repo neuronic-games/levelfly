@@ -20,7 +20,7 @@
 <script type="text/javascript">
 <!--
   $('#btn_msg_send').click(function(){
-    alert("clicked");
+    showSpinner(true);
     profile_id = $(this).attr('rel');
     if(profile_id) {
       message = $('#message_'+profile_id).val();
@@ -41,6 +41,7 @@
             $('#frnd_msg').hide();
             $('#frnd_root_btn').show();
           }
+          showSpinner(false);
         }
       });
     }
