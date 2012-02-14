@@ -4,7 +4,7 @@ class MessageController < ApplicationController
   
   def index
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
-    @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?)", wall_ids, false])
+    @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend'", wall_ids, false])
     @friend_requests = Message.find(:all, :conditions=>["message_type ='Friend' AND parent_id = ? AND (archived is NULL or archived = ?)", user_session[:profile_id], false])
     @friend = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", user_session[:profile_id]])
     render :partial => "list"
@@ -98,16 +98,39 @@ class MessageController < ApplicationController
               end
               @message.archived = true
               @message.save
+              render :partial => "friend_list", :locals=>{:friend=>@friend_participant}
             end
           else
             @message.archived = true
             @message.save
+            render :nothing=>true
           end
         end
       end
     end
-    #render :text => {"status"=>"done"}.to_json
-    render :partial => "friend_list", :locals=>{:friend=>@friend_participant}
+    
+  end
+  
+  def unfriend
+    status = false
+    if params[:profile_id] && ![:profile_id].nil?
+      @friend_participant = Participant.find(
+        :first, 
+        :conditions=>["object_id = ? AND profile_id = ? AND profile_type = 'F'", user_session[:profile_id], params[:profile_id]]
+      )
+      if @friend_participant
+        @friend_participant.delete
+        @participant = Participant.find(
+          :first, 
+          :conditions=>["object_id = ? AND profile_id = ? AND profile_type = 'F'",params[:profile_id] , user_session[:profile_id]]
+        )
+        if @participant
+          @participant.delete
+        end
+        status = true
+      end
+    end
+    render :text => {"status"=>status}.to_json
   end
   
   def add_note

@@ -1,0 +1,18 @@
+<ul class="people_node">
+<% if !peoples.empty? %>
+  <% if mode == "list" %>
+    <% peoples.each do |p| %>
+      <li class="<%= cycle("even", "odd") %>" id="<%=p.id%>">
+        <div class="people_name"><%=p.full_name%></div>
+        <div class="people_delete">
+          <a href="javascript:void(0)" rel="<%=p.id%>" >Delete</a>
+        </div>
+      </li>
+    <% end %>
+  <% else %>
+    <% peoples.each do |p| %>
+      <li class="<%= cycle("even", "odd") %>" id="<%=p.id%>"> <%=p.full_name%> </li>
+    <% end %>
+  <% end %>
+<% end %>
+</ul>

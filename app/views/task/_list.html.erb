@@ -43,10 +43,13 @@
 <script type="text/javascript">
   //prepare show links
   $('a.view').click(function() { 
-    $("#container").load(this.href);
-    task_id = $(this).attr("id");
-    $("#menu_btn_dup").attr("data","id="+task_id);
-    $("#menu_btn_dup").show();
+    showSpinner(true);
+    $("#container").load(this.href, function(){
+      task_id = $(this).attr("id");
+      $("#menu_btn_dup").attr("data","id="+task_id);
+      $("#menu_btn_dup").show();
+      showSpinner(false);
+    });
     return false; 
   });
 </script>

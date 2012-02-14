@@ -1,7 +1,7 @@
 class CourseController < ApplicationController
   layout 'main'
   before_filter :authenticate_user!
-  
+
   def index
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if @profile
@@ -13,11 +13,13 @@ class CourseController < ApplicationController
       #Set AWS credentials
       set_aws_vault(@profile.school.vaults[0]) if @profile.school
     end
+    
     @courses = Course.find(
       :all, 
       :include => [:participants], 
       :conditions => ["participants.profile_id = ?", @profile.id]
     )
+    
     respond_to do |wants|
       wants.html do
         if request.xhr?
@@ -31,7 +33,6 @@ class CourseController < ApplicationController
   
   def new
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    @people = Profile.find(:all, :conditions => ["user_id != ? AND school_id = ?", current_user.id, @profile.school_id ])
     respond_to do |wants|
       wants.html do
         if request.xhr?
@@ -47,7 +48,7 @@ class CourseController < ApplicationController
     @course = Course.find_by_id(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @wall = Wall.find(:first,:conditions=>["parent_id = ? AND parent_type='Course'", @course.id])
-    @people = Profile.find(
+    @peoples = Profile.find(
       :all, 
       :include => [:participants], 
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @course.id]
@@ -124,55 +125,61 @@ class CourseController < ApplicationController
           )
         end
       end
-      
-      if params[:people_id] && !params[:people_id].empty?
-        peoples_array = params[:people_id].split(",")
-        peoples_email_array = params[:people_email].split(",")
-        peoples_email_array.each do |p_email|
-          user = User.find(:first, :conditions=>["email = ?", p_email])
-          if(user)
-            profile = Profile.find(:first, :conditions=>["user_id = ?", user.id])
-            peoples_array.push(profile.id)
-          else
-            @user =  User.create(
-              :email => p_email, 
-              :password => Devise.friendly_token[0,20], 
-              :confirmed_at => DateTime.now
-            )
-            if @user.save!
-              @profile = Profile.create(
-                :user_id => @user.id, 
-                :school_id => @course.school_id,
-                :name => @user.email, 
-                :full_name => @user.email
-              )
-              if @profile.save!
-                peoples_array.push(@profile.id)
-              end
-            end
-          end
-        end
-        # Participant record for student (looping on coming people_id)
-        peoples_array.each do |p_id|
-          participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", @course.id, p_id])
-          if !participant
-            @participant = Participant.new
-            @participant.object_id = @course.id
-            @participant.object_type = "Course"
-            @participant.profile_id = p_id
-            @participant.profile_type = "S"
-            if @participant.save
-              Feed.create(
-                :profile_id => @participant.profile_id,
-                :wall_id =>wall_id
-              )
-            end
-          end
-        end
-      end
       image_url = params[:file] ? @course.image.url : ""
     end
     render :text => {"course"=>@course, "image_url"=>image_url}.to_json
+  end
+  
+  def get_participants
+    if params[:school_id] && !params[:school_id].empty?
+      search_text =  "#{params[:search_text]}%"
+      @peoples = Profile.find(:all, :conditions => ["user_id != ? AND school_id = ? AND (name LIKE ? OR full_name LIKE ?)", current_user.id, params[:school_id],search_text,search_text])
+      if !@peoples.empty?
+        render :partial=>"participant_list", :locals=>{:peoples=>@peoples, :mode=>"result" }
+      else
+        render :text=> "No match found"
+      end
+    else
+      render :text=> "Error: Parameters missing !!"
+    end
+  end
+  
+  def add_participant
+    status = false
+    already_added = false
+    if params[:profile_id] && params[:course_id]
+      participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", params[:course_id], params[:profile_id]])
+      if !participant_exist
+        @participant = Participant.new
+        @participant.object_id = params[:course_id]
+        @participant.object_type = "Course"
+        @participant.profile_id = params[:profile_id]
+        @participant.profile_type = "S"
+        if @participant.save
+          wall_id = Wall.get_wall_id(params[:course_id],"Course")
+          Feed.create(
+            :profile_id => params[:profile_id],
+            :wall_id =>wall_id
+          )
+          status = true
+        end
+      else 
+          already_added = true
+      end
+    end
+    render :text => {"status"=>status, "already_added" => already_added}.to_json
+  end
+  
+  def delete_participant
+    status = false
+    if params[:profile_id] && params[:course_id]
+      participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ? ", params[:course_id], params[:profile_id]]) 
+      if participant
+        participant.delete
+        status = true
+      end
+    end
+    render :text => {"status"=>status}.to_json
   end
   
   def remove_course_outcomes

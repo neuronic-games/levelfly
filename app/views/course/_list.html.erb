@@ -32,9 +32,12 @@
 <!--
 $(document).ready(function(){
   //prepare show links
-  $('a.view').click(function() { 
-    $("#container").load(this.href); 
-    $("#menu_btn_dup").show(); 
+  $('a.view').click(function() {
+    showSpinner(true);
+    $("#container").load(this.href, function(){
+      $("#menu_btn_dup").show();
+      showSpinner(false);
+    }); 
     return false; 
   });
 });

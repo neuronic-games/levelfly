@@ -25,6 +25,7 @@
 <script type="text/javascript">
 <!--
 $('.friend-request').click(function(){
+  showSpinner(true);
   message_id = this.id;
   action = $(this).attr('rel');
   var dataString = {message_id:message_id, activity:action};
@@ -36,9 +37,12 @@ $('.friend-request').click(function(){
       data: dataString,
       success: function(data) {
         if (data) {
-          $('#request_box_'+message_id).fadeOut(1500);
-          $('#friend_list').append(data);
+          $('#request_box_'+message_id).remove();
+          if(action == "add") {
+            $('#friend_list').append(data);
+          }
         }
+        showSpinner(false);
       }
     });
   }

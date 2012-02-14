@@ -218,6 +218,16 @@ float:left;
   margin:5px 10px;
   word-spacing:2px;
 }
+.waiting {
+  position: absolute;
+  top: 0px;
+  left: 180px;
+  width: 1000px;
+  height: 470px;
+  text-align: center;
+  visibility: hidden;
+  padding-top:280px;
+}
 .marked_item {
   background-color:#A9A9A9;
   color:#fff
@@ -324,6 +334,15 @@ float:left;
   float:left;
   width:210px;
 }
+#participant_list {
+  border:1px solid #A9A9A9;
+  width:500px;
+  height:400px;
+  overflow:auto;
+  position:absolute;
+  margin-left:100px;
+  background:#fff;padding:10px;
+}
 .thumbnail_large {
   float:left;
   width:125px;
@@ -367,7 +386,7 @@ div .small_label {
 }
 div .frm_input {
   float:left;
-  width:400px;
+  width:415px;
   margin-top:20px;
 }
 div .frm_button{
@@ -436,16 +455,32 @@ input[type=button] {
 input[type=file] {
   border:none;
 }
+.people_node {
+  margin:0px;
+  padding:0px;
+}
+.people_node li{
+  list-style:none;
+  line-height:30px;
+}
+.people_name {
+  width:200px;
+  float:left;
+}
+.people_delete {
+  width:60px;
+  float:right;
+}
 table .tbl_header {
   background-color:#A9A9A9;
   color:#fff;
   padding:2px;
 }
 
-table .even {
+.even {
   background-color:#fff;
 }
-table .odd {
+.odd {
   background-color:#EDEDED;
 }
 
@@ -514,6 +549,9 @@ table .odd {
   float:right;
   width:140px;
   text-align:right;
+}
+.profile {
+  cursor:pointer;
 }
 #links span{
   padding-left:5px;

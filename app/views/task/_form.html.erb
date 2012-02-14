@@ -141,6 +141,9 @@ function addNode(element) {
             <%= render :partial => "course_peoples" %>
           <% end %>
         </div>
+        <div class="frm_input" id="add_task_people_container" style="padding-left:22px;">
+          <input type="text" name="add_task_people_email[]" value="Type in email to add" class="medium node" id="add_task_people_email_1"/>
+        </div>
       </div>
       <div id="div_4" class="form_container hide">
         <% if @task %>
@@ -251,6 +254,7 @@ $(document).ready(function(){
   
   //Submit data
   $("#btn_task").unbind('click').bind('click', function(){
+    showSpinner(true);
     //Get data from offline storage
     task_id = $("#task_id_hdn").val();
     task = getStorage("task_name");
@@ -302,13 +306,14 @@ $(document).ready(function(){
         } else {
           alert("ERROR");
         }
+        showSpinner(false);
       }
     });  
     return false;  
   });
   
   $("#course").unbind('change').bind( "change", function(){
-    //alert($(this).val()); return false;
+    showSpinner(true);
     courseId = $(this).val();
     //To fill out the categories
     $.get('/task/course_categories/', {course_id:courseId}, function(data) {
@@ -325,6 +330,7 @@ $(document).ready(function(){
           $('#participants_container').html(data);
         });
       });
+      showSpinner(false);
     });
   });
   
@@ -380,9 +386,9 @@ $(document).ready(function(){
     
     //For file uploads
     var base_params = {
-        'authenticity_token' : token,  //For csrf-authentication
-        'school_id' : $("#task_school_id_hdn").val(),
-        'id' : $("#task_id_hdn").val()
+      'authenticity_token' : token,  //For csrf-authentication
+      'school_id' : $("#task_school_id_hdn").val(),
+      'id' : $("#task_id_hdn").val()
     }
     
     //Uploader task image upload
@@ -402,6 +408,7 @@ $(document).ready(function(){
     task_uploader.init();
     
     task_uploader.bind('FilesAdded', function(up, files) {
+      showSpinner(true);
       //files[0].name = 'task_'+getStorage("task_name")+'_'+files[0].name;
       task_uploader.settings.multipart_params.task = getStorage("task_name");
       task_uploader.settings.multipart_params.course_id = getStorage("task_course");
@@ -420,6 +427,7 @@ $(document).ready(function(){
       task_uploader.settings.multipart_params.id = obj.task.id;
       $('#task_id_hdn').val(obj.task.id);
       $('#task_image').html(taskImg);
+      showSpinner(false);
     });
     
     //Uploader file (Attachments) upload
@@ -435,6 +443,7 @@ $(document).ready(function(){
     uploader.init();
     
     uploader.bind('FilesAdded', function(up, files) {
+      showSpinner(true);
       for (var i in files) {
         var item = '<li id="item_'+files[i].id+'"><div class="file_name" id="filename_'+files[i].id+'">'+files[i].name+'</div><div class="file_remove" id="fileremove_'+files[i].id+'"></div></li>';
         $('#filelist').append(item);
@@ -471,6 +480,7 @@ $(document).ready(function(){
       $('#filename_'+file.id).html('<a href="'+ obj.resource_url +' " target="_blank">' + obj.attachment.resource_file_name + '</a>');
       $('#fileremove_'+file.id).html('<a href="javascript:void(0)" class="remove_resource" id="' + obj.attachment.id + '"> Remove </a>');
       $('#item_'+file.id).attr('id', 'item_'+obj.attachment.id);
+      showSpinner(false);
     });
     
   }); // $(function) ends
@@ -485,6 +495,7 @@ $(document).ready(function(){
   
   //Post Message
   $('#div_4').delegate('.sbmt_msg', 'click', function(){
+    showSpinner(true);
     parent_id = $(this).attr("id");
     parent_type = $(this).attr("rel");
     text = $(this).attr("title");
@@ -504,12 +515,14 @@ $(document).ready(function(){
           $("#post_comment_"+parent_id).hide();
           $("#messsage_box_"+parent_id).append(data);
         }
+        showSpinner(false);
       }
     });  
   });
   
   //Like/Unlike a message or comment
   $('.message_wrapper').delegate('.like', 'click', function(){
+    showSpinner(true);
     if(this.id){
       action = $(this).attr('rel');
       controller = this;
@@ -524,6 +537,7 @@ $(document).ready(function(){
             $(controller).text(data.action.toUpperCase());
             $('#count_'+controller.id).html(data.count);
           }
+          showSpinner(false);
         }
       });
     }

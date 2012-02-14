@@ -39,9 +39,9 @@
 </div>
 <script type="text/javascript">
 <!-- 
-//Post Message
+  //Post Message
   $('.message_wrapper').delegate('.sbmt_msg', 'click', function(){
-  //$(".sbmt_msg").unbind('click').bind("click", function() {
+    showSpinner(true);
     parent_id = $(this).attr("id");
     parent_type = $(this).attr("rel");
     text = $(this).attr("title");
@@ -61,12 +61,14 @@
           $("#message_wrapper").append(data);
           $("#msg_input").fadeOut();
         }
+        showSpinner(false);
       }
     });  
   });
   
   //Like/Unlike a message or comment
   $('.message_wrapper').delegate('.like', 'click', function(){
+    showSpinner(true);
     if(this.id){
       action = $(this).attr('rel');
       controller = this;
@@ -81,12 +83,14 @@
             $(controller).text(data.action.toUpperCase());
             $('#count_'+controller.id).html(data.count);
           }
+          showSpinner(false);
         }
       });
     }
   });
   
   $('.message_wrapper').delegate('.profile', 'click', function(){
+    showSpinner(true);
     $.ajax({  
       type: "POST",  
       url: "/message/add_friend_card",
@@ -96,6 +100,7 @@
           $('#avatar_card').html(data);
           $('#avatar_card').show();
         }
+        showSpinner(false);
       }
     });
   });
