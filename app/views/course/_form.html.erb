@@ -87,7 +87,7 @@
         <div class="frm_input">
           <% if @course %>
             <% @course.outcomes.each do |o| %>
-              <div style="margin-top:5px;" id="outcome_div_<%=o.id%>">
+              <div style="margin-top:5px;" id="outcome_div_<%=o.id%>" class="outcome_div">
                 <input type="checkbox" name="chk_outcome[]"  id="<%=o.id%>" value="<%=o.id%>" />
                 <input type="text" name="loaded_outcomes[]" value="<%= o.name %>" rel="<%=o.id%>" class="medium" /> &nbsp;&nbsp;
               </div>
@@ -213,23 +213,24 @@ $(document).ready(function(){
   
   //For updating outcomes (in course view screen)
   $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
-    showSpinner(true);
     var outcome_id = $(this).attr('rel');
     var outcome = $(this).val();
-    var dataString = 'outcome_id=' + outcome_id + '&outcome=' + outcome
+    var dataString = 'outcome_id=' + outcome_id + '&outcome=' + outcome;
     if(outcome_id) {
+      showSpinner(true);
       //alert (dataString);return false;
       $.ajax({  
         type: "POST",  
         url: "/course/update_course_outcomes",  
         data: dataString,
-        dataType:"json",
+        error: function(){alert("Error");showSpinner(false);},
         success: function(data) {
           if (data) {
-            showSpinner(false);
+            // TO DO
           } else {
             alert("ERROR");
           }
+          showSpinner(false);
         }
       });  
       return false; 
@@ -238,23 +239,23 @@ $(document).ready(function(){
   
   //For updating categories (in course view screen)
   $('input[name="loaded_categories[]"]').unbind('blur').bind('blur', function(){
-    showSpinner(true);
     var category_id = $(this).attr('rel');
     var category = $(this).val();
     var dataString = 'category_id=' + category_id + '&category=' + category
     if(category_id) {
+      showSpinner(true);
       //alert (dataString);return false;
       $.ajax({  
         type: "POST",  
         url: "/course/update_course_categories",  
         data: dataString,
-        dataType:"json",
         success: function(data) {
           if (data) {
-           showSpinner(false);
+           // TO DO
           } else {
             alert("ERROR");
           }
+          showSpinner(false);
         }
       });  
       return false; 
@@ -263,26 +264,30 @@ $(document).ready(function(){
   
   //List people (participants)
   $("#btn_add_people").click(function() {
-    showSpinner(true);
-    $("#participant_list").show();
-    $("#participant_list_inner").html("Loading...");
     text = $("#add_people_text").val();
     school_id = $("#course_school_id_hdn").val();
     dataString = {school_id:school_id, search_text:text};
-    if (school_id && text!="") {
-      $.ajax({  
-        type: "POST",  
-        url: "/course/get_participants",  
-        data: dataString,
-        success: function(data) {
-          if (data) {
-            $("#participant_list_inner").html(data);
-          } else {
-            alert("ERROR");
+    if (text!="") {
+      if(school_id) {
+        showSpinner(true);
+        $("#participant_list").show();
+        $("#participant_list_inner").html("Loading...");
+        $.ajax({  
+          type: "POST",  
+          url: "/course/get_participants",  
+          data: dataString,
+          success: function(data) {
+            if (data) {
+              $("#participant_list_inner").html(data);
+            } else {
+              alert("ERROR");
+            }
+            showSpinner(false);
           }
-          showSpinner(false);
-        }
-      }); 
+        });
+      }
+    } else {
+      alert("Please insert participant name");
     }
   });
   

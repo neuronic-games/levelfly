@@ -4,22 +4,30 @@ class CourseController < ApplicationController
 
   def index
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    if @profile
-      user_session[:profile_id] = @profile.id
-      user_session[:profile_name] = @profile.full_name
-      user_session[:profile_major] = @profile.major.name if @profile.major
-      user_session[:profile_school] = @profile.school.code if @profile.school
-      user_session[:vault] = @profile.school.vaults[0].folder if @profile.school
-      #Set AWS credentials
-      set_aws_vault(@profile.school.vaults[0]) if @profile.school
-    end
-    
-    @courses = Course.find(
-      :all, 
-      :include => [:participants], 
-      :conditions => ["participants.profile_id = ?", @profile.id]
-    )
-    
+    if params[:search_text]
+      search_text =  "#{params[:search_text]}%"
+      @courses = Course.find(
+        :all,
+        :include => [:participants], 
+        :conditions => ["participants.profile_id = ? AND (courses.name LIKE ? OR courses.code LIKE ?)", @profile.id, search_text,  search_text]
+      )
+    else
+      if @profile
+        user_session[:profile_id] = @profile.id
+        user_session[:profile_name] = @profile.full_name
+        user_session[:profile_major] = @profile.major.name if @profile.major
+        user_session[:profile_school] = @profile.school.code if @profile.school
+        user_session[:vault] = @profile.school.vaults[0].folder if @profile.school
+        #Set AWS credentials
+        set_aws_vault(@profile.school.vaults[0]) if @profile.school
+      end
+      
+      @courses = Course.find(
+        :all, 
+        :include => [:participants], 
+        :conditions => ["participants.profile_id = ?", @profile.id]
+      )
+    end  
     respond_to do |wants|
       wants.html do
         if request.xhr?
