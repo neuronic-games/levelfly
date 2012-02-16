@@ -42,7 +42,7 @@
 $(document).ready(function(){
   //List item selectable
   $('.row_container').delegate('li', 'click', function(){
-    
+    showSpinner(true);
     var wardrobe_item_id = $(this).attr('id');
     var level = parseInt($(this).attr('rel'));
     var level_container = level + 1;
@@ -83,8 +83,11 @@ $(document).ready(function(){
         data: data,
         success: function(data){
           $('#wi_level_'+level_container).html(data);
+          showSpinner(false);
         }
       });
+    } else {
+      showSpinner(false);
     }
     $('#hdn_edit_id').val(wardrobe_item_id);
   }); // Li select ends
@@ -105,6 +108,7 @@ $(document).ready(function(){
  
   //Add/Edit Call
   $('#btn_add, #btn_edit').unbind('click').bind('click', function(){
+    showSpinner(true);
     var target = $(this).attr('rel');
     var wardrobe_id = $('#wardrobe_id').val();
     var wardrobe_item_id = $('#hdn_edit_id').val();
@@ -123,6 +127,7 @@ $(document).ready(function(){
           } else {
             alert("Error");
           }
+          showSpinner(false);
         }
       });
     }
@@ -131,6 +136,7 @@ $(document).ready(function(){
 
 //Saving sort order Ajax call
 function saveSortOrder() {
+  showSpinner(true);
   var items_ids = new Array();
   i = 0
   $('#wi_level_2 li').each(function(){
@@ -151,6 +157,7 @@ function saveSortOrder() {
         } else {
           alert("Error");
         }
+        showSpinner(false);
       }
     });
   }

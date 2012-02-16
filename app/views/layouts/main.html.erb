@@ -41,6 +41,30 @@
           <%=user_session[:profile_major]%>, <%=user_session[:profile_school]%>
         </div>
       </div><!-- avatar_info -->
+      <div id="search_panel">
+        <form id="frm_search" >
+          <span>
+              <input type="text" name="search_text" id="search_input" value="Find Course" /> 
+          </span>
+          <span>
+            <a href="javascript:void(0)" onClick="$('#search_options').toggle();">Change</a>
+          </span>
+        </form>
+        <div id="search_options" class="hide">
+          <li rel="/course/">
+            Find Course
+          </li>
+          <li rel="/task/">
+            Find Task
+          </li>
+          <li rel="/message/">
+            Find Message
+          </li>
+          <li rel="/friend/">
+            Find Friend
+          </li>
+        </div>
+      </div>
     </div><!-- header -->
     <div id="sidebar_left">
       <div id="sidebar_container">
@@ -69,20 +93,60 @@
 <script type="text/javascript">
 <!--
   var token = $("meta[name='csrf-token']").attr("content");
+  var search_arr = ["Find Friend","Find Course", "Find Task","Find Message"];
+  var search_url = "/course/";
+  var search_term;
   //Set CSRF Token (Required for ajax request (post))
   $(document).ajaxSend(function(e, xhr, options) {
     xhr.setRequestHeader("X-CSRF-Token", token);
   });
-
+  
   $(document).ready(function(){
     
-    //Home switch
-    $("#btn_home").live("click",function(){
-      $("#container").html("");
+    //Search option settings
+    $("#search_options li").bind("click",function(){
+      $("#search_input").val($.trim($(this).text()));
+      search_url = $(this).attr("rel");
+      $("#search_options").toggle();
+    });
+    
+    $("#search_input").bind("focus",function(){
+      if($.inArray($("#search_input").val(), search_arr)> -1) { 
+        search_term = $("#search_input").val();
+        $("#search_input").val("");
+      }
+    });
+    
+    $("#search_input").bind("focusout",function(){
+      if($("#search_input").val() == "") {
+        $("#search_input").val(search_term);
+      }
+    });
+    
+    $('#frm_search').submit(function() {
+      showSpinner(true);
+      search_text = $("#search_input").val();
+      if(search_url && search_text !="") {
+        dataString = {search_text : search_text}
+        $.ajax({
+          type: "POST",  
+          url: search_url,
+          data: dataString,
+          success: function(data) {
+            if (data) {
+              $("#container").html(data);
+            } else {
+              alert("ERROR");
+            }
+            showSpinner(false);
+          }
+        });
+      }
+      return false;
     });
     
     //Fill up the #container with according call
-    $(".menu_btn").live("click",function(){
+    $(".menu_btn").bind("click",function(){
       showSpinner(true);
       var target = $(this).attr("rel");
       var data = $(this).attr("data");
