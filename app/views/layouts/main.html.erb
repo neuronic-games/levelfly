@@ -28,7 +28,7 @@
   <div id="wrapper">
     <div id="header">
       <div id="avatar_thumb">
-        <img src="https://s3.amazonaws.com/<%=user_session[:vault]%>/avatar_thumb/avatar_<%=user_session[:profile_id]%>.jpg" />
+        <img  src="https://s3.amazonaws.com/<%=user_session[:vault]%>/avatar_thumb/avatar_<%=user_session[:profile_id]%>.jpg" />
       </div>
       <div id="avatar_info">
         <div id="avatar_name">
@@ -44,7 +44,10 @@
       <div id="search_panel">
         <form id="frm_search" >
           <span>
-              <input type="text" name="search_text" id="search_input" value="Find Course" /> 
+            <div id="clear_search" class="menu_btn hide">
+              X
+            </div>
+            <input type="text" name="search_text" id="search_input" value="Find Course" />
           </span>
           <span>
             <a href="javascript:void(0)" onClick="$('#search_options').toggle();">Change</a>
@@ -95,7 +98,7 @@
   var token = $("meta[name='csrf-token']").attr("content");
   var search_arr = ["Find Friend","Find Course", "Find Task","Find Message"];
   var search_url = "/course/";
-  var search_term;
+  var search_term = $("#search_input").val();
   //Set CSRF Token (Required for ajax request (post))
   $(document).ajaxSend(function(e, xhr, options) {
     xhr.setRequestHeader("X-CSRF-Token", token);
@@ -123,10 +126,11 @@
       }
     });
     
+    // Search form post when enter pressed
     $('#frm_search').submit(function() {
-      showSpinner(true);
       search_text = $("#search_input").val();
       if(search_url && search_text !="") {
+        showSpinner(true);
         dataString = {search_text : search_text}
         $.ajax({
           type: "POST",  
@@ -135,6 +139,8 @@
           success: function(data) {
             if (data) {
               $("#container").html(data);
+              $("#clear_search").show();
+              $("#clear_search").attr("rel", search_url);
             } else {
               alert("ERROR");
             }
@@ -146,27 +152,40 @@
     });
     
     //Fill up the #container with according call
-    $(".menu_btn").bind("click",function(){
-      showSpinner(true);
+    $("#search_panel, #root_level, #container").delegate(".menu_btn", "click",function(){
       var target = $(this).attr("rel");
       var data = $(this).attr("data");
-      if(target) {
-        $.ajax({
-          type: "GET",  
-          url: target,
-          data: data,
-          success: function(data) {
-            if (data) {
-              $("#container").html(data);
-            } else {
-              alert("ERROR");
-            }
-            showSpinner(false);
-          }
-        });
-      }
+      load_data(target,data);
     });
   }); //document.ready
+  
+  $(document).keyup(function(e) {
+    if (e.keyCode == 27) { // Esc button pressed to clear the search
+      load_data(search_url, "")
+    }
+  });
+  
+  //Load data for different results like Course listing, Task listing, Add course, Add task, Search results etc.
+  function load_data(target, data) {
+    if(target) {
+      $("#clear_search").hide();
+      $("#search_input").val(search_term);
+      showSpinner(true);
+      $.ajax({
+        type: "GET",  
+        url: target,
+        data: data,
+        success: function(data) {
+          if (data) {
+            $("#container").html(data);
+          } else {
+            alert("ERROR");
+          }
+          showSpinner(false);
+        }
+      });
+    }
+  }
 -->
 </script>
 </html>

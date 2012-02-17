@@ -4,11 +4,20 @@ class TaskController < ApplicationController
   
   def index
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    @tasks = Task.find(
-      :all, 
-      :include => [:participants], 
-      :conditions => ["participants.profile_id = ?", @profile.id]
-    )
+    if params[:search_text]
+      search_text =  "#{params[:search_text]}%"
+      @tasks = Task.find(
+        :all, 
+        :include => [:participants], 
+        :conditions => ["participants.profile_id = ? AND (tasks.name LIKE ?)", @profile.id, search_text]
+      )
+    else 
+      @tasks = Task.find(
+        :all, 
+        :include => [:participants], 
+        :conditions => ["participants.profile_id = ?", @profile.id]
+      )
+    end
     respond_to do |wants|
       wants.html do
         if request.xhr?
