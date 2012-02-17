@@ -524,7 +524,6 @@ $(document).ready(function(){
 
 //Save course
 function save_course(channel) {
-  showSpinner(true);
   //Get data from offline storage
   course_id = $("#course_id_hdn").val();
   course = getStorage("course_name");
@@ -548,7 +547,8 @@ function save_course(channel) {
   });
   
   var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id;  
-  //alert (dataString);return false;  
+  //alert (dataString);return false;
+  showSpinner(true);
   $.ajax({
     type: "POST",  
     url: "/course/save",  
@@ -561,6 +561,8 @@ function save_course(channel) {
           $("#container").load('/course/index', function(){
             showSpinner(false);
           });
+        } else {
+          showSpinner(false);
         }
         $("#hdn_is_page_change").val(false);
       } else {
