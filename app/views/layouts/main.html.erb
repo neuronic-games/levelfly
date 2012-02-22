@@ -8,6 +8,7 @@
   
   <link rel="apple-touch-icon" href="/images/ios_icon.png">
   <link href='http://fonts.googleapis.com/css?family=Metrophobic' rel='stylesheet' type='text/css'>
+  <link type="text/css" rel="stylesheet" href="/stylesheets/style.css">
   <link href="/stylesheets/main_layout.css" media="screen" rel="stylesheet" type="text/css">
   <link href="/stylesheets/ui/jquery.ui.all.css" media="screen" rel="stylesheet" type="text/css">
   <link href="/stylesheets/ui/jquery.ui.autocomplete.css" media="screen" rel="stylesheet" type="text/css">
@@ -22,37 +23,42 @@
   <script type="text/javascript" src="/assets/fileupload/plupload.js"></script>
   <script type="text/javascript" src="/assets/fileupload/plupload.html5.js"></script>
   <script type="text/javascript" src="/assets/fileupload/jquery.plupload.queue.js"></script>
+  
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div id="wrapper">
-    <div id="header">
-      <div id="avatar_thumb">
-        <img  src="https://s3.amazonaws.com/<%=user_session[:vault]%>/avatar_thumb/avatar_<%=user_session[:profile_id]%>.jpg" />
+<div class="body_bg">
+  <div id="wrapper" class="wrapper">
+    <div class="header">
+      <div class="level_00">
+        <div class="head">Level</div>
+        <div class="count">05</div>
       </div>
-      <div id="avatar_info">
-        <div id="avatar_name">
-          <%=user_session[:profile_name]%>
+      <div class="avatar_box">
+        <div class="avatar">
+          <!-- img  src="https://s3.amazonaws.com/<%=user_session[:vault]%>/avatar_thumb/avatar_<%=user_session[:profile_id]%>.jpg" / -->
         </div>
-        <div id="logout">
-          <a href="/users/sign_out" data-method="delete" rel="nofollow">Logout</a>
+        <div class="avatar_detail">
+          <h1> <%=user_session[:profile_name]%></h1>
+          <h2><%=user_session[:profile_major]%>, <%=user_session[:profile_school]%></h2>
         </div>
-        <div id="avatar_major">
-          <%=user_session[:profile_major]%>, <%=user_session[:profile_school]%>
-        </div>
-      </div><!-- avatar_info -->
-      <div id="search_panel">
-        <form id="frm_search" >
-          <span>
-            <div id="clear_search" class="menu_btn hide">
+        <div class="clear"></div>
+      </div>
+      <div class="header_mid_box"></div>
+      <div class="header_search_box">
+        <div class="search_bg">
+          <form id="frm_search" >
+            <div id="clear_search" class="menu_btn hide" style="right:150px;display:block;margin-top:0px;">
               X
             </div>
-            <input type="text" name="search_text" id="search_input" value="Find Course" />
-          </span>
-          <span>
-            <a href="javascript:void(0)" onClick="$('#search_options').toggle();">Change</a>
-          </span>
-        </form>
+            <input name="search_text" id="search_input" type="text" value="Find Course" />
+          </form>
+        </div>
+        <div class="setting_box">
+          <a href="javascript:void(0)" onClick="$('#search_options').toggle();">
+            <img src="images/setting_icon.png" />
+          </a>
+        </div>
         <div id="search_options" class="hide">
           <li rel="/course/">
             Find Course
@@ -67,31 +73,46 @@
             Find Friend
           </li>
         </div>
+        <div class="clear"></div>
       </div>
-    </div><!-- header -->
-    <div id="sidebar_left">
-      <div id="sidebar_container">
-        <div id="sidebar_menu_top">
-        </div><!-- sidebar_menu_top -->
-        
-        <div id="sidebar_menu_bottom">
-          <div id="root_level">
-            <input type="button" name="menu_btn_courses" id="menu_btn_courses" rel="/message/" value="Messages" class="menu_btn"/>
-            <input type="button" name="menu_btn_courses" id="menu_btn_courses" rel="/course/" value="Courses" class="menu_btn"/>
-            <input type="button" name="menu_btn_tasks" id="menu_btn_tasks" rel="/task/" value="Tasks" class="menu_btn"/>
-            <input type="button" name="menu_btn_grades" id="menu_btn_grades" value="Grades"class="menu_btn" />
-            <input type="button" name="menu_btn_wardrobe" id="menu_btn_wardrobe" rel="/wardrobe/" value="Wardrobe"class="menu_btn"/>
-          </div><!-- root_level -->
-        </div><!-- sidebar_menu_bottom -->
-      </div><!-- sidebar_container -->
-    </div><!-- sidebar_left -->
-    <div id="slide_in_container">
+      <div class="clear"></div>
+    </div><!--header -->
+    <div>
+      <div class="left_nav_box">
+        <div class="nav_box" id="root_level">
+          <div class="leftnav_cover_emtysps">
+            <!--<a href="#" class="uparrow"></a>-->
+          </div>
+          <!--icon-->
+          <div class="space_btwn_icon"></div>
+          <div class="icon_box"><span class="msg_count">10</span><a href="#" rel="/message/" class="icon_msg_active menu_btn">messages</a> </div>
+          <div class="space_btwn_icon"></div>
+          <!--icon-->
+          <div class="icon_box"><a href="#" rel="/course/" class="icon_courses menu_btn">courses</a> </div>
+          <div class="space_btwn_icon"></div>
+          <!--icon-->
+          <div class="icon_box"> <a href="#" rel="/task/" class="icon_tasks menu_btn">tasks</a> </div>
+          <div class="space_btwn_icon"></div>
+          <!--icon-->
+          <div class="icon_box"> <a href="#" class="icon_networks menu_btn">networks</a> </div>
+          <div class="space_btwn_icon"></div>
+          <!--icon-->
+          <div class="icon_box"> <a href="#" rel="/wardrobe/" class="icon_stats menu_btn">stats</a> </div>
+          <div class="space_btwn_icon"></div>
+          <a href="#" class="downarrow"></a>
+        </div>
+      </div>
+      <div id="container" class="Main_content">
+        <%= yield %>
+      </div><!-- container -->
+      <div class="right_box">
+        <div class="heading_messages"><img src="images/messages_heading.png" /></div>
+      </div>
+      <div class="clear"></div>
     </div>
-    <div id="container">
-      <%= yield %>
-    </div><!-- container -->
     <div id="waiting" class="waiting"><img src="/images/ajax-loader.gif"></div>
   </div><!-- wrapper -->
+</div><!-- body_bg -->
 </body>
 <script type="text/javascript">
 <!--
@@ -152,7 +173,7 @@
     });
     
     //Fill up the #container with according call
-    $("#search_panel, #root_level, #container").delegate(".menu_btn", "click",function(){
+    $("#frm_search, #root_level, #container").delegate(".menu_btn", "click",function(){
       var target = $(this).attr("rel");
       var data = $(this).attr("data");
       load_data(target,data);

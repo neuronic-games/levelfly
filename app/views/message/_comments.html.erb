@@ -1,23 +1,20 @@
-<div class="comment_container">
-  <div class="comment_content">
-    <div id="content">
-      <%=comment.content%>
+<!--box 2nd-->
+<div class="msg_small_box">
+  <div class="avatar_green_bdr">
+    <!-- img src="https://s3.amazonaws.com/<%=comment.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=comment.profile.id%>.jpg" id="<%=comment.profile.id%>" class="profile"/ -->
+  </div>
+  <div class="msg_small_box_arrow"><img src="images/green_arrow.png" /></div>
+  <div class="msg_box_txt green_bg_msg_txt">
+    <p><strong><%=comment.profile.full_name%></strong> <%=comment.content%></p>
+    <div class="msg_bottom_links">
+      <div class="time"><%= time_ago_in_words(comment.created_at) %> ago</div>
+      <div class="like_cmt"><span class="fav_icon"><img src="images/fav.png" align="absbottom" /><span id="count_<%=comment.id%>"><%=comment.like%></span></span> 
+      <span id="link_<%=comment.id%>">
+        <a href="javascript:void(0)" class="blue_bt19px" rel="<%=user_like(comment.profile_id, comment.id) ? "unlike" : "like" %>" id="<%=comment.id%>"><%=user_like(comment.profile_id, comment.id) ? "UNLIKE" : "LIKE" %></a>
+      </span>
     </div>
-    <div id="info">
-      <div id="time">
-        <%= time_ago_in_words(comment.created_at) %> ago
-      </div>
-      <div id="links">
-        <span id="count_<%=comment.id%>">
-          <%=comment.like%>
-        </span>
-        <span id="link_<%=comment.id%>">
-          <a href="javascript:void(0)" class="like" rel="<%=user_like(comment.profile_id, comment.id) ? "unlike" : "like" %>" id="<%=comment.id%>"><%=user_like(comment.profile_id, comment.id) ? "UNLIKE" : "LIKE" %></a>
-        </span>
-      </div>
     </div>
   </div>
-  <div class="avatar_thumb_comment">
-    <img src="https://s3.amazonaws.com/<%=comment.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=comment.profile.id%>.jpg" id="<%=comment.profile.id%>" class="profile"/>
-  </div>
+  <div class="clear"></div>
 </div>
+<!--box 2nd-->
