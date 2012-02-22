@@ -1,11 +1,16 @@
-<div class="message_container friend_box" id="friend_box_<%=friend.profile_id%>">
-  <div class="avatar_thumb">
-    <img src="https://s3.amazonaws.com/<%=friend.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=friend.profile_id%>.jpg" id="<%=friend.profile_id%>" class="profile"/>
+<!--friend box-->
+<div class="friend_box" id="friend_box_<%=friend.profile_id%>">
+  <div class="avatar_green_bdr">
+    <!-- img src="https://s3.amazonaws.com/<%=friend.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=friend.profile_id%>.jpg" id="<%=friend.profile_id%>" class="profile"/ -->
   </div>
-  <div class="info_container">
-    <span><%=friend.profile.full_name%></span><br />
-    <span><%=friend.profile.major.name if friend.profile.major%></span>, &nbsp;<span><%=friend.profile.school.code%></span>
+  <div class="txt">
+    <p><b><%=friend.profile.full_name%></b></p>
+    <p><%=friend.profile.major.name if friend.profile.major%>, <%=friend.profile.school.code%></p>
+    <p>Messaged 3 hours ago</p>
+    <div class="spacebar10px"></div>
+    <div align="right" id="frnd_root_btn"><a href="#" class="blue_bt19px" onClick="javascript:$('#frnd_root_btn').hide();$('#frnd_msg').show();">messages</a></div>
   </div>
+  <div class="clear"></div>
   <div id="frnd_msg" class="hide">
     <textarea name="message" id="message_<%=friend.profile_id%>" class="msg_txt"></textarea>
     <div id="frnd_msg_btn" class="msg_btn">
@@ -13,10 +18,8 @@
       <input type="button" name="btn_msg_dnt_send" id="btn_msg_dnt_send" value="Don't Send" onClick="javascript:$('#frnd_msg').hide();$('#frnd_root_btn').show();"/>
     </div>
   </div>
-  <div id="frnd_root_btn" class="root_btn">
-    <input type="button" name="btn_msg" id="btn_msg" value="Message" onClick="javascript:$('#frnd_root_btn').hide();$('#frnd_msg').show();"/>
-  </div>
 </div>
+<!--friend box-->
 <script type="text/javascript">
 <!--
   $('#btn_msg_send').click(function(){

@@ -1,12 +1,7 @@
-<div class="screen_title">
-  VIEW MESSAGES
-</div>
-<div class="content_wrapper">
-  <div class="content_container">
+<div class="messages_content">
+  <div class="msg_content_left">
     <!-- Message -->
-    <div class="frm_input">
       <div id="message_wrapper" class="message_wrapper">
-        &nbsp;
         <% if @messages %>
           <% @messages.each do |message| %>
             <%= render :partial => "/message/messages", :locals => {:message=>message} %>
@@ -21,20 +16,20 @@
           <% end %>
         <% end %>
       </div>
-    </div>
     <!-- Message ends -->
-    <div id="friend_list" class="friend_list">
-      <% if @friend %>
-        <% @friend.each do |friend| %>
-          <%= render :partial => "/message/friend_list", :locals => {:friend=>friend} %>
-        <% end %>
-      <% end %>
-    </div>
+    
     <!-- Add Friend -->
     <div id="avatar_card" class="hide">
       
     </div>
     <!-- Add Friend ends -->
+  </div>
+  <div class="friend_list" id="friend_list">
+    <% if @friend %>
+      <% @friend.each do |friend| %>
+        <%= render :partial => "/message/friend_list", :locals => {:friend=>friend} %>
+      <% end %>
+    <% end %>
   </div>
 </div>
 <script type="text/javascript">
