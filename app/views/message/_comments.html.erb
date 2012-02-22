@@ -10,7 +10,7 @@
       <div class="time"><%= time_ago_in_words(comment.created_at) %> ago</div>
       <div class="like_cmt"><span class="fav_icon"><img src="images/fav.png" align="absbottom" /><span id="count_<%=comment.id%>"><%=comment.like%></span></span> 
       <span id="link_<%=comment.id%>">
-        <a href="javascript:void(0)" class="blue_bt19px" rel="<%=user_like(comment.profile_id, comment.id) ? "unlike" : "like" %>" id="<%=comment.id%>"><%=user_like(comment.profile_id, comment.id) ? "UNLIKE" : "LIKE" %></a>
+        <a href="javascript:void(0)" class="blue_bt19px like" rel="<%=user_like(comment.profile_id, comment.id) ? "unlike" : "like" %>" id="<%=comment.id%>"><%=user_like(comment.profile_id, comment.id) ? "UNLIKE" : "LIKE" %></a>
       </span>
     </div>
     </div>

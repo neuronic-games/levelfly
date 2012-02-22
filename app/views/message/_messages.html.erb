@@ -9,9 +9,9 @@
     <div class="msg_bottom_links">
       <div class="time"><%= time_ago_in_words(message.created_at) %> ago</div>
       <div class="like_cmt">
-        <span class="fav_icon"><img src="images/fav.png" align="absbottom" /><%=message.like%></span> 
+        <span class="fav_icon"><img src="images/fav.png" align="absbottom" /><span id="count_<%=message.id%>"><%=message.like%></span> </span>
         <span id="link_<%=message.id%>">
-          <a href="javascript:void(0)" id="<%=message.id%>" rel="<%=user_like(message.profile_id, message.id) ? "unlike" : "like" %>" class="blue_bt19px">
+          <a href="javascript:void(0)" id="<%=message.id%>" rel="<%=user_like(message.profile_id, message.id) ? "unlike" : "like" %>" class="blue_bt19px like">
             <%=user_like(user_session[:profile_id], message.id) ? "UNLIKE" : "LIKE" %>
           </a>
         </span>
