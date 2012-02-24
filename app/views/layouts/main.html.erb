@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="/stylesheets/fileupload/css/jquery.plupload.queue.css" type="text/css" media="screen" />
   
   <%= javascript_include_tag "application" %>
+  <script src="/assets/jquery.highlight.js"></script>
   <script src="/assets/ui/jquery.ui.core.js"></script>
   <script src="/assets/ui/jquery.ui.widget.js"></script>
   <script src="/assets/ui/jquery.ui.position.js"></script>
@@ -48,7 +49,7 @@
       <div class="header_search_box">
         <div class="search_bg">
           <form id="frm_search" >
-            <div id="clear_search" class="menu_btn hide" style="right:150px;display:block;margin-top:0px;">
+            <div id="clear_search" class="menu_btn hide" style="right:150px;margin-top:0px;">
               X
             </div>
             <input name="search_text" id="search_input" type="text" value="Find Course" />
@@ -85,19 +86,19 @@
           </div>
           <!--icon-->
           <div class="space_btwn_icon"></div>
-          <div class="icon_box"><span class="msg_count">10</span><a href="#" rel="/message/" class="icon_msg_active menu_btn">messages</a> </div>
+          <div class="icon_box"><span class="msg_count">10</span><a href="javascript:void(0);" rel="/message/" class="icon_msg menu_btn">messages</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"><a href="#" rel="/course/" class="icon_courses menu_btn">courses</a> </div>
+          <div class="icon_box"><a href="javascript:void(0);" rel="/course/" class="icon_courses_active menu_btn">courses</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"> <a href="#" rel="/task/" class="icon_tasks menu_btn">tasks</a> </div>
+          <div class="icon_box"> <a href="javascript:void(0);" rel="/task/" class="icon_tasks menu_btn">tasks</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"> <a href="#" class="icon_networks menu_btn">networks</a> </div>
+          <div class="icon_box"> <a href="javascript:void(0);" class="icon_networks menu_btn">networks</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"> <a href="#" rel="/wardrobe/" class="icon_stats menu_btn">stats</a> </div>
+          <div class="icon_box"> <a href="javascript:void(0);" rel="/wardrobe/" class="icon_stats menu_btn">stats</a> </div>
           <div class="space_btwn_icon"></div>
           <a href="#" class="downarrow"></a>
         </div>
@@ -160,6 +161,7 @@
           success: function(data) {
             if (data) {
               $("#container").html(data);
+              $("#container p").highlight(search_text);
               $("#clear_search").show();
               $("#clear_search").attr("rel", search_url);
             } else {
