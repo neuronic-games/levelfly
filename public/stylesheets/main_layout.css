@@ -396,7 +396,9 @@ table .tbl_header {
 .odd td, .even td {
   padding-left:10px;
 }
-
+.highlight {
+  background-color:yellow;
+}
 
 .message_input {
   position:absolute;
