@@ -31,9 +31,11 @@
 <div class="body_bg">
   <div id="wrapper" class="wrapper">
     <div class="header">
-      <div class="level_00">
-        <div class="head">Level</div>
-        <div class="count">05</div>
+      <div class="positn_rtlv">
+        <div class="level_00">
+          <div class="head">Level</div>
+          <div class="count">05</div>
+        </div>
       </div>
       <div class="avatar_box">
         <div class="avatar">
@@ -47,6 +49,7 @@
       </div>
       <div class="header_mid_box"></div>
       <div class="header_search_box">
+        <div class="setting_box"><img src="images/setting_icon.png" /></div>
         <div class="search_bg">
           <form id="frm_search" >
             <div id="clear_search" class="menu_btn hide" style="right:150px;margin-top:0px;">
@@ -55,9 +58,9 @@
             <input name="search_text" id="search_input" type="text" value="Find Course" />
           </form>
         </div>
-        <div class="setting_box">
+        <div class="search_icon">
           <a href="javascript:void(0)" onClick="$('#search_options').toggle();">
-            <img src="images/setting_icon.png" />
+            <img src="images/search_icon.png" />
           </a>
         </div>
         <div id="search_options" class="hide">
@@ -103,12 +106,12 @@
           <a href="#" class="downarrow"></a>
         </div>
       </div>
-      <div id="container" class="Main_content">
-        <%= yield %>
-      </div><!-- container -->
       <div class="right_box">
         <div class="heading_messages"><img src="images/messages_heading.png" /></div>
       </div>
+      <div id="container" class="Main_content">
+        <%= yield %>
+      </div><!-- container -->
       <div class="clear"></div>
     </div>
     <div id="waiting" class="waiting"><img src="/images/ajax-loader.gif"></div>
