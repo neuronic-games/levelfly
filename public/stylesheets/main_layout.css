@@ -14,10 +14,18 @@ body{
 }
 
 #search_options {
-  width:250px;
+  width:215px;
+  margin-left:125px;
   margin-top:2px;
-  border:1px solid #A9A9A9;
-  background:#fff;
+  border:1px solid #65781E;
+  background:#90AC24;
+  color:#434F14;
+  font-size:14px;
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight:bold;  
+}
+#search_options  li{
+  padding-left:10px !important;
 }
 #clear_search {
   width:10px;
@@ -273,8 +281,8 @@ body{
   cursor:pointer;
 }
 .row_container  li:hover, #search_options  li:hover{
-  background-color:#A9A9A9;
-  color:#fff;
+  background-color:#65781E;
+  color:#90AC24;
 }
 .show {
   display:block;
