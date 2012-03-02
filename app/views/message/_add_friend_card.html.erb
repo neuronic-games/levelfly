@@ -1,53 +1,56 @@
-<div class="message_container">
-  <div class="inner_container">
-    <div class="avatar_thumb">
+<div class="level_01">03</div>
+<div class="top_img"></div>
+<div class="shadow_repeat">
+  <div>
+    <div class="avatar_green_bdr">
       <img src="https://s3.amazonaws.com/<%=profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=profile.id%>.jpg" id="<%=profile.id%>" class="profile"/>
     </div>
-    <div class="info_container">
-      <span><%=profile.full_name%></span><br />
-      <span><%=profile.major.name if profile.major%></span><span><%=profile.school.code%></span>
+    <div class="txt"> <span class="pop_name"><b><%=profile.full_name%></b><br />
+      <%=profile.major.name if profile.major%>, <%=profile.school.code%></span>
+      <p></p>
+      <div class="spacebar10px"></div>
     </div>
-  </div>
-  <div class="button_container">
-    <span>Like Received: <%=profile.like_received ? profile.like_received : 0 %></span> <br />
-    <span>Like Given: <%=profile.like_given ? profile.like_given : 0 %></span> <br />
+    <div class="clear"></div>
+    <span class="pop_fav_icon"><img src="images/fav.png" align="absbottom" /> <%=profile.like_received ? profile.like_received : 0 %></span>
+    <span class="pop_win_icon"><img src="images/cup_icon.png" align="absbottom" /> <%=profile.like_given ? profile.like_given : 0 %></span>
     <div id="msg_input" class="hide">
       <textarea name="message" id="message" class="msg_txt"></textarea>
     </div>
     <div id="note_btn"class="hide note_btn">
-      <input type="button" name="btn_note_add" id="Note" rel="add_note" value="Add" class="small_btn send_btn"/>
-      <input type="button" name="btn_note_dnt_add" id="btn_note_dnt_add" rel="switch" value="Don't Add" />
+      <a href="javascript:void(0)" rel="add_note" id="Note" class="blue_bt19px send_btn">Add</a> 
+      <a href="javascript:void(0)" rel="switch" id="btn_note_dnt_add" class="blue_bt19px">Don't Add</a> 
     </div>
     <div id="msg_btn" class="hide msg_btn">
-      <input type="button" name="btn_msg_send" id="Message" rel="save" class="small_btn send_btn" value="Send" />
-      <input type="button" name="btn_msg_dnt_send" id="btn_msg_dnt_send" rel="switch" value="Don't Send" />
+      <a href="javascript:void(0)" rel="save" id="Message" class="blue_bt19px send_btn">Send</a> 
+      <a href="javascript:void(0)" rel="switch" id="btn_note_dnt_add" class="blue_bt19px">Don't Send</a> 
     </div>
-    <div id="root_btn" class="root_btn">
-      <input type="button" name="btn_note" id="btn_note" rel="switch" value="Note" class="small_btn" />
-      <input type="button" name="btn_msg" id="btn_msg" rel="switch" value="Message" />
+    <div align="right" id="root_btn">
+      <a href="javascript:void(0)" rel="switch" id="note_root" class="blue_bt19px">NOTE</a> 
+      <a href="javascript:void(0)" rel="switch" id ="message_root" class="blue_bt19px">messages</a> 
       <% if is_friend(user_session[:profile_id], profile.id) %>
-        <input type="button" name="btn_unfrnd" id="unfriend" value="Unfriend" class="small_btn" />
+        <a href="javascript:void(0)" id="unfriend" class="blue_bt19px">UNFRIEND</a>
       <% else %>
         <% if is_request_pending(profile.id, user_session[:profile_id]) %>
-          <input type="button" name="btn_pending" value="Pending" class="small_btn" />
+          <a href="javascript:void(0)" class="blue_bt19px">PENDING</a>
         <% else %>
-          <input type="button" name="btn_frnd" id="Friend" rel="save" value="Friend" class="small_btn send_btn" />
+          <a href="javascript:void(0)" class="blue_bt19px send_btn" id="Friend" rel="save">Friend</a>
         <% end %>
       <% end %>
     </div>
   </div>
 </div>
+<div class="bottom_shadow" ></div>
 <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=profile.id%>"/>
 <script type="text/javascript">
 <!--
 //Toggle card screen
-$('input[rel=switch]').click(function(){
-  if(this.value=="Note") {
+$('a[rel=switch]').click(function(){
+  if(this.id=="note_root") {
     $('#root_btn').hide();
     $('#msg_input').show();
     $('#msg_btn').hide();
     $('#note_btn').show();
-  } else if(this.value=="Message") {
+  } else if(this.id=="message_root") {
     $('#root_btn').hide();
     $('#msg_input').show();
     $('#note_btn').hide();

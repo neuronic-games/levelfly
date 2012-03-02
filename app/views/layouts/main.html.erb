@@ -39,7 +39,7 @@
       </div>
       <div class="avatar_box">
         <div class="avatar">
-          <!-- img  src="https://s3.amazonaws.com/<%=user_session[:vault]%>/avatar_thumb/avatar_<%=user_session[:profile_id]%>.jpg" / -->
+          <img  src="https://s3.amazonaws.com/<%=user_session[:vault]%>/avatar_thumb/avatar_<%=user_session[:profile_id]%>.jpg" />
         </div>
         <div class="avatar_detail">
           <h1> <%=user_session[:profile_name]%></h1>
@@ -51,31 +51,31 @@
       <div class="header_search_box">
         <div class="setting_box"><img src="images/setting_icon.png" /></div>
         <div class="search_bg">
-          <form id="frm_search" >
+          <form id="frm_search">
             <div id="clear_search" class="menu_btn hide" style="right:150px;margin-top:0px;">
               X
             </div>
             <input name="search_text" id="search_input" type="text" value="Find Course" />
           </form>
+          <div id="search_options" class="hide">
+            <li rel="/course/">
+              Find Course
+            </li>
+            <li rel="/task/">
+              Find Task
+            </li>
+            <li rel="/message/">
+              Find Message
+            </li>
+            <li rel="/friend/">
+              Find Friend
+            </li>
+          </div>
         </div>
         <div class="search_icon">
           <a href="javascript:void(0)" onClick="$('#search_options').toggle();">
             <img src="images/search_icon.png" />
           </a>
-        </div>
-        <div id="search_options" class="hide">
-          <li rel="/course/">
-            Find Course
-          </li>
-          <li rel="/task/">
-            Find Task
-          </li>
-          <li rel="/message/">
-            Find Message
-          </li>
-          <li rel="/friend/">
-            Find Friend
-          </li>
         </div>
         <div class="clear"></div>
       </div>
@@ -109,9 +109,11 @@
       <div class="right_box">
         <div class="heading_messages"><img src="images/messages_heading.png" /></div>
       </div>
-      <div id="container" class="Main_content">
-        <%= yield %>
-      </div><!-- container -->
+      <div class="middle_main_div">
+        <div id="container" class="Main_content">
+          <%= yield %>
+        </div><!-- container -->
+      </div>
       <div class="clear"></div>
     </div>
     <div id="waiting" class="waiting"><img src="/images/ajax-loader.gif"></div>

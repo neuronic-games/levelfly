@@ -1,41 +1,44 @@
 <div class="msg_big_box" id="messsage_box_<%=message.id%>">
   <div class="avatar_white_bdr">
-    <!-- img src="https://s3.amazonaws.com/<%=message.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=message.profile_id%>.jpg" id="<%=message.profile_id%>" class='<%= (message.profile_id==user_session[:profile_id]) ? "" : "profile" %>' / -->
-  </div>
-  <div class="msg_box_txt blue_bg_msg_txt">
-    <h3 class="name"><%=message.profile.full_name%></h3>
-    <p><%=message.content%></p>
-    <div class="msg_bottom_links">
-      <div class="time"><%= time_ago_in_words(message.created_at) %> ago</div>
-      <div class="like_cmt">
-        <span class="fav_icon"><img src="images/fav.png" align="absbottom" /><span id="count_<%=message.id%>"><%=message.like%></span> </span>
-        <span id="link_<%=message.id%>">
-          <a href="javascript:void(0)" id="<%=message.id%>" rel="<%=user_like(message.profile_id, message.id) ? "unlike" : "like" %>" class="blue_bt19px like">
-            <%=user_like(user_session[:profile_id], message.id) ? "UNLIKE" : "LIKE" %>
-          </a>
-        </span>
-        <span>
-          <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#post_comment_<%=message.id%>').show()">COMMENT</a>
-        </span>
-      </div>
-    </div>
+    <img src="https://s3.amazonaws.com/<%=message.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=message.profile_id%>.jpg" id="<%=message.profile_id%>" class='<%= (message.profile_id==user_session[:profile_id]) ? "" : "profile" %>'/>
   </div>
   <div class="msg_big_box_arrow"><img src="images/blue_arrow.png" /></div>
+  <div class="msg_box_fullwidth">
+    <div class="msg_box_txt blue_bg_msg_txt">
+      <h3 class="name"><%=message.profile.full_name%></h3>
+      <p><%=message.content%></p>
+      <div class="msg_bottom_links">
+        <div class="time"><%= time_ago_in_words(message.created_at) %> ago</div>
+        <div class="like_cmt">
+          <span class="fav_icon"><img src="images/fav.png" align="absbottom" /><span id="count_<%=message.id%>"><%=message.like%></span> </span>
+          <span id="link_<%=message.id%>">
+            <a href="javascript:void(0)" id="<%=message.id%>" rel="<%=user_like(message.profile_id, message.id) ? "unlike" : "like" %>" class="blue_bt19px like">
+              <%=user_like(user_session[:profile_id], message.id) ? "UNLIKE" : "LIKE" %>
+            </a>
+          </span>
+          <span>
+            <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#post_comment_<%=message.id%>').show()">COMMENT</a>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  
   <div class="clear"></div>
 </div>
 <!-- comments -->
 <% comment_list(message.id).each do |comment|%>
   <%= render :partial => "/message/comments", :locals => {:comment=>comment} %>
 <% end %>
+
+<div class="hide comment_input" align="right" id="post_comment_<%=message.id%>">
+  <textarea name="cmnt_content" id="cmnt_content_<%=message.id%>" rows="2"></textarea>
+  <div class="msg_btn">
+    <a href="javascript:void(0)" id="<%=message.id%>" rel="Message" title="cmnt_content_<%=message.id%>" class="blue_bt19px sbmt_msg">Send</a>
+    <a href="javascript:void(0)" onclick="javascript:$('#post_comment_<%=message.id%>').fadeOut()" class="blue_bt19px">Cancel</a>
+  </div>
+</div>
+
 <div class="bdr_dotted"></div>
 <!-- comments ends -->
-<div class="comment_input hide" id="post_comment_<%=message.id%>">
-  <textarea name="comment" name="cmnt_content" id="cmnt_content_<%=message.id%>" rows="2"></textarea>
-  <span>
-    <input type="button" value="Post" class="sbmt_msg" id="<%=message.id%>" title="cmnt_content_<%=message.id%>" rel="Message" />
-  </span>
-  &nbsp;
-  <span>
-    <a href="javascript:void(0)" onclick="javascript:$('#post_comment_<%=message.id%>').fadeOut()">Cancel</a>
-  </span>
-</div>
