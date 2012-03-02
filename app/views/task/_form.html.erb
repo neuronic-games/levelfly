@@ -18,191 +18,256 @@ function addNode(element) {
 }
 -->
 </script>
-<div class="screen_title">
-  VIEW TASK
+<div class="task_side_buttons"> 
+  <a href="javascript:void(0)" class="big_blue_btn">ATTACH</a>
+  <a href="javascript:void(0)" id="btn_task" class="big_orange_btn">POST</a>
+  <a href="javascript:void(0)" class="big_blue_btn">PRINT</a>
+  <a href="javascript:void(0)" id="task_btn_remove" class="big_blue_btn">REMOVE</a>
 </div>
-<div class="content_wrapper">
-  <div class="content_container">
-    <form name="frm_task" id="frm_task" enctype="multipart/form-data">
-      <div id="div_1" class="form_container">
-        <div class="left_form_container">
-          <div class="thumbnail_large" id="task_image">
-            <img id="task_thumb" src='<%= @task && @task.image_file_name ? @task.image.url : "/images/majors/ACCOUNTING.png" %>' alt="Task image" />
+<!-- notepad start-->
+<div class="task_content">
+  <div class="board_left">
+    <div class="board_right">
+      <div class="board_center">
+        <div class="task_pad_top"><div class="task_pad_top_inner "></div></div>
+        <div class="task_pad">
+          <!-- tabs-->
+          <div class="tabs menu_container" align="right">
+            <a href="javascript:void(0)" value="1" class="tab_open">
+              <img src="images/task_text.png" class="task_tab" />
+            </a> 
+            <a href="javascript:void(0)" value="2" class="tab_close">
+              <img src="images/grading_text.png" class="grading_tab" />
+            </a> 
+            <a href="javascript:void(0)" value="3" class="tab_close">
+              <img src="images/participants_text.png" class="participants_tab" />
+            </a> 
+            <a href="javascript:void(0)" value="4" class="tab_close">
+              <img src="images/participants_text.png" class="participants_tab" />
+            </a> 
           </div>
-          <div id="resource_container">
-            <ul id="filelist">
-              <!-- file list here -->
-              <% if @task %>
-                <% @task.attachments.each do |a| %>
-                  <li id="item_<%=a.id%>">
-                    <div class="file_name" id="filename_<%= a.id %>">
-                      <a href="<%=a.resource.url%>" target="_blank">
-                        <%=a.resource_file_name%>
-                      </a>
-                    </div>
-                    <div class="file_remove" id="fileremove_<%=a.id%>">
-                      <a href="javascript:void(0)" class="remove_resource" id="<%= a.id %>">
-                        Remove
-                      </a>
-                    </div>
-                  </li>
-                <% end %>
-              <% end %>
-            </ul>
-          </div>
-          <div id="upload_container">
-            DROP A FILE HERE TO MAKE IT AVAILABLE FOR ALL PARTICIPANTS
-          </div>
-        </div>
-        <div class="right_form_container">
-          <div id="course_category">
-            <p>Select a course and category first to apply the starting information that you have setup for new tasks</p>
-            <div id="course_dropdown">
-              <span>Course</span>
-              <select name="course" id="course">
-                <option value="">SELECT</option>
-                <% @courses.each do |c| %>
-                <option value="<%= c.id %>" <%=@task.course_id==c.id ? "Selected" : ""  if @task %>><%= c.name %></option>
-                <% end %>
-              </select>
+          <!--tab content-->
+          <div class="tab_content" id="div_1">
+            <div class="spacebar10px"></div>
+            <div class="spacebar10px"></div>
+            <div class="task_left">
+              <div class="task_profile_image">
+                <div class="clip_img"></div>
+                <div id="task_image">
+                  <img src="images/task_profile_img.jpg" width="156" height="156" />
+                </div>
+                <div align="center"><a href="#" >REPLACE THIS IMAGE</a></div>
+              </div>
+              <div class="task_pdf" align="center">
+                <ul id="filelist">
+                  <!-- file list here -->
+                  <% if @task %>
+                    <% @task.attachments.each do |a| %>
+                      <li id="item_<%=a.id%>">
+                        <div class="file_name" id="filename_<%= a.id %>">
+                          <a href="<%=a.resource.url%>" target="_blank">
+                            <%=a.resource_file_name%>
+                          </a>
+                        </div>
+                        <div class="file_remove" id="fileremove_<%=a.id%>">
+                          <a href="javascript:void(0)" class="remove_resource" id="<%= a.id %>">
+                            Remove
+                          </a>
+                        </div>
+                      </li>
+                    <% end %>
+                  <% end %>
+                </ul>
+              </div>
+              <div class="drop_a_file_box" align="center" id="upload_container">DROP A FILE HERE<br />
+                TO MAKE IT AVAILABLE<br />
+                TO ALL PARTICIPANTS.</div>
             </div>
-            <div id="category_dropdown">
-              <span>Category</span>
-              <div id="categories_container" class='<%= @task ? "" : "hide" %>'>
-                <% if @task && @task.category_id!=0 %>
-                  <%= render :partial => "course_categories", :locals=>{:categories=>@task.course.categories} %>
-                <% end %>
+            <div class="task_right" >
+              <!--list box-->
+              <div class="task_detailbox">
+                <div class="round_num" >1</div>
+                <div class="field_box1">
+                  <div class="greybox">
+                    <p>Select a Course and Category first to apply the starting information
+                      that you have set up for new tasks.</p>
+                    <div class="spacebar10px"></div>
+                    <div class="course_viewfield">COURSE
+                      <div class="dd_bg ">
+                        <select name="course" id="course" class="dd_select">
+                          <option value="">SELECT</option>
+                          <% @courses.each do |c| %>
+                          <option value="<%= c.id %>" <%=@task.course_id==c.id ? "Selected" : ""  if @task %>><%= c.name %></option>
+                          <% end %>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="catagory_viewfield" >CATEGORY
+                      
+                        <div id="categories_container" class='<%= @task && @task.category_id!=0 ? "" : "hide" %> dd_bg'>
+                          <% if @task && @task.category_id!=0 %>
+                            <%= render :partial => "course_categories", :locals=>{:categories=>@task.course.categories} %>
+                          <% end %>
+                        </div>
+                      
+                    </div>
+                    <div class="clear"></div>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="spacebar10px"></div>
+              <div class="spacebar10px"></div>
+              <!--list box-->
+              <div class="task_detailbox">
+                <div class="round_num" >2</div>
+                <div class="field_box2">
+                  <p>TASK NAME</p>
+                  <div class="dd_bg">
+                    <input type="text" name="task" id="task" class="dd_input" value="<%=@task.name if @task %>" onblur='javascript:setStorage("task_name", $(this).val())'/>
+                  </p>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="spacebar10px"></div>
+              <div class="spacebar10px"></div>
+              <!--list box-->
+              <div class="task_detailbox">
+                <div class="round_num" >3</div>
+                <div class="field_box2">
+                  <div class="date_viewfield">DUE DATE
+                    <div class="dd_bg">
+                      <input type="text" name="due_date" id="due_date" class="dd_input" value="<%=@task.due_date if @task %>"/>
+                    </div>
+                  </div>
+                  <div class="time_viewfield" >TIME
+                    <div class="dd_bg">
+                      <input type="text" name="due_time" id="due_time" class="dd_input" />
+                    </div>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="spacebar10px"></div>
+              <div class="spacebar10px"></div>
+              <!--list box-->
+              <div class="task_detailbox">
+                <div class="empty_num_space" ></div>
+                <div class="field_box2"> SHARED NOTES
+                  <fieldset>
+                    <div class="dd_bg ">
+                      <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea"><%=@task.descr if @task %></textarea>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="spacebar10px"></div>
+              <div class="spacebar10px"></div>
+              <!--list box-->
+              <div class="task_detailbox">
+                <div class="empty_num_space" ></div>
+                <div class="field_box2"> PRIVATE NOTES
+                  <fieldset>
+                    <div class="dd_bg ">
+                      <textarea name="notes" id="notes" class="dd_textarea" style="height:150px;"></textarea>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="clear"></div>
               </div>
             </div>
+            <div class="clear"></div>
           </div>
-          <div class="frm_input">
-            <span>Task</span>
-            <input type="text" name="task" id="task" class="large" value="<%=@task.name if @task %>" onblur='javascript:setStorage("task_name", $(this).val())'/>
-          </div>
-          <div class="frm_input">
-            <span>Due date</span> <br />
-             <input type="text" name="due_date" id="due_date" class="medium" value="<%=@task.due_date if @task %>"/>
-          </div>
-          <div class="frm_input">
-            <span>Shared Notes</span> <br />
-            <textarea name="descr" id="descr" rows="10" onblur='javascript:setStorage("task_descr", $(this).val())'><%=@task.descr if @task %></textarea>
-          </div>
-          <div class="frm_input">
-            <span>Private Notes</span> <br />
-            <textarea name="notes" id="notes" rows="10"></textarea>
-          </div>
+          <input type="hidden" name="task_id" id="task_id_hdn" value="<%=@task.id if @task %>" />
+          <input type="hidden" name="school_id" id="task_school_id_hdn" value="<%= @profile.school_id %>" />
         </div>
-      </div>
-      <div id="div_2" class="form_container hide">
-        <div class="frm_label">
-          Level
-        </div>
-        <div class="frm_input">
-          <div class="level_radio">
-            <input type="radio" name="level" id="level_easy" value="1" onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==1 ? "checked" : ""  if @task %>/>
-          </div>
-          <div class="level_label">
-            Easy
-          </div>
-          <div class="level_radio">
-            <input type="radio" name="level" id="level_medium" value="2" onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==2 ? "checked" : ""  if @task %>/>
-          </div>
-          <div class="level_label">
-            Medium
-          </div>
-          <div class="level_radio">
-            <input type="radio" name="level" id="level_high" value="3"  onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==3 ? "checked" : ""  if @task %>/>
-          </div>
-          <div class="level_label">
-            Hard
-          </div>
-        </div>
-        <div class="frm_label">
-          Outcomes
-        </div>
-        <div class="frm_input" id="outcomes_container">
-          <% if @outcomes %>
-            <%= render :partial => "course_outcomes" %>
-          <% end %>
-        </div>
-      </div>
-      <div id="div_3" class="form_container hide">
-        <div class="frm_label">
-          Organizer
-        </div>
-        <div class="frm_input">
-          <input type="text" name="organizer" id="organizer" value="<%=@profile.full_name%>" readonly="true" class="medium" onblur='javascript:setStorage("task_organizer", $(this).val())'/>
-        </div>
-        <div class="frm_label small_label">
-          Participants
-        </div>
-        <div class="frm_input" id="participants_container">
-          <% if @people %>
-            <%= render :partial => "course_peoples" %>
-          <% end %>
-        </div>
-        <div class="frm_input" id="add_task_people_container" style="padding-left:22px;">
-          <input type="text" name="add_task_people_email[]" value="Type in email to add" class="medium node" id="add_task_people_email_1"/>
-        </div>
-      </div>
-      <div id="div_4" class="form_container hide">
-        <% if @task %>
-          <!-- Message -->
-          <div id="msg_input" class="message_input hide">
-            <label>Message</label> <br />
-              <textarea id="msg_content" name="msg_content" cols="15" rows="6"></textarea> <br />
-              <span>
-                <input type="button" name="sbmt_msg" class="sbmt_msg" title="msg_content" id="<%=@task.id%>" rel="Task" value="Post" />
-              </span>
-              &nbsp;
-              <span>
-                <a href="javascript:void(0)" onclick="javascript:$('#msg_input').fadeOut()">Cancel</a>
-              </span>
-          </div>
-          <div class="frm_label">
-            <input type="button" name="post_msg" id="post_msg" value="Post Message" class="big_btn" onclick="javascript:$('#msg_input').fadeIn()"/>
-          </div>
-          <div class="frm_input">
-            <div id="message_wrapper" class="message_wrapper">
-              &nbsp;
-              <% if @task.messages %>
-                <% @task.messages.each do |message| %>
-                  <%= render :partial => "/message/messages", :locals => {:message=>message} %>
-                <% end %>
+        <div id="div_2" class="tab_content hide">
+            <div class="frm_label">
+              Level
+            </div>
+            <div class="frm_input">
+              <div class="level_radio">
+                <input type="radio" name="level" id="level_easy" value="1" onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==1 ? "checked" : ""  if @task %>/>
+              </div>
+              <div class="level_label">
+                Easy
+              </div>
+              <div class="level_radio">
+                <input type="radio" name="level" id="level_medium" value="2" onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==2 ? "checked" : ""  if @task %>/>
+              </div>
+              <div class="level_label">
+                Medium
+              </div>
+              <div class="level_radio">
+                <input type="radio" name="level" id="level_high" value="3"  onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==3 ? "checked" : ""  if @task %>/>
+              </div>
+              <div class="level_label">
+                Hard
+              </div>
+            </div>
+            <div class="frm_label">
+              Outcomes
+            </div>
+            <div class="frm_input" id="outcomes_container">
+              <% if @outcomes %>
+                <%= render :partial => "course_outcomes" %>
               <% end %>
             </div>
           </div>
-          <!-- Message ends -->
-        <% end %>
+          <div id="div_3" class="tab_content hide">
+            <div class="frm_label">
+              Organizer
+            </div>
+            <div class="frm_input">
+              <input type="text" name="organizer" id="organizer" value="<%=@profile.full_name%>" readonly="true" class="medium" onblur='javascript:setStorage("task_organizer", $(this).val())'/>
+            </div>
+            <div class="frm_label small_label">
+              Participants
+            </div>
+            <div class="frm_input" id="participants_container">
+              <% if @people %>
+                <%= render :partial => "course_peoples" %>
+              <% end %>
+            </div>
+            <div class="frm_input" id="add_task_people_container" style="padding-left:22px;">
+              <input type="text" name="add_task_people_email[]" value="Type in email to add" class="medium node" id="add_task_people_email_1"/>
+            </div>
+          </div>
+          <div id="div_4" class="tab_content hide">
+            <% if @task %>
+              <!-- Message -->
+              <div id="msg_input" class="message_input hide">
+                <label>Message</label> <br />
+                  <textarea id="msg_content" name="msg_content" cols="15" rows="6"></textarea> <br />
+                  <span>
+                    <input type="button" name="sbmt_msg" class="sbmt_msg" title="msg_content" id="<%=@task.id%>" rel="Task" value="Post" />
+                  </span>
+                  &nbsp;
+                  <span>
+                    <a href="javascript:void(0)" onclick="javascript:$('#msg_input').fadeOut()">Cancel</a>
+                  </span>
+              </div>
+              <div class="frm_label">
+                <input type="button" name="post_msg" id="post_msg" value="Post Message" class="big_btn" onclick="javascript:$('#msg_input').fadeIn()"/>
+              </div>
+              <div class="frm_input">
+                <div id="message_wrapper" class="message_wrapper">
+                  &nbsp;
+                  <% if @task.messages %>
+                    <% @task.messages.each do |message| %>
+                      <%= render :partial => "/message/messages", :locals => {:message=>message} %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+              <!-- Message ends -->
+            <% end %>
+          </div>
+        <div class="clear"></div>
       </div>
-      <input type="hidden" name="task_id" id="task_id_hdn" value="<%=@task.id if @task %>" />
-      <input type="hidden" name="school_id" id="task_school_id_hdn" value="<%= @profile.school_id %>" />
-    </form>
+    </div>
   </div>
-</div>
-<div class="menu_container">
-  <div>
-    <a href="javascript:void(0)" value="1" class="active">Task</a>
-  </div>
-  <div>
-    <a href="javascript:void(0)" value="2" >Grading</a>
-  </div>
-  <div>
-    <a href="javascript:void(0)" value="3" >Participants</a>
-  </div>
-  <div>
-    <a href="javascript:void(0)" value="4" >Messages</a>
-  </div>
-</div>
-<div id="sidebar_right">
-  <div id="crud_level">
-    <input type="button" name="btn_task" id="btn_task" value="Save"/>
-    <!-- input type="button" name="menu_btn_duplicate" id="menu_btn_duplicate" rel="/task/duplicate" value="Duplicate" class="menu_btn"/>
-    <input type="button" name="menu_btn_hide" id="menu_btn_hide" value="Hide"/>
-    <input type="button" name="menu_btn_fav" id="menu_btn_fav" value="Fav" /-->
-    <input type="button" name="menu_btn_print" id="menu_btn_print" value="Print"/>
-    <input type="button" name="task_btn_remove" id="task_btn_remove" class="hide" value="Remove"/>
-  </div><!-- crud_level -->
 </div>
 <script type="text/javascript">
 <!--

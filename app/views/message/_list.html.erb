@@ -1,3 +1,9 @@
+<!--popup start-->
+<div class="popup_box1" id="avatar_card">
+  
+</div>
+<!--popup end-->
+
 <div class="messages_content">
   <div class="msg_content_left">
     <!-- Message -->
@@ -84,7 +90,7 @@
     }
   });
   
-  $('.message_wrapper').delegate('.profile', 'click', function(){
+  $('.message_wrapper, .friend_list').delegate('.profile', 'click', function(){
     showSpinner(true);
     $.ajax({  
       type: "POST",  
