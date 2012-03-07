@@ -61,9 +61,11 @@ abbr, dfn {
 img {
   display:inline;
 }
+html {height:100%;}
 body {
   font-family:Arial, Helvetica, sans-serif;
   background:url(../images/body_bg.png) repeat;
+  height:100%;
 }
 /***reset css end***/
 .clear {
@@ -98,18 +100,18 @@ body {
   font-weight: normal;
   font-style: normal;
 }
-
+.fullheight  {height:100%;}
 .body_bg {
   background:url(../images/body_top_shade.png) repeat-x center top;
   width:100%;
-  height:auto;
+  height:100%;
   margin:0 auto;
 }
 .wrapper {
   width:100%;
   min-width:1000px;
 
-  height:auto;
+  height:100%;
   margin:0 auto;
   /*background:url(../images/bg.jpg) no-repeat center top;*/
   position:relative;
@@ -237,13 +239,19 @@ body {
   /*width:13%;*/
   width:140px;
   margin-right:-140px;
-  height:800px;
+  /*height:800px;*/
+  height:100%;
   background:url(../images/left_navigation.png) repeat-y 0 0;
+  min-height:800px;
+	position:relative;
+	*height: expression(document.body.clientHeight < 802? "800px" : "100%");
 }
 .nav_box {
   float:left;
   padding:260px 5px 0 5px;
-  height:522px;
+  /*height:522px;*/
+  position:absolute;
+	bottom:0;
 }
 .nav_box a.uparrow {
   display:block;
@@ -443,11 +451,19 @@ a.icon_stats_active {
   width:40px;
   margin-left:-40px;
   background:url(../images/right_bar_bg.png) repeat-y right;
+  height:100%;
+	min-height:800px;
+	position:relative;
+	*height: expression(document.body.clientHeight < 802? "800px" : "100%");
 }
 .heading_messages {
-  height:450px;
+  /*height:450px;
   padding:350px 10px 0 0;
-  text-align:right;
+  text-align:right;*/
+  top:50%;
+	padding-left:10px;
+	text-align:center;
+	position:absolute;
 }
 /***********************Main content message page**************************/
 .middle_main_div {padding:0 70px 0 140px;}
@@ -494,8 +510,14 @@ a.icon_stats_active {
 .msg_big_box .msg_big_box_arrow {
   /*float:right;
   padding:30px 0 0 0;*/
-  float:left;
-  padding:30px 0 0 6px;
+  /*float:left;
+  padding:30px 0 0 6px;*/
+  background: url("../images/blue_arrow.png") no-repeat scroll 0 0 transparent;
+    height: 21px;
+    margin: 22px 0 0 -7px;
+    padding: 0;
+    position: absolute;
+    width: 15px;
 }
 .msg_box_fullwidth {padding:0 0 0 93px;}
 .msg_big_box .blue_bg_msg_txt {
@@ -574,13 +596,20 @@ a.blue_bt19px:hover {
   margin-left:-6px;
 }
 .avatar_green_bdr_upper {float: right; width: 65px;}
+.msg_small_box_arrow_pos { position:relative}
 .msg_small_box .msg_small_box_arrow {
   /*float:right;
   padding:30px 0.5% 0 0px;*/
-  float:right;
-  padding:30px 4px 0 0px;
+  /*float:right;
+  padding:30px 4px 0 0px;*/
+  background: url("../images/green_arrow.png") no-repeat scroll 0 0 transparent;
+    height: 21px;
+    margin: 16px -8px 0 0px;
+    position: absolute;
+    right: 0;
+    width: 15px
 }
-.msg_small_box_fullwidth {padding: 0 76px 0 93px}
+.msg_small_box_fullwidth {padding: 0 76px 0 93px;}
 .msg_small_box .green_bg_msg_txt {
   float:right;
   -webkit-border-radius: 10px;
