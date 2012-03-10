@@ -93,6 +93,14 @@ Oncapus::Application.routes.draw do
   post "wardrobe/upload_wardrobe_image"
   
   get "message/index"
+  # start  added for new message funtionalites >>>  lmit>>> frinds messages
+  get "message/show_all"
+  
+  get "message/friends_only"
+  
+  get "message/friends_only_all"
+  
+  # end  added for new message funtionalites >>>  lmit>>> frinds messages
   
   post "message/save"
   
@@ -117,6 +125,14 @@ Oncapus::Application.routes.draw do
   match 'wardrobe' => 'wardrobe#index'
   
   match 'message' => 'message#index'
+  
+  # start added for new message funtionalites >>>  lmit>>> frinds messages
+  match 'message/friends_only/:friend_id' => 'message#friends_only'
+  
+  
+  match 'message/friends_only_all/:friend_id' => 'message#friends_only_all'
+  
+  # end  added for new message funtionalites >>>  lmit>>> frinds messages
   
   match 'course/show/:id' => 'course#show'
   
