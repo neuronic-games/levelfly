@@ -74,6 +74,16 @@ Oncapus::Application.routes.draw do
   
   post "course/delete_participant"
   
+  get "group/index"
+  
+  get "group/new"
+
+  get "group/show"
+
+  get "group/create"
+  
+  post "group/create"
+  
   get "wardrobe/index"
   
   get "wardrobe/new"
@@ -122,6 +132,8 @@ Oncapus::Application.routes.draw do
   
   match 'course' => 'course#index'
   
+  match 'group' => 'group#index'
+  
   match 'wardrobe' => 'wardrobe#index'
   
   match 'message' => 'message#index'
@@ -137,6 +149,8 @@ Oncapus::Application.routes.draw do
   match 'course/show/:id' => 'course#show'
   
   match 'task/show/:id' => 'task#show'
+  
+  match 'group/show/:id' => 'group#show'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

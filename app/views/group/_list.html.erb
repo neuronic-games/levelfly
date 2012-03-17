@@ -1,0 +1,44 @@
+<div class="screen_title">
+  GROUP ITEM
+</div>
+<div class="content_wrapper">
+  <table width="95%" align="center" cellspacing="0" cellpadding="4">
+    <tr class="tbl_header">
+      <td width="40%">
+        Name
+      </td>
+      <td>
+        Description
+      </td>
+    </tr>
+    <% @groups.each do |group| %>
+    <tr class="<%= cycle("even", "odd") %>">
+      <td>
+        <a href="/group/show/<%=group.id%>" class="view"><%=group.name%></a>
+      </td>
+      <td>
+        <%=group.descr %>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+</div>
+<div id="sidebar_right">
+  <div id="crud_level">
+    <input type="button" name="menu_btn_add" id="menu_btn_add" rel="/group/new" value="Add" class="menu_btn"/>
+  </div><!-- crud_level -->
+</div>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+  //prepare show links
+  $('a.view').click(function() {
+    showSpinner(true);
+      $("#container").load(this.href, function(){
+      showSpinner(false);
+    }); 
+    return false; 
+  });
+});
+-->
+</script>

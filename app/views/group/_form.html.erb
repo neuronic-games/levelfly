@@ -1,0 +1,70 @@
+<div class="screen_title">
+  VIEW GROUP
+</div>
+<div class="content_wrapper">
+  <div class="content_container">
+    <form name="frm_task" id="frm_task" enctype="multipart/form-data">
+      <div id="div_1" class="form_container">
+        <div class="left_form_container">
+          <div class="thumbnail_large" id="course_image">
+            <img id="group_thumb" src='<%= @course && @course.image_file_name ? @course.image.url : "/images/majors/ACCOUNTING.png" %>' alt="Group image" />
+          </div>
+        </div>
+        <div class="right_form_container">
+          <div class="frm_input">
+            <span>Name</span>
+            <input type="text" name="group_name" id="group_name" class="large" value="<%=@group.name if @group%>" onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+          </div>
+          <div class="frm_input">
+            <span>Description</span>
+            <textarea name="group_descr" id="group_descr" rows="10" onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@group.descr if @group%></textarea>
+          </div>
+         </div>
+      </div>
+           <input type="hidden" name="group_id" id="group_id_hdn" value="<%=@group.id if @group%>" />
+     </form>
+  </div>
+</div>
+
+<div id="sidebar_right">
+  <div id="crud_level">
+    <input type="button" name="btn_group" id="btn_group" class="sbmt_group" value="Save"/>
+    <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@group ? false : true %>" />
+  </div><!-- crud_level -->
+</div>
+<script type="text/javascript">
+<!-- 
+jStorage.flush();
+
+//set storage on load while view of group
+if($("#group_name").val()!="") {setStorage("group_name", $("#group_name").val());} else {setStorage("group_name", "New Group");}
+if($("#group_descr").val()!="") {setStorage("group_descr", $("#group_descr").val());} else {setStorage("group_descr", "New Group Description");}
+
+$(document).ready(function(){
+  $("#btn_group").unbind('click').bind('click', function(){
+    id = $("#group_id_hdn").val();
+    name = getStorage("group_name");
+    descr = getStorage("group_descr");
+    var dataString = 'id='+ id +'&name=' + name + '&descr=' + descr;  
+    //alert (dataString);return false;  
+    $.ajax({  
+      type: "POST",  
+      url: "/group/create",  
+      data: dataString,
+      dataType:"json",
+      error: function (error) {
+        alert('error; ' + dataString);
+      },
+      success: function(data) {
+        if (data) {
+          $("#container").load('/group/index');
+        } else {
+          alert("ERROR");
+        }
+      }
+    });  
+    return false;  
+  });
+}); 
+-->
+</script>

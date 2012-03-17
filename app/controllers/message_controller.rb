@@ -12,21 +12,21 @@ class MessageController < ApplicationController
         :conditions => ["(archived is NULL or archived = ?) AND parent_type = 'Message' AND content LIKE ? ", false, search_text]).collect(&:parent_id)
       @messages = Message.limit(2).find(:all, 
         :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend' AND (content LIKE ? OR id in (?) )", wall_ids, false, search_text, @comment_ids])
+      @messagesAll = Message.count(:all, 
+        :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend' AND (content LIKE ? OR id in (?) )", wall_ids, false, search_text, @comment_ids])
     elsif params[:friend_id]
       @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND profile_id=? AND message_type ='Message' AND parent_type='Profile'", wall_ids, false,params[:friend_id]])  
-      @messagesAll = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend'", wall_ids, false]) 
-
+      @messagesAll = Message.count(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend'", wall_ids, false]) 
     else
       @messages = Message.limit(2).find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend'", wall_ids, false])
-      @messagesAll = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend'", wall_ids, false]) 
+      @messagesAll = Message.count(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend'", wall_ids, false]) 
       @friend_requests = Message.limit(2).find(:all, :conditions=>["message_type ='Friend' AND parent_id = ? AND (archived is NULL or archived = ?)", user_session[:profile_id], false])
     end
     @friend = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", user_session[:profile_id]])
     
-    if @messagesAll.size > 2
-       @limitAttr = 2	
+    if @messagesAll > 2
+       @limitAttr = 2
     end
-  
     render :partial => "list",:locals => {:limit => @limitAttr,:friend_id => @friend_id}
   end
   
@@ -185,8 +185,8 @@ class MessageController < ApplicationController
   def friends_only
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
     @messages = Message.limit(2).find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND profile_id=? AND message_type ='Message' AND parent_type='Profile'", wall_ids, false,params[:friend_id]])  
-    @messagesAll = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND profile_id=? AND message_type ='Message' AND parent_type='Profile'", wall_ids, false,params[:friend_id]])  
-    if @messagesAll.size > 2
+    @messagesAll = Message.count(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND profile_id=? AND message_type ='Message' AND parent_type='Profile'", wall_ids, false,params[:friend_id]])  
+    if @messagesAll > 2
        @limitAttr = 2	
     end
     render :partial => "list",:locals => {:limit => @limitAttr,:friend_id =>params[:friend_id]}

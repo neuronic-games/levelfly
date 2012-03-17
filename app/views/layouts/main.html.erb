@@ -67,6 +67,9 @@
             <li rel="/message/">
               Find Message
             </li>
+            <li rel="/group/">
+              Find Group
+            </li>
             <li rel="/friend/">
               Find Friend
             </li>
@@ -98,7 +101,7 @@
           <div class="icon_box"> <a href="javascript:void(0);" rel="/task/" class="icon_tasks menu_btn">tasks</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"> <a href="javascript:void(0);" class="icon_networks menu_btn">networks</a> </div>
+          <div class="icon_box"> <a href="javascript:void(0);" rel="/group/" class="icon_networks menu_btn">networks</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
           <div class="icon_box"> <a href="javascript:void(0);" rel="/wardrobe/" class="icon_stats menu_btn">stats</a> </div>
@@ -123,7 +126,7 @@
 <script type="text/javascript">
 <!--
   var token = $("meta[name='csrf-token']").attr("content");
-  var search_arr = ["Find Friend","Find Course", "Find Task","Find Message"];
+  var search_arr = {"/friend/" : "Find Friend","/course/" : "Find Course", "/task/" : "Find Task", "/message/" : "Find Message", "/group/" : "Find Group"};
   var search_url = "/course/";
   var search_term = $("#search_input").val();
   //Set CSRF Token (Required for ajax request (post))
@@ -135,16 +138,17 @@
     
     //Search option settings
     $("#search_options li").bind("click",function(){
-      $("#search_input").val($.trim($(this).text()));
-      search_url = $(this).attr("rel");
+      set_search($(this).attr("rel"));
       $("#search_options").toggle();
     });
     
     $("#search_input").bind("focus",function(){
-      if($.inArray($("#search_input").val(), search_arr)> -1) { 
-        search_term = $("#search_input").val();
-        $("#search_input").val("");
-      }
+      $.map( search_arr, function(val, i) {
+        if(val == $("#search_input").val()) {
+          search_term = $("#search_input").val();
+          $("#search_input").val("");
+        }
+      });
     });
     
     $("#search_input").bind("focusout",function(){
@@ -184,6 +188,7 @@
       var target = $(this).attr("rel");
       var data = $(this).attr("data");
       load_data(target,data);
+      set_search(target);
     });
   }); //document.ready
   
@@ -212,6 +217,13 @@
           showSpinner(false);
         }
       });
+    }
+  }
+  
+  function set_search(url) {
+    if(url in search_arr) {
+       $("#search_input").val(search_arr[url]);
+       search_url = url;
     }
   }
 -->
