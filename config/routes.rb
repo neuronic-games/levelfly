@@ -74,6 +74,16 @@ Oncapus::Application.routes.draw do
   
   post "course/delete_participant"
   
+  get "group/index"
+  
+  get "group/new"
+
+  get "group/show"
+
+  get "group/create"
+  
+  post "group/create"
+  
   get "wardrobe/index"
   
   get "wardrobe/new"
@@ -93,6 +103,14 @@ Oncapus::Application.routes.draw do
   post "wardrobe/upload_wardrobe_image"
   
   get "message/index"
+  # start  added for new message funtionalites >>>  lmit>>> frinds messages
+  get "message/show_all"
+  
+  get "message/friends_only"
+  
+  get "message/friends_only_all"
+  
+  # end  added for new message funtionalites >>>  lmit>>> frinds messages
   
   post "message/save"
   
@@ -114,13 +132,25 @@ Oncapus::Application.routes.draw do
   
   match 'course' => 'course#index'
   
+  match 'group' => 'group#index'
+  
   match 'wardrobe' => 'wardrobe#index'
   
   match 'message' => 'message#index'
   
+  # start added for new message funtionalites >>>  lmit>>> frinds messages
+  match 'message/friends_only/:friend_id' => 'message#friends_only'
+  
+  
+  match 'message/friends_only_all/:friend_id' => 'message#friends_only_all'
+  
+  # end  added for new message funtionalites >>>  lmit>>> frinds messages
+  
   match 'course/show/:id' => 'course#show'
   
   match 'task/show/:id' => 'task#show'
+  
+  match 'group/show/:id' => 'group#show'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -9,43 +9,44 @@
       <p><%=friend.profile.major.name if friend.profile.major%>, <%=friend.profile.school.code%></p>
       <p>Messaged 3 hours ago</p>
       <div class="spacebar10px"></div>
-      <div align="right" id="frnd_root_btn"><a href="javascript:void(0)" class="blue_bt19px" onClick="javascript:$('#frnd_root_btn').hide();$('#frnd_msg').show();">messages</a></div>
+      <div align="right" id="frnd_root_btn">
+      <!--<a href="javascript:void(0)" id="frnd_msg" rel="<%=friend.profile_id%>" class="blue_bt19px">messages</a>-->
+      <a href="javascript:void(0)" class="blue_bt19px menu_btn" rel="/message/friends_only/<%=friend.profile_id%>">messages</a>
+      </div>
+      
     </div>
     <div class="clear"></div>
   </div>
   <div class="clear"></div>
-  <div id="frnd_msg" align="right" class="hide">
+  <!-- div id="frnd_msg" align="right" class="hide">
     <textarea name="message" id="message_<%=friend.profile_id%>" class="msg_txt"></textarea>
     <div id="frnd_msg_btn" class="msg_btn">
       <a href="javascript:void(0)" id="btn_msg_send" rel="<%=friend.profile_id%>" class="blue_bt19px">Send</a>
       <a href="javascript:void(0)" id="btn_msg_dnt_send"  class="blue_bt19px" onClick="javascript:$('#frnd_msg').hide();$('#frnd_root_btn').show();">Don't Send</a>
     </div>
-  </div>
+  </div -->
 </div>
 <!--friend box-->
 <script type="text/javascript">
 <!--
-  $('#btn_msg_send').click(function(){
+  $('#frnd_msg').click(function(){
     showSpinner(true);
     profile_id = $(this).attr('rel');
     if(profile_id) {
-      message = $('#message_'+profile_id).val();
       var dataString = {
-        parent_id:profile_id,
-        parent_type:"Profile",
-        content: message
+        profile_id:profile_id,
+        parent_type:"Profile"
       };
       //alert(profile_id);return false;
       $.ajax({
         type: "POST",
-        url: "/message/save",
+        url: "/message/friend_messages",
         dataType: 'json',
         data: dataString,
         error: function(){alert("ERROR!!")},
         success: function(data) {
-          if (data.status=="save") {
-            $('#frnd_msg').hide();
-            $('#frnd_root_btn').show();
+          if (data) {
+            $("#container").html(data);
           }
           showSpinner(false);
         }
