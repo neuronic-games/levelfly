@@ -42,6 +42,7 @@
 </div>
 <script type="text/javascript">
   //prepare show links
+$(document).ready(function(){
   $('a.view').click(function() { 
     showSpinner(true);
     $("#container").load(this.href, function(){
@@ -52,4 +53,6 @@
     });
     return false; 
   });
+  jStorage.flush();
+});
 </script>

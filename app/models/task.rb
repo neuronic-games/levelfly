@@ -1,8 +1,10 @@
 class Task < ActiveRecord::Base
+  has_many :group
   belongs_to :category
   belongs_to :school
   belongs_to :task
   belongs_to :course
+  belongs_to :group
   has_many :participants, :as => :object
   has_many :attachments, :as => :object
   has_many :messages, :as => :parent

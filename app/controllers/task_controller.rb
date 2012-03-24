@@ -54,6 +54,7 @@ class TaskController < ApplicationController
       :include => [:participants], 
       :conditions => ["participants.profile_id = ? and participants.profile_type = ?", @profile.id, 'M']
     )
+    @groups = Group.find(:all, :conditions =>["task_id = ?", @task.id])
     @people = Participant.find(
       :all, 
       :include => [:profile], 

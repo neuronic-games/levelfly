@@ -84,6 +84,12 @@ Oncapus::Application.routes.draw do
   
   post "group/create"
   
+  post "group/get_participants"
+  
+  post "group/add_participant"
+  
+  post "group/delete_participant"
+  
   get "wardrobe/index"
   
   get "wardrobe/new"

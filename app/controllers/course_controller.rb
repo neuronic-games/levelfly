@@ -139,19 +139,9 @@ class CourseController < ApplicationController
     render :text => {"course"=>@course, "image_url"=>image_url}.to_json
   end
   
-  def get_participants
-    if params[:school_id] && !params[:school_id].empty?
-      search_text =  "#{params[:search_text]}%"
-      @peoples = Profile.find(:all, :conditions => ["user_id != ? AND school_id = ? AND (name LIKE ? OR full_name LIKE ?)", current_user.id, params[:school_id],search_text,search_text])
-      if !@peoples.empty?
-        render :partial=>"participant_list", :locals=>{:peoples=>@peoples, :mode=>"result" }
-      else
-        render :text=> "No match found"
-      end
-    else
-      render :text=> "Error: Parameters missing !!"
-    end
-  end
+   def get_participants
+    search_participants()
+   end
   
   def add_participant
     status = false

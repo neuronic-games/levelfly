@@ -116,13 +116,18 @@
           </div>
         </div>
       </div>
-      <div id="div_5">
-        <%if @group%>
-          <%= render :partial => "/group/list", :locals => {:@groups=>@groups, :mode=>"list"} %>
-        <%else%>
-          Currently no any group
-        <%end%>
-      </div><!-- div 5-->
+     <div id="div_5" class="form_container hide">
+        <div class="frm_label small_label">
+         Groups
+        </div>
+        <div id="new_group" class="frm_input">
+          <% if @groups %>
+            <%= render :partial => "/shared/list", :locals => {:groups=>@groups, :mode=>"list"} %>
+          <%else%>
+            <%= render :partial => "/shared/group_form" %>
+          <% end %>
+        </div>
+        </div><!-- div 5-->
       <input type="hidden" name="course_id" id="course_id_hdn" value="<%=@course.id if @course%>" />
       <input type="hidden" name="wall_id" id="course_wall_id_hdn" value="<%= @wall.id if @wall && !@wall.nil? %>" />
       <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
@@ -143,7 +148,7 @@
     <a href="javascript:void(0)" value="4" id="category_tab" class="sbmt_course" >CATEGORIES</a>
   </div>
   <div>
-    <a href="javascript:void(0)" value="5" id="group_tab" class="sbmt_course" >Groups</a>
+    <a href="javascript:void(0)" value="5" id="group_tab" class="sbmt_course" >GROUPS</a>
   </div>
 </div>
 <div id="sidebar_right">
@@ -161,7 +166,7 @@
 </div>
 <script type="text/javascript">
 <!-- 
-jStorage.flush();
+//jStorage.flush();
 //For dynamic added nodes
 var _counterPeople = 2;
 var _counterOutcome = 2;
@@ -427,7 +432,6 @@ $(document).ready(function(){
     });
     
     var dataString = 'categories='+category_id;
-    
     $.ajax({  
       type: "POST",  
       url: "/course/remove_course_categories",  

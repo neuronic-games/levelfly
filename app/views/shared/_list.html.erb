@@ -1,0 +1,54 @@
+<div class="screen_title">
+  GROUP ITEM
+</div>
+<div class="content_wrapper" id ="show_groups">
+  <table width="95%" align="center" cellspacing="0" cellpadding="4">
+    <tr class="tbl_header">
+      <td width="40%">
+        Name
+      </td>
+      <td>
+        Description
+      </td>
+    </tr>
+    <% @groups.each do |g| %>
+    <tr class="<%= cycle("even", "odd") %>">
+      <td>
+        <a href="/group/show/<%=g.id%>" class="view"><%=g.name%></a>
+      </td>
+      <td>
+        <%=g.descr %>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+  <div id="sidebar_right" >
+  <div id="crud_level">
+    <input type="button" name="menu_btn_add" id="add_new_group" value="Add" class="menu_btn"/>
+  </div><!-- crud_level -->
+</div>
+</div>
+
+<div id="create_group" style="Display:none">
+  <%= render :partial => "/shared/group_form" %>
+</div>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+  //prepare show links
+   $('a.view').click(function() {
+    showSpinner(true);
+      $("#container").load(this.href, function(){
+      $("#menu_btn_dup").show();
+      showSpinner(false);
+    }); 
+    return false; 
+  });
+  
+  $("#add_new_group").click(function(){
+	$("#create_group").css("display","block");
+	$("#show_groups").css("display","none");
+ });
+});
+-->
+</script>
