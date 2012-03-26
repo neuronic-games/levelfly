@@ -21,13 +21,7 @@
             <%= render :partial => "/message/friend_requests", :locals => {:friend_request=>friend_request} %>
           <% end %>
         <% end %>
-        <% if limit%>
-          <% if friend_id %>
-            <a class="menu_btn" rel="/message/friends_only_all/<%=friend_id%>" href="javascript:void(0);">show all</a>
-          <%else%>
-            <a class="menu_btn" rel="/message/show_all" href="javascript:void(0);">show all</a>
-          <%end%>
-        <%end%>
+       
       </div>
     <!-- Message ends -->
     
