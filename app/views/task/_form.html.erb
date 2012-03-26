@@ -45,6 +45,9 @@ function addNode(element) {
             <a href="javascript:void(0)" value="4" class="tab_close">
               <img src="images/participants_text.png" class="participants_tab" />
             </a> 
+            <a href="javascript:void(0)" value="5" class="tab_close" id="group_tab">
+              <img src="images/task_text.png" class="groups_tab" />
+            </a> 
           </div>
           <!--tab content-->
           <div class="tab_content" id="div_1">
@@ -264,6 +267,17 @@ function addNode(element) {
               <!-- Message ends -->
             <% end %>
           </div>
+		  
+		  <div id="div_5" class="tab_content hide">
+		 <div class="frm_label">
+          <!--Groups-->
+         </div>
+	     <% if @groups %>
+           <%= render :partial => "/shared/list", :locals => {:groups=>@groups, :mode=>"list"} %>
+		   <%else%>
+          <%= render :partial => "/shared/group_form" %>
+       <% end %>
+		  </div> 
         <div class="clear"></div>
       </div>
     </div>
@@ -272,7 +286,7 @@ function addNode(element) {
 <script type="text/javascript">
 <!--
 //Flush the previous offline storage
-jStorage.flush();
+//jStorage.flush();
 //For dynamic added nodes
 var _counter = 2;
 var _counter_people = 2;
@@ -303,7 +317,7 @@ $(document).ready(function(){
     idx = $(this).attr("value");
     $(".menu_container a").removeClass("active");
     $(this).addClass("active");
-    for(i=0;i<4;i++){
+    for(i=0;i<6;i++){
       if(idx != i){
         $("#div_"+i).hide();
       }
@@ -316,6 +330,10 @@ $(document).ready(function(){
     }
     $("#div_"+idx).fadeIn();
   });
+  
+  $("#group_tab").click(function(){
+    save_task();
+ });//Submit data
   
   //Submit data
   $("#btn_task").unbind('click').bind('click', function(){
@@ -609,5 +627,63 @@ $(document).ready(function(){
   });
   
 }); //document.ready ends
+
+function save_task() {
+ 
+    showSpinner(true);
+    //Get data from offline storage
+    task_id = $("#task_id_hdn").val();
+    task = getStorage("task_name");
+    descr = getStorage("task_descr");
+    due_date = getStorage("task_due_date");
+    level = getStorage("task_level");
+    course_id = getStorage("task_course");
+    school_id = $("#task_school_id_hdn").val();
+    category_id = getStorage("task_category");
+    
+    //For outcome data object (gather values from dynamic created nodes)
+    var outcomeObject = [];
+    i = 0
+    $("input[name='chk_outcomes[]']").each(function(){
+        if(this.checked) {
+          storage_key = "task_outcomes_"+$(this).attr('id');
+          outcomeObject[i] =  getStorage(storage_key);
+          i++
+        }
+    });
+    //get people id from offline storage
+    j = 0;
+    $.each($('input[name="task_people_id[]"]'), function() {
+      _taskPeopleObject[j] = getStorage($(this).attr('id'));
+      j++;
+    });
+    
+    //get people email from offline storage
+    k = 0;
+    $.each($('input[name="add_task_people_email[]"]'), function() {
+      _addTaskPeopleEmailObject[k] = getStorage($(this).attr('id'));
+      k++;
+    });
+    
+    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id;  
+    //alert (dataString);return false;  
+    $.ajax({  
+      type: "POST",  
+      url: "/task/save",  
+      data: dataString,
+      dataType:"json",
+      success: function(data) {
+        if (data) {
+          //alert("Data Saved");
+          $("#task_id_hdn").val(data.task.id);
+        } else {
+          alert("ERROR");
+        }
+        showSpinner(false);
+      }
+    });  
+    return false;  
+  }
+
 -->
 </script>

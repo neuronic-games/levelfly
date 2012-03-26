@@ -1,0 +1,241 @@
+<div class="screen_title">
+  VIEW GROUP
+</div>
+<div class="content_wrapper">
+  <div class="content_container">
+    <form name="frm_task" id="frm_task" enctype="multipart/form-data">
+      <div id="div_1" class="form_container">
+        <div class="left_form_container">
+          <div class="thumbnail_large" id="course_image">
+            <img id="group_thumb" src='<%= @course && @course.image_file_name ? @course.image.url : "/images/majors/ACCOUNTING.png" %>' alt="Group image" />
+          </div>
+        </div>
+        <div class="right_form_container">
+          <div class="frm_input">
+            <span>Name</span>
+            <input type="text" name="group_name" id="group_name" class="large" value="<%=@group.name if @group%>" onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+          </div>
+          <div class="frm_input">
+            <span>Description</span>
+            <textarea name="group_descr" id="group_descr" rows="10" onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@group.descr if @group%></textarea>
+          </div>
+         </div>
+      </div>
+	  
+	    <div id="div_2" class="form_container hide">
+        <div class="frm_label small_label">
+          Participants
+        </div>
+        <div class="frm_input">
+          <input type="text" name="add_people_email[]" class="medium" id="add_people_text" /> 
+          <input type="button" name="btn_add_people" id="btn_add_people_group" value="Add" />
+          <div class="frm_input" id="add_people_container">
+          </div>
+        </div>
+        <div class="frm_label small_label">
+          &nbsp;
+        </div>
+        <div id="group_people" class="frm_input">
+          <% if @peoples %>
+            <%= render :partial => "/shared/participant_list", :locals => {:peoples=>@peoples, :mode=>"list"} %>
+          <% end %>
+        </div>
+        <div id="participant_list" class="hide">
+          <div style="width:40px;height:10px;float:right;padding:2px;">
+            <a href="javascript:void(0)" onClick="javascript:$('#participant_list').hide();">Close</a>
+          </div>
+          <div id="participant_list_inner">
+              Loading...
+          </div>
+        </div>
+      </div>
+      <input type="hidden" name="task_id" id="task_id_id_hdn" value="<%= @task_id if @task%>" />
+      <input type="hidden" name="course_id" id="course_id_id_hdn" value="<%= @course_id if @course%>" />
+      <input type="hidden" name="group_id" id="group_id_hdn" value="<%= @group.id if @group%>" />
+      <input type="hidden" name="wall_id" id="group_wall_id_hdn" value="<%= @wall.id if @wall && !@wall.nil? %>" />
+      <input type="hidden" name="school_id" id="group_school_id_hdn" value="<%= @profile.school_id %>" />
+     </form>
+  </div>
+</div>
+<div class= "menu_container">
+<% if @group%>
+<div class="menu_container">
+<div>
+    <a href="javascript:void(0)" value="2" id="people_tab" class="sbmt_course">PEOPLE</a>
+</div>
+</div>
+<%end%>
+</div>
+<div id="sidebar_right">
+  <div id="crud_level">
+    <input type="button" name="btn_group" id="btn_group" class="sbmt_group" value="Save"/>
+    <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@group ? false : true %>" />
+  </div><!-- crud_level -->
+</div>
+<script type="text/javascript">
+
+jStorage.flush();
+
+//set storage on load while view of group
+if($("#group_name").val()!=""){setStorage("group_name", $("#group_name").val());} else {setStorage("group_name", "New Group");}
+if($("#group_descr").val()!="") {setStorage("group_descr", $("#group_descr").val());} else {setStorage("group_descr", "New Group Description");}
+$(document).ready(function(){
+$(".menu_container a").unbind('click').bind('click', function(){
+    idx = $(this).attr("value");
+    $(".menu_container a").removeClass("active");
+    $(this).addClass("active");
+    for(i=0;i<3;i++){
+      if(idx != i){
+        $("#div_"+i).hide();
+      }
+    }
+    /*if(idx == 1) {
+	
+      $("#btn_people_remove").fadeIn();
+    } else {
+     $("#btn_people_remove").hide();
+    }*/
+    $("#div_"+idx).fadeIn();
+    is_page_change = $("#hdn_is_page_change").val();
+    if(is_page_change=="true") {
+      save_group(this.id);
+    }
+  });
+
+ //Submit data
+ $("#btn_group").unbind('click').bind('click', function(){
+    save_group(this.id);
+  });
+ 
+   //List people (participants)
+  $("#btn_add_people_group").click(function() {
+    text = $("#add_people_text").val();
+    school_id = $("#group_school_id_hdn").val();
+    dataString = {school_id:school_id, search_text:text};
+    if (text!="") {
+      if(school_id) {
+        showSpinner(true);
+        $("#participant_list").show();
+        $("#participant_list_inner").html("Loading...");
+        $.ajax({  
+          type: "POST",  
+          url: "/group/get_participants",  
+          data: dataString,
+          success: function(data) {
+            if (data) {
+              $("#participant_list_inner").html(data);
+            } else {
+              alert("ERROR");
+            }
+            showSpinner(false);
+          }
+        });
+      }
+    } else {
+      alert("Please insert participant name");
+    }
+  });
+  
+  //Add people (participant) to group  li for profile_id
+  $("#participant_list").delegate(".people_node li", "click", function(){
+    showSpinner(true);
+    group_id = $("#group_id_hdn").val();
+    profile_id = $(this).attr("id");
+    profile_name = $(this).text();
+    node_class = $(this).attr("class");
+    dataString = {group_id:group_id, profile_id:profile_id};//hash
+    if (profile_id && group_id) {
+      $.ajax({  
+        type: "POST",  
+        url: "/group/add_participant",  
+        data: dataString,
+        dataType: "json",
+        success: function(data) {
+          if (data.status) {
+            participant_node = $('<li></li>');
+            participant_node.class = node_class;
+            participant_node.id = profile_id;
+            partcipant_html = '<div class="people_name">' + profile_name + '</div>';
+            partcipant_html += '<div class="people_delete"><a href="javascript:void(0)">Delete</a></div>';
+            participant_node.append(partcipant_html);
+			
+            $("#group_people ul").append(participant_node);
+            $("#participant_list").hide();
+            $("#hdn_is_page_change").val(true);
+          } else {
+            if(data.already_added) {
+              alert("This participant is already added to this group!!");
+            } else {
+              alert("ERROR");
+              $("#participant_list").hide();
+            }
+          }
+          showSpinner(false);
+        }
+      }); 
+    }
+  });
+  
+  //Delete participant 
+  $(".people_node li").delegate(".people_delete a", "click", function(){
+    showSpinner(true);
+    profile_id = $(this).attr("rel");
+    group_id = $("#group_id_hdn").val(); 
+    dataString = {group_id:group_id, profile_id:profile_id};
+    if(profile_id) {
+      $.ajax({  
+        type: "POST",  
+        url: "/group/delete_participant",  
+        data: dataString,
+        success: function(data) {
+          if (data) {
+            $("#"+profile_id).remove();
+          } else {
+            alert("ERROR");
+          }
+          showSpinner(false);
+        }
+      });
+    }
+  });
+  }); 
+ //Save course
+function save_group(channel) {
+ //Get data from offline storage
+ id = $("#group_id_hdn").val();
+ name = getStorage("group_name");
+ descr = getStorage("group_descr");
+ task_id= $("#task_id_hdn").val();
+ course_id= $("#course_id_hdn").val()
+ //alert("course_id="+course_id+" task_id= "+task_id);
+ var dataString = 'id='+ id +'&name=' + name + '&descr=' + descr + '&task_id=' + task_id + '&course_id=' + course_id ;  
+	  showSpinner(true);
+       $.ajax({  
+      type: "POST",  
+      url: "/group/create",  
+      data: dataString,
+      dataType:"json",
+      error: function (error) {
+                  alert('error; ' + dataString);
+              },
+      success: function(data) {
+      $("#group_id_hdn").val(data.group.id);
+        if (data.group.course_id) {
+          $("#container").load('/course/');
+            showSpinner(false);
+        } else if (data.group.task_id) {
+          $("#container").load('/task/');
+            showSpinner(false);
+        } else if (channel=="btn_group") {
+          $("#container").load('/group/');
+            showSpinner(false);
+        } else {
+           alert("ERROR");
+           showSpinner(false);
+        }
+      }
+    }); 	
+    return false;  
+}
+-->
+</script>;

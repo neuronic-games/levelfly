@@ -1,3 +1,4 @@
+<div class="pdg78px">
 <div class="screen_title">
   TASK
 </div>
@@ -40,8 +41,10 @@
     <input type="button" name="menu_btn_add" id="menu_btn_add" rel="/task/new" value="Add" class="menu_btn"/>
   </div><!-- crud_level -->
 </div>
+</div>
 <script type="text/javascript">
   //prepare show links
+$(document).ready(function(){
   $('a.view').click(function() { 
     showSpinner(true);
     $("#container").load(this.href, function(){
@@ -52,4 +55,6 @@
     });
     return false; 
   });
+  jStorage.flush();
+});
 </script>
