@@ -1,3 +1,4 @@
+<div class="pdg78px">
 <div class="screen_title">
   VIEW COURSE
 </div>
@@ -42,8 +43,8 @@
             <div class="frm_input">
               <div id="message_wrapper" class="message_wrapper">
                 &nbsp;
-                <% if @course.messages %>
-                  <% @course.messages.each do |message| %>
+                <% if @course_messages=@course.messages.find(:all,:order => "created_at DESC" )%>
+                  <% @course_messages.each do |message| %>
                     <%= render :partial => "/message/messages", :locals => {:message=>message} %>
                   <% end %>
                 <% end %>
@@ -133,6 +134,7 @@
       <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
     </form>
   </div>
+</div>
 </div>
 <div class="menu_container">
   <div>

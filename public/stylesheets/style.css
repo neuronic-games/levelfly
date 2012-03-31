@@ -1095,3 +1095,9 @@ a.blue_bt19px:hover {
   font-weight:bold;
 }
 .pdg78px {padding:78px 0 0 0}
+
+.linkcolour a{
+  color: #B6D496;
+  text-decoration:none;
+  padding:0 0 0 100px;
+}
