@@ -2,6 +2,12 @@ Oncapus::Application.routes.draw do
 
   devise_for :users
 
+  post "task/view_task"#for get task related to course
+  
+  get "task/view_task"
+  
+   get "task/list"
+   
   get "profile/index"
 
   get "profile/show"

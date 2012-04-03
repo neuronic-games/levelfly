@@ -270,4 +270,8 @@ class TaskController < ApplicationController
     end
   end
   
+  def view_task
+     @tasks=Task.find(:all, :conditions =>["course_id = ?", params[:course_id]])
+     render :partial => "/task/list", :locals=>{:tasks=>@tasks}
+  end
 end
