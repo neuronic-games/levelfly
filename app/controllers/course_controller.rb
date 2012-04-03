@@ -61,6 +61,12 @@ class CourseController < ApplicationController
       :include => [:participants], 
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @course.id]
     )
+    @courseMaster = Profile.find(
+      :all, 
+      :include => [:participants], 
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", @course.id]
+      )
+    @totaltask=Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
     respond_to do |wants|
       wants.html do

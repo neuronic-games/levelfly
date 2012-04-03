@@ -1,7 +1,7 @@
 module MessageHelper
 
   def comment_list(message_id)
-    @comments = Message.find(:all, :conditions=>["parent_id = ? AND parent_type='Message'", message_id])
+    @comments = Message.find(:all, :conditions=>["parent_id = ? AND parent_type='Message'", message_id], :order => 'created_at DESC')
     return @comments
   end
   

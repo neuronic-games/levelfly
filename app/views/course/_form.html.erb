@@ -1,156 +1,6 @@
 <div class="screen_title">
   VIEW COURSE
 </div>
-<div class="content_wrapper">
-  <div class="content_container">
-    <form name="frm_task" id="frm_task" enctype="multipart/form-data">
-      <div id="div_1" class="form_container">
-        <div class="left_form_container">
-          <div class="thumbnail_large" id="course_image">
-            <img id="course_thumb" src='<%= @course && @course.image_file_name ? @course.image.url : "/images/majors/ACCOUNTING.png" %>' alt="Course image" />
-          </div>
-        </div>
-        <div class="right_form_container">
-          <div class="frm_input">
-            <span>Course</span>
-            <input type="text" name="course_name" id="course_name" class="large" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("course_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
-          </div>
-          <div class="frm_input">
-            <span>Description</span>
-            <textarea name="course_descr" id="course_descr" rows="10" onBlur='javascript:setStorage("course_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
-          </div>
-          <div class="frm_input">
-            <span>Code</span> <br />
-            <input type="text" name="course_code" id="course_code" value="<%=@course.code if @course%>" class="small" onBlur='javascript:setStorage("course_code", $(this).val());$("#hdn_is_page_change").val(true);' />
-          </div>
-          <% if @course %>
-            <!-- Message -->
-            <div id="msg_input" class="message_input hide">
-              <label>Message</label> <br />
-                <textarea id="msg_content" name="msg_content" cols="15" rows="6"></textarea> <br />
-                <span>
-                  <input type="button" name="sbmt_msg" class="sbmt_msg" title="msg_content" id="<%=@course.id%>" rel="Course" value="Post" />
-                </span>
-                &nbsp;
-                <span>
-                  <a href="javascript:void(0)" onclick="javascript:$('#msg_input').fadeOut()">Cancel</a>
-                </span>
-            </div>
-            <div class="frm_label">
-              <input type="button" name="post_msg" id="post_msg" value="Post Message" class="big_btn" onclick="javascript:$('#msg_input').fadeIn()"/>
-            </div>
-            <div class="frm_input">
-              <div id="message_wrapper" class="message_wrapper">
-                &nbsp;
-                <% if @course.messages %>
-                  <% @course.messages.each do |message| %>
-                    <%= render :partial => "/message/messages", :locals => {:message=>message} %>
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
-            <!-- Message ends -->
-          <% end %>
-        </div>
-      </div>
-      <div id="div_2" class="form_container hide">
-        <div class="frm_label small_label">
-          Participants
-        </div>
-        <div class="frm_input">
-          <input type="text" name="add_people_email[]" class="medium" id="add_people_text" /> 
-          <input type="button" name="btn_add_people" id="btn_add_people" value="Add" />
-          <div class="frm_input" id="add_people_container">
-          </div>
-        </div>
-        <div class="frm_label small_label">
-          &nbsp;
-        </div>
-        <div id="course_people" class="frm_input">
-          <% if @peoples %>
-            <%= render :partial => "/course/participant_list", :locals => {:peoples=>@peoples, :mode=>"list"} %>
-          <% end %>
-        </div>
-        <div id="participant_list" class="hide">
-          <div style="width:40px;height:10px;float:right;padding:2px;">
-            <a href="javascript:void(0)" onClick="javascript:$('#participant_list').hide();">Close</a>
-          </div>
-          <div id="participant_list_inner">
-              Loading...
-          </div>
-        </div>
-      </div>
-      <div id="div_3" class="form_container hide">
-        <div class="frm_label small_label">
-          Outcomes
-        </div>
-        <div class="frm_input">
-          <% if @course %>
-            <% @course.outcomes.each do |o| %>
-              <div style="margin-top:5px;" id="outcome_div_<%=o.id%>" class="outcome_div">
-                <input type="checkbox" name="chk_outcome[]"  id="<%=o.id%>" value="<%=o.id%>" />
-                <input type="text" name="loaded_outcomes[]" value="<%= o.name %>" rel="<%=o.id%>" class="medium" /> &nbsp;&nbsp;
-              </div>
-            <% end %>
-          <% end %>
-          <div id="add_outcome_container" style="margin:10px 0 0 22px;">
-            <input type="text" name="outcomes[]" id="outcomes_1" class="medium" /> &nbsp;&nbsp;
-          </div>
-        </div>
-      </div>
-      <div id="div_4" class="form_container hide">
-        <div class="frm_label small_label">
-          Categories
-        </div>
-        <div class="frm_input">
-          <% if @course %>
-            <% @course.categories.each do |c| %>
-              <div style="margin-top:10px;" id="category_div_<%=c.id%>">
-                <input type="checkbox" name="chk_categories[]"  id="<%=c.id%>" value="<%=c.id%>" />
-                <input type="text" name="loaded_categories[]" value="<%= c.name %>" rel="<%=c.id%>" class="medium" /> &nbsp;&nbsp;
-              </div>
-            <% end %>
-          <% end %>
-          <div  id="add_category_container" style="margin:10px 0 0 22px;">
-            <input type="text" name="categories[]" id="categories_1" class="medium" /> &nbsp;&nbsp;
-          </div>
-        </div>
-      </div>
-     <div id="div_5" class="form_container hide">
-        <div class="frm_label small_label">
-         Groups
-        </div>
-        <div id="new_group" class="frm_input">
-          <% if @groups %>
-            <%= render :partial => "/shared/list", :locals => {:groups=>@groups, :mode=>"list"} %>
-          <%else%>
-            <%= render :partial => "/shared/group_form" %>
-          <% end %>
-        </div>
-        </div><!-- div 5-->
-      <input type="hidden" name="course_id" id="course_id_hdn" value="<%=@course.id if @course%>" />
-      <input type="hidden" name="wall_id" id="course_wall_id_hdn" value="<%= @wall.id if @wall && !@wall.nil? %>" />
-      <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
-    </form>
-  </div>
-</div>
-<div class="menu_container">
-  <div>
-    <a href="javascript:void(0)" value="1" class="active">SUMMARY</a>
-  </div>
-  <div>
-    <a href="javascript:void(0)" value="2" id="people_tab" class="sbmt_course" >PEOPLE</a>
-  </div>
-  <div>
-    <a href="javascript:void(0)" value="3" id="outcome_tab"  class="sbmt_course" >OUTCOMES</a>
-  </div>
-  <div>
-    <a href="javascript:void(0)" value="4" id="category_tab" class="sbmt_course" >CATEGORIES</a>
-  </div>
-  <div>
-    <a href="javascript:void(0)" value="5" id="group_tab" class="sbmt_course" >GROUPS</a>
-  </div>
-</div>
 <div id="sidebar_right">
   <div id="crud_level">
     <input type="button" name="btn_course" id="btn_course" class="sbmt_course" value="Save"/>
@@ -164,9 +14,228 @@
     <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@course ? false : true %>" />
   </div><!-- crud_level -->
 </div>
+   <div class="course_content">
+            <div class="course_board_left">
+              <div class="course_board_right">
+                <div class="course_board_center">
+                  <div class="texture_board">
+                    <div class="course_pad_top"> </div>
+                    <div class="course_pad">
+                      <!-- tabs-->
+                      <div class="menu_container">
+                        <div class="course_tabs" align="right">
+                          <a  href="javascript:void(0)"   value="1" class="course_tab_open" ><img src="images/course_text.png" class="course_tab" /></a> 
+                          <a  href="javascript:void(0)"  value="6" class="course_tab_close"><img src="images/grading_text.png" class="grading_tab" /></a> 
+                          <a  href="javascript:void(0)"  value="2" class="course_tab_close"><img src="images/member_text.png" class="member_tab" /></a> 
+                          <a  href="javascript:void(0)"  value="3" class="course_tab_close"><img src="images/member_text.png" class="member_tab" />OUTCOMES</a> 
+                          <a  href="javascript:void(0)"  value="4" class="course_tab_close"><img src="images/member_text.png" class="member_tab" />CATEGORIES</a> 
+                          <a  href="javascript:void(0)"  value="5" class="course_tab_close"><img src="images/member_text.png" class="member_tab" />GROUP</a> 
+                        </div>
+                      </div>
+                    <div class="course_tab_content">
+                    <div class="right_form_containerr">
+                      <div id="div_1" class="form_container1">
+                        <div class="course_left">
+                          <div class="course_profile_image"> <img src="images/task_profile_img.jpg" width="156" height="156" /> 
+                          </div>
+                        </div>
+                        <div class="course_right" >
+                          <!--list box-->
+                          <div class="course_detailbox">
+                            <div class="course_field_box1">
+                                <div class="course_viewfield">COURSE NAME
+                                  <div class="dd_bg brown_bg">
+                                    <input type="text" name="course_name" id="course_name" class="dd_select brown_bg" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("course_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+                                  </div>
+                                </div>
+                                <div class="catagory_viewfield">COURSE CODE
+                                  <div class="dd_bg brown_bg">
+                                   <input type="text" name="course_code" id="course_code" value="<%=@course.code if @course%>" class="small dd_input brown_bg" onBlur='javascript:setStorage("course_code", $(this).val());$("#hdn_is_page_change").val(true);' />
+                                  </div>
+                                </div>
+                                <div class="clear"></div>
+                                <div class="spacebar10px"></div>
+                                <div class="course_activity_list">
+                                
+                                
+                                  <div class="CAL_01"><span> <% if @totaltask %> <% total_task = @totaltask.count %><%=total_task%><% else %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW</a></div>
+                                  
+                                  <div class="CAL_01"><span>21 SHARED FILES</span> <a href="javascript:void(0)" class="green_bt19px">VIEW</a></div>
+                                 
+                                   
+                                   <div class="menu_container">
+                                  <div class="CAL_01"><span> <% if @peoples %><%=@peoples.count%><% else %>0 <% end %> MEMBERS</span> <a href="javascript:void(0)" value="2" class="green_bt19px">VIEW</a></div>
+                                 
+                                  </div>
+                                </div>
+                                <div class="course_teacher_name">
+                                 <% if @courseMaster %>
+                                 <% @courseMaster.each do |p| %>
+                                  <div class="avatar_white_bdr"><img  src="https://s3.amazonaws.com/<%=p.school.vaults[0].folder%>/avatar_thumb/avatar_<%=p.id%>.jpg" /></div>
+                                
+                                  <div class="avatar_name">Prof. <%=p.full_name%> </div>
+                                  <% end %>
+                                  <% end %>
+                                </div>
+                             <div class="clear"></div>
+                            </div>
+                          </div>
+                          <!--list box-->
+                        </div>
+                        <div class="clear"></div>
+                    <% if @course %>
+                    <!-- Message -->
+                      
+                      <div id="msg_input" class="message_input hide">
+                        <label>Message</label> <br />
+                          <textarea id="msg_content" name="msg_content" cols="15" rows="6"></textarea> <br />
+                          <span>
+                            <input type="button" name="sbmt_msg" class="sbmt_msg" title="msg_content" id="<%=@course.id%>" rel="Course" value="Post" />
+                          </span>
+                          &nbsp;
+                          <span>
+                            <a href="javascript:void(0)" onclick="javascript:$('#msg_input').fadeOut()">Cancel</a>
+                          </span>
+                      </div>
+                      <div class="frm_label">
+                      <div align="right" class="course_newmsg_bt"><a class="blue_bt19px" onclick="javascript:$('#msg_input').fadeIn()">NEW MESSAGE</a> 
+                      </div>
+                      </div>
+                      <div class="frm_input">
+                        <div id="message_wrapper" class="message_wrapper">
+                        &nbsp;
+                        <% if @course_messages=@course.messages.find(:all,:order => "created_at DESC" )%>
+                          <% @course_messages.each do |message| %>
+                            <%= render :partial => "/message/messages", :locals => {:message=>message} %>
+                          <% end %>
+                        <% end %>
+                        </div>
+                      </div>
+                    <!-- Message ends -->
+                    <% end %>
+                   </div>
+                  </div>
+                <div id="div_2" class="tab_content hide">
+                  <div class="frm_label small_label">
+                    Participants
+                  </div>
+                  <div class="frm_input">
+                    <input type="text" name="add_people_email[]" class="medium" id="add_people_text" /> 
+                    <input type="button" name="btn_add_people" id="btn_add_people" value="Add" />
+                    <div class="frm_input" id="add_people_container">
+                    </div>
+                  </div>
+                  <div class="frm_label small_label">
+                    &nbsp;
+                  </div>
+                  <div id="course_people" class="frm_input">
+                    <% if @peoples %>
+                      <%= render :partial => "/course/participant_list", :locals => {:peoples=>@peoples, :mode=>"list"} %>
+                    <% end %>
+                  </div>
+                  <div id="participant_list" class="hide">
+                    <div style="width:40px;height:10px;float:right;padding:2px;">
+                      <a href="javascript:void(0)" onClick="javascript:$('#participant_list').hide();">Close</a>
+                    </div>
+                    <div id="participant_list_inner">
+                        Loading...
+                    </div>
+                  </div>
+                </div>
+                <div id="div_3" class="tab_content hide">
+                  <div class="frm_label small_label">
+                    Outcomes
+                  </div>
+                  <div class="frm_input">
+                    <% if @course %>
+                      <% @course.outcomes.each do |o| %>
+                        <div style="margin-top:5px;" id="outcome_div_<%=o.id%>" class="outcome_div">
+                          <input type="checkbox" name="chk_outcome[]"  id="<%=o.id%>" value="<%=o.id%>" />
+                          <input type="text" name="loaded_outcomes[]" value="<%= o.name %>" rel="<%=o.id%>" class="medium" /> &nbsp;&nbsp;
+                        </div>
+                      <% end %>
+                    <% end %>
+                    <div id="add_outcome_container" style="margin:10px 0 0 22px;">
+                      <input type="text" name="outcomes[]" id="outcomes_1" class="medium" /> &nbsp;&nbsp;
+                    </div>
+                  </div>
+                </div>
+                <div id="div_4" class="tab_content hide">
+                  <div class="frm_label small_label">
+                    Categories
+                  </div>
+                  <div class="frm_input">
+                    <% if @course %>
+                      <% @course.categories.each do |c| %>
+                        <div style="margin-top:10px;" id="category_div_<%=c.id%>">
+                          <input type="checkbox" name="chk_categories[]"  id="<%=c.id%>" value="<%=c.id%>" />
+                          <input type="text" name="loaded_categories[]" value="<%= c.name %>" rel="<%=c.id%>" class="medium" /> &nbsp;&nbsp;
+                        </div>
+                      <% end %>
+                    <% end %>
+                    <div  id="add_category_container" style="margin:10px 0 0 22px;">
+                      <input type="text" name="categories[]" id="categories_1" class="medium" /> &nbsp;&nbsp;
+                    </div>
+                  </div>
+                </div>
+               <div id="div_5" class="tab_content hide">
+                  <div class="frm_label small_label">
+                   Groups
+                  </div>
+                  <div id="new_group" class="frm_input">
+                    <% if @groups %>
+                      <%= render :partial => "/shared/list", :locals => {:groups=>@groups, :mode=>"list"} %>
+                    <%else%>
+                      <%= render :partial => "/shared/group_form" %>
+                    <% end %>
+                  </div>
+                 </div><!-- div 5-->
+                  <div id="div_6" class="tab_content hide">
+                  <div class="frm_label">
+                    Level
+                  </div>
+                  <div class="frm_input">
+                    <div class="level_radio">
+                      <input type="radio" name="level" id="level_easy" value="1" onClick='javascript:setStorage("task_level", $(this).val())' />
+                    </div>
+                    <div class="level_label">
+                      Easy
+                    </div>
+                    <div class="level_radio">
+                      <input type="radio" name="level" id="level_medium" value="2" onClick='javascript:setStorage("task_level", $(this).val())' />
+                    </div>
+                    <div class="level_label">
+                      Medium
+                    </div>
+                    <div class="level_radio">
+                      <input type="radio" name="level" id="level_high" value="3"  onClick='javascript:setStorage("task_level", $(this).val())' />
+                    </div>
+                    <div class="level_label">
+                      Hard
+                    </div>
+                  </div>
+                  <div class="frm_label">
+                    Outcomes
+                  </div>
+                  <div class="frm_input" id="outcomes_container">
+                    <% if @outcomes %>
+                      <%= render :partial => "course_outcomes" %>
+                    <% end %>
+                  </div>
+                </div>
+                     <input type="hidden" name="course_id" id="course_id_hdn" value="<%=@course.id if @course%>" />
+                     <input type="hidden" name="wall_id" id="course_wall_id_hdn" value="<%= @wall.id if @wall && !@wall.nil? %>" />
+                     <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+ </div>
 <script type="text/javascript">
 <!-- 
-//jStorage.flush();
+jStorage.flush();
 //For dynamic added nodes
 var _counterPeople = 2;
 var _counterOutcome = 2;
@@ -186,12 +255,13 @@ if($("#course_descr").val()!="") {setStorage("course_descr", $("#course_descr").
 if($("#course_code").val()!="") {setStorage("course_code", $("#course_code").val());} else {setStorage("course_code", "New Course Code");}
 
 $(document).ready(function(){
+
   //Toggle Tabs
   $(".menu_container a").unbind('click').bind('click', function(){
     idx = $(this).attr("value");
     $(".menu_container a").removeClass("active");
     $(this).addClass("active");
-    for(i=0;i<6;i++){
+    for(i=0;i<7;i++){
       if(idx != i){
         $("#div_"+i).hide();
       }
@@ -225,6 +295,28 @@ $(document).ready(function(){
   $("#btn_course").unbind('click').bind('click', function(){
     save_course(this.id);
   });
+  
+ 
+$("#btn_task").click(function(data){
+    var course_id=$("#course_id_hdn").val();
+    var dataString = {course_id:course_id};
+    showSpinner(true);
+    $.ajax({  
+    type: "GET",  
+    url: "/task/view_task",  
+    data: dataString,
+    success: function(data) {
+      $("#container").html(data);
+      showSpinner(false);
+    },
+    error: function()
+    {
+      alert("An Error has occured");
+      showSpinner(false);
+    }
+  }); 
+});
+
   
   //For updating outcomes (in course view screen)
   $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
@@ -444,7 +536,7 @@ $(document).ready(function(){
   });
   
   //Post Message
-  $('.right_form_container').delegate('.sbmt_msg', 'click', function(){
+  $('.right_form_containerr').delegate('.sbmt_msg', 'click', function(){
     showSpinner(true);
     parent_id = $(this).attr("id");
     parent_type = $(this).attr("rel");
