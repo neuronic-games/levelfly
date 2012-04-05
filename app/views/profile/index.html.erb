@@ -277,7 +277,7 @@ $(window).load(function() {
       if (model.item_type == "hair" || model.item_type == "hat") {
         item_type_back = model.item_type + "_back";
         _avatar[item_type_back] = _avatar[model.item_type] + "_back";
-        $("#"+item_type_back).attr("src", "/images/wardrobe/" + _avatar[model.item_type_back] + ".png");
+        $("#"+item_type_back).attr("src", "/images/wardrobe/" + _avatar[item_type_back] + ".png");
       }
       saveAvatar();
       // Refresh the current list of options in case option stat has changed
