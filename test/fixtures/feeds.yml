@@ -1,7 +1,4 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-<<<<<<< HEAD
-=======
-
 one:
   profile_id: 1
   wall_id: 1
@@ -9,5 +6,3 @@ one:
 two:
   profile_id: 1
   wall_id: 1
-
->>>>>>> 296dc1134554a92296b690daaf18637f24cbb5f3
