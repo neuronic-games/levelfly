@@ -1,0 +1,150 @@
+<div>
+<div class="popup_box1" id="avatar_card">
+  
+</div>
+<div id="image_avatar" /></div>
+<div id="main_div">
+    <div id="box">
+      <div id="check">
+        <input type="checkbox" name="share" id="share_check"/><br/><span id="share">Share</span>
+      </div>  
+      <div class="avatar_detail" style="margin:-34px 0 0 62px;">
+        <span><%=profile.full_name%></span>
+          <span id="input_un_bl">
+          <input type="button" class="btn" value="UnFriend" name="unfriend" id="unfriend"/>
+          <input type="button" class="btn" value="Block" name="block" id="block"/>
+        </span>
+        <span id="input_no_me">
+          <input type="button" class="btn" value="Notes" name="notes" id="notes"/>
+          <input type="button" class="btn" value="Message" name="message" id="message"/>
+        </span>
+        <br/><p><%=profile.major.code %>, <%=profile.school.code %></p>
+      </div>
+    </div>
+    <div class="clear"></div>
+    <div id="box">
+      <div id="check">
+        <input type="checkbox" name="share" id="share_check" value="Bike" /><br/><span id="share">Share</span>
+      </div>  
+      <div id="level">
+        <span>
+        <span id="level_tex">Level</span><%=profile.avatar.level %>
+        <span id="level_text">XP</span>123
+        <span id="level_text">Likes</span><%=profile.like_received ? profile.like_received : 0 %>
+        </span>
+      </div>
+    </div>
+    <div class="clear"></div>
+  <div id="box">
+    <div id="check">
+      <input type="checkbox" name="share" id="share_check"/><br/><span id="share">Share</span>
+    </div>  
+    <div id="interest">
+      <textarea name="comments" cols=40 rows=3></textarea>   
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div id="box">
+    <div id="check">
+      <input type="checkbox" name="share" id="share_check"/><br/><span id="share">Share</span>
+    </div>  
+    <div id="badges_box">Badges</div>     
+  </div>
+  <div class="clear"></div>
+  <div id="box">
+    <div id="check">
+      <input type="checkbox" name="share" id="share_check"/><br/><span id="share">Share</span>
+    </div>  
+    <div id="badges_box">Groups</div>     
+  </div>
+  <div class="clear"></div>
+  <div id="box">
+    <div id="check">
+      <input type="checkbox" name="share" id="share_check"/><br/><span id="share">Share</span>
+    </div>  
+    <div id="badges_box">Mutual Friends</div>     
+  </div>
+  <div class="clear"></div>
+  </div>
+</div>
+
+<input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value=" <%=profile.id%>"/>
+
+<script type="text/javascript">
+$('#unfriend').click(function(){
+    showSpinner(true);
+    profile_id = $('#hdn_profile_id').val();
+    if(profile_id) {
+    var dataString = {profile_id:profile_id}
+    $.ajax({
+      type: "POST",
+      url: "/message/unfriend",
+      dataType: "json",
+      data: dataString,
+      error: function(){alert("ERROR!!")},
+      success: function(data) {
+        if (data.status) {
+		  if($('#unfriend').val() == 'UnFriend')
+			$('#unfriend').val('Friend');
+		  else
+		    $('#unfriend').val('UnFriend');
+        }
+        showSpinner(false);
+      }
+    });
+  }
+});
+
+$('#message').click(function(){
+    showSpinner(true);
+    $('#avatar_card').css("right","170px");
+    $.ajax({  
+      type: "POST",  
+      url: "/message/add_friend_card",
+      data: {profile_id:profile_id},
+      success: function(data) {
+        if (data) {
+          $('#avatar_card').html(data);
+          $('#root_btn').hide();
+          $('#msg_input').show();
+          $('#note_btn').hide();
+          $('#msg_btn').show();
+          $('#avatar_card').show();
+          
+          $('#btn_msg_dnt_add').click(function(){
+              $('#avatar_card').hide();
+          });
+        }
+        showSpinner(false);
+      }
+    });
+  });
+  
+  $('#notes').click(function(){
+    showSpinner(true);
+    $('#avatar_card').css("right","268px");
+    $.ajax({  
+      type: "POST",  
+      url: "/message/add_friend_card",
+      data: {profile_id:profile_id},
+      success: function(data) {
+        if (data) {
+          $('#avatar_card').html(data);
+          $('#root_btn').hide();
+          $('#msg_input').show();
+          $('#msg_btn').hide();
+          $('#note_btn').show();
+          $('#avatar_card').show();
+          
+          $('#btn_note_dnt_add').click(function(){
+              $('#avatar_card').hide();
+          });
+        }
+        showSpinner(false);
+      }
+    });
+  });
+
+
+
+</script>

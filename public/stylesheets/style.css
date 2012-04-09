@@ -1352,4 +1352,87 @@ a.icon_courses_active {
 	padding:63px 0 0;
 	color:#6a7c28;
 }
+/************user profile *****************/
+#main_div{
+margin:126px -61px 0;
+width:90%;
+height:84%;
+float:left;
+}
+#check input{
+margin:10px 0 0 15px;
 
+}
+#check span{
+margin:10px 0 0 5px;
+font-size:15px;
+color:#FFFFFF;
+}
+#badges_box {
+    background-color: #C0C0C0;
+    height: 90px;
+    margin: -48px 0 0 58px;
+    width: 551px;
+}
+#box{
+margin-bottom:15px;
+}
+#interest{
+margin:-32px 0 0 58px;
+}
+#interest textarea{
+width:89%;
+height:100%;
+background-color:#FFFFFF;
+}
+#level{
+margin:-32px 0 0 58px;
+color:#FFFFFF;
+}
+#level_text{
+margin:0 40px 0 120px;
+}
+#level_tex{
+margin:0 40px 0 10px;
+}
+.avatar_detail span {
+  font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
+  font-size:25px;
+  color:#f6f6f6;
+}
+.avatar_detail p{
+  font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
+  font-size:16px;
+  color:#e1e7cc;
+  padding: 7px 0 0 4px;
+}
+.avatar_detail input.btn {
+    background: none repeat scroll 0 0 #5A95AD;
+    border-radius: 2px 2px 2px 2px;
+    color: #E2E4EB;
+    display: inline-block;
+    font-size: 9px;
+    font-weight: bold;
+    line-height: 15px;
+    padding: 0 4px;
+    text-decoration: none;
+    text-transform: uppercase;
+	width:88px;
+}
+input.btn:hover {
+    text-decoration: none;
+}
+#image_avatar{
+float:right;
+background-color:#FFFFFF;
+height:360px;
+width: 154px;
+margin:218px 20px 0;
+
+}
+#input_un_bl{
+margin-left:20px;
+}
+#input_no_me{
+margin-left:33px;
+}
