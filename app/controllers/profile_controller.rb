@@ -109,5 +109,12 @@ class ProfileController < ApplicationController
     end
     render :text => {"major"=>major, "school"=>school}.to_json
   end
+  
+  def user_profile
+     if params[:profile_id] && !params[:profile_id].nil?
+      @profile = Profile.find(params[:profile_id])
+	 end
+      render :partial => "/profile/user_profile", :locals => {:profile => @profile}
+  end
 
 end

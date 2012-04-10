@@ -160,7 +160,8 @@ class MessageController < ApplicationController
       @note = Note.new
       @note.profile_id = user_session[:profile_id]
       @note.about_object_id = params[:parent_id]
-      @note.about_object_type = "Note"
+      #@note.about_object_type = "Note"
+      @note.about_object_type = params[:content]
       if @note.save
         render :text => {"status"=>"save"}.to_json
       end

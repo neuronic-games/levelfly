@@ -19,6 +19,8 @@ Oncapus::Application.routes.draw do
   post "profile/save"
   
   get "profile/accept_code"
+  
+   get "profile/user_profile"
 
   get "profile/validate_code"
   

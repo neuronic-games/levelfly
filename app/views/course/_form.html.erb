@@ -22,8 +22,8 @@
                     <div class="course_pad_top"> </div>
                     <div class="course_pad">
                       <!-- tabs-->
-                      <div class="menu_container">
-                        <div class="course_tabs" align="right">
+                      
+                        <div class="course_tabs menu_container" align="right">
                           <a  href="javascript:void(0)"   value="1" class="course_tab_open" ><img src="images/course_text.png" class="course_tab" /></a> 
                           <a  href="javascript:void(0)"  value="6" class="course_tab_close"><img src="images/grading_text.png" class="grading_tab" /></a> 
                           <a  href="javascript:void(0)"  value="2" class="course_tab_close"><img src="images/member_text.png" class="member_tab" /></a> 
@@ -31,7 +31,7 @@
                           <a  href="javascript:void(0)"  value="4" class="course_tab_close"><img src="images/member_text.png" class="member_tab" />CATEGORIES</a> 
                           <a  href="javascript:void(0)"  value="5" class="course_tab_close"><img src="images/member_text.png" class="member_tab" />GROUP</a> 
                         </div>
-                      </div>
+                      
                     <div class="course_tab_content">
                     <div class="right_form_containerr">
                       <div id="div_1" class="form_container1">
@@ -227,7 +227,8 @@
                      <input type="hidden" name="wall_id" id="course_wall_id_hdn" value="<%= @wall.id if @wall && !@wall.nil? %>" />
                      <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
                 </div>
-              </div>
+              <div class="clear"></div>
+			  </div>
             </div>
           </div>
         </div>
@@ -296,28 +297,26 @@ $(document).ready(function(){
     save_course(this.id);
   });
   
- 
-$("#btn_task").click(function(data){
-    var course_id=$("#course_id_hdn").val();
-    var dataString = {course_id:course_id};
-    showSpinner(true);
-    $.ajax({  
-    type: "GET",  
-    url: "/task/view_task",  
-    data: dataString,
-    success: function(data) {
-      $("#container").html(data);
-      showSpinner(false);
-    },
-    error: function()
-    {
-      alert("An Error has occured");
-      showSpinner(false);
-    }
-  }); 
-});
-
-  
+  $("#btn_task").click(function(data){
+   var course_id=$("#course_id_hdn").val();
+   var dataString = {course_id:course_id};
+   showSpinner(true);
+   $.ajax({  
+        type: "GET",  
+        url: "/task/view_task",  
+        data: dataString,
+        success: function(data) {
+		$("#container").html(data);
+			showSpinner(false);
+        },
+        error: function()
+		{
+			alert("An Error has occured");
+			showSpinner(false);
+		},
+      }); 
+    });
+   
   //For updating outcomes (in course view screen)
   $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
     var outcome_id = $(this).attr('rel');
@@ -400,6 +399,7 @@ $("#btn_task").click(function(data){
   
   //Add people (participant) to course
   $("#participant_list").delegate(".people_node li", "click", function(){
+  alert("sssss");
     showSpinner(true);
     course_id = $("#course_id_hdn").val();
     profile_id = $(this).attr("id");

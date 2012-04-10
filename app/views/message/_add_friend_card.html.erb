@@ -3,7 +3,7 @@
 <div class="shadow_repeat">
   <div>
     <div class="avatar_green_bdr">
-      <img src="https://s3.amazonaws.com/<%=profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=profile.id%>.jpg" id="<%=profile.id%>" class="profile"/>
+      <img onClick="user_profile();" src="https://s3.amazonaws.com/<%=profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=profile.id%>.jpg" id="<%=profile.id%>" class="profile"/>
     </div>
     <div class="txt"> <span class="pop_name"><b><%=profile.full_name%></b><br />
       <%=profile.major.name if profile.major%>, <%=profile.school.code%></span>
@@ -22,7 +22,7 @@
     </div>
     <div id="msg_btn" class="hide msg_btn">
       <a href="javascript:void(0)" rel="save" id="Message" class="blue_bt19px send_btn">Send</a> 
-      <a href="javascript:void(0)" rel="switch" id="btn_note_dnt_add" class="blue_bt19px">Don't Send</a> 
+      <a href="javascript:void(0)" rel="switch" id="btn_msg_dnt_add" class="blue_bt19px">Don't Send</a> 
     </div>
     <div align="right" id="root_btn">
       <a href="javascript:void(0)" rel="switch" id="note_root" class="blue_bt19px">NOTE</a> 
@@ -117,5 +117,14 @@ $('#unfriend').click(function(){
     });
   }
 });
--->
+
+function user_profile() {
+    profile_id = $('#hdn_profile_id').val();
+    $.get('/profile/user_profile',{ profile_id:profile_id }, function(data) {
+    $('#container').html(data);
+  })
+  .success(function() { showDialog(true); });
+}
+
+
 </script>
