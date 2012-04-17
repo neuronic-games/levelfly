@@ -55,7 +55,7 @@ class MessageController < ApplicationController
         end
       end
     end
-  end
+  end 
   
   def like
     if params[:message_id] && !params[:message_id].nil?
@@ -160,8 +160,8 @@ class MessageController < ApplicationController
       @note = Note.new
       @note.profile_id = user_session[:profile_id]
       @note.about_object_id = params[:parent_id]
-      #@note.about_object_type = "Note"
-      @note.about_object_type = params[:content]
+      @note.about_object_type = "Note"
+      @note.content = params[:content]
       if @note.save
         render :text => {"status"=>"save"}.to_json
       end
@@ -192,6 +192,13 @@ class MessageController < ApplicationController
        @limitAttr = 2	
     end
     render :partial => "list",:locals => {:limit => @limitAttr,:friend_id =>params[:friend_id]}
+  end
+  
+  def notes
+    if params[:friend_id] && !params[:friend_id].nil?
+      @notes = Note.find(:all, :conditions => ["profile_id = ? AND about_object_id = ? AND about_object_type = 'Note' ",user_session[:profile_id],params[:friend_id]])
+      render :partial => "list",:locals => {:friend_id =>params[:friend_id]}
+    end
   end
   
   def friends_only_all

@@ -1,8 +1,9 @@
 <!--friend box-->
 <div class="friend_box" id="friend_box_<%=friend.profile_id%>">
   <div class="avatar_green_bdr">
-    <img src="https://s3.amazonaws.com/<%=friend.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=friend.profile_id%>.jpg" id="<%=friend.profile_id%>" class="profile"/>
+    <img rel="" src="https://s3.amazonaws.com/<%=friend.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=friend.profile_id%>.jpg" id="<%=friend.profile_id%>" class="profile"/>
   </div>
+  <div class="hide popup_box1 avatar_card" id="avatar_<%=friend.profile_id%>"></div>
   <div class="txtboxfullwidth">
     <div class="txt">
       <p><b><%=friend.profile.full_name%></b></p>
@@ -10,7 +11,6 @@
       <p>Messaged 3 hours ago</p>
       <div class="spacebar10px"></div>
       <div align="right" id="frnd_root_btn">
-      <!--<a href="javascript:void(0)" id="frnd_msg" rel="<%=friend.profile_id%>" class="blue_bt19px">messages</a>-->
       <a href="javascript:void(0)" class="blue_bt19px menu_btn" rel="/message/friends_only/<%=friend.profile_id%>">messages</a>
       </div>
       
@@ -18,13 +18,6 @@
     <div class="clear"></div>
   </div>
   <div class="clear"></div>
-  <!-- div id="frnd_msg" align="right" class="hide">
-    <textarea name="message" id="message_<%=friend.profile_id%>" class="msg_txt"></textarea>
-    <div id="frnd_msg_btn" class="msg_btn">
-      <a href="javascript:void(0)" id="btn_msg_send" rel="<%=friend.profile_id%>" class="blue_bt19px">Send</a>
-      <a href="javascript:void(0)" id="btn_msg_dnt_send"  class="blue_bt19px" onClick="javascript:$('#frnd_msg').hide();$('#frnd_root_btn').show();">Don't Send</a>
-    </div>
-  </div -->
 </div>
 <!--friend box-->
 <script type="text/javascript">
@@ -37,7 +30,6 @@
         profile_id:profile_id,
         parent_type:"Profile"
       };
-      //alert(profile_id);return false;
       $.ajax({
         type: "POST",
         url: "/message/friend_messages",

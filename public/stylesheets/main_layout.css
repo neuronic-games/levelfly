@@ -461,8 +461,9 @@ table .tbl_header {
 .profile {
   cursor:pointer;
 }
-/* Avatar card*/
-#avatar_card{position:absolute;right:340px;top:170px;}
+/* Avatar card
+.avatar_card{position:absolute;right:340px;top:170px;}*/
+
 .msg_txt{width:225px;}
 .comment_input {padding:5px;}
 .comment_input  textarea{background:#fff;}

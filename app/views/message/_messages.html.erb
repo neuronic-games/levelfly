@@ -1,7 +1,9 @@
 <div class="msg_big_box" id="messsage_box_<%=message.id%>">
   <div class="avatar_white_bdr">
-    <img src="https://s3.amazonaws.com/<%=message.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=message.profile_id%>.jpg" id="<%=message.profile_id%>" class='<%= (message.profile_id==user_session[:profile_id]) ? "" : "profile" %>'/>
+    <img rel="<%=message.id%>" src="https://s3.amazonaws.com/<%=message.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=message.profile_id%>.jpg" id="<%=message.profile_id%>" class='<%= (message.profile_id==user_session[:profile_id]) ? "" : "profile" %>'/>
   </div>
+  
+  <div class="hide popup_box1 avatar_card" id="avatar_<%=message.id%>"></div>
   
   <div class="msg_box_fullwidth">
   <div class="positn_rtlv"><div class="msg_big_box_arrow"><img src="images/blue_arrow.png" width="15px" height="21px" /></div></div>
@@ -27,17 +29,16 @@
   </div>
  
   <div class="clear"></div>
-  <div id="show_all_coments" class="linkcolour">
+  <div id="show_all_coments_<%=message.id%>" class="linkcolour" style="display:block;">
   <%total_comments = comment_list(message.id).count%>
     <%if total_comments>2%>
-     <a href="javascript:void(0)" onClick="javascript:$('#comment_box_<%=message.id%>').show()">View All <%=total_comments%> Comments</a>
+     <a href="javascript:void(0)" id="view_all_comment" onClick="view_all_comment(<%=message.id%>);">View All <%=total_comments%> Comments</a>
     <%end%>
   </div>
-</div>
-<!-- comments -->
-
-<% comment_list(message.id).each_with_index do |comment,i|%>
-  <%if i<2%>
+  <!-- comments -->
+  
+  <% comment_list(message.id).each_with_index do |comment,i|%>
+  <%if i<2 %>
      <%= render :partial => "/message/comments", :locals => {:comment=>comment} %>
   <%else%>
     <%if i==2%>
@@ -49,6 +50,8 @@
     <% end %> 
   <% end %>
 <% end %> 
+  
+</div>
 
  <div class="hide comment_input" align="right" id="post_comment_<%=message.id%>">
   <textarea name="cmnt_content" id="cmnt_content_<%=message.id%>" rows="2"></textarea>
@@ -58,18 +61,11 @@
   </div>
 </div>
 <div class="bdr_dotted"></div>
+
 <!-- comments ends -->
 <script type="text/javascript">
-<!--
-$(document).ready(function(){
-   //message_id=$("#message_id_hdn").val();
-   //alert( message_id);
-   //$("#show_all_comments_"+message_id).click(function(){
-   // total_comment=$("#total_comment_hdn").val();
-   // for(i=0;i<=total_comment;i++){
-   //  $("#comment_box_"+i).css("display","block");
-   //   }   
-	 //});
-});
--->
+function view_all_comment(message_id){
+   $("#comment_box_"+message_id).show();
+   $("#show_all_coments_"+message_id).css("display","none");
+}
 </script>

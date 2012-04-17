@@ -1,8 +1,29 @@
 <div> 
   <h3>This email is not registered<h3></br>
-  <div> Do you want sent email on <%=search_text%></div>
+  <div> Do you want sent email on <%=search_text%><%= user_session[:full_name] %></div>
    <div> </br>
+      <input type="hidden" id="msg_id" value="<%=search_text%>"/>
       <input type="button" name="btn_send_email" id="btn_send_email" value="Send" />
       <input type="button" name="btn_cancel" id="btn_cancel" value="Cancel" />
   </div>
 </div>
+<script type="text/javascript">
+$("#btn_send_email").click(function() {
+   msg_id = $("#msg_id").val();
+   $.ajax({  
+		  type: "POST",  
+		  url: "/course/send_email",  
+		  data: {user : msg_id},
+		  success: function(data) {
+			if (data) {
+        $("#participant_list_inner").text(data);
+			}
+			showSpinner(false);
+		  },error: function(){
+			alert("An Error has occured");
+			showSpinner(false);
+		},
+    });
+   
+  });
+</script>

@@ -6,11 +6,13 @@ Oncapus::Application.routes.draw do
   
   get "task/view_task"
   
-   get "task/list"
+  get "task/list"
    
   get "profile/index"
 
   get "profile/show"
+  
+  get "profile/show_avatar"
 
   get "profile/edit"
 
@@ -20,7 +22,7 @@ Oncapus::Application.routes.draw do
   
   get "profile/accept_code"
   
-   get "profile/user_profile"
+  get "profile/user_profile"
 
   get "profile/validate_code"
   
@@ -77,6 +79,8 @@ Oncapus::Application.routes.draw do
   post "course/update_course_categories"
   
   post "course/get_participants"
+  
+  post "course/send_email"
   
   post "course/add_participant"
   
@@ -138,6 +142,8 @@ Oncapus::Application.routes.draw do
   
   post "message/add_note"
   
+  post "message/notes"
+  
   post "message/unfriend"
   
   match 'task' => 'task#index'
@@ -154,6 +160,9 @@ Oncapus::Application.routes.draw do
   
   # start added for new message funtionalites >>>  lmit>>> frinds messages
   match 'message/friends_only/:friend_id' => 'message#friends_only'
+  
+   # start added for new notes funtionalites >>>  lmit>>> frinds messages
+  match 'message/notes/:friend_id' => 'message#notes'
   
   
   match 'message/friends_only_all/:friend_id' => 'message#friends_only_all'

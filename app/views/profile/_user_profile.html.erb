@@ -1,8 +1,26 @@
 <div>
-<div class="popup_box1" id="avatar_card">
-  
+<div class="popup_box1" id="avatar_card"> </div>
+<div id="image_avatar" />
+    <div id="modify"  class="avat clickable">
+    <img id="profile_background" src="/images/wardrobe/<%=profile.avatar.background if profile.avatar.background %>.png" class="profile_avatar">
+    <img id="profile_avatar_body" src="/images/wardrobe/<%= profile.avatar.body if profile.avatar.body %>.png" class="profile_avatar">
+    <img id="profile_hat_back" src="/images/wardrobe/<%= profile.avatar.hat_back if profile.avatar.hat_back %>.png" class="profile_avatar">
+    <img id="profile_hair_back" src="/images/wardrobe/<%= profile.avatar.hair_back if profile.avatar.hair_back %>.png" class="profile_avatar">
+    <img id="profile_shoes" src="/images/wardrobe/<%= profile.avatar.shoes if profile.avatar.shoes%>.png"  class="profile_avatar">
+    <img id="profile_bottom" src="/images/wardrobe/<%= profile.avatar.bottom if profile.avatar.bottom %>.png"  class="profile_avatar">
+    <img id="profile_necklace" src="/images/wardrobe/<%= profile.avatar.necklace if profile.avatar.necklace%>.png"  class="profile_avatar">
+    <img id="profile_top" src="/images/wardrobe/<%= profile.avatar.top if profile.avatar.top%>.png"  class="profile_avatar">
+    <img id="profile_head" src="/images/wardrobe/<%= profile.avatar.head if profile.avatar.head%>.png"  class="profile_avatar">
+    <img id="profile_earrings" src="/images/wardrobe/<%= profile.avatar.earrings if profile.avatar.earrings%>.png"  class="profile_avatar">
+    <img id="profile_facial_marks" src="/images/wardrobe/<%= profile.avatar.facial_marks if profile.avatar.facial_marks%>.png"  class="profile_avatar">
+    <img id="profile_facial_hair" src="/images/wardrobe/<%= profile.avatar.facial_hair if profile.avatar.facial_hair%>.png"  class="profile_avatar">
+    <img id="profile_makeup" src="/images/wardrobe/<%= profile.avatar.makeup if profile.avatar.makeup%>.png"  class="profile_avatar">
+    <img id="profile_glasses" src="/images/wardrobe/<%= profile.avatar.glasses if profile.avatar.glasses%>.png"  class="profile_avatar">
+    <img id="profile_hair" src="/images/wardrobe/<%= profile.avatar.hair if profile.avatar.hair%>.png"  class="profile_avatar">
+    <img id="profile_hat" src="/images/wardrobe/<%= profile.avatar.hat if profile.avatar.hat%>.png"  class="profile_avatar">
+    <img id="profile_prop" src="/images/wardrobe/<%= profile.avatar.prop if profile.avatar.prop%>.png"  class="profile_avatar">
+  </div>
 </div>
-<div id="image_avatar" /></div>
 <div id="main_div">
     <div id="box">
       <div id="check">
@@ -11,12 +29,22 @@
       <div class="avatar_detail" style="margin:-34px 0 0 62px;">
         <span><%=profile.full_name%></span>
           <span id="input_un_bl">
-          <input type="button" class="btn" value="UnFriend" name="unfriend" id="unfriend"/>
-          <input type="button" class="btn" value="Block" name="block" id="block"/>
+          <% if is_friend(user_session[:profile_id], profile.id) %>
+          <a href="javascript:void(0)" id="unfriend" class="btn">UNFRIEND</a>
+          <% else %>
+          <% if is_request_pending(profile.id, user_session[:profile_id]) %>
+          <a href="javascript:void(0)" class="btn" id="pending">PENDING</a>
+          <% else %>
+          <a href="javascript:void(0)" class="btn" id="Friend" rel="save">Friend</a>
+          <% end %>
+          <% end %>
+          <a href="javascript:void(0)" class="btn" name="block" id="block">Block</a>
         </span>
         <span id="input_no_me">
-          <input type="button" class="btn" value="Notes" name="notes" id="notes"/>
-          <input type="button" class="btn" value="Message" name="message" id="message"/>
+          <a href="javascript:void(0)" name="notes" id="notes" class="btn menu_btn" rel="/message/notes/<%=profile.id %>">Notes</a>
+          <a href="javascript:void(0)" name="message" id="message" class="btn menu_btn" rel="/message/friends_only/<%=profile.id %>">Message</a>
+          
+         
         </span>
         <br/><p><%=profile.major.code %>, <%=profile.school.code %></p>
       </div>
@@ -71,7 +99,43 @@
 <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value=" <%=profile.id%>"/>
 
 <script type="text/javascript">
-$('#unfriend').click(function(){
+
+// Friend requests
+
+$('#Friend').live('click',function(){
+  m_text = $('#Friend').text();
+  if(m_text == 'Friend'){
+  showSpinner(true);
+  profile_id = $('#hdn_profile_id').val();
+  message_type = $(this).attr('id');
+  method = $(this).attr('rel');
+  message = message_type == "Friend" ? "Friend Request!!!" : $('#message').val();
+  var dataString = {
+    parent_id:profile_id,
+    parent_type:"Profile",
+    content: message,
+    message_type: message_type
+  };
+  if(profile_id) {
+    $.ajax({
+      type: "POST",
+      url: "/message/"+method,
+      dataType: "json",
+      data: dataString,
+      error: function(){alert("ERROR!!")},
+      success: function(data) {
+        if (data.status == "save"){
+          $('#Friend').text("PENDING");
+        }
+        showSpinner(false);
+      }
+    });
+  }
+  }
+});
+
+//Unfriend 
+$('#unfriend').live('click',function(){
     showSpinner(true);
     profile_id = $('#hdn_profile_id').val();
     if(profile_id) {
@@ -84,67 +148,14 @@ $('#unfriend').click(function(){
       error: function(){alert("ERROR!!")},
       success: function(data) {
         if (data.status) {
-		  if($('#unfriend').val() == 'UnFriend')
-			$('#unfriend').val('Friend');
-		  else
-		    $('#unfriend').val('UnFriend');
+          $('#unfriend').text("Friend");
+          $('#unfriend').attr("rel","save");
+          $('#unfriend').attr("id","Friend");
         }
         showSpinner(false);
       }
     });
   }
 });
-
-$('#message').click(function(){
-    showSpinner(true);
-    $('#avatar_card').css("right","170px");
-    $.ajax({  
-      type: "POST",  
-      url: "/message/add_friend_card",
-      data: {profile_id:profile_id},
-      success: function(data) {
-        if (data) {
-          $('#avatar_card').html(data);
-          $('#root_btn').hide();
-          $('#msg_input').show();
-          $('#note_btn').hide();
-          $('#msg_btn').show();
-          $('#avatar_card').show();
-          
-          $('#btn_msg_dnt_add').click(function(){
-              $('#avatar_card').hide();
-          });
-        }
-        showSpinner(false);
-      }
-    });
-  });
-  
-  $('#notes').click(function(){
-    showSpinner(true);
-    $('#avatar_card').css("right","268px");
-    $.ajax({  
-      type: "POST",  
-      url: "/message/add_friend_card",
-      data: {profile_id:profile_id},
-      success: function(data) {
-        if (data) {
-          $('#avatar_card').html(data);
-          $('#root_btn').hide();
-          $('#msg_input').show();
-          $('#msg_btn').hide();
-          $('#note_btn').show();
-          $('#avatar_card').show();
-          
-          $('#btn_note_dnt_add').click(function(){
-              $('#avatar_card').hide();
-          });
-        }
-        showSpinner(false);
-      }
-    });
-  });
-
-
 
 </script>

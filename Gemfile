@@ -16,8 +16,8 @@ end
 group :development, :test do
   gem 'mysql'
 end
-
 gem 'rake', '0.8.7'
+#gem 'rake' , '>= 0.9.2'
 gem 'json'
 gem 'devise'
 

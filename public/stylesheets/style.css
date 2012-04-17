@@ -177,7 +177,7 @@ body {
   margin-left: -7px;
 }
 .header .avatar_detail {
-  float:left;
+  float:right;
   width:71%;
   padding:20px 0 0 10px;
   height:62px;
@@ -628,10 +628,54 @@ a.blue_bt19px:hover {
   width:96%;
   color:#4a4a49;
 }
+/************************ For notes ***************************/
+.note_big_box {
+  margin:7px 0;
+  width:100%;
+}
+.note_big_box .avatar_white_bdr {
+  border:#eaebeb 5px solid;
+  float:left;
+  width:72px;
+  height:72px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background:url(../images/avatar_bg.jpg) no-repeat center;
+  -moz-box-shadow:inset 0px 0px 2px 1px #000000;
+  -webkit-box-shadow:inset 0px 0px 2px 1px #000000;
+  box-shadow:inset 0px 0px 2px 1px #000000;
+}
+
+.note_big_box .note_big_box_arrow {
+  background: url("../images/blue_arrow.png") no-repeat scroll 0 0 transparent;
+    height: 21px;
+    margin: 22px 0 0 -7px;
+    padding: 0;
+    position: absolute;
+    width: 15px;
+}
+.note_box_fullwidth {padding:0 0 0 93px;}
+.note_big_box .blue_bg_msg_txt {
+  float:right;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background:#cae8f3;
+  padding: 10px 2%;
+  width:96%;
+  color:#4a4a49;
+}
+.note_box_txt h3 {
+  font-size:12px;
+  font-weight:bold;
+  padding-bottom:5px;
+}
+.note_bottom_links {
+  font-weight:bold;
+  padding-top:10px;
+}
 .view_cmt {
-  /*font-weight:bold;
-  color:#b6d496;
-  padding:0px 0 0px 18%;*/
   font-weight:bold;
   color:#b6d496;
   padding:0px 0 0px 107px;
@@ -746,6 +790,7 @@ a.blue_bt19px:hover {
   position:absolute;
   z-index:9999;
   width:270px;
+  margin:-162px 0 0 -77px;
 }
 .level_01 {
   position:absolute;
@@ -1354,7 +1399,7 @@ a.icon_courses_active {
 }
 /************user profile *****************/
 #main_div{
-margin:126px -61px 0;
+margin:125px -61px 0;
 width:90%;
 height:84%;
 float:left;
@@ -1406,25 +1451,30 @@ margin:0 40px 0 10px;
   color:#e1e7cc;
   padding: 7px 0 0 4px;
 }
-.avatar_detail input.btn {
-    background: none repeat scroll 0 0 #5A95AD;
-    border-radius: 2px 2px 2px 2px;
-    color: #E2E4EB;
-    display: inline-block;
-    font-size: 9px;
-    font-weight: bold;
-    line-height: 15px;
-    padding: 0 4px;
-    text-decoration: none;
-    text-transform: uppercase;
-	width:88px;
+
+a.btn {
+  font-size:12px;
+  text-transform:uppercase;
+  font-weight:bold;
+  color:#e2e4eb;
+  display:inline-block;
+  background:#5a95ad;
+  -webkit-border-radius:2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  padding:0 4px;
+  text-decoration:none;
+  line-height:15px;
+  width:80px;
+  text-align:center;
+  margin: 0 0 0 9px;
 }
-input.btn:hover {
-    text-decoration: none;
+a.btn:hover {
+  text-decoration:none;
 }
 #image_avatar{
 float:right;
-background-color:#FFFFFF;
+/*background-color:#FFFFFF;*/
 height:360px;
 width: 154px;
 margin:218px 20px 0;
@@ -1435,4 +1485,13 @@ margin-left:20px;
 }
 #input_no_me{
 margin-left:33px;
+}
+.profile_avatar {
+    height: 580px;
+    position: absolute;
+    width: 209px;
+}
+.avat {
+    float: right;
+    margin-top: 171px;
 }
