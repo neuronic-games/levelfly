@@ -1,3 +1,9 @@
+<!--popup start-->
+<div class="popup_box1" id="avatar_card">
+  
+</div>
+<!--popup end-->
+
 <div class="messages_content">
   <div class="msg_content_left">
     <!-- Message -->
@@ -29,7 +35,9 @@
     <!-- Message ends -->
     
     <!-- Add Friend -->
-   
+    <div id="avatar_card" class="hide">
+      
+    </div>
     <!-- Add Friend ends -->
   </div>
   <div class="friend_list" id="friend_list">
@@ -92,7 +100,8 @@
   });
   
   $('.message_wrapper, .friend_list').delegate('.profile', 'click', function(){
-    var id = $(this).attr("rel");
+    var p = $(this);
+    var position = p.position();
     showSpinner(true);
     $.ajax({  
       type: "POST",  
@@ -100,9 +109,10 @@
       data: {profile_id:this.id},
       success: function(data) {
         if (data) {
-          $('.popup_box1').hide();
-          $('#avatar_'+id).html(data);
-          $('#avatar_'+id).show();
+          $('#avatar_card').html(data);
+          $('#avatar_card').css("top",position.top-165);
+          $('#avatar_card').css("left",position.left-100);
+          $('#avatar_card').show();
         }
         showSpinner(false);
       }

@@ -92,19 +92,19 @@
           </div>
           <!--icon-->
           <div class="space_btwn_icon"></div>
-          <div class="icon_box"><span class="msg_count">10</span><a href="javascript:void(0);" rel="/message/" class="icon_msg menu_btn">messages</a> </div>
+          <div class="icon_box"><span class="msg_count">10</span><a href="javascript:void(0);" id="msg" rel="/message/" class="icon_msg menu_btn">messages</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"><a href="javascript:void(0);" rel="/course/" class="icon_courses_active menu_btn">courses</a> </div>
+          <div class="icon_box"><a href="javascript:void(0);" id="courses" rel="/course/" class="icon_courses_active menu_btn">courses</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"> <a href="javascript:void(0);" rel="/task/" class="icon_tasks menu_btn">tasks</a> </div>
+          <div class="icon_box"> <a href="javascript:void(0);" id="tasks" rel="/task/" class="icon_tasks menu_btn">tasks</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"> <a href="javascript:void(0);" rel="/group/" class="icon_networks menu_btn">networks</a> </div>
+          <div class="icon_box"> <a href="javascript:void(0);" id="networks" rel="/group/" class="icon_networks menu_btn">networks</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"> <a href="javascript:void(0);" rel="/wardrobe/" class="icon_stats menu_btn">stats</a> </div>
+          <div class="icon_box"> <a href="javascript:void(0);" id="stats" rel="/wardrobe/" class="icon_stats menu_btn">stats</a> </div>
           <div class="space_btwn_icon"></div>
           <a href="#" class="downarrow"></a>
         </div>
@@ -186,6 +186,9 @@
     
     //Fill up the #container with according call
     $("#frm_search, #root_level, #container").delegate(".menu_btn", "click",function(){
+      setTab();
+      var id = $(this).attr("id");
+      document.getElementById(id).className = "icon_"+id+"_active menu_btn"
       var target = $(this).attr("rel");
       var data = $(this).attr("data");
       load_data(target,data);
@@ -225,6 +228,24 @@
     if(url in search_arr) {
        $("#search_input").val(search_arr[url]);
        search_url = url;
+    }
+  }
+
+  function setTab(){
+    if(document.getElementById("msg")!=null){
+      document.getElementById("msg").className = "icon_msg menu_btn";
+    }
+    if(document.getElementById("courses")!=null){
+      document.getElementById("courses").className = "icon_courses menu_btn";
+    }
+    if(document.getElementById("tasks")!=null){
+      document.getElementById("tasks").className = "icon_tasks menu_btn";
+    }
+    if(document.getElementById("networks")!=null){
+      document.getElementById("networks").className = "icon_networks menu_btn";
+    }
+    if(document.getElementById("stats")!=null){
+      document.getElementById("stats").className = "icon_stats menu_btn";
     }
   }
 -->

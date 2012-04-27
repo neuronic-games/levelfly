@@ -91,7 +91,7 @@ class CourseController < ApplicationController
     @course.descr = params[:descr] if params[:descr]
     @course.code = params[:code] if params[:code]
     @course.school_id = params[:school_id] if params[:school_id]
-    
+    @course.profile_id =user_session[:profile_id]
     if params[:file]
       @course.image.destroy if @course.image
       @course.image = params[:file]
@@ -115,10 +115,11 @@ class CourseController < ApplicationController
       #Save outcomes
       if params[:outcomes] && !params[:outcomes].empty?
         outcomes_array = params[:outcomes].split(",")
-        outcomes_array.each do |outcome|
+        outcomes_descs_array = params[:outcomes_descr].split(",")
+        outcomes_array.each_with_index do |outcome,i|
           @outcome = Outcome.create(
             :name=> outcome,
-            :descr=> outcome,
+            :descr=> outcomes_descs_array[i],
             :course_id=> @course.id,
             :school_id=> @course.school_id
           )

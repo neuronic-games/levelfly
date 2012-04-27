@@ -3,8 +3,6 @@
     <img rel="<%=message.id%>" src="https://s3.amazonaws.com/<%=message.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=message.profile_id%>.jpg" id="<%=message.profile_id%>" class='<%= (message.profile_id==user_session[:profile_id]) ? "" : "profile" %>'/>
   </div>
   
-  <div class="hide popup_box1 avatar_card" id="avatar_<%=message.id%>"></div>
-  
   <div class="msg_box_fullwidth">
   <div class="positn_rtlv"><div class="msg_big_box_arrow"><img src="images/blue_arrow.png" width="15px" height="21px" /></div></div>
     <div class="msg_box_txt blue_bg_msg_txt">
@@ -36,20 +34,18 @@
     <%end%>
   </div>
   <!-- comments -->
-  
+  <% total = total_comments-2 %>
   <% comment_list(message.id).each_with_index do |comment,i|%>
-  <%if i<2 %>
-     <%= render :partial => "/message/comments", :locals => {:comment=>comment} %>
-  <%else%>
-    <%if i==2%>
-      <div class="hide msg_small_box" id="comment_box_<%=message.id%>"> 
-    <%end%>
-    <%= render :partial => "/message/comments", :locals => {:comment=>comment} %>
-    <% if i==total_comments-1 %>
-      </div>
-    <% end %> 
-  <% end %>
-<% end %> 
+      <%if i < total %>
+          <div class="hide msg_small_box" id="comment_box_<%=message.id%>"> 
+             <%= render :partial => "/message/comments", :locals => {:comment=>comment} %>
+          </div> 
+      <% else %>
+        <% if i >= total %>
+         <%= render :partial => "/message/comments", :locals => {:comment=>comment} %>
+        <% end %>           
+      <% end %> 
+  <% end %> 
   
 </div>
 
@@ -65,7 +61,7 @@
 <!-- comments ends -->
 <script type="text/javascript">
 function view_all_comment(message_id){
-   $("#comment_box_"+message_id).show();
+   $("#comment_box_"+message_id+".msg_small_box").show();
    $("#show_all_coments_"+message_id).css("display","none");
 }
 </script>

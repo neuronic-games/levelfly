@@ -33,19 +33,19 @@ function addNode(element) {
         <div class="task_pad">
           <!-- tabs-->
           <div class="tabs menu_container" align="right">
-            <a href="javascript:void(0)" value="1" class="tab_open">
+            <a href="javascript:void(0)" id="menu1" value="1" class="tab_open">
               <img src="images/task_text.png" class="task_tab" />
             </a> 
-            <a href="javascript:void(0)" value="2" class="tab_close">
+            <a href="javascript:void(0)" id="menu2" value="2" class="tab_close">
               <img src="images/grading_text.png" class="grading_tab" />
             </a> 
-            <a href="javascript:void(0)" value="3" class="tab_close">
+            <a href="javascript:void(0)" id="menu3" value="3" class="tab_close">
               <img src="images/participants_text.png" class="participants_tab" />
             </a> 
-            <a href="javascript:void(0)" value="4" class="tab_close">
+            <a href="javascript:void(0)" id="menu4" value="4" class="tab_close">
               <img src="images/participants_text.png" class="participants_tab" />
             </a> 
-            <a href="javascript:void(0)" value="5" class="tab_close" id="group_tab">
+            <a href="javascript:void(0)" id="menu5" value="5" class="tab_close" id="group_tab">
               <img src="images/task_text.png" class="groups_tab" />
             </a> 
           </div>
@@ -318,6 +318,11 @@ $(document).ready(function(){
     $(".menu_container a").removeClass("active");
     $(this).addClass("active");
     for(i=0;i<6;i++){
+      //---- Set all menu as De-Selected
+      if(document.getElementById("menu"+(i+1))!=null){
+        document.getElementById("menu"+(i+1)).className = "tab_close";
+      }
+      //----
       if(idx != i){
         $("#div_"+i).hide();
       }
@@ -328,6 +333,8 @@ $(document).ready(function(){
     } else {
      $("#task_btn_remove").hide();
     }
+    //---- Selected menu will highlighted
+    document.getElementById("menu"+idx).className = "tab_open";
     $("#div_"+idx).fadeIn();
   });
   

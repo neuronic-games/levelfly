@@ -332,9 +332,9 @@ input {
 .large {
   width:400px !important;
 }
-.medium {
+/*.medium {
   width:300px;
-}
+}*/
 .small {
   width:50px;
 }

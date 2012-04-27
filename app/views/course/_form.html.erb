@@ -21,12 +21,18 @@
                       <!-- tabs-->
                       
                         <div class="course_tabs menu_container" align="right">
-                          <a  href="javascript:void(0)"   value="1" class="course_tab_open" ><img src="images/course_text.png" class="course_tab" /></a> 
-                          <a  href="javascript:void(0)"  value="6" class="course_tab_close"><img src="images/grading_text.png" class="grading_tab" /></a> 
-                          <a  href="javascript:void(0)"  value="2" class="course_tab_close"><img src="images/member_text.png" class="member_tab" /></a> 
-                          <a  href="javascript:void(0)"  value="3" class="course_tab_close"><img src="images/member_text.png" class="member_tab" />OUTCOMES</a> 
-                          <a  href="javascript:void(0)"  value="4" class="course_tab_close"><img src="images/member_text.png" class="member_tab" />CATEGORIES</a> 
-                          <a  href="javascript:void(0)"  value="5" class="course_tab_close"><img src="images/member_text.png" class="member_tab" />GROUP</a> 
+                          <a  href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><img src="images/course_text.png" class="course_tab" /></a>
+                          <% if @course.profile_id == user_session[:profile_id] %>
+                          <a  href="javascript:void(0)"  id="menu7" value="7" class="tab_close" ><img src="images/setup_text.png" class="course_tab" /></a>
+                          <% else %>
+                          <a  href="javascript:void(0)"  id="menu10" value="10" class="tab_close" ><img src="images/setup_text.png" class="course_tab" />Stat</a>
+                          <% end %>
+                          <!--<a href="javascript:void(0)"  id="menu6" value="6" class="tab_close"><img src="images/grading_text.png" class="grading_tab" /></a>-->
+                          <a  href="javascript:void(0)"  id="menu2" value="2" class="tab_close"><img src="images/member_text.png" class="member_tab" /></a>
+                          <!--<a  href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><img src="images/member_text.png" class="member_tab" />OUTCOMES</a> -->
+                          <a  href="javascript:void(0)"  id="menu4" value="4" class="tab_close"><img src="images/member_text.png" class="member_tab" />CATEGORIES</a>
+                          <a  href="javascript:void(0)"  id="menu5" value="5" class="tab_close"><img src="images/forums_text.png" class="member_tab" /></a>
+                          <a  href="javascript:void(0)"  id="menu9" value="9" class="tab_close"><img src="images/files_text.png" class="member_tab" /></a>
                         </div>
                       
                     <div class="course_tab_content">
@@ -91,7 +97,8 @@
                           </span>
                           &nbsp;
                           <span>
-                            <a href="javascript:void(0)" onclick="javascript:$('#msg_input').fadeOut()">Cancel</a>
+                            <!-- When user click on cancel button first data will clear from textarea and finall popup window will hide.-->
+                            <a href="javascript:void(0)" onclick="javascript:$('#msg_content').val(''); $('#msg_input').fadeOut()">Cancel</a>
                           </span>
                       </div>
                       <div class="frm_label">
@@ -139,25 +146,7 @@
                     </div>
                   </div>
                 </div>
-                <div id="div_3" class="tab_content hide">
-                  <div class="frm_label small_label">
-                    Outcomes
-                  </div>
-                  <div class="frm_input">
-                    <% if @course %>
-                      <% @course.outcomes.each do |o| %>
-                        <div style="margin-top:5px;" id="outcome_div_<%=o.id%>" class="outcome_div">
-                          <input type="checkbox" name="chk_outcome[]"  id="<%=o.id%>" value="<%=o.id%>" />
-                          <input type="text" name="loaded_outcomes[]" value="<%= o.name %>" rel="<%=o.id%>" class="medium" /> &nbsp;&nbsp;
-                        </div>
-                      <% end %>
-                    <% end %>
-                    <div id="add_outcome_container" style="margin:10px 0 0 22px;">
-                      <input type="text" name="outcomes[]" id="outcomes_1" class="medium" /> &nbsp;&nbsp;
-                    </div>
-                  </div>
-                </div>
-                <div id="div_4" class="tab_content hide">
+                <!--<div id="div_4" class="tab_content hide">
                   <div class="frm_label small_label">
                     Categories
                   </div>
@@ -174,7 +163,7 @@
                       <input type="text" name="categories[]" id="categories_1" class="medium" /> &nbsp;&nbsp;
                     </div>
                   </div>
-                </div>
+                </div>-->
                <div id="div_5" class="tab_content hide">
                   <div class="frm_label small_label">
                    Groups
@@ -220,6 +209,79 @@
                     <% end %>
                   </div>
                 </div>
+                <div id="div_7" class="tab_content hide">
+                  <div class="course_left">
+                    <div class="course_profile_image"> <img src="images/task_profile_img.jpg" width="156" height="156" /> 
+                    </div>
+                  </div>
+                  <div class="course_right" >
+                    <div class="course_detailbox">
+                      <div class="course_field_box1">
+                        <div class="course_viewfield">COURSE NAME
+                          <div class="dd_bg brown_bg">
+                            <input type="text" name="course_name" id="course_name" class="dd_select brown_bg" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("course_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+                          </div>
+                        </div>
+                        <div class="catagory_viewfield">COURSE CODE
+                          <div class="dd_bg brown_bg">
+                           <input type="text" name="course_code" id="course_code" value="<%=@course.code if @course%>" class="small dd_input brown_bg" onBlur='javascript:setStorage("course_code", $(this).val());$("#hdn_is_page_change").val(true);' />
+                          </div>
+                        </div>
+                        <div class="clear"></div><br/><br/>
+                        <div style="width:100px;"><textarea  style="width:274px;background-color:#FFFFFF;" cols=10 rows=3></textarea></div>
+                        <div class="clear"></div>
+                      </div>
+                      <div class="clear"></div>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                  
+                  <div class="frm_label small_label">
+                    Outcomes
+                  </div>
+                  <div class="frm_input">
+                    <% if @course %>
+                      <% @course.outcomes.each do |o| %>
+                        <div style="margin-top:5px;width:500px;" id="outcome_div_<%=o.id%>" class="outcome_div">
+                          <div style="float:left;margin-left:10px;height:47px;" >
+                            <input class="dd_select brown_bg" type="checkbox" name="chk_outcome[]"  id="<%=o.id%>" value="<%=o.id%>" />
+                            <input class="dd_select brown_bg" type="text" name="loaded_outcomes[]" value="<%= o.name %>" rel="<%=o.id%>" class="medium" />
+                          </div>  
+                          <div style="float:right;margin-top:-5px;margin-bottom:10px;">
+                             <textarea style="width:260px;height:40px;background-color:#FFFFFF;" cols=10 rows=2><%= o.descr %></textarea>
+                          </div> 
+                        </div>
+                      <% end %>
+                    <% end %>
+                    
+                    <div id="add_outcome_container" style="margin:10px 0 0 22px;">
+                      <input type="text" name="outcomes[]" id="outcomes_1" class="dd_select brown_bg medium" />
+                      <textarea style="width:260px;height:40px;background-color:#FFFFFF;" cols=10 rows=2 name="outcomes_descr[]" id="outcomes_descr_1"></textarea>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                  
+                  
+                 
+                  <div class="frm_label small_label">
+                    Categories
+                  </div>
+                  <div class="frm_input">
+                    <% if @course %>
+                      <% @course.categories.each do |c| %>
+                        <div style="float:left;margin-left:10px;height:47px; margin-top:10px;" id="category_div_<%=c.id%>">
+                          <input type="checkbox" class="dd_select brown_bg" name="chk_categories[]"  id="<%=c.id%>" value="<%=c.id%>" />
+                          <input type="text" name="loaded_categories[]" value="<%= c.name %>" rel="<%=c.id%>" class="dd_select brown_bg medium" /> &nbsp;&nbsp;
+                        </div>
+                      <% end %>
+                    <% end %>
+                    <div id="add_category_container" style="margin:10px 0 0 22px;">
+                      <input type="text" name="categories[]" id="categories_1" class="dd_select brown_bg medium" /> &nbsp;&nbsp;
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                  
+                </div>
                      <input type="hidden" name="course_id" id="course_id_hdn" value="<%=@course.id if @course%>" />
                      <input type="hidden" name="wall_id" id="course_wall_id_hdn" value="<%= @wall.id if @wall && !@wall.nil? %>" />
                      <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
@@ -240,17 +302,19 @@ var _counterOutcome = 2;
 var _counterCategory = 2;
 var _outcomesObject = [];
 var _categoriesObject = [];
-
+var _outcomes_descrObject = [];
 //set outcomes to offline storage
 $.each($('input[name="outcomes[]"], input[name="people_id[]"], input[name="categories[]"]'), function() {
-  //alert($(this).attr('id') +"==="+ $(this).val()) 
   setStorage($(this).attr('id'), $(this).val());
 });
 
 //set storage on load while view of course
-if($("#course_name").val()!="") {setStorage("course_name", $("#course_name").val());} else {setStorage("course_name", "New Course");}
+if($("#course_name").val()!="") {setStorage("course_name", $("#course_name").val());} 
+else {setStorage("course_name", "New Course");}
 if($("#course_descr").val()!="") {setStorage("course_descr", $("#course_descr").val());} else {setStorage("course_descr", "New Course Description");}
-if($("#course_code").val()!="") {setStorage("course_code", $("#course_code").val());} else {setStorage("course_code", "New Course Code");}
+if($("#course_code").val()!="") {setStorage("course_code", $("#course_code").val());} 
+else {setStorage("course_code", "New Course Code");}
+
 
 $(document).ready(function(){
 
@@ -259,7 +323,12 @@ $(document).ready(function(){
     idx = $(this).attr("value");
     $(".menu_container a").removeClass("active");
     $(this).addClass("active");
-    for(i=0;i<7;i++){
+    for(i=0;i<8;i++){
+      //---- Set all menu as De-Selected
+      if(document.getElementById("menu"+(i+1))!=null){
+        document.getElementById("menu"+(i+1)).className = "tab_close";
+      }
+      //----
       if(idx != i){
         $("#div_"+i).hide();
       }
@@ -270,18 +339,21 @@ $(document).ready(function(){
      $("#btn_people_remove").hide();
     }
     
-    if(idx == 3) {
+    if(idx == 7) {
       $("#btn_outcome_remove").fadeIn();
-    } else {
-      $("#btn_outcome_remove").fadeOut();
-    }
-    
-    if(idx == 4) {
       $("#btn_category_remove").fadeIn();
     } else {
+      $("#btn_outcome_remove").fadeOut();
       $("#btn_category_remove").fadeOut();
     }
     
+    /*if(idx == 4) {
+      $("#btn_category_remove").fadeIn();
+    } else {
+      $("#btn_category_remove").fadeOut();
+    }*/
+     //---- Selected menu will highlighted
+    document.getElementById("menu"+idx).className = "tab_open";
     $("#div_"+idx).fadeIn();
     is_page_change = $("#hdn_is_page_change").val();
     if(is_page_change=="true") {
@@ -396,7 +468,6 @@ $(document).ready(function(){
   
   //Add people (participant) to course
   $("#participant_list").delegate(".people_node li", "click", function(){
-  alert("sssss");
     showSpinner(true);
     course_id = $("#course_id_hdn").val();
     profile_id = $(this).attr("id");
@@ -411,11 +482,11 @@ $(document).ready(function(){
         dataType: "json",
         success: function(data) {
           if (data.status) {
-            participant_node = $('<li></li>');
-            participant_node.class = node_class;
+            participant_node = $('<li id="'+ profile_id + '" class="'+node_class+'"></li>');
+            participant_node.className = node_class;
             participant_node.id = profile_id;
             partcipant_html = '<div class="people_name">' + profile_name + '</div>';
-            partcipant_html += '<div class="people_delete"><a href="javascript:void(0)">Delete</a></div>';
+            partcipant_html += '<div class="people_delete"><a href="javascript:void(0)" rel="'+profile_id+'">Delete</a></div>';
             participant_node.append(partcipant_html);
             $("#course_people ul").append(participant_node);
             $("#participant_list").hide();
@@ -532,6 +603,7 @@ $(document).ready(function(){
     });  
   });
   
+  
   //Post Message
   $('.right_form_containerr').delegate('.sbmt_msg', 'click', function(){
     showSpinner(true);
@@ -539,6 +611,11 @@ $(document).ready(function(){
     parent_type = $(this).attr("rel");
     text = $(this).attr("title");
     message = $("#"+text).val();
+    if(message.trim().length==0){
+      alert('Please enter message...');
+      showSpinner(false);
+      return;
+    }
     var dataString = {parent_id:parent_id, parent_type:parent_type, content: message};
     //alert(dataString.content);return false;
     $.ajax({  
@@ -548,7 +625,7 @@ $(document).ready(function(){
       success: function(data) {
         $("#"+text).val("");
         if(parent_type=="Course") {
-          $("#message_wrapper").append(data);
+          $("#message_wrapper").prepend(data);
           $("#msg_input").fadeOut();
         } else if (parent_type=="Message") {
           $("#post_comment_"+parent_id).hide();
@@ -638,8 +715,14 @@ function save_course(channel) {
   //get outcomes from offline storage
   k = 0;
   $.each($('input[name="outcomes[]"]'), function() {
-    _outcomesObject[k] = getStorage($(this).attr('id'));
+    _outcomesObject[k] = $(this).val();
     k++;
+  });
+
+  i = 0;
+  $.each($('textarea[name="outcomes_descr[]"]'), function() {
+    _outcomes_descrObject[i] = $(this).val();
+    i++;
   });
   
   //get categories from offline storage
@@ -649,8 +732,8 @@ function save_course(channel) {
     l++;
   });
   
-  var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id;  
-  //alert (dataString);return false;
+  var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id; 
+ 
   showSpinner(true);
   $.ajax({
     type: "POST",  
@@ -688,13 +771,13 @@ function addNode(element) {
   } else if(element=="outcome"){
     var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counterOutcome);
     newNode.css("marginTop" , "20px");
-    newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="medium"  />');
+    newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="dd_select brown_bg medium"  /><textarea style="width:260px;height:40px;background-color:#FFFFFF;" cols=10 rows=2 name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '""></textarea>');
     newNode.appendTo("#add_outcome_container");
     _counterOutcome++;
   } else if(element=="category"){
     var newNode = $(document.createElement('div')).attr("id", 'category_node_div' + _counterCategory);
     newNode.css("marginTop" , "20px");
-    newNode.html('<input type="text" name="categories[]" id="categories_' + _counterCategory + '" value="" class="medium"  />');
+    newNode.html('<input type="text" name="categories[]" id="categories_' + _counterCategory + '" value="" class="dd_select brown_bg medium"  />');
     newNode.appendTo("#add_category_container");
     _counterCategory++;
   }

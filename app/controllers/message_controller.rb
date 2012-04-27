@@ -184,15 +184,13 @@ class MessageController < ApplicationController
     render :partial => "list",:locals => {:limit => @limitAttr}
   end
   
-  def friends_only
+  
+   def friends_only
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
-    @messages = Message.limit(2).find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND profile_id=? AND message_type ='Message' AND parent_type='Profile'", wall_ids, false,params[:friend_id]])  
-    @messagesAll = Message.count(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND profile_id=? AND message_type ='Message' AND parent_type='Profile'", wall_ids, false,params[:friend_id]])  
-    if @messagesAll > 2
-       @limitAttr = 2	
-    end
-    render :partial => "list",:locals => {:limit => @limitAttr,:friend_id =>params[:friend_id]}
-  end
+    @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND (profile_id=? or profile_id=?) AND message_type ='Message' AND parent_type!='Message'", wall_ids, false,params[:friend_id],user_session[:profile_id]])  
+    render :partial => "list",:locals => {:friend_id =>params[:friend_id]}
+  end 
+  
   
   def notes
     if params[:friend_id] && !params[:friend_id].nil?

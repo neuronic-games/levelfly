@@ -86,8 +86,8 @@ $('.send_btn').click(function(){
       error: function(){alert("ERROR!!")},
       success: function(data) {
         if (data.status=="save"){
-          $('.popup_box1').html(data.message);
-          $('.popup_box1').fadeOut(1500);
+          $('#avatar_card').html(data.message);
+          $('#avatar_card').fadeOut(1500);
         }
         showSpinner(false);
       }
@@ -109,7 +109,7 @@ $('#unfriend').click(function(){
       error: function(){alert("ERROR!!")},
       success: function(data) {
         if (data.status) {
-          $('.popup_box1').fadeOut(1500);
+          $('#avatar_card').fadeOut(1500);
           $('#friend_box_'+profile_id).remove();
         }
         showSpinner(false);

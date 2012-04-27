@@ -1,8 +1,9 @@
 module MessageHelper
 
   def comment_list(message_id)
-    @comments = Message.find(:all, :conditions=>["parent_id = ? AND parent_type='Message'", message_id], :order => 'created_at ASC')
-    return @comments.reverse
+    @comment = Message.find(:all, :conditions=>["parent_id = ? AND parent_type='Message'", message_id], :order => 'created_at ASC')
+    @comments = @comment.reverse.reverse
+    return @comments
   end
   
   def user_like(profile_id, message_id)

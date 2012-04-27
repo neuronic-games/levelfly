@@ -1,9 +1,8 @@
 <!--friend box-->
 <div class="friend_box" id="friend_box_<%=friend.profile_id%>">
   <div class="avatar_green_bdr">
-    <img rel="" src="https://s3.amazonaws.com/<%=friend.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=friend.profile_id%>.jpg" id="<%=friend.profile_id%>" class="profile"/>
+    <img src="https://s3.amazonaws.com/<%=friend.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=friend.profile_id%>.jpg" id="<%=friend.profile_id%>" class="profile"/>
   </div>
-  <div class="hide popup_box1 avatar_card" id="avatar_<%=friend.profile_id%>"></div>
   <div class="txtboxfullwidth">
     <div class="txt">
       <p><b><%=friend.profile.full_name%></b></p>
