@@ -22,15 +22,17 @@
                       
                         <div class="course_tabs menu_container" align="right">
                           <a  href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><img src="images/course_text.png" class="course_tab" /></a>
-                          <% if @course.profile_id == user_session[:profile_id] %>
+                          <%if @course %>
+                          <% if @course.profile_id == user_session[:profile_id]  %>
                           <a  href="javascript:void(0)"  id="menu7" value="7" class="tab_close" ><img src="images/setup_text.png" class="course_tab" /></a>
                           <% else %>
                           <a  href="javascript:void(0)"  id="menu10" value="10" class="tab_close" ><img src="images/setup_text.png" class="course_tab" />Stat</a>
                           <% end %>
+                          <% end %>
                           <!--<a href="javascript:void(0)"  id="menu6" value="6" class="tab_close"><img src="images/grading_text.png" class="grading_tab" /></a>-->
                           <a  href="javascript:void(0)"  id="menu2" value="2" class="tab_close"><img src="images/member_text.png" class="member_tab" /></a>
-                          <!--<a  href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><img src="images/member_text.png" class="member_tab" />OUTCOMES</a> -->
-                          <a  href="javascript:void(0)"  id="menu4" value="4" class="tab_close"><img src="images/member_text.png" class="member_tab" />CATEGORIES</a>
+                          <!--<a  href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><img src="images/member_text.png" class="member_tab" />OUTCOMES</a> 
+                          <a  href="javascript:void(0)"  id="menu4" value="4" class="tab_close"><img src="images/member_text.png" class="member_tab" />CATEGORIES</a>-->
                           <a  href="javascript:void(0)"  id="menu5" value="5" class="tab_close"><img src="images/forums_text.png" class="member_tab" /></a>
                           <a  href="javascript:void(0)"  id="menu9" value="9" class="tab_close"><img src="images/files_text.png" class="member_tab" /></a>
                         </div>
@@ -74,7 +76,7 @@
                                 <div class="course_teacher_name">
                                  <% if @courseMaster %>
                                  <% @courseMaster.each do |p| %>
-                                  <div class="avatar_white_bdr"><img  src="https://s3.amazonaws.com/<%=p.school.vaults[0].folder%>/avatar_thumb/avatar_<%=p.id%>.jpg" /></div>
+                                  <div class="avatar_white_bdr"><img  src="https://s3.amazonaws.com/<%#=p.school.vaults[0].folder%>/avatar_thumb/avatar_<%=p.id%>.jpg" /></div>
                                 
                                   <div class="avatar_name">Prof. <%=p.full_name%> </div>
                                   <% end %>
@@ -146,24 +148,6 @@
                     </div>
                   </div>
                 </div>
-                <!--<div id="div_4" class="tab_content hide">
-                  <div class="frm_label small_label">
-                    Categories
-                  </div>
-                  <div class="frm_input">
-                    <% if @course %>
-                      <% @course.categories.each do |c| %>
-                        <div style="margin-top:10px;" id="category_div_<%=c.id%>">
-                          <input type="checkbox" name="chk_categories[]"  id="<%=c.id%>" value="<%=c.id%>" />
-                          <input type="text" name="loaded_categories[]" value="<%= c.name %>" rel="<%=c.id%>" class="medium" /> &nbsp;&nbsp;
-                        </div>
-                      <% end %>
-                    <% end %>
-                    <div  id="add_category_container" style="margin:10px 0 0 22px;">
-                      <input type="text" name="categories[]" id="categories_1" class="medium" /> &nbsp;&nbsp;
-                    </div>
-                  </div>
-                </div>-->
                <div id="div_5" class="tab_content hide">
                   <div class="frm_label small_label">
                    Groups
@@ -253,10 +237,11 @@
                         </div>
                       <% end %>
                     <% end %>
-                    
-                    <div id="add_outcome_container" style="margin:10px 0 0 22px;">
-                      <input type="text" name="outcomes[]" id="outcomes_1" class="dd_select brown_bg medium" />
-                      <textarea style="width:260px;height:40px;background-color:#FFFFFF;" cols=10 rows=2 name="outcomes_descr[]" id="outcomes_descr_1"></textarea>
+                    <div>
+                      <div id="add_outcome_container" style="margin:10px;">
+                        <input type="text" name="outcomes[]" id="outcomes_1" class="dd_select brown_bg medium" />
+                        <textarea style="float:right;margin:-4px -89px 0 0;width:260px;height:40px;background-color:#FFFFFF;" cols=10 rows=2 name="outcomes_descr[]" id="outcomes_descr_1"></textarea>
+                      </div> 
                     </div>
                   </div>
                   <div class="clear"></div>
@@ -264,7 +249,7 @@
                   
                  
                   <div class="frm_label small_label">
-                    Categories
+                     Categories
                   </div>
                   <div class="frm_input">
                     <% if @course %>
@@ -275,8 +260,8 @@
                         </div>
                       <% end %>
                     <% end %>
-                    <div id="add_category_container" style="margin:10px 0 0 22px;">
-                      <input type="text" name="categories[]" id="categories_1" class="dd_select brown_bg medium" /> &nbsp;&nbsp;
+                    <div id="add_category_container" style="float:left;margin-left:10px; margin-top:10px;">
+                        <input type="text" name="categories[]" id="categories_1" class="dd_select brown_bg medium" />
                     </div>
                   </div>
                   <div class="clear"></div>
