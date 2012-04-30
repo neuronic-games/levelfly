@@ -1494,3 +1494,16 @@ margin-left:33px;
     float: right;
     margin-top: 171px;
 }
+.outcome_div  {margin-top:5px; display:table; width:100%}
+.outcome_div .leftsideinput {display:table-cell; height:49px; padding-top:3px; width:40%}
+.outcome_div .rightsidetextarea {display:table-cell; height:52px; width:60%}
+.outcome_div .rightsidetextarea  textarea{width:100%; height:40px; background-color:#FFFFFF;}
+.course_setupinner {margin-top:5px; display:table; width:100%}
+.course_setupinput { display:table-cell; height:49px; padding-top:3px; width:40%}
+.course_setuptextarea {display:table-cell; height:52px; width:60%}
+.add_outcome_container{margin-top:5px;width:100%}
+
+
+
+
+

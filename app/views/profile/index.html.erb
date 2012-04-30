@@ -531,9 +531,10 @@ function saveAvatar() {
       face: '/images/wardrobe/'+_avatar.head+'.png',
   };
 
-  loadCanvasImages(sources, function(images){
-    
-    ctx.drawImage(images.body, 0,0,drawImageWidth,drawImageHeight);
+  //loadCanvasImages(sources, function(images){
+  loadCanvasImages(sources, '');
+
+    /*ctx.drawImage(images.body, 0,0,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.hat, 0,5,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.glasses, 0,5,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.earrings, 0,5,drawImageWidth,drawImageHeight);
@@ -544,23 +545,24 @@ function saveAvatar() {
     ctx.drawImage(images.hair_back, 0,5,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.face, 0,5,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.facial_hair, 0,5,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.facial_marks, 0,5,drawImageWidth,drawImageHeight);
-    
+    ctx.drawImage(images.facial_marks, 0,5,drawImageWidth,drawImageHeight);*/
+
     var dataURL = newCanvas.toDataURL('image/jpg');
     var base64 = dataURL.replace(/^data:image\/(png|jpg);base64,/, '') ;
-  
+
     //Save avatar data
     $.ajax({ //Previously was with getJson but having problem of too many parameters in request URI so switched to $.ajax with post
       url: "/profile/save",
       data: { id: _profile.id, profile: _profile, avatar: _avatar, avatar_img: base64 }, 
       type: 'post',
       dataType: 'json',
+      error: function(){alert("Error");},
       success: function(data){
         _profile = data.profile;
         _avatar = data.avatar;
       }
     }); //Ajax
-  }); //loadCanvasImages
+  //}); //loadCanvasImages
 }
 
 function showProfile() {
@@ -659,12 +661,12 @@ function loadCanvasImages(sources, callback){
       numImages++;
   }
   for (var src in sources) {
-    images[src] = new Image();
+    images[src] = new Image(); 
     images[src].onload = function(){
       if (++loadedImages >= numImages) {
         callback(images);
       }
-    };
+    };       
     images[src].src = sources[src];
   }
 }
