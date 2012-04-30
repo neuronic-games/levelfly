@@ -66,7 +66,7 @@ class CourseController < ApplicationController
       :include => [:participants], 
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", @course.id]
       )
-    @totaltask=Task.find(:all, :conditions =>["course_id = ?",@course.id])
+    @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
     respond_to do |wants|
       wants.html do
@@ -90,8 +90,9 @@ class CourseController < ApplicationController
     @course.name = params[:course] if params[:course]
     @course.descr = params[:descr] if params[:descr]
     @course.code = params[:code] if params[:code]
+    @course.section = params[:section] if params[:section]
     @course.school_id = params[:school_id] if params[:school_id]
-    @course.profile_id =user_session[:profile_id]
+    @course.profile_id = user_session[:profile_id]
     if params[:file]
       @course.image.destroy if @course.image
       @course.image = params[:file]

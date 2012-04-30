@@ -568,6 +568,8 @@ a.blue_bt19px {
 }
 a.blue_bt19px:hover {
   text-decoration:none;
+  cursor:pointer;
+  background:#000000;
 }
 .msg_box_txt .fav_icon {
   padding:0 10px 0 0;
@@ -1013,7 +1015,7 @@ a.blue_bt19px:hover {
   padding: 10px;
 }
 .course_viewfield {
-  float:left;
+  float:right;
   width:49%;
 }
 .bluebox {
@@ -1023,7 +1025,7 @@ a.blue_bt19px:hover {
   font-size:12px;
 }
 .catagory_viewfield {
-  float:right;
+  float:left;
   width:49%;
 }
 .field_box2 {
