@@ -68,7 +68,7 @@ class ProfileController < ApplicationController
     @avatar.earrings = avatar["earrings"]
     @avatar.facial_marks = avatar["facial_marks"]
     @avatar.facial_hair = avatar["facial_hair"]
-    @avatar.makeup = avatar["makeup"]
+    @avatar.face = avatar["face"]
     @avatar.glasses = avatar["glasses"]
     @avatar.hair = avatar["hair"]
     @avatar.hat = avatar["hat"]
