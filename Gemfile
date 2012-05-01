@@ -20,7 +20,7 @@ gem 'rake', '0.8.7'
 #gem 'rake' , '>= 0.9.2'
 gem 'json'
 gem 'devise'
-
+gem 'taps', '>= 0.3.23'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
