@@ -68,6 +68,7 @@ class CourseController < ApplicationController
       )
     @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
+    @check_course = Participant.find(:all, :conditions=>["profile_id = ? AND profile_type = 'M' AND object_type='Course'",user_session[:profile_id]])
     respond_to do |wants|
       wants.html do
         if request.xhr?
@@ -92,7 +93,6 @@ class CourseController < ApplicationController
     @course.code = params[:code] if params[:code]
     @course.section = params[:section] if params[:section]
     @course.school_id = params[:school_id] if params[:school_id]
-    @course.profile_id = user_session[:profile_id]
     if params[:file]
       @course.image.destroy if @course.image
       @course.image = params[:file]
