@@ -539,10 +539,10 @@ function saveAvatar() {
       face: '/images/wardrobe/'+_avatar.head+'.png',
   };
 
-  //loadCanvasImages(sources, function(images){
-  loadCanvasImages(sources, '');
+  loadCanvasImages(sources, function(images){
+  //loadCanvasImages(sources, '');
 
-    /*ctx.drawImage(images.body, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.body, 0,0,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.hat, 0,5,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.glasses, 0,5,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.earrings, 0,5,drawImageWidth,drawImageHeight);
@@ -553,7 +553,7 @@ function saveAvatar() {
     ctx.drawImage(images.hair_back, 0,5,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.face, 0,5,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.facial_hair, 0,5,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.facial_marks, 0,5,drawImageWidth,drawImageHeight);*/
+    ctx.drawImage(images.facial_marks, 0,5,drawImageWidth,drawImageHeight);
 
     var dataURL = newCanvas.toDataURL('image/jpg');
     var base64 = dataURL.replace(/^data:image\/(png|jpg);base64,/, '') ;
@@ -570,7 +570,7 @@ function saveAvatar() {
         _avatar = data.avatar;
       }
     }); //Ajax
-  //}); //loadCanvasImages
+  }); //loadCanvasImages
 }
 
 function showProfile() {
@@ -672,6 +672,7 @@ function loadCanvasImages(sources, callback){
     images[src] = new Image(); 
     images[src].onload = function(){
       if (++loadedImages >= numImages) {
+        
         callback(images);
       }
     };       
