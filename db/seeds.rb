@@ -15,11 +15,11 @@ default = Avatar.create(:profile => profile, :level => 1, :skin => 3, :body => '
 
 basic = Wardrobe.create(:name => 'Basic', :visible_level => 1, :available_level => 1, :available_date => Date.today, :visible_date => Date.today)
 
-item_type_list = WardrobeItemType.create([{:name => 'head'}, {:name => 'body'}, {:name => 'legs'}, {:name => 'feet'}, {:name => 'prop'}, {:name => 'head_shape'}, {:name => 'face'}, {:name => 'hair'}, {:name => 'facial_hair'}, {:name => 'hat'}, {:name => 'top'}])
-item_type = {}
-item_type_list.each do |i|
-  item_type[i.name] = i
-end
+# item_type_list = WardrobeItemType.create([{:name => 'head'}, {:name => 'body'}, {:name => 'legs'}, {:name => 'feet'}, {:name => 'prop'}, {:name => 'head_shape'}, {:name => 'face'}, {:name => 'hair'}, {:name => 'facial_hair'}, {:name => 'hat'}, {:name => 'top'}])
+# item_type = {}
+# item_type_list.each do |i|
+#   item_type[i.name] = i
+# end
 
 item = {}
 # Head
@@ -47,6 +47,22 @@ WardrobeItem.create(:wardrobe => basic, :parent_item => item['face'], :name => '
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['face'], :name => 'Face 7', :item_type => 'face', :image_file => 'avatar/face/latin_male', :sort_order => 7, :depth => 2)
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['face'], :name => 'Face 8', :item_type => 'face', :image_file => 'avatar/face/latin_female', :sort_order => 8, :depth => 2)
 
+# Hair
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['hair'], :name => 'Short Wavy', :item_type => 'hair', :image_file => 'avatar/hair/short_wavy_4', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['hair'], :name => 'Short Sraight', :item_type => 'hair', :image_file => 'avatar/hair/short_straight_4', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['hair'], :name => 'Short Side', :item_type => 'hair', :image_file => 'avatar/hair/short_side_4', :sort_order => 2, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['hair'], :name => 'Short Curly', :item_type => 'hair', :image_file => 'avatar/hair/short_curly_4', :sort_order => 3, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['hair'], :name => 'Long Wavy', :item_type => 'hair', :image_file => 'avatar/hair/long_wavy_4', :sort_order => 4, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['hair'], :name => 'Long Straight', :item_type => 'hair', :image_file => 'avatar/hair/long_straight_4', :sort_order => 5, :depth => 2)
+
+# Facial Hair
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['facial_hair'], :name => 'Handlebar', :item_type => 'facial_hair', :image_file => 'avatar/facial_hair/handlebar_chin_puff_4', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['facial_hair'], :name => 'Souvarov', :item_type => 'facial_hair', :image_file => 'avatar/facial_hair/la_souvarov_4', :sort_order => 1, :depth => 2)
+
+# Hat
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['hat'], :name => 'Cowboy', :item_type => 'hat', :image_file => 'basic/hats/cowboy_hat', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['hat'], :name => 'Pirate', :item_type => 'hat', :image_file => 'basic/hats/pirate_hat', :sort_order => 0, :depth => 2)
+
 # Body
 item['body'] = WardrobeItem.create(:wardrobe => basic, :name => 'Body', :item_type => 'body', :sort_order => 1, :depth => 0)
 item['body_casual'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['body'], :name => 'Casual', :item_type => 'casual', :sort_order => 0, :depth => 1)
@@ -56,12 +72,117 @@ item['body_career'] = WardrobeItem.create(:wardrobe => basic, :parent_item => it
 item['body_misc'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['body'], :name => 'Misc', :item_type => 'misc', :sort_order => 4, :depth => 1)
 
 # Casual Tops
-WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_casual'], :name => 'Black T', :item_type => 'top', :image_file => 'basic/tops/black_t', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_casual'], :name => 'Black-T', :item_type => 'top', :image_file => 'basic/tops/black_t', :sort_order => 0, :depth => 2)
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_casual'], :name => 'Blue Polo', :item_type => 'top', :image_file => 'basic/tops/polo_short_sleeve_blue', :sort_order => 1, :depth => 2)
+
+# Dressy Tops
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_dressy'], :name => 'Black Tux', :item_type => 'top', :image_file => 'basic/tops_dressy/black_bow', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_dressy'], :name => 'Black Suit', :item_type => 'top', :image_file => 'basic/tops_dressy/dark_gray_tie', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_dressy'], :name => 'Black Short Dress', :item_type => 'top', :image_file => 'basic/tops_dressy/black_maroon_short_dress', :sort_order => 2, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_dressy'], :name => 'White Long Dress', :item_type => 'top', :image_file => 'basic/tops_dressy/black_white_long_dress', :sort_order => 3, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_dressy'], :name => 'Brown Dress', :item_type => 'top', :image_file => 'basic/tops_dressy/brown_dress', :sort_order => 4, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_dressy'], :name => 'Orange Short Dress', :item_type => 'top', :image_file => 'basic/tops_dressy/orange_short_dress', :sort_order => 5, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_dressy'], :name => 'Red Long Dress', :item_type => 'top', :image_file => 'basic/tops_dressy/red_long_dress_icon', :sort_order => 6, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_dressy'], :name => 'White Dress', :item_type => 'top', :image_file => 'basic/tops_dressy/white_dress_1', :sort_order => 7, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_dressy'], :name => 'White Short Dress', :item_type => 'top', :image_file => 'basic/tops_dressy/white_short_dress', :sort_order => 8, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_dressy'], :name => 'Orange Short Dress', :item_type => 'top', :image_file => 'basic/tops_dressy/orange_short_dress', :sort_order => 9, :depth => 2)
+
+# Sporty Tops
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_sporty'], :name => 'Baseball', :item_type => 'top', :image_file => 'basic/tops/baseball_t_shirt', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_sporty'], :name => 'Football', :item_type => 'top', :image_file => 'basic/tops/american_football_top', :sort_order => 1, :depth => 2)
+
+# Career Tops
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_career'], :name => 'Lab Coat', :item_type => 'top', :image_file => 'basic/tops/doctor_white_top', :sort_order => 0, :depth => 2)
 
+# Misc Tops
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_misc'], :name => 'Santa', :item_type => 'top', :image_file => 'basic/tops/santa_top', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_misc'], :name => 'Cowboy', :item_type => 'top', :image_file => 'basic/tops/cowboy_top_with_court', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['body_misc'], :name => 'Pirate', :item_type => 'top', :image_file => 'basic/tops/pirate_top', :sort_order => 2, :depth => 2)
+
 item['legs'] = WardrobeItem.create(:wardrobe => basic, :name => 'Legs', :item_type => 'legs', :sort_order => 2, :depth => 0)
+item['legs_casual'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs'], :name => 'Casual', :item_type => 'casual', :sort_order => 0, :depth => 1)
+item['legs_dressy'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs'], :name => 'Dressy', :item_type => 'dressy', :sort_order => 1, :depth => 1)
+item['legs_sporty'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs'], :name => 'Sporty', :item_type => 'sporty', :sort_order => 2, :depth => 1)
+item['legs_career'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs'], :name => 'Career', :item_type => 'career', :sort_order => 3, :depth => 1)
+item['legs_misc'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs'], :name => 'Misc', :item_type => 'misc', :sort_order => 4, :depth => 1)
+
+# Casual Bottoms
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_casual'], :name => 'Short Denim', :item_type => 'bottom', :image_file => 'basic/bottoms/trousers_short_denim_blue', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_casual'], :name => 'Long Denim', :item_type => 'bottom', :image_file => 'basic/bottoms/trousers_long_denim_blue', :sort_order => 1, :depth => 2)
+
+# Dressy Bottoms
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_dressy'], :name => 'Grey Trousers', :item_type => 'bottom', :image_file => 'basic/bottoms/gray_brown_long_trouser', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_dressy'], :name => 'Short Brown Skirt', :item_type => 'bottom', :image_file => 'basic/bottoms/skirt_short_brown', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_dressy'], :name => 'Short Pink Skirt', :item_type => 'bottom', :image_file => 'basic/bottoms/skirt_short_pink', :sort_order => 2, :depth => 2)
+
+# Sporty Bottoms
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_sporty'], :name => 'Football', :item_type => 'bottom', :image_file => 'basic/bottoms/american_football_pant', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_sporty'], :name => 'Baseball', :item_type => 'bottom', :image_file => 'basic/bottoms/baseball_pant', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_sporty'], :name => 'Basketball', :item_type => 'bottom', :image_file => 'basic/bottoms/basketball_short', :sort_order => 2, :depth => 2)
+
+# Career Bottoms
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_career'], :name => 'Army', :item_type => 'bottom', :image_file => 'basic/bottoms/trouser_army', :sort_order => 0, :depth => 2)
+
+# Misc Bottoms
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_misc'], :name => 'Santa', :item_type => 'bottom', :image_file => 'basic/bottoms/santa_trouser', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_misc'], :name => 'Devil', :item_type => 'bottom', :image_file => 'basic/bottoms/trouser_devil', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_misc'], :name => 'Pirate', :item_type => 'bottom', :image_file => 'basic/bottoms/pirate_bottom', :sort_order => 2, :depth => 2)
 
 item['feet'] = WardrobeItem.create(:wardrobe => basic, :name => 'Feet', :item_type => 'feet', :sort_order => 3, :depth => 0)
+item['feet_casual'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet'], :name => 'Casual', :item_type => 'casual', :sort_order => 0, :depth => 1)
+item['feet_dressy'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet'], :name => 'Dressy', :item_type => 'dressy', :sort_order => 1, :depth => 1)
+item['feet_sporty'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet'], :name => 'Sporty', :item_type => 'sporty', :sort_order => 2, :depth => 1)
+item['feet_career'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet'], :name => 'Career', :item_type => 'career', :sort_order => 3, :depth => 1)
+item['feet_misc'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet'], :name => 'Misc', :item_type => 'misc', :sort_order => 4, :depth => 1)
 
-item['props'] = WardrobeItem.create(:wardrobe => basic, :name => 'Props', :item_type => 'prop', :sort_order => 4, :depth => 0)
+# Casual Shoes
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_casual'], :name => 'Brown Slippers', :item_type => 'shoes', :image_file => 'basic/shoes/slippers_brown', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_casual'], :name => 'Purple Slippers', :item_type => 'shoes', :image_file => 'basic/shoes/slippers_purple', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_casual'], :name => 'Grey Sneakers', :item_type => 'shoes', :image_file => 'basic/shoes/sneakers_gray', :sort_order => 2, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_casual'], :name => 'Purple Sneakers', :item_type => 'shoes', :image_file => 'basic/shoes/sports_shoe_purple', :sort_order => 2, :depth => 2)
+
+# Dressy Shoes
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_dressy'], :name => 'Black', :item_type => 'shoes', :image_file => 'basic/shoes/black_shoe', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_dressy'], :name => 'Red Heels', :item_type => 'shoes', :image_file => 'basic/shoes/red_heels', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_dressy'], :name => 'Pink Heels', :item_type => 'shoes', :image_file => 'basic/shoes/shoe_pink', :sort_order => 2, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_dressy'], :name => 'White Heels', :item_type => 'shoes', :image_file => 'basic/shoes/white_heels_1', :sort_order => 3, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_dressy'], :name => 'White Heels 2', :item_type => 'shoes', :image_file => 'basic/shoes/white_heels_2', :sort_order => 4, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_dressy'], :name => 'Black Heels', :item_type => 'shoes', :image_file => 'basic/shoes/black_heels', :sort_order => 5, :depth => 2)
+
+# Sporty Shoes
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_sporty'], :name => 'Football', :item_type => 'shoes', :image_file => 'basic/shoes/american_football_shoe', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_sporty'], :name => 'Basketball', :item_type => 'shoes', :image_file => 'basic/shoes/basketball_shoe', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_sporty'], :name => 'Baseball', :item_type => 'shoes', :image_file => 'basic/shoes/baseball_shoe', :sort_order => 2, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_sporty'], :name => 'Golf', :item_type => 'shoes', :image_file => 'basic/shoes/golf_shoe', :sort_order => 3, :depth => 2)
+
+# Career Shoes
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_career'], :name => 'Army', :item_type => 'shoes', :image_file => 'basic/shoes/army_boot', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_career'], :name => 'Cowboy', :item_type => 'shoes', :image_file => 'basic/shoes/cowboy_boot', :sort_order => 1, :depth => 2)
+
+# Misc Shoes
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_misc'], :name => 'Superhero', :item_type => 'shoes', :image_file => 'basic/shoes/superhero_boot', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_misc'], :name => 'Pirate', :item_type => 'shoes', :image_file => 'basic/shoes/pirate_boot', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_misc'], :name => 'Devil', :item_type => 'shoes', :image_file => 'basic/shoes/devil_boot', :sort_order => 2, :depth => 2)
+
+item['props'] = WardrobeItem.create(:wardrobe => basic, :name => 'Accessories', :item_type => 'prop', :sort_order => 4, :depth => 0)
+item['props_jewelery'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['props'], :name => 'Jewlery', :item_type => 'jewlery', :sort_order => 0, :depth => 1)
+item['props_bags'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['props'], :name => 'Bags', :item_type => 'bag', :sort_order => 1, :depth => 1)
+item['props_gadgets'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['props'], :name => 'Gadgets', :item_type => 'gadget', :sort_order => 2, :depth => 1)
+item['props_hobbies'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['props'], :name => 'Hobbies', :item_type => 'hobby', :sort_order => 3, :depth => 1)
+item['props_misc'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['props'], :name => 'Misc', :item_type => 'misc', :sort_order => 4, :depth => 1)
+
+# Jewlery
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_jewelery'], :name => 'Orange Necklace', :item_type => 'necklace', :image_file => 'basic/earrings/earring_orange', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_jewelery'], :name => 'Orange Earrings', :item_type => 'earrings', :image_file => 'basic/necklace/necklace_orange', :sort_order => 1, :depth => 2)
+
+# Bags
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_bags'], :name => 'Leather Bag', :item_type => 'prop', :image_file => 'basic/props/leather_bag', :sort_order => 0, :depth => 2)
+
+# Gadgets
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_gadgets'], :name => 'Camera', :item_type => 'prop', :image_file => 'basic/props/camera', :sort_order => 0, :depth => 2)
+
+# Hobbies
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_hobbies'], :name => 'Guitar', :item_type => 'prop', :image_file => 'basic/props/guitar_black', :sort_order => 0, :depth => 2)
+
+# Misc
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_misc'], :name => 'Pitchfork', :item_type => 'prop', :image_file => 'basic/props/pitchfork', :sort_order => 0, :depth => 2)

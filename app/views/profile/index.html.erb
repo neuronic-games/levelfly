@@ -78,7 +78,7 @@
   <div id="modify" class="avat clickable">
     <img id="background" class="avatar">
     <img id="avatar_body" class="avatar">
-    <img id="hat_back" class="avatar">
+    <!-- <img id="hat_back" class="avatar"> -->
     <img id="hair_back" class="avatar">
     <img id="shoes" class="avatar">
     <img id="bottom" class="avatar">
@@ -144,7 +144,8 @@ var _profile;
 var _avatar;
 var _major;
 var _school;
-var _itemForColor = new Array("head", "head_shape","hair");
+var _itemForColor = new Array("head", "head_shape", "hair", "facial_hair");
+var _itemRequired = new Array("head", "face");
 var _level_meter =  new Array(100, 150, 200, 350, 400, 500, 550, 700, 750, 900);
 
 OC = {
@@ -263,25 +264,34 @@ $(window).load(function() {
     if (model.image_file) {
       // Clicked on an option that can be applied
       if (model.image_file == _avatar[model.item_type]) {
-        // Already applied? Remove this item
-        if (model.item_type != "hair" && model.item_type != "head") {
+        // Already applied? Remove this item, unless it is a required item
+        if (_itemRequired.indexOf(model.item_type) == -1) {
           _avatar[model.item_type] = "null";
         }
       } else {
         // Display the item on the avatar
         var image_file = model.image_file;
-        // If the head is changed, make sure that the head color is the same as the current body
-        if (parseInt(model.depth) > 1 && model.item_type == 'head') {
-          var value = _avatar["body"];
-          var skin = value.substr(value.length-1);
-          image_file = image_file.substr(0,image_file.length-1)+skin;
+        var depth = parseInt(model.depth);
+        if (depth > 1) {
+          // If the head is changed, make sure that the head color is the same as the current body
+          if (model.item_type == 'head') {
+            var current_image_file = _avatar["body"];
+            var skin = current_image_file.substr(current_image_file.length-1);
+            image_file = image_file.substr(0, image_file.length-1)+skin;
+          }
+          // If the hair is changed, make sure that the color is the same for all hair
+          if (model.item_type == 'hair' || model.item_type == 'facial_hair') {
+            var current_image_file = _avatar["hair"];
+            var skin = current_image_file.substr(current_image_file.length-1);
+            image_file = image_file.substr(0, image_file.length-1)+skin;
+          }
         }
         _avatar[model.item_type] = image_file;        
       }
       $("#" + model.item_type).attr("src", "/images/wardrobe/" + _avatar[model.item_type] + ".png");
 
       // Check if there is a back layer
-      if (model.item_type == "hair" || model.item_type == "hat") {
+      if (model.item_type == "hair") {
         item_type_back = model.item_type + "_back";
         _avatar[item_type_back] = _avatar[model.item_type] + "_back";
         $("#"+item_type_back).attr("src", "/images/wardrobe/" + _avatar[item_type_back] + ".png");
@@ -311,25 +321,31 @@ $(window).load(function() {
 
   //Color change for body & head
   $(".head_color").click(function(){
-    var str = _avatar.head;
-    var value = $(this).attr("value");
-    var newStr = str.substring(0, str.length-1)+value;
-    $("#avatar_body").attr("src", "/images/wardrobe/avatar/body/body_"+value+".png");
-    $("#head").attr("src", "/images/wardrobe/"+newStr+".png");
-    _avatar["head"] = newStr;
-    _avatar["body"] = "avatar/body/body_"+value;
+    var head = _avatar.head;
+    var color = $(this).attr("value");
+    var head = head.substr(0, head.length-1) + color;
+    $("#avatar_body").attr("src", "/images/wardrobe/avatar/body/body_"+color+".png");
+    $("#head").attr("src", "/images/wardrobe/"+head+".png");
+    _avatar["head"] = head;
+    _avatar["body"] = "avatar/body/body_"+color;
     saveAvatar();
   });
 
   // Hair color change
   $(".hair_color").click(function(){
-    var str = _avatar.hair;
-    var value = $(this).attr("value");
-    var newStr = str.substring(0, str.length-1)+value;
-    $("#hair").attr("src", "/images/wardrobe/"+newStr+".png"); 
-    $("#hair_back").attr("src", "/images/wardrobe/"+newStr+"_back.png");
-    _avatar["hair"] = newStr;
-    _avatar["hair_back"] = newStr+"_back";
+    var hair = _avatar.hair;
+    var color = $(this).attr("value");
+    hair = hair.substr(0, hair.length-1) + color;
+    var facial_hair = _avatar.facial_hair;
+    if (facial_hair != 'null') {
+      facial_hair = facial_hair.substr(0, facial_hair.length-1) + color;
+      $("#facial_hair").attr("src", "/images/wardrobe/"+facial_hair+".png"); 
+      _avatar["facial_hair"] = facial_hair;
+    }
+    $("#hair").attr("src", "/images/wardrobe/"+hair+".png"); 
+    $("#hair_back").attr("src", "/images/wardrobe/"+hair+"_back.png");
+    _avatar["hair"] = hair;
+    _avatar["hair_back"] = hair+"_back";
     saveAvatar();
   });
   
@@ -365,7 +381,7 @@ function showColorPalette(_item_type, $this) {
   if (_item_type == "head_shape" || _item_type == "head") {
     $("#head_color").show();
     $("#hair_color").hide();
-  } else if (_item_type == "hair") {
+  } else if (_item_type == "hair" || _item_type == "facial_hair") {
     $("#hair_color").show();
     $("#head_color").hide();
   }else {
@@ -462,7 +478,7 @@ function showAvatar() {
 
   $("#background").attr("src", "/images/wardrobe/"+_avatar.background+".png");
   $("#avatar_body").attr("src", "/images/wardrobe/"+_avatar.body+".png"); //Id changed by vaibhav because having id "body" is creating problem with jQuery.position()
-  $("#hat_back").attr("src", "/images/wardrobe/"+_avatar.hat_back+".png");
+  // $("#hat_back").attr("src", "/images/wardrobe/"+_avatar.hat_back+".png");
   $("#hair_back").attr("src", "/images/wardrobe/"+_avatar.hair_back+".png");
   $("#shoes").attr("src", "/images/wardrobe/"+_avatar.shoes+".png");
   $("#bottom").attr("src", "/images/wardrobe/"+_avatar.bottom+".png");
