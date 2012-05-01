@@ -1,0 +1,809 @@
+
+<div id="sidebar_right">
+  <div id="crud_level">
+    <input type="button" name="btn_course" id="btn_course" class="sbmt_course" value="Save"/>
+    <% if @course%>
+      <input type="button" name="menu_btn_hide" id="menu_btn_hide" value="Hide"/>
+      <input type="button" name="menu_btn_fav" id="menu_btn_fav" value="Fav"/>
+      <input type="button" name="menu_btn_print" id="menu_btn_print" value="Print"/>
+      <input type="button" name="btn_outcome_remove" id="btn_outcome_remove" class="hide" value="Remove"/>
+      <input type="button" name="btn_category_remove" id="btn_category_remove" class="hide" value="Remove"/>
+    <% end %>
+    <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@course ? false : true %>" />
+  </div><!-- crud_level -->
+</div>
+   <div class="course_content">
+            <div class="course_board_left">
+              <div class="course_board_right">
+                <div class="course_board_center">
+                  <div class="texture_board">
+                    <div class="course_pad_top"> </div>
+                    <div class="course_pad">
+                      <!-- tabs-->
+                      
+                        <div class="course_tabs menu_container" align="right">
+                          
+                          <%if @course %>
+                          <% if @course.profile_id == user_session[:profile_id]  %>
+                          <input type="hidden" id="setup_value" value="equal"/>
+                          <a  href="javascript:void(0)"  id="menu1" value="1" class="tab_close" ><img src="images/course_text.png" class="course_tab" /></a>
+                          <a  href="javascript:void(0)"  id="menu2" value="2" class="tab_open" ><img src="images/setup_text.png" class="course_tab" /></a>
+                          <% else %>
+                          <a  href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><img src="images/course_text.png" class="course_tab" /></a>
+                          <a  href="javascript:void(0)"  id="menu5" value="5" class="tab_close" ><img src="images/setup_text.png" class="course_tab" />Stat</a>
+                           <a  href="javascript:void(0)"  id="menu6" value="6" class="tab_close"><img src="images/member_text.png" class="member_tab" /></a>
+                          <% end %>
+                          <% end %>
+                          <a  href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><img src="images/forums_text.png" class="member_tab" /></a>
+                          <a  href="javascript:void(0)"  id="menu4" value="4" class="tab_close"><img src="images/files_text.png" class="member_tab" /></a>
+                        </div>
+                      
+                    <div class="course_tab_content">
+                    <div class="right_form_containerr">
+                      <div id="div_1" class="form_container1">
+                        <div class="course_left">
+                          <div class="course_profile_image"> <img src="images/task_profile_img.jpg" width="156" height="156" /> 
+                          </div>
+                        </div>
+                        <div class="course_right" >
+                          <!--list box-->
+                          <div class="course_detailbox">
+                            <div class="course_field_box1">
+                              
+                                <div class="catagory_viewfield">COURSE CODE
+                                  <div class="dd_bg brown_bg">
+                                   <input type="text" name="course_code" id="course_code" <%if @course %> value="<%=@course.code%>" readonly="readonly" <%end%> class="small dd_input brown_bg" style="width:100px;" onBlur='javascript:setStorage("course_code", $(this).val());$("#hdn_is_page_change").val(true);' />
+                                   -
+                                   <input type="text" name="course_section" id="course_section" <%if @course %> value="<%=@course.section%>" readonly="readonly" <%end%> class="small dd_input brown_bg" style="width:50px;" onBlur='javascript:setStorage("course_section", $(this).val());$("#hdn_is_page_change").val(true);' />
+                                  </div>
+                                </div>
+                                
+                                <div class="course_viewfield">COURSE NAME
+                                  <div class="dd_bg brown_bg">
+                                    <input type="text" name="course_name" id="course_name" <%if @course %> value="<%=@course.name if @course%>" readonly="readonly" <%end%> class="dd_select brown_bg" onBlur='javascript:setStorage("course_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+                                  </div>
+                                </div>
+                                
+                                <div class="clear"></div>
+                                <div class="spacebar10px"></div>
+                                <div class="course_activity_list">
+                                
+                                
+                                  <div class="CAL_01"><span> <% if @totaltask %> <% total_task = @totaltask.count %><%=total_task%><% else %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW</a></div>
+                                  
+                                  <div class="CAL_01"><span>21 SHARED FILES</span> <a href="javascript:void(0)" class="green_bt19px">VIEW</a></div>
+                                 
+                                   
+                                   <div class="menu_container">
+                                  <div class="CAL_01"><span> <% if @peoples %><%=@peoples.count%><% else %>0 <% end %> MEMBERS</span> <a href="javascript:void(0)" value="6" class="green_bt19px">VIEW</a></div>
+                                 
+                                  </div>
+                                </div>
+                                <div class="course_teacher_name">
+                                 <% if @courseMaster %>
+                                 <% @courseMaster.each do |p| %>
+                                  <div class="avatar_white_bdr"><img  src="https://s3.amazonaws.com/<%=p.school.vaults[0].folder%>/avatar_thumb/avatar_<%=p.id%>.jpg" /></div>
+                                
+                                  <div class="avatar_name"><%=p.full_name%></div>
+                                  <% end %>
+                                  <% end %>
+                                </div>
+                             <div class="clear"></div>
+                            </div>
+                          </div>
+                          <!--list box-->
+                        </div>
+                        <div class="clear"></div>
+                    <% if @course %>
+                    <!-- Message -->
+                      
+                      <div id="msg_input" class="message_input hide">
+                        <label>Message</label> <br />
+                          <textarea id="msg_content" name="msg_content" cols="15" rows="6"></textarea> <br />
+                          <span>
+                            <input type="button" name="sbmt_msg" class="sbmt_msg" title="msg_content" id="<%=@course.id%>" rel="Course" value="Post" />
+                          </span>
+                          &nbsp;
+                          <span>
+                            <!-- When user click on cancel button first data will clear from textarea and finall popup window will hide.-->
+                            <a href="javascript:void(0)" onclick="javascript:$('#msg_content').val(''); $('#msg_input').fadeOut()">Cancel</a>
+                          </span>
+                      </div>
+                      <div class="frm_label">
+                      <div align="right" class="course_newmsg_bt"><a class="blue_bt19px" onclick="javascript:$('#msg_input').fadeIn()">NEW MESSAGE</a> 
+                      </div>
+                      </div>
+                      <div class="frm_input">
+                        <div id="message_wrapper" class="message_wrapper">
+                        &nbsp;
+                        <% if @course_messages=@course.messages.find(:all,:order => "created_at DESC" )%>
+                          <% @course_messages.each do |message| %>
+                            <%= render :partial => "/message/messages", :locals => {:message=>message} %>
+                          <% end %>
+                        <% end %>
+                        </div>
+                      </div>
+                    <!-- Message ends -->
+                    <% end %>
+                    <div class="clear"></div>
+                   </div>
+                   <div id="div_2" class="tab_content hide">
+                  <div class="course_left">
+                    <div class="course_profile_image"> <img src="images/task_profile_img.jpg" width="156" height="156" /> 
+                    </div>
+                  </div>
+                  <div class="course_right" >
+                    <div class="course_detailbox">
+                      <div class="course_field_box1">
+
+                        <div class="catagory_viewfield">COURSE CODE
+                          <div class="dd_bg brown_bg">
+                           <input type="text" name="course_code" id="course_code" value="<%=@course.code if @course%>" class="small dd_input brown_bg" style="width:100px;" onBlur='javascript:setStorage("course_code", $(this).val());$("#hdn_is_page_change").val(true);' />
+                           -
+                           <input type="text" name="course_section" id="course_section" value="<%=@course.section if @course%>" class="small dd_input brown_bg" style="width:50px;" onBlur='javascript:setStorage("course_section", $(this).val());$("#hdn_is_page_change").val(true);' />
+                          </div>
+                        </div>
+
+                        <div class="course_viewfield">COURSE NAME
+                          <div class="dd_bg brown_bg">
+                            <input type="text" name="course_name" id="course_name" class="dd_select brown_bg" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("course_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+                          </div>
+                        </div>
+
+                        <div class="clear"></div><br/><br/>
+                        <div style="width:100px;"><textarea  style="width:274px;background-color:#FFFFFF;" cols=10 rows=3></textarea></div>
+                        <div class="clear"></div>
+                      </div>
+                      <div class="clear"></div>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                  
+                  <div class="frm_label" style="float:none; width:auto; height:30px;">
+                    Outcomes
+                  </div>
+                  <div align="right" class="add_outcome_bt"><a class="blue_bt19px" onclick="addOutcome();">ADD OUTCOME</a> 
+                  </div>
+                  <div class="frm_input">
+                    <% if @course %>
+                      <% @course.outcomes.each do |o| %>
+                        <div style="margin-top:5px; height:45px; width:500px;" id="outcome_div_<%=o.id%>" class="outcome_div">
+                          <div style="float:left; margin-left:10px; height:45px;" >
+                            <!-- <input class="dd_select brown_bg" type="checkbox" name="chk_outcome[]"  id="<%=o.id%>" value="<%=o.id%>" /> -->
+                            <input class="dd_input brown_bg" type="text" name="loaded_outcomes[]" value="<%= o.name %>" rel="<%=o.id%>" class="medium" />
+                          </div>  
+                          <div style="float:left; margin-left:10px;">
+                             <textarea class="dd_input brown_bg" style="width:260px; height:40px;"><%= o.descr %></textarea>
+                          </div> 
+                        </div>
+                      <% end %>
+                    <% end %>
+                    <div>
+                      <div id="add_outcome_container">
+                        <!-- New outcomes will be added here -->
+                      </div> 
+                      <div style="margin:10px;">
+                        Please consider adding your own outcomes. The locked outcomes are shared and cannot be changed.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                  
+                  <div class="frm_label small_label">
+                     Grading Categories
+                  </div>
+                  <div align="right" class="add_outcome_bt"><a class="blue_bt19px" onclick="addCategory();">ADD CATEGORY</a> 
+                  </div>
+                  
+                  <div class="frm_input">
+                    <% if @course %>
+                      <% @course.categories.each do |c| %>
+                        <div style="float:left;margin-left:10px; width:500px; height:45px; margin-top:10px;" id="category_div_<%=c.id%>">
+                          <!-- <input type="checkbox" class="dd_select brown_bg" name="chk_categories[]"  id="<%=c.id%>" value="<%=c.id%>" /> -->
+                          <input type="text" name="loaded_categories[]" value="<%= c.name %>" rel="<%=c.id%>" class="dd_select brown_bg medium" />
+                          <input type="text" name="loaded_category_values[]" value="<%= c.percent_value %> %" rel="<%=c.id%>" class="dd_select brown_bg medium" />
+                        </div>
+                        
+                      <% end %>
+                    <% end %>
+                    <div id="add_category_container">
+                      <!-- New categories added here -->
+                    </div>
+                    <div style="margin:10px;">
+                      Please add a new grading category and the percentage of the final grade.
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                  </div>
+                  <div id="div_3" class="tab_content hide">
+                  <div class="frm_label small_label">
+                   Groups
+                  </div>
+                  <div id="new_group" class="frm_input">
+                    <% if @groups %>
+                      <%= render :partial => "/shared/list", :locals => {:groups=>@groups, :mode=>"list"} %>
+                    <%else%>
+                      <%= render :partial => "/shared/group_form" %>
+                    <% end %>
+                  </div>
+                 </div>
+                  <div id="div_4" class="tab_content hide">
+                    div 4
+                    <div class="clear"></div>
+                  </div>
+                  <div id="div_5" class="tab_content hide">
+                   div 5
+                   <div class="clear"></div>
+                  </div>
+                <div id="div_6" class="tab_content hide">
+                  <div class="frm_label small_label">
+                    Participants
+                  </div>
+                  <div class="frm_input">
+                    <input type="text" name="add_people_email[]" class="medium" id="add_people_text" /> 
+                    <input type="button" name="btn_add_people" id="btn_add_people" value="Add" />
+                    <div class="frm_input" id="add_people_container">
+                    </div>
+                  </div>
+                  <div class="frm_label small_label">
+                    &nbsp;
+                  </div>
+                  <div id="course_people" class="frm_input">
+                    <% if @peoples %>
+                      <%= render :partial => "/course/participant_list", :locals => {:peoples=>@peoples, :mode=>"list"} %>
+                    <% end %>
+                  </div>
+                  <div id="participant_list" class="hide">
+                    <div style="width:40px;height:10px;float:right;padding:2px;">
+                      <a href="javascript:void(0)" onClick="javascript:$('#participant_list').hide();">Close</a>
+                    </div>
+                    <div id="participant_list_inner">
+                        Loading...
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                </div>
+               <!-- div 5-->
+                  <!--<div id="div_6" class="tab_content hide">
+                  <div class="frm_label">
+                    Level
+                  </div>
+                  <div class="frm_input">
+                    <div class="level_radio">
+                      <input type="radio" name="level" id="level_easy" value="1" onClick='javascript:setStorage("task_level", $(this).val())' />
+                    </div>
+                    <div class="level_label">
+                      Easy
+                    </div>
+                    <div class="level_radio">
+                      <input type="radio" name="level" id="level_medium" value="2" onClick='javascript:setStorage("task_level", $(this).val())' />
+                    </div>
+                    <div class="level_label">
+                      Medium
+                    </div>
+                    <div class="level_radio">
+                      <input type="radio" name="level" id="level_high" value="3"  onClick='javascript:setStorage("task_level", $(this).val())' />
+                    </div>
+                    <div class="level_label">
+                      Hard
+                    </div>
+                  </div>
+                  <div class="frm_label">
+                    Outcomes
+                  </div>
+                  <div class="frm_input" id="outcomes_container">
+                    <% if @outcomes %>
+                      <%= render :partial => "course_outcomes" %>
+                    <% end %>
+                  </div>
+                </div>-->
+                
+                  
+                </div>
+                     <input type="hidden" name="course_id" id="course_id_hdn" value="<%=@course.id if @course%>" />
+                     <input type="hidden" name="wall_id" id="course_wall_id_hdn" value="<%= @wall.id if @wall && !@wall.nil? %>" />
+                     <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
+                </div>
+              <div class="clear"></div>
+			  </div>
+            </div>
+          </div>
+        </div>
+    </div>
+ </div>
+<script type="text/javascript">
+<!-- 
+jStorage.flush();
+//For dynamic added nodes
+var _counterPeople = 2;
+var _counterOutcome = 2;
+var _counterCategory = 2;
+var _outcomesObject = [];
+var _categoriesObject = [];
+var _outcomes_descrObject = [];
+//set outcomes to offline storage
+$.each($('input[name="outcomes[]"], input[name="people_id[]"], input[name="categories[]"]'), function() {
+  setStorage($(this).attr('id'), $(this).val());
+});
+
+//set storage on load while view of course
+if($("#course_name").val()!="") {setStorage("course_name", $("#course_name").val());} 
+else {setStorage("course_name", "New Course");}
+if($("#course_descr").val()!="") {setStorage("course_descr", $("#course_descr").val());} else {setStorage("course_descr", "New Course Description");}
+if($("#course_code").val()!="") {setStorage("course_code", $("#course_code").val());} 
+else {setStorage("course_code", "New Course Code");}
+if($("#course_section").val()!="") {setStorage("course_section", $("#course_section").val());} 
+else {setStorage("course_section", "New Course Section");}
+
+$(document).ready(function(){
+  var setup_value = $("#setup_value").val();
+  if(setup_value  == 'equal')
+  {
+    $("#div_1").addClass("tab_content hide");
+    $("#div_1").removeClass("form_container1");
+    $("#div_2").addClass("form_container1");
+    $("#div_2").removeClass("tab_content hide");
+    $("#btn_outcome_remove").fadeIn();
+    $("#btn_category_remove").fadeIn();
+  }
+  
+  //Toggle Tabs
+  $(".menu_container a").unbind('click').bind('click', function(){
+    idx = $(this).attr("value");
+   
+    $(".menu_container a").removeClass("active");
+    $(this).addClass("active");
+    for(i=0;i<5;i++){
+      //---- Set all menu as De-Selected
+      if(document.getElementById("menu"+(i+1))!=null){
+        document.getElementById("menu"+(i+1)).className = "tab_close";
+      }
+      //----
+      if(idx != i){
+        $("#div_"+i).hide();
+      }
+    }
+    if(idx == 6) {
+      $("#btn_people_remove").fadeIn();
+    } else {
+     $("#btn_people_remove").hide();
+    }
+    
+    if(idx == 2) {
+      $("#btn_outcome_remove").fadeIn();
+      $("#btn_category_remove").fadeIn();
+    } else {
+      $("#btn_outcome_remove").fadeOut();
+      $("#btn_category_remove").fadeOut();
+    }
+    
+     //---- Selected menu will highlighted
+    document.getElementById("menu"+idx).className = "tab_open";
+    $("#div_"+idx).fadeIn();
+    is_page_change = $("#hdn_is_page_change").val();
+    if(is_page_change=="true") {
+      save_course(this.id);
+    }
+  });
+  
+  //Submit data
+  $("#btn_course").unbind('click').bind('click', function(){
+    save_course(this.id);
+  });
+  
+  $("#btn_task").click(function(data){
+   var course_id=$("#course_id_hdn").val();
+   var dataString = {course_id:course_id};
+   showSpinner(true);
+   $.ajax({  
+        type: "GET",  
+        url: "/task/view_task",  
+        data: dataString,
+        success: function(data) {
+		$("#container").html(data);
+			showSpinner(false);
+        },
+        error: function()
+		{
+			alert("An Error has occured");
+			showSpinner(false);
+		},
+      }); 
+    });
+   
+  //For updating outcomes (in course view screen)
+  $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
+    var outcome_id = $(this).attr('rel');
+    var outcome = $(this).val();
+    var dataString = 'outcome_id=' + outcome_id + '&outcome=' + outcome;
+    if(outcome_id) {
+      showSpinner(true);
+      //alert (dataString);return false;
+      $.ajax({  
+        type: "POST",  
+        url: "/course/update_course_outcomes",  
+        data: dataString,
+        error: function(){alert("Error");showSpinner(false);},
+        success: function(data) {
+          if (data) {
+            // TO DO
+          } else {
+            alert("ERROR");
+          }
+          showSpinner(false);
+        }
+      });  
+      return false; 
+    }
+  });
+  
+  //For updating categories (in course view screen)
+  $('input[name="loaded_categories[]"]').unbind('blur').bind('blur', function(){
+    var category_id = $(this).attr('rel');
+    var category = $(this).val();
+    var dataString = 'category_id=' + category_id + '&category=' + category
+    if(category_id) {
+      showSpinner(true);
+      //alert (dataString);return false;
+      $.ajax({  
+        type: "POST",  
+        url: "/course/update_course_categories",  
+        data: dataString,
+        success: function(data) {
+          if (data) {
+           // TO DO
+          } else {
+            alert("ERROR");
+          }
+          showSpinner(false);
+        }
+      });  
+      return false; 
+    }
+  });
+  
+  //List people (participants)
+  $("#btn_add_people").click(function() {
+    text = $("#add_people_text").val();
+    school_id = $("#course_school_id_hdn").val();
+    dataString = {school_id:school_id, search_text:text};
+    if (text!="") {
+      if(school_id) {
+        showSpinner(true);
+        $("#participant_list").show();
+        $("#participant_list_inner").html("Loading...");
+        $.ajax({  
+          type: "POST",  
+          url: "/course/get_participants",  
+          data: dataString,
+          success: function(data) {
+            if (data) {
+              $("#participant_list_inner").html(data);
+            } else {
+              alert("ERROR");
+            }
+            showSpinner(false);
+          }
+        });
+      }
+    } else {
+      alert("Please insert participant name");
+    }
+  });
+  
+  //Add people (participant) to course
+  $("#participant_list").delegate(".people_node li", "click", function(){
+    showSpinner(true);
+    course_id = $("#course_id_hdn").val();
+    profile_id = $(this).attr("id");
+    profile_name = $(this).text();
+    node_class = $(this).attr("class");
+    dataString = {course_id:course_id, profile_id:profile_id};
+    if (profile_id && course_id) {
+      $.ajax({  
+        type: "POST",  
+        url: "/course/add_participant",  
+        data: dataString,
+        dataType: "json",
+        success: function(data) {
+          if (data.status) {
+            participant_node = $('<li id="'+ profile_id + '" class="'+node_class+'"></li>');
+            participant_node.className = node_class;
+            participant_node.id = profile_id;
+            partcipant_html = '<div class="people_name">' + profile_name + '</div>';
+            partcipant_html += '<div class="people_delete"><a href="javascript:void(0)" rel="'+profile_id+'">Delete</a></div>';
+            participant_node.append(partcipant_html);
+            $("#course_people ul").append(participant_node);
+            $("#participant_list").hide();
+            $("#hdn_is_page_change").val(true);
+          } else {
+            if(data.already_added) {
+              alert("This participant is already added to this course!!");
+            } else {
+              alert("ERROR");
+              $("#participant_list").hide();
+            }
+          }
+          showSpinner(false);
+        }
+      }); 
+    }
+  });
+  
+  //Delete participant 
+  $(".people_node li").delegate(".people_delete a", "click", function(){
+    showSpinner(true);
+    profile_id = $(this).attr("rel");
+    course_id = $("#course_id_hdn").val(); 
+    dataString = {course_id:course_id, profile_id:profile_id};
+    if(profile_id) {
+      $.ajax({  
+        type: "POST",  
+        url: "/course/delete_participant",  
+        data: dataString,
+        success: function(data) {
+          if (data) {
+            $("#"+profile_id).remove();
+          } else {
+            alert("ERROR");
+          }
+          showSpinner(false);
+        }
+      });
+    }
+  });
+  
+  //Remove outcome nodes
+  $("#btn_outcome_remove").unbind('click').bind("click", function(){
+    showSpinner(true);
+    var outcome_id = []
+    i = 0
+    $("input[name='chk_outcome[]']").each(function(){
+      if(this.checked) {
+        id = $(this).attr('id');
+        outcome_id[i] = id;
+        i++;
+        $("#outcome_div_"+id).remove();
+      }
+    });
+    
+    var dataString = 'outcomes='+outcome_id;
+    
+    $.ajax({  
+      type: "POST",  
+      url: "/course/remove_course_outcomes",  
+      data: dataString,
+      dataType:"json",
+      success: function(data) {
+        showSpinner(false);
+      }
+    });  
+  });
+  
+  //For categories node
+  $("#add_category").click(function(){
+    current_node = _counterCategory - 1;
+    val = $("#categories_"+current_node).val();
+    if(val!="") {
+      addNode('category');
+      setStorage("categories_"+current_node, val);
+      $("#hdn_is_page_change").val(true);
+    }
+  });
+  
+  //Remove category nodes
+  $("#btn_category_remove").unbind('click').bind("click", function(){
+    showSpinner(true);
+    var category_id = []
+    i = 0
+    $("input[name='chk_categories[]']").each(function(){
+      if(this.checked) {
+        id = $(this).attr('id');
+        category_id[i] = id;
+        i++;
+        $("#category_div_"+id).remove();
+      }
+    });
+    
+    var dataString = 'categories='+category_id;
+    $.ajax({  
+      type: "POST",  
+      url: "/course/remove_course_categories",  
+      data: dataString,
+      dataType:"json",
+      success: function(data) {
+        showSpinner(false);
+      }
+    });  
+  });
+  
+  
+  //Post Message
+  $('.right_form_containerr').delegate('.sbmt_msg', 'click', function(){
+    showSpinner(true);
+    parent_id = $(this).attr("id");
+    parent_type = $(this).attr("rel");
+    text = $(this).attr("title");
+    message = $("#"+text).val();
+    if(message.trim().length==0){
+      alert('Please enter message...');
+      showSpinner(false);
+      return;
+    }
+    var dataString = {parent_id:parent_id, parent_type:parent_type, content: message};
+    //alert(dataString.content);return false;
+    $.ajax({  
+      type: "POST",  
+      url: "/message/save",  
+      data: dataString,
+      success: function(data) {
+        $("#"+text).val("");
+        if(parent_type=="Course") {
+          $("#message_wrapper").prepend(data);
+          $("#msg_input").fadeOut();
+        } else if (parent_type=="Message") {
+          $("#post_comment_"+parent_id).hide();
+          $("#messsage_box_"+parent_id).append(data);
+        }
+        showSpinner(false);
+      }
+    });  
+  });
+  
+  //Like/Unlike a message or comment
+  $('.message_wrapper').delegate('.like', 'click', function(){
+    showSpinner(true);
+    if(this.id){
+      action = $(this).attr('rel');
+      controller = this;
+      $.ajax({  
+        type: "POST",  
+        url: "/message/"+action,
+        dataType: 'json',
+        data: {message_id:this.id},
+        success: function(data) {
+          if (data) {
+            $(controller).attr('rel',data.action);
+            $(controller).text(data.action.toUpperCase());
+            $('#count_'+controller.id).html(data.count);
+          }
+          showSpinner(false);
+        }
+      });
+    }
+  });
+  
+  //Uploader task image upload
+  var course_uploader = new plupload.Uploader({
+    runtimes: 'html5',
+    drop_element: 'course_image',
+    container: 'course_image',
+    max_file_size: '5mb',
+    resize : {width : 125, height : 125},
+    url: '/course/save',
+    multipart_params: {
+      'authenticity_token' : token,  //For csrf-authentication
+      'school_id' : $("#course_school_id_hdn").val(),
+      'id' : $("#course_id_hdn").val()
+    },
+    filters : [
+      {title : "Image files", extensions : "jpg,gif,png,JPG,PNG,GIF,JPEG"}
+    ]
+  });
+  
+  course_uploader.init();
+  
+  course_uploader.bind('FilesAdded', function(up, files) {
+    showSpinner(true);
+    course_uploader.settings.multipart_params.course = getStorage("course_name");
+    course_uploader.settings.multipart_params.code = getStorage("course_code");
+    course_uploader.settings.multipart_params.section = getStorage("course_section");
+    course_uploader.settings.multipart_params.descr = getStorage("course_descr");
+    course_uploader.start();
+  });
+  
+  course_uploader.bind('UploadProgress', function(up, file) {
+    $('#course_image').html('<center>Uploading..</center>');
+  });
+  
+  course_uploader.bind('FileUploaded', function(up, file, info) {
+    var obj = jQuery.parseJSON( info.response);
+    courseImg = $('<img >').attr('src',obj.image_url);
+    course_uploader.settings.multipart_params.id = obj.course.id;
+    $('#course_id_hdn').val(obj.course.id);
+    $('#course_image').html(courseImg);
+    showSpinner(false);
+  });
+});
+
+//Add an outcome
+function addOutcome() {
+  addNode('outcome');
+  $("#hdn_is_page_change").val(true);
+}
+
+//Add a category
+function addCategory() {
+  addNode('category');
+  $("#hdn_is_page_change").val(true);
+}
+
+//Save course
+function save_course(channel) {
+  //Get data from offline storage
+  course_id = $("#course_id_hdn").val();
+  course = getStorage("course_name");
+  descr = getStorage("course_descr");
+  code = getStorage("course_code");
+  section = getStorage("course_section");
+  school_id = $("#course_school_id_hdn").val();
+  wall_id = $("#course_wall_id_hdn").val();
+  
+  //get outcomes from offline storage
+  k = 0;
+  $.each($('input[name="outcomes[]"]'), function() {
+    _outcomesObject[k] = getStorage($(this).attr('id'));
+    k++;
+  });
+
+  i = 0;
+  $.each($('textarea[name="outcomes_descr[]"]'), function() {
+    _outcomes_descrObject[i] = getStorage($(this).attr('id'));
+    i++;
+  });
+  
+  //get categories from offline storage
+  l = 0;
+  $.each($('input[name="categories[]"]'), function() {
+    _categoriesObject[l] = getStorage($(this).attr('id'));
+    l++;
+  });
+  var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id; 
+  showSpinner(true);
+  $.ajax({
+    type: "POST",  
+    url: "/course/save",  
+    data: dataString,
+    dataType:"json",
+    success: function(data) {
+      if (data) {
+        $("#course_id_hdn").val(data.course.id);
+        if(channel=="btn_course") {
+          $("#container").load('/course/index', function(){
+            showSpinner(false);
+          });
+        } else {
+          showSpinner(false);
+        }
+        $("#hdn_is_page_change").val(false);
+      } else {
+        alert("ERROR");
+        showSpinner(false);
+      }
+    }
+  });  
+  return false;  
+}
+
+//Adding text field nodes for peoples, outcomes, categories
+function addNode(element) {
+  if(element=="people") {
+    var newNode = $(document.createElement('div')).attr("id", 'people_node_div' + _counterPeople);
+    newNode.css("marginTop" , "20px");
+    newNode.html('<input type="text" name="add_people_email[]" value="Type in email to add" class="medium node" id="add_people_email_' + _counterPeople + '" />');
+    newNode.appendTo("#add_people_container");
+    _counterPeople++;
+  } else if(element=="outcome"){
+    var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counterOutcome);
+    newNode.html('<div style="margin-top:5px; height:45px; width:500px;" class="outcome_div"><div style="float:left; margin-left:10px; height:45px;" ><input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="dd_select brown_bg medium"  /></div><div style="float:left; margin-left:10px;"><textarea class="small dd_input brown_bg" style="width:260px; height:40px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '""></textarea></div></div>');
+    newNode.appendTo("#add_outcome_container");
+    _counterOutcome++;
+  } else if(element=="category"){
+    var newNode = $(document.createElement('div')).attr("id", 'category_node_div' + _counterCategory);
+    newNode.html('<input type="text" name="categories[]" id="categories_' + _counterCategory + '" value="" class="dd_select brown_bg medium"  />');
+    newNode.appendTo("#add_category_container");
+    _counterCategory++;
+  }
+}
+-->
+</script>
