@@ -21,6 +21,7 @@ gem 'rake', '0.8.7'
 gem 'json'
 gem 'devise'
 gem 'taps', '>= 0.3.23'
+gem 'acts-as-taggable-on', '~>2.2.0'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
