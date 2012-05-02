@@ -222,8 +222,8 @@
                   </div>
                  </div>
                   <div id="div_4" class="tab_content hide">
-                    div 4
-                    <div id="confirm_upload" class="add_file" style="display:none;">   
+                    
+                    <!--<div id="confirm_upload" class="add_file" style="display:none;">   
                         <input type="file" name="add_files" id="add_files"/>
                         <input type="submit" class="big_blue_btn" name="file_upload" id="file_upload" value="Upload"/>
                         <input type="button" class="big_blue_btn"  name="file_not_upload" id="file_not_upload" value="Don't Upload"/>
@@ -236,10 +236,26 @@
                         <div style="width:40px;height:10px;float:right;padding:2px;">
                            <a href="javascript:void(0)" onClick="javascript:$('#confirm_upload').hide();">Close</a>
                         </div>                    
-                    </div>
-                    <div id="show_file">
+                    </div>-->
+                    <div id="show_file" style="width:150px;height:40px;background-color:#FFFFFF;">
                       DROP THE FILE
                     </div>
+                    <div id="show_file_list" style="display:none;">
+                        <span id="file_task"></span>
+                        <span id="file_updated"></span>
+                        <span id="file_size"></span>                            
+                    </div>
+                    
+                    <% if @course %>
+                    <% @course.attachments.each do |a| %>
+                        <div class="file_name" id="filename_<%= a.id %>">
+                           <span id="file_task"><%=a.resource_file_name%></span>
+                           <span id="file_updated"><%=a.updated_at%></span>
+                           <span id="file_size"><%=a.resource_file_size%></span> 
+                        </div>
+                    <% end %>
+                  <% end %>
+                    
                     <div class="clear"></div>
                   </div>
                   <div id="div_5" class="tab_content hide">
@@ -727,7 +743,7 @@ $(document).ready(function(){
   
   add_file_uploader.bind('FilesAdded', function(up, files) {
     showSpinner(true);
-    course_uploader.start();
+    add_file_uploader.start();
   });
   
   add_file_uploader.bind('UploadProgress', function(up, file) {
@@ -736,7 +752,11 @@ $(document).ready(function(){
   
   add_file_uploader.bind('FileUploaded', function(up, file, info) {
     var obj = jQuery.parseJSON( info.response);
-    alert(info.response);
+    $("#show_file").text("DROP THE FILE");
+    $("#show_file_list").show();
+    $("#file_task").text(obj.attachment.resource_file_name);
+    $("#file_updated").text(obj.attachment.updated_at);
+    $("#file_size").text(obj.attachment.resource_file_size);
     showSpinner(false);
   });
   

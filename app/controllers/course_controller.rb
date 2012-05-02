@@ -230,9 +230,18 @@ class CourseController < ApplicationController
       end
   end
   def add_file
-      if params[:file] && !params[:file].nil?
-      render :text=> "file uploaded successfully!!"
+    school_id = params[:school_id]
+    task_id = params[:id]
+    @vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
+    if @vault
+      @attachment = Attachment.new(:resource=>params[:file],:object_type=>"Course",:object_id=>task_id)
+      if @attachment.save
+        @url = @attachment.resource.url
+        render :text => {"attachment"=>@attachment, "resource_url" => @url}.to_json
+      else
+        render :nothing => true
       end
+    end
   end
   
 end
