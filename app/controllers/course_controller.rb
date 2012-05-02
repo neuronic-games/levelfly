@@ -68,7 +68,7 @@ class CourseController < ApplicationController
       )
     @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
-    @check_course = Participant.find(:all, :conditions=>["profile_id = ? AND profile_type = 'M' AND object_type='Course'",user_session[:profile_id]])
+    @course_owner = Participant.find(:first, :conditions=>["object_id = ? AND profile_type = 'M' AND object_type='Course'",params[:id]])
     respond_to do |wants|
       wants.html do
         if request.xhr?
@@ -229,4 +229,10 @@ class CourseController < ApplicationController
         render :text=> "Mail send successfully!!"
       end
   end
+  def add_file
+      if params[:file] && !params[:file].nil?
+      render :text=> "file uploaded successfully!!"
+      end
+  end
+  
 end

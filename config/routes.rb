@@ -68,6 +68,8 @@ Oncapus::Application.routes.draw do
 
   get "course/save"
   
+  get "course/add_file"
+  
   post "course/save"
   
   post "course/remove_course_outcomes"

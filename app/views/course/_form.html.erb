@@ -1,14 +1,14 @@
-
 <div id="sidebar_right">
-  <div id="crud_level" class="task_side_buttons">
-    <!-- <input type="button" name="btn_course" id="btn_course" class="big_orange_btn sbmt_course" value="Save"/> -->
+  <div class="task_side_buttons">
+    
     <a href="javascript:void(0)" name="btn_course" id="btn_course" class="big_orange_btn">SAVE</a>
     <% if @course%>
       <a href="javascript:void(0)" name="menu_btn_hide" id="menu_btn_hide" class="big_blue_btn">HIDE</a>
       <a href="javascript:void(0)" name="menu_btn_fav" id="menu_btn_fav" class="big_blue_btn">FAV</a>
       <a href="javascript:void(0)" name="menu_btn_print" id="menu_btn_print" class="big_blue_btn">PRINT</a>
-      <!-- <input type="button" name="btn_outcome_remove" id="btn_outcome_remove" class="big_blue_btn hide" value="Remove"/>
-      <input type="button" name="btn_category_remove" id="btn_category_remove" class="big_blue_btn hide" value="Remove"/> -->
+      <a href="javascript:void(0)" name="menu_btn_addfile" id="menu_btn_addfile" class="big_blue_btn">ADD FILE</a>
+      <a href="javascript:void(0)" name="btn_outcome_remove" id="btn_outcome_remove" class="big_blue_btn">REMOVE</a>
+      <a href="javascript:void(0)" name="btn_category_remove" id="btn_category_remove" class="big_blue_btn">REMOVE</a>
     <% end %>
     <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@course ? false : true %>" />
   </div><!-- crud_level -->
@@ -23,19 +23,13 @@
                       <!-- tabs-->
                       
                         <div class="course_tabs menu_container" align="right">
-                          
-                          <% if @check_course  %>
-                          <input type="hidden" id="setup_value" value="equal"/>
-                          <a  href="javascript:void(0)"  id="menu1" value="1" class="tab_close" ><img src="images/course_text.png" class="course_tab" /></a>
-                          <a  href="javascript:void(0)"  id="menu2" value="2" class="tab_open" ><img src="images/setup_text.png" class="course_tab" /></a>
-                          <% else %>
-                          <a  href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><img src="images/course_text.png" class="course_tab" /></a>
-                          <a  href="javascript:void(0)"  id="menu5" value="5" class="tab_close" ><img src="images/setup_text.png" class="course_tab" />Stat</a>
-                           <a  href="javascript:void(0)"  id="menu6" value="6" class="tab_close"><img src="images/member_text.png" class="member_tab" /></a>
-                          <% end %>
-                          <a  href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><img src="images/forums_text.png" class="member_tab" /></a>
-                          <a  href="javascript:void(0)"  id="menu4" value="4" class="tab_close"><img src="images/files_text.png" class="member_tab" /></a>
-                        </div>
+                          <a href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><span class="task_tab">Course</span></a>
+                          <a href="javascript:void(0)"  id="menu2" value="2" class="tab_close" ><span class="task_tab">Setup</span></a>
+                          <a href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><span class="task_tab">Forums</span></a>
+                          <a href="javascript:void(0)"  id="menu4" value="4" class="tab_close"><span class="task_tab">Files</span></a>
+                          <a href="javascript:void(0)"  id="menu5" value="5" class="tab_close" ><span class="task_tab">Stats</span></a>
+                          <a href="javascript:void(0)" style="display:none;"   id="menu6" value="6" class="tab_close" ><span class="task_tab">Member</span></a>
+                         </div>
                       
                     <div class="course_tab_content">
                     <div class="right_form_containerr">
@@ -74,7 +68,7 @@
                                  
                                    
                                    <div class="menu_container">
-                                  <div class="CAL_01"><span> <% if @peoples %><%=@peoples.count%><% else %>0 <% end %> MEMBERS</span> <a href="javascript:void(0)" value="6" class="green_bt19px">VIEW</a></div>
+                                  <div class="CAL_01"><span> <% if @peoples %><%=@peoples.count%><% else %>0 <% end %> MEMBERS</span> <a href="javascript:void(0)" value="6"  class="green_bt19px">VIEW</a></div>
                                  
                                   </div>
                                 </div>
@@ -229,6 +223,23 @@
                  </div>
                   <div id="div_4" class="tab_content hide">
                     div 4
+                    <div id="confirm_upload" class="add_file" style="display:none;">   
+                        <input type="file" name="add_files" id="add_files"/>
+                        <input type="submit" class="big_blue_btn" name="file_upload" id="file_upload" value="Upload"/>
+                        <input type="button" class="big_blue_btn"  name="file_not_upload" id="file_not_upload" value="Don't Upload"/>
+                        <div id="show_file_data" style="display:none;">
+                           Task:<span id="file_task"></span>
+                           Original Uploaded By:<span id="file_uploaded_by"></span>   
+                           Original Uploaded On:<span id="file_uploaded_by"></span>
+                           Revision:<span id="file_revision"></span>                          
+                        </div>
+                        <div style="width:40px;height:10px;float:right;padding:2px;">
+                           <a href="javascript:void(0)" onClick="javascript:$('#confirm_upload').hide();">Close</a>
+                        </div>                    
+                    </div>
+                    <div id="show_file">
+                      DROP THE FILE
+                    </div>
                     <div class="clear"></div>
                   </div>
                   <div id="div_5" class="tab_content hide">
@@ -240,7 +251,7 @@
                     Participants
                   </div>
                   <div class="frm_input">
-                    <input type="text" name="add_people_email[]" class="medium" id="add_people_text" /> 
+                    <input type="text" name="add_people_email[]" class="medium" id="add_course_people" /> 
                     <input type="button" name="btn_add_people" id="btn_add_people" value="Add" />
                     <div class="frm_input" id="add_people_container">
                     </div>
@@ -253,52 +264,16 @@
                       <%= render :partial => "/course/participant_list", :locals => {:peoples=>@peoples, :mode=>"list"} %>
                     <% end %>
                   </div>
-                  <div id="participant_list" class="hide">
+                  <div id="course_participant_list" class="hide">
                     <div style="width:40px;height:10px;float:right;padding:2px;">
-                      <a href="javascript:void(0)" onClick="javascript:$('#participant_list').hide();">Close</a>
+                      <a href="javascript:void(0)" onClick="javascript:$('#course_participant_list').hide();">Close</a>
                     </div>
-                    <div id="participant_list_inner">
+                    <div id="course_participant_list_inner">
                         Loading...
                     </div>
                   </div>
                   <div class="clear"></div>
-                </div>
-               <!-- div 5-->
-                  <!--<div id="div_6" class="tab_content hide">
-                  <div class="frm_label">
-                    Level
-                  </div>
-                  <div class="frm_input">
-                    <div class="level_radio">
-                      <input type="radio" name="level" id="level_easy" value="1" onClick='javascript:setStorage("task_level", $(this).val())' />
-                    </div>
-                    <div class="level_label">
-                      Easy
-                    </div>
-                    <div class="level_radio">
-                      <input type="radio" name="level" id="level_medium" value="2" onClick='javascript:setStorage("task_level", $(this).val())' />
-                    </div>
-                    <div class="level_label">
-                      Medium
-                    </div>
-                    <div class="level_radio">
-                      <input type="radio" name="level" id="level_high" value="3"  onClick='javascript:setStorage("task_level", $(this).val())' />
-                    </div>
-                    <div class="level_label">
-                      Hard
-                    </div>
-                  </div>
-                  <div class="frm_label">
-                    Outcomes
-                  </div>
-                  <div class="frm_input" id="outcomes_container">
-                    <% if @outcomes %>
-                      <%= render :partial => "course_outcomes" %>
-                    <% end %>
-                  </div>
-                </div>-->
-                
-                  
+                </div>     
                 </div>
                      <input type="hidden" name="course_id" id="course_id_hdn" value="<%=@course.id if @course%>" />
                      <input type="hidden" name="wall_id" id="course_wall_id_hdn" value="<%= @wall.id if @wall && !@wall.nil? %>" />
@@ -336,16 +311,46 @@ if($("#course_section").val()!="") {setStorage("course_section", $("#course_sect
 else {setStorage("course_section", "New Course Section");}
 
 $(document).ready(function(){
-  var setup_value = $("#setup_value").val();
-  if(setup_value  == 'equal')
+  $("#menu5").hide();
+  <% if @course_owner %>
+  var current_user = <%= user_session[:profile_id] %>
+  var course_owner = <%= @course_owner.profile_id %>
+  if(current_user == course_owner)
   {
-    $("#div_1").addClass("tab_content hide");
-    $("#div_1").removeClass("form_container1");
-    $("#div_2").addClass("form_container1");
-    $("#div_2").removeClass("tab_content hide");
-    $("#btn_outcome_remove").fadeIn();
-    $("#btn_category_remove").fadeIn();
-  }
+     $("#div_1").addClass("tab_content hide");
+     $("#div_1").removeClass("form_container1");
+     $("#div_2").addClass("form_container1");
+     $("#div_2").removeClass("tab_content hide");
+     $("#menu1").removeClass("tab_open");
+     $("#menu1").addClass("tab_close");
+     $("#menu2").removeClass("tab_close");
+     $("#menu2").addClass("tab_open");
+     $("#menu5").hide();
+  } 
+  else
+  {
+     $("#div_1").addClass("form_container1");
+     $("#div_1").removeClass("tab_content hide");
+     $("#div_2").addClass("tab_content hide");
+     $("#div_2").removeClass("form_container1");
+     $("#menu2").hide();
+     $("#menu5").show();
+  }  
+  <%else%>
+  
+     $("#div_1").addClass("tab_content hide");
+     $("#div_1").removeClass("form_container1");
+     $("#div_2").addClass("form_container1");
+     $("#div_2").removeClass("tab_content hide");
+     $("#menu1").removeClass("tab_open");
+     $("#menu1").addClass("tab_close");
+     $("#menu2").removeClass("tab_close");
+     $("#menu2").addClass("tab_open");
+     $("#menu5").hide();
+     
+  <% end %>
+  
+ 
   
   //Toggle Tabs
   $(".menu_container a").unbind('click').bind('click', function(){
@@ -353,7 +358,7 @@ $(document).ready(function(){
    
     $(".menu_container a").removeClass("active");
     $(this).addClass("active");
-    for(i=0;i<5;i++){
+    for(i=0;i<7;i++){
       //---- Set all menu as De-Selected
       if(document.getElementById("menu"+(i+1))!=null){
         document.getElementById("menu"+(i+1)).className = "tab_close";
@@ -363,12 +368,6 @@ $(document).ready(function(){
         $("#div_"+i).hide();
       }
     }
-    if(idx == 6) {
-      $("#btn_people_remove").fadeIn();
-    } else {
-     $("#btn_people_remove").hide();
-    }
-    
     if(idx == 2) {
       $("#btn_outcome_remove").fadeIn();
       $("#btn_category_remove").fadeIn();
@@ -377,15 +376,49 @@ $(document).ready(function(){
       $("#btn_category_remove").fadeOut();
     }
     
+    if(idx == 4) {
+      $("#menu_btn_addfile").fadeIn();
+    } else {
+      $("#menu_btn_addfile").fadeOut();
+    }
      //---- Selected menu will highlighted
+    
     document.getElementById("menu"+idx).className = "tab_open";
     $("#div_"+idx).fadeIn();
     is_page_change = $("#hdn_is_page_change").val();
-    if(is_page_change=="true") {
+    if(is_page_change == "true") {
       save_course(this.id);
     }
   });
   
+  //Add File
+  $("#menu_btn_addfile").click(function(){
+     $("#confirm_upload").show();
+  });
+  
+ 
+  $("#add_files").change(function(e) {
+     var resource_file_name = $(this).val();
+     showSpinner(true);
+     var dataString = {resource_file_name:file_name,};
+     $.ajax({  
+            type: "GET",  
+            url: "/course/add_file",  
+            data: dataString,
+            success: function(data) 
+            {
+               $("#show_file_data").show();
+               $("#show_file_data").html(data);
+               showSpinner(false);
+            },
+            error: function()
+            {
+               alert("An Error has occured");
+               showSpinner(false);
+            },
+      }); 
+	});
+   
   //Submit data
   $("#btn_course").unbind('click').bind('click', function(){
     save_course(this.id);
@@ -464,21 +497,21 @@ $(document).ready(function(){
   
   //List people (participants)
   $("#btn_add_people").click(function() {
-    text = $("#add_people_text").val();
+    course_people = $("#add_course_people").val();
     school_id = $("#course_school_id_hdn").val();
-    dataString = {school_id:school_id, search_text:text};
-    if (text!="") {
+    dataString = {school_id:school_id, search_text:course_people};
+    if (course_people!="") {
       if(school_id) {
         showSpinner(true);
-        $("#participant_list").show();
-        $("#participant_list_inner").html("Loading...");
+        $("#course_participant_list").show();
+        $("#course_participant_list_inner").html("Loading...");
         $.ajax({  
           type: "POST",  
           url: "/course/get_participants",  
           data: dataString,
           success: function(data) {
             if (data) {
-              $("#participant_list_inner").html(data);
+              $("#course_participant_list_inner").html(data);
             } else {
               alert("ERROR");
             }
@@ -492,7 +525,7 @@ $(document).ready(function(){
   });
   
   //Add people (participant) to course
-  $("#participant_list").delegate(".people_node li", "click", function(){
+  $("#course_participant_list").delegate(".people_node li", "click", function(){
     showSpinner(true);
     course_id = $("#course_id_hdn").val();
     profile_id = $(this).attr("id");
@@ -514,14 +547,14 @@ $(document).ready(function(){
             partcipant_html += '<div class="people_delete"><a href="javascript:void(0)" rel="'+profile_id+'">Delete</a></div>';
             participant_node.append(partcipant_html);
             $("#course_people ul").append(participant_node);
-            $("#participant_list").hide();
+            $("#course_participant_list").hide();
             $("#hdn_is_page_change").val(true);
           } else {
             if(data.already_added) {
               alert("This participant is already added to this course!!");
             } else {
               alert("ERROR");
-              $("#participant_list").hide();
+              $("#course_participant_list").hide();
             }
           }
           showSpinner(false);
@@ -673,6 +706,41 @@ $(document).ready(function(){
     }
   });
   
+  //Upload doc file
+  
+  //Uploader task image upload
+  var add_file_uploader = new plupload.Uploader({
+    runtimes: 'html5',
+    drop_element: 'show_file',
+    container: 'show_file',
+    max_file_size: '5mb',
+    resize : {width : 125, height : 125},
+    url: '/course/add_file',
+    multipart_params: {
+      'authenticity_token' : token,  //For csrf-authentication
+      'school_id' : $("#course_school_id_hdn").val(),
+      'id' : $("#course_id_hdn").val()
+    }
+  });
+  
+  add_file_uploader.init();
+  
+  add_file_uploader.bind('FilesAdded', function(up, files) {
+    showSpinner(true);
+    course_uploader.start();
+  });
+  
+  add_file_uploader.bind('UploadProgress', function(up, file) {
+    $('#show_file').html('<center>Uploading..</center>');
+  });
+  
+  add_file_uploader.bind('FileUploaded', function(up, file, info) {
+    var obj = jQuery.parseJSON( info.response);
+    alert(info.response);
+    showSpinner(false);
+  });
+  
+  
   //Uploader task image upload
   var course_uploader = new plupload.Uploader({
     runtimes: 'html5',
@@ -768,6 +836,12 @@ function save_course(channel) {
     success: function(data) {
       if (data) {
         $("#course_id_hdn").val(data.course.id);
+        $("#course_name").val(data.course.name);
+        $("#course_code").val(data.course.code);
+        $("#course_section").val(data.course.section);
+        $("#course_name").attr("readonly","readonly");
+        $("#course_code").attr("readonly","readonly");
+        $("#course_section").attr("readonly","readonly");
         if(channel=="btn_course") {
           $("#container").load('/course/index', function(){
             showSpinner(false);
