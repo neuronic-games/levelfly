@@ -552,7 +552,8 @@ function saveAvatar() {
       top: '/images/wardrobe/'+_avatar.top+'.png',
       hair: '/images/wardrobe/'+_avatar.hair+'.png',
       hair_back: '/images/wardrobe/'+_avatar.hair_back+'.png',
-      face: '/images/wardrobe/'+_avatar.head+'.png',
+      head: '/images/wardrobe/'+_avatar.head+'.png',
+      face: '/images/wardrobe/'+_avatar.face+'.png',
   };
 
   loadCanvasImages(sources, function(images){
@@ -565,9 +566,9 @@ function saveAvatar() {
     ctx.drawImage(images.necklace, 0,5,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.top, 0,5,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.prop, 0,5,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.hair, 0,5,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.hair_back, 0,5,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.face, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.hair, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.hair_back, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.face, 0,0,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.facial_hair, 0,5,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.facial_marks, 0,5,drawImageWidth,drawImageHeight);
     var dataURL = newCanvas.toDataURL('image/jpg');
