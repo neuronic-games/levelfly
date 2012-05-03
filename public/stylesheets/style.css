@@ -1089,6 +1089,7 @@ a.blue_bt19px:hover {
   font-size:12px;
   font-weight:bold;
   text-decoration:none;
+  text-transform:uppercase;
   padding:11px 0 0 0;
   text-align:center;
 }
@@ -1108,6 +1109,7 @@ a.blue_bt19px:hover {
   font-size:12px;
   font-weight:bold;
   text-decoration:none;
+  text-transform:uppercase;
   padding:11px 0 0 0;
   text-align:center;
 }
