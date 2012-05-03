@@ -44,7 +44,7 @@
         </div>
         <div class="avatar_detail">
           <h1> <%=user_session[:profile_name]%></h1>
-          <h2><%=user_session[:profile_major]%>, <%=user_session[:profile_school]%></h2>
+          <h2><%=user_session[:profile_major].blank? ? '' : user_session[:profile_major] + ',' %> <%=user_session[:profile_school]%></h2>
         </div>
         <div class="clear"></div>
       </div>
