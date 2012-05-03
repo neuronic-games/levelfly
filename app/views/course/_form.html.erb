@@ -39,10 +39,10 @@
                           </div>
                         </div>
                         <div class="course_right" >
+                          <div class="clickable menu_container" value="2" align="right""><img src="images/setting_icon_gray.png"></div>
                           <!--list box-->
                           <div class="course_detailbox">
                             <div class="course_field_box1">
-                              
                                 <div class="catagory_viewfield">COURSE CODE
                                   <div class="dd_bg brown_bg">
                                    <input type="text" name="course_code" id="course_code" <%if @course %> value="<%=@course.code%>" readonly="readonly" <%end%> class="small dd_input brown_bg" style="width:100px;" onBlur='javascript:setStorage("course_code", $(this).val());$("#hdn_is_page_change").val(true);' />
@@ -102,9 +102,9 @@
                             <a href="javascript:void(0)" onclick="javascript:$('#msg_content').val(''); $('#msg_input').fadeOut()">Cancel</a>
                           </span>
                       </div>
-                      <div class="frm_label">
-                      <div align="right" class="course_newmsg_bt"><a class="blue_bt19px" onclick="javascript:$('#msg_input').fadeIn()">NEW MESSAGE</a> 
-                      </div>
+                      <div>
+                        <div align="right" class="course_newmsg_bt"><a class="blue_bt19px" onclick="javascript:$('#msg_input').fadeIn()">NEW MESSAGE</a> 
+                        </div>
                       </div>
                       <div class="frm_input">
                         <div id="message_wrapper" class="message_wrapper">
@@ -152,63 +152,108 @@
                     </div>
                   </div>
                   <div class="clear"></div>
+
+                  <!-- Challenge Rating -->
+                  <div class="frm_block">
+                    <div class="frm_label">
+                      Challenge Raiting<br />
+                      <span class="frm_caption">
+                        This determines the reative values of Low, Medium and High rated tasks.
+                      </span>
+                    </div>
                   
-                  <div class="frm_label" style="float:none; width:auto; height:30px;">
-                    Outcomes
-                  </div>
-                  <div align="right" class="add_outcome_bt"><a class="blue_bt19px" onclick="addOutcome();">ADD OUTCOME</a> 
-                  </div>
-                  <div class="frm_input">
-                    <% if @course %>
-                      <% @course.outcomes.each do |o| %>
-                        <div style="margin-top:5px; height:45px; width:500px;" id="outcome_div_<%=o.id%>" class="outcome_div">
-                          <div style="float:left; margin-left:10px; height:45px;" >
-                            <!-- <input class="dd_select brown_bg" type="checkbox" name="chk_outcome[]"  id="<%=o.id%>" value="<%=o.id%>" /> -->
-                            <input class="dd_input brown_bg" type="text" name="loaded_outcomes[]" value="<%= o.name %>" rel="<%=o.id%>" class="medium" />
-                          </div>  
-                          <div style="float:left; margin-left:10px;">
-                             <textarea class="dd_input brown_bg" style="width:260px; height:40px;"><%= o.descr %></textarea>
-                          </div> 
-                        </div>
+                    <div class="frm_input">
+                      Low <input type="text" name="course_rating_low" id="course_rating_low" class="small dd_input brown_bg" style="width:60px;" onBlur='javascript:setStorage("course_rating_low", $(this).val());$("#hdn_is_page_change").val(true);' />
+                      Medium <input type="text" name="course_rating_medium" id="course_rating_medium" class="small dd_input brown_bg" style="width:60px;" onBlur='javascript:setStorage("course_rating_medium", $(this).val());$("#hdn_is_page_change").val(true);' />
+                      High <input type="text" name="course_rating_high" id="course_rating_high" class="small dd_input brown_bg" style="width:60px;" onBlur='javascript:setStorage("course_rating_high", $(this).val());$("#hdn_is_page_change").val(true);' />
+                    </div>
+                  </div> <!-- End frm_block -->
+
+                  <!-- Task totals -->
+                  <div class="frm_block">
+                    <div class="frm_label">
+                      Estimated Task Totals<br />
+                      <span class="frm_caption">
+                        Based on the number and rating of tasks, each will be given a default XP value.
+                      </span>
+                    </div>
+                  
+                    <div class="frm_input">
+                      Low <input type="text" name="task_low" id="task_low" class="small dd_input brown_bg" style="width:60px;" onBlur='javascript:setStorage("task_low", $(this).val());$("#hdn_is_page_change").val(true);' />
+                      Medium <input type="text" name="task_medium" id="task_medium" class="small dd_input brown_bg" style="width:60px;" onBlur='javascript:setStorage("task_medium", $(this).val());$("#hdn_is_page_change").val(true);' />
+                      High <input type="text" name="task_high" id="task_high" class="small dd_input brown_bg" style="width:60px;" onBlur='javascript:setStorage("task_high", $(this).val());$("#hdn_is_page_change").val(true);' />
+                      
+                      <div>
+                        Provide your best guess on how may Low, Medium and High rates tasks you will have for the course.
+                      </div>
+                      
+                    </div>
+                  </div> <!-- End frm_block -->
+                  
+                  <!-- Outcomes -->
+                  <div class="frm_block">
+                    <div class="frm_label">
+                      Outcomes
+                    </div>
+                  
+                    <div class="frm_input frm_indent">
+                      <div align="right" class="add_outcome_bt">
+                        <a class="blue_bt19px" onclick="addOutcome();">ADD OUTCOME</a> 
+                      </div>
+                      <% if @course %>
+                        <% @course.outcomes.each do |o| %>
+                          <div style="margin-top:5px; height:45px; width:500px;" id="outcome_div_<%=o.id%>" class="outcome_div">
+                            <div style="float:left; margin-left:10px; height:45px;" >
+                              <!-- <input class="dd_select brown_bg" type="checkbox" name="chk_outcome[]"  id="<%=o.id%>" value="<%=o.id%>" /> -->
+                              <input class="dd_input brown_bg" type="text" name="loaded_outcomes[]" value="<%= o.name %>" rel="<%=o.id%>" class="medium" />
+                            </div>  
+                            <div style="float:left; margin-left:10px;">
+                               <textarea class="dd_input brown_bg autoresize" style="width:260px; height:auto;"><%= o.descr %></textarea>
+                            </div> 
+                          </div>
+                        <% end %>
                       <% end %>
-                    <% end %>
-                    <div>
-                      <div id="add_outcome_container">
-                        <!-- New outcomes will be added here -->
-                      </div> 
+                      <div>
+                        <div id="add_outcome_container">
+                          <!-- New outcomes will be added here -->
+                        </div> 
+                        <div style="margin:10px;">
+                          Please consider adding your own outcomes. The locked outcomes are shared and cannot be changed.
+                        </div>
+                      </div>
+                    </div>
+                  </div> <!-- End frm_block -->
+                  
+                  <!-- Grading Categories -->
+                  <div class="frm_block">
+                    <div class="frm_label">
+                       Grading Categories
+                    </div>
+                  
+                    <div class="frm_input">
+                      <div align="right" class="add_outcome_bt">
+                        <a class="blue_bt19px" onclick="addCategory();">ADD CATEGORY</a> 
+                      </div>
+                      <% if @course %>
+                        <% @course.categories.each do |c| %>
+                          <div style="float:left;margin-left:10px; width:500px; height:45px; margin-top:10px;" id="category_div_<%=c.id%>">
+                            <!-- <input type="checkbox" class="dd_select brown_bg" name="chk_categories[]"  id="<%=c.id%>" value="<%=c.id%>" /> -->
+                            <input type="text" name="loaded_categories[]" value="<%= c.name %>" rel="<%=c.id%>" class="dd_select brown_bg medium" />
+                            <input type="text" name="loaded_category_values[]" value="<%= c.percent_value %> %" rel="<%=c.id%>" class="dd_select brown_bg medium" />
+                          </div>
+                        
+                        <% end %>
+                      <% end %>
+                      <div id="add_category_container">
+                        <!-- New categories added here -->
+                      </div>
                       <div style="margin:10px;">
-                        Please consider adding your own outcomes. The locked outcomes are shared and cannot be changed.
+                        Please add a new grading category and the percentage of the final grade.
                       </div>
                     </div>
                   </div>
-                  <div class="clear"></div>
-                  
-                  <div class="frm_label small_label">
-                     Grading Categories
-                  </div>
-                  <div align="right" class="add_outcome_bt"><a class="blue_bt19px" onclick="addCategory();">ADD CATEGORY</a> 
                   </div>
                   
-                  <div class="frm_input">
-                    <% if @course %>
-                      <% @course.categories.each do |c| %>
-                        <div style="float:left;margin-left:10px; width:500px; height:45px; margin-top:10px;" id="category_div_<%=c.id%>">
-                          <!-- <input type="checkbox" class="dd_select brown_bg" name="chk_categories[]"  id="<%=c.id%>" value="<%=c.id%>" /> -->
-                          <input type="text" name="loaded_categories[]" value="<%= c.name %>" rel="<%=c.id%>" class="dd_select brown_bg medium" />
-                          <input type="text" name="loaded_category_values[]" value="<%= c.percent_value %> %" rel="<%=c.id%>" class="dd_select brown_bg medium" />
-                        </div>
-                        
-                      <% end %>
-                    <% end %>
-                    <div id="add_category_container">
-                      <!-- New categories added here -->
-                    </div>
-                    <div style="margin:10px;">
-                      Please add a new grading category and the percentage of the final grade.
-                    </div>
-                  </div>
-                  <div class="clear"></div>
-                  </div>
                   <div id="div_3" class="tab_content hide">
                   <div class="frm_label small_label">
                    Groups
@@ -666,7 +711,6 @@ $(document).ready(function(){
     });  
   });
   
-  
   //Post Message
   $('.right_form_containerr').delegate('.sbmt_msg', 'click', function(){
     showSpinner(true);
@@ -889,7 +933,7 @@ function addNode(element) {
     _counterPeople++;
   } else if(element=="outcome"){
     var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counterOutcome);
-    newNode.html('<div style="margin-top:5px; height:45px; width:500px;" class="outcome_div"><div style="float:left; margin-left:10px; height:45px;" ><input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="dd_select brown_bg medium"  /></div><div style="float:left; margin-left:10px;"><textarea class="small dd_input brown_bg" style="width:260px; height:40px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '""></textarea></div></div>');
+    newNode.html('<div style="margin-top:5px; height:45px; width:500px;" class="outcome_div"><div style="float:left; margin-left:10px; height:45px;" ><input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="dd_select brown_bg medium"  /></div><div style="float:left; margin-left:10px;"><textarea class="small dd_input brown_bg" style="width:260px; height:auto;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '""></textarea></div></div>');
     newNode.appendTo("#add_outcome_container");
     _counterOutcome++;
   } else if(element=="category"){

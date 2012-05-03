@@ -9,13 +9,14 @@ html, body, div, span, applet, embed, object, iframe, frameset, p, q, blockquote
   border:0;
   outline:0;
   font-weight:inherit;
-  font-size:100%;
+  font-size:10pt;
   vertical-align:baseline;
   line-height:inherit;
   background:transparent;
   border-collapse:collapse;
   border-spacing:0;
   list-style:none;
+  font-family:Arial, Helvetica, sans-serif;
 }
 textarea {
   overflow:auto;
@@ -26,6 +27,9 @@ button, input {
 }
 button {
   border:1px outset #ccc
+}
+.clickable {
+  cursor: pointer;
 }
 blockquote, blockquote:before, blockquote:after, q, q:before, q:after {
   quotes:none
@@ -553,21 +557,27 @@ a.icon_stats_active {
   float:left;
 }
 a.blue_bt19px {
+  font-family:Arial, Helvetica, sans-serif;
   font-size:9px;
   text-transform:uppercase;
   font-weight:bold;
   color:#e2e4eb;
   display:inline-block;
   background:#5a95ad;
-  -webkit-border-radius:2px;
+  -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
-  padding:0 4px;
+  padding-top:2px;
+  padding-bottom:2px;
+  padding-left:10px;
+  padding-right:10px;
   text-decoration:none;
   line-height:15px;
 }
 a.blue_bt19px:hover {
-  text-decoration:none;
+  cursor: pointer;
+  background:#6ba6be;
+  text-decoration: none;
 }
 .msg_box_txt .fav_icon {
   padding:0 10px 0 0;
@@ -1023,8 +1033,8 @@ a.blue_bt19px:hover {
   font-size:12px;
 }
 .catagory_viewfield {
-  float:right;
-  width:49%;
+  float: left;
+  margin-right: 10px;
 }
 .field_box2 {
   padding: 0 15px 0 38px;
@@ -1083,6 +1093,7 @@ a.blue_bt19px:hover {
   text-align:center;
 }
 .big_blue_btn:hover {
+  background:#6aa5bd;
 }
 .big_orange_btn {
   background:#ad895a;
@@ -1101,6 +1112,7 @@ a.blue_bt19px:hover {
   text-align:center;
 }
 .big_orange_btn:hover {
+  background:#bd996a;
 }
 .dd_bg {
   border:#b1c4d0 1px solid;
@@ -1513,7 +1525,10 @@ margin-left:33px;
 }
 .task_tab {
 		 -moz-transform: rotate(90deg);
+		 -webkit-transform: rotate(90deg);
 		 color:#fff;
+		 display:block;
+		 text-align:center;
 }
 .tab_open {
 	background:#8fac24;

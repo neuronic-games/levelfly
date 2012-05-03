@@ -284,13 +284,21 @@ form {margin:0px;padding:0px;}
 .hide {
   display:none;
 }
+div .frm_block {
+  clear: both;
+  display: block;
+  margin-top:20px;
+}
 div .frm_label {
   float:left;
-  width:190px;
+  width:230px;
   padding:5px 0 0 10px; 
   font-weight:bold;
   font-size:20px;
-  margin-top:20px;
+}
+div .frm_caption {
+  font-size:12px;
+  font-weight:normal;
 }
 div .small_label {
   width:168px !important;
@@ -298,7 +306,6 @@ div .small_label {
 div .frm_input {
   float:left;
   width:415px;
-  margin-top:20px;
 }
 div .frm_button{
   position:absolute;
