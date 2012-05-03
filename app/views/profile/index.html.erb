@@ -560,17 +560,17 @@ function saveAvatar() {
   //loadCanvasImages(sources, '');
 
     ctx.drawImage(images.body, 0,0,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.hat, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.top, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.necklace, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.hair_back, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.hair, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.face, 0,0,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.glasses, 0,5,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.earrings, 0,5,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.necklace, 0,5,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.top, 0,5,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.prop, 0,5,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.hair, 0,0,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.hair_back, 0,0,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.face, 0,0,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.facial_hair, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.hat, 0,0,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.facial_marks, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.facial_hair, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.prop, 0,5,drawImageWidth,drawImageHeight);
     var dataURL = newCanvas.toDataURL('image/jpg');
     var base64 = dataURL.replace(/^data:image\/(png|jpg);base64,/, '') ;
     
