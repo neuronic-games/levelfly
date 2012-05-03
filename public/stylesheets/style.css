@@ -1302,6 +1302,7 @@ a.blue_bt19px:hover {
 	text-align:center;
 	padding:5px 0 0 0;
 }
+
 a.green_bt19px {
 	font-size:9px;
 	text-transform:uppercase;
@@ -1583,13 +1584,87 @@ margin-left:33px;
 	text-decoration:none;
 }
 .add_file{
-background: none repeat scroll 0 0 #FFFFFF;
-border: 1px solid #A9A9A9;
-height: 400px;
-margin-left: 10px;
-overflow: auto;
-padding: 10px; 
-position: absolute;
-width: 500px;
-z-index: 2;
+  background: none repeat scroll 0 0 #FFFFFF;
+  border: 1px solid #A9A9A9;
+  height: 350px;
+  margin-left: 115px;
+  padding: 10px; 
+  position: absolute;
+  width: 370px;
+  z-index: 2;
+}
+
+.add_file .c_upload{
+  text-align:right;
+  font-size:28px;
+  margin-top:-11px;
+}
+
+#show_file_data {
+    margin: 10px 5px 2px 3px;
+    padding: 5px;
+}
+#show_file_data .display_text{
+  font-weight:bold;
+  text-align:left;
+  letter-spacing:1px;
+  margin-top:14px;
+}
+#show_file_data .display_data {
+    font-size: 18px;
+    font-weight: bold;
+    height: 10px;
+    margin-top: 25px;
+     margin-bottom: 25px;
+}
+.file_name {
+    background-color: #FFFFFF;
+    height: 160px;
+    margin: 10px;
+    width: 623px;
+}
+
+.course_owner_show .avatar_image{
+  float:left;
+	border:#eaebeb 5px solid;
+	margin:20px 0px 0 5px;
+  width:72px;
+	height:72px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	background:url(../images/avatar_bg.jpg) no-repeat center;
+	-moz-box-shadow:inset 0px 0px 2px 1px #000000;
+	-webkit-box-shadow:inset 0px 0px 2px 1px #000000;
+	box-shadow:inset 0px 0px 2px 1px #000000;
+}
+.course_owner_show .avatar_name {
+    float: left;
+    margin: 100px 0 0 -65px;
+    padding: 5px 0 0;
+    text-align: center;
+    
+}
+.file_list .file_task {
+    font-size: 20px;
+    padding: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    position: absolute;
+}
+.file_list .file_updated {
+    float: right;
+    font-size: 17px;
+    font-weight: bold;
+    margin-left: 269px;
+    padding: 25px;
+    position: absolute;
+}
+.file_list .file_size {
+    float: right;
+    font-size: 17px;
+    font-weight: bold;
+    margin-left: 395px;
+    padding: 25px;
+    position: absolute;
 }

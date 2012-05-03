@@ -16,8 +16,8 @@ end
 group :development, :test do
   gem 'mysql'
 end
-gem 'rake', '0.8.7'
-#gem 'rake' , '>= 0.9.2'
+#gem 'rake', '0.8.7'
+gem 'rake' , '>= 0.9.2'
 gem 'json'
 gem 'devise'
 gem 'taps', '>= 0.3.23'
@@ -31,9 +31,10 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'aws-s3'
-gem 'aws-sdk'
-gem "paperclip", "~> 2.0"
+gem "aws-s3", :require => "aws/s3"
+
+#gem 'aws-sdk'
+gem "paperclip", "2.4.5"
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

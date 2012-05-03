@@ -62,7 +62,7 @@ class CourseController < ApplicationController
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @course.id]
     )
     @courseMaster = Profile.find(
-      :all, 
+      :first, 
       :include => [:participants], 
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", @course.id]
       )
@@ -93,6 +93,13 @@ class CourseController < ApplicationController
     @course.code = params[:code] if params[:code]
     @course.section = params[:section] if params[:section]
     @course.school_id = params[:school_id] if params[:school_id]
+    @course.rating_low = params[:rating_low] if params[:rating_low]
+    @course.rating_medium = params[:rating_medium] if params[:rating_medium]
+    @course.rating_high = params[:rating_high] if params[:rating_high]
+    @course.tasks_low = params[:task_low] if params[:task_low]
+    @course.tasks_medium = params[:task_medium] if params[:task_medium]
+    @course.tasks_high = params[:task_high] if params[:task_high]
+           
     if params[:file]
       @course.image.destroy if @course.image
       @course.image = params[:file]
@@ -104,9 +111,11 @@ class CourseController < ApplicationController
       #Save categories
       if params[:categories] && !params[:categories].empty?
         categories_array = params[:categories].split(",")
-        categories_array.each do |category|
+        loaded_categories_array = params[:percent_value].split(",")
+        categories_array.each_with_index do |category,i|
           @category = Category.create(
             :name=> category,
+            :percent_value=> loaded_categories_array[i],
             :course_id=> @course.id,
             :school_id=> @course.school_id
           )
