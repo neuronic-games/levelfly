@@ -54,8 +54,8 @@ class ProfileController < ApplicationController
     @profile.school_id = profile["school_id"]
     @profile.user_id = current_user.id if current_user
     if params[:avatar_img]
-      @profile.image.destroy if @profile.image
-      @profile.image = params[:avatar_img]
+      #@profile.image.destroy if @profile.image
+      #@profile.image = Base64.decode64(params[:avatar_img])
     end
     @profile.save
     
@@ -80,10 +80,10 @@ class ProfileController < ApplicationController
     @avatar.profile_id = @profile.id
     @avatar.save
     
-    #if @avatar.save
-     # file_name = "avatar_#{user_session[:profile_id]}.jpg"
-      #Attachment.aws_upload(@profile.school_id, file_name, Base64.decode64(params[:avatar_img]),true)
-    #end
+    if @avatar.save
+     file_name = "avatar_#{user_session[:profile_id]}.jpg"
+     Attachment.aws_upload(@profile.school_id, file_name, Base64.decode64(params[:avatar_img]),true)
+    end
     user_session[:profile_id] = @profile.id
     render :text => {"profile"=>@profile, "avatar"=>@avatar}.to_json
   end

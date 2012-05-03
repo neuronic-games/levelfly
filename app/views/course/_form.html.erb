@@ -74,11 +74,8 @@
                                 </div>
                                 <div class="course_teacher_name">
                                  <% if @courseMaster %>
-                                 <% @courseMaster.each do |p| %>
-                                  <div class="avatar_white_bdr"><img  src="https://s3.amazonaws.com/<%=p.school.vaults[0].folder%>/avatar_thumb/avatar_<%=p.id%>.jpg" /></div>
-                                
-                                  <div class="avatar_name"><%=p.full_name%></div>
-                                  <% end %>
+                                  <div class="avatar_white_bdr"><img  src="https://s3.amazonaws.com/<%=@courseMaster.school.vaults[0].folder%>/avatar_thumb/avatar_<%=@courseMaster.id%>.jpg" /></div>
+                                  <div class="avatar_name"><%=@courseMaster.full_name%></div>
                                   <% end %>
                                 </div>
                              <div class="clear"></div>
@@ -145,7 +142,7 @@
                         </div>
 
                         <div class="clear"></div><br/><br/>
-                        <div style="width:100px;"><textarea id="course_descr" style="width:274px;background-color:#FFFFFF;" cols=10 rows=3></textarea></div>
+                        <div style="width:100px;"><textarea id="course_descr" style="width:274px;background-color:#FFFFFF;" cols=10 rows=3><%=@course.descr if @course%></textarea></div>
                         <div class="clear"></div>
                       </div>
                       <div class="clear"></div>
@@ -163,9 +160,9 @@
                     </div>
                   
                     <div class="frm_input">
-                      Low <input type="text" name="course_rating_low" id="course_rating_low" class="small dd_input brown_bg" style="width:60px;" onBlur='javascript:setStorage("course_rating_low", $(this).val());$("#hdn_is_page_change").val(true);' />
-                      Medium <input type="text" name="course_rating_medium" id="course_rating_medium" class="small dd_input brown_bg" style="width:60px;" onBlur='javascript:setStorage("course_rating_medium", $(this).val());$("#hdn_is_page_change").val(true);' />
-                      High <input type="text" name="course_rating_high" id="course_rating_high" class="small dd_input brown_bg" style="width:60px;" onBlur='javascript:setStorage("course_rating_high", $(this).val());$("#hdn_is_page_change").val(true);' />
+                      Low <input type="text" name="course_rating_low" id="course_rating_low" class="small dd_input brown_bg" value="<%=@course.rating_low if @course%>" style="width:60px;" onBlur='javascript:setStorage("course_rating_low", $(this).val());$("#hdn_is_page_change").val(true);' />
+                      Medium <input type="text" name="course_rating_medium" id="course_rating_medium" class="small dd_input brown_bg" style="width:60px;" value="<%=@course.rating_medium if @course%>"  onBlur='javascript:setStorage("course_rating_medium", $(this).val());$("#hdn_is_page_change").val(true);' />
+                      High <input type="text" name="course_rating_high" id="course_rating_high" class="small dd_input brown_bg" style="width:60px;" value="<%=@course.rating_high if @course%>" onBlur='javascript:setStorage("course_rating_high", $(this).val());$("#hdn_is_page_change").val(true);' />
                     </div>
                   </div> <!-- End frm_block -->
 
@@ -179,9 +176,9 @@
                     </div>
                   
                     <div class="frm_input">
-                      Low <input type="text" name="task_low" id="task_low" class="small dd_input brown_bg" style="width:60px;" onBlur='javascript:setStorage("task_low", $(this).val());$("#hdn_is_page_change").val(true);' />
-                      Medium <input type="text" name="task_medium" id="task_medium" class="small dd_input brown_bg" style="width:60px;" onBlur='javascript:setStorage("task_medium", $(this).val());$("#hdn_is_page_change").val(true);' />
-                      High <input type="text" name="task_high" id="task_high" class="small dd_input brown_bg" style="width:60px;" onBlur='javascript:setStorage("task_high", $(this).val());$("#hdn_is_page_change").val(true);' />
+                      Low <input type="text" name="task_low" id="task_low" class="small dd_input brown_bg" style="width:60px;" value="<%=@course.tasks_low if @course%>" onBlur='javascript:setStorage("task_low", $(this).val());$("#hdn_is_page_change").val(true);' />
+                      Medium <input type="text" name="task_medium" id="task_medium" class="small dd_input brown_bg" style="width:60px;" value="<%=@course.tasks_medium if @course%>" onBlur='javascript:setStorage("task_medium", $(this).val());$("#hdn_is_page_change").val(true);' />
+                      High <input type="text" name="task_high" value="<%=@course.tasks_high if @course%>" id="task_high" class="small dd_input brown_bg" style="width:60px;" onBlur='javascript:setStorage("task_high", $(this).val());$("#hdn_is_page_change").val(true);' />
                       
                       <div>
                         Provide your best guess on how may Low, Medium and High rates tasks you will have for the course.
@@ -204,11 +201,11 @@
                         <% @course.outcomes.each do |o| %>
                           <div style="margin-top:5px; height:45px; width:500px;" id="outcome_div_<%=o.id%>" class="outcome_div">
                             <div style="float:left; margin-left:10px; height:45px;" >
-                              <!-- <input class="dd_select brown_bg" type="checkbox" name="chk_outcome[]"  id="<%=o.id%>" value="<%=o.id%>" /> -->
+                              <input class="dd_select brown_bg" type="checkbox" name="chk_outcome[]"  id="<%=o.id%>" value="<%=o.id%>" /> 
                               <input class="dd_input brown_bg" type="text" name="loaded_outcomes[]" value="<%= o.name %>" rel="<%=o.id%>" class="medium" />
                             </div>  
                             <div style="float:left; margin-left:10px;">
-                               <textarea class="dd_input brown_bg autoresize" style="width:260px; height:auto;"><%= o.descr %></textarea>
+                               <textarea class="dd_input brown_bg autoresize" style="width:260px; height:45px;"><%= o.descr %></textarea>
                             </div> 
                           </div>
                         <% end %>
@@ -237,7 +234,7 @@
                       <% if @course %>
                         <% @course.categories.each do |c| %>
                           <div style="float:left;margin-left:10px; width:500px; height:45px; margin-top:10px;" id="category_div_<%=c.id%>">
-                            <!-- <input type="checkbox" class="dd_select brown_bg" name="chk_categories[]"  id="<%=c.id%>" value="<%=c.id%>" /> -->
+                            <input type="checkbox" class="dd_select brown_bg" name="chk_categories[]"  id="<%=c.id%>" value="<%=c.id%>" />
                             <input type="text" name="loaded_categories[]" value="<%= c.name %>" rel="<%=c.id%>" class="dd_select brown_bg medium" />
                             <input type="text" name="loaded_category_values[]" value="<%= c.percent_value %> %" rel="<%=c.id%>" class="dd_select brown_bg medium" />
                           </div>
@@ -267,21 +264,28 @@
                   </div>
                  </div>
                   <div id="div_4" class="tab_content hide">
-                    
-                    <!--<div id="confirm_upload" class="add_file" style="display:none;">   
-                        <input type="file" name="add_files" id="add_files"/>
-                        <input type="submit" class="big_blue_btn" name="file_upload" id="file_upload" value="Upload"/>
-                        <input type="button" class="big_blue_btn"  name="file_not_upload" id="file_not_upload" value="Don't Upload"/>
-                        <div id="show_file_data" style="display:none;">
-                           Task:<span id="file_task"></span>
-                           Original Uploaded By:<span id="file_uploaded_by"></span>   
-                           Original Uploaded On:<span id="file_uploaded_by"></span>
-                           Revision:<span id="file_revision"></span>                          
-                        </div>
-                        <div style="width:40px;height:10px;float:right;padding:2px;">
-                           <a href="javascript:void(0)" onClick="javascript:$('#confirm_upload').hide();">Close</a>
-                        </div>                    
-                    </div>-->
+                    <div id="confirm_upload" class="add_file" style="display:none;">   
+                          <div class="c_upload">Confirm Upload</div>
+                          <div id="container">
+                              <a class="big_blue_btn" id="pickfiles" href="javascript:void(0)">Browse</a>
+                          </div>
+                          <div id="show_file_uploading"></div>
+                          <div id="show_file_data" style="display:none;">
+                              <div class="display_text">
+                                <p>You are about to upload an updated version
+                                of an assignment file. Do you wish to
+                                continue uploading?</p>
+                              </div>
+                              <div class="display_data">Task:<span id="file_task"></span></div>
+                              <div class="display_data">Original Uploaded By:<span id="file_uploaded_by"></span></div>   
+                              <div class="display_data">Original Uploaded On:<span id="file_uploaded_on"></span></div>
+                              <div class="display_data">Revision:<span id="file_revision"></span></div>
+                              <div style="float:right">
+                                <a class="big_blue_btn" onClick="javascript:$('#confirm_upload').hide();" href="javascript:void(0)">Close</a>
+                              </div>                                
+                          </div>                  
+                    </div>
+                      
                     <div id="show_file" style="width:150px;height:40px;background-color:#FFFFFF;">
                       DROP THE FILE
                     </div>
@@ -291,15 +295,28 @@
                         <span id="file_size"></span>                            
                     </div>
                     
+                    
                     <% if @course %>
                     <% @course.attachments.each do |a| %>
                         <div class="file_name" id="filename_<%= a.id %>">
-                           <span id="file_task"><%=a.resource_file_name%></span>
-                           <span id="file_updated"><%=a.updated_at%></span>
-                           <span id="file_size"><%=a.resource_file_size%></span> 
+                        
+                           <div class="course_owner_show">
+                               <% if @courseMaster %>
+                               <div class="avatar_image"><img  src="https://s3.amazonaws.com/<%=@courseMaster.school.vaults[0].folder%>/avatar_thumb/avatar_<%=@courseMaster.id%>.jpg" /></div>
+                            
+                               <div class="avatar_name"><%=@courseMaster.full_name%></div>
+                               <% end %>
+                           </div>
+                           <div class="file_list">
+                             <span class="file_task" id="file_task"><%=a.resource_file_name%></span>
+                             <span class="file_updated" id="file_updated"><%= show_date_format(a.updated_at) %></span>
+                             <span class="file_size" class="file_size" id="file_size">
+                             <%=show_kilo_byte(a.resource_file_size) %>KB</span> 
+                           </div>
                         </div>
+                        <div class="clear"></div>
                     <% end %>
-                  <% end %>
+                    <% end %>
                     
                     <div class="clear"></div>
                   </div>
@@ -357,6 +374,7 @@ var _counterCategory = 2;
 var _outcomesObject = [];
 var _categoriesObject = [];
 var _outcomes_descrObject = [];
+var _categories_persentObject = [];
 //set outcomes to offline storage
 $.each($('input[name="outcomes[]"], input[name="people_id[]"], input[name="categories[]"]'), function() {
   setStorage($(this).attr('id'), $(this).val());
@@ -452,33 +470,49 @@ $(document).ready(function(){
     }
   });
   
-  //Add File
-  $("#menu_btn_addfile").click(function(){
-     $("#confirm_upload").show();
-  });
+      //Add File by button
+      
+      $("#menu_btn_addfile").click(function(){
+         $("#confirm_upload").show();
+         $("#show_file_data").hide();
+      });
   
- 
-  $("#add_files").change(function(e) {
-     var resource_file_name = $(this).val();
-     showSpinner(true);
-     var dataString = {resource_file_name:file_name,};
-     $.ajax({  
-            type: "GET",  
-            url: "/course/add_file",  
-            data: dataString,
-            success: function(data) 
-            {
-               $("#show_file_data").show();
-               $("#show_file_data").html(data);
-               showSpinner(false);
-            },
-            error: function()
-            {
-               alert("An Error has occured");
-               showSpinner(false);
-            },
-      }); 
-	});
+      var file_uploader = new plupload.Uploader({
+        runtimes : 'html5',
+        browse_button : 'pickfiles',
+        container: 'pickfiles',
+        max_file_size : '10mb',
+        url : '/course/add_file',
+        multipart_params: {
+          'authenticity_token' : token,  //For csrf-authentication
+          'school_id' : $("#course_school_id_hdn").val(),
+          'id' : $("#course_id_hdn").val()
+        }
+      });
+
+      file_uploader.init();
+      
+      file_uploader.bind('FilesAdded', function(up, files) {
+         showSpinner(true);
+         file_uploader.start();
+      });
+
+      file_uploader.bind('UploadProgress', function(up, file) {
+        $('#show_file_uploading').html('<center>Uploading..</center>');
+      });
+
+     file_uploader.bind('FileUploaded', function(up, file, info) {
+        var obj = jQuery.parseJSON( info.response);
+        $("#show_file_data").show();
+        $("#file_task").text(obj.attachment.resource_file_name);
+        $("#file_uploaded_by").text(obj.attachment.id);
+        $("#file_uploaded_on").text(obj.attachment.created_at);
+        $("#file_revision").text(obj.attachment.id);
+        $('#show_file_uploading').html("");
+        showSpinner(false);
+    });
+        
+        
    
   //Submit data
   $("#btn_course").unbind('click').bind('click', function(){
@@ -674,16 +708,7 @@ $(document).ready(function(){
     });  
   });
   
-  //For categories node
-  $("#add_category").click(function(){
-    current_node = _counterCategory - 1;
-    val = $("#categories_"+current_node).val();
-    if(val!="") {
-      addNode('category');
-      setStorage("categories_"+current_node, val);
-      $("#hdn_is_page_change").val(true);
-    }
-  });
+  
   
   //Remove category nodes
   $("#btn_category_remove").unbind('click').bind("click", function(){
@@ -850,8 +875,8 @@ $(document).ready(function(){
 
 //Add an outcome
 function addOutcome() {
-  addNode('outcome');
-  $("#hdn_is_page_change").val(true);
+   addNode('outcome');
+   $("#hdn_is_page_change").val(true);
 }
 
 //Add a category
@@ -871,26 +896,41 @@ function save_course(channel) {
   school_id = $("#course_school_id_hdn").val();
   wall_id = $("#course_wall_id_hdn").val();
   
+  rating_low = getStorage("course_rating_low");
+  rating_medium = getStorage("course_rating_medium");
+  rating_high = getStorage("course_rating_high");
+  task_low = getStorage("task_low");
+  task_medium = getStorage("task_medium");
+  task_high = getStorage("task_high");
+  
+  
   //get outcomes from offline storage
   k = 0;
   $.each($('input[name="outcomes[]"]'), function() {
-    _outcomesObject[k] = getStorage($(this).attr('id'));
+    _outcomesObject[k] = $(this).val();
     k++;
   });
 
   i = 0;
   $.each($('textarea[name="outcomes_descr[]"]'), function() {
-    _outcomes_descrObject[i] = getStorage($(this).attr('id'));
+    _outcomes_descrObject[i] = $(this).val();
     i++;
   });
   
   //get categories from offline storage
   l = 0;
   $.each($('input[name="categories[]"]'), function() {
-    _categoriesObject[l] = getStorage($(this).attr('id'));
+    _categoriesObject[l] = $(this).val();
     l++;
   });
-  var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id; 
+  m = 0;
+  $.each($('input[name="loaded_category_values[]"]'), function() {
+    _categories_persentObject[m] = $(this).val();
+    m++;
+  });
+
+  var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id + '&percent_value=' +_categories_persentObject+ '&rating_low=' +rating_low + '&rating_medium=' +rating_medium + '&rating_high=' +rating_high + '&task_low=' +task_low + '&task_medium=' +task_medium + '&task_high=' +task_high; 
+
   showSpinner(true);
   $.ajax({
     type: "POST",  
@@ -933,12 +973,12 @@ function addNode(element) {
     _counterPeople++;
   } else if(element=="outcome"){
     var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counterOutcome);
-    newNode.html('<div style="margin-top:5px; height:45px; width:500px;" class="outcome_div"><div style="float:left; margin-left:10px; height:45px;" ><input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="dd_select brown_bg medium"  /></div><div style="float:left; margin-left:10px;"><textarea class="small dd_input brown_bg" style="width:260px; height:auto;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '""></textarea></div></div>');
+    newNode.html('<div style="margin-top:5px; height:48px; width:500px;" class="outcome_div"><div style="float:left; margin-left:10px; height:45px;" ><input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="dd_select brown_bg medium"  /></div><div style="float:left; margin-left:10px;"><textarea class="small dd_input brown_bg" style="width:260px; height:45px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '""></textarea></div></div>');
     newNode.appendTo("#add_outcome_container");
     _counterOutcome++;
   } else if(element=="category"){
     var newNode = $(document.createElement('div')).attr("id", 'category_node_div' + _counterCategory);
-    newNode.html('<input type="text" name="categories[]" id="categories_' + _counterCategory + '" value="" class="dd_select brown_bg medium"  />');
+    newNode.html('<input type="text" name="categories[]" id="categories_' + _counterCategory + '" value="" class="dd_select brown_bg medium"  />&nbsp;&nbsp;&nbsp;<input type="text" id="loaded_category_values_'+_counterCategory+'" name="loaded_category_values[]" value="" class="dd_select brown_bg medium" />');
     newNode.appendTo("#add_category_container");
     _counterCategory++;
   }

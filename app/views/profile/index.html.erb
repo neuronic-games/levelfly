@@ -570,10 +570,9 @@ function saveAvatar() {
     ctx.drawImage(images.face, 0,5,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.facial_hair, 0,5,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.facial_marks, 0,5,drawImageWidth,drawImageHeight);
-
     var dataURL = newCanvas.toDataURL('image/jpg');
     var base64 = dataURL.replace(/^data:image\/(png|jpg);base64,/, '') ;
-
+    
     //Save avatar data
     $.ajax({ //Previously was with getJson but having problem of too many parameters in request URI so switched to $.ajax with post
       url: "/profile/save",
