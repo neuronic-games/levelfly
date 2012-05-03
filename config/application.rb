@@ -41,7 +41,11 @@ module Oncapus
 
     # Enable the asset pipeline
     config.assets.enabled = true
-
+    
+    # This allows assets to be precompiled without connecting to a production database
+    # Use this command: RAILS_ENV=production bundle exec rake assets:precompile
+    config.assets.initialize_on_precompile = false
+    
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
   end
