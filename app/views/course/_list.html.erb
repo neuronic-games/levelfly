@@ -1,29 +1,40 @@
-<div class="pdg78px">
-<div class="screen_title">
-  <%#*COURSE%>
+<div class=""><!--pdg78px-->
+<div class="course_content">
+  <div class="course_board_left">
+    <div class="course_board_right">
+      <div class="course_board_center">
+        <div class="texture_board">
+          <div class="course_pad_top"> </div>
+          <div class="course_pad">
+
+            <table width="100%" align="center" cellspacing="0" cellpadding="4">
+              <tr class="tbl_header">
+                <td width="40%">
+                  Course
+                </td>
+                <td>
+                  Created on
+                </td>
+              </tr>
+              <% @courses.each do |c| %>
+              <tr class="<%= cycle("even", "odd") %>">
+                <td>
+                  <a href="/course/show/<%=c.id%>" class="view"><%=c.name%></a>
+                </td>
+                <td>
+                  <%=c.created_at %>
+                </td>
+              </tr>
+              <% end %>
+            </table>
+            <div style="height:448px"></div>
+          </div>  
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<div class="content_wrapper">
-  <table width="100%" align="center" cellspacing="0" cellpadding="4">
-    <tr class="tbl_header">
-      <td width="40%">
-        Course
-      </td>
-      <td>
-        Created on
-      </td>
-    </tr>
-    <% @courses.each do |c| %>
-    <tr class="<%= cycle("even", "odd") %>">
-      <td>
-        <a href="/course/show/<%=c.id%>" class="view"><%=c.name%></a>
-      </td>
-      <td>
-        <%=c.created_at %>
-      </td>
-    </tr>
-    <% end %>
-  </table>
-</div>
+
 <div id="sidebar_right">
   <div class="task_side_buttons">
     <input type="button" name="menu_btn_add" id="menu_btn_add" rel="/course/new" value="Add" class="big_blue_btn menu_btn"/>

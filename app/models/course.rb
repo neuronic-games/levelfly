@@ -3,7 +3,8 @@ class Course < ActiveRecord::Base
   has_many :participants, :as => :object
   has_many :messages, :as => :parent
   has_many :categories
-  has_many :outcomes
+  #has_many :outcomes
+  has_and_belongs_to_many :outcomes
   has_many :attachments, :as => :object
   has_attached_file :image,
     :storage => :s3,
