@@ -8,6 +8,6 @@ class Course < ActiveRecord::Base
   has_attached_file :image,
     :storage => :s3,
     :s3_credentials => { :access_key_id => Vault.default_account, :secret_access_key => Vault.default_secret },
-    :path => "courses/:filename",
+    :path => "schools/:school_id/courses/:filename",
     :bucket => Vault.default_folder
 end
