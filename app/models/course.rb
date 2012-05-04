@@ -7,7 +7,7 @@ class Course < ActiveRecord::Base
   has_many :attachments, :as => :object
   has_attached_file :image,
     :storage => :s3,
-    :s3_credentials => { :access_key_id => school.vault[0].account, :secret_access_key => school.vault[0].secret },
+    :s3_credentials => { :access_key_id => Vault.default_account, :secret_access_key => default_secret },
     :path => "courses/:filename",
-    :bucket => school.vault[0].folder
+    :bucket => default_folder
 end
