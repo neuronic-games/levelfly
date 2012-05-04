@@ -19,7 +19,7 @@ class CourseController < ApplicationController
         user_session[:profile_school] = @profile.school.code if @profile.school
         user_session[:vault] = @profile.school.vaults[0].folder if @profile.school
         #Set AWS credentials
-        set_aws_vault(@profile.school.vaults[0]) if @profile.school
+        # set_aws_vault(@profile.school.vaults[0]) if @profile.school
       end
       
       @courses = Course.find(
@@ -238,15 +238,16 @@ class CourseController < ApplicationController
         render :text=> "Mail send successfully!!"
       end
   end
+  
   def add_file
     school_id = params[:school_id]
     task_id = params[:id]
     @vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
     if @vault
-      @attachment = Attachment.new(:resource=>params[:file],:object_type=>"Course",:object_id=>task_id)
+      @attachment = Attachment.new(:resource=>params[:file], :school_id=>school_id, :object_type=>"Task", :object_id=>task_id)
       if @attachment.save
         @url = @attachment.resource.url
-        render :text => {"attachment"=>@attachment, "resource_url" => @url}.to_json
+        render :text => {"attachment" => @attachment, "resource_url" => @url}.to_json
       else
         render :nothing => true
       end

@@ -2,16 +2,14 @@ require 'rubygems'
 require 'aws/s3'
 class Attachment < ActiveRecord::Base
   belongs_to :object, :polymorphic => true
-  belongs_to :tasks
-  belongs_to :courses
-  belongs_to :profile
+  belongs_to :school
   acts_as_taggable
   has_attached_file :resource,
     :storage => :s3,
-    :s3_credentials => { :access_key_id     => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECR'] },
-    :path => "resources/:filename",
-    :bucket => ENV['S3_BUCK']
-  
+    :s3_credentials => { :access_key_id => Vault.default_account, :secret_access_key => Vault.default_secret },
+    :path => "schools/:school/files/:object/:object_id/:filename",
+    :bucket => Vault.default_folder
+
   def self.aws_bucket(bucket)
     create = true
     begin

@@ -20,7 +20,7 @@ class GroupController < ApplicationController
         user_session[:profile_school] = @profile.school.code if @profile.school
         user_session[:vault] = @profile.school.vaults[0].folder if @profile.school
         #Set AWS credentials
-        set_aws_vault(@profile.school.vaults[0]) if @profile.school
+        # set_aws_vault(@profile.school.vaults[0]) if @profile.school
       end
       @groups = Group.find(
         :all, 

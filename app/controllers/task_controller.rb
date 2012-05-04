@@ -224,7 +224,7 @@ class TaskController < ApplicationController
     task_id = params[:id]
     @vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
     if @vault
-      @attachment = Attachment.new(:resource=>params[:file],:object_type=>"task",:object_id=>task_id)
+      @attachment = Attachment.new(:resource=>params[:file], :school_id=>school_id, :object_type=>"task", :object_id=>task_id)
       if @attachment.save
         @url = @attachment.resource.url
         render :text => {"attachment"=>@attachment, "resource_url" => @url}.to_json

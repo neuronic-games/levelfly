@@ -12,6 +12,14 @@ Paperclip.interpolates :id do |attachment, style|
   attachment.instance.id
 end
 
+Paperclip.interpolates :object do |attachment, style|
+  attachment.instance.object
+end
+
+Paperclip.interpolates :object_id do |attachment, style|
+  attachment.instance.object_id
+end
+
 vault = Vault.last
 
 Vault.default_account = vault.account
