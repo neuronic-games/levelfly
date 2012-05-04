@@ -7,7 +7,7 @@ class Course < ActiveRecord::Base
   has_many :attachments, :as => :object
   has_attached_file :image,
     :storage => :s3,
-    :s3_credentials => { :access_key_id => 'AKIAJMV6IAIXZQJJ2GHQ', :secret_access_key => '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' },
+    :s3_credentials => { :access_key_id => school.vault[0].account, :secret_access_key => school.vault[0].secret },
     :path => "courses/:filename",
-    :bucket => 'com.neuronicgames.oncampus.test/test'
+    :bucket => school.vault[0].folder
 end
