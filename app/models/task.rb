@@ -11,7 +11,7 @@ class Task < ActiveRecord::Base
   has_many :outcome_tasks
   has_attached_file :image,
     :storage => :s3,
-    :s3_credentials => { :access_key_id => Vault.default_account, :secret_access_key => Vault.default_secret },
+    :s3_credentials => { :access_key_id => School.vault.account, :secret_access_key => School.vault.secret },
     :path => "schools/:school/courses/:course/tasks/:id/:filename",
-    :bucket => Vault.default_folder
+    :bucket => School.vault.folder
 end

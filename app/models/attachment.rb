@@ -6,9 +6,9 @@ class Attachment < ActiveRecord::Base
   acts_as_taggable
   has_attached_file :resource,
     :storage => :s3,
-    :s3_credentials => { :access_key_id => Vault.default_account, :secret_access_key => Vault.default_secret },
+    :s3_credentials => { :access_key_id => School.vault.account, :secret_access_key => School.vault.secret },
     :path => "schools/:school/files/:object/:object_id/:filename",
-    :bucket => Vault.default_folder
+    :bucket => School.vault.folder
 
   def self.aws_bucket(bucket)
     create = true

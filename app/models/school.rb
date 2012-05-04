@@ -7,7 +7,7 @@ class School < ActiveRecord::Base
   @@default_vault = nil
   cattr_accessor :default_vault
 
-  def vault
+  def self.vault
     if default_vault.nil?
       default_vault = Vault.last
     end
