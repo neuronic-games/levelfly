@@ -10,4 +10,8 @@ class Course < ActiveRecord::Base
     :s3_credentials => { :access_key_id => School.vault.account, :secret_access_key => School.vault.secret },
     :path => "schools/:school/courses/:id/:filename",
     :bucket => School.vault.folder
+    
+  def image_file
+    return image_file_name ? image.url : "images/task_profile_img.jpg"
+  end
 end

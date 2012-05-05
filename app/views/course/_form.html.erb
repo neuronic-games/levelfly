@@ -35,7 +35,8 @@
                     <div class="right_form_containerr">
                       <div id="div_1" class="form_container1">
                         <div class="course_left">
-                          <div class="course_profile_image"> <img src="images/task_profile_img.jpg" width="156" height="156" /> 
+                          <div class="course_profile_image">
+                            <img id="course_thumb" src='<%= @course.image_file %>' width="156" height="156" alt="Course image" />
                           </div>
                         </div>
                         <div class="course_right" >
@@ -120,7 +121,7 @@
                    <div id="div_2" class="tab_content hide">
                   <div class="course_left">
                     <div class="course_profile_image" id="course_image">  
-                    <img id="course_thumb" src='<%= @course && @course.image_file_name ? @course.image.url : "images/task_profile_img.jpg" %>' width="156" height="156" alt="Course image" />
+                    <img id="course_thumb" src='<%= @course.image_file %>' width="156" height="156" alt="Course image" />
                     </div>
                   </div>
                   <div class="course_right" >
@@ -142,8 +143,8 @@
                         </div>
 
                         <div class="clear"></div><br/><br/>
-                        <div style="width:100px;"><textarea id="course_descr" style="width:274px;background-color:#FFFFFF;" cols=10 rows=3><%=@course.descr if @course%></textarea></div>
-                        <div class="clear"></div>
+                        <!-- <div style="width:100px;"><textarea id="course_descr" style="width:274px;background-color:#FFFFFF;" cols=10 rows=3><%=@course.descr if @course%></textarea></div>
+                        <div class="clear"></div> -->
                       </div>
                       <div class="clear"></div>
                     </div>
