@@ -106,7 +106,6 @@ class CourseController < ApplicationController
     end
     
     if @course.save
-       
       #get wall id
       wall_id = Wall.get_wall_id(@course.id,"Course")
       #Save categories
@@ -136,11 +135,13 @@ class CourseController < ApplicationController
       if params[:outcomes] && !params[:outcomes].empty?
         outcomes_array = params[:outcomes].split(",")
         outcomes_descs_array = params[:outcomes_descr].split(",")
+        outcomes_share_array = params[:outcome_share].split(",")
         outcomes_array.each_with_index do |outcome,i|
           @outcome = Outcome.create(
             :name=> outcome,
             :descr=> outcomes_descs_array[i],
-            :school_id=> @course.school_id
+            :school_id=> @course.school_id,
+            :shared=> outcomes_share_array[i]
           )
           @course.outcomes << @outcome
         end
@@ -163,7 +164,7 @@ class CourseController < ApplicationController
       end
       image_url = params[:file] ? @course.image.url : ""
     end
-    render :text => {"course"=>@course, "image_url"=>image_url}.to_json
+    render :text => {"course"=>@course, "image_url"=>image_url,"outcome"=>@outcome}.to_json
   end
   
    def get_participants
@@ -210,8 +211,14 @@ class CourseController < ApplicationController
   
   def remove_course_outcomes
     if params[:outcomes] && !params[:outcomes].nil?
-      outcome_array = params[:outcomes].split(',')
-      Outcome.destroy(outcome_array)
+      Outcome.destroy(params[:outcomes])
+      render :text => {"status"=>"true"}.to_json
+    end
+  end
+  
+  def remove_course_files
+    if params[:files] && !params[:files].nil?
+      Attachment.destroy(params[:files])
       render :text => {"status"=>"true"}.to_json
     end
   end
@@ -251,10 +258,10 @@ class CourseController < ApplicationController
   
   def add_file
     school_id = params[:school_id]
-    task_id = params[:id]
+    course_id = params[:id]
     @vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
     if @vault
-      @attachment = Attachment.new(:resource=>params[:file], :school_id=>school_id, :object_type=>"Task", :object_id=>task_id)
+      @attachment = Attachment.new(:resource=>params[:file], :object_type=>"Course", :object_id=>course_id)
       if @attachment.save
         @url = @attachment.resource.url
         render :text => {"attachment" => @attachment, "resource_url" => @url}.to_json

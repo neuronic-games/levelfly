@@ -7,7 +7,6 @@
       <a href="javascript:void(0)" name="menu_btn_fav" id="menu_btn_fav" class="big_blue_btn">FAV</a>
       <a href="javascript:void(0)" name="menu_btn_print" id="menu_btn_print" class="big_blue_btn">PRINT</a>-->
       <a href="javascript:void(0)" name="menu_btn_addfile" id="menu_btn_addfile" class="big_blue_btn">ADD FILE</a>
-      <a href="javascript:void(0)" name="btn_outcome_remove" id="btn_outcome_remove" class="big_blue_btn">REMOVE</a>
       <a href="javascript:void(0)" name="btn_category_remove" id="btn_category_remove" class="big_blue_btn">REMOVE</a>
     <% end %>
     <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@course ? false : true %>" />
@@ -36,7 +35,7 @@
                       <div id="div_1" class="form_container1">
                         <div class="course_left">
                           <div class="course_profile_image">
-                            <img id="course_thumb" src='<%= @course.image_file %>' width="156" height="156" alt="Course image" />
+                            <img id="course_thumb" src='<%= @course.image_file if @course%>' width="156" height="156" alt="Course image" />
                           </div>
                         </div>
                         <div class="course_right" >
@@ -121,7 +120,7 @@
                    <div id="div_2" class="tab_content hide">
                   <div class="course_left">
                     <div class="course_profile_image" id="course_image">  
-                    <img id="course_thumb" src='<%= @course.image_file %>' width="156" height="156" alt="Course image" />
+                    <img id="course_thumb" src='<%= @course.image_file if @course%>' width="156" height="156" alt="Course image" />
                     </div>
                   </div>
                   <div class="course_right" >
@@ -201,15 +200,22 @@
                       <% if @course %>
                         <%  @course.outcomes.each do |o| %>
                           <div style="margin-top:5px; height:45px; width:500px;" id="outcome_div_<%=o.id%>" class="outcome_div">
-                            <div style="float:left; margin-left:10px; height:45px;" >
-                              <input class="dd_select brown_bg" type="checkbox" id="outcomes_share" name="outcomes_share"  value="1" /> 
+                            <div style="float:left; margin-left:10px; height:45px;">
+                              <input class="dd_select brown_bg" type="checkbox" name="loaded_share[]"  <% if o.shared == true %> checked="checked" <%end%>/> 
                               <input class="dd_input brown_bg" type="text" name="loaded_outcomes[]" value="<%= o.name %>" rel="<%=o.id%>" class="medium" />
                             </div>  
                             <div style="float:left; margin-left:10px;">
                                <textarea class="dd_input brown_bg autoresize" style="width:260px; height:45px;"><%= o.descr %></textarea>
-                            </div> 
+                            </div>
+                            <div id="on_hover" class="on_hover msg_bottom_linksC2" style="display:none;">
+                              <div class="like_cmt"> 
+                                <a href="#" class="blue_bt19px">More</a> 
+                                <a href="#" class="outcome_del files_del blue_bt19px" rel="<%= o.id %>">DEL</a>
+                              </div>
+                            </div>   
+                            
                           </div>
-                        <% end %>
+                         <% end %>
                       <% end %>
                       <div>
                         <div id="add_outcome_container">
@@ -221,12 +227,7 @@
                       </div>
                     </div>
                   </div> <!-- End frm_block -->
-                  
-                  <div style="float:right; display:none;">
-                    <span><a class="blue_bt19px">More</a></span>
-                    <span><a class="blue_bt19px">Del</a></span>
-                  </div>
-                  
+
                   <!-- Grading Categories -->
                   <div class="frm_block">
                     <div class="frm_label">
@@ -287,6 +288,7 @@
                               <div class="display_data">Original Uploaded On:<span id="file_uploaded_on"></span></div>
                               <div class="display_data">Revision:<span id="file_revision"></span></div>
                               <div style="float:right">
+                                <a class="big_blue_btn" id="file_upload" href="javascript:void(0)">Upload</a>
                                 <a class="big_blue_btn" onClick="javascript:$('#confirm_upload').hide();" href="javascript:void(0)">Close</a>
                               </div>                                
                           </div>                  
@@ -300,27 +302,72 @@
                         <span id="file_updated"></span>
                         <span id="file_size"></span>                            
                     </div>
-                    
-                    
+                     <br/>
+                     <div class="titleTextShow">Show:&nbsp;&nbsp;<span><select class="dd_input brown_bg">
+                     <option>Task</option>
+                     <option>Course</option>
+                     <option>Notes</option>
+                     </select></span></div>
+                     <div class="titleTextKind">Kind</div>
+                     <div class="titleTextUpdated">Updated</div><br/><br/>
                     <% if @course %>
-                    <% @course.attachments.each do |a| %>
-                        <div class="file_name" id="filename_<%= a.id %>">
-                        
-                           <div class="course_owner_show">
-                               <% if @courseMaster %>
-                               <div class="avatar_image"><img  src="https://s3.amazonaws.com/<%=@courseMaster.school.vaults[0].folder%>/avatar_thumb/avatar_<%=@courseMaster.id%>.jpg" /></div>
+                    <% @course.attachments.reverse.each do |a| %>
+                    
+                       <!--tab content-->
+                        <div class="file_content course_tab_content" id="filename_<%= a.id %>">
+                          <div class="course_left"></div>
+                          <div class="course_page_msg_box">
                             
-                               <div class="avatar_name"><%=@courseMaster.full_name%></div>
-                               <% end %>
-                           </div>
-                           <div class="file_list">
-                             <span class="file_task" id="file_task"><%=a.resource_file_name%></span>
-                             <span class="file_updated" id="file_updated"><%= show_date_format(a.updated_at) %></span>
-                             <span class="file_size" class="file_size" id="file_size">
-                             <%=show_kilo_byte(a.resource_file_size) %>KB</span> 
-                           </div>
-                        </div>
-                        <div class="clear"></div>
+                            <div class="msg_big_boxC2">
+                              <div class="msg_box_fullwidth2">
+                                <div class="msg_box_txt blue_bg_msg_txt2 coursemsg_bgc2">
+                                  <div class="staronavatar"><img src="/images/star_up.png" width="36" height="37" /></div>
+                                  <div class="avatar_white_bdrC2">
+                                     <% if @courseMaster %>
+                                     <img  src="https://s3.amazonaws.com/<%=@courseMaster.school.vaults[0].folder%>/avatar_thumb/avatar_<%=@courseMaster.id%>.jpg" />
+                                     <div class="avatar_name"><%=@courseMaster.full_name%></div>
+                                     <% end %>
+                                  </div>
+                                  <div class="titleTextheading">
+                                    <h4 class="name">Assignment Instructions.doc</h4>
+                                    <p><%=a.resource_file_name%> uploaded</p>
+                                    <p>by <%=@courseMaster.full_name%></p>
+                                  </div>
+                                  <div class="titleTextRight"><%=show_kilo_byte(a.resource_file_size) %>KB </div>
+                                  <div class="titleTextRightC2"><%= show_date_format(a.updated_at) %></div>
+                                  <div class="clear"></div>
+                                  <div id="files_hover" class="msg_bottom_linksC2" style="display:none;">
+                                      <div class="like_cmt"> 
+                                        <a href="#" class="files_download blue_bt19px">Download</a> 
+                                        <a href="#" class="blue_bt19px">Share</a> 
+                                        <a href="#" class="files_del blue_bt19px" rel="<%= a.id %>">DEL</a>
+                                      </div>
+                                    </div>
+                                    <div class="clear"></div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div id="file_download" class="add_file" style="display:none;">   
+                            <div id="file_download_data">
+                                <div class="display_text">
+                                  <p>You have downloaded an assignment file
+                                  for review. If you wish to re-upload the file
+                                  at a later time, the name of the file must not
+                                  be modified.</p>
+                                </div>
+                                <div class="display_data">Task:<span id="file_task"><%=a.resource_file_name%></span></div>
+                                <div class="display_data">Original Uploaded By:<span id="file_uploaded_by"><%=@courseMaster.full_name%></span></div>   
+                                <div class="display_data">Original Uploaded On:<span id="file_uploaded_on"></span><%= show_date_format(a.updated_at) %></div>
+                                <div class="display_data">Revision:<span id="file_revision"></span></div>
+                                <div style="float:right">
+                                  <a class="big_blue_btn" onClick="javascript:$('#file_download').hide();" href="javascript:void(0)">OK</a>
+                                </div>                                
+                            </div>                  
+                          </div>
+                        
+                        <!--tab content-->    
                     <% end %>
                     <% end %>
                     
@@ -335,7 +382,7 @@
                     Participants
                   </div>
                   <div class="frm_input">
-                    <input type="text" name="add_people_email[]" class="medium" id="add_course_people" /> 
+                    <input type="text" name="add_people_email[]" class="dd_select brown_bg medium" id="add_course_people" /> 
                     <input type="button" name="btn_add_people" id="btn_add_people" value="Add" />
                     <div class="frm_input" id="add_people_container">
                     </div>
@@ -381,6 +428,7 @@ var _outcomesObject = [];
 var _categoriesObject = [];
 var _outcomes_descrObject = [];
 var _categories_persentObject = [];
+var _outcomes_shareObject = [];
 //set outcomes to offline storage
 $.each($('input[name="outcomes[]"], input[name="people_id[]"], input[name="categories[]"]'), function() {
   setStorage($(this).attr('id'), $(this).val());
@@ -394,6 +442,7 @@ if($("#course_code").val()!="") {setStorage("course_code", $("#course_code").val
 else {setStorage("course_code", "New Course Code");}
 if($("#course_section").val()!="") {setStorage("course_section", $("#course_section").val());} 
 else {setStorage("course_section", "New Course Section");}
+
 
 $(document).ready(function(){
   $("#menu5").hide();
@@ -688,33 +737,42 @@ $(document).ready(function(){
   });
   
   //Remove outcome nodes
-  $("#btn_outcome_remove").unbind('click').bind("click", function(){
+  $(".outcome_del").click(function(){
     showSpinner(true);
-    var outcome_id = []
-    i = 0
-    $("input[name='chk_outcome[]']").each(function(){
-      if(this.checked) {
-        id = $(this).attr('id');
-        outcome_id[i] = id;
-        i++;
-        $("#outcome_div_"+id).remove();
-      }
-    });
-    
+    outcome_id = $(this).attr('rel');
+    $("#outcome_div_"+outcome_id).remove();
     var dataString = 'outcomes='+outcome_id;
-    
     $.ajax({  
-      type: "POST",  
-      url: "/course/remove_course_outcomes",  
-      data: dataString,
-      dataType:"json",
-      success: function(data) {
-        showSpinner(false);
-      }
-    });  
+       type: "POST",  
+       url: "/course/remove_course_outcomes",  
+       data: dataString,
+       dataType:"json",
+       success: function(data) {
+         showSpinner(false);
+       }
+    });
   });
   
+  $(".files_del").click(function(){
+    showSpinner(true);
+    file_id=$(this).attr("rel");
+    $("#filename_"+file_id).remove();
+    var dataString = 'files='+file_id;
+    $.ajax({
+       type: "POST",  
+       url: "/course/remove_course_files",  
+       data: dataString,
+       dataType:"json",
+       success: function(data) {
+         showSpinner(false);
+       }
+    });
+  });
   
+  $(".files_download").click(function(){
+    $("#file_download").show();
+  
+  });
   
   //Remove category nodes
   $("#btn_category_remove").unbind('click').bind("click", function(){
@@ -885,6 +943,35 @@ function addOutcome() {
    $("#hdn_is_page_change").val(true);
 }
 
+//For outcomes hover div
+$(".outcome_div").hover(
+  function () {
+    id = $(this).attr("id");
+    $("#"+id+" #on_hover").show();
+  }, 
+  function () {
+    id = $(this).attr("id");
+    $("#"+id+" #on_hover").hide();
+  }
+);
+
+// For Download
+$(".download_files").click(function(){
+  alert("download");
+});
+//For files hover div
+$(".file_content").hover(
+  function () {
+    id = $(this).attr("id");
+    $("#"+id+" #files_hover").show();
+  }, 
+  function () {
+    id = $(this).attr("id");
+    $("#"+id+" #files_hover").hide();
+  }
+);
+
+
 //Add a category
 function addCategory() {
   addNode('category');
@@ -936,9 +1023,14 @@ function save_course(channel) {
     _categories_persentObject[m] = $(this).val();
     m++;
   });
-
   
-  var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id + '&percent_value=' +_categories_persentObject+ '&rating_low=' +rating_low + '&rating_medium=' +rating_medium + '&rating_high=' +rating_high + '&task_low=' +task_low + '&task_medium=' +task_medium + '&task_high=' +task_high; 
+  n = 0;
+  $.each($('input[name="outcomes_share[]"]'), function() {
+    _outcomes_shareObject[n] = $(this).is(":checked");
+    n++;
+  });
+ 
+  var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id + '&percent_value=' +_categories_persentObject+ '&outcome_share='+_outcomes_shareObject+'&rating_low=' +rating_low + '&rating_medium=' +rating_medium + '&rating_high=' +rating_high + '&task_low=' +task_low + '&task_medium=' +task_medium + '&task_high=' +task_high; 
 
   //alert(dataString);  return false;
    
@@ -984,7 +1076,7 @@ function addNode(element) {
     _counterPeople++;
   } else if(element=="outcome"){
     var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counterOutcome);
-    newNode.html('<div style="margin-top:5px; height:48px; width:500px;" class="outcome_div"><div style="float:left; margin-left:10px; height:45px;" ><input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="dd_select brown_bg medium"  /></div><div style="float:left; margin-left:10px;"><textarea class="small dd_input brown_bg" style="width:260px; height:45px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '""></textarea></div></div>');
+    newNode.html('<div style="margin-top:5px; height:48px; width:500px;" class="outcome_div"><div style="float:left; margin-left:10px; height:45px;" > <input type="checkbox" id="outcomes_'+_counterOutcome+'" class="dd_select brown_bg" name="outcomes_share[]" /><input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="dd_select brown_bg medium"  /></div><div style="float:left; margin-left:10px;"><textarea class="small dd_input brown_bg" style="width:260px; height:45px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '""></textarea></div></div>');
     newNode.appendTo("#add_outcome_container");
     _counterOutcome++;
   } else if(element=="category"){
