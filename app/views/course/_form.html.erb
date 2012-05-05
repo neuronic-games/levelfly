@@ -3,9 +3,9 @@
     
     <a href="javascript:void(0)" name="btn_course" id="btn_course" class="big_orange_btn">SAVE</a>
     <% if @course%>
-      <a href="javascript:void(0)" name="menu_btn_hide" id="menu_btn_hide" class="big_blue_btn">HIDE</a>
+      <!--<a href="javascript:void(0)" name="menu_btn_hide" id="menu_btn_hide" class="big_blue_btn">HIDE</a>
       <a href="javascript:void(0)" name="menu_btn_fav" id="menu_btn_fav" class="big_blue_btn">FAV</a>
-      <a href="javascript:void(0)" name="menu_btn_print" id="menu_btn_print" class="big_blue_btn">PRINT</a>
+      <a href="javascript:void(0)" name="menu_btn_print" id="menu_btn_print" class="big_blue_btn">PRINT</a>-->
       <a href="javascript:void(0)" name="menu_btn_addfile" id="menu_btn_addfile" class="big_blue_btn">ADD FILE</a>
       <a href="javascript:void(0)" name="btn_outcome_remove" id="btn_outcome_remove" class="big_blue_btn">REMOVE</a>
       <a href="javascript:void(0)" name="btn_category_remove" id="btn_category_remove" class="big_blue_btn">REMOVE</a>
@@ -143,8 +143,8 @@
                         </div>
 
                         <div class="clear"></div><br/><br/>
-                        <!-- <div style="width:100px;"><textarea id="course_descr" style="width:274px;background-color:#FFFFFF;" cols=10 rows=3><%=@course.descr if @course%></textarea></div>
-                        <div class="clear"></div> -->
+                        <div style="width:100px;"><textarea id="course_descr" name="course_descr" style="width:274px;background-color:#FFFFFF;" cols=10 rows=3 onBlur='javascript:setStorage("course_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea></div>
+                        <div class="clear"></div>
                       </div>
                       <div class="clear"></div>
                     </div>
@@ -199,10 +199,10 @@
                         <a class="blue_bt19px" onclick="addOutcome();">ADD OUTCOME</a> 
                       </div>
                       <% if @course %>
-                        <% @course.outcomes.each do |o| %>
+                        <%  @course.outcomes.each do |o| %>
                           <div style="margin-top:5px; height:45px; width:500px;" id="outcome_div_<%=o.id%>" class="outcome_div">
                             <div style="float:left; margin-left:10px; height:45px;" >
-                              <input class="dd_select brown_bg" type="checkbox" name="chk_outcome[]"  id="<%=o.id%>" value="<%=o.id%>" /> 
+                              <input class="dd_select brown_bg" type="checkbox" id="outcomes_share" name="outcomes_share"  value="1" /> 
                               <input class="dd_input brown_bg" type="text" name="loaded_outcomes[]" value="<%= o.name %>" rel="<%=o.id%>" class="medium" />
                             </div>  
                             <div style="float:left; margin-left:10px;">
@@ -221,6 +221,11 @@
                       </div>
                     </div>
                   </div> <!-- End frm_block -->
+                  
+                  <div style="float:right; display:none;">
+                    <span><a class="blue_bt19px">More</a></span>
+                    <span><a class="blue_bt19px">Del</a></span>
+                  </div>
                   
                   <!-- Grading Categories -->
                   <div class="frm_block">
@@ -912,6 +917,7 @@ function save_course(channel) {
     k++;
   });
 
+  //get outcomes description from offline storage
   i = 0;
   $.each($('textarea[name="outcomes_descr[]"]'), function() {
     _outcomes_descrObject[i] = $(this).val();
@@ -924,14 +930,18 @@ function save_course(channel) {
     _categoriesObject[l] = $(this).val();
     l++;
   });
+  //get categories percent value from offline storage
   m = 0;
   $.each($('input[name="loaded_category_values[]"]'), function() {
     _categories_persentObject[m] = $(this).val();
     m++;
   });
 
+  
   var dataString = 'id='+ course_id +'&course='+ course + '&descr=' + descr + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id + '&percent_value=' +_categories_persentObject+ '&rating_low=' +rating_low + '&rating_medium=' +rating_medium + '&rating_high=' +rating_high + '&task_low=' +task_low + '&task_medium=' +task_medium + '&task_high=' +task_high; 
 
+  //alert(dataString);  return false;
+   
   showSpinner(true);
   $.ajax({
     type: "POST",  
@@ -979,6 +989,7 @@ function addNode(element) {
     _counterOutcome++;
   } else if(element=="category"){
     var newNode = $(document.createElement('div')).attr("id", 'category_node_div' + _counterCategory);
+    $('#add_category_container div').css("height","30px");
     newNode.html('<input type="text" name="categories[]" id="categories_' + _counterCategory + '" value="" class="dd_select brown_bg medium"  />&nbsp;&nbsp;&nbsp;<input type="text" id="loaded_category_values_'+_counterCategory+'" name="loaded_category_values[]" value="" class="dd_select brown_bg medium" />');
     newNode.appendTo("#add_category_container");
     _counterCategory++;

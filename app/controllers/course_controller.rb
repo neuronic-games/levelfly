@@ -87,7 +87,7 @@ class CourseController < ApplicationController
       # Save a new course
       @course = Course.new
     end
-    
+   
     @course.name = params[:course] if params[:course]
     @course.descr = params[:descr] if params[:descr]
     @course.code = params[:code] if params[:code]
@@ -106,6 +106,7 @@ class CourseController < ApplicationController
     end
     
     if @course.save
+       
       #get wall id
       wall_id = Wall.get_wall_id(@course.id,"Course")
       #Save categories
@@ -122,6 +123,15 @@ class CourseController < ApplicationController
         end
       end
       
+      @same_code_courses = Course.find(:all, :conditions=>["code = ? AND id != ?",@course.code, @course.id])
+      if @same_code_courses
+        @same_code_courses.each do |same_course|
+          same_course.outcomes.each do |same_outcome|
+            @course.outcomes << same_outcome
+          end
+        end
+      end
+      
       #Save outcomes
       if params[:outcomes] && !params[:outcomes].empty?
         outcomes_array = params[:outcomes].split(",")
@@ -130,9 +140,9 @@ class CourseController < ApplicationController
           @outcome = Outcome.create(
             :name=> outcome,
             :descr=> outcomes_descs_array[i],
-            :course_id=> @course.id,
             :school_id=> @course.school_id
           )
+          @course.outcomes << @outcome
         end
       end
       
