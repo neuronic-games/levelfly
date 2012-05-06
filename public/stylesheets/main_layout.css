@@ -342,6 +342,9 @@ input {
 /*.medium {
   width:300px;
 }*/
+.upper {
+  text-transform:uppercase;
+}
 .small {
   width:50px;
 }

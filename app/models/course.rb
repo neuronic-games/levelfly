@@ -11,8 +11,49 @@ class Course < ActiveRecord::Base
     :s3_credentials => { :access_key_id => School.vault.account, :secret_access_key => School.vault.secret },
     :path => "schools/:school/courses/:id/:filename",
     :bucket => School.vault.folder
-    
+  
+  after_initialize :init_defaults
+  
+  # Defaults
+  
+  # These 3 numbers defines the ratio of XP given out by low, medium and high rating tasks
+  
+  @@default_rating_low = 1
+  cattr_accessor :default_rating_low
+
+  @@default_rating_medium = 3
+  cattr_accessor :default_rating_medium
+
+  @@default_rating_high = 10
+  cattr_accessor :default_rating_high
+
+  # These 3 numbers are the recommended number of tasks for a course
+  
+  @@default_tasks_low = 10
+  cattr_accessor :default_tasks_low
+
+  @@default_tasks_medium = 5
+  cattr_accessor :default_tasks_medium
+
+  @@default_tasks_high = 2
+  cattr_accessor :default_tasks_high
+
+  # This is the default course icon
+  
+  @@default_image_file = "images/course_img_default.jpg"
+  cattr_accessor :default_image_file
+  
   def image_file
-    return image_file_name ? image.url : "images/task_profile_img.jpg"
+    return image_file_name ? image.url : Course.default_image_file
+  end
+  
+  def init_defaults
+    self.rating_low = Course.default_rating_low
+    self.rating_medium = Course.default_rating_medium
+    self.rating_high = Course.default_rating_high
+
+    self.tasks_low = Course.default_tasks_low
+    self.tasks_medium = Course.default_tasks_medium
+    self.tasks_high = Course.default_tasks_high
   end
 end

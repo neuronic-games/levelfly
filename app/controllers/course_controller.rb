@@ -41,6 +41,7 @@ class CourseController < ApplicationController
   
   def new
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @course = Course.new
     respond_to do |wants|
       wants.html do
         if request.xhr?
@@ -90,7 +91,7 @@ class CourseController < ApplicationController
    
     @course.name = params[:course] if params[:course]
     @course.descr = params[:descr] if params[:descr]
-    @course.code = params[:code] if params[:code]
+    @course.code = params[:code].upcase if params[:code]
     @course.section = params[:section] if params[:section]
     @course.school_id = params[:school_id] if params[:school_id]
     @course.rating_low = params[:rating_low] if params[:rating_low]
@@ -261,7 +262,7 @@ class CourseController < ApplicationController
     course_id = params[:id]
     @vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
     if @vault
-      @attachment = Attachment.new(:resource=>params[:file], :object_type=>"Course", :object_id=>course_id)
+      @attachment = Attachment.new(:resource=>params[:file], :object_type=>"Course", :object_id=>course_id, :school_id => school_id)
       if @attachment.save
         @url = @attachment.resource.url
         render :text => {"attachment" => @attachment, "resource_url" => @url}.to_json

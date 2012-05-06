@@ -9,20 +9,29 @@
 
             <table width="100%" align="center" cellspacing="0" cellpadding="4">
               <tr class="tbl_header">
-                <td width="40%">
+                <th>
+                </td>
+                <th width="40%">
                   Course
                 </td>
                 <td>
-                  Created on
+                  Course Code
                 </td>
               </tr>
               <% @courses.each do |c| %>
-              <tr class="<%= cycle("even", "odd") %>">
+              <tr class="blackboard_list_item">
                 <td>
-                  <a href="/course/show/<%=c.id%>" class="view"><%=c.name%></a>
+                  <a href="/course/show/<%=c.id%>" class="view">
+                    <img src='<%= c.image_file %>' width="100" height="100" alt="<%=c.name%>" />
+                  </a>
                 </td>
                 <td>
-                  <%=c.created_at %>
+                  <a href="/course/show/<%=c.id%>" class="view">
+                    <%=c.name%>
+                  </a>
+                </td>
+                <td>
+                  <%=c.code%>-<%=c.section%>
                 </td>
               </tr>
               <% end %>

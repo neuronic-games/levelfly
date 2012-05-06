@@ -35,7 +35,7 @@
                       <div id="div_1" class="form_container1">
                         <div class="course_left">
                           <div class="course_profile_image">
-                            <img id="course_thumb" src='<%= @course.image_file if @course%>' width="156" height="156" alt="Course image" />
+                            <img id="course_thumb" src='<%= @course.image_file %>' width="156" height="156" alt="Course image" />
                           </div>
                         </div>
                         <div class="course_right" >
@@ -43,7 +43,7 @@
                           <!--list box-->
                           <div class="course_detailbox">
                             <div class="course_field_box1">
-                                <div class="catagory_viewfield">COURSE CODE
+                                <div class="catagory_viewfield field_label">COURSE CODE
                                   <div class="dd_bg brown_bg">
                                    <input type="text" name="course_code" id="course_code" <%if @course %> value="<%=@course.code%>" readonly="readonly" <%end%> class="small dd_input brown_bg" style="width:100px;" onBlur='javascript:setStorage("course_code", $(this).val());$("#hdn_is_page_change").val(true);' />
                                    -
@@ -51,7 +51,7 @@
                                   </div>
                                 </div>
                                 
-                                <div class="course_viewfield">COURSE NAME
+                                <div class="course_viewfield field_label">COURSE NAME
                                   <div class="dd_bg brown_bg">
                                     <input type="text" name="course_name" id="course_name" <%if @course %> value="<%=@course.name if @course%>" readonly="readonly" <%end%> class="dd_select brown_bg" onBlur='javascript:setStorage("course_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
                                   </div>
@@ -62,13 +62,13 @@
                                 <div class="course_activity_list">
                                 
                                 
-                                  <div class="CAL_01"><span> <% if @totaltask %> <% total_task = @totaltask.count %><%=total_task%><% else %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW</a></div>
+                                  <div class="CAL_01"><span class="field_label"> <% if @totaltask %> <% total_task = @totaltask.count %><%=total_task%><% else %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW</a></div>
                                   
-                                  <div class="CAL_01"><span>21 SHARED FILES</span> <a href="javascript:void(0)" class="green_bt19px">VIEW</a></div>
+                                  <div class="CAL_01"><span class="field_label">21 SHARED FILES</span> <a href="javascript:void(0)" class="green_bt19px">VIEW</a></div>
                                  
                                    
                                    <div class="menu_container">
-                                  <div class="CAL_01"><span> <% if @peoples %><%=@peoples.count%><% else %>0 <% end %> MEMBERS</span> <a href="javascript:void(0)" value="6"  class="green_bt19px">VIEW</a></div>
+                                  <div class="CAL_01"><span class="field_label"> <% if @peoples %><%=@peoples.count%><% else %>0 <% end %> MEMBERS</span> <a href="javascript:void(0)" value="6"  class="green_bt19px">VIEW</a></div>
                                  
                                   </div>
                                 </div>
@@ -120,51 +120,40 @@
                    <div id="div_2" class="tab_content hide">
                   <div class="course_left">
                     <div class="course_profile_image" id="course_image">  
-                    <img id="course_thumb" src='<%= @course.image_file if @course%>' width="156" height="156" alt="Course image" />
+                    <img id="course_thumb" src='<%= @course.id ? @course.image_file : "images/course_img_drop.jpg" %>' width="156" height="156" alt="Course image" />
                     </div>
                   </div>
                   <div class="course_right" >
                     <div class="course_detailbox">
                       <div class="course_field_box1">
 
-                        <div class="catagory_viewfield">COURSE CODE
+                        <div class="catagory_viewfield field_label">COURSE CODE
                           <div class="dd_bg brown_bg">
-                           <input type="text" name="course_code" id="course_code" value="<%=@course.code if @course%>" class="small dd_input brown_bg" style="width:100px;" onBlur='javascript:setStorage("course_code", $(this).val());$("#hdn_is_page_change").val(true);' />
+                           <input type="text" name="course_code" id="course_code" value="<%=@course.code if @course%>" class="dd_input brown_bg prompted" style="text-transform:uppercase;" prompt="course_code_prompt" style="width:100px;" onBlur='javascript:setStorage("course_code", $(this).val());$("#hdn_is_page_change").val(true);' />
                            -
-                           <input type="text" name="course_section" id="course_section" value="<%=@course.section if @course%>" class="small dd_input brown_bg" style="width:50px;" onBlur='javascript:setStorage("course_section", $(this).val());$("#hdn_is_page_change").val(true);' />
+                           <input type="text" name="course_section" id="course_section" value="<%=@course.section if @course%>" class="small dd_input brown_bg prompted" prompt="course_section_prompt" style="width:50px;" onBlur='javascript:setStorage("course_section", $(this).val());$("#hdn_is_page_change").val(true);' />
                           </div>
                         </div>
 
-                        <div class="course_viewfield">COURSE NAME
+                        <div class="course_viewfield field_label">COURSE NAME
                           <div class="dd_bg brown_bg">
                             <input type="text" name="course_name" id="course_name" class="dd_select brown_bg" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("course_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
                           </div>
                         </div>
 
-                        <div class="clear"></div><br/><br/>
-                        <div style="width:100px;"><textarea id="course_descr" name="course_descr" style="width:274px;background-color:#FFFFFF;" cols=10 rows=3 onBlur='javascript:setStorage("course_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea></div>
-                        <div class="clear"></div>
+                        <div id="course_code_prompt" class="field_prompt break gap">
+                          Enter a course code, such as ENG101
+                        </div>
+                        <div id="course_section_prompt" class="field_prompt break gap">
+                          Enter an optional course section, such as 001
+                        </div>
+
                       </div>
                       <div class="clear"></div>
+                      
                     </div>
                   </div>
                   <div class="clear"></div>
-
-                  <!-- Challenge Rating -->
-                  <div class="frm_block">
-                    <div class="frm_label">
-                      Challenge Raiting<br />
-                      <span class="frm_caption">
-                        This determines the reative values of Low, Medium and High rated tasks.
-                      </span>
-                    </div>
-                  
-                    <div class="frm_input">
-                      Low <input type="text" name="course_rating_low" id="course_rating_low" class="small dd_input brown_bg" value="<%=@course.rating_low if @course%>" style="width:60px;" onBlur='javascript:setStorage("course_rating_low", $(this).val());$("#hdn_is_page_change").val(true);' />
-                      Medium <input type="text" name="course_rating_medium" id="course_rating_medium" class="small dd_input brown_bg" style="width:60px;" value="<%=@course.rating_medium if @course%>"  onBlur='javascript:setStorage("course_rating_medium", $(this).val());$("#hdn_is_page_change").val(true);' />
-                      High <input type="text" name="course_rating_high" id="course_rating_high" class="small dd_input brown_bg" style="width:60px;" value="<%=@course.rating_high if @course%>" onBlur='javascript:setStorage("course_rating_high", $(this).val());$("#hdn_is_page_change").val(true);' />
-                    </div>
-                  </div> <!-- End frm_block -->
 
                   <!-- Task totals -->
                   <div class="frm_block">
@@ -176,12 +165,12 @@
                     </div>
                   
                     <div class="frm_input">
-                      Low <input type="text" name="task_low" id="task_low" class="small dd_input brown_bg" style="width:60px;" value="<%=@course.tasks_low if @course%>" onBlur='javascript:setStorage("task_low", $(this).val());$("#hdn_is_page_change").val(true);' />
-                      Medium <input type="text" name="task_medium" id="task_medium" class="small dd_input brown_bg" style="width:60px;" value="<%=@course.tasks_medium if @course%>" onBlur='javascript:setStorage("task_medium", $(this).val());$("#hdn_is_page_change").val(true);' />
-                      High <input type="text" name="task_high" value="<%=@course.tasks_high if @course%>" id="task_high" class="small dd_input brown_bg" style="width:60px;" onBlur='javascript:setStorage("task_high", $(this).val());$("#hdn_is_page_change").val(true);' />
+                      <div class="field_label">Low<br /><input type="text" name="task_low" id="task_low" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" value="<%=@course.tasks_low if @course%>" onBlur='javascript:setStorage("task_low", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
+                      <div class="field_label">Medium<br /><input type="text" name="task_medium" id="task_medium" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" value="<%=@course.tasks_medium if @course%>" onBlur='javascript:setStorage("task_medium", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
+                      <div class="field_label">High<br /><input type="text" name="task_high" value="<%=@course.tasks_high if @course%>" id="task_high" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" onBlur='javascript:setStorage("task_high", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
                       
-                      <div>
-                        Provide your best guess on how may Low, Medium and High rates tasks you will have for the course.
+                      <div id="course_tasks_prompt" class="field_prompt">
+                        Provide your best guess on how many Low, Medium and High rates tasks you will have for the course
                       </div>
                       
                     </div>
@@ -436,12 +425,12 @@ $.each($('input[name="outcomes[]"], input[name="people_id[]"], input[name="categ
 
 //set storage on load while view of course
 if($("#course_name").val()!="") {setStorage("course_name", $("#course_name").val());} 
-else {setStorage("course_name", "New Course");}
+else {setStorage("course_name", "Course Name");}
 if($("#course_descr").val()!="") {setStorage("course_descr", $("#course_descr").val());} else {setStorage("course_descr", "New Course Description");}
 if($("#course_code").val()!="") {setStorage("course_code", $("#course_code").val());} 
-else {setStorage("course_code", "New Course Code");}
+else {setStorage("course_code", "Course Code");}
 if($("#course_section").val()!="") {setStorage("course_section", $("#course_section").val());} 
-else {setStorage("course_section", "New Course Section");}
+else {setStorage("course_section", "Section");}
 
 
 $(document).ready(function(){
@@ -484,7 +473,17 @@ $(document).ready(function(){
      
   <% end %>
   
- 
+  $(".field_prompt").hide();
+  
+  // Field instructions
+  $(".prompted").focus(function() {
+    prompt = $(this).attr("prompt");
+    $("#"+prompt).show();
+  });
+  $(".prompted").blur(function() {
+    prompt = $(this).attr("prompt");
+    $("#"+prompt).hide();
+  });
   
   //Toggle Tabs
   $(".menu_container a").unbind('click').bind('click', function(){

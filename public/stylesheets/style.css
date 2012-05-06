@@ -83,6 +83,13 @@ body {
   padding: 0;
   width: 0;
 }
+.break {
+  clear: both;
+  display: block;
+}
+.gap {
+  padding-top:10px;
+}
 @font-face {
   font-family: 'BitterRegular';
   src: url('../fonts/bitter-regular-webfont.eot');
@@ -1036,6 +1043,21 @@ a.blue_bt19px:hover {
   float: left;
   margin-right: 10px;
 }
+.field_label {
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight:bold;
+  font-size:10px;
+  color:#CAC6C6;
+  text-transform:uppercase;
+  float:left;
+  margin-right:10px;
+}
+.field_prompt {
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:10px;
+  color:#CAC6C6;
+  display:block;
+}
 .field_box2 {
   padding: 0 15px 0 38px;
 }
@@ -1134,7 +1156,7 @@ a.blue_bt19px:hover {
   font-weight:bold;
 }
 .dd_bg .dd_input {
-  width:100%;
+/*  width:100%;*/
   height:20px;
   font-family:Arial, Helvetica, sans-serif;
   border:none;
@@ -1734,6 +1756,11 @@ div .coursemsg_bgc2 {
 .coursemsg_bgc2 .activeBox {
 	color:#fff;
 	background:url(../images/border_dashedH.png) repeat-x bottom !important;
+	cursor:pointer;
+}
+.blackboard_list_item {
+	color:#fff;
+  background:url(/images/border_dashedH.png) repeat-x bottom !important;
 	cursor:pointer;
 }
 .avatar_white_bdrC2 {
