@@ -7,19 +7,19 @@
           <div class="course_pad_top"> </div>
           <div class="course_pad">
 
-            <table width="100%" align="center" cellspacing="0" cellpadding="4">
-              <tr class="tbl_header">
+            <table class="blackboard_list">
+              <tr>
+                <th width="110">
+                </th>
                 <th>
-                </td>
-                <th width="40%">
                   Course
-                </td>
-                <td>
+                </th>
+                <th width="100">
                   Course Code
-                </td>
+                </th>
               </tr>
               <% @courses.each do |c| %>
-              <tr class="blackboard_list_item">
+              <tr>
                 <td>
                   <a href="/course/show/<%=c.id%>" class="view">
                     <img src='<%= c.image_file %>' width="100" height="100" alt="<%=c.name%>" />

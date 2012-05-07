@@ -1043,6 +1043,21 @@ a.blue_bt19px:hover {
   float: left;
   margin-right: 10px;
 }
+
+.field_title {
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight:bold;
+  font-size:16px;
+  color:#CAC6C6;
+  display:block;
+}
+.field_notes {
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight:normal;
+  font-size:12px;
+  color:#CAC6C6;
+  display:block;
+}
 .field_label {
   font-family:Arial, Helvetica, sans-serif;
   font-weight:bold;
@@ -1054,9 +1069,11 @@ a.blue_bt19px:hover {
 }
 .field_prompt {
   font-family:Arial, Helvetica, sans-serif;
-  font-size:10px;
+  font-size:12px;
+  font-weight:normal;
   color:#CAC6C6;
-  display:block;
+  float:left;
+  clear:both;
 }
 .field_box2 {
   padding: 0 15px 0 38px;
@@ -1756,11 +1773,6 @@ div .coursemsg_bgc2 {
 .coursemsg_bgc2 .activeBox {
 	color:#fff;
 	background:url(../images/border_dashedH.png) repeat-x bottom !important;
-	cursor:pointer;
-}
-.blackboard_list_item {
-	color:#fff;
-  background:url(/images/border_dashedH.png) repeat-x bottom !important;
 	cursor:pointer;
 }
 .avatar_white_bdrC2 {

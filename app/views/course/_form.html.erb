@@ -119,8 +119,9 @@
                    </div>
                    <div id="div_2" class="tab_content hide">
                   <div class="course_left">
-                    <div class="course_profile_image" id="course_image">  
-                    <img id="course_thumb" src='<%= @course.id ? @course.image_file : "images/course_img_drop.jpg" %>' width="156" height="156" alt="Course image" />
+                    <div class="course_profile_image" id="course_image">
+                    <img id="course_thumb" src='<%= @course.image_file %>' width="156" height="156" alt="Course image" />
+                    <img class="image_icon_drop_target" src="/images/course_img_drop.png" />
                     </div>
                   </div>
                   <div class="course_right" >
@@ -156,15 +157,15 @@
                   <div class="clear"></div>
 
                   <!-- Task totals -->
-                  <div class="frm_block">
-                    <div class="frm_label">
-                      Estimated Task Totals<br />
-                      <span class="frm_caption">
+                  <div class="page_block">
+                    <div class="page_block_left">
+                      <span class="field_title">Estimated Task Totals</span>
+                      <span class="field_notes">
                         Based on the number and rating of tasks, each will be given a default XP value.
                       </span>
                     </div>
                   
-                    <div class="frm_input">
+                    <div class="page_block_right">
                       <div class="field_label">Low<br /><input type="text" name="task_low" id="task_low" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" value="<%=@course.tasks_low if @course%>" onBlur='javascript:setStorage("task_low", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
                       <div class="field_label">Medium<br /><input type="text" name="task_medium" id="task_medium" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" value="<%=@course.tasks_medium if @course%>" onBlur='javascript:setStorage("task_medium", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
                       <div class="field_label">High<br /><input type="text" name="task_high" value="<%=@course.tasks_high if @course%>" id="task_high" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" onBlur='javascript:setStorage("task_high", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
@@ -174,27 +175,28 @@
                       </div>
                       
                     </div>
-                  </div> <!-- End frm_block -->
+                  </div> <!-- End page_block -->
                   
                   <!-- Outcomes -->
-                  <div class="frm_block">
-                    <div class="frm_label">
+                  <div class="page_block">
+                    <div class="page_block_left field_title">
                       Outcomes
                     </div>
                   
-                    <div class="frm_input frm_indent">
-                      <div align="right" class="add_outcome_bt">
+                    <div class="page_block_right">
+                      <div class="add_outcome_bt">
                         <a class="blue_bt19px" onclick="addOutcome();">ADD OUTCOME</a> 
                       </div>
+                      
                       <% if @course %>
                         <%  @course.outcomes.each do |o| %>
-                          <div style="margin-top:5px; height:45px; width:500px;" id="outcome_div_<%=o.id%>" class="outcome_div">
-                            <div style="float:left; margin-left:10px; height:45px;">
+                          <div id="outcome_div_<%=o.id%>" class="outcome_div">
+                            <div>
                               <input class="dd_select brown_bg" type="checkbox" name="loaded_share[]"  <% if o.shared == true %> checked="checked" <%end%>/> 
                               <input class="dd_input brown_bg" type="text" name="loaded_outcomes[]" value="<%= o.name %>" rel="<%=o.id%>" class="medium" />
                             </div>  
-                            <div style="float:left; margin-left:10px;">
-                               <textarea class="dd_input brown_bg autoresize" style="width:260px; height:45px;"><%= o.descr %></textarea>
+                            <div>
+                               <textarea class="dd_input brown_bg autoresize"><%= o.descr %></textarea>
                             </div>
                             <div id="on_hover" class="on_hover msg_bottom_linksC2" style="display:none;">
                               <div class="like_cmt"> 
@@ -210,20 +212,20 @@
                         <div id="add_outcome_container">
                           <!-- New outcomes will be added here -->
                         </div> 
-                        <div style="margin:10px;">
+                        <div>
                           Please consider adding your own outcomes. The locked outcomes are shared and cannot be changed.
                         </div>
                       </div>
                     </div>
-                  </div> <!-- End frm_block -->
+                  </div> <!-- End page_block -->
 
                   <!-- Grading Categories -->
-                  <div class="frm_block">
-                    <div class="frm_label">
+                  <div class="page_block">
+                    <div class="page_block_left field_title">
                        Grading Categories
                     </div>
                   
-                    <div class="frm_input">
+                    <div class="page_block_right">
                       <div align="right" class="add_outcome_bt">
                         <a class="blue_bt19px" onclick="addCategory();">ADD CATEGORY</a> 
                       </div>

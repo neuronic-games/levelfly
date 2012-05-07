@@ -1,3 +1,8 @@
+a {
+  text-decoration:none;
+  color:#fff;
+  font-family;Arial, Helvetica, sans-serif;
+}
 body{
   margin:0px;
   padding:0px;
@@ -286,15 +291,11 @@ form {margin:0px;padding:0px;}
 }
 div .frm_block {
   clear: both;
-  display: block;
-  margin-top:20px;
+  margin:20px 20px 50px 20px;
 }
 div .frm_label {
   float:left;
-  width:230px;
-  padding:5px 0 0 10px; 
-  font-weight:bold;
-  font-size:20px;
+  width:200px;
 }
 div .frm_caption {
   font-size:12px;
@@ -393,11 +394,16 @@ input[type=file] {
   float:right;
 }
 table .tbl_header {
-  background-color:#A9A9A9;
+  background:url(/images/border_dashed.png) repeat-x bottom !important;
+  padding-bottom:10px;
+  text-align:left;
+  font-weight:bold;
+  font-family:Arial, Helvetica, sans-serif;
   color:#fff;
-  padding:2px;
 }
-
+th .tbl_header {
+  padding:10px;
+}
 .even {
   background-color:#fff;
 }
@@ -410,6 +416,40 @@ table .tbl_header {
 }
 .highlight {
   background-color:yellow;
+}
+
+table.blackboard_list {
+  width:100%;
+}
+table.blackboard_list th {
+  padding:10px;
+  font-weight:strong;
+  text-align:left;
+}
+table.blackboard_list td {
+  padding:10px;
+  vertical-align:middle;
+}
+table.blackboard_list tr {
+	color:#fff;
+  background:url(/images/border_dashed.png) repeat-x bottom !important;
+	cursor:pointer;
+}
+
+.page_block {
+  float:left;
+  width:100%;
+  margin:10px;
+  clear:both;
+}
+.page_block_left {
+  float:left;
+  width:200px;
+  margin-left:5px;
+}
+.page_block_right {
+  float:left;
+  margin-left:20px;
 }
 
 .message_input {
@@ -470,6 +510,11 @@ table .tbl_header {
 }
 .profile {
   cursor:pointer;
+}
+img.image_icon_drop_target {
+  position:absolute;
+  left:0px;
+  top:0px;
 }
 /* Avatar card
 .avatar_card{position:absolute;right:340px;top:170px;}*/
