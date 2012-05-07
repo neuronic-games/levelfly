@@ -40,17 +40,17 @@
       </div>
       <div class="avatar_box">
         <div class="avatar">
-          <img  src="https://s3.amazonaws.com/<%=user_session[:vault]%>/avatar_thumb/avatar_<%=user_session[:profile_id]%>.jpg" />
+          <a href="/"><img  src="https://s3.amazonaws.com/<%=user_session[:vault]%>/avatar_thumb/avatar_<%=user_session[:profile_id]%>.jpg" /></a>
         </div>
         <div class="avatar_detail">
-          <h1> <%=user_session[:profile_name]%></h1>
+          <h1><%=user_session[:profile_name]%></h1>
           <h2><%=user_session[:profile_major].blank? ? '' : user_session[:profile_major] + ',' %> <%=user_session[:profile_school]%></h2>
         </div>
         <div class="clear"></div>
       </div>
       <div class="header_mid_box"></div>
       <div class="header_search_box">
-        <div class="setting_box"><img src="images/setting_icon.png" /></div>
+        <div class="setting_box"><a href="/users/sign_out" data-method="delete" rel="nofollow"><img src="images/setting_icon.png" /></a></div>
         <div class="search_bg">
           <form id="frm_search">
             <div id="clear_search" class="menu_btn hide" style="right:150px;margin-top:0px;">

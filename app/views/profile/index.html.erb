@@ -1,23 +1,7 @@
 <div class="wrapper">
-  <div class="header">
-    <div class="icon clickable">
-      <img id="icon_major" src="/images/majors/null.png" width="130" height="135" />
-    </div>
-    <div class="level level_text">
-      <!--Level Details goes here-->
-      Level<br/>
-      <div id="avatar_level" class="stat_numbers avatar_level">
-        0
-      </div>
-    </div>
-    <div class="title">
-      <div id="full_name" name="full_name" class="full_name clickable"></div>
-      <div id="major" class="major"></div>
-    </div>
-  </div> 
   
   <div class="selections">
-    <div id="user_stats">
+    <%#<div id="user_stats">
       <div class="stats_container">
         <div>
           LEVEL METER
@@ -46,7 +30,7 @@
           0
         </div>
       </div>
-    </div>
+    </div>%>
     <div id="wardrobe_options" class="wardrobe_options">
       <div id="wardrobe_categories" class="wardrobe_categories lev0">
         <div id="category_head" class="btn wardrobe_item clickable" value="head"></div>
@@ -75,24 +59,25 @@
       <div id="select_note" class="selection_instructions">What would you like to change?</div>
     </div>
   </div>
+  
   <div id="modify" class="avat clickable">
-    <img id="background" class="avatar">
-    <img id="avatar_body" class="avatar">
-    <!-- <img id="hat_back" class="avatar"> -->
-    <img id="hair_back" class="avatar">
-    <img id="shoes" class="avatar">
-    <img id="bottom" class="avatar">
-    <img id="necklace" class="avatar">
-    <img id="top" class="avatar">
-    <img id="head" class="avatar">
-    <img id="earrings" class="avatar">
-    <img id="facial_marks" class="avatar">
-    <img id="facial_hair" class="avatar">
-    <img id="face" class="avatar">
-    <img id="glasses" class="avatar">
-    <img id="hair" class="avatar">
-    <img id="hat" class="avatar">
-    <img id="prop" class="avatar">
+    <img id="background" class="avatar_editor">
+    <img id="avatar_body" class="avatar_editor">
+    <!-- <img id="hat_back" class="avatar_editor"> -->
+    <img id="hair_back" class="avatar_editor">
+    <img id="shoes" class="avatar_editor">
+    <img id="bottom" class="avatar_editor">
+    <img id="necklace" class="avatar_editor">
+    <img id="top" class="avatar_editor">
+    <img id="head" class="avatar_editor">
+    <img id="earrings" class="avatar_editor">
+    <img id="facial_marks" class="avatar_editor">
+    <img id="facial_hair" class="avatar_editor">
+    <img id="face" class="avatar_editor">
+    <img id="glasses" class="avatar_editor">
+    <img id="hair" class="avatar_editor">
+    <img id="hat" class="avatar_editor">
+    <img id="prop" class="avatar_editor">
   </div>
   <div class="color_palette">
     <div id="color_palette_left_arrow">
@@ -115,27 +100,6 @@
   </div>
   <div id="show_controls" class="avatar_controls">TOUCH TO MODIFY</div>
   <div id="edit_controls" class="avatar_controls">TOUCH TO COMPLETE</div>
-  <div class="bottom">
-    <div class="botbtn">
-      <img src="/images/ui/bt1.png" width="71" height="75" />
-      Leaderboards
-    </div>
-    <div class="botbtn"><img src="/images/ui/bt2.png" width="71" height="75" />
-      Calender
-    </div> 
-    <div class="botbtn"><img src="/images/ui/bt3.png" width="72" height="76" />
-      Walls
-    </div>
-    <div class="botbtn"><img src="/images/ui/bt4.png" width="69" height="76" /><br/>
-      Map
-    </div>
-    <div class="botbtn"><img src="/images/ui/bt5.png" width="51" height="78" /><br/>
-      Game Center
-    </div>
-    <div class="others"><a href="/users/sign_out" data-method="delete" rel="nofollow"><img src="/images/ui/bt6.png" width="72" height="29" /></a><br/><br/>
-      Logout
-    </div>
-  </div>
 </div>
 <script type="text/javascript">
 <!--
@@ -390,7 +354,7 @@ function showColorPalette(_item_type, $this) {
   }
   //Show & move color palette
   $(".color_palette").animate({left: parseInt($this.position().left) + 330 +'px'},250);
-  $(".color_palette").animate({top: parseInt($this.position().top) + 280 +'px'},250);
+  $(".color_palette").animate({top: parseInt($this.position().top) + 185 +'px'},250);
   $(".color_palette").fadeIn(80);
 }
 
@@ -561,16 +525,16 @@ function saveAvatar() {
 
     ctx.drawImage(images.body, 0,0,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.top, 0,0,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.necklace, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.necklace, 0,0,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.hair_back, 0,0,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.hair, 0,0,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.face, 0,0,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.glasses, 0,5,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.earrings, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.glasses, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.earrings, 0,0,drawImageWidth,drawImageHeight);
     ctx.drawImage(images.hat, 0,0,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.facial_marks, 0,5,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.facial_hair, 0,5,drawImageWidth,drawImageHeight);
-    ctx.drawImage(images.prop, 0,5,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.facial_marks, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.facial_hair, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.prop, 0,0,drawImageWidth,drawImageHeight);
     var dataURL = newCanvas.toDataURL('image/jpg');
     var base64 = dataURL.replace(/^data:image\/(png|jpg);base64,/, '') ;
     
