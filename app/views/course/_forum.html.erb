@@ -1,0 +1,12 @@
+<div id="div_3" class="tab_content">
+  <div class="frm_label small_label">
+   Groups
+  </div>
+  <div id="new_group" class="frm_input">
+    <% if @groups %>
+      <%= render :partial => "/shared/list", :locals => {:groups=>@groups, :mode=>"list"} %>
+    <%else%>
+      <%= render :partial => "/shared/group_form" %>
+    <% end %>
+  </div>
+</div>

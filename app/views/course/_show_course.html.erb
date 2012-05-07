@@ -1,0 +1,138 @@
+<div id="div_1" class="form_container1">
+  <div class="course_left">
+    <div class="course_profile_image" id="course_image">
+      <img id="course_thumb" src='<%#= @course.image_file %>' width="156" height="156" alt="Course image" />
+    </div>
+  </div>
+  <div class="course_right" >
+    <% if @courseMaster %>
+    <div class="clickable menu_container" value="2" align="right"">
+    <a href="javascript:void(0)"  value="2" >
+      <img src="images/setting_icon_gray.png">
+     </a>
+     </div>
+    <% end %>
+    <!--list box-->
+    <div class="course_detailbox">
+      <div class="course_field_box1">
+          <div class="catagory_viewfield field_label">COURSE CODE
+            <div class="dd_bg brown_bg">
+             <input type="text" name="course_code" id="course_code" <%if @course %> value="<%=@course.code%>" readonly="readonly" <%end%> class="small dd_input brown_bg" style="width:100px;" onBlur='javascript:setStorage("course_code", $(this).val());$("#hdn_is_page_change").val(true);' />
+             -
+             <input type="text" name="course_section" id="course_section" <%if @course %> value="<%=@course.section%>" readonly="readonly" <%end%> class="small dd_input brown_bg" style="width:50px;" onBlur='javascript:setStorage("course_section", $(this).val());$("#hdn_is_page_change").val(true);' />
+            </div>
+          </div>
+          
+          <div class="course_viewfield field_label">COURSE NAME
+            <div class="dd_bg brown_bg">
+              <input type="text" name="course_name" id="course_name" <%if @course %> value="<%=@course.name if @course%>" readonly="readonly" <%end%> class="dd_select brown_bg" onBlur='javascript:setStorage("course_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+            </div>
+          </div>
+          
+          <div class="clear"></div>
+          <div class="spacebar10px"></div>
+          <div class="course_activity_list">
+          
+          
+            <div class="CAL_01"><span class="field_label"> <% if @totaltask %> <% total_task = @totaltask.count %><%=total_task%><% else %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW</a></div>
+            
+            <div class="CAL_01"><span class="field_label">21 SHARED FILES</span> <a href="javascript:void(0)" class="green_bt19px">VIEW</a></div>
+           
+             
+             <div class="menu_container">
+            <div class="CAL_01"><span class="field_label"> <% if @peoples %><%=@peoples.count%><% else %>0 <% end %> MEMBERS</span> 
+            <a href="javascript:void(0)" value="6"  class="green_bt19px">VIEW</a></div>
+           
+            </div>
+          </div>
+          <div class="course_teacher_name">
+           <% if @courseMaster %>
+            <div class="avatar_white_bdr"><img  src="https://s3.amazonaws.com/<%=@courseMaster.school.vaults[0].folder%>/avatar_thumb/avatar_<%=@courseMaster.id%>.jpg" /></div>
+            <div class="avatar_name"><%=@courseMaster.full_name%></div>
+            <% end %>
+          </div>
+       <div class="clear"></div>
+      </div>
+    </div>
+    <!--list box-->
+  </div>
+  <div class="clear"></div>
+  <% if @course %>
+  <!-- Message -->
+    
+    <div id="msg_input" class="message_input hide">
+      <label>Message</label> <br />
+        <textarea id="msg_content" name="msg_content" cols="15" rows="6"></textarea> <br />
+        <span>
+          <input type="button" name="sbmt_msg" class="sbmt_msg" title="msg_content" id="<%=@course.id%>" rel="Course" value="Post" />
+        </span>
+        &nbsp;
+        <span>
+          <!-- When user click on cancel button first data will clear from textarea and finall popup window will hide.-->
+          <a href="javascript:void(0)" onclick="javascript:$('#msg_content').val(''); $('#msg_input').fadeOut()">Cancel</a>
+        </span>
+    </div>
+    <div>
+      <div align="right" class="course_newmsg_bt"><a class="blue_bt19px" onclick="javascript:$('#msg_input').fadeIn()">NEW MESSAGE</a> 
+      </div>
+    </div>
+    <div class="frm_input">
+      <div id="message_wrapper" class="message_wrapper">
+      &nbsp;
+      <% if @course_messages=@course.messages.find(:all,:order => "created_at DESC" )%>
+        <% @course_messages.each do |message| %>
+          <%= render :partial => "/message/messages", :locals => {:message=>message} %>
+        <% end %>
+      <% end %>
+      </div>
+    </div>
+  <!-- Message ends -->
+  <% end %>
+  <div class="clear"></div>
+ </div>
+ <script type="text/javascript">
+  $(function(){
+    //Uploader course image upload
+    var course_uploader = new plupload.Uploader({
+      runtimes: 'html5',
+      drop_element: 'course_image',
+      container: 'course_image',
+      max_file_size: '5mb',
+      resize : {width : 125, height : 125},
+      url: '/course/save',
+      multipart_params: {
+        'authenticity_token' : token,  //For csrf-authentication
+        'school_id' : $("#course_school_id_hdn").val(),
+        'id' : $("#course_id_hdn").val()
+      },
+      filters : [
+        {title : "Image files", extensions : "jpg,gif,png,JPG,PNG,GIF,JPEG"}
+      ]
+    });
+    
+    course_uploader.init();
+    
+    course_uploader.bind('FilesAdded', function(up, files) {
+      showSpinner(true);
+      course_uploader.settings.multipart_params.course = getStorage("course_name");
+      course_uploader.settings.multipart_params.code = getStorage("course_code");
+      course_uploader.settings.multipart_params.section = getStorage("course_section");
+      course_uploader.settings.multipart_params.descr = getStorage("course_descr");
+      course_uploader.start();
+    });
+    
+    course_uploader.bind('UploadProgress', function(up, file) {
+      $('#course_image').html('<center>Uploading..</center>');
+    });
+    
+    course_uploader.bind('FileUploaded', function(up, file, info) {
+      var obj = jQuery.parseJSON( info.response);
+      courseImg = $('<img width="156" height="156">').attr('src',obj.image_url);
+      course_uploader.settings.multipart_params.id = obj.course.id;
+      $('#course_id_hdn').val(obj.course.id);
+      $('#course_image').html(courseImg);
+      showSpinner(false);
+    });
+  });
+ </script>
+ 

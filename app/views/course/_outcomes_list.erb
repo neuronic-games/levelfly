@@ -1,0 +1,16 @@
+<div id="outcome_div_<%=o.id%>" class="outcome_div">
+  <div>
+    <input class="dd_select brown_bg" type="checkbox" name="loaded_share[]"  <% if o.shared == true %> checked="checked" <%end%>/> 
+    <input class="dd_input brown_bg" type="text" name="loaded_outcomes[]" value="<%= o.name %>" rel="<%=o.id%>" class="medium" />
+  </div>  
+  <div>
+    <textarea class="dd_input brown_bg autoresize"><%= o.descr %></textarea>
+  </div>
+  <div id="on_hover" class="on_hover msg_bottom_linksC2" style="display:none;">
+    <div class="like_cmt"> 
+      <a href="#" class="blue_bt19px">More</a> 
+      <a href="#" class="outcome_del files_del blue_bt19px" rel="<%= o.id %>">DEL</a>
+    </div>
+  </div>   
+</div>
+

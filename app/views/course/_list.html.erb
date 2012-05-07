@@ -18,7 +18,7 @@
                   Course Code
                 </th>
               </tr>
-              <% @courses.each do |c| %>
+              <% @courses.reverse.each do |c| %>
               <tr>
                 <td>
                   <a href="/course/show/<%=c.id%>" class="view">

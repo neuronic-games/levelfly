@@ -1,407 +1,44 @@
 <div id="sidebar_right">
   <div class="task_side_buttons">
-    
     <a href="javascript:void(0)" name="btn_course" id="btn_course" class="big_orange_btn">SAVE</a>
     <% if @course%>
-      <!--<a href="javascript:void(0)" name="menu_btn_hide" id="menu_btn_hide" class="big_blue_btn">HIDE</a>
-      <a href="javascript:void(0)" name="menu_btn_fav" id="menu_btn_fav" class="big_blue_btn">FAV</a>
-      <a href="javascript:void(0)" name="menu_btn_print" id="menu_btn_print" class="big_blue_btn">PRINT</a>-->
       <a href="javascript:void(0)" name="menu_btn_addfile" id="menu_btn_addfile" class="big_blue_btn">ADD FILE</a>
       <a href="javascript:void(0)" name="btn_category_remove" id="btn_category_remove" class="big_blue_btn">REMOVE</a>
     <% end %>
     <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@course ? false : true %>" />
   </div><!-- crud_level -->
 </div>
-   <div class="course_content">
-            <div class="course_board_left">
-              <div class="course_board_right">
-                <div class="course_board_center">
-                  <div class="texture_board">
-                    <div class="course_pad_top"> </div>
-                    <div class="course_pad">
-                      <!-- tabs-->
+<div class="course_content">
+    <div class="course_board_left">
+      <div class="course_board_right">
+        <div class="course_board_center">
+          <div class="texture_board">
+            <div class="course_pad_top"> </div>
+            <div class="course_pad">
+              <!-- tabs-->
+              
+            <div class="course_tabs menu_container" align="right">
+              <a href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><span class="task_tab">Course</span></a>
+              <a href="javascript:void(0)"  id="menu2" value="2" class="tab_close" ><span class="task_tab">Setup</span></a>
+              <a href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><span class="task_tab">Forums</span></a>
+              <a href="javascript:void(0)"  id="menu4" value="4" class="tab_close"><span class="task_tab">Files</span></a>
+              <a href="javascript:void(0)"  id="menu5" value="5" class="tab_close" ><span class="task_tab">Stats</span></a>
+            </div>
                       
-                        <div class="course_tabs menu_container" align="right">
-                          <a href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><span class="task_tab">Course</span></a>
-                          <a href="javascript:void(0)"  id="menu2" value="2" class="tab_close" ><span class="task_tab">Setup</span></a>
-                          <a href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><span class="task_tab">Forums</span></a>
-                          <a href="javascript:void(0)"  id="menu4" value="4" class="tab_close"><span class="task_tab">Files</span></a>
-                          <a href="javascript:void(0)"  id="menu5" value="5" class="tab_close" ><span class="task_tab">Stats</span></a>
-                          <a href="javascript:void(0)" style="display:none;"   id="menu6" value="6" class="tab_close" ><span class="task_tab">Member</span></a>
-                         </div>
-                      
-                    <div class="course_tab_content">
-                    <div class="right_form_containerr">
-                      <div id="div_1" class="form_container1">
-                        <div class="course_left">
-                          <div class="course_profile_image">
-                            <img id="course_thumb" src='<%= @course.image_file %>' width="156" height="156" alt="Course image" />
-                          </div>
-                        </div>
-                        <div class="course_right" >
-                          <div class="clickable menu_container" value="2" align="right""><img src="images/setting_icon_gray.png"></div>
-                          <!--list box-->
-                          <div class="course_detailbox">
-                            <div class="course_field_box1">
-                                <div class="catagory_viewfield field_label">COURSE CODE
-                                  <div class="dd_bg brown_bg">
-                                   <input type="text" name="course_code" id="course_code" <%if @course %> value="<%=@course.code%>" readonly="readonly" <%end%> class="small dd_input brown_bg" style="width:100px;" onBlur='javascript:setStorage("course_code", $(this).val());$("#hdn_is_page_change").val(true);' />
-                                   -
-                                   <input type="text" name="course_section" id="course_section" <%if @course %> value="<%=@course.section%>" readonly="readonly" <%end%> class="small dd_input brown_bg" style="width:50px;" onBlur='javascript:setStorage("course_section", $(this).val());$("#hdn_is_page_change").val(true);' />
-                                  </div>
-                                </div>
-                                
-                                <div class="course_viewfield field_label">COURSE NAME
-                                  <div class="dd_bg brown_bg">
-                                    <input type="text" name="course_name" id="course_name" <%if @course %> value="<%=@course.name if @course%>" readonly="readonly" <%end%> class="dd_select brown_bg" onBlur='javascript:setStorage("course_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
-                                  </div>
-                                </div>
-                                
-                                <div class="clear"></div>
-                                <div class="spacebar10px"></div>
-                                <div class="course_activity_list">
-                                
-                                
-                                  <div class="CAL_01"><span class="field_label"> <% if @totaltask %> <% total_task = @totaltask.count %><%=total_task%><% else %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW</a></div>
-                                  
-                                  <div class="CAL_01"><span class="field_label">21 SHARED FILES</span> <a href="javascript:void(0)" class="green_bt19px">VIEW</a></div>
-                                 
-                                   
-                                   <div class="menu_container">
-                                  <div class="CAL_01"><span class="field_label"> <% if @peoples %><%=@peoples.count%><% else %>0 <% end %> MEMBERS</span> <a href="javascript:void(0)" value="6"  class="green_bt19px">VIEW</a></div>
-                                 
-                                  </div>
-                                </div>
-                                <div class="course_teacher_name">
-                                 <% if @courseMaster %>
-                                  <div class="avatar_white_bdr"><img  src="https://s3.amazonaws.com/<%=@courseMaster.school.vaults[0].folder%>/avatar_thumb/avatar_<%=@courseMaster.id%>.jpg" /></div>
-                                  <div class="avatar_name"><%=@courseMaster.full_name%></div>
-                                  <% end %>
-                                </div>
-                             <div class="clear"></div>
-                            </div>
-                          </div>
-                          <!--list box-->
-                        </div>
-                        <div class="clear"></div>
-                    <% if @course %>
-                    <!-- Message -->
-                      
-                      <div id="msg_input" class="message_input hide">
-                        <label>Message</label> <br />
-                          <textarea id="msg_content" name="msg_content" cols="15" rows="6"></textarea> <br />
-                          <span>
-                            <input type="button" name="sbmt_msg" class="sbmt_msg" title="msg_content" id="<%=@course.id%>" rel="Course" value="Post" />
-                          </span>
-                          &nbsp;
-                          <span>
-                            <!-- When user click on cancel button first data will clear from textarea and finall popup window will hide.-->
-                            <a href="javascript:void(0)" onclick="javascript:$('#msg_content').val(''); $('#msg_input').fadeOut()">Cancel</a>
-                          </span>
-                      </div>
-                      <div>
-                        <div align="right" class="course_newmsg_bt"><a class="blue_bt19px" onclick="javascript:$('#msg_input').fadeIn()">NEW MESSAGE</a> 
-                        </div>
-                      </div>
-                      <div class="frm_input">
-                        <div id="message_wrapper" class="message_wrapper">
-                        &nbsp;
-                        <% if @course_messages=@course.messages.find(:all,:order => "created_at DESC" )%>
-                          <% @course_messages.each do |message| %>
-                            <%= render :partial => "/message/messages", :locals => {:message=>message} %>
-                          <% end %>
-                        <% end %>
-                        </div>
-                      </div>
-                    <!-- Message ends -->
-                    <% end %>
-                    <div class="clear"></div>
-                   </div>
-                   <div id="div_2" class="tab_content hide">
-                  <div class="course_left">
-                    <div class="course_profile_image" id="course_image">
-                    <img id="course_thumb" src='<%= @course.image_file %>' width="156" height="156" alt="Course image" />
-                    <img class="image_icon_drop_target" src="/images/course_img_drop.png" />
-                    </div>
-                  </div>
-                  <div class="course_right" >
-                    <div class="course_detailbox">
-                      <div class="course_field_box1">
-
-                        <div class="catagory_viewfield field_label">COURSE CODE
-                          <div class="dd_bg brown_bg">
-                           <input type="text" name="course_code" id="course_code" value="<%=@course.code if @course%>" class="dd_input brown_bg prompted" style="text-transform:uppercase;" prompt="course_code_prompt" style="width:100px;" onBlur='javascript:setStorage("course_code", $(this).val());$("#hdn_is_page_change").val(true);' />
-                           -
-                           <input type="text" name="course_section" id="course_section" value="<%=@course.section if @course%>" class="small dd_input brown_bg prompted" prompt="course_section_prompt" style="width:50px;" onBlur='javascript:setStorage("course_section", $(this).val());$("#hdn_is_page_change").val(true);' />
-                          </div>
-                        </div>
-
-                        <div class="course_viewfield field_label">COURSE NAME
-                          <div class="dd_bg brown_bg">
-                            <input type="text" name="course_name" id="course_name" class="dd_select brown_bg" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("course_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
-                          </div>
-                        </div>
-
-                        <div id="course_code_prompt" class="field_prompt break gap">
-                          Enter a course code, such as ENG101
-                        </div>
-                        <div id="course_section_prompt" class="field_prompt break gap">
-                          Enter an optional course section, such as 001
-                        </div>
-
-                      </div>
-                      <div class="clear"></div>
-                      
-                    </div>
-                  </div>
-                  <div class="clear"></div>
-
-                  <!-- Task totals -->
-                  <div class="page_block">
-                    <div class="page_block_left">
-                      <span class="field_title">Estimated Task Totals</span>
-                      <span class="field_notes">
-                        Based on the number and rating of tasks, each will be given a default XP value.
-                      </span>
-                    </div>
-                  
-                    <div class="page_block_right">
-                      <div class="field_label">Low<br /><input type="text" name="task_low" id="task_low" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" value="<%=@course.tasks_low if @course%>" onBlur='javascript:setStorage("task_low", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
-                      <div class="field_label">Medium<br /><input type="text" name="task_medium" id="task_medium" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" value="<%=@course.tasks_medium if @course%>" onBlur='javascript:setStorage("task_medium", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
-                      <div class="field_label">High<br /><input type="text" name="task_high" value="<%=@course.tasks_high if @course%>" id="task_high" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" onBlur='javascript:setStorage("task_high", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
-                      
-                      <div id="course_tasks_prompt" class="field_prompt">
-                        Provide your best guess on how many Low, Medium and High rates tasks you will have for the course
-                      </div>
-                      
-                    </div>
-                  </div> <!-- End page_block -->
-                  
-                  <!-- Outcomes -->
-                  <div class="page_block">
-                    <div class="page_block_left field_title">
-                      Outcomes
-                    </div>
-                  
-                    <div class="page_block_right">
-                      <div class="add_outcome_bt">
-                        <a class="blue_bt19px" onclick="addOutcome();">ADD OUTCOME</a> 
-                      </div>
-                      
-                      <% if @course %>
-                        <%  @course.outcomes.each do |o| %>
-                          <div id="outcome_div_<%=o.id%>" class="outcome_div">
-                            <div>
-                              <input class="dd_select brown_bg" type="checkbox" name="loaded_share[]"  <% if o.shared == true %> checked="checked" <%end%>/> 
-                              <input class="dd_input brown_bg" type="text" name="loaded_outcomes[]" value="<%= o.name %>" rel="<%=o.id%>" class="medium" />
-                            </div>  
-                            <div>
-                               <textarea class="dd_input brown_bg autoresize"><%= o.descr %></textarea>
-                            </div>
-                            <div id="on_hover" class="on_hover msg_bottom_linksC2" style="display:none;">
-                              <div class="like_cmt"> 
-                                <a href="#" class="blue_bt19px">More</a> 
-                                <a href="#" class="outcome_del files_del blue_bt19px" rel="<%= o.id %>">DEL</a>
-                              </div>
-                            </div>   
-                            
-                          </div>
-                         <% end %>
-                      <% end %>
-                      <div>
-                        <div id="add_outcome_container">
-                          <!-- New outcomes will be added here -->
-                        </div> 
-                        <div>
-                          Please consider adding your own outcomes. The locked outcomes are shared and cannot be changed.
-                        </div>
-                      </div>
-                    </div>
-                  </div> <!-- End page_block -->
-
-                  <!-- Grading Categories -->
-                  <div class="page_block">
-                    <div class="page_block_left field_title">
-                       Grading Categories
-                    </div>
-                  
-                    <div class="page_block_right">
-                      <div align="right" class="add_outcome_bt">
-                        <a class="blue_bt19px" onclick="addCategory();">ADD CATEGORY</a> 
-                      </div>
-                      <% if @course %>
-                        <% @course.categories.each do |c| %>
-                          <div style="float:left;margin-left:10px; width:500px; height:45px; margin-top:10px;" id="category_div_<%=c.id%>">
-                            <input type="checkbox" class="dd_select brown_bg" name="chk_categories[]"  id="<%=c.id%>" value="<%=c.id%>" />
-                            <input type="text" name="loaded_categories[]" value="<%= c.name %>" rel="<%=c.id%>" class="dd_select brown_bg medium" />
-                            <input type="text" name="loaded_category_values[]" value="<%= c.percent_value %> %" rel="<%=c.id%>" class="dd_select brown_bg medium" />
-                          </div>
-                        
-                        <% end %>
-                      <% end %>
-                      <div id="add_category_container">
-                        <!-- New categories added here -->
-                      </div>
-                      <div style="margin:10px;">
-                        Please add a new grading category and the percentage of the final grade.
-                      </div>
-                    </div>
-                  </div>
-                  </div>
-                  
-                  <div id="div_3" class="tab_content hide">
-                  <div class="frm_label small_label">
-                   Groups
-                  </div>
-                  <div id="new_group" class="frm_input">
-                    <% if @groups %>
-                      <%= render :partial => "/shared/list", :locals => {:groups=>@groups, :mode=>"list"} %>
-                    <%else%>
-                      <%= render :partial => "/shared/group_form" %>
-                    <% end %>
-                  </div>
-                 </div>
-                  <div id="div_4" class="tab_content hide">
-                    <div id="confirm_upload" class="add_file" style="display:none;">   
-                          <div class="c_upload">Confirm Upload</div>
-                          <div id="container">
-                              <a class="big_blue_btn" id="pickfiles" href="javascript:void(0)">Browse</a>
-                          </div>
-                          <div id="show_file_uploading"></div>
-                          <div id="show_file_data" style="display:none;">
-                              <div class="display_text">
-                                <p>You are about to upload an updated version
-                                of an assignment file. Do you wish to
-                                continue uploading?</p>
-                              </div>
-                              <div class="display_data">Task:<span id="file_task"></span></div>
-                              <div class="display_data">Original Uploaded By:<span id="file_uploaded_by"></span></div>   
-                              <div class="display_data">Original Uploaded On:<span id="file_uploaded_on"></span></div>
-                              <div class="display_data">Revision:<span id="file_revision"></span></div>
-                              <div style="float:right">
-                                <a class="big_blue_btn" id="file_upload" href="javascript:void(0)">Upload</a>
-                                <a class="big_blue_btn" onClick="javascript:$('#confirm_upload').hide();" href="javascript:void(0)">Close</a>
-                              </div>                                
-                          </div>                  
-                    </div>
-                      
-                    <div id="show_file" style="width:150px;height:40px;background-color:#FFFFFF;">
-                      DROP THE FILE
-                    </div>
-                    <div id="show_file_list" style="display:none;">
-                        <span id="file_task"></span>
-                        <span id="file_updated"></span>
-                        <span id="file_size"></span>                            
-                    </div>
-                     <br/>
-                     <div class="titleTextShow">Show:&nbsp;&nbsp;<span><select class="dd_input brown_bg">
-                     <option>Task</option>
-                     <option>Course</option>
-                     <option>Notes</option>
-                     </select></span></div>
-                     <div class="titleTextKind">Kind</div>
-                     <div class="titleTextUpdated">Updated</div><br/><br/>
-                    <% if @course %>
-                    <% @course.attachments.reverse.each do |a| %>
-                    
-                       <!--tab content-->
-                        <div class="file_content course_tab_content" id="filename_<%= a.id %>">
-                          <div class="course_left"></div>
-                          <div class="course_page_msg_box">
-                            
-                            <div class="msg_big_boxC2">
-                              <div class="msg_box_fullwidth2">
-                                <div class="msg_box_txt blue_bg_msg_txt2 coursemsg_bgc2">
-                                  <div class="staronavatar"><img src="/images/star_up.png" width="36" height="37" /></div>
-                                  <div class="avatar_white_bdrC2">
-                                     <% if @courseMaster %>
-                                     <img  src="https://s3.amazonaws.com/<%=@courseMaster.school.vaults[0].folder%>/avatar_thumb/avatar_<%=@courseMaster.id%>.jpg" />
-                                     <div class="avatar_name"><%=@courseMaster.full_name%></div>
-                                     <% end %>
-                                  </div>
-                                  <div class="titleTextheading">
-                                    <h4 class="name">Assignment Instructions.doc</h4>
-                                    <p><%=a.resource_file_name%> uploaded</p>
-                                    <p>by <%=@courseMaster.full_name%></p>
-                                  </div>
-                                  <div class="titleTextRight"><%=show_kilo_byte(a.resource_file_size) %>KB </div>
-                                  <div class="titleTextRightC2"><%= show_date_format(a.updated_at) %></div>
-                                  <div class="clear"></div>
-                                  <div id="files_hover" class="msg_bottom_linksC2" style="display:none;">
-                                      <div class="like_cmt"> 
-                                        <a href="#" class="files_download blue_bt19px">Download</a> 
-                                        <a href="#" class="blue_bt19px">Share</a> 
-                                        <a href="#" class="files_del blue_bt19px" rel="<%= a.id %>">DEL</a>
-                                      </div>
-                                    </div>
-                                    <div class="clear"></div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div id="file_download" class="add_file" style="display:none;">   
-                            <div id="file_download_data">
-                                <div class="display_text">
-                                  <p>You have downloaded an assignment file
-                                  for review. If you wish to re-upload the file
-                                  at a later time, the name of the file must not
-                                  be modified.</p>
-                                </div>
-                                <div class="display_data">Task:<span id="file_task"><%=a.resource_file_name%></span></div>
-                                <div class="display_data">Original Uploaded By:<span id="file_uploaded_by"><%=@courseMaster.full_name%></span></div>   
-                                <div class="display_data">Original Uploaded On:<span id="file_uploaded_on"></span><%= show_date_format(a.updated_at) %></div>
-                                <div class="display_data">Revision:<span id="file_revision"></span></div>
-                                <div style="float:right">
-                                  <a class="big_blue_btn" onClick="javascript:$('#file_download').hide();" href="javascript:void(0)">OK</a>
-                                </div>                                
-                            </div>                  
-                          </div>
-                        
-                        <!--tab content-->    
-                    <% end %>
-                    <% end %>
-                    
-                    <div class="clear"></div>
-                  </div>
-                  <div id="div_5" class="tab_content hide">
-                   div 5
-                   <div class="clear"></div>
-                  </div>
-                <div id="div_6" class="tab_content hide">
-                  <div class="frm_label small_label">
-                    Participants
-                  </div>
-                  <div class="frm_input">
-                    <input type="text" name="add_people_email[]" class="dd_select brown_bg medium" id="add_course_people" /> 
-                    <input type="button" name="btn_add_people" id="btn_add_people" value="Add" />
-                    <div class="frm_input" id="add_people_container">
-                    </div>
-                  </div>
-                  <div class="frm_label small_label">
-                    &nbsp;
-                  </div>
-                  <div id="course_people" class="frm_input">
-                    <% if @peoples %>
-                      <%= render :partial => "/course/participant_list", :locals => {:peoples=>@peoples, :mode=>"list"} %>
-                    <% end %>
-                  </div>
-                  <div id="course_participant_list" class="hide">
-                    <div style="width:40px;height:10px;float:right;padding:2px;">
-                      <a href="javascript:void(0)" onClick="javascript:$('#course_participant_list').hide();">Close</a>
-                    </div>
-                    <div id="course_participant_list_inner">
-                        Loading...
-                    </div>
-                  </div>
-                  <div class="clear"></div>
-                </div>     
-                </div>
-                     <input type="hidden" name="course_id" id="course_id_hdn" value="<%=@course.id if @course%>" />
-                     <input type="hidden" name="wall_id" id="course_wall_id_hdn" value="<%= @wall.id if @wall && !@wall.nil? %>" />
-                     <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
-                </div>
-              <div class="clear"></div>
+            <div class="course_tab_content">
+              <div class="right_form_containerr" id="load_data">
+                  <!-- Data load here-->     
+                <% if defined?(course_new) && course_new == true %>
+                  <%= render :partial=>"course/setup" %>
+                <% else %>
+                  <%= render :partial=>"course/show_course" %>
+                <% end %>
+              </div>
+              <input type="hidden" name="course_id" id="course_id_hdn" value="<%=@course.id if @course%>" />
+              <input type="hidden" name="wall_id" id="course_wall_id_hdn" value="<%= @wall.id if @wall && !@wall.nil? %>" />
+              <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
+            </div>
+            <div class="clear"></div>
 			  </div>
             </div>
           </div>
@@ -436,7 +73,7 @@ else {setStorage("course_section", "Section");}
 
 
 $(document).ready(function(){
-  $("#menu5").hide();
+  /*$("#menu5").hide();
   <% if @course_owner %>
   var current_user = <%= user_session[:profile_id] %>
   var course_owner = <%= @course_owner.profile_id %>
@@ -474,7 +111,7 @@ $(document).ready(function(){
      $("#menu5").hide();
      
   <% end %>
-  
+  */
   $(".field_prompt").hide();
   
   // Field instructions
@@ -488,10 +125,44 @@ $(document).ready(function(){
   });
   
   //Toggle Tabs
-  $(".menu_container a").unbind('click').bind('click', function(){
-    idx = $(this).attr("value");
+  /*course_id = $("#course_id_hdn").val();          
+  var data = {id:course_id};
+  $("#load_data").load("/course/show_course", {type: 'POST',data:data},function(response, status, xhr) {
+    if(response)
+    {
+       $("#load_data").html(response); 
+    }
+    if (status == "error") {
+       var msg = "Sorry but there was an error: ";
+       alert(msg);
+    }
+  });*/
    
-    $(".menu_container a").removeClass("active");
+   $(".menu_container").delegate('a', 'click', function(){
+    showSpinner(true);
+    idx = $(this).attr("value");
+    course_id = $("#course_id_hdn").val();          
+      var data = {value:idx,id:course_id};
+      $("#load_data").load("/course/show_course",data, function(response, status, xhr) {
+      if(response)
+      {
+        $("#load_data").html(response); 
+        showSpinner(false);
+      }
+      if (status == "error")
+      {
+        var msg = "Sorry but there was an error: ";
+        alert(msg);
+      }
+      });
+
+      is_page_change = $("#hdn_is_page_change").val();
+      if(is_page_change == "true") {
+        save_course(this.id);
+      }
+      
+      
+   /* $(".menu_container a").removeClass("active");
     $(this).addClass("active");
     for(i=0;i<7;i++){
       //---- Set all menu as De-Selected
@@ -523,7 +194,7 @@ $(document).ready(function(){
     is_page_change = $("#hdn_is_page_change").val();
     if(is_page_change == "true") {
       save_course(this.id);
-    }
+    }*/
   });
   
       //Add File by button
@@ -533,7 +204,7 @@ $(document).ready(function(){
          $("#show_file_data").hide();
       });
   
-      var file_uploader = new plupload.Uploader({
+     /* var file_uploader = new plupload.Uploader({
         runtimes : 'html5',
         browse_button : 'pickfiles',
         container: 'pickfiles',
@@ -566,7 +237,7 @@ $(document).ready(function(){
         $("#file_revision").text(obj.attachment.id);
         $('#show_file_uploading').html("");
         showSpinner(false);
-    });
+    });*/
         
         
    
@@ -754,6 +425,7 @@ $(document).ready(function(){
     });
   });
   
+  //Remove outcome nodes
   $(".files_del").click(function(){
     showSpinner(true);
     file_id=$(this).attr("rel");
@@ -772,7 +444,6 @@ $(document).ready(function(){
   
   $(".files_download").click(function(){
     $("#file_download").show();
-  
   });
   
   //Remove category nodes
@@ -857,85 +528,6 @@ $(document).ready(function(){
   });
   
   //Upload doc file
-  
-  //Uploader task image upload
-  var add_file_uploader = new plupload.Uploader({
-    runtimes: 'html5',
-    drop_element: 'show_file',
-    container: 'show_file',
-    max_file_size: '5mb',
-    resize : {width : 125, height : 125},
-    url: '/course/add_file',
-    multipart_params: {
-      'authenticity_token' : token,  //For csrf-authentication
-      'school_id' : $("#course_school_id_hdn").val(),
-      'id' : $("#course_id_hdn").val()
-    }
-  });
-  
-  add_file_uploader.init();
-  
-  add_file_uploader.bind('FilesAdded', function(up, files) {
-    showSpinner(true);
-    add_file_uploader.start();
-  });
-  
-  add_file_uploader.bind('UploadProgress', function(up, file) {
-    $('#show_file').html('<center>Uploading..</center>');
-  });
-  
-  add_file_uploader.bind('FileUploaded', function(up, file, info) {
-    var obj = jQuery.parseJSON( info.response);
-    $("#show_file").text("DROP THE FILE");
-    $("#show_file_list").show();
-    $("#file_task").text(obj.attachment.resource_file_name);
-    $("#file_updated").text(obj.attachment.updated_at);
-    $("#file_size").text(obj.attachment.resource_file_size);
-    showSpinner(false);
-  });
-  
-  
-  //Uploader task image upload
-  var course_uploader = new plupload.Uploader({
-    runtimes: 'html5',
-    drop_element: 'course_image',
-    container: 'course_image',
-    max_file_size: '5mb',
-    resize : {width : 125, height : 125},
-    url: '/course/save',
-    multipart_params: {
-      'authenticity_token' : token,  //For csrf-authentication
-      'school_id' : $("#course_school_id_hdn").val(),
-      'id' : $("#course_id_hdn").val()
-    },
-    filters : [
-      {title : "Image files", extensions : "jpg,gif,png,JPG,PNG,GIF,JPEG"}
-    ]
-  });
-  
-  course_uploader.init();
-  
-  course_uploader.bind('FilesAdded', function(up, files) {
-    showSpinner(true);
-    course_uploader.settings.multipart_params.course = getStorage("course_name");
-    course_uploader.settings.multipart_params.code = getStorage("course_code");
-    course_uploader.settings.multipart_params.section = getStorage("course_section");
-    course_uploader.settings.multipart_params.descr = getStorage("course_descr");
-    course_uploader.start();
-  });
-  
-  course_uploader.bind('UploadProgress', function(up, file) {
-    $('#course_image').html('<center>Uploading..</center>');
-  });
-  
-  course_uploader.bind('FileUploaded', function(up, file, info) {
-    var obj = jQuery.parseJSON( info.response);
-    courseImg = $('<img width="156" height="156">').attr('src',obj.image_url);
-    course_uploader.settings.multipart_params.id = obj.course.id;
-    $('#course_id_hdn').val(obj.course.id);
-    $('#course_image').html(courseImg);
-    showSpinner(false);
-  });
 });
 
 //Add an outcome

@@ -45,7 +45,7 @@ class CourseController < ApplicationController
     respond_to do |wants|
       wants.html do
         if request.xhr?
-          render :partial => "/course/form"
+          render :partial => "/course/form" ,:locals=>{:course_new=>true}
         else
           render
         end
@@ -67,15 +67,16 @@ class CourseController < ApplicationController
       :include => [:participants], 
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", @course.id]
       )
+      
     @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
     @course_owner = Participant.find(:first, :conditions=>["object_id = ? AND profile_type = 'M' AND object_type='Course'",params[:id]])
     respond_to do |wants|
       wants.html do
         if request.xhr?
-          render :partial => "/course/form"
+          render :partial => "/course/form",:locals=>{:course_new=>false}
         else
-          render
+           
         end
       end
     end
@@ -250,19 +251,48 @@ class CourseController < ApplicationController
     end
   end
   
-  def send_email
-      if params[:user] && !params[:user].nil?
-        UserMailer.registration_confirmation(params[:user]).deliver
-        render :text=> "Mail send successfully!!"
-      end
-  end
+  def show_course
+    @course = Course.find_by_id(params[:id])
+    @courseMaster = Profile.find(
+      :first, 
+      :include => [:participants], 
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", @course.id]
+      )
+    if params[:value] && !params[:value].nil?
+      if params[:value] == "1"
+        render:partial => "/course/show_course"
+      else 
+        if params[:value] == "2"
+          render :partial => "/course/setup"
+        else 
+          if params[:value] == "3"
+            render :partial => "/course/forum"
+          else 
+            if params[:value] == "4"
+              render :partial => "/course/files"       
+            else 
+              if params[:value] == "5"
+                render :partial => "/course/stats"  
+                  else
+                    if params[:value] == "6"
+                    render :partial => "/course/member_list" 
+                  end                    
+              end  
+            end
+          end
+        end 
+      end 
+     else
+       render :partial => "/course/setup",:locals=>{course:@course}         
+     end    
+   end     
   
   def add_file
     school_id = params[:school_id]
     course_id = params[:id]
     @vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
     if @vault
-      @attachment = Attachment.new(:resource=>params[:file], :object_type=>"Course", :object_id=>course_id, :school_id => school_id)
+      @attachment = Attachment.new(:resource=>params[:file], :object_type=>"Course", :object_id=>course_id, :school_id=>school_id)
       if @attachment.save
         @url = @attachment.resource.url
         render :text => {"attachment" => @attachment, "resource_url" => @url}.to_json

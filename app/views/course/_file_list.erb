@@ -1,0 +1,53 @@
+<div class="file_content course_tab_content" id="filename_<%= a.id %>">
+  <div class="course_left"></div>
+  <div class="course_page_msg_box">
+    <div class="msg_big_boxC2">
+      <div class="msg_box_fullwidth2">
+        <div class="msg_box_txt blue_bg_msg_txt2 coursemsg_bgc2">
+          <div class="staronavatar"><img src="/images/star_up.png" width="36" height="37" /></div>
+          <div class="avatar_white_bdrC2">
+             <% if @courseMaster %>
+             <img  src="https://s3.amazonaws.com/<%=@courseMaster.school.vaults[0].folder%>/avatar_thumb/avatar_<%=@courseMaster.id%>.jpg" />
+             <div class="avatar_name"><%=@courseMaster.full_name%></div>
+             <% end %>
+          </div>
+          <div class="titleTextheading">
+            <h4 class="name">Assignment Instructions.doc</h4>
+            <p><%=a.resource_file_name%> uploaded</p>
+            <p>by <%=@courseMaster.full_name%></p>
+          </div>
+          <div class="titleTextRight"><%=show_kilo_byte(a.resource_file_size) %>KB </div>
+          <div class="titleTextRightC2"><%= show_date_format(a.updated_at) %></div>
+          <div class="clear"></div>
+          <div id="files_hover" class="msg_bottom_linksC2" style="display:none;">
+              <div class="like_cmt"> 
+                <a href="#" class="files_download blue_bt19px">Download</a> 
+                <a href="#" class="blue_bt19px">Share</a> 
+                <a href="#" class="files_del blue_bt19px" rel="<%= a.id %>">DEL</a>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<div id="file_download" class="add_file" style="display:none;">   
+  <div id="file_download_data">
+      <div class="display_text">
+        <p>You have downloaded an assignment file
+        for review. If you wish to re-upload the file
+        at a later time, the name of the file must not
+        be modified.</p>
+      </div>
+      <div class="display_data">Task:<span id="file_task"><%=a.resource_file_name%></span></div>
+      <div class="display_data">Original Uploaded By:<span id="file_uploaded_by"><%=@courseMaster.full_name%></span></div>   
+      <div class="display_data">Original Uploaded On:<span id="file_uploaded_on"></span><%= show_date_format(a.updated_at) %></div>
+      <div class="display_data">Revision:<span id="file_revision"></span></div>
+      <div style="float:right">
+        <a class="big_blue_btn" onClick="javascript:$('#file_download').hide();" href="javascript:void(0)">OK</a>
+      </div>                                
+  </div>                  
+</div>
+
+<!--tab content-->    

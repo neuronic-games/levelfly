@@ -1,0 +1,115 @@
+<div id="div_2" class="tab_content">
+                    <div class="course_left">
+                      <div class="course_profile_image" id="course_image">
+                      <%# if @course.image_file %>
+                        <img id="course_thumb" src='<%#= @course.image_file %>' width="156" height="156" alt="Course image" />
+                      <%#else%>
+                        <img class="image_icon_drop_target" src="/images/course_img_drop.png" />
+                      <%#end%>
+                      </div>
+                    </div>
+                    <div class="course_right" >
+                      <div class="course_detailbox">
+                        <div class="course_field_box1">
+
+                          <div class="catagory_viewfield field_label">COURSE CODE
+                            <div class="dd_bg brown_bg">
+                             <input type="text" name="course_code" id="course_code" value="<%=@course.code if @course%>" class="dd_input brown_bg prompted" style="text-transform:uppercase;" prompt="course_code_prompt" style="width:100px;" onBlur='javascript:setStorage("course_code", $(this).val());$("#hdn_is_page_change").val(true);' />
+                             -
+                             <input type="text" name="course_section" id="course_section" value="<%=@course.section if @course%>" class="small dd_input brown_bg prompted" prompt="course_section_prompt" style="width:50px;" onBlur='javascript:setStorage("course_section", $(this).val());$("#hdn_is_page_change").val(true);' />
+                            </div>
+                          </div>
+
+                          <div class="course_viewfield field_label">COURSE NAME
+                            <div class="dd_bg brown_bg">
+                              <input type="text" name="course_name" id="course_name" class="dd_select brown_bg" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("course_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+                            </div>
+                          </div>
+
+                          <div id="course_code_prompt" class="field_prompt break gap">
+                            Enter a course code, such as ENG101
+                          </div>
+                          <div id="course_section_prompt" class="field_prompt break gap">
+                            Enter an optional course section, such as 001
+                          </div>
+
+                        </div>
+                        <div class="clear"></div>
+                        
+                      </div>
+                  </div>
+                  <div class="clear"></div>
+
+                  <!-- Task totals -->
+                  <div class="page_block">
+                    <div class="page_block_left">
+                      <span class="field_title">Estimated Task Totals</span>
+                      <span class="field_notes">
+                        Based on the number and rating of tasks, each will be given a default XP value.
+                      </span>
+                    </div>
+                  
+                    <div class="page_block_right">
+                      <div class="field_label">Low<br /><input type="text" name="task_low" id="task_low" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" value="<%=@course.tasks_low if @course%>" onBlur='javascript:setStorage("task_low", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
+                      <div class="field_label">Medium<br /><input type="text" name="task_medium" id="task_medium" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" value="<%=@course.tasks_medium if @course%>" onBlur='javascript:setStorage("task_medium", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
+                      <div class="field_label">High<br /><input type="text" name="task_high" value="<%=@course.tasks_high if @course%>" id="task_high" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" onBlur='javascript:setStorage("task_high", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
+                      
+                      <div id="course_tasks_prompt" class="field_prompt">
+                        Provide your best guess on how many Low, Medium and High rates tasks you will have for the course
+                      </div>
+                      
+                    </div>
+                  </div> <!-- End page_block -->
+                  
+                  <!-- Outcomes -->
+                    <div class="page_block">
+                      <div class="page_block_left field_title">
+                        Outcomes
+                      </div>
+                    
+                      <div class="page_block_right">
+                        <div class="add_outcome_bt">
+                          <a class="blue_bt19px" onclick="addOutcome();">ADD OUTCOME</a> 
+                        </div>
+                        
+                        <% if @course %>
+                          <%  @course.outcomes.each do |o| %>
+                            <%= render :partial => "/course/outcomes_list", :locals => {:o=>o} %>
+                           <% end %>
+                        <% end %>
+                        <div>
+                          <div id="add_outcome_container">
+                            <!-- New outcomes will be added here -->
+                          </div> 
+                          <div>
+                            Please consider adding your own outcomes. The locked outcomes are shared and cannot be changed.
+                          </div>
+                        </div>
+                      </div>
+                    </div> <!-- End page_block -->
+
+                  <!-- Grading Categories -->
+                    <div class="page_block">
+                      <div class="page_block_left field_title">
+                         Grading Categories
+                      </div>
+                    
+                      <div class="page_block_right">
+                        <div align="right" class="add_outcome_bt">
+                          <a class="blue_bt19px" onclick="addCategory();">ADD CATEGORY</a> 
+                        </div>
+                        <% if @course %>
+                          <% @course.categories.each do |c| %>
+                          <%= render :partial => "/course/category_list", :locals => {:c=>c} %>
+                          <% end %>
+                        <% end %>
+                        <div id="add_category_container">
+                          <!-- New categories added here -->
+                        </div>
+                        <div style="margin:10px;">
+                          Please add a new grading category and the percentage of the final grade.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              
