@@ -9,7 +9,7 @@ class CourseController < ApplicationController
       @courses = Course.find(
         :all,
         :include => [:participants], 
-        :conditions => ["participants.profile_id = ? AND (courses.name LIKE ? OR courses.code LIKE ?)", @profile.id, search_text,  search_text]
+        :conditions => ["upper(courses.name) LIKE ? OR upper(courses.code) LIKE ?", search_text.upcase,  search_text.upcase]
       )
     else
       if @profile
