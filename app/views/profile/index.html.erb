@@ -274,7 +274,6 @@ $(window).load(function() {
         $("#"+item_type_back).attr("src", "/images/wardrobe/" + _avatar[item_type_back] + ".png");
       }
       
-      saveAvatar();
       // Refresh the current list of options in case option stat has changed
       showSubcategoryStat($this);
     } else {
@@ -305,7 +304,6 @@ $(window).load(function() {
     $("#head").attr("src", "/images/wardrobe/"+head+".png");
     _avatar["head"] = head;
     _avatar["body"] = "avatar/body/body_"+color;
-    saveAvatar();
   });
 
   // Hair color change
@@ -323,7 +321,6 @@ $(window).load(function() {
     $("#hair_back").attr("src", "/images/wardrobe/"+hair+"_back.png");
     _avatar["hair"] = hair;
     _avatar["hair_back"] = hair+"_back";
-    saveAvatar();
   });
   
   $.getJSON("/profile/show",
@@ -558,7 +555,9 @@ function saveAvatar() {
     var base64 = dataURL.replace(/^data:image\/(png|jpg);base64,/, '') ;
     
     //Save avatar data
-    $.ajax({ //Previously was with getJson but having problem of too many parameters in request URI so switched to $.ajax with post
+    $.ajax({ 
+      // Previously was with getJson but having problem of too many parameters 
+      // in request URI so switched to $.ajax with post
       url: "/profile/save",
       data: { id: _profile.id, profile: _profile, avatar: _avatar, avatar_img: base64 }, 
       type: 'post',
@@ -567,6 +566,7 @@ function saveAvatar() {
       success: function(data){
         _profile = data.profile;
         _avatar = data.avatar;
+        $("#my_avatar_image").attr("src", _profile.image_file_name);
       }
     }); //Ajax
   }); //loadCanvasImages
