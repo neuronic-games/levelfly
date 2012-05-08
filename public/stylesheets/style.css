@@ -185,7 +185,7 @@ body {
   height:80px;
   width:80px;
   margin-top:-9px;
-  margin-left: -7px;
+  margin-left: -10px;
 }
 .header .avatar_detail {
   float:right;
@@ -530,7 +530,7 @@ a.icon_stats_active {
 }
 .avatar_white_bdr  img{
   margin-top: -9px;
-  margin-left: -7px;
+  margin-left: -10px;
   width:80px;
   height:80px;
 }
