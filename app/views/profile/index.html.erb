@@ -202,10 +202,16 @@ $(window).load(function() {
     changeName();
   });
   
+  // Save full name after entry by user
   $("#full_name_input").blur(function () {
     $("#full_name").html($("#full_name_input").val());
     $("#full_name_input").hide();
     $("#full_name").show();
+    var new_data = $("#full_name_input").val();
+    if (_profile.full_name != new_data) {
+      _profile.full_name = new_data;
+      saveName();
+    }
   });
   
   // Click a wardrobe option
@@ -599,6 +605,19 @@ function changeMajor() {
     $('#dialog').html(data);
   })
   .success(function() { showDialog(true); });
+}
+
+function saveName() {
+  $.ajax({
+    url: "/profile/save_meta",
+    data: { id: _profile.id, profile: _profile }, 
+    type: 'post',
+    dataType: 'json',
+    error: function(){alert("Error");},
+    success: function(data){
+      _profile = data.profile;
+    }
+  }); //Ajax
 }
 
 var _last_status_lev1 = null;

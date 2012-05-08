@@ -47,6 +47,21 @@ class ProfileController < ApplicationController
     render :text => wardrobe_items.to_json
   end
   
+  def save_meta
+    id = params[:id]
+    profile = params[:profile]
+    @profile = Profile.find(id)
+
+    @profile.full_name = profile["full_name"]
+    @profile.major_id = profile["major_id"]
+    @profile.school_id = profile["school_id"]
+    @profile.save
+    
+    publish_profile(@profile)
+    
+    render :text => {"profile"=>@profile}.to_json
+  end
+  
   def save
     id = params[:id]
     profile = params[:profile]
@@ -95,7 +110,9 @@ class ProfileController < ApplicationController
      file_name = "avatar_#{user_session[:profile_id]}.jpg"
      Attachment.aws_upload(@profile.school_id, file_name, Base64.decode64(params[:avatar_img]),true)
     end
-    user_session[:profile_id] = @profile.id
+
+    publish_profile(@profile)
+    
     render :text => {"profile"=>@profile, "avatar"=>@avatar}.to_json
   end
   
@@ -131,6 +148,13 @@ class ProfileController < ApplicationController
       @profile = Profile.find(params[:profile_id])
 	 end
       render :partial => "/profile/user_profile", :locals => {:profile => @profile}
+  end
+  
+  private
+  
+  def publish_profile(profile)
+    user_session[:profile_id] = @profile.id
+    user_session[:profile_name] = @profile.full_name
   end
 
 end
