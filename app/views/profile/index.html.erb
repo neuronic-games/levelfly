@@ -114,11 +114,11 @@ var _level_meter =  new Array(100, 150, 200, 350, 400, 500, 550, 700, 750, 900);
 
 OC = {
   SubCategory: {
-    data: null,
+    data: undefined,
     cursor: 0,
     section_size: 5,
     depth: 1,
-    parent_item_type: null,
+    parent_item_type: undefined,
     
     load: function(data, parent_item_type) {
       this.data = data || [];
@@ -243,7 +243,7 @@ $(window).load(function() {
       if (model.image_file == _avatar[model.item_type]) {
         // Already applied? Remove this item, unless it is a required item
         if (_itemRequired.indexOf(model.item_type) == -1) {
-          _avatar[model.item_type] = "null";
+          _avatar[model.item_type] = undefined;
         }
       } else {
         // Display the item on the avatar
@@ -312,7 +312,7 @@ $(window).load(function() {
     var color = $(this).attr("value");
     hair = hair.substr(0, hair.length-1) + color;
     var facial_hair = _avatar.facial_hair;
-    if (facial_hair != 'null') {
+    if (facial_hair != undefined) {
       facial_hair = facial_hair.substr(0, facial_hair.length-1) + color;
       $("#facial_hair").attr("src", "/images/wardrobe/"+facial_hair+".png"); 
       _avatar["facial_hair"] = facial_hair;
@@ -421,7 +421,7 @@ function getSubCategorySubList(curIdx, dir, skip) {
 }
 
 function showAvatar() {
-  if (_profile.full_name == null) {
+  if (_profile.full_name == undefined) {
     $("#full_name").html("ENTER NAME");
   } else {
     $("#full_name").html(_profile.full_name);
@@ -436,15 +436,15 @@ function showAvatar() {
     $("#school").html(_school.code);
   }
   
-  if(_avatar.points ==null) {
+  if(_avatar.points ==undefined) {
     _avatar.points = 0;
   }
   
-  if(_avatar.badge_count ==null) {
+  if(_avatar.badge_count ==undefined) {
     _avatar.badge_count = 0;
   }
 
-  if(_avatar.level ==null) {
+  if(_avatar.level ==undefined) {
     _avatar.level = 1;
   }
 
@@ -472,6 +472,8 @@ function showAvatar() {
   $("#hair").attr("src", "/images/wardrobe/"+_avatar.hair+".png");
   $("#hat").attr("src", "/images/wardrobe/"+_avatar.hat+".png");
   $("#prop").attr("src", "/images/wardrobe/"+_avatar.prop+".png");
+
+  $("#my_avatar_image").attr("src", _profile.image_file_name);
 }
 
 function modifyAvatar() {
@@ -620,9 +622,9 @@ function saveName() {
   }); //Ajax
 }
 
-var _last_status_lev1 = null;
-var _last_status_lev2 = null;
-var _last_status_lev3 = null;
+var _last_status_lev1 = undefined;
+var _last_status_lev2 = undefined;
+var _last_status_lev3 = undefined;
 
 // Show hide wardrobe subcategory menu items (with slide effect)
 function wardrobeSubCategorySlide(action,depth) {

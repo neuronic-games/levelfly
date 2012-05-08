@@ -32,9 +32,10 @@ class ProfileController < ApplicationController
       avatar = new_profile.avatar.dup
       avatar.profile_id = @profile.id
       avatar.save
-      publish_profile(@profile)
     end
     
+    publish_profile(@profile)
+
     render :text => {"profile"=>@profile, "avatar"=>@profile.avatar, "new_profile"=>new_profile, "major"=>@profile.major, "school"=>@profile.school}.to_json
   end
 
