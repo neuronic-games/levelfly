@@ -67,10 +67,10 @@ class CourseController < ApplicationController
       :include => [:participants], 
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", @course.id]
       )
-      
+    @course_owner = Participant.find(:first, :conditions=>["object_id = ? AND profile_type = 'M' AND object_type='Course'",params[:id]])   
     @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
-    @course_owner = Participant.find(:first, :conditions=>["object_id = ? AND profile_type = 'M' AND object_type='Course'",params[:id]])
+    
     respond_to do |wants|
       wants.html do
         if request.xhr?
@@ -253,11 +253,17 @@ class CourseController < ApplicationController
   
   def show_course
     @course = Course.find_by_id(params[:id])
+    @peoples = Profile.find(
+      :all, 
+      :include => [:participants], 
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @course.id]
+    )
     @courseMaster = Profile.find(
       :first, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", @course.id]
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", params[:id]]
       )
+    
     if params[:value] && !params[:value].nil?
       if params[:value] == "1"
         render:partial => "/course/show_course"
