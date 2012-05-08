@@ -256,14 +256,14 @@ class CourseController < ApplicationController
     @peoples = Profile.find(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @course.id]
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", params[:id]]
     )
     @courseMaster = Profile.find(
       :first, 
       :include => [:participants], 
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", params[:id]]
       )
-    
+    @groups = Group.find(:all, :conditions=>["course_id = ?",params[:id]])
     if params[:value] && !params[:value].nil?
       if params[:value] == "1"
         render:partial => "/course/show_course"
@@ -272,7 +272,7 @@ class CourseController < ApplicationController
           render :partial => "/course/setup"
         else 
           if params[:value] == "3"
-            render :partial => "/course/forum"
+            render :partial => "/course/forum",:locals=>{:groups=>@groups}
           else 
             if params[:value] == "4"
               render :partial => "/course/files"       
@@ -301,11 +301,9 @@ class CourseController < ApplicationController
       @attachment = Attachment.new(:resource=>params[:file], :object_type=>"Course", :object_id=>course_id, :school_id=>school_id)
       if @attachment.save
         @url = @attachment.resource.url
-        render :text => {"attachment" => @attachment, "resource_url" => @url}.to_json
-      else
-        render :nothing => true
       end
     end
+    render :partial => "/course/file_list" ,:locals=>{:a => @attachment}
   end
   
 end

@@ -1667,14 +1667,11 @@ margin-left:33px;
   font-weight:bold;
   text-align:left;
   letter-spacing:1px;
-  margin-top:14px;
 }
 #show_file_data .display_data {
     font-size: 18px;
     font-weight: bold;
-    height: 10px;
-    margin-top: 25px;
-     margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 #file_download_data .display_data {
     font-size: 18px;
@@ -2149,4 +2146,16 @@ div .coursemsg_bgc2 {
 .user_profile > .input {
   color: white;
   background-color: black;
+}
+
+.btn_drop_file {
+    border: 1px dashed #5A95AD;
+    color: #E2E4EB;
+    font-weight: bold;
+    height: 40px;
+    margin: 20px 0 20px 29px;
+    position: relative;
+    text-align: center;
+    width: 578px;
+    padding: 23px 0 0;
 }

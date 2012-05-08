@@ -21,32 +21,63 @@
       </div>                                
     </div>                  
   </div>
-    
-  <div id="show_file" style="width:150px;height:40px;background-color:#FFFFFF;">
-    DROP THE FILE
-  </div>
-  <div id="show_file_list" style="display:none;">
-      <span id="file_task"></span>
-      <span id="file_updated"></span>
-      <span id="file_size"></span>                            
-  </div>
-   <br/>
+  <br/>
    <div class="titleTextShow">Show:&nbsp;&nbsp;<span><select class="dd_input brown_bg">
    <option>Task</option>
    <option>Course</option>
    <option>Notes</option>
    </select></span></div>
+     
+  <div id="show_file" class="btn_drop_file">
+    DROP FILE HERE
+  </div>
    <div class="titleTextKind">Kind</div>
    <div class="titleTextUpdated">Updated</div><br/><br/>
-  <% if @course %>
-  <% @course.attachments.reverse.each do |a| %>
-    <%= render :partial => "/course/file_list", :locals => {:a=>a} %>               
-  <% end %>
-  <% end %>
+   <div id="load_files">
+    <% if @course %>
+    <% @course.attachments.reverse.each do |a| %>
+      <%= render :partial => "/course/file_list", :locals => {:a=>a} %>               
+    <% end %>
+    <% end %>
+   </div>
   <div class="clear"></div>
 </div>
 <script type="text/javascript">
   $(function(){
+  
+       //Remove files
+      $(".files_del").click(function(){
+        showSpinner(true);
+        file_id=$(this).attr("rel");
+        $("#filename_"+file_id).remove();
+        var dataString = 'files='+file_id;
+        $.ajax({
+           type: "POST",  
+           url: "/course/remove_course_files",  
+           data: dataString,
+           dataType:"json",
+           success: function(data) {
+             showSpinner(false);
+           }
+        });
+      });
+      
+      $(".files_download").click(function(){
+        $("#file_download").show();
+      });
+      
+     //For files hover div
+      $(".file_content").hover(
+        function () {
+          id = $(this).attr("id");
+          $("#"+id+" #files_hover").show();
+        }, 
+        function () {
+          id = $(this).attr("id");
+          $("#"+id+" #files_hover").hide();
+        }
+      );
+    
     //Uploader task image upload
     var add_file_uploader = new plupload.Uploader({
       runtimes: 'html5',
@@ -74,13 +105,45 @@
     });
     
     add_file_uploader.bind('FileUploaded', function(up, file, info) {
-      var obj = jQuery.parseJSON( info.response);
-      $("#show_file").text("DROP THE FILE");
+      showSpinner(true);
       $("#show_file_list").show();
-      $("#file_task").text(obj.attachment.resource_file_name);
-      $("#file_updated").text(obj.attachment.updated_at);
-      $("#file_size").text(obj.attachment.resource_file_size);
+      $("#show_file").text("DROP THE FILE");
+      $("#load_files").prepend(info.response);
       showSpinner(false);
+    });
+    
+    
+    var file_uploader = new plupload.Uploader({
+        runtimes : 'html5',
+        browse_button : 'pickfiles',
+        container: 'pickfiles',
+        max_file_size : '10mb',
+        url : '/course/add_file',
+        multipart_params: {
+          'authenticity_token' : token,  //For csrf-authentication
+          'school_id' : $("#course_school_id_hdn").val(),
+          'id' : $("#course_id_hdn").val()
+        }
+      });
+
+      file_uploader.init();
+      
+      file_uploader.bind('FilesAdded', function(up, files) {
+         showSpinner(true);
+         file_uploader.start();
+      });
+
+      file_uploader.bind('UploadProgress', function(up, file) {
+        $('#show_file_uploading').html('<center>Uploading..</center>');
+      });
+      
+      
+     file_uploader.bind('FileUploaded', function(up, file, info) {
+        showSpinner(true);
+        $('#confirm_upload').hide();
+        $("#show_file").text("DROP THE FILE");
+        $("#load_files").prepend(info.response);
+        showSpinner(false);
     });
   });
 </script>

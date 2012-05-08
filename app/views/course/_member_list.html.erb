@@ -78,7 +78,7 @@
             partcipant_html = '<div class="people_name">' + profile_name + '</div>';
             partcipant_html += '<div class="people_delete"><a href="javascript:void(0)" rel="'+profile_id+'">Delete</a></div>';
             participant_node.append(partcipant_html);
-            $("#course_people").append(participant_node);
+            $("#course_people ul").append(participant_node);
             $("#course_participant_list").hide();
             $("#hdn_is_page_change").val(true);
           } else {
@@ -95,7 +95,7 @@
     }
   });
   //Delete participant 
-  $(".people_node li").delegate(".people_delete a", "click", function(){
+  $(".people_node li .people_delete a").delegate("", "click", function(){
     showSpinner(true);
     profile_id = $(this).attr("rel");
     course_id = $("#course_id_hdn").val(); 
