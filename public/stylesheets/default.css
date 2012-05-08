@@ -223,7 +223,7 @@
   color:#71B6CF;
 }
 
-.color_palette {
+/*.color_palette {
   position:absolute;
   width:270px;
   left:320px;
@@ -289,7 +289,7 @@
 
 .color_palette #hair_color_5 {
   background-color:#030000; 
-}
+}*/
 
 .clickable {
   cursor: pointer;

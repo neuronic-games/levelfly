@@ -1,4 +1,5 @@
 class ProfileController < ApplicationController
+  layout 'main'
   before_filter :authenticate_user!
   
   def index
@@ -10,19 +11,29 @@ class ProfileController < ApplicationController
       user_session[:profile_id] = @profile.id
     end
     
-    new_profile = false
+    new_profile = nil
     
     if @profile.nil?
       if user_session[:profile_id].blank?
-        @profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
-        new_profile = true
+        new_profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
       else
         @profile = Profile.find_by_id(user_session[:profile_id])
         if @profile.nil?
-          @profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
+          new_profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
           new_profile = true
         end
       end
+    end
+    
+    if new_profile
+      @profile = new_profile.dup
+      @profile.user_id = current_user.id
+      @profile.code = nil
+      @profile.save
+      avatar = new_profile.avatar.dup
+      avatar.profile_id = @profile.id
+      avatar.save
+      user_session[:profile_id] = @profile.id
     end
     
     render :text => {"profile"=>@profile, "avatar"=>@profile.avatar, "new_profile"=>new_profile, "major"=>@profile.major, "school"=>@profile.school}.to_json

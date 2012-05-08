@@ -289,7 +289,7 @@ class CourseController < ApplicationController
         end 
       end 
      else
-       render :partial => "/course/setup",:locals=>{course:@course}         
+       render :partial => "/course/setup",:locals=>{course=>@course}         
      end    
    end     
   
