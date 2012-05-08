@@ -19,10 +19,9 @@
               
             <div class="course_tabs menu_container" align="right">
               <a href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><span class="task_tab">Course</span></a>
-              <!-- <a href="javascript:void(0)"  id="menu2" value="2" class="tab_close" ><span class="task_tab">Setup</span></a> -->
               <a href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><span class="task_tab">Forums</span></a>
               <a href="javascript:void(0)"  id="menu4" value="4" class="tab_close"><span class="task_tab">Files</span></a>
-              <!-- <a href="javascript:void(0)"  id="menu5" value="5" class="tab_close" ><span class="task_tab">Stats</span></a> -->
+              <a href="javascript:void(0)"  id="menu5" style="display:none;" value="5" class="tab_close" ><span class="task_tab">Stats</span></a>
             </div>
                       
             <div class="course_tab_content">
@@ -73,45 +72,21 @@ else {setStorage("course_section", "Section");}
 
 
 $(document).ready(function(){
-  /*$("#menu5").hide();
+
+  <% if defined?(course_new) && course_new == true %>
+      $("#menu1").addClass("tab_close");
+      $("#menu1").removeClass("tab_open");
+  <% end %>
+  
   <% if @course_owner %>
   var current_user = <%= user_session[:profile_id] %>
   var course_owner = <%= @course_owner.profile_id %>
-  if(current_user == course_owner)
+  if(current_user != course_owner)
   {
-     $("#div_1").addClass("tab_content hide");
-     $("#div_1").removeClass("form_container1");
-     $("#div_2").addClass("form_container1");
-     $("#div_2").removeClass("tab_content hide");
-     $("#menu1").removeClass("tab_open");
-     $("#menu1").addClass("tab_close");
-     $("#menu2").removeClass("tab_close");
-     $("#menu2").addClass("tab_open");
-     $("#menu5").hide();
-  } 
-  else
-  {
-     $("#div_1").addClass("form_container1");
-     $("#div_1").removeClass("tab_content hide");
-     $("#div_2").addClass("tab_content hide");
-     $("#div_2").removeClass("form_container1");
-     $("#menu2").hide();
-     $("#menu5").show();
-  }  
-  <%else%>
-  
-     $("#div_1").addClass("tab_content hide");
-     $("#div_1").removeClass("form_container1");
-     $("#div_2").addClass("form_container1");
-     $("#div_2").removeClass("tab_content hide");
-     $("#menu1").removeClass("tab_open");
-     $("#menu1").addClass("tab_close");
-     $("#menu2").removeClass("tab_close");
-     $("#menu2").addClass("tab_open");
-     $("#menu5").hide();
-     
+     $("#menu5").css("display","block");
+  }     
   <% end %>
-  */
+ 
   $(".field_prompt").hide();
   
   // Field instructions
@@ -125,22 +100,28 @@ $(document).ready(function(){
   });
   
   //Toggle Tabs
-  /*course_id = $("#course_id_hdn").val();          
-  var data = {id:course_id};
-  $("#load_data").load("/course/show_course", {type: 'POST',data:data},function(response, status, xhr) {
-    if(response)
-    {
-       $("#load_data").html(response); 
-    }
-    if (status == "error") {
-       var msg = "Sorry but there was an error: ";
-       alert(msg);
-    }
-  });*/
-   
-   $(".menu_container").delegate('a', 'click', function(){
+   $(".menu_container a").delegate('', 'click', function(){
     showSpinner(true);
     idx = $(this).attr("value");
+    
+    for(i=0;i<7;i++){
+      //---- Set all menu as De-Selected
+     
+      if(document.getElementById("menu"+(i+1))!=null){
+        document.getElementById("menu"+(i+1)).className = "tab_close";
+      }
+      if(idx != i){
+        $("#div_"+i).hide();
+      }
+    }
+ 
+     //---- Selected menu will highlighted
+    if(document.getElementById("menu"+idx).className) 
+    document.getElementById("menu"+idx).className = "tab_open";
+    $("#div_"+idx).fadeIn();
+    
+    
+    
     course_id = $("#course_id_hdn").val();          
       var data = {value:idx,id:course_id};
       $("#load_data").load("/course/show_course",data, function(response, status, xhr) {
@@ -161,40 +142,18 @@ $(document).ready(function(){
         save_course(this.id);
       }
       
+      if(idx == 2) {
+        $("#btn_category_remove").fadeIn();
+      } else {
+        $("#btn_category_remove").fadeOut();
+      }
       
-   /* $(".menu_container a").removeClass("active");
-    $(this).addClass("active");
-    for(i=0;i<7;i++){
-      //---- Set all menu as De-Selected
-      if(document.getElementById("menu"+(i+1))!=null){
-        document.getElementById("menu"+(i+1)).className = "tab_close";
+      if(idx == 4) {
+        $("#menu_btn_addfile").fadeIn();
+      } else {
+        $("#menu_btn_addfile").fadeOut();
       }
-      //----
-      if(idx != i){
-        $("#div_"+i).hide();
-      }
-    }
-    if(idx == 2) {
-      $("#btn_outcome_remove").fadeIn();
-      $("#btn_category_remove").fadeIn();
-    } else {
-      $("#btn_outcome_remove").fadeOut();
-      $("#btn_category_remove").fadeOut();
-    }
-    
-    if(idx == 4) {
-      $("#menu_btn_addfile").fadeIn();
-    } else {
-      $("#menu_btn_addfile").fadeOut();
-    }
-     //---- Selected menu will highlighted
-    
-    document.getElementById("menu"+idx).className = "tab_open";
-    $("#div_"+idx).fadeIn();
-    is_page_change = $("#hdn_is_page_change").val();
-    if(is_page_change == "true") {
-      save_course(this.id);
-    }*/
+      
   });
   
       //Add File by button
@@ -203,43 +162,7 @@ $(document).ready(function(){
          $("#confirm_upload").show();
          $("#show_file_data").hide();
       });
-  
-     /* var file_uploader = new plupload.Uploader({
-        runtimes : 'html5',
-        browse_button : 'pickfiles',
-        container: 'pickfiles',
-        max_file_size : '10mb',
-        url : '/course/add_file',
-        multipart_params: {
-          'authenticity_token' : token,  //For csrf-authentication
-          'school_id' : $("#course_school_id_hdn").val(),
-          'id' : $("#course_id_hdn").val()
-        }
-      });
-
-      file_uploader.init();
       
-      file_uploader.bind('FilesAdded', function(up, files) {
-         showSpinner(true);
-         file_uploader.start();
-      });
-
-      file_uploader.bind('UploadProgress', function(up, file) {
-        $('#show_file_uploading').html('<center>Uploading..</center>');
-      });
-
-     file_uploader.bind('FileUploaded', function(up, file, info) {
-        var obj = jQuery.parseJSON( info.response);
-        $("#show_file_data").show();
-        $("#file_task").text(obj.attachment.resource_file_name);
-        $("#file_uploaded_by").text(obj.attachment.id);
-        $("#file_uploaded_on").text(obj.attachment.created_at);
-        $("#file_revision").text(obj.attachment.id);
-        $('#show_file_uploading').html("");
-        showSpinner(false);
-    });*/
-        
-        
    
   //Submit data
   $("#btn_course").unbind('click').bind('click', function(){
@@ -317,96 +240,11 @@ $(document).ready(function(){
     }
   });
   
-  //List people (participants)
-  $("#btn_add_people").click(function() {
-    course_people = $("#add_course_people").val();
-    school_id = $("#course_school_id_hdn").val();
-    dataString = {school_id:school_id, search_text:course_people};
-    if (course_people!="") {
-      if(school_id) {
-        showSpinner(true);
-        $("#course_participant_list").show();
-        $("#course_participant_list_inner").html("Loading...");
-        $.ajax({  
-          type: "POST",  
-          url: "/course/get_participants",  
-          data: dataString,
-          success: function(data) {
-            if (data) {
-              $("#course_participant_list_inner").html(data);
-            } else {
-              alert("ERROR");
-            }
-            showSpinner(false);
-          }
-        });
-      }
-    } else {
-      alert("Please insert participant name");
-    }
-  });
   
-  //Add people (participant) to course
-  $("#course_participant_list").delegate(".people_node li", "click", function(){
-    showSpinner(true);
-    course_id = $("#course_id_hdn").val();
-    profile_id = $(this).attr("id");
-    profile_name = $(this).text();
-    node_class = $(this).attr("class");
-    dataString = {course_id:course_id, profile_id:profile_id};
-    if (profile_id && course_id) {
-      $.ajax({  
-        type: "POST",  
-        url: "/course/add_participant",  
-        data: dataString,
-        dataType: "json",
-        success: function(data) {
-          if (data.status) {
-            participant_node = $('<li id="'+ profile_id + '" class="'+node_class+'"></li>');
-            participant_node.className = node_class;
-            participant_node.id = profile_id;
-            partcipant_html = '<div class="people_name">' + profile_name + '</div>';
-            partcipant_html += '<div class="people_delete"><a href="javascript:void(0)" rel="'+profile_id+'">Delete</a></div>';
-            participant_node.append(partcipant_html);
-            $("#course_people ul").append(participant_node);
-            $("#course_participant_list").hide();
-            $("#hdn_is_page_change").val(true);
-          } else {
-            if(data.already_added) {
-              alert("This participant is already added to this course!!");
-            } else {
-              alert("ERROR");
-              $("#course_participant_list").hide();
-            }
-          }
-          showSpinner(false);
-        }
-      }); 
-    }
-  });
   
-  //Delete participant 
-  $(".people_node li").delegate(".people_delete a", "click", function(){
-    showSpinner(true);
-    profile_id = $(this).attr("rel");
-    course_id = $("#course_id_hdn").val(); 
-    dataString = {course_id:course_id, profile_id:profile_id};
-    if(profile_id) {
-      $.ajax({  
-        type: "POST",  
-        url: "/course/delete_participant",  
-        data: dataString,
-        success: function(data) {
-          if (data) {
-            $("#"+profile_id).remove();
-          } else {
-            alert("ERROR");
-          }
-          showSpinner(false);
-        }
-      });
-    }
-  });
+  
+  
+  
   
   //Remove outcome nodes
   $(".outcome_del").click(function(){
@@ -425,26 +263,7 @@ $(document).ready(function(){
     });
   });
   
-  //Remove outcome nodes
-  $(".files_del").click(function(){
-    showSpinner(true);
-    file_id=$(this).attr("rel");
-    $("#filename_"+file_id).remove();
-    var dataString = 'files='+file_id;
-    $.ajax({
-       type: "POST",  
-       url: "/course/remove_course_files",  
-       data: dataString,
-       dataType:"json",
-       success: function(data) {
-         showSpinner(false);
-       }
-    });
-  });
-  
-  $(".files_download").click(function(){
-    $("#file_download").show();
-  });
+
   
   //Remove category nodes
   $("#btn_category_remove").unbind('click').bind("click", function(){
@@ -552,17 +371,7 @@ $(".outcome_div").hover(
 $(".download_files").click(function(){
   alert("download");
 });
-//For files hover div
-$(".file_content").hover(
-  function () {
-    id = $(this).attr("id");
-    $("#"+id+" #files_hover").show();
-  }, 
-  function () {
-    id = $(this).attr("id");
-    $("#"+id+" #files_hover").hide();
-  }
-);
+
 
 
 //Add a category

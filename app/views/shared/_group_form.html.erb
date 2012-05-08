@@ -209,7 +209,6 @@ function save_group(channel) {
  descr = getStorage("group_descr");
  task_id= $("#task_id_hdn").val();
  course_id= $("#course_id_hdn").val()
- //alert("course_id="+course_id+" task_id= "+task_id);
  var dataString = 'id='+ id +'&name=' + name + '&descr=' + descr + '&task_id=' + task_id + '&course_id=' + course_id ;  
 	  showSpinner(true);
        $.ajax({  
