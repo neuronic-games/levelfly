@@ -43,7 +43,10 @@
           <a href="/"><img  src="https://s3.amazonaws.com/<%=user_session[:vault]%>/avatar_thumb/avatar_<%=user_session[:profile_id]%>.jpg" /></a>
         </div>
         <div class="avatar_detail">
-          <h1><%=user_session[:profile_name]%></h1>
+          <div>
+            <div id="full_name" class="full_name"><%=user_session[:profile_name]%></div>
+            <input type="text" name="full_name" id="full_name_input" class="full_name_input" value="<%=user_session[:profile_name]%>" />
+          </div>
           <h2><%=user_session[:profile_major].blank? ? '' : user_session[:profile_major] + ',' %> <%=user_session[:profile_school]%></h2>
         </div>
         <div class="clear"></div>
@@ -137,6 +140,7 @@
   });
   
   $(document).ready(function(){
+    $("#full_name_input").hide();
     
     //Search option settings
     $("#search_options li").bind("click",function(){

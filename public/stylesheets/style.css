@@ -194,16 +194,25 @@ body {
   height:62px;
   background:url(../images/header_partition.gif) no-repeat right 5px;
 }
-.header .avatar_detail h1 {
-  font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
-  font-size:29px;
-  color:#f6f6f6;
-}
 .header .avatar_detail h2 {
   font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
   font-size:16px;
   color:#e1e7cc;
   padding: 7px 0 0 4px;
+}
+.header .avatar_detail .full_name {
+  font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
+  font-size:29px;
+  color:#f6f6f6;
+  cursor:pointer;
+}
+.header .avatar_detail .full_name_input {
+  font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
+  font-size:29px;
+  color:#f6f6f6;
+  cursor: text;
+  background-color: black;
+  width: 270px;
 }
 .header_mid_box {
   float:left;
@@ -2135,4 +2144,9 @@ div .coursemsg_bgc2 {
 
 .color_palette #hair_color_5 {
   background-color:#030000; 
+}
+
+.user_profile > .input {
+  color: white;
+  background-color: black;
 }

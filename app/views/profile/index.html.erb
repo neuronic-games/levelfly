@@ -201,6 +201,13 @@ $(window).load(function() {
     wardrobeSubCategorySlide('hide');
     changeName();
   });
+  
+  $("#full_name_input").blur(function () {
+    $("#full_name").html($("#full_name_input").val());
+    $("#full_name_input").hide();
+    $("#full_name").show();
+  });
+  
   // Click a wardrobe option
   $(".wardrobe_item").live('click', function() {
     var $this = $(this),
@@ -411,7 +418,12 @@ function getSubCategorySubList(curIdx, dir, skip) {
 }
 
 function showAvatar() {
-  $("#full_name").html(_profile.full_name);
+  if (_profile.full_name == null) {
+    $("#full_name").html("ENTER NAME");
+  } else {
+    $("#full_name").html(_profile.full_name);
+  }
+  
   if (_major != undefined) {
     $("#major").html(_major.name);
     $("#icon_major").attr("src", "/images/majors/" + _major.code + ".png");
@@ -571,10 +583,14 @@ function acceptCode() {
 }
 
 function changeName() {
-  $.get('/profile/change_name', function(data) {
-    $('#dialog').html(data);
-  })
-  .success(function() { showDialog(true); });
+  $("#full_name").hide();
+  $("#full_name_input").val($("#full_name").html());
+  $("#full_name_input").show();
+  $("#full_name_input").focus().select();
+  // $.get('/profile/change_name', function(data) {
+  //   $('#dialog').html(data);
+  // })
+  // .success(function() { showDialog(true); });
 }
 
 function changeMajor() {
