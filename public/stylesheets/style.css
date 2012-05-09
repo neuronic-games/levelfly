@@ -1643,6 +1643,16 @@ margin-left:33px;
   width: 370px;
   z-index: 2;
 }
+#participant_list_inner{
+  background: none repeat scroll 0 0 #FFFFFF;
+  border: 1px solid #A9A9A9;
+  height: 350px;
+  margin-left: 115px;
+  padding: 10px; 
+  position: absolute;
+  width: 370px;
+  z-index: 2;
+}
 .file_upload{
   background: none repeat scroll 0 0 #FFFFFF;
   border: 1px solid #A9A9A9;

@@ -224,6 +224,12 @@ class CourseController < ApplicationController
       render :text => {"status"=>"true"}.to_json
     end
   end
+  def send_email
+      if params[:user] && !params[:user].nil?
+        UserMailer.registration_confirmation(params[:user]).deliver
+        render :text=> "Mail send successfully!!"
+      end
+  end
   
   def update_course_outcomes
     if params[:outcome_id] && !params[:outcome_id].empty?
