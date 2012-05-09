@@ -20,7 +20,6 @@ class ProfileController < ApplicationController
         @profile = Profile.find_by_id(user_session[:profile_id])
         if @profile.nil?
           new_profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
-          new_profile = true
         end
       end
     end
@@ -33,9 +32,10 @@ class ProfileController < ApplicationController
       avatar = new_profile.avatar.dup
       avatar.profile_id = @profile.id
       avatar.save
-      user_session[:profile_id] = @profile.id
     end
     
+    publish_profile(@profile)
+
     render :text => {"profile"=>@profile, "avatar"=>@profile.avatar, "new_profile"=>new_profile, "major"=>@profile.major, "school"=>@profile.school}.to_json
   end
 
@@ -45,6 +45,21 @@ class ProfileController < ApplicationController
       :order => "depth, sort_order")
     
     render :text => wardrobe_items.to_json
+  end
+  
+  def save_meta
+    id = params[:id]
+    profile = params[:profile]
+    @profile = Profile.find(id)
+
+    @profile.full_name = profile["full_name"]
+    @profile.major_id = profile["major_id"]
+    @profile.school_id = profile["school_id"]
+    @profile.save
+    
+    publish_profile(@profile)
+    
+    render :text => {"profile"=>@profile}.to_json
   end
   
   def save
@@ -64,10 +79,7 @@ class ProfileController < ApplicationController
     @profile.major_id = profile["major_id"]
     @profile.school_id = profile["school_id"]
     @profile.user_id = current_user.id if current_user
-    if params[:avatar_img]
-      #@profile.image.destroy if @profile.image
-      #@profile.image = Base64.decode64(params[:avatar_img])
-    end
+    @profile.image_file_name = "https://s3.amazonaws.com/#{@profile.school.vaults[0].folder}/avatar_thumb/avatar_#{@profile.id}.jpg"
     @profile.save
     
     @avatar.skin = avatar["skin"]
@@ -93,9 +105,11 @@ class ProfileController < ApplicationController
     
     if @avatar.save
      file_name = "avatar_#{user_session[:profile_id]}.jpg"
-     Attachment.aws_upload(@profile.school_id, file_name, Base64.decode64(params[:avatar_img]),true)
+     Attachment.aws_upload(@profile.school_id, file_name, Base64.decode64(params[:avatar_img]), true)
     end
-    user_session[:profile_id] = @profile.id
+
+    publish_profile(@profile)
+    
     render :text => {"profile"=>@profile, "avatar"=>@avatar}.to_json
   end
   
@@ -131,6 +145,17 @@ class ProfileController < ApplicationController
       @profile = Profile.find(params[:profile_id])
 	 end
       render :partial => "/profile/user_profile", :locals => {:profile => @profile}
+  end
+  
+  private
+  
+  def publish_profile(profile)
+    user_session[:profile_id] = profile.id
+    user_session[:profile_name] = profile.full_name
+    user_session[:profile_image] = profile.image_file_name
+    user_session[:profile_major] = profile.major.name if profile.major
+    user_session[:profile_school] = profile.school.code if profile.school
+    user_session[:vault] = profile.school.vaults[0].folder if profile.school
   end
 
 end

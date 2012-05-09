@@ -3,7 +3,7 @@
 <div class="shadow_repeat">
   <div>
     <div class="avatar_green_bdr">
-      <img onClick="user_profile();" src="https://s3.amazonaws.com/<%=profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=profile.id%>.jpg" id="<%=profile.id%>" class="profile"/>
+      <img onClick="user_profile();" src="<%=profile.image_file_name%>" id="<%=profile.id%>" class="profile"/>
     </div>
     <div class="txt"> <span class="pop_name"><b><%=profile.full_name%></b><br />
       <%=profile.major.name if profile.major%>, <%=profile.school.code%></span>

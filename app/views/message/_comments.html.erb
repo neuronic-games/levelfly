@@ -2,7 +2,7 @@
 <div class="msg_small_box">
   <div class="avatar_green_bdr_upper">
     <div class="avatar_green_bdr">
-      <img src="https://s3.amazonaws.com/<%=comment.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=comment.profile.id%>.jpg" id="<%=comment.profile.id%>" class='<%= (comment.profile_id==user_session[:profile_id]) ? "" : "profile" %>'/>
+      <img src="<%=comment.profile.iamge_file_name%>" id="<%=comment.profile.id%>" class='<%= (comment.profile_id==user_session[:profile_id]) ? "" : "profile" %>'/>
     </div>
   </div>
   <div class="msg_small_box_fullwidth">

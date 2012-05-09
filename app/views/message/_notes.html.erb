@@ -1,6 +1,6 @@
 <div class="note_big_box" id="note_box_<%=note.id%>">
   <div class="avatar_white_bdr">
-    <img src="https://s3.amazonaws.com/<%=note.profile.school.vaults[0].folder%>/avatar_thumb/avatar_<%=note.profile_id%>.jpg" id="<%=note.profile_id%>" class='<%= (note.profile_id==user_session[:profile_id]) ? "" : "profile" %>'/>
+    <img src="<%=note.profile.image_file_name%>" id="<%=note.profile_id%>" class='<%= (note.profile_id==user_session[:profile_id]) ? "" : "profile" %>'/>
   </div>
   
   <div class="note_box_fullwidth">

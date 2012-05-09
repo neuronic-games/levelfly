@@ -7,7 +7,7 @@
           <div class="staronavatar"><img src="/images/star_up.png" width="36" height="37" /></div>
           <div class="avatar_white_bdrC2">
              <% if @courseMaster %>
-             <img  src="https://s3.amazonaws.com/<%=@courseMaster.school.vaults[0].folder%>/avatar_thumb/avatar_<%=@courseMaster.id%>.jpg" />
+             <img  src="<%=@courseMaster.image_file_name%>" />
              <div class="avatar_name"><%=@courseMaster.full_name%></div>
              <% end %>
           </div>

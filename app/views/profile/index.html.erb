@@ -114,11 +114,11 @@ var _level_meter =  new Array(100, 150, 200, 350, 400, 500, 550, 700, 750, 900);
 
 OC = {
   SubCategory: {
-    data: null,
+    data: undefined,
     cursor: 0,
     section_size: 5,
     depth: 1,
-    parent_item_type: null,
+    parent_item_type: undefined,
     
     load: function(data, parent_item_type) {
       this.data = data || [];
@@ -202,10 +202,16 @@ $(window).load(function() {
     changeName();
   });
   
+  // Save full name after entry by user
   $("#full_name_input").blur(function () {
     $("#full_name").html($("#full_name_input").val());
     $("#full_name_input").hide();
     $("#full_name").show();
+    var new_data = $("#full_name_input").val();
+    if (_profile.full_name != new_data) {
+      _profile.full_name = new_data;
+      saveName();
+    }
   });
   
   // Click a wardrobe option
@@ -237,7 +243,7 @@ $(window).load(function() {
       if (model.image_file == _avatar[model.item_type]) {
         // Already applied? Remove this item, unless it is a required item
         if (_itemRequired.indexOf(model.item_type) == -1) {
-          _avatar[model.item_type] = "null";
+          _avatar[model.item_type] = undefined;
         }
       } else {
         // Display the item on the avatar
@@ -268,7 +274,6 @@ $(window).load(function() {
         $("#"+item_type_back).attr("src", "/images/wardrobe/" + _avatar[item_type_back] + ".png");
       }
       
-      saveAvatar();
       // Refresh the current list of options in case option stat has changed
       showSubcategoryStat($this);
     } else {
@@ -299,7 +304,6 @@ $(window).load(function() {
     $("#head").attr("src", "/images/wardrobe/"+head+".png");
     _avatar["head"] = head;
     _avatar["body"] = "avatar/body/body_"+color;
-    saveAvatar();
   });
 
   // Hair color change
@@ -308,7 +312,7 @@ $(window).load(function() {
     var color = $(this).attr("value");
     hair = hair.substr(0, hair.length-1) + color;
     var facial_hair = _avatar.facial_hair;
-    if (facial_hair != 'null') {
+    if (facial_hair != undefined) {
       facial_hair = facial_hair.substr(0, facial_hair.length-1) + color;
       $("#facial_hair").attr("src", "/images/wardrobe/"+facial_hair+".png"); 
       _avatar["facial_hair"] = facial_hair;
@@ -317,7 +321,6 @@ $(window).load(function() {
     $("#hair_back").attr("src", "/images/wardrobe/"+hair+"_back.png");
     _avatar["hair"] = hair;
     _avatar["hair_back"] = hair+"_back";
-    saveAvatar();
   });
   
   $.getJSON("/profile/show",
@@ -418,7 +421,7 @@ function getSubCategorySubList(curIdx, dir, skip) {
 }
 
 function showAvatar() {
-  if (_profile.full_name == null) {
+  if (_profile.full_name == undefined) {
     $("#full_name").html("ENTER NAME");
   } else {
     $("#full_name").html(_profile.full_name);
@@ -433,15 +436,15 @@ function showAvatar() {
     $("#school").html(_school.code);
   }
   
-  if(_avatar.points ==null) {
+  if(_avatar.points ==undefined) {
     _avatar.points = 0;
   }
   
-  if(_avatar.badge_count ==null) {
+  if(_avatar.badge_count ==undefined) {
     _avatar.badge_count = 0;
   }
 
-  if(_avatar.level ==null) {
+  if(_avatar.level ==undefined) {
     _avatar.level = 1;
   }
 
@@ -469,6 +472,8 @@ function showAvatar() {
   $("#hair").attr("src", "/images/wardrobe/"+_avatar.hair+".png");
   $("#hat").attr("src", "/images/wardrobe/"+_avatar.hat+".png");
   $("#prop").attr("src", "/images/wardrobe/"+_avatar.prop+".png");
+
+  $("#my_avatar_image").attr("src", _profile.image_file_name);
 }
 
 function modifyAvatar() {
@@ -552,7 +557,9 @@ function saveAvatar() {
     var base64 = dataURL.replace(/^data:image\/(png|jpg);base64,/, '') ;
     
     //Save avatar data
-    $.ajax({ //Previously was with getJson but having problem of too many parameters in request URI so switched to $.ajax with post
+    $.ajax({ 
+      // Previously was with getJson but having problem of too many parameters 
+      // in request URI so switched to $.ajax with post
       url: "/profile/save",
       data: { id: _profile.id, profile: _profile, avatar: _avatar, avatar_img: base64 }, 
       type: 'post',
@@ -561,6 +568,7 @@ function saveAvatar() {
       success: function(data){
         _profile = data.profile;
         _avatar = data.avatar;
+        $("#my_avatar_image").attr("src", _profile.image_file_name);
       }
     }); //Ajax
   }); //loadCanvasImages
@@ -601,9 +609,22 @@ function changeMajor() {
   .success(function() { showDialog(true); });
 }
 
-var _last_status_lev1 = null;
-var _last_status_lev2 = null;
-var _last_status_lev3 = null;
+function saveName() {
+  $.ajax({
+    url: "/profile/save_meta",
+    data: { id: _profile.id, profile: _profile }, 
+    type: 'post',
+    dataType: 'json',
+    error: function(){alert("Error");},
+    success: function(data){
+      _profile = data.profile;
+    }
+  }); //Ajax
+}
+
+var _last_status_lev1 = undefined;
+var _last_status_lev2 = undefined;
+var _last_status_lev3 = undefined;
 
 // Show hide wardrobe subcategory menu items (with slide effect)
 function wardrobeSubCategorySlide(action,depth) {

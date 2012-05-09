@@ -47,7 +47,7 @@
           </div>
           <div class="course_teacher_name">
            <% if @courseMaster %>
-            <div class="avatar_white_bdr"><img  src="https://s3.amazonaws.com/<%=@courseMaster.school.vaults[0].folder%>/avatar_thumb/avatar_<%=@courseMaster.id%>.jpg" /></div>
+            <div class="avatar_white_bdr"><img  src="<%=@courseMaster.image_file_name%>" /></div>
             <div class="avatar_name"><%=@courseMaster.full_name%></div>
             <% end %>
           </div>
