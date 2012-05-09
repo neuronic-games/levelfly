@@ -11,8 +11,9 @@
     <% end %>
   <% else %>
     <% peoples.each do |p| %>
-      <li class="<%= cycle("even", "odd") %>" id="<%=p.id%>"> <%=p.full_name%> </li>
+      <li class="even" id="<%=p.id%>"> <%=p.full_name%> </li>
     <% end %>
   <% end %>
 <% end %>
 </ul>
+

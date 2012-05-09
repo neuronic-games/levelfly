@@ -4,7 +4,7 @@
   </div>
   <div class="frm_input">
     <input type="text" name="add_people_email[]" class="dd_select brown_bg medium" id="add_course_people" /> 
-    <input type="button" name="btn_add_people" id="btn_add_people" value="Add" />
+    <a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="big_blue_btn btn_add">ADD</a>
     <div class="frm_input" id="add_people_container">
     </div>
   </div>
@@ -17,12 +17,12 @@
     <% end %>
   </div>
   <div id="course_participant_list" class="hide">
-    <div style="width:40px;height:10px;float:right;padding:2px;">
-      <a href="javascript:void(0)" onClick="javascript:$('#course_participant_list').hide();">Close</a>
-    </div>
-    <div id="course_participant_list_inner">
-        Loading...
-    </div>
+      <div class="participant_close">
+        <a href="javascript:void(0)" onClick="javascript:$('#course_participant_list').hide();" class="big_blue_btn">Close</a>
+      </div>
+      <div id="course_participant_list_inner">
+         Loading...
+      </div>
   </div>
   <div class="clear"></div>
 </div> 
@@ -64,6 +64,7 @@
     profile_name = $(this).text();
     node_class = $(this).attr("class");
     dataString = {course_id:course_id, profile_id:profile_id};
+    alert(dataString.toSource());
     if (profile_id && course_id) {
       $.ajax({  
         type: "POST",  
@@ -95,7 +96,7 @@
     }
   });
   //Delete participant 
-  $(".people_node li .people_delete a").delegate("", "click", function(){
+  $(".people_node").delegate("li .people_delete a", "click", function(){
     showSpinner(true);
     profile_id = $(this).attr("rel");
     course_id = $("#course_id_hdn").val(); 

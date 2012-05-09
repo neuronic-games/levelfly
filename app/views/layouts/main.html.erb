@@ -193,7 +193,7 @@
     $("#frm_search, #root_level, #container").delegate(".menu_btn", "click",function(){
       setTab();
       var id = $(this).attr("id");
-      document.getElementById(id).className = "icon_"+id+"_active menu_btn"
+      //document.getElementById(id).className = "icon_"+id+"_active menu_btn"
       var target = $(this).attr("rel");
       var data = $(this).attr("data");
       load_data(target,data);

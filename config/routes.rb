@@ -67,6 +67,8 @@ Oncapus::Application.routes.draw do
   get "course/show"
   
   post "course/show_course"
+  
+  post "course/check_outcomes"
 
   get "course/edit"
 

@@ -371,14 +371,8 @@ input[type=button] {
 input[type=file] {
   border:none;
 }
-.people_node {
-  margin:0px;
-  padding:0px;
-}
-.people_node li{
-  list-style:none;
-  line-height:30px;
-}
+
+
 .people_name {
   width:200px;
   float:left;

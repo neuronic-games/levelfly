@@ -178,6 +178,8 @@ class CourseController < ApplicationController
     already_added = false
     if params[:profile_id] && params[:course_id]
       participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", params[:course_id], params[:profile_id]])
+      user = Profile.find(:first,:conditions => ["id =?",params[:profile_id]])
+      user_id = User.find(:first,:conditions => ["id =?",user.user_id])
       if !participant_exist
         @participant = Participant.new
         @participant.object_id = params[:course_id]
@@ -190,6 +192,7 @@ class CourseController < ApplicationController
             :profile_id => params[:profile_id],
             :wall_id =>wall_id
           )
+          UserMailer.registration_confirmation(user_id.email).deliver
           status = true
         end
       else 
@@ -255,6 +258,23 @@ class CourseController < ApplicationController
       Category.destroy(category_array)
       render :text => {"status"=>"true"}.to_json
     end
+  end
+  
+  def check_outcomes
+  @outcomes = []
+     if params[:code] && !params[:code].nil?
+        @course = Course.find(:all,:conditions =>["code =?" ,params[:code]])
+        if @course.length>0
+            @course.each do |course|
+              course.outcomes.where("shared = 1").each do |value|
+                @outcomes << value
+              end 
+            end
+            render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes}
+        else
+          render :text=>"No outcomes.."         
+        end
+     end
   end
   
   def show_course
