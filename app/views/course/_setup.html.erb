@@ -1,11 +1,8 @@
 <div id="div_2" class="tab_content">
   <div class="course_left">
     <div class="course_profile_image" id="course_image">
-    <%# if @course.image_file %>
-      <img id="course_thumb" src='<%#= @course.image_file %>' width="156" height="156" alt="Course image" />
-    <%#else%>
-      <img class="image_icon_drop_target" src="/images/course_img_drop.png" />
-    <%#end%>
+      <img id="course_thumb" src='<%= @course.image_file %>' width="156" height="156" alt="Course image" />
+      <img id="course_image_drop" class="image_icon_drop_target" src="/images/course_img_drop.png" />
     </div>
   </div>
   <div class="course_right" >
@@ -116,39 +113,94 @@
 </div>
 
 <script type="text/javascript">
-//For outcomes hover div
-$(".outcome_div").hover(
-  function () {
-    id = $(this).attr("id");
-    $("#"+id+" #on_hover").show();
-  }, 
-  function () {
-    id = $(this).attr("id");
-    $("#"+id+" #on_hover").hide();
-  }
-);
+  $(function(){
+    // Disable the tabs until the user has entered a name
+    if ("<%=h @course.code %>" == "") {
+      $("#menu1").hide();
+      $("#menu3").hide();
+      $("#menu4").hide();
+    }
+    
+    //Uploader course image upload
+    var course_uploader = new plupload.Uploader({
+      runtimes: 'html5',
+      drop_element: 'course_image',
+      container: 'course_image',
+      max_file_size: '5mb',
+      resize : {width : 125, height : 125},
+      url: '/course/save',
+      multipart_params: {
+        'authenticity_token' : token,  //For csrf-authentication
+        'school_id' : $("#course_school_id_hdn").val(),
+        'id' : $("#course_id_hdn").val()
+      },
+      filters : [
+        {title : "Image files", extensions : "jpg,gif,png,JPG,PNG,GIF,JPEG"}
+      ]
+    });
+    
+    course_uploader.init();
+    
+    course_uploader.bind('FilesAdded', function(up, files) {
+      showSpinner(true);
+      course_uploader.settings.multipart_params.course = getStorage("course_name");
+      course_uploader.settings.multipart_params.code = getStorage("course_code");
+      course_uploader.settings.multipart_params.section = getStorage("course_section");
+      course_uploader.settings.multipart_params.descr = getStorage("course_descr");
+      course_uploader.start();
+    });
+    
+    course_uploader.bind('UploadProgress', function(up, file) {
+      $('#course_image_drop').html('<center>Uploading..</center>');
+    });
+    
+    course_uploader.bind('FileUploaded', function(up, file, info) {
+      var obj = jQuery.parseJSON( info.response);
+      courseImg = $('<img width="156" height="156">').attr('src',obj.image_url);
+      course_uploader.settings.multipart_params.id = obj.course.id;
+      $('#course_id_hdn').val(obj.course.id);
+      $('#course_image').html(courseImg);
+      showSpinner(false);
+    });
+    
+    //For outcomes hover div
+    $(".outcome_div").hover(
+      function () {
+        id = $(this).attr("id");
+        $("#"+id+" #on_hover").show();
+      }, 
+      function () {
+        id = $(this).attr("id");
+        $("#"+id+" #on_hover").hide();
+      }
+    );
 
-$("#course_code").blur(function(){
-  var code = $(this).val();
-  if(code)
-  {
-    dataString = {code:code};
-    showSpinner(true);
-     $.ajax({  
-          type: "POST",  
-          url: "/course/check_outcomes",  
-          data: dataString,
-          success: function(data) {
-             $("#load_outcomes").html(data);
-             showSpinner(false);
-          },
-          error: function()
-          {
-             alert("An Error has occured");
-             showSpinner(false);
-          },
-     });
-  }  
-});
+    $("#course_code").blur(function(){
+      var code = $(this).val();
+      if(code)
+      {
+        dataString = {code:code};
+        showSpinner(true);
+         $.ajax({  
+              type: "POST",  
+              url: "/course/check_outcomes",  
+              data: dataString,
+              success: function(data) {
+                 $("#load_outcomes").html(data);
+                 showSpinner(false);
+              },
+              error: function()
+              {
+                 alert("An Error has occured");
+                 showSpinner(false);
+              },
+         });
+      }  
+
+      $("#menu1").fadeIn();
+      $("#menu3").fadeIn();
+      $("#menu4").fadeIn();
+      
+    });    
+  });
 </script>
-              

@@ -41,7 +41,9 @@ class CourseController < ApplicationController
   
   def new
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    @course = Course.new
+    # TODO: There is a bug in the view that occurs if a blank course is not saved first.
+    # We need to make sure that the id is sent back to the view and the view updated with the id.
+    @course = Course.create
     respond_to do |wants|
       wants.html do
         if request.xhr?
