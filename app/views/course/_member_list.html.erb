@@ -64,7 +64,6 @@
     profile_name = $(this).text();
     node_class = $(this).attr("class");
     dataString = {course_id:course_id, profile_id:profile_id};
-    alert(dataString.toSource());
     if (profile_id && course_id) {
       $.ajax({  
         type: "POST",  
