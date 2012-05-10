@@ -1,13 +1,14 @@
 <div id="div_6" class="tab_content">
-  <div class="frm_label small_label">
-    Participants
-  </div>
+
+  <div class="titleTextParticipants">Participants:&nbsp;&nbsp;
+    <span><input type="text" name="add_people_email[]" class="dd_select brown_bg" id="add_course_people" /></span>
+    <span style="float:right; margin-right:89px;""><a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="big_blue_btn btn_add">ADD</a></span>
+  </div> 
+  
   <div class="frm_input">
-    <input type="text" name="add_people_email[]" class="dd_select brown_bg medium" id="add_course_people" /> 
-    <a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="big_blue_btn btn_add">ADD</a>
-    <div class="frm_input" id="add_people_container">
-    </div>
+    <div class="frm_input" id="add_people_container"></div>
   </div>
+  
   <div class="frm_label small_label">
     &nbsp;
   </div>
@@ -34,7 +35,7 @@
     dataString = {school_id:school_id, search_text:course_people};
     if (course_people!="") {
       if(school_id) {
-        showSpinner(true);
+        showSpinner(true); 
         $("#course_participant_list").show();
         $("#course_participant_list_inner").html("Loading...");
         $.ajax({  

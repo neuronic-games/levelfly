@@ -522,7 +522,7 @@ $(document).ready(function(){
     
     task_uploader.bind('FileUploaded', function(up, file, info) {
       var obj = jQuery.parseJSON( info.response);
-      taskImg = $('<img >').attr('src',obj.image_url);
+      taskImg = $('<img width="156" height="156">').attr('src',obj.image_url);
       task_uploader.settings.multipart_params.id = obj.task.id;
       $('#task_id_hdn').val(obj.task.id);
       $('#task_image').html(taskImg);

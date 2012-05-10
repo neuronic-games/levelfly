@@ -139,6 +139,7 @@ form {margin:0px;padding:0px;}
   text-align: center;
   visibility: hidden;
   padding-top:280px;
+  z-index:9001;
 }
 .marked_item {
   background-color:#A9A9A9;
@@ -388,9 +389,13 @@ table .tbl_header {
   font-weight:bold;
   font-family:Arial, Helvetica, sans-serif;
   color:#fff;
+  height:30px;
 }
 th .tbl_header {
   padding:10px;
+}
+.even td a ,.odd td a{
+   color:#000000;
 }
 .even {
   background-color:#fff;

@@ -1,28 +1,32 @@
-<div> 
-  <h3>This email is not registered<h3></br>
-  <div> Do you want sent email on <%=search_text%><%= user_session[:full_name] %></div>
-   <div> </br>
-      <input type="hidden" id="msg_id" value="<%=search_text%>"/>
-      <input type="button" name="btn_send_email" id="btn_send_email" value="Send" />
-      <input type="button" name="btn_cancel" id="btn_cancel" value="Cancel" />
-  </div>
-</div>
+<div class="participant_list_email"> 
+  <p>This email is not registered</p>
+  <p>Do you want sent email on <%=search_text%><%= user_session[:full_name] %></p>
+   <div>
+     <a href="javascript:void(0)" name="btn_send_email" id="btn_send_email" class="big_blue_btn">Send</a>
+   </div> 
+ </div>     
+<input type="hidden" id="msg_id" value="<%=search_text%>"/>    
+
+
 <script type="text/javascript">
 $("#btn_send_email").click(function() {
+   showSpinner(true); 
    msg_id = $("#msg_id").val();
    $.ajax({  
 		  type: "POST",  
 		  url: "/course/send_email",  
 		  data: {user : msg_id},
 		  success: function(data) {
-			if (data) {
-        $("#participant_list_inner").text(data);
-			}
-			showSpinner(false);
-		  },error: function(){
-			alert("An Error has occured");
-			showSpinner(false);
-		},
+        if (data) {
+          $("#participant_list_inner").html(data);
+          $("#course_participant_list").hide();
+          showSpinner(false);
+        }
+		  },
+      error: function(){
+			   alert("An Error has occured");
+			   showSpinner(false);
+		  },
     });
    
   });

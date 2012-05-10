@@ -5,17 +5,17 @@
         <div class="task_pad_top"><div class="task_pad_top_inner "></div></div>
         <div class="task_pad">
           <!-- tabs-->
-		       <table width="100%" align="center" cellspacing="0" cellpadding="4">
+		       <table width="100%" align="center" cellspacing="0" cellpadding="4" border=1>
               <tr class="tbl_header">
-                <td width="40%">
+                <td width="35%">
                   Task
                 </td>
-                <td>
+                <td width="30%">
                   Created on
                 </td>
-                <td>
+                <td width="17%">
                   Level
-                </td>
+                </td width="17%">
                 <td>
                   Category
                 </td>
@@ -26,7 +26,7 @@
                   <a href="/task/show/<%=t.id%>" id="<%=t.id%>" class="view"><%=t.name%></a>
                 </td>
                 <td>
-                  <%=t.created_at %>
+                  <%=show_date_format(t.created_at) %>
                 </td>
                 <td>
                   <%=t.level %>
@@ -52,7 +52,7 @@
 <script type="text/javascript">
   //prepare show links
 $(document).ready(function(){
-  showPageTitle("My Tasks");
+ // showPageTitle("My Tasks");
   
   $('a.view').click(function() { 
     showSpinner(true);
@@ -62,7 +62,6 @@ $(document).ready(function(){
       $("#menu_btn_dup").show();
       showSpinner(false);
     });
-    return false; 
   });
   jStorage.flush();
 });

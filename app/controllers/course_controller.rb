@@ -180,9 +180,9 @@ class CourseController < ApplicationController
     already_added = false
     if params[:profile_id] && params[:course_id]
       participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", params[:course_id], params[:profile_id]])
-      #user = Profile.find(:first,:conditions => ["id =?",params[:profile_id]])
-      #user_id = User.find(:first,:conditions => ["id =?",user.user_id])
-      user_id = Profile.User.email
+ 
+      profile = Profile.find(params[:profile_id])
+      user_email = profile.user.email if not profile.nil?
       if !participant_exist
         @participant = Participant.new
         @participant.object_id = params[:course_id]
@@ -195,14 +195,14 @@ class CourseController < ApplicationController
             :profile_id => params[:profile_id],
             :wall_id =>wall_id
           )
-          UserMailer.registration_confirmation(user_id).deliver
+          UserMailer.registration_confirmation(user_email).deliver
           status = true
         end
       else 
           already_added = true
       end
     end
-    render :text => {"status"=>status, "already_added" => already_added,"email" =>user_id.email}.to_json
+    render :text => {"status"=>status, "already_added" => already_added,"email" =>user_email}.to_json
   end
   
   def delete_participant
@@ -301,7 +301,7 @@ class CourseController < ApplicationController
           render :partial => "/course/setup"
         else 
           if params[:value] == "3"
-            render :partial => "/course/forum",:locals=>{:groups=>@groups}
+            render :partial => "/course/forum",:locals=>{:@groups=>@groups}
           else 
             if params[:value] == "4"
               render :partial => "/course/files"       

@@ -1879,6 +1879,12 @@ div .coursemsg_bgc2 {
   color:#FFFFFF;
   font-size: 15px;
 }
+.titleTextParticipants{
+  font-weight:bold;
+  color:#FFFFFF;
+  font-size: 15px;
+  margin:28px;
+}
 
 .wrapper .avat {
   right:200px;
@@ -2192,14 +2198,25 @@ div .coursemsg_bgc2 {
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #A9A9A9;
     height: 300px;
-    margin-left: 115px;
+    margin-left: 114px;
     margin-top: 40px;
     padding: 10px;
     position: absolute;
     width: 340px;
     z-index: 2;
+    overflow:visible;
 }
 #course_participant_list .participant_close {
     float: right;
     margin-top: 253px;
+}
+.people_node li {
+    font-weight: bold;
+    margin: 30px 0 0 43px;
+    width: 307px;
+}
+.participant_list_email {
+    font-weight: bold;
+    margin: 21px 0 0 78px;
+    text-align: center;
 }

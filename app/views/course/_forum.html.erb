@@ -3,7 +3,7 @@
    Groups
   </div>
   <div id="new_group" class="frm_input">
-    <% if @groups %>
+    <% if @groups.count>0 %>
       <%= render :partial => "/shared/list", :locals => {:groups=>@groups, :mode=>"list"} %>
     <%else%>
       <%= render :partial => "/shared/group_form" %>
