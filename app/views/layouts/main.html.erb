@@ -120,7 +120,7 @@
         </div><!-- container -->
       </div>
       <div class="right_box">
-        <div class="heading_messages"><img src="images/messages_heading.png" /></div>
+        <div id="page_title" class="heading_messages">COLLEGE QUEST</div>
       </div>
       <div class="clear"></div>
     </div>
@@ -252,6 +252,10 @@
     if(document.getElementById("stats")!=null){
       document.getElementById("stats").className = "icon_stats menu_btn";
     }
+  }
+  
+  function setPageTitle(title) {
+    $("#page_title").html(title);
   }
 -->
 </script>

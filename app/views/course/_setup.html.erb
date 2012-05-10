@@ -203,4 +203,14 @@
       
     });    
   });
+
+  // Field instructions
+  $(".prompted").focus(function() {
+    prompt = $(this).attr("prompt");
+    $("#"+prompt).show();
+  });
+  $(".prompted").blur(function() {
+    prompt = $(this).attr("prompt");
+    $("#"+prompt).hide();
+  });
 </script>
