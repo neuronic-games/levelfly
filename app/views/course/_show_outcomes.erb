@@ -1,0 +1,5 @@
+<% if @outcomes%>
+  <% @outcomes.each do |outcomes| %>
+    <%= render :partial => "/course/outcomes_list", :locals => {:outcomes=>outcomes} %>
+  <%end%>
+<%end%>

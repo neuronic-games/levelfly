@@ -355,17 +355,7 @@ function addOutcome() {
    $("#hdn_is_page_change").val(true);
 }
 
-//For outcomes hover div
-$(".outcome_div").hover(
-  function () {
-    id = $(this).attr("id");
-    $("#"+id+" #on_hover").show();
-  }, 
-  function () {
-    id = $(this).attr("id");
-    $("#"+id+" #on_hover").hide();
-  }
-);
+
 
 // For Download
 $(".download_files").click(function(){
