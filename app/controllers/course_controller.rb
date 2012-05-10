@@ -41,7 +41,9 @@ class CourseController < ApplicationController
   
   def new
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    @course = Course.new
+    # TODO: There is a bug in the view that occurs if a blank course is not saved first.
+    # We need to make sure that the id is sent back to the view and the view updated with the id.
+    @course = Course.create
     respond_to do |wants|
       wants.html do
         if request.xhr?
@@ -325,7 +327,7 @@ class CourseController < ApplicationController
     course_id = params[:id]
     @vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
     if @vault
-      @attachment = Attachment.new(:resource=>params[:file], :object_type=>"Course", :object_id=>course_id, :school_id=>school_id)
+      @attachment = Attachment.new(:resource=>params[:file], :object_type=>"Course", :object_id=>course_id, :school_id=>school_id, :owner_id=>user_session[:profile_id])
       if @attachment.save
         @url = @attachment.resource.url
       end

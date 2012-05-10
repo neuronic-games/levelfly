@@ -1,7 +1,7 @@
 <div id="div_1" class="form_container1">
   <div class="course_left">
     <div class="course_profile_image" id="course_image">
-      <img id="course_thumb" src='<%#= @course.image_file %>' width="156" height="156" alt="Course image" />
+      <img id="course_thumb" src='<%= @course.image_file %>' width="156" height="156" alt="Course image" />
     </div>
   </div>
   <div class="course_right" >
@@ -87,49 +87,4 @@
   <% end %>
   <div class="clear"></div>
  </div>
- <script type="text/javascript">
-  $(function(){
-    //Uploader course image upload
-    var course_uploader = new plupload.Uploader({
-      runtimes: 'html5',
-      drop_element: 'course_image',
-      container: 'course_image',
-      max_file_size: '5mb',
-      resize : {width : 125, height : 125},
-      url: '/course/save',
-      multipart_params: {
-        'authenticity_token' : token,  //For csrf-authentication
-        'school_id' : $("#course_school_id_hdn").val(),
-        'id' : $("#course_id_hdn").val()
-      },
-      filters : [
-        {title : "Image files", extensions : "jpg,gif,png,JPG,PNG,GIF,JPEG"}
-      ]
-    });
-    
-    course_uploader.init();
-    
-    course_uploader.bind('FilesAdded', function(up, files) {
-      showSpinner(true);
-      course_uploader.settings.multipart_params.course = getStorage("course_name");
-      course_uploader.settings.multipart_params.code = getStorage("course_code");
-      course_uploader.settings.multipart_params.section = getStorage("course_section");
-      course_uploader.settings.multipart_params.descr = getStorage("course_descr");
-      course_uploader.start();
-    });
-    
-    course_uploader.bind('UploadProgress', function(up, file) {
-      $('#course_image').html('<center>Uploading..</center>');
-    });
-    
-    course_uploader.bind('FileUploaded', function(up, file, info) {
-      var obj = jQuery.parseJSON( info.response);
-      courseImg = $('<img width="156" height="156">').attr('src',obj.image_url);
-      course_uploader.settings.multipart_params.id = obj.course.id;
-      $('#course_id_hdn').val(obj.course.id);
-      $('#course_image').html(courseImg);
-      showSpinner(false);
-    });
-  });
- </script>
  

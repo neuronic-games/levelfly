@@ -155,6 +155,7 @@ class ProfileController < ApplicationController
     user_session[:profile_image] = profile.image_file_name
     user_session[:profile_major] = profile.major.name if profile.major
     user_session[:profile_school] = profile.school.code if profile.school
+    user_session[:profile_level] = profile.avatar.level
     user_session[:vault] = profile.school.vaults[0].folder if profile.school
   end
 

@@ -87,17 +87,8 @@ $(document).ready(function(){
   }     
   <% end %>
  
-  $(".field_prompt").hide();
-  
-  // Field instructions
-  $(".prompted").focus(function() {
-    prompt = $(this).attr("prompt");
-    $("#"+prompt).show();
-  });
-  $(".prompted").blur(function() {
-    prompt = $(this).attr("prompt");
-    $("#"+prompt).hide();
-  });
+  // Course name
+  setPageTitle(getStorage("course_name"));
   
   //Toggle Tabs
    $(".menu_container a").delegate('', 'click', function(){
@@ -123,46 +114,45 @@ $(document).ready(function(){
     
     
     course_id = $("#course_id_hdn").val();          
-      var data = {value:idx,id:course_id};
-      $("#load_data").load("/course/show_course",data, function(response, status, xhr) {
-      if(response)
-      {
-        $("#load_data").html(response); 
-        showSpinner(false);
-      }
-      if (status == "error")
-      {
-        var msg = "Sorry but there was an error: ";
-        alert(msg);
-      }
-      });
+    var data = {value:idx,id:course_id};
+    $("#load_data").load("/course/show_course",data, function(response, status, xhr) {
+    if(response)
+    {
+      $("#load_data").html(response); 
+      showSpinner(false);
+    }
+    if (status == "error")
+    {
+      var msg = "Sorry but there was an error: ";
+      alert(msg);
+    }
+    });
 
-      is_page_change = $("#hdn_is_page_change").val();
-      if(is_page_change == "true") {
-        save_course(this.id);
-      }
-      
-      if(idx == 2) {
-        $("#btn_category_remove").fadeIn();
-      } else {
-        $("#btn_category_remove").fadeOut();
-      }
-      
-      if(idx == 4) {
-        $("#menu_btn_addfile").fadeIn();
-      } else {
-        $("#menu_btn_addfile").fadeOut();
-      }
-      
+    is_page_change = $("#hdn_is_page_change").val();
+    if(is_page_change == "true") {
+      save_course(this.id);
+    }
+    
+    if(idx == 2) {
+      $("#btn_category_remove").fadeIn();
+    } else {
+      $("#btn_category_remove").fadeOut();
+    }
+    
+    if(idx == 4) {
+      $("#menu_btn_addfile").fadeIn();
+    } else {
+      $("#menu_btn_addfile").fadeOut();
+    }
+    
   });
   
-      //Add File by button
-      
-      $("#menu_btn_addfile").click(function(){
-         $("#confirm_upload").show();
-         $("#show_file_data").hide();
-      });
-      
+  //Add File by button
+  
+  $("#menu_btn_addfile").click(function(){
+     $("#confirm_upload").show();
+     $("#show_file_data").hide();
+  });
    
   //Submit data
   $("#btn_course").unbind('click').bind('click', function(){
@@ -239,12 +229,6 @@ $(document).ready(function(){
       return false; 
     }
   });
-  
-  
-  
-  
-  
-  
   
   //Remove outcome nodes
   $(".outcome_del").click(function(){
@@ -455,6 +439,7 @@ function save_course(channel) {
       }
     }
   });  
+  
   return false;  
 }
 
@@ -479,5 +464,6 @@ function addNode(element) {
     _counterCategory++;
   }
 }
+
 -->
 </script>

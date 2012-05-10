@@ -3,6 +3,8 @@ require 'aws/s3'
 class Attachment < ActiveRecord::Base
   belongs_to :object, :polymorphic => true
   belongs_to :school
+  belongs_to :owner, :class_name => "Profile"
+  
   acts_as_taggable
   has_attached_file :resource,
     :storage => :s3,
