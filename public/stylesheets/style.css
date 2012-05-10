@@ -489,7 +489,7 @@ a.icon_stats_active {
   text-align:right;*/
   /*top:50%;*/
   position:fixed;
-  right:-180px;
+  right:-178px;
   -moz-transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
   color:#fff;
@@ -1836,7 +1836,7 @@ div .coursemsg_bgc2 {
 .msg_box_txt .msg_bottom_linksC2 {
 	font-weight:bold;
 	padding-top:0px;
-	margin:-7px 0 0 0;
+	margin:-20px 0 0 0;
 }
 .staronavatar  img{
 	position:absolute;

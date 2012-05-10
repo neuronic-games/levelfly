@@ -55,6 +55,8 @@
 <script type="text/javascript">
   //prepare show links
 $(document).ready(function(){
+  showPageTitle("My Tasks");
+  
   $('a.view').click(function() { 
     showSpinner(true);
     $("#container").load(this.href, function(){

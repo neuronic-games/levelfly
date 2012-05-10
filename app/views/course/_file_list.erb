@@ -6,17 +6,16 @@
         <div class="msg_box_txt blue_bg_msg_txt2 coursemsg_bgc2" >
           <div class="staronavatar"><img src="/images/star_up.png" width="36" height="37" /></div>
           <div class="avatar_white_bdrC2">
-             <% if @courseMaster %>
-             <img  src="<%=@courseMaster.image_file_name%>" />
-             <div class="avatar_name"><%=@courseMaster.full_name%></div>
-             <% end %>
+             <img src="<%=a.owner.image_file_name%>" />
           </div>
           <div class="titleTextheading">
-            <h4 class="name">Assignment Instructions.doc</h4>
-            <p><%=a.resource_file_name%> uploaded</p>
-            <p>by <%=@courseMaster.full_name if @courseMaster%></p>
+            <h4 class="name"><%=a.resource_file_name%></h4>
+            <p>
+              Uploaded by <%=h a.owner.full_name%><br />
+              <%= show_kilo_byte(a.resource_file_size) %>KB
+            </p>
           </div>
-          <div class="titleTextRight"><%=show_kilo_byte(a.resource_file_size) %>KB </div>
+          <div class="titleTextRight">File</div>
           <div class="titleTextRightC2"><%= show_date_format(a.updated_at) %></div>
           <div class="clear"></div>
           <div id="files_hover" class="msg_bottom_linksC2" style="display:none;">
