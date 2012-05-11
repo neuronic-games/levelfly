@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-
+  before_filter :set_current_profile
   # before_filter :prepare_for_mobile
    include ApplicationHelper
   def search_participants
@@ -37,7 +37,18 @@ class ApplicationController < ActionController::Base
   end
   
   private
-
+  
+  def set_current_profile()
+    if current_user
+      profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      user_session[:profile_id] = profile.id
+      user_session[:profile_name] = profile.full_name
+      user_session[:profile_major] = profile.major.name if profile.major
+      user_session[:profile_school] = profile.school.code if profile.school
+      user_session[:vault] = profile.school.vaults[0].folder if profile.school
+    end
+  end
+  
   def mobile_device?
     if session[:mobile_param]
       session[:mobile_param] == "1"
