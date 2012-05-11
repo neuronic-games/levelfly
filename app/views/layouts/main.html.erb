@@ -51,7 +51,9 @@
         </div>
         <div class="clear"></div>
       </div>
-      <div class="header_mid_box"></div>
+      <div class="header_mid_box">
+        <div id="alert" class="alert"></div>
+      </div>
       <div class="header_search_box">
         <div class="setting_box"><a href="/users/sign_out" data-method="delete" rel="nofollow"><img src="images/setting_icon.png" /></a></div>
         <div class="search_bg">
@@ -267,6 +269,12 @@ function user_profile(profile_id) {
   
   function setPageTitle(title) {
     $("#page_title").html(title);
+  }
+  
+  function setAlert(text) {
+    $("#alert").dequeue();
+    $("#alert").html(text);
+    $("#alert").fadeIn("fast").delay(1000).fadeOut(1000);
   }
 -->
 </script>

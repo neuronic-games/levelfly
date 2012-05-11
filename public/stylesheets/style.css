@@ -2226,6 +2226,14 @@ div .coursemsg_bgc2 {
   font-weight:bold;
   margin:12px;
 }
+
+.alert {
+  color:#718523;
+  font-weight:bold;
+  margin:20px;
+  overflow:hidden;
+}
+
 #avatar_profile{
   margin:0px 0px 0 64px;
 }
