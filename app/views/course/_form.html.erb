@@ -159,26 +159,6 @@ $(document).ready(function(){
     save_course(this.id);
   });
   
-  $("#btn_task").click(function(data){
-   var course_id=$("#course_id_hdn").val();
-   var dataString = {course_id:course_id};
-   showSpinner(true);
-   $.ajax({  
-        type: "GET",  
-        url: "/task/view_task",  
-        data: dataString,
-        success: function(data) {
-		$("#container").html(data);
-			showSpinner(false);
-        },
-        error: function()
-		{
-			alert("An Error has occured");
-			showSpinner(false);
-		},
-      }); 
-    });
-   
   //For updating outcomes (in course view screen)
   $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
     var outcome_id = $(this).attr('rel');
@@ -422,9 +402,6 @@ function save_course(channel) {
         $("#course_name").val(data.course.name);
         $("#course_code").val(data.course.code);
         $("#course_section").val(data.course.section);
-        $("#course_name").attr("readonly","readonly");
-        $("#course_code").attr("readonly","readonly");
-        $("#course_section").attr("readonly","readonly");
         if(channel=="btn_course") {
           $("#container").load('/course/index', function(){
             showSpinner(false);

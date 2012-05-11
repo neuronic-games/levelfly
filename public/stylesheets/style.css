@@ -1500,7 +1500,7 @@ margin-bottom:15px;
 margin:-32px 0 0 58px;
 }
 #interest textarea{
-width:89%;
+width:70%;
 height:100%;
 background-color:#FFFFFF;
 }
@@ -1887,7 +1887,7 @@ div .coursemsg_bgc2 {
 }
 
 .wrapper .avat {
-  right:200px;
+  right:256px;
   float: right;
   margin-top: 100px;
   position: absolute;
@@ -2219,4 +2219,13 @@ div .coursemsg_bgc2 {
     font-weight: bold;
     margin: 21px 0 0 78px;
     text-align: center;
+}
+/* For Messages */
+.load_messages h2{
+  color:#FFFFFF;
+  font-weight:bold;
+  margin:12px;
+}
+#avatar_profile{
+  margin:0px 0px 0 64px;
 }

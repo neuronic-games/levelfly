@@ -1,0 +1,5 @@
+<% if @friend_requests.count>0 %>
+  <% @friend_requests.each do |friend_request| %>
+    <%= render :partial => "/message/friend_requests", :locals => {:friend_request=>friend_request} %>
+  <% end %>
+<% end %>

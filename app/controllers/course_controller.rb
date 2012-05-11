@@ -195,6 +195,7 @@ class CourseController < ApplicationController
             :profile_id => params[:profile_id],
             :wall_id =>wall_id
           )
+          @message = Message.send_friend_request(user_session[:profile_id],params[:profile_id],wall_id)
           UserMailer.registration_confirmation(user_email).deliver
           status = true
         end
@@ -202,7 +203,7 @@ class CourseController < ApplicationController
           already_added = true
       end
     end
-    render :text => {"status"=>status, "already_added" => already_added,"email" =>user_email}.to_json
+    render :text => {"status"=>status, "already_added" => already_added,"message" =>@message}.to_json
   end
   
   def delete_participant

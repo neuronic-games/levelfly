@@ -224,6 +224,7 @@ form {margin:0px;padding:0px;}
   margin:auto;
   float:left;
   padding-top:25px;
+  padding-:25px;
 }
 .form_container label {
   font-weight:bold;
@@ -231,7 +232,8 @@ form {margin:0px;padding:0px;}
 }
 .left_form_container {
   float:left;
-  width:250px;
+  width:150px;
+  height:50px;
 }
 .right_form_container{
   float:left;
@@ -352,7 +354,7 @@ div .level_label {
 }
 textarea {
   border:1px solid #A9A9A9;
-  width:400px;
+  width:280px;
 }
 select {
   border:1px solid #A9A9A9;

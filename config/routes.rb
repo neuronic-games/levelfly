@@ -154,6 +154,8 @@ Oncapus::Application.routes.draw do
   
   post "message/notes"
   
+  post "message/check_request"
+  
   post "message/unfriend"
   
   match 'task' => 'task#index'

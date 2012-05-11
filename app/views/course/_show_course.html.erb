@@ -87,4 +87,27 @@
   <% end %>
   <div class="clear"></div>
  </div>
+ <script type="text/javascript">
+ 
+  //For Active Task
+   $("#btn_task").click(function(data){
+   var course_id=$("#course_id_hdn").val();
+   var dataString = {course_id:course_id};
+   showSpinner(true);
+   $.ajax({  
+        type: "GET",  
+        url: "/task/view_task",  
+        data: dataString,
+        success: function(data) {
+		      $("#container").html(data);
+			    showSpinner(false);
+        },
+        error: function()
+        {
+          alert("An Error has occured");
+          showSpinner(false);
+        },
+      }); 
+    });
+ </script>
  

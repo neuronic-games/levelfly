@@ -1,26 +1,5 @@
-<div>
+<div id="avatar_profile">
 <div class="popup_box1" id="avatar_card"> </div>
-<div id="image_avatar" />
-    <div id="modify"  class="avat clickable">
-    <img id="profile_background" src="/images/wardrobe/<%=profile.avatar.background if profile.avatar.background %>.png" class="profile_avatar">
-    <img id="profile_avatar_body" src="/images/wardrobe/<%= profile.avatar.body if profile.avatar.body %>.png" class="profile_avatar">
-    <img id="profile_hat_back" src="/images/wardrobe/<%= profile.avatar.hat_back if profile.avatar.hat_back %>.png" class="profile_avatar">
-    <img id="profile_hair_back" src="/images/wardrobe/<%= profile.avatar.hair_back if profile.avatar.hair_back %>.png" class="profile_avatar">
-    <img id="profile_shoes" src="/images/wardrobe/<%= profile.avatar.shoes if profile.avatar.shoes%>.png"  class="profile_avatar">
-    <img id="profile_bottom" src="/images/wardrobe/<%= profile.avatar.bottom if profile.avatar.bottom %>.png"  class="profile_avatar">
-    <img id="profile_necklace" src="/images/wardrobe/<%= profile.avatar.necklace if profile.avatar.necklace%>.png"  class="profile_avatar">
-    <img id="profile_top" src="/images/wardrobe/<%= profile.avatar.top if profile.avatar.top%>.png"  class="profile_avatar">
-    <img id="profile_head" src="/images/wardrobe/<%= profile.avatar.head if profile.avatar.head%>.png"  class="profile_avatar">
-    <img id="profile_earrings" src="/images/wardrobe/<%= profile.avatar.earrings if profile.avatar.earrings%>.png"  class="profile_avatar">
-    <img id="profile_facial_marks" src="/images/wardrobe/<%= profile.avatar.facial_marks if profile.avatar.facial_marks%>.png"  class="profile_avatar">
-    <img id="profile_facial_hair" src="/images/wardrobe/<%= profile.avatar.facial_hair if profile.avatar.facial_hair%>.png"  class="profile_avatar">
-    <img id="profile_face" src="/images/wardrobe/<%= profile.avatar.face if profile.avatar.face%>.png"  class="profile_avatar">
-    <img id="profile_glasses" src="/images/wardrobe/<%= profile.avatar.glasses if profile.avatar.glasses%>.png"  class="profile_avatar">
-    <img id="profile_hair" src="/images/wardrobe/<%= profile.avatar.hair if profile.avatar.hair%>.png"  class="profile_avatar">
-    <img id="profile_hat" src="/images/wardrobe/<%= profile.avatar.hat if profile.avatar.hat%>.png"  class="profile_avatar">
-    <img id="profile_prop" src="/images/wardrobe/<%= profile.avatar.prop if profile.avatar.prop%>.png"  class="profile_avatar">
-  </div>
-</div>
 <div id="main_div">
     <div id="box">
       <div id="check">
@@ -28,25 +7,26 @@
       </div>  
       <div class="avatar_detail" style="margin:-34px 0 0 62px;">
         <span><%=profile.full_name%></span>
-          <span id="input_un_bl">
-          <% if is_friend(user_session[:profile_id], profile.id) %>
-          <a href="javascript:void(0)" id="unfriend" class="btn">UNFRIEND</a>
-          <% else %>
-          <% if is_request_pending(profile.id, user_session[:profile_id]) %>
-          <a href="javascript:void(0)" class="btn" id="pending">PENDING</a>
-          <% else %>
-          <a href="javascript:void(0)" class="btn" id="Friend" rel="save">Friend</a>
-          <% end %>
-          <% end %>
-          <a href="javascript:void(0)" class="btn" name="block" id="block">Block</a>
+        
+        <% if user_session[:profile_id] != profile.id %>
+        <span id="input_un_bl">
+            <% if is_friend(user_session[:profile_id], profile.id) %>
+            <a href="javascript:void(0)" id="unfriend" class="btn">UNFRIEND</a>
+            <% else %>
+            <% if is_request_pending(profile.id, user_session[:profile_id]) %>
+            <a href="javascript:void(0)" class="btn" id="pending">PENDING</a>
+            <% else %>
+            <a href="javascript:void(0)" class="btn" id="Friend" rel="save">Friend</a>
+            <% end %>
+            <% end %>
+            <a href="javascript:void(0)" class="btn" name="block" id="block">Block</a>
         </span>
         <span id="input_no_me">
-          <a href="javascript:void(0)" name="notes" id="notes" class="btn menu_btn" rel="/message/notes/<%=profile.id %>">Notes</a>
-          <a href="javascript:void(0)" name="message" id="message" class="btn menu_btn" rel="/message/friends_only/<%=profile.id %>">Message</a>
-          
-         
+           <a href="javascript:void(0)" name="notes" id="notes" class="btn menu_btn" rel="/message/notes/<%=profile.id %>">Notes</a>
+           <a href="javascript:void(0)" name="message" id="message" class="btn menu_btn" rel="/message/friends_only/<%=profile.id %>">Message</a>
         </span>
-        <br/><p><%=profile.major.code %>, <%=profile.school.code %></p>
+        <% end %>
+        <br/><p><%=profile.major.code if profile.major %>, <%=profile.school.code if profile.school%></p>
       </div>
     </div>
     <div class="clear"></div>
@@ -68,7 +48,7 @@
       <input type="checkbox" name="share" id="share_check"/><br/><span id="share">Share</span>
     </div>  
     <div id="interest">
-      <textarea name="comments" cols=40 rows=3></textarea>   
+     <textarea name="comments" cols="10" rows="3"></textarea> 
     </div>
   </div>
   <div class="clear"></div>
@@ -78,7 +58,7 @@
     </div>  
     <div id="badges_box">Badges</div>     
   </div>
-  <div class="clear"></div>
+    <div class="clear"></div>
   <div id="box">
     <div id="check">
       <input type="checkbox" name="share" id="share_check"/><br/><span id="share">Share</span>
@@ -94,13 +74,16 @@
   </div>
   <div class="clear"></div>
   </div>
+ 
 </div>
-
+<div style="z-index:1000">
+<%= render :partial => "/profile/show_avatar" %>
+</div>
+  
 <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value=" <%=profile.id%>"/>
 
 <script type="text/javascript">
-
-// Friend requests
+$(document).ready(function(){
 
 $('#Friend').live('click',function(){
   m_text = $('#Friend').text();
@@ -156,6 +139,7 @@ $('#unfriend').live('click',function(){
       }
     });
   }
+});
 });
 
 </script>

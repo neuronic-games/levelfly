@@ -3,6 +3,7 @@ class MessageController < ApplicationController
   before_filter :authenticate_user!
   
  def index
+    user_session[:last_check_time] = DateTime.now
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
 
     if params[:search_text]
@@ -29,6 +30,12 @@ class MessageController < ApplicationController
        @count=0;
     end
     render :partial => "list",:locals => {:limit => @limitAttr,:friend_id => @friend_id} 
+  end
+  
+  def check_request
+    @friend_requests = Message.find(:all, :conditions=>["message_type ='Friend' AND parent_id = ? AND (archived is NULL or archived = ?) AND created_at > ?", user_session[:profile_id], false,user_session[:last_check_time]])
+    render:partial=>"message/friend_request_show",:locals=>{:friend_request => @friend_requests}
+    user_session[:last_check_time] = DateTime.now
   end
   
   

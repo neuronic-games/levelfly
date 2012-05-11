@@ -14,11 +14,11 @@
         <div class="right_form_container">
           <div class="frm_input">
             <span>Name</span>
-            <input type="text" name="group_name" id="group_name" class="large" value="<%=@group.name if @group%>" onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
-          </div>
+            <span><input type="text" name="group_name" id="group_name" class="dd_input brown_bg" value="<%=@group.name if @group%>" onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' /></span>
+          </div><br/><br/>
           <div class="frm_input">
             <span>Description</span>
-            <textarea name="group_descr" id="group_descr" rows="10" onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@group.descr if @group%></textarea>
+            <span><textarea name="group_descr" id="group_descr" rows="5"  onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@group.descr if @group%></textarea></span>
           </div>
          </div>
       </div>
@@ -63,7 +63,7 @@
 <% if @group%>
 <div class="menu_container">
 <div>
-    <a href="javascript:void(0)" value="2" id="people_tab" class="sbmt_course">PEOPLE</a>
+    <a href="javascript:void(0)" value="2" id="menu2" class="sbmt_course">PEOPLE</a>
 </div>
 </div>
 <%end%>

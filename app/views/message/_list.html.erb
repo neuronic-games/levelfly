@@ -1,55 +1,70 @@
 <!--popup start-->
-<div class="popup_box1" id="avatar_card">
-  
-</div>
+<div class="popup_box1" id="avatar_card"></div>
 <!--popup end-->
 
-<div class="messages_content">
+<div class="messages_content load_messages">
   <div class="msg_content_left">
-    <!-- Message -->
-      <div id="message_wrapper" class="message_wrapper">
-        <% if @messages %>
-          <% @messages.each do |message| %>
-            <%= render :partial => "/message/messages", :locals => {:message=>message} %>
-          <% end %>
+    <!-- Invites -->
+    <div id="friend_requests">
+       <h2>INVITES</h2>
+       <% if @friend_requests %>
+        <% @friend_requests.each do |friend_request| %>
+          <%= render :partial => "/message/friend_requests", :locals => {:friend_request=>friend_request} %>
         <% end %>
-      </div>
-      <div id="friend_requests">
-        <h2>Friend Requests</h2>
-        <% if @friend_requests %>
-          <% @friend_requests.each do |friend_request| %>
-            <%= render :partial => "/message/friend_requests", :locals => {:friend_request=>friend_request} %>
-          <% end %>
-        <% end %>
-       
-      </div>
+      <% end %>
+    </div>
       
-      <div id="notes">
-        <% if @notes %> 
-           <% @notes.each do |note| %>
-             <%= render :partial => "/message/notes", :locals => {:note=>note} %>
-           <% end %>
+    <!-- Message -->
+    <div id="message_wrapper" class="message_wrapper">
+      <% if @messages %>
+      <h2>MESSAGES</h2>
+        <% @messages.each do |message| %>
+          <%= render :partial => "/message/messages", :locals => {:message=>message} %>
         <% end %>
+      <% end %>
+    </div>
        
-      </div>
-    <!-- Message ends -->
+    <!-- Notes -->
+    <div id="notes">
+      <% if @notes %>
+      <h2>NOTES</h2>      
+         <% @notes.each do |note| %>
+           <%= render :partial => "/message/notes", :locals => {:note=>note} %>
+         <% end %>
+      <% end %>
+    </div>
     
     <!-- Add Friend -->
-    <div id="avatar_card" class="hide">
-      
-    </div>
+    <div id="avatar_card" class="hide"></div>
     <!-- Add Friend ends -->
+    
   </div>
+  
+  <!-- Friend List -->
   <div class="friend_list" id="friend_list">
     <% if @friend %>
+      <h2>FRIEND LIST</h2>
       <% @friend.each do |friend| %>
         <%= render :partial => "/message/friend_list", :locals => {:friend=>friend} %>
       <% end %>
     <% end %>
   </div>
 </div>
+
 <script type="text/javascript">
-<!-- 
+/*$(document).ready(function() {
+    $.ajaxSetup({ cache: false }); 
+    setInterval(function() {
+      $.ajax({
+        type: "POST",  
+        url: "/message/check_request",  
+        success: function(data) {
+          $("#friend_requests").prepend(data);
+        }
+      });
+    }, 10000); 
+});*/
+
   setPageTitle("My Messages");
   
   //Post Message

@@ -3,7 +3,7 @@
 <div class="shadow_repeat">
   <div>
     <div class="avatar_green_bdr">
-      <img onClick="user_profile();" src="<%=profile.image_file_name%>" id="<%=profile.id%>" class="profile"/>
+      <img onClick="user_profile(<%=profile.id%>);" src="<%=profile.image_file_name%>" id="<%=profile.id%>" class="profile"/>
     </div>
     <div class="txt"> <span class="pop_name"><b><%=profile.full_name%></b><br />
       <%=profile.major.name if profile.major%>, <%=profile.school.code%></span>
@@ -40,7 +40,7 @@
   </div>
 </div>
 <div class="bottom_shadow" ></div>
-<input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=profile.id%>"/>
+
 <script type="text/javascript">
 <!--
 //Toggle card screen
@@ -118,13 +118,7 @@ $('#unfriend').click(function(){
   }
 });
 
-function user_profile() {
-    profile_id = $('#hdn_profile_id').val();
-    $.get('/profile/user_profile',{ profile_id:profile_id }, function(data) {
-    $('#container').html(data);
-  })
-  .success(function() { showDialog(true); });
-}
+
 
 
 </script>

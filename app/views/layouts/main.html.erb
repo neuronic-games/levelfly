@@ -40,14 +40,14 @@
       </div>
       <div class="avatar_box">
         <div class="avatar">
-          <a href="/"><img id="my_avatar_image" src="<%=user_session[:profile_image]%>" /></a>
+          <a href="javascript:void(0)"><img onClick="user_profile(<%=user_session[:profile_id]%> );" id="my_avatar_image" src="<%=user_session[:profile_image]%>" /></a>
         </div>
         <div class="avatar_detail">
           <div>
             <div id="full_name" class="full_name"><%=user_session[:profile_name]%></div>
             <input type="text" name="full_name" id="full_name_input" class="full_name_input" value="<%=user_session[:profile_name]%>" />
           </div>
-          <h2><%=user_session[:profile_major].blank? ? '' : user_session[:profile_major] + ',' %> <%=user_session[:profile_school]%></h2>
+          <h2><%=user_session[:profile_major] %> <%=user_session[:profile_school]%></h2>
         </div>
         <div class="clear"></div>
       </div>
@@ -127,8 +127,16 @@
     <div id="waiting" class="waiting"><img src="/images/ajax-loader.gif"></div>
   </div><!-- wrapper -->
 </div><!-- body_bg -->
+<input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=user_session[:profile_id] %>"/>
 </body>
 <script type="text/javascript">
+
+function user_profile(profile_id) {
+  $.get('/profile/user_profile',{ profile_id:profile_id }, function(data) {
+    $('#container').html(data);
+  })
+}
+
 <!--
   var token = $("meta[name='csrf-token']").attr("content");
   var search_arr = {"/friend/" : "Find Friend","/course/" : "Find Course", "/task/" : "Find Task", "/message/" : "Find Message", "/group/" : "Find Group"};
@@ -140,8 +148,11 @@
   });
   
   $(document).ready(function(){
-    $("#full_name_input").hide();
     
+    
+    
+    
+    $("#full_name_input").hide();
     //Search option settings
     $("#search_options li").bind("click",function(){
       set_search($(this).attr("rel"));

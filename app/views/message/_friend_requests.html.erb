@@ -1,6 +1,6 @@
 <div class="msg_big_box" id="request_box_<%=friend_request.id%>">
   <div class="avatar_white_bdr">
-    <img src="<%=friend_request.profile.iameg_file_name%>" id="<%=friend_request.profile.id%>" class="profile"/>
+    <img src="<%=friend_request.profile.image_file_name%>" id="<%=friend_request.profile.id%>" class="profile"/>
   </div>
   <div class="msg_box_fullwidth">
     <div class="positn_rtlv"><div class="msg_big_box_arrow"><img src="images/blue_arrow.png" width="15px" height="21px" /></div></div>
@@ -11,10 +11,10 @@
         <div class="time"><%= time_ago_in_words(friend_request.created_at) %> ago</div>
         <div class="like_cmt">
           <span>
-            <a href="javascript:void(0)" class="blue_bt19px friend-request" rel="add" id="<%=friend_request.id%>">Add</a>
+            <a href="javascript:void(0)" class="blue_bt19px friend-request" rel="add" id="<%=friend_request.id%>">Accept</a>
           </span>
           <span>
-            <a href="javascript:void(0)" class="blue_bt19px friend-request" rel="dntadd" id="<%=friend_request.id%>">Don't add</a>
+            <a href="javascript:void(0)" class="blue_bt19px friend-request" rel="dntadd" id="<%=friend_request.id%>">Decline</a>
           </span>
         </div>
       </div>
