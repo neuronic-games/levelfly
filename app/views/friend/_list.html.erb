@@ -1,0 +1,51 @@
+<div class="course_content">
+  <div class="course_board_left">
+    <div class="course_board_right">
+      <div class="course_board_center">
+        <div class="texture_board">
+          <div class="course_pad_top"> </div>
+          <div class="course_pad">
+
+            <table class="blackboard_list">
+              <tr>
+                <th width="110">
+                </th>
+                <th>
+                  Name
+                </th>
+                <th width="100">
+                  Email ID
+                </th>
+              </tr>
+              <% if !@friend.nil? %>
+              <% @friend.each do |f| %>
+              <tr>
+                <td>
+                  <a href="/course/show/<%=c.id%>" class="view">
+                    <img src='<%= f.image_file_name %>' width="100" height="100" alt="<%=f.name%>" />
+                  </a>
+                </td>
+                <td>
+                   <a href="/course/show/<%=c.id%>" class="view">
+                    <%=f.full_name%>
+                  </a>
+                </td>
+                <td>
+                  <%=f.user.email%>
+                </td>
+              </tr>
+              <% end %>
+              <% end %>
+            </table>
+          </div>  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="sidebar_right">
+  <div class="friend_side_buttons">
+    <a class="big_blue_btn menu_btn" name="menu_btn_add" id="menu_btn_add" rel="/friend/new"href="javascript:void(0)">ADD</a>
+  </div><!-- crud_level -->
+</div>

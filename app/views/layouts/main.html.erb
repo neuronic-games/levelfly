@@ -9,11 +9,11 @@
   <link rel="apple-touch-icon" href="/images/ios_icon.png">
   <link href='http://fonts.googleapis.com/css?family=Metrophobic' rel='stylesheet' type='text/css'>
   <link type="text/css" rel="stylesheet" href="/stylesheets/style.css">
+  
   <link href="/stylesheets/main_layout.css" media="screen" rel="stylesheet" type="text/css">
   <link href="/stylesheets/ui/jquery.ui.all.css" media="screen" rel="stylesheet" type="text/css">
   <link href="/stylesheets/ui/jquery.ui.autocomplete.css" media="screen" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="/stylesheets/fileupload/css/jquery.plupload.queue.css" type="text/css" media="screen" />
-  
   <%= javascript_include_tag "application" %>
   <script src="/assets/jquery.highlight.js"></script>
   <script src="/assets/ui/jquery.ui.core.js"></script>
@@ -40,7 +40,7 @@
       </div>
       <div class="avatar_box">
         <div class="avatar">
-          <a href="javascript:void(0)"><img onClick="user_profile(<%=user_session[:profile_id]%> );" id="my_avatar_image" src="<%=user_session[:profile_image]%>" /></a>
+          <a href="javascript:void(0)"><img onClick="user_profile(<%=user_session[:profile_id]%> );" src="<%=user_session[:profile_image]%>" /></a>
         </div>
         <div class="avatar_detail">
           <div>

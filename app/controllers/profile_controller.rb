@@ -6,7 +6,11 @@ class ProfileController < ApplicationController
   end
 
   def show
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    if params.has_key?(:id) and not params[:id].blank?
+      @profile = Profile.find(:first, :conditions => ["user_id = ?", params[:id]])
+    else
+      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    end
     if @profile
       user_session[:profile_id] = @profile.id
     end

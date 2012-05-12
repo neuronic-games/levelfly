@@ -46,14 +46,13 @@ $(document).ready(function(){
     name = getStorage("group_name");
     descr = getStorage("group_descr");
     var dataString = 'id='+ id +'&name=' + name + '&descr=' + descr;  
-    //alert (dataString);return false;  
     $.ajax({  
       type: "POST",  
       url: "/group/create",  
       data: dataString,
       dataType:"json",
       error: function (error) {
-        alert('error; ' + dataString);
+         alert('An error has occured');
       },
       success: function(data) {
         if (data) {

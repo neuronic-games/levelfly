@@ -37,7 +37,13 @@
       <div id="level">
         <span>
         <span id="level_tex">Level</span><%=profile.avatar.level %>
-        <span id="level_text">XP</span>123
+        
+        <div id="level_meter">
+          <div id="progressbar">
+            <div id="progress_stats"></div>
+          </div>
+        </div>
+       
         <span id="level_text">Likes</span><%=profile.like_received ? profile.like_received : 0 %>
         </span>
       </div>
@@ -76,8 +82,8 @@
   </div>
  
 </div>
-<div style="z-index:1000">
-<%= render :partial => "/profile/show_avatar" %>
+<div style="z-index:9000">
+<%= render :partial => "/profile/show_avatar", :locals=>{:profile_user_id=>profile.id} %>
 </div>
   
 <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value=" <%=profile.id%>"/>

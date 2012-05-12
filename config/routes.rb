@@ -60,6 +60,8 @@ Oncapus::Application.routes.draw do
   
   get "task/duplicate"
   
+  get "friend/index"
+  
   get "course/index"
   
   get "course/new"
@@ -169,6 +171,8 @@ Oncapus::Application.routes.draw do
   match 'wardrobe' => 'wardrobe#index'
   
   match 'message' => 'message#index'
+  
+  match 'friend' => 'friend#index'
   
   # start added for new message funtionalites >>>  lmit>>> frinds messages
   match 'message/friends_only/:friend_id' => 'message#friends_only'

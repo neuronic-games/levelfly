@@ -190,8 +190,9 @@ $(document).ready(function(){
       modifyAvatar();
       $("#avatar_profile").css("display","none");
     } else {
-      $("#avatar_profile").css("display","block");
       $("#wardrobe_options").css("display","none");
+      $("#avatar_profile").css("display","block");
+     
       
       saveAvatar();
       showProfile();
@@ -328,8 +329,13 @@ $(document).ready(function(){
     _avatar["hair"] = hair;
     _avatar["hair_back"] = hair+"_back";
   });
-  
-  $.getJSON("/profile/show",
+  var profile_user_id = "<%=defined?(profile_user_id) && !profile_user_id.blank? ? profile_user_id : "" %>";
+  if (profile_user_id) {
+    data = {id:profile_user_id}
+  } else {
+    data = {}
+  }
+  $.getJSON("/profile/show",data,
      function(data){
        _profile = data.profile;
        _avatar = data.avatar;
@@ -481,7 +487,7 @@ function showAvatar() {
   $("#hat").attr("src", "/images/wardrobe/"+_avatar.hat+".png");
   $("#prop").attr("src", "/images/wardrobe/"+_avatar.prop+".png");
 
-  $("#my_avatar_image").attr("src", _profile.image_file_name);
+  //$("#my_avatar_image").attr("src", _profile.image_file_name);
 }
 
 function modifyAvatar() {
@@ -578,7 +584,7 @@ function saveAvatar() {
       success: function(data){
         _profile = data.profile;
         _avatar = data.avatar;
-        $("#my_avatar_image").attr("src", _profile.image_file_name);
+        //$("#my_avatar_image").attr("src", _profile.image_file_name);
         setAlert("Avatar Saved");
       }
     }); //Ajax

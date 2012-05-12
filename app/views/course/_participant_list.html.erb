@@ -4,6 +4,9 @@
     <% peoples.each do |p| %>
       <li class="<%= cycle("even", "odd") %>" id="<%=p.id%>">
         <div class="people_name"><%=p.full_name%></div>
+        <% if is_request_pending(p.id, user_session[:profile_id]) %>
+        <div class="people_name">Pending</div>
+        <%end%>
         <div class="people_delete">
           <a href="javascript:void(0)" rel="<%=p.id%>" >Delete</a>
         </div>
@@ -12,6 +15,9 @@
   <% else %>
     <% peoples.each do |p| %>
       <li class="<%= cycle("even", "odd") %>" id="<%=p.id%>"> <%=p.full_name%> </li>
+      <% if is_request_pending(p.id, user_session[:profile_id]) %>
+        <div class="people_name">Pending</div>
+        <%end%>
     <% end %>
   <% end %>
 <% end %>

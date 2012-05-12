@@ -217,8 +217,8 @@ function save_group(channel) {
       data: dataString,
       dataType:"json",
       error: function (error) {
-                  alert('error; ' + dataString);
-              },
+        alert('An error has occured');
+      },
       success: function(data) {
       $("#group_id_hdn").val(data.group.id);
         if (data.group.course_id) {
