@@ -1538,10 +1538,11 @@ background-color:#FFFFFF;
 margin:-32px 0 0 58px;
 color:#FFFFFF;
 }
-#level_text{
-margin:0 40px 0 120px;
+#level_text {
+    float: left;
+    margin: -35px 0 0 291px;
 }
-#level_tex{
+#level_like{
 margin:0 40px 0 10px;
 }
 .avatar_detail span {
@@ -1938,6 +1939,7 @@ div .coursemsg_bgc2 {
 }
 .wrapper .selections {
   position: absolute;
+  display: inline-block;
   top: 100px;
   width: 340px;
   height: 640px;
@@ -2267,4 +2269,25 @@ div .coursemsg_bgc2 {
 #avatar_profile{
   margin:0px 0px 0 64px;
 }
+#level_meter {
+  width:280px;
+  background-image:url("/images/ui/lvlmter.png");
+  height:51px;
+  word-spacing:5px;
+  color:#3393B1;
+}
 
+#level_meter #progressbar{
+  background-image:url("/images/ui/prgsbar.png");
+  background-repeat:repeat-x;
+  width:0px;
+  margin:3px auto auto 2px;
+  height:45px;
+}
+
+#progressbar #progress_stats {
+  width:268px;
+  text-align:center;
+  font-size:20px;
+  text-transform:uppercase;
+}

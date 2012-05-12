@@ -35,17 +35,15 @@
         <input type="checkbox" name="share" id="share_check" value="Bike" /><br/><span id="share">Share</span>
       </div>  
       <div id="level">
-        <span>
-        <span id="level_tex">Level</span><%=profile.avatar.level %>
-        
-        <div id="level_meter">
-          <div id="progressbar">
-            <div id="progress_stats"></div>
+          <div id="level_meter">
+            <div id="progressbar">
+              <div id="progress_stats"></div>
+            </div>
           </div>
-        </div>
-       
-        <span id="level_text">Likes</span><%=profile.like_received ? profile.like_received : 0 %>
-        </span>
+
+        <span id="level_text">Level</span><%=profile.avatar.level %>
+        <span id="level_like">Likes</span><%=profile.like_received ? profile.like_received : 0 %>
+        
       </div>
     </div>
     <div class="clear"></div>
