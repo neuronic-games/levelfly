@@ -489,7 +489,7 @@ function showAvatar() {
   $("#hat").attr("src", "/images/wardrobe/"+_avatar.hat+".png");
   $("#prop").attr("src", "/images/wardrobe/"+_avatar.prop+".png");
 
-  //$("#my_avatar_image").attr("src", _profile.image_file_name);
+  $("#my_avatar_image").attr("src", _profile.image_file_name);
 }
 
 function modifyAvatar() {
@@ -586,7 +586,7 @@ function saveAvatar() {
       success: function(data){
         _profile = data.profile;
         _avatar = data.avatar;
-        //$("#my_avatar_image").attr("src", _profile.image_file_name);
+        $("#my_avatar_image").attr("src", _profile.image_file_name);
         setAlert("Avatar Saved");
       }
     }); //Ajax
