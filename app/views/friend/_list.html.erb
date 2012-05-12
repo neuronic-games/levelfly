@@ -14,19 +14,19 @@
                   Name
                 </th>
                 <th width="100">
-                  Email ID
+                  Email
                 </th>
               </tr>
               <% if !@friend.nil? %>
               <% @friend.each do |f| %>
               <tr>
                 <td>
-                  <a href="/course/show/<%=c.id%>" class="view">
+                  <a href="/friend/show/<%=f.id%>" class="view">
                     <img src='<%= f.image_file_name %>' width="100" height="100" alt="<%=f.name%>" />
                   </a>
                 </td>
                 <td>
-                   <a href="/course/show/<%=c.id%>" class="view">
+                   <a href="/friend/show/<%=f.id%>" class="view">
                     <%=f.full_name%>
                   </a>
                 </td>

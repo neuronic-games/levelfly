@@ -6,7 +6,7 @@ class FriendController < ApplicationController
   
     if params[:search_text]
       search_text =  "#{params[:search_text]}"
-      @friend = Profile.joins(:participants).where("object_id = ? AND object_type = 'User' AND profile_type = 'F' AND profiles.full_name LIKE '#{params[:search_text]}%'",user_session[:profile_id])
+      @friend = Profile.where("upper(profiles.full_name) LIKE '#{params[:search_text].upcase}%'")
      end  
     respond_to do |wants|
       wants.html do
