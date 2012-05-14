@@ -352,10 +352,6 @@ div .level_label {
 .big_btn {
   width:140px !important;
 }
-textarea {
-  border:1px solid #A9A9A9;
-  width:280px;
-}
 select {
   border:1px solid #A9A9A9;
   width:160px;

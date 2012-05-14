@@ -1569,8 +1569,8 @@ color:#FFFFFF;
   border-style: none; 
   border-color: transparent;
   padding:8px;
-  -webkit-input-placeholder: #113C59;
-  -moz-placeholder: #113C59;
+  overflow:auto;
+  border:none;
 }
 
 .profile_row input[readonly], textarea[readonly] {
@@ -1582,7 +1582,8 @@ color:#FFFFFF;
   display:block;
 }
 
-.profie_share {
+.profile_share {
+  width:30px;
   margin-right:15px;
 }
 .profile_header {
@@ -1601,6 +1602,7 @@ color:#FFFFFF;
   text-transform:uppercase;
   font-weight:bold;
   color:white;
+  margin-bottom:3px;
 }
 .avatar_detail span {
   font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
