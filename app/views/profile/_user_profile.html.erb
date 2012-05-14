@@ -1,61 +1,77 @@
 <div id="avatar_profile">
 <div class="popup_box1" id="avatar_card"> </div>
-<div id="main_div">
-    <div id="box">
-      <div id="check">
-        <input type="checkbox" name="share" id="share_check"/><br/><span id="share">Share</span>
-      </div>  
-      <div class="avatar_detail" style="margin:-34px 0 0 62px;">
-        <span><%=profile.full_name%></span>
-        
-        <% if user_session[:profile_id] != profile.id %>
-        <span id="input_un_bl">
-            <% if is_friend(user_session[:profile_id], profile.id) %>
-            <a href="javascript:void(0)" id="unfriend" class="btn">UNFRIEND</a>
-            <% else %>
-            <% if is_request_pending(profile.id, user_session[:profile_id]) %>
-            <a href="javascript:void(0)" class="btn" id="pending">PENDING</a>
-            <% else %>
-            <a href="javascript:void(0)" class="btn" id="Friend" rel="save">Friend</a>
-            <% end %>
-            <% end %>
-            <a href="javascript:void(0)" class="btn" name="block" id="block">Block</a>
-        </span>
-        <span id="input_no_me">
-           <a href="javascript:void(0)" name="notes" id="notes" class="btn menu_btn" rel="/message/notes/<%=profile.id %>">Notes</a>
-           <a href="javascript:void(0)" name="message" id="message" class="btn menu_btn" rel="/message/friends_only/<%=profile.id %>">Message</a>
-        </span>
-        <% end %>
-        <br/><p><%=profile.major.code if profile.major %>, <%=profile.school.code if profile.school%></p>
-      </div>
-    </div>
-    <div class="clear"></div>
-    <div id="box">
-      <div id="check">
-        <input type="checkbox" name="share" id="share_check" value="Bike" /><br/><span id="share">Share</span>
-      </div>  
-      <div id="level">
-          <div id="level_meter">
-            <div id="progressbar">
-              <div id="progress_stats"></div>
-            </div>
-          </div>
 
-        <span id="level_text">Level</span><%=profile.avatar.level %>
-        <span id="level_like">Likes</span><%=profile.like_received ? profile.like_received : 0 %>
-        
+<div class="profile_left">
+  
+  <div class="profile_row">
+    
+    <div class="profile_item profie_share">
+      <input type="checkbox" name="share" class="share" value="major" />
+    </div>  
+    
+    <div class="profile_item">
+      <span class="profile_header" style="font-size:32px;"><%=profile.full_name%></span>
+      
+      <a href="javascript:void(0)" class="btn" name="change_my_look" id="change_my_look" onClick="loadPage('/profile/edit_wardrobe');">Wardrobe</a>
+      
+      <% if user_session[:profile_id] != profile.id %>
+      <span id="input_un_bl">
+        <% if is_friend(user_session[:profile_id], profile.id) %>
+        <a href="javascript:void(0)" id="unfriend" class="btn">UNFRIEND</a>
+        <% else %>
+        <% if is_request_pending(profile.id, user_session[:profile_id]) %>
+        <a href="javascript:void(0)" class="btn" id="pending">PENDING</a>
+        <% else %>
+        <a href="javascript:void(0)" class="btn" id="Friend" rel="save">Friend</a>
+        <% end %>
+        <% end %>
+        <a href="javascript:void(0)" class="btn" name="block" id="block">Block</a>
+      </span>
+      <span id="input_no_me">
+         <a href="javascript:void(0)" name="notes" id="notes" class="btn menu_btn" rel="/message/notes/<%=profile.id %>">Notes</a>
+         <a href="javascript:void(0)" name="message" id="message" class="btn menu_btn" rel="/message/friends_only/<%=profile.id %>">Message</a>
+      </span>
+      <% end %>
+      <br/><span class="profile_header" style="font-size:24px;"><%=h profile.major.code + ", " if profile.major %><%=profile.school.code if profile.school%></span>
+    </div>
+  </div>
+  
+  <div class="profile_row">
+    <div class="profile_item profie_share">
+      <input type="checkbox" name="share" class="share" value="metrics" />
+    </div>  
+
+    <div id="level" class="profile_item">
+      <div id="level_meter">
+        <div id="progressbar">
+          <div id="progress_stats"></div>
+        </div>
       </div>
     </div>
-    <div class="clear"></div>
-  <div id="box">
-    <div id="check">
-      <input type="checkbox" name="share" id="share_check"/><br/><span id="share">Share</span>
+
+    <div class="profile_item">
+      <div class="big_number"><%=h profile.avatar.level %></div>
+      <div class="caption">Level</div></div>
+    </div>
+
+    <div class="profile_item">
+      <div class="big_number"><%=h profile.like_received ? profile.like_received : 0 %></div>
+      <div class="caption">Likes</div>
+    </div>
+      
+  </div>
+  
+<%#
+  <div class="profile_row">
+    <div class="profile_item profie_share">
+      <input type="checkbox" name="share" class="share" value="interests" />
     </div>  
-    <div id="interest">
+    <div class="profile_item">
      <textarea name="comments" cols="10" rows="3"></textarea> 
     </div>
   </div>
-  <div class="clear"></div>
+%>
+<%#
   <div id="box">
     <div id="check">
       <input type="checkbox" name="share" id="share_check"/><br/><span id="share">Share</span>
@@ -74,14 +90,15 @@
     <div id="check">
       <input type="checkbox" name="share" id="share_check"/><br/><span id="share">Share</span>
     </div>  
-    <div id="badges_box">Mutual Friends</div>     
+    <div id="badges_box">Friends</div>     
   </div>
   <div class="clear"></div>
   </div>
- 
+ %>
 </div>
-<div style="z-index:9000">
-<%= render :partial => "/profile/show_avatar", :locals=>{:profile_user_id=>profile.id} %>
+
+<div class="profile_right">
+<%= render :partial => "/profile/full_avatar", :locals=>{:profile_user_id=>profile.id} %>
 </div>
   
 <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value=" <%=profile.id%>"/>
@@ -89,61 +106,63 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-$('#Friend').live('click',function(){
-  m_text = $('#Friend').text();
-  if(m_text == 'Friend'){
-  showSpinner(true);
-  profile_id = $('#hdn_profile_id').val();
-  message_type = $(this).attr('id');
-  method = $(this).attr('rel');
-  message = message_type == "Friend" ? "Friend Request!!!" : $('#message').val();
-  var dataString = {
-    parent_id:profile_id,
-    parent_type:"Profile",
-    content: message,
-    message_type: message_type
-  };
-  if(profile_id) {
-    $.ajax({
-      type: "POST",
-      url: "/message/"+method,
-      dataType: "json",
-      data: dataString,
-      error: function(){alert("ERROR!!")},
-      success: function(data) {
-        if (data.status == "save"){
-          $('#Friend').text("PENDING");
-        }
-        showSpinner(false);
-      }
-    });
-  }
-  }
-});
-
-//Unfriend 
-$('#unfriend').live('click',function(){
+  setPageTitle('My Profile');
+  
+  $('#Friend').live('click',function(){
+    m_text = $('#Friend').text();
+    if(m_text == 'Friend'){
     showSpinner(true);
     profile_id = $('#hdn_profile_id').val();
+    message_type = $(this).attr('id');
+    method = $(this).attr('rel');
+    message = message_type == "Friend" ? "Friend Request!!!" : $('#message').val();
+    var dataString = {
+      parent_id:profile_id,
+      parent_type:"Profile",
+      content: message,
+      message_type: message_type
+    };
     if(profile_id) {
-    var dataString = {profile_id:profile_id}
-    $.ajax({
-      type: "POST",
-      url: "/message/unfriend",
-      dataType: "json",
-      data: dataString,
-      error: function(){alert("ERROR!!")},
-      success: function(data) {
-        if (data.status) {
-          $('#unfriend').text("Friend");
-          $('#unfriend').attr("rel","save");
-          $('#unfriend').attr("id","Friend");
+      $.ajax({
+        type: "POST",
+        url: "/message/"+method,
+        dataType: "json",
+        data: dataString,
+        error: function(){alert("ERROR!!")},
+        success: function(data) {
+          if (data.status == "save"){
+            $('#Friend').text("PENDING");
+          }
+          showSpinner(false);
         }
-        showSpinner(false);
-      }
-    });
-  }
-});
+      });
+    }
+    }
+  });
+
+  //Unfriend 
+  $('#unfriend').live('click',function(){
+      showSpinner(true);
+      profile_id = $('#hdn_profile_id').val();
+      if(profile_id) {
+      var dataString = {profile_id:profile_id}
+      $.ajax({
+        type: "POST",
+        url: "/message/unfriend",
+        dataType: "json",
+        data: dataString,
+        error: function(){alert("ERROR!!")},
+        success: function(data) {
+          if (data.status) {
+            $('#unfriend').text("Friend");
+            $('#unfriend').attr("rel","save");
+            $('#unfriend').attr("id","Friend");
+          }
+          showSpinner(false);
+        }
+      });
+    }
+  });
 });
 
 </script>

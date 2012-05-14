@@ -11,9 +11,6 @@ class ProfileController < ApplicationController
     else
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     end
-    if @profile
-      user_session[:profile_id] = @profile.id
-    end
     
     new_profile = nil
     
@@ -29,13 +26,7 @@ class ProfileController < ApplicationController
     end
     
     if new_profile
-      @profile = new_profile.dup
-      @profile.user_id = current_user.id
-      @profile.code = nil
-      @profile.save
-      avatar = new_profile.avatar.dup
-      avatar.profile_id = @profile.id
-      avatar.save
+      @profile = Profile.create_for_user(current_user.id)
     end
     
     publish_profile(@profile)
@@ -145,22 +136,21 @@ class ProfileController < ApplicationController
   end
   
   def user_profile
-     if params[:profile_id] && !params[:profile_id].nil?
+    if params[:profile_id].blank?
+      @profile = Profile.find(user_session[:profile_id])
+    else
       @profile = Profile.find(params[:profile_id])
-	 end
-      render :partial => "/profile/user_profile", :locals => {:profile => @profile}
-  end
-  
-  private
-  
-  def publish_profile(profile)
-    user_session[:profile_id] = profile.id
-    user_session[:profile_name] = profile.full_name
-    user_session[:profile_image] = profile.image_file_name
-    user_session[:profile_major] = profile.major.name if profile.major
-    user_session[:profile_school] = profile.school.code if profile.school
-    user_session[:profile_level] = profile.avatar.level
-    user_session[:vault] = profile.school.vaults[0].folder if profile.school
+    end
+    render :partial => "/profile/user_profile", :locals => {:profile => @profile}
   end
 
+  def edit_wardrobe
+    if params[:profile_id].blank?
+      @profile = Profile.find(user_session[:profile_id])
+    else
+      @profile = Profile.find(params[:profile_id])
+    end
+    render :partial => "/profile/edit_wardrobe", :locals => {:profile => @profile}
+  end
+  
 end

@@ -1,0 +1,526 @@
+<div class="profile_left">
+  <a href="javascript:void(0)" class="btn" name="save_my_look" id="save_my_look" onClick="saveAvatar(); loadPage('/profile/user_profile');">Save</a>
+
+  <div class="selections">
+    <div id="wardrobe_options" class="wardrobe_options">
+      <div id="wardrobe_categories" class="wardrobe_categories lev0">
+        <div id="category_head" class="btn wardrobe_item clickable" value="head"></div>
+        <div id="category_body" class="btn wardrobe_item clickable" value="body"></div>
+        <div id="category_legs" class="btn wardrobe_item clickable" value="legs"></div>
+        <div id="category_feet" class="btn wardrobe_item clickable" value="feet"></div>
+        <div id="category_prop" class="btn wardrobe_item clickable" value="prop"></div>
+      </div>
+      <div id="uparr" class="nav_button clickable"></div>
+      <div id="dwnarr" class="nav_button clickable"></div>
+      <div class="indi">
+        <img src="/images/ui/arrowb.png" width="46" height="35" />
+      </div>
+      <div id="subcategory_wrapper">
+        <div class="lev1 wardrobe_subcategories">
+          <div class="subcategory_scroll">
+            <!-- subcategory items will dynamically append over here (for level 1) -->
+          </div>
+        </div>
+        <div class="lev2 wardrobe_subcategories">
+          <div class="subcategory_scroll">
+            <!-- subcategory items will dynamically append over here (for level 2) -->
+          </div>
+        </div>
+      </div>
+      <div id="select_note" class="selection_instructions">What would you like to change?</div>
+    </div>
+  </div>
+</div>
+
+<div class="profile_right">
+<%= render :partial => "/profile/full_avatar", :locals=>{:profile_user_id=>profile.id} %>
+</div>
+
+<script type="text/javascript">
+<!--
+
+$(document).ajaxSend(function(e, xhr, options) {
+  var token = $("meta[name='csrf-token']").attr("content");
+  xhr.setRequestHeader("X-CSRF-Token", token);
+});
+
+$(document).ready(function(){
+
+  var _editing = true;
+  showProfile();
+  modifyAvatar();
+  
+  // Finish editing a field
+  $(".input").blur(function() {
+  });
+
+  // Change full name
+  $("#full_name").click(function () {
+    wardrobeSubCategorySlide('hide');
+    changeName();
+  });
+  
+  // Save full name after entry by user
+  $("#full_name_input").blur(function () {
+    $("#full_name").html($("#full_name_input").val());
+    $("#full_name_input").hide();
+    $("#full_name").show();
+    var new_data = $("#full_name_input").val();
+    if (_profile.full_name != new_data) {
+      _profile.full_name = new_data;
+      saveName();
+    }
+  });
+  
+  // Click a wardrobe option
+  $('#wardrobe_options').delegate('.wardrobe_item', 'click', function() {
+    var $this = $(this),
+        model = $this.data('model'),
+        show_colorpalette = false; //Set for color palette
+
+    // move indication icon to according position
+    if(model.depth == 0) {
+      $(".indi").animate({top: parseInt($this.position().top) + 50 +'px'},250);
+    }
+    
+    //check the clicked item typed with array for showing color pallete
+    $.each(_itemForColor, function(key, value) {
+      if(parseInt(model.depth) > 1 && model.item_type == value) {
+        show_colorpalette = true;
+      }
+    });
+    
+    if(show_colorpalette) {
+      showColorPalette(model.item_type, $this);
+    } else {
+      $(".color_palette").fadeOut();
+    }
+
+    if (model.image_file) {
+      // Clicked on an option that can be applied
+      if (model.image_file == _avatar[model.item_type]) {
+        // Already applied? Remove this item, unless it is a required item
+        if (_itemRequired.indexOf(model.item_type) == -1) {
+          _avatar[model.item_type] = undefined;
+        }
+      } else {
+        // Display the item on the avatar
+        var image_file = model.image_file;
+        var depth = parseInt(model.depth);
+        if (depth > 1) {
+          // If the head is changed, make sure that the head color is the same as the current body
+          if (model.item_type == 'head') {
+            var current_image_file = _avatar["body"];
+            var skin = current_image_file.substr(current_image_file.length-1);
+            image_file = image_file.substr(0, image_file.length-1)+skin;
+          }
+          // If the hair is changed, make sure that the color is the same for all hair
+          if (model.item_type == 'hair' || model.item_type == 'facial_hair') {
+            var current_image_file = _avatar["hair"];
+            var skin = current_image_file.substr(current_image_file.length-1);
+            image_file = image_file.substr(0, image_file.length-1)+skin;
+          }
+        }
+        _avatar[model.item_type] = image_file;        
+      }
+      $("#" + model.item_type).attr("src", "/images/wardrobe/" + _avatar[model.item_type] + ".png");
+
+      // Check if there is a back layer
+      if (model.item_type == "hair") {
+        item_type_back = model.item_type + "_back";
+        _avatar[item_type_back] = _avatar[model.item_type] + "_back";
+        $("#"+item_type_back).attr("src", "/images/wardrobe/" + _avatar[item_type_back] + ".png");
+      }
+      
+      // Refresh the current list of options in case option stat has changed
+      showSubcategoryStat($this);
+    } else {
+      if (model.depth == 0) resetSubCategory(1);
+      wardrobeSubCategorySlide('show', model.depth);
+      OC.SubCategory.load(model.children, model.item_type);
+    }
+  });
+  
+  //Change major
+  $("#icon_major").click(function () {
+    wardrobeSubCategorySlide('hide');
+    changeMajor();
+  });
+  
+  //Scroll up the subcategories
+  $("#dwnarr").click(function () { OC.SubCategory.scroll('down'); });
+  
+  //Scroll down the subcategories
+  $("#uparr").click(function () { OC.SubCategory.scroll('up'); });
+
+  //Color change for body & head
+  $(".head_color").click(function(){
+    var head = _avatar.head;
+    var color = $(this).attr("value");
+    var head = head.substr(0, head.length-1) + color;
+    $("#avatar_body").attr("src", "/images/wardrobe/avatar/body/body_"+color+".png");
+    $("#head").attr("src", "/images/wardrobe/"+head+".png");
+    _avatar["head"] = head;
+    _avatar["body"] = "avatar/body/body_"+color;
+  });
+
+  // Hair color change
+  $(".hair_color").click(function(){
+    var hair = _avatar.hair;
+    var color = $(this).attr("value");
+    hair = hair.substr(0, hair.length-1) + color;
+    var facial_hair = _avatar.facial_hair;
+    if (facial_hair != undefined) {
+      facial_hair = facial_hair.substr(0, facial_hair.length-1) + color;
+      $("#facial_hair").attr("src", "/images/wardrobe/"+facial_hair+".png"); 
+      _avatar["facial_hair"] = facial_hair;
+    }
+    $("#hair").attr("src", "/images/wardrobe/"+hair+".png"); 
+    $("#hair_back").attr("src", "/images/wardrobe/"+hair+"_back.png");
+    _avatar["hair"] = hair;
+    _avatar["hair_back"] = hair+"_back";
+  });
+  
+});
+
+
+function showColorPalette(_item_type, $this) {
+  //Check if need to show the color palette
+  if (_item_type == "head_shape" || _item_type == "head") {
+    $("#head_color").show();
+    $("#hair_color").hide();
+  } else if (_item_type == "hair" || _item_type == "facial_hair") {
+    $("#hair_color").show();
+    $("#head_color").hide();
+  }else {
+    $("#hair_color").hide();
+    $("#head_color").hide();
+  }
+  //Show & move color palette
+  $(".color_palette").animate({left: parseInt($this.position().left) + 330 +'px'},250);
+  $(".color_palette").animate({top: parseInt($this.position().top) + 185 +'px'},250);
+  $(".color_palette").fadeIn(80);
+}
+
+function showSubcategoryStat(item) {
+  var select = !item.hasClass('selected');
+  item.closest('.subcategory_container').find('div').removeClass('selected');
+  item.toggleClass('selected', select);
+}
+
+function resetSubCategory(depth) {
+  if(depth==1) {
+    $(".lev1 .subcategory_scroll .subcategory_container").html("");
+  } else if(depth==2) {
+    $(".lev2 .subcategory_scroll .subcategory_container").html("");
+  }
+}
+
+function prepWardrobeIcons() {
+  $.each(_wardrobeItems, function() {
+    $("#category_" + this.item_type)
+      .html("<img src='/images/wardrobe/icon/level0/" + this.item_type + "_icon.png' /><br/>" + this.name)
+      .data('model', this);
+  });
+}
+
+// forward: dir=1, backward: dir=-1, skip=5
+function getSubCategorySubList(curIdx, dir, skip) {
+  var idx = 0;
+  tempList = new Array();
+  for (i=0; i < _wardrobeItems.length; i++) {
+    if (_wardrobeItems[i].parent_item_id == id) {
+      tempList[idx] = _wardrobeItems[i];
+      idx = idx++;
+    }
+  }
+  count = idx;
+  // Calculate the new index with wrap-around
+  var newIdx = curIdx + (dir * skip);
+  if (newIdx < 0) {
+    newIdx = count + newIdx;
+  } else if (newIdx >= count) {
+    newIdx = newIdx - count;
+  }
+  var finalList = new Array();
+  idx = 0;
+  for (i=0; i < skip; i++) {
+    finalList[i] = tempList[idx];
+    idx++;
+    if (idx >= count) {
+      idx = 0;
+    }
+  }
+  return finalList;
+}
+
+function showAvatar() {
+  if (_profile.full_name == undefined) {
+    $("#full_name").html("ENTER NAME");
+  } else {
+    $("#full_name").html(_profile.full_name);
+  }
+  
+  if (_major != undefined) {
+    $("#major").html(_major.name);
+    $("#icon_major").attr("src", "/images/majors/" + _major.code + ".png");
+  }
+
+  if (_school != undefined) {
+    $("#school").html(_school.code);
+  }
+  
+  if(_avatar.points ==undefined) {
+    _avatar.points = 0;
+  }
+  
+  if(_avatar.badge_count ==undefined) {
+    _avatar.badge_count = 0;
+  }
+
+  if(_avatar.level ==undefined) {
+    _avatar.level = 1;
+  }
+
+  $("#quest_points").html(_avatar.points);
+  $("#badge_count") .html((parseInt(_avatar.badge_count, 10) + 100).toString().substr(1));
+  $("#avatar_level").html(_avatar.level);
+  
+  $("#progress_stats").html(_level_meter[_avatar.level]+" until level "+_avatar.level);
+  $("#progressbar").animate({width :parseInt(_level_meter[_avatar.level] / 4.5)+"px"},1000);
+
+  // This requires _full_avatar.html.erb
+  showFullAvatar();
+  
+  $("#my_avatar_image").attr("src", _profile.image_file_name);
+}
+
+function modifyAvatar() {
+  if (_wardrobeItems == undefined) {
+    showSpinner(true);
+  // Fill-up the wardrobe for the first time
+    $.getJSON("/profile/edit",
+      function(data){
+        for (i=0; i<data.length; i++) {
+          if (data[i].depth == 0) {
+            $("#category_"+data[i].item_type).attr("value", data[i].id);
+          }
+        }
+        _wardrobeItems = buildWardrobeTree(data);
+        prepWardrobeIcons();
+        showSpinner(false);
+      });
+  } else {
+    prepWardrobeIcons();
+  }
+
+  $("#show_controls").hide();
+  $("#edit_controls").show();
+  $("#wardrobe_options").show();
+  $("#user_stats").hide();
+  // wardrobeSubCategorySlide('hide');
+  $(".color_palette").fadeOut();
+  $("#select_note").show();
+  $(".nav_button").hide();
+}
+
+function saveAvatar() {
+  setAlert("Avatar Saving...");
+
+  if (_school != undefined) {
+    _profile.school_id = _school.id;
+  }
+  if (_major != undefined) {
+    _profile.major_id = _major.id;
+  }
+  
+  //Canvas operation for saving avatar thumbnail
+  var newCanvas = document.createElement('canvas');
+  newCanvas.height = '114';
+  newCanvas.width = '114';
+  
+  var drawImageWidth = 130;
+  var drawImageHeight = 350;
+  
+  var ctx = newCanvas.getContext("2d");
+  
+  var sources = {
+      body: '/images/wardrobe/'+_avatar.body+'.png',
+      hat: '/images/wardrobe/'+_avatar.hat+'.png',
+      prop: '/images/wardrobe/'+_avatar.prop+'.png',
+      glasses: '/images/wardrobe/'+_avatar.glasses+'.png',
+      facial_hair: '/images/wardrobe/'+_avatar.facial_hair+'.png',
+      facial_marks: '/images/wardrobe/'+_avatar.facial_marks+'.png',
+      earrings: '/images/wardrobe/'+_avatar.earrings+'.png',
+      necklace: '/images/wardrobe/'+_avatar.necklace+'.png',
+      top: '/images/wardrobe/'+_avatar.top+'.png',
+      hair: '/images/wardrobe/'+_avatar.hair+'.png',
+      hair_back: '/images/wardrobe/'+_avatar.hair_back+'.png',
+      head: '/images/wardrobe/'+_avatar.head+'.png',
+      face: '/images/wardrobe/'+_avatar.face+'.png',
+  };
+
+  loadCanvasImages(sources, function(images){
+  //loadCanvasImages(sources, '');
+
+    ctx.drawImage(images.body, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.top, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.hair_back, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.head, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.face, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.hair, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.glasses, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.earrings, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.necklace, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.hat, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.facial_marks, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.facial_hair, 0,0,drawImageWidth,drawImageHeight);
+    ctx.drawImage(images.prop, 0,0,drawImageWidth,drawImageHeight);
+    var dataURL = newCanvas.toDataURL('image/jpg');
+    var base64 = dataURL.replace(/^data:image\/(png|jpg);base64,/, '') ;
+    
+    //Save avatar data
+    $.ajax({ 
+      // Previously was with getJson but having problem of too many parameters 
+      // in request URI so switched to $.ajax with post
+      url: "/profile/save",
+      data: { id: _profile.id, profile: _profile, avatar: _avatar, avatar_img: base64 }, 
+      type: 'post',
+      dataType: 'json',
+      error: function(){alert("Error");},
+      success: function(data){
+        _profile = data.profile;
+        _avatar = data.avatar;
+        $("#my_avatar_image").attr("src", _profile.image_file_name);
+        setAlert("Avatar Saved " + $("#my_avatar_image").attr("src"));
+      }
+    }); //Ajax
+  }); //loadCanvasImages
+}
+
+function showProfile() {
+  $("#show_controls").show();
+  $("#edit_controls").hide();
+  $("#wardrobe_options").hide();
+  $("#user_stats").show();
+  $(".color_palette").fadeOut();
+  wardrobeSubCategorySlide('hide');
+  $("#select_note").show();
+}
+
+function acceptCode() {
+  $.get('/profile/accept_code', function(data) {
+    $('#dialog').html(data);
+  })
+  .success(function() { showDialog(true); });
+}
+
+function changeName() {
+  $("#full_name").hide();
+  $("#full_name_input").val($("#full_name").html());
+  $("#full_name_input").show();
+  $("#full_name_input").focus().select();
+  // $.get('/profile/change_name', function(data) {
+  //   $('#dialog').html(data);
+  // })
+  // .success(function() { showDialog(true); });
+}
+
+function changeMajor() {
+  $.get('/profile/change_major', function(data) {
+    $('#dialog').html(data);
+  })
+  .success(function() { showDialog(true); });
+}
+
+function saveName() {
+  $.ajax({
+    url: "/profile/save_meta",
+    data: { id: _profile.id, profile: _profile }, 
+    type: 'post',
+    dataType: 'json',
+    error: function(){alert("Error");},
+    success: function(data){
+      _profile = data.profile;
+    }
+  }); //Ajax
+}
+
+var _last_status_lev1 = undefined;
+var _last_status_lev2 = undefined;
+var _last_status_lev3 = undefined;
+
+// Show hide wardrobe subcategory menu items (with slide effect)
+function wardrobeSubCategorySlide(action,depth) {
+  // Reset the subcategory divs as may shifted while the vertical scorlling.
+  $(".lev1 .subcategory_scroll #subcategory_container").css("marginTop" , "0px");
+  $(".lev2 .subcategory_scroll #subcategory_container").css("marginTop" , "0px");
+  if (action == 'show') {
+    if(depth==0) {
+      $(".lev1").show().animate({right: '100px'},500 ,function(){$(".lev1").css('z-index' , '1');});
+      _last_status_lev1 = 'shown';
+      
+      if(_last_status_lev2=='shown') {
+        $(".lev2").css('z-index' , '-1').animate({right: '-175px'},500 ,function(){$(".lev2").hide();resetSubCategory(2);});
+      }
+    } else if (depth==1) {
+      $(".lev1").css('z-index' , '-1').animate({right: '385px'},500 ,function(){$(".lev1").hide();resetSubCategory(1);});
+      $(".lev2").show().animate({right: '100px'},500 ,function(){$(".lev2").css('z-index' , '1');});
+      _last_status_lev2 = 'shown';
+      _last_status_lev1 = 'left';
+    }
+    $("#select_note").hide();
+    $(".indi").show();
+  } else if (action == 'hide') {
+    $(".lev1").hide().animate({right: '0px'},500 ,function(){$(".lev1").css('z-index' , '-1');resetSubCategory(1);});
+    $(".lev2").hide(function() {resetSubCategory(2);});
+    $(".indi").hide();
+    $("#select_note").show();
+  }
+}
+
+function buildWardrobeTree(data) {
+  var roots = pluck(data, 'id');
+  jQuery.each(data, function() {
+    if (this.parent_item_id && roots[this.parent_item_id]) roots[this.parent_item_id].children ?
+      roots[this.parent_item_id].children.push(this) :
+      roots[this.parent_item_id].children = [this];
+  });
+  return filter(jQuery.map(roots, function(r) {return r;}), function() { return !this.parent_item_id});
+}
+
+function filter(data, filterFn) {
+  var select = [];
+  jQuery.each(data, function() { if (filterFn.apply(this)) select.push(this); });
+  return select;
+}
+
+function pluck(data, property) {
+  var select = {};
+  jQuery.each(data, function() { if (this[property]) select[this[property]] = this; });
+  return select;
+}
+
+//function to load images for canvas operation
+function loadCanvasImages(sources, callback){
+  var images = {};
+  var loadedImages = 0;
+  var numImages = 0;
+  // get num of sources
+  for (var src in sources) {
+      numImages++;
+  }
+  for (var src in sources) {
+    images[src] = new Image(); 
+    images[src].onload = function(){
+      if (++loadedImages >= numImages) {
+        
+        callback(images);
+      }
+    };       
+    images[src].src = sources[src];
+  }
+}
+
+//-->
+</script>

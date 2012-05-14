@@ -154,12 +154,14 @@ body {
   font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
   font-size:22px;
   padding:0 0 5px 0;
+  text-align:center;
 }
 .level_00 .count {
-  font-size:50px;
+  font-size:64px;
   font-family: 'AthleticRegular';
   color: #8d130d;
-  text-shadow: 2px 2px 3px #fff;
+  text-shadow: 3px 3px #ffffff;
+  text-align:center;
 }
 
 .header .avatar_box {
@@ -476,12 +478,14 @@ a.icon_stats_active {
   /*width:4%;*/
   width:40px;
   /*margin-left:-40px;*/
-  background:url(../images/right_bar_bg.png) repeat-y right;
+  background:url(/images/right_bar_bg.png) repeat-y right;
   height:100%;
 	min-height:800px;
-	position:relative;
+/*  position:relative;*/
 	*height: expression(document.body.clientHeight < 802? "800px" : "100%");
   vertical-align:middle;
+  position:absolute;
+  right:0px;
 }
 .heading_messages {
   /*height:450px;
@@ -489,6 +493,7 @@ a.icon_stats_active {
   text-align:right;*/
   /*top:50%;*/
   position:fixed;
+  top:350px;
   right:-178px;
   -moz-transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
@@ -1257,7 +1262,7 @@ a.blue_bt19px:hover {
 .course_content {
 	z-index:1000;
 	height:100%;
-	padding-right:90px;/*margin: -62px 0 0;*/
+	padding-right:120px;/*margin: -62px 0 0;*/
 }
 .course_board_left {
 	background:url(../images/course_left_bar.jpg) 0 125px no-repeat;
@@ -1502,11 +1507,10 @@ a.icon_courses_active {
 	color:#6a7c28;
 }
 /************user profile *****************/
-#main_div{
-margin:125px -61px 0;
-width:90%;
-height:84%;
-float:left;
+.main_div{
+margin:125px;
+width:500px;
+display:block;
 }
 #check input{
 margin:10px 0 0 15px;
@@ -1523,9 +1527,6 @@ color:#FFFFFF;
     margin: -48px 0 0 58px;
     width: 551px;
 }
-#box{
-margin-bottom:15px;
-}
 #interest{
 margin:-32px 0 0 58px;
 }
@@ -1538,12 +1539,50 @@ background-color:#FFFFFF;
 margin:-32px 0 0 58px;
 color:#FFFFFF;
 }
-#level_text {
-    float: left;
-    margin: -35px 0 0 291px;
+.profile_left {
+  position:absolute;
+  display:block;
+  top:150px;
+  width:600px;
 }
-#level_like{
-margin:0 40px 0 10px;
+.profile_right {
+  position:absolute;
+  display:block;
+  width:300px;
+  height:100%;
+  right:0px;
+}
+.profile_row {
+  float:left;
+  display:block;
+  clear:both;
+  margin-top:0px;
+  margin-bottom:15px;
+  padding:0px;
+}
+.profile_item {
+  float:left;
+  display:block;
+}
+.profie_share {
+  margin-right:15px;
+}
+.profile_header {
+  font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
+  color:#ffffff;
+}
+.big_number {
+  font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
+  font-size:72px;
+  color:#8D130D;
+  text-shadow: 3px 3px #FFBA00;
+}
+.caption {
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:12px;
+  text-transform:uppercase;
+  font-weight:bold;
+  color:white;
 }
 .avatar_detail span {
   font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
@@ -1917,9 +1956,8 @@ div .coursemsg_bgc2 {
   margin:28px;
 }
 
-.wrapper .avat {
-  right:256px;
-  float: right;
+.avat {
+  float:left;
   margin-top: 100px;
   position: absolute;
 }
@@ -1940,7 +1978,6 @@ div .coursemsg_bgc2 {
 .wrapper .selections {
   position: absolute;
   display: inline-block;
-  top: 100px;
   width: 340px;
   height: 640px;
   padding-left: 30px;
@@ -2267,7 +2304,7 @@ div .coursemsg_bgc2 {
 }
 
 #avatar_profile{
-  margin:0px 0px 0 64px;
+/*  margin:0px 0px 0 64px;*/
 }
 #level_meter {
   width:280px;

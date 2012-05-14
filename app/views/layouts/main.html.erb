@@ -40,14 +40,20 @@
       </div>
       <div class="avatar_box">
         <div class="avatar">
-          <a href="javascript:void(0)"><img id="my_avatar_image" onClick="user_profile(<%=user_session[:profile_id]%> );" src="<%=user_session[:profile_image]%>" /></a>
+          <a href="javascript:void(0);" rel="/profile/user_profile" class="page_switcher"><img id="my_avatar_image" src="<%=user_session[:profile_image]%>" /></a>
         </div>
         <div class="avatar_detail">
           <div>
-            <div id="full_name" class="full_name"><%=user_session[:profile_name]%></div>
+            <div id="full_name" class="full_name">
+              <% if user_session[:profile_name].blank? %>
+              <a href="javascript:void(0);" rel="/profile/user_profile" class="page_switcher full_name">EDIT MY PROFILE</a>
+              <% else %>
+              <%=user_session[:profile_name]%>
+              <% end %>
+            </div>
             <input type="text" name="full_name" id="full_name_input" class="full_name_input" value="<%=user_session[:profile_name]%>" />
           </div>
-          <h2><%=user_session[:profile_major] %> <%=user_session[:profile_school]%></h2>
+          <h2><%=h user_session[:profile_major] + ", " unless user_session[:profile_major].blank? %><%=h user_session[:profile_school] %></h2>
         </div>
         <div class="clear"></div>
       </div>
@@ -141,7 +147,14 @@ function user_profile(profile_id) {
 
 <!--
   var token = $("meta[name='csrf-token']").attr("content");
-  var search_arr = {"/friend/" : "Find Friend","/course/" : "Find Course", "/task/" : "Find Task", "/message/" : "Find Message", "/group/" : "Find Group"};
+  var search_arr = {
+    "/profile/user_profile" : "Find Friend",
+    "/friend/" : "Find Friend",
+    "/course/" : "Find Course", 
+    "/task/" : "Find Task", 
+    "/message/" : "Find Message", 
+    "/group/" : "Find Group"
+  };
   var search_url = "/course/";
   var search_term = $("#search_input").val();
   //Set CSRF Token (Required for ajax request (post))
@@ -150,9 +163,6 @@ function user_profile(profile_id) {
   });
   
   $(document).ready(function(){
-    
-    
-    
     
     $("#full_name_input").hide();
     //Search option settings
@@ -203,16 +213,25 @@ function user_profile(profile_id) {
     });
     
     //Fill up the #container with according call
-    $("#frm_search, #root_level, #container").delegate(".menu_btn", "click",function(){
-      setTab();
-      var id = $(this).attr("id");
-      //document.getElementById(id).className = "icon_"+id+"_active menu_btn"
-      var target = $(this).attr("rel");
-      var data = $(this).attr("data");
-      load_data(target,data);
-      set_search(target);
-    });
+    $("#frm_search, #root_level, #container").delegate(".menu_btn", "click", loadPage);
+    $(".page_switcher").click(loadPage);
   }); //document.ready
+  
+  function loadPage(dest, title) {
+    setTab();
+    var id = $(this).attr("id");
+    var target = $(this).attr("rel");
+    if (target == undefined) {
+      target = dest;
+    }
+    setAlert("Loading to " + target);
+    var data = $(this).attr("data");
+    load_data(target,data);
+    set_search(target);
+    if (title != undefined) {
+      setPageTitle(title);
+    }
+  }
   
   $(document).keyup(function(e) {
     if (e.keyCode == 27) { // Esc button pressed to clear the search
@@ -233,6 +252,7 @@ function user_profile(profile_id) {
         success: function(data) {
           if (data) {
             $("#container").html(data);
+            setAlert("Page loaded");
           } else {
             alert("ERROR");
           }

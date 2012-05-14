@@ -1,0 +1,178 @@
+<div>
+  <div id="modify" class="avat">
+    <img id="background" class="avatar_editor">
+    <img id="avatar_body" class="avatar_editor">
+    <!-- <img id="hat_back" class="avatar_editor"> -->
+    <img id="hair_back" class="avatar_editor">
+    <img id="shoes" class="avatar_editor">
+    <img id="bottom" class="avatar_editor">
+    <img id="necklace" class="avatar_editor">
+    <img id="top" class="avatar_editor">
+    <img id="head" class="avatar_editor">
+    <img id="earrings" class="avatar_editor">
+    <img id="facial_marks" class="avatar_editor">
+    <img id="facial_hair" class="avatar_editor">
+    <img id="face" class="avatar_editor">
+    <img id="glasses" class="avatar_editor">
+    <img id="hair" class="avatar_editor">
+    <img id="hat" class="avatar_editor">
+    <img id="prop" class="avatar_editor">
+  </div>
+  <div class="color_palette">
+    <div id="color_palette_left_arrow">
+      <img src="/images/ui/left_arrow.png" border="0" />
+    </div>
+    <div id="head_color">
+      <div id="color_1" value="1" class="clickable head_color"></div>
+      <div id="color_2" value="2" class="clickable head_color"></div>
+      <div id="color_3" value="3" class="clickable head_color"></div>
+      <div id="color_4" value="4" class="clickable head_color"></div>
+      <div id="color_5" value="5" class="clickable head_color"></div>
+    </div>
+    <div id="hair_color">
+      <div id="hair_color_1" value="1" class="clickable hair_color"></div>
+      <div id="hair_color_2" value="2" class="clickable hair_color"></div>
+      <div id="hair_color_3" value="3" class="clickable hair_color"></div>
+      <div id="hair_color_4" value="4" class="clickable hair_color"></div>
+      <div id="hair_color_5" value="5" class="clickable hair_color"></div>
+    </div>
+  </div>
+  <!-- <div id="edit_controls" class="avatar_controls"><a href="javascript:void(0);" onClick="loadPage('/profile/user_profile');">Save My Look</a</div>
+  <div id="show_controls" class="avatar_controls"><a href="javascript:void(0);" onClick="loadPage('/profile/edit_wardrobe');">Change My Look</a></div> -->
+</div>
+
+<script type="text/javascript">
+
+var _wardrobeItems;
+var _profile;
+var _avatar;
+var _major;
+var _school;
+var _itemForColor = new Array("head", "head_shape", "hair", "facial_hair");
+var _itemRequired = new Array("head", "face");
+var _level_meter =  new Array(100, 150, 200, 350, 400, 500, 550, 700, 750, 900);
+
+OC = {
+  SubCategory: {
+    data: undefined,
+    cursor: 0,
+    section_size: 5,
+    depth: 1,
+    parent_item_type: undefined,
+    
+    load: function(data, parent_item_type) {
+      this.data = data || [];
+      this.cursor = 0;
+      this.depth = (data && data.length) ? data[0].depth : this.depth;
+      this.parent_item_type = parent_item_type;
+      var $scroll = $('.lev' + this.depth + ' .subcategory_scroll');
+
+      $scroll.scrollTop(0).empty().append(this.makeSection(this.data.slice(0, this.section_size)));
+      (this.data.length > this.section_size) ? $(".nav_button").fadeIn(1000) : $(".nav_button").fadeOut();
+    },
+    
+    scroll: function(direction) {
+      var new_cursor = (direction == 'up' ? this.cursor - this.section_size : this.cursor + this.section_size),
+          i = (new_cursor + this.data.length) % this.data.length,
+          newData = [],
+          scrollTo,
+          $scroll = $('.lev' + this.depth + ' .subcategory_scroll'),
+          $current_section = $('.subcategory_container', $scroll);
+
+      for (var j = 0; j < this.section_size; j++) newData.push(this.data[(i + j) % this.data.length]);
+
+      if (direction == 'up') {
+        $current_section.before(this.makeSection(newData));
+        $scroll.scrollTop(529);
+        scrollTo = 0;
+      } else {
+        $current_section.after(this.makeSection(newData));
+        $scroll.scrollTop(0);
+        scrollTo = 529;
+      }
+      
+      $scroll.animate({ scrollTop: scrollTo }, {
+        duration: 500,
+        complete: function() { $current_section.remove(); }
+      })
+      this.cursor = i;
+    },
+    
+    makeSection: function(data) {
+      var $container = $('<div class="subcategory_container"></div>'),
+          parent_item_type = this.parent_item_type;
+
+      $.each(data, function(i) {
+        var $div = $('<div class="btn wardrobe_item clickable"></div>').data('model', this),
+            image_file = this.image_file || ("level" + this.depth + "/" + parent_item_type + "/" + this.item_type);
+
+        if (this.image_file && this.image_file == _avatar[this.item_type]) $div.addClass('selected');
+        $div.append('<img src="/images/wardrobe/icon/' + image_file + '_icon.png" /><br/>' + this.name);
+        $container.append($div);
+      });
+      return $container;
+    }
+  }
+};
+
+$(document).ready(function(){
+  if (_avatar == undefined) {
+    loadWardrobe();
+  } else {
+    showFullAvatar();
+  }
+});
+
+function loadWardrobe() {
+   var profile_user_id = "<%=defined?(profile_user_id) && !profile_user_id.blank? ? profile_user_id : "" %>";
+   if (profile_user_id) {
+     data = {id:profile_user_id}
+   } else {
+     data = {}
+   }
+
+  $.getJSON("/profile/show", data,
+      function(data){
+        _profile = data.profile;
+        _avatar = data.avatar;
+        _major = data.major;
+        _school = data.school;
+        if (data.new_profile == true) {
+          acceptCode();
+        }
+        jStorage.flush()
+        jStorage.set("j_profile",data.profile);
+        jStorage.set("j_avatar",data.avatar);
+        jStorage.set("j_major",data.major);
+        //jStorage.set("j_school",data.school);
+        showFullAvatar();
+      }
+   ).error(function() { 
+     alert("Showing from stograge");
+     _profile = jStorage.get("j_profile");
+     _avatar = jStorage.get("j_avatar");
+     _major = jStorage.get("j_major");
+     //_school = jStorage.get("j_school");
+   });
+}
+
+function showFullAvatar() {
+  $("#background").attr("src", "/images/wardrobe/"+_avatar.background+".png");
+  $("#avatar_body").attr("src", "/images/wardrobe/"+_avatar.body+".png"); //Id changed by vaibhav because having id "body" is creating problem with jQuery.position()
+  // $("#hat_back").attr("src", "/images/wardrobe/"+_avatar.hat_back+".png");
+  $("#hair_back").attr("src", "/images/wardrobe/"+_avatar.hair_back+".png");
+  $("#shoes").attr("src", "/images/wardrobe/"+_avatar.shoes+".png");
+  $("#bottom").attr("src", "/images/wardrobe/"+_avatar.bottom+".png");
+  $("#necklace").attr("src", "/images/wardrobe/"+_avatar.necklace+".png");
+  $("#top").attr("src", "/images/wardrobe/"+_avatar.top+".png");
+  $("#head").attr("src", "/images/wardrobe/"+_avatar.head+".png");
+  $("#earrings").attr("src", "/images/wardrobe/"+_avatar.earrings+".png");
+  $("#facial_marks").attr("src", "/images/wardrobe/"+_avatar.facial_marks+".png");
+  $("#facial_hair").attr("src", "/images/wardrobe/"+_avatar.facial_hair+".png");
+  $("#face").attr("src", "/images/wardrobe/"+_avatar.face+".png");
+  $("#glasses").attr("src", "/images/wardrobe/"+_avatar.glasses+".png");
+  $("#hair").attr("src", "/images/wardrobe/"+_avatar.hair+".png");
+  $("#hat").attr("src", "/images/wardrobe/"+_avatar.hat+".png");
+  $("#prop").attr("src", "/images/wardrobe/"+_avatar.prop+".png");
+}
+</script>
