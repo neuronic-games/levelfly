@@ -188,7 +188,7 @@ class CourseController < ApplicationController
               :wall_id =>wall_id
             )
             @message = Message.send_friend_request(user_session[:profile_id],@profile.id,wall_id,params[:course_id])
-            UserMailer.registration_confirmation(params[:email]).deliver
+            # UserMailer.registration_confirmation(params[:email]).deliver
             status = true
           end
         else 
