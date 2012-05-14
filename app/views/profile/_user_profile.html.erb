@@ -78,6 +78,7 @@
     </div>
   </div>
 
+  <% if !@friends.empty? %>
   <div class="profile_row">
     <div class="profile_item profile_share">
       <input type="checkbox" name="share" class="share" value="friends" />
@@ -86,6 +87,7 @@
       <div class="caption">Friends</div>
     </div>
   </div>
+  <% end %>
 
 <%#
   <div id="box">
