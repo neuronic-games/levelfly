@@ -409,15 +409,15 @@ a.icon_tasks_active {
 }
 /****icon networks****/
 a.icon_networks {
-  background:url(../images/networks_icon.png) no-repeat 19px 5px;
+  background:url(../images/groups_icon.png) no-repeat 19px 5px;
   padding:61px 0 0;
 }
 a.icon_networks:hover {
-  background:url(../images/networks_icon_hover.png) no-repeat 19px 5px;
+  background:url(../images/groups_icon_hover.png) no-repeat 19px 5px;
   padding:61px 0 0;
 }
 a.icon_networks_active {
-  background:url(../images/networks_icon_hover.png) no-repeat 19px 5px;
+  background:url(../images/groups_icon_hover.png) no-repeat 19px 5px;
   padding:61px 0 0;
   color:#6a7c28;
 }

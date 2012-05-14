@@ -381,7 +381,7 @@ input[type=file] {
   float:left;
 }
 .people_delete {
-  width:60px;
+  width:5px;
   float:right;
 }
 table .tbl_header {
@@ -399,12 +399,12 @@ th .tbl_header {
 .even td a ,.odd td a{
    color:#000000;
 }
-.even {
+/*.even {
   background-color:#fff;
 }
 .odd {
   background-color:#EDEDED;
-}
+}*/
 
 .odd td, .even td {
   padding-left:10px;

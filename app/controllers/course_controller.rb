@@ -165,37 +165,72 @@ class CourseController < ApplicationController
    def get_participants
     search_participants()
    end
-  
-  def add_participant
+   
+   def add_participant
     status = false
     already_added = false
-    if params[:profile_id] && params[:course_id]
-      participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", params[:course_id], params[:profile_id]])
- 
-      profile = Profile.find(params[:profile_id])
-      user_email = profile.user.email if not profile.nil?
-      if !participant_exist
-        @participant = Participant.new
-        @participant.object_id = params[:course_id]
-        @participant.object_type = "Course"
-        @participant.profile_id = params[:profile_id]
-        @participant.profile_type = "S"
-        if @participant.save
-          wall_id = Wall.get_wall_id(params[:course_id],"Course")
-          Feed.create(
-            :profile_id => params[:profile_id],
-            :wall_id =>wall_id
-          )
-          @message = Message.send_friend_request(user_session[:profile_id],params[:profile_id],wall_id)
-          UserMailer.registration_confirmation(user_email).deliver
-          status = true
+    if params[:email] && params[:email]
+      
+      @user = User.find_by_email(params[:email])
+      if @user 
+        @profile = Profile.find_by_user_id(@user.id)
+        participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", params[:course_id], @profile.id])
+        if !participant_exist
+          @participant = Participant.new
+          @participant.object_id = params[:course_id]
+          @participant.object_type = "Course"
+          @participant.profile_id = @profile.id
+          @participant.profile_type = "P"
+          if @participant.save
+            wall_id = Wall.get_wall_id(params[:course_id],"Course")
+            Feed.create(
+              :profile_id => @profile.id,
+              :wall_id =>wall_id
+            )
+            @message = Message.send_friend_request(user_session[:profile_id],@profile.id,wall_id,params[:course_id])
+            UserMailer.registration_confirmation(params[:email]).deliver
+            status = true
+          end
+        else 
+            already_added = true
         end
-      else 
-          already_added = true
-      end
+        render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user}.to_json
+     else
+    render :text => {"status"=>status, "already_added" => already_added}.to_json
     end
-    render :text => {"status"=>status, "already_added" => already_added,"message" =>@message}.to_json
+   end
   end
+  
+  # def add_participant
+    # status = false
+    # already_added = false
+    # if params[:profile_id] && params[:course_id]
+      # participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", params[:course_id], params[:profile_id]])
+ 
+      # profile = Profile.find(params[:profile_id])
+      # user_email = profile.user.email if not profile.nil?
+      # if !participant_exist
+        # @participant = Participant.new
+        # @participant.object_id = params[:course_id]
+        # @participant.object_type = "Course"
+        # @participant.profile_id = params[:profile_id]
+        # @participant.profile_type = "S"
+        # if @participant.save
+          # wall_id = Wall.get_wall_id(params[:course_id],"Course")
+          # Feed.create(
+            # :profile_id => params[:profile_id],
+            # :wall_id =>wall_id
+          # )
+          # @message = Message.send_friend_request(user_session[:profile_id],params[:profile_id],wall_id)
+          # UserMailer.registration_confirmation(user_email).deliver
+          # status = true
+        # end
+      # else 
+          # already_added = true
+      # end
+    # end
+    # render :text => {"status"=>status, "already_added" => already_added,"profile" =>profile}.to_json
+  # end
   
   def delete_participant
     status = false

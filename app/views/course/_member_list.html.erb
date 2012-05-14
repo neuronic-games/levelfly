@@ -30,71 +30,47 @@
 <script type="text/javascript">
 //List people (participants)
   $("#btn_add_people").click(function() {
-    course_people = $("#add_course_people").val();
-    school_id = $("#course_school_id_hdn").val();
-    dataString = {school_id:school_id, search_text:course_people};
-    if (course_people!="") {
-      if(school_id) {
+    course_id = $("#course_id_hdn").val();
+    email_id = $("#add_course_people").val();
+    node_class = "even";
+    dataString = {course_id:course_id, email:email_id};
+    if (course_id && email_id) {
         showSpinner(true); 
-        $("#course_participant_list").show();
-        $("#course_participant_list_inner").html("Loading...");
         $.ajax({  
           type: "POST",  
-          url: "/course/get_participants",  
+          url: "/course/add_participant",  
           data: dataString,
+          dataType: "json",
           success: function(data) {
-            if (data) {
-              $("#course_participant_list_inner").html(data);
-            } else {
-              alert("ERROR");
+            if (data.status) {
+              participant_node = $('<li id="'+ data.profile.full_name + '" class="'+node_class+'"></li>');
+              participant_node.className = node_class;
+              participant_node.id = data.profile.full_name;
+              partcipant_html = '<div class="avatar_white_bdrC2"><img src='+data.profile.image_file_name+'></div>';
+              partcipant_html += '<div class="people_name">' + data.profile.full_name + '</div>';
+               partcipant_html += '<div class="people_name">Pending</div>';
+              partcipant_html += '<div class="people_delete"><a href="javascript:void(0)" rel="'+data.profile.full_name+'">Delete</a></div><div class="clear"></div>';
+              participant_node.append(partcipant_html);
+              $("#course_people ul").prepend(participant_node);
+              $("#course_participant_list").hide();
+              $("#hdn_is_page_change").val(true);
+            } 
+            else {
+              if(data.already_added) {
+                alert("This participant is already added to this course!!");
+              } else {
+                alert("ERROR");
+                $("#course_participant_list").hide();
+              }
             }
             showSpinner(false);
           }
         });
-      }
-    } else {
+     } else {
       alert("Please insert participant name");
     }
   });
   
-  //Add people (participant) to course
-  $("#course_participant_list").delegate(".people_node li", "click", function(){
-    showSpinner(true);
-    course_id = $("#course_id_hdn").val();
-    profile_id = $(this).attr("id");
-    profile_name = $(this).text();
-    node_class = $(this).attr("class");
-    dataString = {course_id:course_id, profile_id:profile_id};
-    if (profile_id && course_id) {
-      $.ajax({  
-        type: "POST",  
-        url: "/course/add_participant",  
-        data: dataString,
-        dataType: "json",
-        success: function(data) {
-          if (data.status) {
-            participant_node = $('<li id="'+ profile_id + '" class="'+node_class+'"></li>');
-            participant_node.className = node_class;
-            participant_node.id = profile_id;
-            partcipant_html = '<div class="people_name">' + profile_name + '</div>';
-            partcipant_html += '<div class="people_delete"><a href="javascript:void(0)" rel="'+profile_id+'">Delete</a></div>';
-            participant_node.append(partcipant_html);
-            $("#course_people ul").append(participant_node);
-            $("#course_participant_list").hide();
-            $("#hdn_is_page_change").val(true);
-          } else {
-            if(data.already_added) {
-              alert("This participant is already added to this course!!");
-            } else {
-              alert("ERROR");
-              $("#course_participant_list").hide();
-            }
-          }
-          showSpinner(false);
-        }
-      }); 
-    }
-  });
   //Delete participant 
   $(".people_node").delegate("li .people_delete a", "click", function(){
     showSpinner(true);

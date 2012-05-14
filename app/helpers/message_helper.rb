@@ -24,6 +24,15 @@ module MessageHelper
     end
   end
   
+  def is_course_request_pending(target_id,profile_id)
+    @course_request = Message.find(:first, :conditions=>["target_id = ? AND target_type = 'Course' AND profile_id=? AND archived is NULL or archived = ?", target_id, profile_id, false])
+    if @course_request
+      return true
+    else
+      return false
+    end
+  end
+  
   def is_request_pending(parent_id, profile_id)
     @friend_request = Message.find(:first, :conditions=>["parent_id = ? AND profile_id = ? AND message_type = 'Friend' AND (archived is NULL or archived = ?)", parent_id, profile_id, false])
     if @friend_request

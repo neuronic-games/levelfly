@@ -154,6 +154,8 @@ Oncapus::Application.routes.draw do
   
   post "message/respond_to_friend_request"
   
+  post "message/respond_to_course_request"
+  
   post "message/add_note"
   
   post "message/notes"

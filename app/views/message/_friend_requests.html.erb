@@ -11,10 +11,10 @@
         <div class="time"><%= time_ago_in_words(friend_request.created_at) %> ago</div>
         <div class="like_cmt">
           <span>
-            <a href="javascript:void(0)" class="blue_bt19px friend-request" rel="add" id="<%=friend_request.id%>">Accept</a>
+            <a href="javascript:void(0)" class="blue_bt19px friend-request" rel="add" id="<%=friend_request.id%>" data="<%=friend_request.message_type%>">Accept</a>
           </span>
           <span>
-            <a href="javascript:void(0)" class="blue_bt19px friend-request" rel="dntadd" id="<%=friend_request.id%>">Decline</a>
+            <a href="javascript:void(0)" class="blue_bt19px friend-request" rel="dntadd" id="<%=friend_request.id%>" data="<%=friend_request.message_type%>">Decline</a>
           </span>
         </div>
       </div>
@@ -24,29 +24,44 @@
 </div>
 
 <script type="text/javascript">
-<!--
-$('.friend-request').click(function(){
+
+$('.friend-request').unbind("click").bind("click", function(){
   showSpinner(true);
   message_id = this.id;
   action = $(this).attr('rel');
+  message_type = $(this).attr('data'); 
   var dataString = {message_id:message_id, activity:action};
   if(message_id) {
-    $.ajax({  
-      type: "POST",  
-      url: "/message/respond_to_friend_request",
-      datatype: 'json',
-      data: dataString,
-      success: function(data) {
-        if (data) {
-          $('#request_box_'+message_id).remove();
-          if(action == "add") {
-            $('#friend_list').append(data);
-          }
+    if(message_type == "course_invite"){ 
+      $.ajax({  
+        type: "POST",  
+        url: "/message/respond_to_course_request",
+        datatype: 'json',
+        data: dataString,
+        success: function(data) {
+          alert(data);
+          showSpinner(false);
         }
-        showSpinner(false);
-      }
-    });
+      });
+    }
+    if(message_type == "Friend"){ 
+      $.ajax({  
+        type: "POST",  
+        url: "/message/respond_to_friend_request",
+        datatype: 'json',
+        data: dataString,
+        success: function(data) {
+          if (data) {
+            $('#request_box_'+message_id).remove();
+            if(action == "add") {
+              $('#friend_list').append(data);
+            }
+          }
+          showSpinner(false);
+        }
+      });
+    }
   }
 });
--->
+
 </script>
