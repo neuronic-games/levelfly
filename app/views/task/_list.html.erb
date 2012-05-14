@@ -1,3 +1,4 @@
+<div class=""><!--pdg78px-->
 <div class="task_content">
   <div class="board_left">
     <div class="board_right">
@@ -5,17 +6,17 @@
         <div class="task_pad_top"><div class="task_pad_top_inner "></div></div>
         <div class="task_pad">
           <!-- tabs-->
-		       <table width="100%" align="center" cellspacing="0" cellpadding="4" border=1>
+		       <table width="100%" align="center" cellspacing="0" cellpadding="4">
               <tr class="tbl_header">
-                <td width="35%">
+                <td width="40%">
                   Task
                 </td>
-                <td width="30%">
+                <td>
                   Created on
                 </td>
-                <td width="17%">
+                <td>
                   Level
-                </td width="17%">
+                </td>
                 <td>
                   Category
                 </td>
@@ -26,7 +27,7 @@
                   <a href="/task/show/<%=t.id%>" id="<%=t.id%>" class="view"><%=t.name%></a>
                 </td>
                 <td>
-                  <%=show_date_format(t.created_at) %>
+                  <%=t.created_at %>
                 </td>
                 <td>
                   <%=t.level %>
@@ -37,6 +38,7 @@
               </tr>
               <% end %>
             </table>
+            <div style="height:520px"></div>
         <div class="clear"></div>
       </div>
     </div>
@@ -45,26 +47,26 @@
 </div>
 <div id="sidebar_right">
   <div class="task_side_buttons">
-    <a class="big_blue_btn menu_btn" name="menu_btn_add" id="menu_btn_add" rel="/task/new"href="javascript:void(0)">ADD</a>
+    <input type="button" name="menu_btn_add" id="menu_btn_add" rel="/course/new" value="Add" class="big_blue_btn menu_btn"/>
   </div><!-- crud_level -->
+</div>
 </div>
 
 <script type="text/javascript">
-
+  //prepare show links
 $(document).ready(function(){
   setPageTitle("My Tasks");
-  //prepare show links
-  $('a.view').click(function() {
+  
+  $('a.view').click(function() { 
     showSpinner(true);
     $("#container").load(this.href, function(){
-      task_id = $(this).id;
+      task_id = $(this).attr("id");
       $("#menu_btn_dup").attr("data","id="+task_id);
       $("#menu_btn_dup").show();
       showSpinner(false);
-    }); 
+    });
     return false; 
   });
   jStorage.flush();
 });
-
 </script>
