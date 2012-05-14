@@ -174,29 +174,31 @@ class CourseController < ApplicationController
       @user = User.find_by_email(params[:email])
       if @user 
         @profile = Profile.find_by_user_id(@user.id)
-        participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", params[:course_id], @profile.id])
-        if !participant_exist
-          @participant = Participant.new
-          @participant.object_id = params[:course_id]
-          @participant.object_type = "Course"
-          @participant.profile_id = @profile.id
-          @participant.profile_type = "P"
-          if @participant.save
-            wall_id = Wall.get_wall_id(params[:course_id],"Course")
-            Feed.create(
-              :profile_id => @profile.id,
-              :wall_id =>wall_id
-            )
-            @message = Message.send_friend_request(user_session[:profile_id],@profile.id,wall_id,params[:course_id])
-            # UserMailer.registration_confirmation(params[:email]).deliver
-            status = true
+        if @profile
+          participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", params[:course_id], @profile.id])
+          if !participant_exist
+            @participant = Participant.new
+            @participant.object_id = params[:course_id]
+            @participant.object_type = "Course"
+            @participant.profile_id = @profile.id
+            @participant.profile_type = "P"
+            if @participant.save
+              wall_id = Wall.get_wall_id(params[:course_id],"Course")
+              Feed.create(
+                :profile_id => @profile.id,
+                :wall_id =>wall_id
+              )
+              @message = Message.send_friend_request(@profile.id,user_session[:profile_id],wall_id,params[:course_id])
+              UserMailer.registration_confirmation(params[:email]).deliver
+              status = true
+            end
+          else 
+              already_added = true
           end
-        else 
-            already_added = true
         end
         render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user}.to_json
      else
-    render :text => {"status"=>status, "already_added" => already_added}.to_json
+      render :text => {"status"=>status, "already_added" => already_added}.to_json
     end
    end
   end
@@ -312,7 +314,7 @@ class CourseController < ApplicationController
     @peoples = Profile.find(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", params[:id]]
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course'", params[:id]]
     )
     @courseMaster = Profile.find(
       :first, 
