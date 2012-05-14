@@ -73,7 +73,7 @@
       <input type="checkbox" name="share" class="share" value="interests" />
     </div>
     <div class="profile_item">
-     <textarea name="comments" style="width:450px; height:100px;" placeholder="Enter Your Interests"></textarea> 
+     <textarea name="interests" id="interests" style="width:450px; height:100px;" placeholder="Enter your interests, seperated by commas (e.g. apples, bananas, oranges)"><%=h profile.tag_list %></textarea> 
     </div>
   </div>
 
@@ -186,12 +186,20 @@ $(document).ready(function(){
   $("#full_name_input").change(function () {
     var new_data = $("#full_name_input").val();
     _profile.full_name = new_data;
-    saveName();
+    saveProfile();
     $('#tool_bar_full_name').html(new_data);
     setAlert("Saving name " + _profile.full_name);
   });
 
-  function saveName() {
+  // Save full name after entry by user
+  $("#interests").change(function () {
+    var new_data = $("#interests").val();
+    _profile.tag_list = new_data;
+    saveProfile();
+    setAlert("Saving interests " + _profile.tag_list);
+  });
+
+  function saveProfile() {
     $.ajax({
       url: "/profile/save_meta",
       data: { id: _profile.id, profile: _profile }, 

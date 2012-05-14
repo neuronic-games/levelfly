@@ -50,6 +50,7 @@ class ProfileController < ApplicationController
     @profile.full_name = profile["full_name"]
     @profile.major_id = profile["major_id"]
     @profile.school_id = profile["school_id"]
+    @profile.tag_list = profile["tag_list"]
     @profile.save
     
     publish_profile(@profile)

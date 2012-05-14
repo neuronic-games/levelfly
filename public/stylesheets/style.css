@@ -1569,8 +1569,8 @@ color:#FFFFFF;
   border-style: none; 
   border-color: transparent;
   padding:8px;
-  -webkit-input-placeholder: #113C59;
-  -moz-placeholder: #113C59;
+  overflow:auto;
+  border:none;
 }
 
 .profile_row input[readonly], textarea[readonly] {
