@@ -10,9 +10,9 @@
     </div>  
     
     <div class="profile_item">
-      <span class="profile_header" style="font-size:32px;"><%=profile.full_name%></span>
-      
-      <a href="javascript:void(0)" class="btn" name="change_my_look" id="change_my_look" onClick="loadPage('/profile/edit_wardrobe');">Wardrobe</a>
+      <div id="full_name" class="full_name">
+        <input type="text" name="full_name" id="full_name_input" class="full_name" value="<%=user_session[:profile_name]%>" placeholder="Enter Name" />
+      </div>
       
       <% if user_session[:profile_id] != profile.id %>
       <span id="input_un_bl">
@@ -32,8 +32,14 @@
          <a href="javascript:void(0)" name="message" id="message" class="btn menu_btn" rel="/message/friends_only/<%=profile.id %>">Message</a>
       </span>
       <% end %>
-      <br/><span class="profile_header" style="font-size:24px;"><%=h profile.major.code + ", " if profile.major %><%=profile.school.code if profile.school%></span>
+      
+      <span class="profile_header" style="font-size:16px;"><%=h profile.major.code + ", " if profile.major %><%=profile.school.code if profile.school%></span>
     </div>
+
+    <div class="profile_item gap">
+      <a href="javascript:void(0)" class="big_blue_btn" name="change_my_look" id="change_my_look" onClick="loadPage('/profile/edit_wardrobe');">Wardrobe</a>
+    </div>
+    
   </div>
   
   <div class="profile_row">
@@ -47,30 +53,30 @@
           <div id="progress_stats"></div>
         </div>
       </div>
+      <div class="caption" style="margin-top:20px; text-align:center; width:100%;">XP</div>
     </div>
 
-    <div class="profile_item">
+    <div class="profile_item gap">
       <div class="big_number"><%=h profile.avatar.level %></div>
-      <div class="caption">Level</div></div>
+      <div class="caption">Level</div>
     </div>
 
-    <div class="profile_item">
+    <div class="profile_item gap">
       <div class="big_number"><%=h profile.like_received ? profile.like_received : 0 %></div>
       <div class="caption">Likes</div>
     </div>
       
   </div>
   
-<%#
   <div class="profile_row">
     <div class="profile_item profie_share">
       <input type="checkbox" name="share" class="share" value="interests" />
-    </div>  
+    </div>
     <div class="profile_item">
-     <textarea name="comments" cols="10" rows="3"></textarea> 
+     <textarea name="comments" style="width:450px; height:100px;" placeholder="Enter Your Interests"></textarea> 
     </div>
   </div>
-%>
+
 <%#
   <div id="box">
     <div id="check">
@@ -104,9 +110,21 @@
 <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value=" <%=profile.id%>"/>
 
 <script type="text/javascript">
+var _level_meter =  new Array(0, 150, 200, 350, 400, 500, 550, 700, 750, 900);
+
 $(document).ready(function(){
 
   setPageTitle('My Profile');
+  
+  var _level = 2;
+  
+  $("#progress_stats").html(_level_meter[_level]+" until level "+_level);
+  $("#progressbar").animate({width :parseInt(_level_meter[_level] / 4.5)+"px"},1000);
+  
+  <% if user_session[:profile_id] != profile.id %>
+    // If viewing another user, some fields are readonly. We also need to protect in the controller
+    $("#full_name_input").attr('readonly', 'readonly');
+  <% end %>
   
   $('#Friend').live('click',function(){
     m_text = $('#Friend').text();
@@ -163,6 +181,28 @@ $(document).ready(function(){
       });
     }
   });
+
+  // Save full name after entry by user
+  $("#full_name_input").change(function () {
+    var new_data = $("#full_name_input").val();
+    _profile.full_name = new_data;
+    saveName();
+    $('#tool_bar_full_name').html(new_data);
+    setAlert("Saving name " + _profile.full_name);
+  });
+
+  function saveName() {
+    $.ajax({
+      url: "/profile/save_meta",
+      data: { id: _profile.id, profile: _profile }, 
+      type: 'post',
+      dataType: 'json',
+      error: function(){alert("Error");},
+      success: function(data){
+        _profile = data.profile;
+      }
+    }); //Ajax
+  }
 });
 
 </script>

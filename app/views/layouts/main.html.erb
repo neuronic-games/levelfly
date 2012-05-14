@@ -43,16 +43,14 @@
           <a href="javascript:void(0);" rel="/profile/user_profile" class="page_switcher"><img id="my_avatar_image" src="<%=user_session[:profile_image]%>" /></a>
         </div>
         <div class="avatar_detail">
-          <div>
-            <div id="full_name" class="full_name">
-              <% if user_session[:profile_name].blank? %>
-              <a href="javascript:void(0);" rel="/profile/user_profile" class="page_switcher full_name">EDIT MY PROFILE</a>
-              <% else %>
-              <%=user_session[:profile_name]%>
-              <% end %>
-            </div>
-            <input type="text" name="full_name" id="full_name_input" class="full_name_input" value="<%=user_session[:profile_name]%>" />
+          <div id="tool_bar_full_name" class="full_name">
+            <% if user_session[:profile_name].blank? %>
+            <a href="javascript:void(0);" rel="/profile/user_profile" class="page_switcher full_name">EDIT MY PROFILE</a>
+            <% else %>
+            <%=user_session[:profile_name]%>
+            <% end %>
           </div>
+          
           <h2><%=h user_session[:profile_major] + ", " unless user_session[:profile_major].blank? %><%=h user_session[:profile_school] %></h2>
         </div>
         <div class="clear"></div>
@@ -164,7 +162,6 @@ function user_profile(profile_id) {
   
   $(document).ready(function(){
     
-    $("#full_name_input").hide();
     //Search option settings
     $("#search_options li").bind("click",function(){
       set_search($(this).attr("rel"));

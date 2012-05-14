@@ -1,5 +1,7 @@
 <div class="profile_left">
-  <a href="javascript:void(0)" class="btn" name="save_my_look" id="save_my_look" onClick="saveAvatar(); loadPage('/profile/user_profile');">Save</a>
+  <div style="float:right;">
+    <a href="javascript:void(0)" class="big_blue_btn" name="save_my_look" id="save_my_look" onClick="saveAvatar(); loadPage('/profile/user_profile');">Save</a>
+  </div>
 
   <div class="selections">
     <div id="wardrobe_options" class="wardrobe_options">
@@ -54,24 +56,6 @@ $(document).ready(function(){
   $(".input").blur(function() {
   });
 
-  // Change full name
-  $("#full_name").click(function () {
-    wardrobeSubCategorySlide('hide');
-    changeName();
-  });
-  
-  // Save full name after entry by user
-  $("#full_name_input").blur(function () {
-    $("#full_name").html($("#full_name_input").val());
-    $("#full_name_input").hide();
-    $("#full_name").show();
-    var new_data = $("#full_name_input").val();
-    if (_profile.full_name != new_data) {
-      _profile.full_name = new_data;
-      saveName();
-    }
-  });
-  
   // Click a wardrobe option
   $('#wardrobe_options').delegate('.wardrobe_item', 'click', function() {
     var $this = $(this),
@@ -415,35 +399,11 @@ function acceptCode() {
   .success(function() { showDialog(true); });
 }
 
-function changeName() {
-  $("#full_name").hide();
-  $("#full_name_input").val($("#full_name").html());
-  $("#full_name_input").show();
-  $("#full_name_input").focus().select();
-  // $.get('/profile/change_name', function(data) {
-  //   $('#dialog').html(data);
-  // })
-  // .success(function() { showDialog(true); });
-}
-
 function changeMajor() {
   $.get('/profile/change_major', function(data) {
     $('#dialog').html(data);
   })
   .success(function() { showDialog(true); });
-}
-
-function saveName() {
-  $.ajax({
-    url: "/profile/save_meta",
-    data: { id: _profile.id, profile: _profile }, 
-    type: 'post',
-    dataType: 'json',
-    error: function(){alert("Error");},
-    success: function(data){
-      _profile = data.profile;
-    }
-  }); //Ajax
 }
 
 var _last_status_lev1 = undefined;

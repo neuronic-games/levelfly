@@ -206,16 +206,14 @@ body {
   font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
   font-size:29px;
   color:#f6f6f6;
-  cursor:pointer;
 }
-.header .avatar_detail .full_name_input {
-  font-family:Arial, Helvetica, sans-serif;
-  font-size:20px;
+.full_name input {
+  font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
+  font-size:29px;
   color:#f6f6f6;
-  cursor: text;
-  background-color: black;
-  width: 270px;
+  width:300px;
 }
+
 .header_mid_box {
   float:left;
   width:24%;
@@ -1536,7 +1534,6 @@ height:100%;
 background-color:#FFFFFF;
 }
 #level{
-margin:-32px 0 0 58px;
 color:#FFFFFF;
 }
 .profile_left {
@@ -1552,6 +1549,7 @@ color:#FFFFFF;
   height:100%;
   right:0px;
 }
+
 .profile_row {
   float:left;
   display:block;
@@ -1560,10 +1558,30 @@ color:#FFFFFF;
   margin-bottom:15px;
   padding:0px;
 }
+
+.profile_row > .gap {
+  margin-left:50px;
+}
+
+.profile_row input, textarea {
+  color: #ffffff;
+  background-color: #214C69;
+  border-style: none; 
+  border-color: transparent;
+  padding:8px;
+  -webkit-input-placeholder: #113C59;
+  -moz-placeholder: #113C59;
+}
+
+.profile_row input[readonly], textarea[readonly] {
+  background-color: transparent;
+}
+
 .profile_item {
   float:left;
   display:block;
 }
+
 .profie_share {
   margin-right:15px;
 }
@@ -2309,7 +2327,7 @@ div .coursemsg_bgc2 {
 #level_meter {
   width:280px;
   background-image:url("/images/ui/lvlmter.png");
-  height:51px;
+  height:45px;
   word-spacing:5px;
   color:#3393B1;
 }
