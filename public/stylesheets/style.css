@@ -1557,10 +1557,22 @@ color:#FFFFFF;
   margin-top:0px;
   margin-bottom:15px;
   padding:0px;
+  width:100%;
+}
+
+.full_width {
+  width:100%;
+}
+
+.profile_row_border {
+  border:5px solid #244B6B;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  padding:10px;
 }
 
 .profile_row > .gap {
-  margin-left:50px;
+  margin-left:100px;
 }
 
 .profile_row input, textarea {
@@ -1580,6 +1592,16 @@ color:#FFFFFF;
 .profile_item {
   float:left;
   display:block;
+}
+
+.profile_item_empty {
+  display:block;
+  height:60px;
+  color:#244B6B;
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:20px;
+  font-weight:bold;
+  padding-top:20px;
 }
 
 .profile_share {
@@ -2338,13 +2360,26 @@ div .coursemsg_bgc2 {
   background-image:url("/images/ui/prgsbar.png");
   background-repeat:repeat-x;
   width:0px;
-  margin:3px auto auto 2px;
   height:45px;
 }
 
-#progressbar #progress_stats {
-  width:268px;
+#level_meter > #progress_stats_1, #progress_stats_2 {
+  width:280px;
   text-align:center;
-  font-size:20px;
+  font-size:18px;
   text-transform:uppercase;
+  position:absolute;
 }
+
+#level_meter > #progress_stats_1 {
+  margin-top:25px;
+  font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
+  font-size:48px;
+  color:#8D130D;
+  text-shadow: 3px 3px #FFBA00;
+}
+
+#level_meter > #progress_stats_2 {
+  padding-top:2px;
+}
+
