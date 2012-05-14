@@ -1582,7 +1582,8 @@ color:#FFFFFF;
   display:block;
 }
 
-.profie_share {
+.profile_share {
+  width:30px;
   margin-right:15px;
 }
 .profile_header {
@@ -1601,6 +1602,7 @@ color:#FFFFFF;
   text-transform:uppercase;
   font-weight:bold;
   color:white;
+  margin-bottom:3px;
 }
 .avatar_detail span {
   font-family:'CollegeRegular', Arial, Helvetica, sans-serif;

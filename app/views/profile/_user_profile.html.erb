@@ -5,7 +5,7 @@
   
   <div class="profile_row">
     
-    <div class="profile_item profie_share">
+    <div class="profile_item profile_share">
       <input type="checkbox" name="share" class="share" value="major" />
     </div>  
     
@@ -43,7 +43,7 @@
   </div>
   
   <div class="profile_row">
-    <div class="profile_item profie_share">
+    <div class="profile_item profile_share">
       <input type="checkbox" name="share" class="share" value="metrics" />
     </div>  
 
@@ -69,11 +69,21 @@
   </div>
   
   <div class="profile_row">
-    <div class="profile_item profie_share">
+    <div class="profile_item profile_share">
       <input type="checkbox" name="share" class="share" value="interests" />
     </div>
     <div class="profile_item">
-     <textarea name="interests" id="interests" style="width:450px; height:100px;" placeholder="Enter your interests, seperated by commas (e.g. apples, bananas, oranges)"><%=h profile.tag_list %></textarea> 
+      <div class="caption">Interests</div>
+      <textarea name="interests" id="interests" style="width:450px; height:100px;" placeholder="Enter your interests, seperated by commas (e.g. apples, bananas, oranges)"><%=h profile.tag_list %></textarea> 
+    </div>
+  </div>
+
+  <div class="profile_row">
+    <div class="profile_item profile_share">
+      <input type="checkbox" name="share" class="share" value="friends" />
+    </div>
+    <div class="profile_item">
+      <div class="caption">Friends</div>
     </div>
   </div>
 
@@ -116,6 +126,7 @@ $(document).ready(function(){
 
   setPageTitle('My Profile');
   
+  $('.profile_share').hide();
   var _level = 2;
   
   $("#progress_stats").html(_level_meter[_level]+" until level "+_level);
