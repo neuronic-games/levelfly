@@ -71,9 +71,10 @@ $('.send_btn').click(function(){
   method = $(this).attr('rel');
   message = message_type == "Friend" ? "I'd like to be your friend. Please accept my invite." : $('#message').val();
   var dataString = {
-    parent_id:profile_id,
-    target_id:<%=profile.id%>,
+    profile_id:<%=h user_session[:profile_id] %>,
+    parent_id:<%=h profile.id%>,
     parent_type:"Profile",
+    target_id:<%=h profile.id%>,
     content: message,
     message_type: message_type
   };

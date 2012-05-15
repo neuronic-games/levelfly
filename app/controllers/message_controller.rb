@@ -21,7 +21,7 @@ class MessageController < ApplicationController
     else
       @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type in ('Message')", wall_ids, false], :order => 'created_at DESC')
       @messagesAll = Message.count(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type in ('Message')", wall_ids, false]) 
-      @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite') AND profile_id = ? AND (archived is NULL or archived = ?)", user_session[:profile_id], false])
+      @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite') AND parent_id = ? AND (archived is NULL or archived = ?)", user_session[:profile_id], false])
       
       @respont_to_course = Message.find(:all,:conditions=>["target_type = 'Course_respond' AND profile_id = ? AND archived =?",user_session[:profile_id],true])
     end
@@ -106,7 +106,7 @@ class MessageController < ApplicationController
       if @message
         if params[:activity] && !params[:activity].nil?
           @course_participant = Participant.where("object_type='Course' AND object_id = ? AND 
-            profile_id = ? AND profile_type='P'",@message.target_id,@message.profile_id).first
+            profile_id = ? AND profile_type='P'",@message.target_id,@message.parent_id).first
           if params[:activity] == "add"
             course = Course.find(@message.target_id)
             if @course_participant
