@@ -53,6 +53,7 @@ class ApplicationController < ActionController::Base
     user_session[:profile_school] = profile.school.code if profile.school
     user_session[:profile_level] = profile.avatar.level
     user_session[:vault] = profile.school.vaults[0].folder if profile.school
+    puts "=========== Saving profile #{user_session[:profile_id]}"
   end
 
   def mobile_device?

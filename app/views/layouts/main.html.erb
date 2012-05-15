@@ -139,12 +139,6 @@
 </body>
 <script type="text/javascript">
 
-function user_profile(profile_id) {
-  $.get('/profile/user_profile',{ profile_id:profile_id }, function(data) {
-    $('#container').html(data);
-  })
-}
-
 <!--
   var token = $("meta[name='csrf-token']").attr("content");
   var search_arr = {

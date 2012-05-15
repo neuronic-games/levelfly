@@ -6,11 +6,11 @@ class ProfileController < ApplicationController
   end
 
   def show
-    if params.has_key?(:id) and not params[:id].blank?
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", params[:id]])
-    else
+    if params[:id].blank?
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
       publish_profile(@profile)
+    else
+      @profile = Profile.find(params[:id])
     end
     
     new_profile = nil
