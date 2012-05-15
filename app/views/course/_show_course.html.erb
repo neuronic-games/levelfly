@@ -39,7 +39,7 @@
             <div class="CAL_01"><span class="field_label"> <% if @totaltask %> <% total_task = @totaltask.count %><%=total_task%><% else %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW</a></div>
              
             <div class="menu_container">
-            <div class="CAL_01"><span class="field_label"> <% if @peoples %><%=@peoples.count%><% else %>0 <% end %> MEMBERS</span> 
+            <div class="CAL_01"><span class="field_label"> <%=@member_count%> MEMBERS <% "(#{@pending_count} PENDING)" if @pending_count > 0 %></span> 
             <a href="javascript:void(0)" value="6" id="menu6"  class="green_bt19px">VIEW</a></div>
            
             </div>

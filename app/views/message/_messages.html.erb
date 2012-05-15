@@ -52,8 +52,8 @@
  <div class="hide comment_input" align="right" id="post_comment_<%=message.id%>">
   <textarea name="cmnt_content" id="cmnt_content_<%=message.id%>" rows="2"></textarea>
   <div class="msg_btn">
+    <a href="javascript:void(0)" onclick="javascript:$('#post_comment_<%=message.id%>').fadeOut()" class="blue_bt19px">Don't Send</a>
     <a href="javascript:void(0)" id="<%=message.id%>" rel="Message" title="cmnt_content_<%=message.id%>" class="blue_bt19px sbmt_msg">Send</a>
-    <a href="javascript:void(0)" onclick="javascript:$('#post_comment_<%=message.id%>').fadeOut()" class="blue_bt19px">Cancel</a>
   </div>
 </div>
 <div class="bdr_dotted"></div>

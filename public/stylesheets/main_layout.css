@@ -521,6 +521,10 @@ img.image_icon_drop_target {
   margin:10px 0 10px 0;
 }
 
-.comment_input {padding:5px;}
-.comment_input  textarea{background:#fff;}
+.comment_input textarea {
+  background:#B9D48F;
+  width:310px;
+  color:#4A4A48;
+}
+
 .note_btn,.msg_btn,.root_btn {width:225px;text-align:right;}

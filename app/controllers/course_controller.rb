@@ -50,10 +50,15 @@ class CourseController < ApplicationController
     @course = Course.find_by_id(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @wall = Wall.find(:first,:conditions=>["parent_id = ? AND parent_type='Course'", @course.id])
-    @peoples = Profile.find(
+    @member_count = Profile.count(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course'", @course.id]
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id]
+    )
+    @pending_count = Profile.count(
+      :all, 
+      :include => [:participants], 
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('P')", @course.id]
     )
     @courseMaster = Profile.find(
       :first, 
@@ -315,7 +320,13 @@ class CourseController < ApplicationController
     @peoples = Profile.find(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course'", params[:id]]
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id]
+    )
+    @member_count = @peoples.length
+    @pending_count = Profile.count(
+      :all, 
+      :include => [:participants], 
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('P')", @course.id]
     )
     @courseMaster = Profile.find(
       :first, 
@@ -323,6 +334,7 @@ class CourseController < ApplicationController
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", params[:id]]
       )
     @groups = Group.find(:all, :conditions=>["course_id = ?",params[:id]])
+    @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     if params[:value] && !params[:value].nil?
       if params[:value] == "1"
         render:partial => "/course/show_course"
