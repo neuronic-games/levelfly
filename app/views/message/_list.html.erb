@@ -16,7 +16,7 @@
     
     <!-- Invites -->
     <% if @friend_requests and not @friend_requests.empty? %>
-    <div id="friend_requests">
+    <div id="course_requests">
      <h2>INVITES</h2>
       <% @friend_requests.each do |friend_request| %>
         <%= render :partial => "/message/friend_requests", :locals => {:friend_request=>friend_request} %>
@@ -69,10 +69,10 @@ $(document).ready(function() {
         type: "POST",  
         url: "/message/check_request",  
         success: function(data) {
-          $("#friend_requests").prepend(data);
+          $("#course_requests").prepend(data);
         }
       });
-    }, 10000); 
+    }, 10000*20); 
 });
 
   setPageTitle("My Messages");

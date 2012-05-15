@@ -1,5 +1,18 @@
-<div style="float:left;margin-left:10px; width:500px; height:45px; margin-top:10px;" id="category_div_<%=c.id%>">
-  <input type="checkbox" class="dd_select brown_bg" name="chk_categories[]"  id="<%=c.id%>" value="<%=c.id%>" />
+<div style="margin-left:10px; width:auto; height:45px; margin-top:10px;" id="category_div_<%=c.id%>" class="category_div">
+  
   <input type="text" name="loaded_categories[]" value="<%= c.name %>" rel="<%=c.id%>" class="dd_select brown_bg medium" />
   <input type="text" name="loaded_category_values[]" value="<%= c.percent_value %>" rel="<%=c.id%>" class="dd_select brown_bg medium" />%
+  
+  <div id="on_category" class="on_category msg_bottom_linksC2" style="display:none;">
+    <div class="like_cmt"> 
+      <a href="#" class="blue_bt19px">More</a> 
+      <a href="#" class="category_del files_del blue_bt19px" rel="<%=c.id%>">DEL</a>
+    </div>
+  </div>
 </div>
+<style>
+.on_category {
+    margin: -19px 0 0 200px;
+    z-index: 1001;
+}
+</style>

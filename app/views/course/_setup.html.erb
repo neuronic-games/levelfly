@@ -175,6 +175,52 @@
         $("#"+id+" #on_hover").hide();
       }
     );
+    
+     //For category hover div
+    $(".category_div").hover(
+      function () {
+        id = $(this).attr("id");
+        $("#"+id+" #on_category").show();
+      }, 
+      function () {
+        id = $(this).attr("id");
+        $("#"+id+" #on_category").hide();
+      }
+    );
+    
+    
+    //Remove category nodes
+  $(".category_del").click(function(){
+    showSpinner(true);
+    category_id = $(this).attr('rel');
+    $("#category_div_"+category_id).remove();
+    var dataString = 'categories='+category_id;
+    $.ajax({  
+      type: "POST",  
+      url: "/course/remove_course_categories",  
+      data: dataString,
+      dataType:"json",
+      success: function(data) {
+        showSpinner(false);
+      }
+    });  
+  });
+    //Remove outcome nodes
+  $(".outcome_del").click(function(){
+    showSpinner(true);
+    outcome_id = $(this).attr('rel');
+    $("#outcome_div_"+outcome_id).remove();
+    var dataString = 'outcomes='+outcome_id;
+    $.ajax({  
+       type: "POST",  
+       url: "/course/remove_course_outcomes",  
+       data: dataString,
+       dataType:"json",
+       success: function(data) {
+         showSpinner(false);
+       }
+    });
+  });
 
     $("#course_code").blur(function(){
       var code = $(this).val();

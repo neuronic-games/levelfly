@@ -200,50 +200,6 @@ $(document).ready(function(){
     }
   });
   
-  //Remove outcome nodes
-  $(".outcome_del").click(function(){
-    showSpinner(true);
-    outcome_id = $(this).attr('rel');
-    $("#outcome_div_"+outcome_id).remove();
-    var dataString = 'outcomes='+outcome_id;
-    $.ajax({  
-       type: "POST",  
-       url: "/course/remove_course_outcomes",  
-       data: dataString,
-       dataType:"json",
-       success: function(data) {
-         showSpinner(false);
-       }
-    });
-  });
-  
-
-  
-  //Remove category nodes
-  $("#btn_category_remove").unbind('click').bind("click", function(){
-    showSpinner(true);
-    var category_id = []
-    i = 0
-    $("input[name='chk_categories[]']").each(function(){
-      if(this.checked) {
-        id = $(this).attr('id');
-        category_id[i] = id;
-        i++;
-        $("#category_div_"+id).remove();
-      }
-    });
-    
-    var dataString = 'categories='+category_id;
-    $.ajax({  
-      type: "POST",  
-      url: "/course/remove_course_categories",  
-      data: dataString,
-      dataType:"json",
-      success: function(data) {
-        showSpinner(false);
-      }
-    });  
-  });
   
   //Post Message
   $('.right_form_containerr').delegate('.sbmt_msg', 'click', function(){

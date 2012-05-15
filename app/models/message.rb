@@ -39,8 +39,8 @@ class Message < ActiveRecord::Base
   def self.respond_to_course_invitation(parent_id,profile_id,target_id,message_type,content)
     course = Course.find(target_id)
     @message = Message.new
-    @message.profile_id = profile_id
-    @message.parent_id = parent_id
+    @message.profile_id = parent_id
+    @message.parent_id = profile_id
     @message.target_id = target_id
     @message.target_type = "Course_respond"
     @message.parent_type = "Course"
