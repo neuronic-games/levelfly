@@ -432,7 +432,7 @@ table.blackboard_list tr {
   width:100%;
   margin:10px;
   clear:both;
-  min-width:800px;
+  min-width:750px;
 }
 .page_block_left {
   float:left;
@@ -442,7 +442,7 @@ table.blackboard_list tr {
 .page_block_right {
   float:left;
   margin-left:20px;
-  min-width:550px;
+  min-width:500px;
   min-height:50px;
 }
 
