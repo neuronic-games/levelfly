@@ -53,7 +53,7 @@ class CourseController < ApplicationController
     @peoples = Profile.find(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @course.id]
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course'", @course.id]
     )
     @courseMaster = Profile.find(
       :first, 

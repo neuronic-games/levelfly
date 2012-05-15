@@ -126,7 +126,7 @@ class MessageController < ApplicationController
             render :text=> "Added to #{course.name} (#{course.code_section})"
          else
             if @course_participant
-              @course_participant.archived = true
+              #@course_participant.archived = true
               @course_participant.save
             end
             render :text => "friend_list"

@@ -39,7 +39,12 @@ $('.friend-request').unbind("click").bind("click", function(){
         datatype: 'json',
         data: dataString,
         success: function(data) {
-          setAlert(data);
+          if (data) {
+            $('#request_box_'+message_id).remove();
+            if(action == "add") {
+              setAlert(data);
+            }
+          }
           showSpinner(false);
         }
       });
