@@ -6,7 +6,7 @@
       <img onClick="user_profile(<%=profile.id%>);" src="<%=profile.image_file_name%>" id="<%=profile.id%>" class="profile"/>
     </div>
     <div class="txt"> <span class="pop_name"><b><%=profile.full_name%></b><br />
-      <%=profile.major.name if profile.major%>, <%=profile.school.code%></span>
+      <%= "#{profile.major.name}, " if profile.major%><%=profile.school.code%></span>
       <p></p>
       <div class="spacebar10px"></div>
     </div>
@@ -14,19 +14,19 @@
     <span class="pop_fav_icon"><img src="images/fav.png" align="absbottom" /> <%=profile.like_received ? profile.like_received : 0 %></span>
     <span class="pop_win_icon"><img src="images/cup_icon.png" align="absbottom" /> <%=profile.like_given ? profile.like_given : 0 %></span>
     <div id="msg_input" class="hide">
-      <textarea name="message" id="message" class="msg_txt"></textarea>
+      <textarea name="message" id="message" class="msg_txt" placeholder="Enter your message..."></textarea>
     </div>
     <div id="note_btn"class="hide note_btn">
-      <a href="javascript:void(0)" rel="add_note" id="Note" class="blue_bt19px send_btn">Add</a> 
       <a href="javascript:void(0)" rel="switch" id="btn_note_dnt_add" class="blue_bt19px">Don't Add</a> 
+      <a href="javascript:void(0)" rel="add_note" id="Note" class="blue_bt19px send_btn">Add</a> 
     </div>
     <div id="msg_btn" class="hide msg_btn">
-      <a href="javascript:void(0)" rel="save" id="Message" class="blue_bt19px send_btn">Send</a> 
       <a href="javascript:void(0)" rel="switch" id="btn_msg_dnt_add" class="blue_bt19px">Don't Send</a> 
+      <a href="javascript:void(0)" rel="save" id="Message" class="blue_bt19px send_btn">Send</a> 
     </div>
     <div align="right" id="root_btn">
-      <a href="javascript:void(0)" rel="switch" id="note_root" class="blue_bt19px">NOTE</a> 
-      <a href="javascript:void(0)" rel="switch" id ="message_root" class="blue_bt19px">messages</a> 
+      <a href="javascript:void(0)" rel="switch" id="note_root" class="blue_bt19px">Note</a> 
+      <a href="javascript:void(0)" rel="switch" id ="message_root" class="blue_bt19px">Message</a> 
       <% if is_friend(user_session[:profile_id], profile.id) %>
         <a href="javascript:void(0)" id="unfriend" class="blue_bt19px">UNFRIEND</a>
       <% else %>
@@ -69,9 +69,10 @@ $('.send_btn').click(function(){
   profile_id = $('#hdn_profile_id').val();
   message_type = $(this).attr('id');
   method = $(this).attr('rel');
-  message = message_type == "Friend" ? "Friend Request!!!" : $('#message').val();
+  message = message_type == "Friend" ? "I'd like to be your friend. Please accept my invite." : $('#message').val();
   var dataString = {
     parent_id:profile_id,
+    target_id:<%=profile.id%>,
     parent_type:"Profile",
     content: message,
     message_type: message_type
@@ -86,8 +87,8 @@ $('.send_btn').click(function(){
       error: function(){alert("ERROR!!")},
       success: function(data) {
         if (data.status=="save"){
-          $('#avatar_card').html(data.message);
-          $('#avatar_card').fadeOut(1500);
+          $('#avatar_card').fadeOut();
+          setAlert(data.message);
         }
         showSpinner(false);
       }

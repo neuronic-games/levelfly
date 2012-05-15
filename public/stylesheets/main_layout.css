@@ -510,7 +510,14 @@ img.image_icon_drop_target {
 /* Avatar card
 .avatar_card{position:absolute;right:340px;top:170px;}*/
 
-.msg_txt{width:225px;}
+.msg_txt {
+  width:215px; 
+  padding:5px;
+  background-color:#ccc;
+  color:#244B6B;
+  margin:10px 0 10px 0;
+}
+
 .comment_input {padding:5px;}
 .comment_input  textarea{background:#fff;}
 .note_btn,.msg_btn,.root_btn {width:225px;text-align:right;}

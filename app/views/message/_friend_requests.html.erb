@@ -57,7 +57,7 @@ $('.friend-request').unbind("click").bind("click", function(){
         data: dataString,
         success: function(data) {
           if (data) {
-            $('#request_box_'+message_id).remove();
+            $('#request_box_'+message_id).fadeOut();
             if(action == "add") {
               $('#friend_list').append(data);
             }
