@@ -32,6 +32,26 @@
       <div id="select_note" class="selection_instructions">What would you like to change?</div>
     </div>
   </div>
+  
+  <div class="color_palette">
+    <div id="color_palette_left_arrow">
+      <img src="/images/ui/left_arrow.png" border="0" />
+    </div>
+    <div id="head_color">
+      <div id="color_1" value="1" class="clickable head_color"></div>
+      <div id="color_2" value="2" class="clickable head_color"></div>
+      <div id="color_3" value="3" class="clickable head_color"></div>
+      <div id="color_4" value="4" class="clickable head_color"></div>
+      <div id="color_5" value="5" class="clickable head_color"></div>
+    </div>
+    <div id="hair_color">
+      <div id="hair_color_1" value="1" class="clickable hair_color"></div>
+      <div id="hair_color_2" value="2" class="clickable hair_color"></div>
+      <div id="hair_color_3" value="3" class="clickable hair_color"></div>
+      <div id="hair_color_4" value="4" class="clickable hair_color"></div>
+      <div id="hair_color_5" value="5" class="clickable hair_color"></div>
+    </div>
+  </div>  
 </div>
 
 <div class="profile_right">
@@ -40,6 +60,7 @@
 
 <script type="text/javascript">
 <!--
+var _itemForColor = new Array("head", "head_shape", "hair", "facial_hair");
 
 $(document).ajaxSend(function(e, xhr, options) {
   var token = $("meta[name='csrf-token']").attr("content");
@@ -154,7 +175,7 @@ $(document).ready(function(){
     var color = $(this).attr("value");
     hair = hair.substr(0, hair.length-1) + color;
     var facial_hair = _avatar.facial_hair;
-    if (facial_hair != undefined) {
+    if (facial_hair != undefined && facial_hair != "null") {
       facial_hair = facial_hair.substr(0, facial_hair.length-1) + color;
       $("#facial_hair").attr("src", "/images/wardrobe/"+facial_hair+".png"); 
       _avatar["facial_hair"] = facial_hair;
@@ -181,8 +202,7 @@ function showColorPalette(_item_type, $this) {
     $("#head_color").hide();
   }
   //Show & move color palette
-  $(".color_palette").animate({left: parseInt($this.position().left) + 330 +'px'},250);
-  $(".color_palette").animate({top: parseInt($this.position().top) + 185 +'px'},250);
+  $(".color_palette").animate({top: parseInt($this.position().top) + 90 +'px'},250);
   $(".color_palette").fadeIn(80);
 }
 
@@ -376,7 +396,7 @@ function saveAvatar() {
         _profile = data.profile;
         _avatar = data.avatar;
         $("#my_avatar_image").attr("src", _profile.image_file_name);
-        setAlert("Avatar Saved " + $("#my_avatar_image").attr("src"));
+        setAlert("Avatar Saved");
       }
     }); //Ajax
   }); //loadCanvasImages
