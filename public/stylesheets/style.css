@@ -2127,7 +2127,7 @@ div .coursemsg_bgc2 {
   background-image: url(/images/ui/btnbg.png);
   background-repeat: no-repeat;
   text-align: center;
-  font-family: 'Ubuntu Condensed', sans-serif;
+  font-family: 'CollegeRegular', Arial, Helvetica, sans-serif;
   font-size: 18px;
 }
 .wrapper .selections .lev1 .btn {
@@ -2137,7 +2137,7 @@ div .coursemsg_bgc2 {
   background-image: url(/images/ui/btnbg.png);
   background-repeat: no-repeat;
   text-align: center;
-  font-family: 'Ubuntu Condensed', sans-serif;
+  font-family: 'CollegeRegular', Arial, Helvetica, sans-serif;
   font-size: 18px;
   /* [disabled]font-weight: bold; */
 }
@@ -2148,7 +2148,7 @@ div .coursemsg_bgc2 {
   background-image: url(/images/ui/btnbg.png);
   background-repeat: no-repeat;
   text-align: center;
-  font-family: 'Ubuntu Condensed', sans-serif;
+  font-family: 'CollegeRegular', Arial, Helvetica, sans-serif;
   font-size: 18px;
 }
 .selected {
