@@ -482,7 +482,7 @@ a.icon_stats_active {
 /*  position:relative;*/
 	*height: expression(document.body.clientHeight < 802? "800px" : "100%");
   vertical-align:middle;
-  position:absolute;
+ /* position:absolute; */
   right:0px;
 }
 .heading_messages {
@@ -504,7 +504,7 @@ a.icon_stats_active {
   width:400px;
 }
 /***********************Main content message page**************************/
-.middle_main_div {padding:0 40px 0 40px; display:table-cell;}
+.middle_main_div {padding:0 40px 0 0; display:table-cell;}
 .Main_content {
 
   /*width:82%;
@@ -1141,9 +1141,14 @@ a.blue_bt19px:hover {
   position: fixed;
   right: 49px;
 }
-.course_setup_button {
+/*.course_setup_button {
   position: absolute; 
   right: 230px;
+}*/
+.course_setup_button {
+    margin: -63px 0 0 477px;
+    position: absolute;
+    right: 321px;
 }
 .friend_side_buttons {
   bottom: 0;
@@ -1913,7 +1918,7 @@ margin-left:33px;
 }
 .on_hover{  
   float:left;
-  margin: -25px 0 1px 330px;
+  margin: -37px 0 1px 362px;
   z-index:2;  
 }
 
@@ -2427,4 +2432,13 @@ div .coursemsg_bgc2 {
   font-size:48px;
   color:#8D130D;
   text-shadow: 3px 3px #FFBA00;
+}
+.outcome_data{
+margin-top:5px; height:70px; width:500px;
+}
+.outcome_data .outcomes_share_name{
+float:left; height:45px;
+}
+.outcome_data .outcome_textarea{
+float:right; margin:0 45px 2px 0;height:68px;
 }

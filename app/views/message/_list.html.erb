@@ -5,6 +5,15 @@
 <div class="messages_content load_messages">
   <div class="msg_content_left">
   
+    <!-- Respond -->
+    <% if @respont_to_course and not @respont_to_course.empty? %>
+    <div id="course_requset_respond">
+      <% @respont_to_course.each do |respond_course| %>
+        <%= render :partial => "/message/respond_to_course", :locals => {:respond_course=>respond_course} %>
+      <% end %>
+    </div>
+    <% end %>
+    
     <!-- Invites -->
     <% if @friend_requests and not @friend_requests.empty? %>
     <div id="friend_requests">
@@ -63,7 +72,7 @@ $(document).ready(function() {
           $("#friend_requests").prepend(data);
         }
       });
-    }, 10000*50); 
+    }, 10000); 
 });
 
   setPageTitle("My Messages");

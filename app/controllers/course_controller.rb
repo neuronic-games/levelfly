@@ -13,10 +13,10 @@ class CourseController < ApplicationController
       )
     else
       
-      @courses = Course.find(
+     @courses = Course.find(
         :all, 
         :include => [:participants], 
-        :conditions => ["participants.profile_id = ?", @profile.id]
+        :conditions => ["participants.profile_id = ? AND participants.profile_type != 'P'", @profile.id]
       )
     end  
     respond_to do |wants|

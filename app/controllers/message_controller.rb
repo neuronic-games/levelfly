@@ -22,6 +22,8 @@ class MessageController < ApplicationController
       @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type in ('Message')", wall_ids, false], :order => 'created_at DESC')
       @messagesAll = Message.count(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type in ('Message')", wall_ids, false]) 
       @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite') AND profile_id = ? AND (archived is NULL or archived = ?)", user_session[:profile_id], false])
+      
+      @respont_to_course = Message.find(:all,:conditions=>["target_type = 'Course_respond' AND profile_id = ? AND archived =?",user_session[:profile_id],true])
     end
     @friend = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", user_session[:profile_id]])
     
@@ -33,7 +35,7 @@ class MessageController < ApplicationController
   end
   
   def check_request
-    @friend_requests = Message.find(:all, :conditions=>["parent_id = ? AND (archived is NULL or archived = ?) AND created_at > ?", user_session[:profile_id], false,user_session[:last_check_time]])
+    @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite') AND profile_id = ? AND (archived is NULL or archived = ?) AND created_at > ?", user_session[:profile_id], false,user_session[:last_check_time]])
     render:partial=>"message/friend_request_show",:locals=>{:friend_request => @friend_requests}
     user_session[:last_check_time] = DateTime.now
   end
@@ -111,25 +113,14 @@ class MessageController < ApplicationController
               @course_participant.profile_type = 'S'
               @course_participant.save
             end
-=begin
-            @course_participant = Participant.new
-            @course_participant.object_id = @message.parent_id
-            @course_participant.object_type = "Course"
-            @course_participant.profile_id = @message.profile_id
-            @course_participant.profile_type = "S"
-            @course_participant.save
-            Feed.create(
-                :wall_id => @message.wall_id,
-                :profile_id => @course_participant.profile_id
-              )
-=end
-            #render :partial => "friend_list", :locals=>{:friend=>@course_participant}
+             # Respond to course messages
+            @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,"Accept","Accepted")
             render :text=> "Added to #{course.name} (#{course.code_section})"
          else
             if @course_participant
-              #@course_participant.archived = true
-              @course_participant.save
+             #delete
             end
+            @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,"Decline","Rejected")
             render :text => "friend_list"
          end
          @message.archived = true

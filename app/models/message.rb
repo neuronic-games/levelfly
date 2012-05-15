@@ -35,4 +35,20 @@ class Message < ActiveRecord::Base
     @message.save
     return @message
   end
+  
+  def self.respond_to_course_invitation(parent_id,profile_id,target_id,message_type,content)
+    course = Course.find(target_id)
+    @message = Message.new
+    @message.profile_id = profile_id
+    @message.parent_id = parent_id
+    @message.target_id = target_id
+    @message.target_type = "Course_respond"
+    @message.parent_type = "Course"
+    @message.message_type = message_type
+    @message.content = content+"  your request By User"
+    @message.archived = true
+    @message.post_date = DateTime.now
+    @message.save
+    return @message
+  end
 end
