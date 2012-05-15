@@ -6,7 +6,7 @@
   <div class="txtboxfullwidth">
     <div class="txt">
       <p><b><%=friend.profile.full_name%></b></p>
-      <p><%=friend.profile.major.name if friend.profile.major%>, <%=friend.profile.school.code%></p>
+      <p><%=h "#{friend.profile.major.name}, " if friend.profile.major%><%=h friend.profile.school.code%></p>
       <p>Messaged 3 hours ago</p>
       <div class="spacebar10px"></div>
       <div align="right" id="frnd_root_btn">

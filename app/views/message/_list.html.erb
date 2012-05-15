@@ -6,7 +6,7 @@
   <div class="msg_content_left">
   
     <!-- Invites -->
-    <% if !@friend_requests.empty? %>
+    <% if @friend_requests and not @friend_requests.empty? %>
     <div id="friend_requests">
      <h2>INVITES</h2>
       <% @friend_requests.each do |friend_request| %>
