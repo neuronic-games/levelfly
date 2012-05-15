@@ -1712,7 +1712,7 @@ margin-left:33px;
 }
 
 .side_tab {
-  background:#8fac24;
+  background:black;
   width:60px;
   padding-top:40px;
   height:60px;
@@ -1729,11 +1729,11 @@ margin-left:33px;
   cursor:pointer;
 }
 
-.side_tab + .side_tab_open {
+.side_tab_open {
   background:#8fac24;
 }
 
-.side_tab + .side_tab_close {
+.side_tab_close {
   background:#8c9569;
 }
 

@@ -73,32 +73,32 @@ else {setStorage("course_section", "Section");}
 $(document).ready(function(){
 
   <% if defined?(course_new) && course_new == true %>
-      $("#menu1").addClass("tab_close");
-      $("#menu1").removeClass("tab_open");
+    $("#menu1").addClass("side_tab_close").removeClass("side_tab_open");
   <% end %>
   
   // Course name
   setPageTitle(getStorage("course_name"));
   
   //Toggle Tabs
-   $(".menu_container a").delegate('', 'click', function(){
+  $(".menu_container a").delegate('', 'click', function(){
     showSpinner(true);
     idx = $(this).attr("value");
+    
+    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
     
     for(i=0;i<7;i++){
       //---- Set all menu as De-Selected
      
-      if(document.getElementById("menu"+(i+1))!=null){
-        document.getElementById("menu"+(i+1)).className = "tab_close";
-      }
+      // if(document.getElementById("menu"+(i+1))!=null){
+      //   document.getElementById("menu"+(i+1)).className = "side_tab side_tab_close";
+      // }
       if(idx != i){
         $("#div_"+i).hide();
       }
     }
  
-     //---- Selected menu will highlighted
-    if(document.getElementById("menu"+idx).className) 
-    document.getElementById("menu"+idx).className = "tab_open";
+    //---- Selected menu will highlighted
+    $('#menu'+idx).addClass("side_tab_open").removeClass("side_tab_close");
     $("#div_"+idx).fadeIn();
     
     
@@ -106,16 +106,16 @@ $(document).ready(function(){
     course_id = $("#course_id_hdn").val();          
     var data = {value:idx,id:course_id};
     $("#load_data").load("/course/show_course",data, function(response, status, xhr) {
-    if(response)
-    {
-      $("#load_data").html(response); 
-      showSpinner(false);
-    }
-    if (status == "error")
-    {
-      var msg = "Sorry but there was an error: ";
-      alert(msg);
-    }
+      if(response)
+      {
+        $("#load_data").html(response); 
+        showSpinner(false);
+      }
+      if (status == "error")
+      {
+        var msg = "Sorry but there was an error: ";
+        alert(msg);
+      }
     });
 
     is_page_change = $("#hdn_is_page_change").val();
