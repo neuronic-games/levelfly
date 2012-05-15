@@ -10,6 +10,7 @@ class ProfileController < ApplicationController
       @profile = Profile.find(:first, :conditions => ["user_id = ?", params[:id]])
     else
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      publish_profile(@profile)
     end
     
     new_profile = nil
@@ -27,10 +28,9 @@ class ProfileController < ApplicationController
     
     if new_profile
       @profile = Profile.create_for_user(current_user.id)
+      publish_profile(@profile)
     end
     
-    publish_profile(@profile)
-
     render :text => {"profile"=>@profile, "avatar"=>@profile.avatar, "new_profile"=>new_profile, "major"=>@profile.major, "school"=>@profile.school}.to_json
   end
 
@@ -142,6 +142,8 @@ class ProfileController < ApplicationController
     else
       @profile = Profile.find(params[:profile_id])
     end
+    @friends = @profile.user.friends
+
     render :partial => "/profile/user_profile", :locals => {:profile => @profile}
   end
 

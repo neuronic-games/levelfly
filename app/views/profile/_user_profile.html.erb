@@ -49,11 +49,11 @@
 
     <div id="level" class="profile_item">
       <div id="level_meter">
-        <div id="progressbar">
-          <div id="progress_stats"></div>
-        </div>
+        <div id="progress_stats_1"></div>
+        <div id="progress_stats_2"></div>
+        <div id="progressbar"></div>
       </div>
-      <div class="caption" style="margin-top:20px; text-align:center; width:100%;">XP</div>
+      <div class="caption" style="margin-top:20px; text-align:center; width:100%;">Accumulated in Total</div>
     </div>
 
     <div class="profile_item gap">
@@ -72,18 +72,57 @@
     <div class="profile_item profile_share">
       <input type="checkbox" name="share" class="share" value="interests" />
     </div>
-    <div class="profile_item">
+    <div class="profile_item full_width">
       <div class="caption">Interests</div>
-      <textarea name="interests" id="interests" style="width:450px; height:100px;" placeholder="Enter your interests, seperated by commas (e.g. apples, bananas, oranges)"><%=h profile.tag_list %></textarea> 
+      <textarea name="interests" id="interests" class="full_width" style="height:100px;" placeholder="Enter your interests, seperated by commas (e.g. apples, bananas, oranges)"><%=h profile.tag_list %></textarea> 
     </div>
   </div>
 
+  <!-- Badges -->
   <div class="profile_row">
     <div class="profile_item profile_share">
       <input type="checkbox" name="share" class="share" value="friends" />
     </div>
-    <div class="profile_item">
+    <div class="profile_item full_width">
+      <div class="caption">Badges</div>
+      <div class="profile_row_border full_width">
+      <% if @friends.empty? %>
+        <div class="profile_item_empty">No Badges</div>
+      <% else %>
+      <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Groups -->
+  <div class="profile_row">
+    <div class="profile_item profile_share">
+      <input type="checkbox" name="share" class="share" value="friends" />
+    </div>
+    <div class="profile_item full_width">
+      <div class="caption">Groups</div>
+      <div class="profile_row_border full_width">
+      <% if @friends.empty? %>
+        <div class="profile_item_empty">No Groups</div>
+      <% else %>
+      <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Friends -->
+  <div class="profile_row">
+    <div class="profile_item profile_share">
+      <input type="checkbox" name="share" class="share" value="friends" />
+    </div>
+    <div class="profile_item full_width">
       <div class="caption">Friends</div>
+      <div class="profile_row_border full_width">
+      <% if @friends.empty? %>
+        <div class="profile_item_empty">No Friends</div>
+      <% else %>
+      <% end %>
+      </div>
     </div>
   </div>
 
@@ -127,10 +166,16 @@ $(document).ready(function(){
   setPageTitle('My Profile');
   
   $('.profile_share').hide();
-  var _level = 2;
+  var _level = 2;  // next level
+  var _xp = 170;  // current xp
+
+  var maxWidthLevel = parseInt($('#level_meter').css('width'));
+  var targetXp = parseInt(_level_meter[_level]-_level_meter[_level-1]);
+  var widthLevel = (_xp-_level_meter[_level-1]) / targetXp * maxWidthLevel;
   
-  $("#progress_stats").html(_level_meter[_level]+" until level "+_level);
-  $("#progressbar").animate({width :parseInt(_level_meter[_level] / 4.5)+"px"},1000);
+  $("#progress_stats_1").html(_xp + " XP");
+  $("#progress_stats_2").html(_level_meter[_level] - _xp + " for level " + _level);
+  $("#progressbar").animate({width :  widthLevel+"px"}, 1000);
   
   <% if user_session[:profile_id] != profile.id %>
     // If viewing another user, some fields are readonly. We also need to protect in the controller

@@ -56,4 +56,8 @@ class Course < ActiveRecord::Base
     self.tasks_medium = Course.default_tasks_medium
     self.tasks_high = Course.default_tasks_high
   end
+  
+  def code_section
+    return "#{self.code}#{'-' unless self.section.blank?}#{self.section}"
+  end
 end
