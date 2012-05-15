@@ -11,7 +11,7 @@ class Message < ActiveRecord::Base
     @message.target_type = "Course"
     @message.parent_type = "Course"
     @message.message_type = "course_invite"
-    @message.content = "Friend Request!!!"
+    @message.content = "Course Invite!!!"
     @message.wall_id = Wall.get_wall_id(parent_id, "Course") 
     @message.archived = false
     @message.post_date = DateTime.now
