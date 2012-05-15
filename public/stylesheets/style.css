@@ -2416,3 +2416,11 @@ div .coursemsg_bgc2 {
   padding-top:2px;
 }
 
+.system_alert {
+  text-align: center; 
+  margin-top: 200px; 
+  font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
+  font-size:48px;
+  color:#8D130D;
+  text-shadow: 3px 3px #FFBA00;
+}

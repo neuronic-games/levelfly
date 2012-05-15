@@ -1,6 +1,8 @@
 Oncapus::Application.routes.draw do
 
   devise_for :users
+  
+  get "system/alert"
 
   post "task/view_task"#for get task related to course
   

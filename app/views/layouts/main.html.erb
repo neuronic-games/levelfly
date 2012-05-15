@@ -111,14 +111,14 @@
           <div class="icon_box"> <a href="javascript:void(0);" id="tasks" rel="/task/" class="icon_tasks menu_btn">tasks</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"> <a href="javascript:void(0);" id="networks" rel="/group/" class="icon_networks menu_btn">Groups</a> </div>
+          <div class="icon_box"> <a href="javascript:void(0);" id="networks" rel="/system/alert/" class="icon_networks menu_btn">Groups</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"> <a href="javascript:void(0);" id="stats" rel="/wardrobe/" class="icon_stats menu_btn">Leader board</a> </div>
+          <div class="icon_box"> <a href="javascript:void(0);" id="stats" rel="/system/alert/" class="icon_stats menu_btn">Leader board</a> </div>
           <div class="space_btwn_icon"></div>
-          <div class="icon_box"> <a href="javascript:void(0);" id="grade" rel="/wardrobe/" class="icon_grade menu_btn">Grade book</a> </div>
+          <div class="icon_box"> <a href="javascript:void(0);" id="grade" rel="/system/alert/" class="icon_grade menu_btn">Grade book</a> </div>
           <div class="space_btwn_icon"></div>
-          <a href="#" class="downarrow"></a>
+          <a href="javascript:void(0);" id="wardrobe" rel="/wardrobe/" class="menu_btn downarrow"></a>
         </div>
       </div>
       
@@ -217,7 +217,7 @@
     if (target == undefined) {
       target = dest;
     }
-    setAlert("Loading to " + target);
+    setAlert("Loading " + target);
     var data = $(this).attr("data");
     load_data(target,data);
     set_search(target);
@@ -245,7 +245,6 @@
         success: function(data) {
           if (data) {
             $("#container").html(data);
-            setAlert("Page loaded");
           } else {
             alert("ERROR");
           }
