@@ -1,5 +1,4 @@
 <ul class="people_node">
-
 <% if !peoples.empty? %>
   <% if mode == "list" %>
     <% peoples.each do |p| %>
@@ -8,22 +7,20 @@
           <img src='<%=p.image_file_name%>'>
         </div>
         <div class="people_name"><%=p.full_name%></div>
-        <% if is_course_request_pending(@course.id, p.id) %>
-        <div class="people_name">Pending</div>
-        <%end%>
+        <% if @course_check = is_course_request_pending(@course.id, p.id) %>
+           <% if @course_check.profile_type == "M" %>
+             <div class="people_name">Master</div>
+           <% else if @course_check.profile_type == "P" %> 
+             <div class="people_name">Pending</div>
+           <%end%>
+           <%end%>
+        <%end%>   
         <div class="people_delete">
           <a href="javascript:void(0)" rel="<%=p.id%>" >Delete</a>
         </div>
         <div class="clear"></div>
       </li>
       <div class="clear"></div>
-    <% end %>
-  <% else %>
-    <% peoples.each do |p| %>
-      <li class="<%= cycle("even", "odd") %>" id="<%=p.id%>"> <%=p.full_name%> </li>
-      <% if is_course_request_pending(@course.id, p.id) %>
-        <div class="people_name">Pending</div>
-        <%end%>
     <% end %>
   <% end %>
 <% end %>
