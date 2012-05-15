@@ -46,6 +46,7 @@ class MessageController < ApplicationController
       @message.parent_id = params[:parent_id]
       @message.parent_type = params[:parent_type]
       @message.content = params[:content]
+      @message.target_id = params[:target_id]
       @message.message_type = params[:message_type] if params[:message_type]
       @message.wall_id = Wall.get_wall_id(params[:parent_id], params[:parent_type]) #params[:wall_id]
       @message.post_date = DateTime.now
@@ -55,7 +56,7 @@ class MessageController < ApplicationController
           when "Message"
             render :partial => "comments", :locals => {:comment => @message}
           when "Profile"
-            message = (params[:message_type]=="Friend") ? "Friend request has been sent!!" : "Message has been sent!!"
+            message = (params[:message_type]=="Friend") ? "Friend request sent" : "Message sent"
             render :text => {"status"=>"save", "message"=>message}.to_json
           else
             render :partial => "messages", :locals => {:message => @message}

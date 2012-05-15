@@ -69,9 +69,10 @@ $('.send_btn').click(function(){
   profile_id = $('#hdn_profile_id').val();
   message_type = $(this).attr('id');
   method = $(this).attr('rel');
-  message = message_type == "Friend" ? "Friend Request!!!" : $('#message').val();
+  message = message_type == "Friend" ? "I'd like to be your friend. Please accept my invite." : $('#message').val();
   var dataString = {
     parent_id:profile_id,
+    target_id:<%=profile.id%>,
     parent_type:"Profile",
     content: message,
     message_type: message_type
@@ -86,8 +87,8 @@ $('.send_btn').click(function(){
       error: function(){alert("ERROR!!")},
       success: function(data) {
         if (data.status=="save"){
-          $('#avatar_card').html(data.message);
-          $('#avatar_card').fadeOut(1500);
+          $('#avatar_card').fadeOut();
+          setAlert(data.message);
         }
         showSpinner(false);
       }
