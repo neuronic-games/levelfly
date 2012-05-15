@@ -1701,12 +1701,46 @@ margin-left:33px;
     -moz-transform: rotate(90deg);
 }
 .task_tab {
-		 -moz-transform: rotate(90deg);
-		 -webkit-transform: rotate(90deg);
-		 color:#fff;
-		 display:block;
-		 text-align:center;
+  -moz-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  color:#fff;
+  display:block;
+  text-align:center;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: bold;
 }
+
+.side_tab {
+  background:#8fac24;
+  width:60px;
+  padding-top:40px;
+  height:60px;
+  text-align:center;
+  display:block;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin:0 0 5px 0;
+  -webkit-box-shadow: inset -1px 0px 1px 0px rgba(255, 255, 255, 0.6);
+  -moz-box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
+  box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
+  text-decoration:none;
+  cursor:pointer;
+}
+
+.side_tab + .side_tab_open {
+  background:#8fac24;
+}
+
+.side_tab + .side_tab_close {
+  background:#8c9569;
+}
+
+.side_tab:hover  {
+  background:#9fbc34;
+}
+
 .tab_open {
 	background:#8fac24;
 	width:60px;

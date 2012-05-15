@@ -18,10 +18,9 @@
               <!-- tabs-->
               
             <div class="course_tabs menu_container" align="right">
-              <a href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><span class="task_tab">Course</span></a>
-              <a href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><span class="task_tab">Forums</span></a>
-              <a href="javascript:void(0)"  id="menu4" value="4" class="tab_close"><span class="task_tab">Files</span></a>
-              <a href="javascript:void(0)"  id="menu5" style="display:none;" value="5" class="tab_close" ><span class="task_tab">Stats</span></a>
+              <a href="javascript:void(0)"  id="menu1" value="1" class="side_tab side_tab_open" ><span class="task_tab">Course</span></a>
+              <a href="javascript:void(0)"  id="menu3" value="3" class="side_tab side_tab_close"><span class="task_tab">Forums</span></a>
+              <a href="javascript:void(0)"  id="menu4" value="4" class="side_tab side_tab_close"><span class="task_tab">Files</span></a>
             </div>
                       
             <div class="course_tab_content">
@@ -78,15 +77,6 @@ $(document).ready(function(){
       $("#menu1").removeClass("tab_open");
   <% end %>
   
-  <% if @course_owner %>
-  var current_user = <%= user_session[:profile_id] %>
-  var course_owner = <%= @course_owner.profile_id %>
-  if(current_user != course_owner)
-  {
-     $("#menu5").css("display","block");
-  }     
-  <% end %>
- 
   // Course name
   setPageTitle(getStorage("course_name"));
   
