@@ -52,7 +52,7 @@
     <div class="field_label">High<br /><input type="text" name="task_high" value="<%=@course.tasks_high if @course%>" id="task_high" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" onBlur='javascript:setStorage("task_high", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
     
     <div id="course_tasks_prompt" class="field_prompt">
-      Provide your best guess on how many Low, Medium and High rates tasks you will have for the course
+      Provide your best guess on how many Low, Medium and High rated tasks you will have for the course
     </div>
     
   </div>
@@ -60,12 +60,15 @@
 
 <!-- Outcomes -->
   <div class="page_block">
-    <div class="page_block_left field_title">
-      Outcomes
+    <div class="page_block_left">
+      <span class="field_title">Outcomes</span>
+      <span class="field_notes">
+        Please consider adding your own outcomes. The locked outcomes are shared and cannot be changed.
+      </span>
     </div>
   
     <div class="page_block_right">
-      <div class="add_outcome_bt">
+      <div class="add_outcome_bt course_setup_button">
         <a class="blue_bt19px" onclick="addOutcome();">ADD OUTCOME</a> 
       </div>
       
@@ -80,21 +83,21 @@
         <div id="add_outcome_container">
           <!-- New outcomes will be added here -->
         </div> 
-        <div>
-          Please consider adding your own outcomes. The locked outcomes are shared and cannot be changed.
-        </div>
       </div>
     </div>
   </div> <!-- End page_block -->
 
 <!-- Grading Categories -->
   <div class="page_block">
-    <div class="page_block_left field_title">
-       Grading Categories
+    <div class="page_block_left">
+      <span class="field_title">Grading Categories</span>
+      <span class="field_notes">
+        Please add a new grading category and the percentage of the final grade.
+      </span>
     </div>
   
     <div class="page_block_right">
-      <div align="right" class="add_outcome_bt">
+      <div class="add_outcome_bt course_setup_button">
         <a class="blue_bt19px" onclick="addCategory();">ADD CATEGORY</a> 
       </div>
       <% if @course %>
@@ -104,9 +107,6 @@
       <% end %>
       <div id="add_category_container">
         <!-- New categories added here -->
-      </div>
-      <div style="margin:10px;">
-        Please add a new grading category and the percentage of the final grade.
       </div>
     </div>
   </div>
@@ -213,4 +213,38 @@
     prompt = $(this).attr("prompt");
     $("#"+prompt).hide();
   });
+
+  //Add an outcome
+  function addOutcome() {
+     addNode('outcome');
+     $("#hdn_is_page_change").val(true);
+  }
+
+  //Add a category
+  function addCategory() {
+    addNode('category');
+    $("#hdn_is_page_change").val(true);
+  }
+  
+  //Adding text field nodes for peoples, outcomes, categories
+  function addNode(element) {
+    if(element=="people") {
+      var newNode = $(document.createElement('div')).attr("id", 'people_node_div' + _counterPeople);
+      newNode.css("marginTop" , "20px");
+      newNode.html('<input type="text" name="add_people_email[]" value="Type in email to add" class="medium node" id="add_people_email_' + _counterPeople + '" />');
+      newNode.appendTo("#add_people_container");
+      _counterPeople++;
+    } else if(element=="outcome"){
+      var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counterOutcome);
+      newNode.html('<div style="margin-top:5px; height:48px; width:500px;" class="outcome_div"><div style="float:left; height:45px;" > <input type="checkbox" id="outcomes_'+_counterOutcome+'" class="dd_select brown_bg" name="outcomes_share[]" /> <input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="dd_select brown_bg medium" placeholder="Enter name" /></div><div style="float:left; margin-left:10px;"><textarea class="small dd_input brown_bg" style="width:260px; height:45px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '" placeholder="Enter description" "></textarea></div></div>');
+      newNode.appendTo("#add_outcome_container");
+      _counterOutcome++;
+    } else if(element=="category"){
+      var newNode = $(document.createElement('div')).attr("id", 'category_node_div' + _counterCategory);
+      $('#add_category_container div').css("height","30px");
+      newNode.html('<input type="text" name="categories[]" id="categories_' + _counterCategory + '" value="" class="dd_select brown_bg medium" placeholder="Enter name" />&nbsp;&nbsp;&nbsp;<input type="text" id="loaded_category_values_'+_counterCategory+'" name="loaded_category_values[]" value="" class="dd_select brown_bg medium" placeholder="Enter percent" />%');
+      newNode.appendTo("#add_category_container");
+      _counterCategory++;
+    }
+  }  
 </script>

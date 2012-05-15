@@ -303,26 +303,10 @@ $(document).ready(function(){
   //Upload doc file
 });
 
-//Add an outcome
-function addOutcome() {
-   addNode('outcome');
-   $("#hdn_is_page_change").val(true);
-}
-
-
-
 // For Download
 $(".download_files").click(function(){
   alert("download");
 });
-
-
-
-//Add a category
-function addCategory() {
-  addNode('category');
-  $("#hdn_is_page_change").val(true);
-}
 
 //Save course
 function save_course(channel) {
@@ -408,28 +392,6 @@ function save_course(channel) {
   });  
   
   return false;  
-}
-
-//Adding text field nodes for peoples, outcomes, categories
-function addNode(element) {
-  if(element=="people") {
-    var newNode = $(document.createElement('div')).attr("id", 'people_node_div' + _counterPeople);
-    newNode.css("marginTop" , "20px");
-    newNode.html('<input type="text" name="add_people_email[]" value="Type in email to add" class="medium node" id="add_people_email_' + _counterPeople + '" />');
-    newNode.appendTo("#add_people_container");
-    _counterPeople++;
-  } else if(element=="outcome"){
-    var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counterOutcome);
-    newNode.html('<div style="margin-top:5px; height:48px; width:500px;" class="outcome_div"><div style="float:left; margin-left:10px; height:45px;" > <input type="checkbox" id="outcomes_'+_counterOutcome+'" class="dd_select brown_bg" name="outcomes_share[]" /><input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="dd_select brown_bg medium"  /></div><div style="float:left; margin-left:10px;"><textarea class="small dd_input brown_bg" style="width:260px; height:45px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '""></textarea></div></div>');
-    newNode.appendTo("#add_outcome_container");
-    _counterOutcome++;
-  } else if(element=="category"){
-    var newNode = $(document.createElement('div')).attr("id", 'category_node_div' + _counterCategory);
-    $('#add_category_container div').css("height","30px");
-    newNode.html('<input type="text" name="categories[]" id="categories_' + _counterCategory + '" value="" class="dd_select brown_bg medium"  />&nbsp;&nbsp;&nbsp;<input type="text" id="loaded_category_values_'+_counterCategory+'" name="loaded_category_values[]" value="" class="dd_select brown_bg medium" />');
-    newNode.appendTo("#add_category_container");
-    _counterCategory++;
-  }
 }
 
 -->
