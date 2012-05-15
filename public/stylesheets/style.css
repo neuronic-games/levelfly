@@ -482,7 +482,7 @@ a.icon_stats_active {
 /*  position:relative;*/
 	*height: expression(document.body.clientHeight < 802? "800px" : "100%");
   vertical-align:middle;
- /* position:absolute; */
+  position:absolute; 
   right:0px;
 }
 .heading_messages {

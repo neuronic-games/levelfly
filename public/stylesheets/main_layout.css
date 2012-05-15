@@ -372,12 +372,11 @@ input[type=file] {
 
 
 .people_name {
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:14px;
   width:200px;
+  color:#fff;
   float:left;
-}
-.people_delete {
-  width:5px;
-  float:right;
 }
 table .tbl_header {
   background:url(/images/border_dashed.png) repeat-x bottom !important;

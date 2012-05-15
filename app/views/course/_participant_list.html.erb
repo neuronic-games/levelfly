@@ -2,22 +2,18 @@
 <% if !peoples.empty? %>
   <% if mode == "list" %>
     <% peoples.each do |p| %>
-      <li class="<%= cycle("even", "odd") %>" id="<%=p.id%>">
+      <li class="msg_big_boxC2" id="<%=p.id%>" style="width:88%; height:50px;">
         <div class="avatar_white_bdrC2">
           <img src='<%=p.image_file_name%>'>
         </div>
-        <div class="people_name"><%=p.full_name%></div>
-        <% if @course_check = is_course_request_pending(@course.id, p.id) %>
-           <% if @course_check.profile_type == "M" %>
-             <div class="people_name">Master</div>
-           <% else if @course_check.profile_type == "P" %> 
-             <div class="people_name">Pending</div>
-           <%end%>
-           <%end%>
-        <%end%>   
-        <div class="people_delete">
-          <a href="javascript:void(0)" rel="<%=p.id%>" >Delete</a>
+        <div class="people_name"><%=p.full_name%><br />
+          <span style="font-size:10px; font-weight:normal;">
+            <%= p.participants[0].profile_type == 'P' ? 'Pending' : 'Member' %>
+          </span>
         </div>
+        
+        <a href="javascript:void(0)" class="people_delete blue_bt19px" rel="<%=p.id%>" style="float:right;" >Remove</a>
+
         <div class="clear"></div>
       </li>
       <div class="clear"></div>

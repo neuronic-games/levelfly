@@ -1,8 +1,8 @@
 <div id="div_6" class="tab_content">
 
-  <div class="titleTextParticipants">Participants:&nbsp;&nbsp;
-    <span><input type="text" name="add_people_email[]" class="dd_select brown_bg" id="add_course_people" /></span>
-    <span style="float:right; margin-right:89px;""><a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="big_blue_btn btn_add">ADD</a></span>
+  <div class="titleTextParticipants">Add:&nbsp;&nbsp;
+    <span><input type="text" name="add_people_email[]" class="dd_select brown_bg" style="width:300px; padding:2px;" id="add_course_people" placeholder="Enter email..."  /></span>
+    <span style="float:right; margin-right:89px;""><a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="blue_bt19px btn_add">Invite</a></span>
   </div> 
   
   <div class="frm_input">
@@ -12,7 +12,8 @@
   <div class="frm_label small_label">
     &nbsp;
   </div>
-  <div id="course_people" class="frm_input">
+  <div class="clear"></div>
+  <div id="course_people" class="frm_input" style="width:100%;">
     <% if @peoples %>
       <%= render :partial => "/course/participant_list", :locals => {:peoples=>@peoples, :mode=>"list"} %>
     <% end %>
@@ -43,13 +44,13 @@
           dataType: "json",
           success: function(data) {
             if (data.status) {
-              participant_node = $('<li id="'+ data.profile.full_name + '" class="'+node_class+'"></li>');
+              participant_node = $('<li id="'+ data.profile.full_name + '" class="msg_big_boxC2 '+node_class+'" style="width:88%; height:50px;"></li>');
               participant_node.className = node_class;
               participant_node.id = data.profile.full_name;
               partcipant_html = '<div class="avatar_white_bdrC2"><img src='+data.profile.image_file_name+'></div>';
-              partcipant_html += '<div class="people_name">' + data.profile.full_name + '</div>';
-               partcipant_html += '<div class="people_name">Pending</div>';
-              partcipant_html += '<div class="people_delete"><a href="javascript:void(0)" rel="'+data.profile.full_name+'">Delete</a></div><div class="clear"></div>';
+              partcipant_html += '<div class="people_name">' + data.profile.full_name + '<br />';
+               partcipant_html += '<span style="font-size:10px; font-weight:normal;">Pending</span></div>';
+              partcipant_html += '<div class="clear"></div>';
               participant_node.append(partcipant_html);
               $("#course_people ul").prepend(participant_node);
               $("#course_participant_list").hide();
@@ -71,8 +72,8 @@
     }
   });
   
-  //Delete participant 
-  $(".people_node").delegate("li .people_delete a", "click", function(){
+  // Delete participant
+  $(".people_node").delegate(".people_delete", "click", function(){
     showSpinner(true);
     profile_id = $(this).attr("rel");
     course_id = $("#course_id_hdn").val(); 
