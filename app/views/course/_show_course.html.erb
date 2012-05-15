@@ -58,25 +58,19 @@
   <div class="clear"></div>
   <% if @course %>
   <!-- Message -->
-    
-    <div id="msg_input" class="message_input hide">
-      <label>Message</label> <br />
-        <textarea id="msg_content" name="msg_content" cols="15" rows="6"></textarea> <br />
-        <span>
-          <input type="button" name="sbmt_msg" class="sbmt_msg" title="msg_content" id="<%=@course.id%>" rel="Course" value="Post" />
-        </span>
-        &nbsp;
-        <span>
-          <!-- When user click on cancel button first data will clear from textarea and finall popup window will hide.-->
-          <a href="javascript:void(0)" onclick="javascript:$('#msg_content').val(''); $('#msg_input').fadeOut()">Cancel</a>
-        </span>
-    </div>
-    <div>
-      <div align="left" class="course_newmsg_bt"><a class="blue_bt19px" onclick="javascript:$('#msg_input').fadeIn()">NEW MESSAGE</a> 
+
+    <div class="frm_input" style="margin-left: 230px;">
+
+      <div style="margin-left: 90px; text-align:right;">
+        <textarea id="msg_content" name="msg_content" style="width:310px; background-color: #CCE8F4; color: #4A4F4E;"></textarea> <br />
+        <!-- When user click on cancel button first data will clear from textarea and finall popup window will hide.-->
+        <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
+        <a href="javascript:void(0)" id="<%=@course.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="Course" onclick="javascript:void(0);">Post</a>
       </div>
-    </div>
-    <div class="frm_input">
+
+
       <div id="message_wrapper" class="message_wrapper">
+      
       &nbsp;
       <% if @course_messages=@course.messages.find(:all,:order => "created_at DESC" )%>
         <% @course_messages.each do |message| %>

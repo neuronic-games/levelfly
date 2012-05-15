@@ -273,11 +273,11 @@ body {
 }
 .nav_box {
   /*float:left;*/
-  padding:260px 5px 0 5px;
+  padding:0 5px 0 5px;
   /*height:522px;*/
-/*  position:fixed;
+  position:fixed;
   bottom:0px;
-*/}
+}
 .nav_box a.uparrow {
   display:block;
   background:url(../images/up_arrow.png) no-repeat center;

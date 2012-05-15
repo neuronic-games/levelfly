@@ -209,10 +209,10 @@ $(document).ready(function(){
     text = $(this).attr("title");
     message = $("#"+text).val();
     if(message.trim().length==0){
-      alert('Please enter message...');
       showSpinner(false);
       return;
     }
+    setAlert("Posted: "+message);
     var dataString = {parent_id:parent_id, parent_type:parent_type, content: message};
     //alert(dataString.content);return false;
     $.ajax({  

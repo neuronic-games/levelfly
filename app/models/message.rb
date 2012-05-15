@@ -42,11 +42,12 @@ class Message < ActiveRecord::Base
     @message.profile_id = parent_id
     @message.parent_id = profile_id
     @message.target_id = target_id
-    @message.target_type = "Course_respond"
-    @message.parent_type = "Course"
-    @message.message_type = message_type
-    @message.content = content+"  your request By User"
-    @message.archived = true
+    # Needs the wall id for the recipient
+    @message.target_type = "Course"
+    @message.parent_type = "Profile"
+    @message.message_type = "Message"
+    @message.content = content+" your invite"
+    @message.archived = false
     @message.post_date = DateTime.now
     @message.save
     return @message
