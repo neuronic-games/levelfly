@@ -1,4 +1,4 @@
-<div class="level_01">03</div>
+<div class="level_01"><%= '%02d' % profile.avatar.level %></div>
 <div class="top_img"></div>
 <div class="shadow_repeat">
   <div>
@@ -7,12 +7,12 @@
     </div>
     <div class="txt"> <span class="pop_name"><b><%=profile.full_name%></b><br />
       <%= "#{profile.major.name}, " if profile.major%><%=profile.school.code%></span>
-      <p></p>
+      <p><%=profile.tag_list%></p>
       <div class="spacebar10px"></div>
     </div>
     <div class="clear"></div>
     <span class="pop_fav_icon"><img src="images/fav.png" align="absbottom" /> <%=profile.like_received ? profile.like_received : 0 %></span>
-    <span class="pop_win_icon"><img src="images/cup_icon.png" align="absbottom" /> <%=profile.like_given ? profile.like_given : 0 %></span>
+    <span class="pop_win_icon"><img src="images/cup_icon.png" align="absbottom" /> <%=profile.avatar.points ? profile.avatar.points : 0 %></span>
     <div id="msg_input" class="hide">
       <textarea name="message" id="message" class="msg_txt" placeholder="Enter your message..."></textarea>
     </div>
@@ -25,7 +25,7 @@
       <a href="javascript:void(0)" rel="save" id="Message" class="blue_bt19px send_btn">Send</a> 
     </div>
     <div align="right" id="root_btn">
-      <a href="javascript:void(0)" rel="switch" id="note_root" class="blue_bt19px">Note</a> 
+      <!-- <a href="javascript:void(0)" rel="switch" id="note_root" class="blue_bt19px">Note</a>  -->
       <a href="javascript:void(0)" rel="switch" id ="message_root" class="blue_bt19px">Message</a> 
       <% if is_friend(user_session[:profile_id], profile.id) %>
         <a href="javascript:void(0)" id="unfriend" class="blue_bt19px">UNFRIEND</a>
@@ -120,7 +120,16 @@ $('#unfriend').click(function(){
   }
 });
 
+// Hide the card if clicked outside
+$(document).click(function (e)
+{
+    var container = $("#avatar_card");
 
-
+    if (container.has(e.target).length === 0)
+    {
+        container.hide();
+        $(document).unbind('click');
+    }
+});
 
 </script>
