@@ -482,7 +482,7 @@ a.icon_stats_active {
 /*  position:relative;*/
 	*height: expression(document.body.clientHeight < 802? "800px" : "100%");
   vertical-align:middle;
-  position:absolute; 
+ /* position:absolute;*/ 
   right:0px;
 }
 .heading_messages {
@@ -865,38 +865,41 @@ a.blue_bt19px:hover {
   overflow:hidden;
 }
 /***********************Main content2 task page**************************/
+
+
 .task_content {
   z-index:1000;
   height:100%;
-  padding-right:90px;
+  padding-right:120px;
   /*margin: -62px 0 0;*/
 }
 .board_left {
-  background:url(../images/board_left.png) 0 90px no-repeat;
-  padding-left:54px;
-  height:100%;
+  background:url(../images/course_left_bar.jpg) 0 125px no-repeat;
+	padding-left:57px;
+	height:100%;
 }
 .board_right {
-  background:url(../images/board_right.png) right 90px no-repeat;
-  padding-right:48px;
-  height:100%;
+  background:url(../images/course_right_bar.jpg) right 125px no-repeat;
+	padding-right:57px;
+	height:100%;
 }
 .board_center {
-  background:url(../images/board_center.png) 0 90px repeat-x;
-  /*height:732px;*/
+  background:url(../images/course_middle_bar.jpg) 0 125px repeat-x;
+	/*height:732px;*/
   height:100%;
 }
 .task_pad_top {
   width:100%;
-  height:97px;
-  overflow:hidden;
-  position:relative;
-  padding:78px 0 0 0;
+	height:97px;
+	overflow:hidden;
+	position:relative;
+	padding:78px 0 0 0;
 }
 .task_pad_top_inner {background:url(../images/note_pad_top.png) no-repeat center; position:absolute; left:50%; margin:0 0 0 -155px; height:97px; width:311px; z-index:9999;}
 .task_pad {
   width:100%;
 }
+
 .tab_content {
   padding-right:6px;
 }
@@ -1545,10 +1548,11 @@ background-color:#FFFFFF;
 #level{
 color:#FFFFFF;
 }
+.Uprofile_gap {height:150px;}
 .profile_left {
-  position:absolute;
+  /*position:absolute;*/
   display:block;
-  top:150px;
+  /*top:150px;*/
   width:600px;
 }
 .profile_right {
@@ -2043,7 +2047,7 @@ div .coursemsg_bgc2 {
 
 .avat {
   float:left;
-  margin-top: 100px;
+  margin-top: 63px;
   position: absolute;
 }
 .avatar_editor {
