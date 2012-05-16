@@ -55,7 +55,7 @@
   <!-- Friend List -->
   <div class="friend_list" id="friend_list">
     <% if @friend %>
-      <h2>FRIEND</h2>
+      <h2>FRIENDS</h2>
       <% @friend.each do |friend| %>
         <%= render :partial => "/message/friend_list", :locals => {:friend=>friend} %>
       <% end %>
