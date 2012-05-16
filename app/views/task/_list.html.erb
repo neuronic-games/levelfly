@@ -2,38 +2,33 @@
   <div class="board_left">
     <div class="board_right">
       <div class="board_center">
-        <div class="task_pad_top"><div class="task_pad_top_inner "></div></div>
+        <div class="task_pad_top"></div>
         <div class="task_pad">
           <!-- tabs-->
-		       <table width="100%" align="center" cellspacing="0" cellpadding="4">
-              <tr class="tbl_header">
-                <td width="40%">
-                  Task
-                </td>
-                <td>
-                  Created on
-                </td>
-                <td>
-                  Level
-                </td>
-                <td>
-                  Category
-                </td>
+		        <table class="blackboard_list">
+              <tr>
+                <th width="110">
+                </th>
+                <th>
+                  Task Name
+                </th>
+                <th width="100">
+                  Due Date
+                </th>
               </tr>
               <% @tasks.each do |t| %>
-              <tr class="<%= cycle("even", "odd") %>">
-                <td>
-                  <a href="/task/show/<%=t.id%>" id="<%=t.id%>" class="view"><%=t.name%></a>
-                </td>
-                <td>
-                  <%=t.created_at %>
-                </td>
-                <td>
-                  <%=t.level %>
-                </td>
-                <td>
-                  <%=t.category.name if t.category %>
-                </td>
+              <tr>
+                 <td>
+                   <a href="/task/show/<%=t.id%>" id="<%=t.id%>" class="view"><%=t.name%>
+                   <img src='<%= t.image_file %>' width="100" height="100" alt="<%=t.name%>" />
+                   </a>
+                  </td>
+                  <td>
+                   <a href="/task/show/<%=t.id%>" id="<%=t.id%>" class="view"><%=t.name%></a>
+                  </td>
+                  <td>
+                    <%=t.due_date %>
+                  </td>
               </tr>
               <% end %>
             </table>

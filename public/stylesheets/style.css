@@ -2446,3 +2446,6 @@ float:left; height:45px;
 .outcome_data .outcome_textarea{
 float:right; margin:0 45px 2px 0;height:68px;
 }
+.user_profile_left{
+float:left; height:800px;
+}

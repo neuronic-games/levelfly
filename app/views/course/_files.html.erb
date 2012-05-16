@@ -28,18 +28,21 @@
    <option>Notes</option>
    </select></span></div>
      
-  <div id="show_file" class="btn_drop_file">
-    DROP FILE HERE
-  </div>
+  
    <div class="titleTextKind">Kind</div>
    <div class="titleTextUpdated">Updated</div><br/><br/>
-   <div id="load_files">
+   <div id="all_files">
+    <div id="show_file" class="btn_drop_file">DROP FILE HERE</div>
+    <div id="load_files">
     <% if @course %>
     <% @course.attachments.reverse.each do |a| %>
       <%= render :partial => "/course/file_list", :locals => {:a=>a} %>               
     <% end %>
     <% end %>
    </div>
+  </div>
+  
+   
   <div class="clear"></div>
 </div>
 <script type="text/javascript">
@@ -107,8 +110,11 @@
     add_file_uploader.bind('FileUploaded', function(up, file, info) {
       showSpinner(true);
       $("#show_file_list").show();
-      $("#show_file").text("DROP THE FILE");
       $("#load_files").prepend(info.response);
+      $("#show_file").text("DROP THE FILE");
+      $("#show_file").fadeOut('slow');
+      $("#load_files").slideDown(10000);
+      $("#show_file").fadeIn('slow');
       showSpinner(false);
     });
     

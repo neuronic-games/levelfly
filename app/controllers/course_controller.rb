@@ -209,37 +209,6 @@ class CourseController < ApplicationController
    end
   end
   
-  # def add_participant
-    # status = false
-    # already_added = false
-    # if params[:profile_id] && params[:course_id]
-      # participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", params[:course_id], params[:profile_id]])
- 
-      # profile = Profile.find(params[:profile_id])
-      # user_email = profile.user.email if not profile.nil?
-      # if !participant_exist
-        # @participant = Participant.new
-        # @participant.object_id = params[:course_id]
-        # @participant.object_type = "Course"
-        # @participant.profile_id = params[:profile_id]
-        # @participant.profile_type = "S"
-        # if @participant.save
-          # wall_id = Wall.get_wall_id(params[:course_id],"Course")
-          # Feed.create(
-            # :profile_id => params[:profile_id],
-            # :wall_id =>wall_id
-          # )
-          # @message = Message.send_friend_request(user_session[:profile_id],params[:profile_id],wall_id)
-          # UserMailer.registration_confirmation(user_email).deliver
-          # status = true
-        # end
-      # else 
-          # already_added = true
-      # end
-    # end
-    # render :text => {"status"=>status, "already_added" => already_added,"profile" =>profile}.to_json
-  # end
-  
   def delete_participant
     status = false
     if params[:profile_id] && params[:course_id]

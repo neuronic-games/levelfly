@@ -22,8 +22,8 @@ class Message < ActiveRecord::Base
   def self.send_course_request(profile_id, parent_id, wall_id, target_id)
     course = Course.find(target_id)
     @message = Message.new
-    @message.profile_id = profile_id
-    @message.parent_id = parent_id
+    @message.profile_id = parent_id 
+    @message.parent_id = profile_id
     @message.target_id = target_id
     @message.target_type = "Course"
     @message.parent_type = "Course"
@@ -36,7 +36,7 @@ class Message < ActiveRecord::Base
     return @message
   end
   
-  def self.respond_to_course_invitation(parent_id,profile_id,target_id,message_type,content)
+  def self.respond_to_course_invitation(parent_id,profile_id,target_id,content)
     course = Course.find(target_id)
     @message = Message.new
     @message.profile_id = parent_id

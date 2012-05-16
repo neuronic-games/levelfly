@@ -15,14 +15,16 @@
     <% end %>
     
     <!-- Invites -->
-    <% if @friend_requests and not @friend_requests.empty? %>
     <div id="course_requests">
+    <% if @friend_requests and not @friend_requests.empty? %>
+    <div id="friend_requests">
      <h2>INVITES</h2>
       <% @friend_requests.each do |friend_request| %>
         <%= render :partial => "/message/friend_requests", :locals => {:friend_request=>friend_request} %>
       <% end %>
     </div>
     <% end %>
+    </div>
       
     <!-- Message -->
     <div id="message_wrapper" class="message_wrapper">
