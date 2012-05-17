@@ -52,4 +52,11 @@ class Message < ActiveRecord::Base
     @message.save
     return @message
   end
+  
+  def formatted_content
+    # return self.content.gsub("\n", "<br />")
+    # For some reason, <br /> is not being applied in the message display
+    
+    return self.content
+  end
 end
