@@ -24,6 +24,15 @@ module MessageHelper
     end
   end
   
+  def belongs_to_course_message(target_id)
+    participant = Participant.where("profile_type='S' AND object_id = ? AND object_type='Course'", target_id).count
+    if participant > 0
+      return true
+    else
+      return false
+    end
+  end
+  
   def is_course_request_pending(target_id,profile_id)
     @course_request = Participant.find(:first, :conditions=>["profile_id = ? AND object_id=? AND object_type='Course'", profile_id,target_id]) 
     return @course_request

@@ -6,7 +6,6 @@ class MessageController < ApplicationController
     user_session[:last_check_time] = DateTime.now
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
 
-     
     if params[:search_text]
       search_text =  "%#{params[:search_text]}%"
       @comment_ids = Message.find(:all,
@@ -14,31 +13,19 @@ class MessageController < ApplicationController
         :conditions => ["(archived is NULL or archived = ?) AND parent_type = 'Message' AND content LIKE ? ", false, search_text]).collect(&:parent_id)
       @messages = Message.find(:all, 
         :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend' AND (content LIKE ? OR id in (?) )", wall_ids, false, search_text, @comment_ids])
-      @messagesAll = Message.count(:all, 
-        :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend' AND (content LIKE ? OR id in (?) )", wall_ids, false, search_text, @comment_ids])
+      
     elsif params[:friend_id]
       @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND profile_id=? AND message_type ='Message' AND parent_type='Profile'", wall_ids, false,params[:friend_id]])  
-      @messagesAll = Message.count(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend'", wall_ids, false]) 
-    else
-    
-      @participants = Participant.find(:all, :conditions => ["object_type = 'Course' AND profile_type in('M','S')"])
+    else 
+      @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type in ('Message')", wall_ids, false], :order => 'created_at DESC')
       
-      @participants.each do |participant|
-        @messages = Message.find(:all, :conditions => ["profile_id =? AND wall_id in (?) AND (archived is NULL or archived = ?) AND message_type in ('Message')",participant.profile_id, wall_ids, false], :order => 'created_at DESC')
-      end
-      
-      @messagesAll = Message.count(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type in ('Message')", wall_ids, false]) 
       @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite') AND profile_id = ? AND (archived is NULL or archived = ?)", user_session[:profile_id], false])
       
       @respont_to_course = Message.find(:all,:conditions=>["target_type = 'Course' AND message_type = 'Message' AND parent_type='Profile' AND profile_id = ? AND archived =?",user_session[:profile_id],false])
     end
     @friend = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", user_session[:profile_id]])
     
-    if @messagesAll > 2
-       @limitAttr = 2
-       @count=0;
-    end
-    render :partial => "list",:locals => {:limit => @limitAttr,:friend_id => @friend_id} 
+    render :partial => "list",:locals => {:friend_id => @friend_id} 
   end
   
   def check_request
@@ -113,8 +100,7 @@ class MessageController < ApplicationController
       @message = Message.find(params[:message_id])
       if @message
         if params[:activity] && !params[:activity].nil?
-          @course_participant = Participant.where("object_type='Course' AND object_id = ? AND 
-            profile_id = ? AND profile_type='P'",@message.target_id,@message.parent_id).first
+          @course_participant = Participant.where("object_type='Course' AND object_id = ? AND profile_id = ? AND profile_type='P'",@message.target_id,@message.profile_id).first
           if params[:activity] == "add"
             course = Course.find(@message.target_id)
             if @course_participant
@@ -126,7 +112,6 @@ class MessageController < ApplicationController
             render :text=> "Added to #{course.name} (#{course.code_section})"
          else
             if @course_participant
-             #delete
              @course_participant.delete
             end
             @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,"Rejected")

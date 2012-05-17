@@ -50,6 +50,8 @@ Oncapus::Application.routes.draw do
   
   post "task/save"
   
+  post "task/get_task"
+  
   get "task/upload_resource"
   
   post "task/upload_resource"

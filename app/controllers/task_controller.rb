@@ -8,14 +8,14 @@ class TaskController < ApplicationController
       search_text =  "#{params[:search_text]}%"
       @tasks = Task.find(
         :all, 
-        :include => [:participants], 
-        :conditions => ["participants.profile_id = ? AND (tasks.name LIKE ?)", @profile.id, search_text]
+        :include => [:task_participants], 
+        :conditions => ["task_participants.profile_id = ? AND (tasks.name LIKE ?)", @profile.id, search_text]
       )
     else 
       @tasks = Task.find(
         :all, 
-        :include => [:participants], 
-        :conditions => ["participants.profile_id = ?", @profile.id]
+        :include => [:task_participants], 
+        :conditions => ["task_participants.profile_id = ?", @profile.id]
       )
     end
     respond_to do |wants|
@@ -73,6 +73,14 @@ class TaskController < ApplicationController
     end
   end
   
+  
+  def get_task
+    if params[:course_id] && !params[:course_id].empty?
+      course = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])
+      render:partial => "/task/task_list",:locals => {:@tasks =>course}
+    end
+  end
+  
   def save
     status = false
     if params[:id] && !params[:id].empty?
@@ -114,14 +122,13 @@ class TaskController < ApplicationController
         end
       end
       # Participant record
-      participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Task' AND profile_id = ?", @task.id, user_session[:profile_id]])
-      if !participant
-        @participant = Participant.new
-        @participant.object_id = @task.id
-        @participant.object_type = "Task"
-        @participant.profile_id = user_session[:profile_id]
-        @participant.profile_type = "M"
-        if @participant.save
+      task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='M' AND profile_id = ?", @task.id, user_session[:profile_id]])
+     if !task_participant
+        @task_participant = TaskParticipant.new
+        @task_participant.profile_id = user_session[:profile_id]
+        @task_participant.profile_type = "M"
+        @task_participant.task_id = @task.id
+        if @task_participant.save
           Feed.create(
             :profile_id => user_session[:profile_id],
             :wall_id =>wall_id
@@ -274,6 +281,6 @@ class TaskController < ApplicationController
   
   def view_task
      @tasks=Task.find(:all, :conditions =>["course_id = ?", params[:course_id]])
-     render :partial => "/task/list", :locals=>{:tasks=>@tasks}
+     render :partial => "/task/list", :locals=>{:tasks=>@tasks,:course_id=>params[:course_id]}
   end
 end

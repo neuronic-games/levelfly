@@ -31,7 +31,14 @@
       <% if @messages %>
       <h2>MESSAGES</h2>
         <% @messages.each do |message| %>
-          <%= render :partial => "/message/messages", :locals => {:message=>message} %>
+          <% if message.target_type == "Course"  %>
+            <% if belongs_to_course_message(message.target_id) %>
+            <%= belongs_to_course_message(message.target_id) %>
+              <%= render :partial => "/message/messages", :locals => {:message=>message} %>
+            <% end %>
+          <% else %>
+            <%= render :partial => "/message/messages", :locals => {:message=>message} %>
+          <% end %>
         <% end %>
       <% end %>
     </div>

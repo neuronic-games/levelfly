@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  profile_id: 1
+  task_id: 1
+  assign_date: 2012-05-17 17:47:47
+  complete_date: 2012-05-17 17:47:47
+  profile_type: MyString
+  priority: MyString
+  status: MyString
+
+two:
+  profile_id: 1
+  task_id: 1
+  assign_date: 2012-05-17 17:47:47
+  complete_date: 2012-05-17 17:47:47
+  profile_type: MyString
+  priority: MyString
+  status: MyString
