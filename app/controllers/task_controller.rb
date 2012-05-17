@@ -263,7 +263,8 @@ class TaskController < ApplicationController
   
   def course_outcomes
     if !params[:course_id].nil?
-      @outcomes = Outcome.find(:all, :conditions=>["course_id = ?", params[:course_id]])
+      @course = Course.find(params[:course_id])
+      @outcomes = @course.outcomes
       render :partial => "/task/course_outcomes"
     end
   end
