@@ -1963,6 +1963,19 @@ div .coursemsg_bgc2 {
 	background:url(../images/border_dashedH.png) repeat-x bottom !important;
 	cursor:pointer;
 }
+div .taskmsg_bgc2 {
+	color:#3B3131;
+  font-weight:bold;
+}
+.taskmsg_bgc2:hover {
+	color:#fff;
+  font-weight:bold;
+}
+.taskmsg_bgc2 .activeBox {
+	color:#fff;
+	background:url(../images/border_dashedH.png) repeat-x bottom !important;
+	cursor:pointer;
+}
 .avatar_white_bdrC2 {
 	border:#eaebeb 2px solid;
 	float:left;
@@ -2446,4 +2459,94 @@ float:right; margin:0 45px 2px 0;height:68px;
 }
 .user_profile_left{
 float:left; height:800px;
+}
+#tasks_hover{
+  float:right;
+}
+
+.avatar_white_bdrC2task {
+    background: url("../images/avatar_bg.jpg") no-repeat scroll center center transparent;
+    border: 5px solid #EAEBEB;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 0 0 2px 1px #000000 inset;
+    float: left;
+    height: 39px;
+    margin-right: 10px;
+    width: 39px;
+}
+.avatar_white_bdrC2task a img {
+    height: 35px;
+    margin-left: 0;
+    margin-top: 3px;
+    width: 39px;
+}
+.task_2box { overflow:hidden}
+.titleTcheckbox {
+    color: #FFFFFF;
+    float: left;
+    font-size: 17px;
+    font-weight: bold;
+    margin-right: 0px;
+    padding-top: 0;
+    width:114px;
+    
+}
+.titleTcheckboxinner {
+    color: #3B3131;
+    float: left;
+    font-size: 17px;
+    font-weight: bold;
+    margin-right: 0px;
+    padding-top: 20px;
+    width:20px;
+}
+.titleTDue {
+    color: #3B3131;
+    float: left;
+    font-size: 17px;
+    font-weight: bold;
+    margin-right: 54px;
+    padding-top: 0;
+    width:100px;
+}
+
+.titleTTAsk {
+    color: #3B3131;
+    float: left;
+    font-size: 17px;
+    font-weight: bold;
+    padding-right: 40px;
+    padding-top: 0;
+    
+}
+
+.titleTType {
+    color: #3B3131;
+    float: right;
+    font-size: 17px;
+    font-weight: bold;
+    padding-right: 170px;
+    padding-top: 0;
+}
+.titleTTypeinner {
+    color: #3B3131;
+    float: right;
+    font-size: 17px;
+    font-weight: bold;
+    padding-right: 40px;
+    padding-top: 0;
+    width:118px;
+}
+
+.staronavatar2  img{
+	position:absolute;
+	margin:-14px 0 0 9px;
+}
+.msg_box_fullwidth2_task {
+	padding:0 10px 0 0px;
+}
+.msg_box_fullwidth2_task:hover {
+	/*	background:url(../images/border_dashedH.png) repeat-x top !important;*/
+background:#c8ccd4 !important;
+	cursor:pointer;
 }

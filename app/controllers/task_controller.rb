@@ -73,11 +73,29 @@ class TaskController < ApplicationController
     end
   end
   
-  
   def get_task
-    if params[:course_id] && !params[:course_id].empty?
-      course = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])
-      render:partial => "/task/task_list",:locals => {:@tasks =>course}
+    if params[:course_id] && !params[:course_id].empty? 
+       if params[:menu_id] && !params[:menu_id].empty?
+         if params[:menu_id] == "3" # For DOne
+           course = Task.find(:all,:conditions=>["course_idk = ?",params[:course_id]])
+            #tasks_id.each do |course|
+              # tasks = TaskParticipant.find(:first,:conditions=>["task_id = ? AND complete_date IS NOT NULL AND status = 'C'",tasks.id])
+              # if tasks
+              # render:text=>"aaaaaaaa"
+              # else
+              # render:partial => "/task/task_list",:locals => {:@tasks =>course}  
+              # end
+           # end     
+         elsif params[:menu_id] == "2"
+           course = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])        
+         else    
+           course = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])      
+         end           
+         render:partial => "/task/task_list",:locals => {:@tasks =>course}  
+       else
+          course = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])
+          render:partial => "/task/task_list",:locals => {:@tasks =>course}  
+       end  
     end
   end
   
@@ -122,11 +140,12 @@ class TaskController < ApplicationController
         end
       end
       # Participant record
-      task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='M' AND profile_id = ?", @task.id, user_session[:profile_id]])
+      task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='O' AND profile_id = ?", @task.id, user_session[:profile_id]])
      if !task_participant
         @task_participant = TaskParticipant.new
         @task_participant.profile_id = user_session[:profile_id]
-        @task_participant.profile_type = "M"
+        @task_participant.profile_type = "O"
+        @task_participant.status = "A"
         @task_participant.task_id = @task.id
         if @task_participant.save
           Feed.create(
@@ -189,6 +208,32 @@ class TaskController < ApplicationController
   end
   
   def create
+  end
+  
+  def remove_tasks
+    if params[:task_id] && !params[:task_id].empty?
+       @task = Task.find(params[:task_id])
+       @task.delete
+       render :text => {"status"=>"true"}.to_json
+    end
+  end
+  
+  def task_complete
+    if params[:task_id] && !params[:task_id].empty?
+       @task = TaskParticipant.find(:first,:conditions=>["task_id =?",params[:task_id]])
+        if @task
+          if params[:check_val] == "true"
+            @task.complete_date = Date.today
+            @task.status = 'C'
+            @task.save
+          else
+            @task.complete_date = ""
+            @task.status = 'P'
+            @task.save
+          end
+        end
+        render :text => {"status"=>"true"}.to_json
+    end
   end
   
   def edit

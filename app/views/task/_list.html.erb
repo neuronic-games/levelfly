@@ -5,36 +5,30 @@
         <div class="task_pad_top"><div class="task_pad_top_inner "></div></div>
         <div class="task_pad">
           <!-- tabs-->
+          
+          <div class="tabs menu_container" align="right">
+            <a href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><span class="task_tab">All</span></a>
+            <a href="javascript:void(0)"  id="menu2" value="2" class="tab_close" ><span class="task_tab">Started</span></a>
+            <a href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><span class="task_tab">Done</span></a>
+          </div>
+
           <div style="margin:30px 0 20px 0;">
           <span style="font-weight:bold;margin-right:15px;">COURSE:</span>
-          <%= select_tag "course_id",options_for_select(Course.all.collect{|c| [c.code,c.id]}) %>
+          <%= select_tag "course_id", options_for_select(Course.all.collect{|c| [c.code,c.id]}),{:prompt => "Select All"} %>
           </div>
-          
-		       <table width="100%" align="center" cellspacing="0" cellpadding="4">
-             <thead>
-              <tr class="tbl_header">
-                <td width="30%">
-                 Image
-                </td>
-                <td>
-                  DUE
-                </td>
-                <td>
-                  TASK
-                </td>
-                <td>
-                  TYPE
-                </td>
-              </tr>
-              <thead>
-              <tbody>
-              <%if @tasks %>
-               <%= render :partial => "/task/task_list", :locals => {:t=>@tasks} %>    
-              <% end %>
-              </tbody>
-            </table>
-            <div style="height:520px"></div>
-        <div class="clear"></div>
+            <div class="task_2box">
+            <div class="titleTcheckbox">&nbsp;</div>
+           <div class="titleTDue">DUE</div>
+           <div class="titleTTAsk">TASK</div>
+           <div class="titleTType">TYPE</div>
+<div class="clear"></div>
+           </div>
+          <div id="task_show_list_data">
+            <%if @tasks %>
+             <%= render :partial => "/task/task_list", :locals => {:t=>@tasks} %>
+            <% end %>
+          </div>
+  
       </div>
     </div>
   </div>
@@ -47,33 +41,47 @@
 </div>
 
 <script type="text/javascript">
-  //prepare show links
+  //Toggle Tabs
 $(document).ready(function(){
-  setPageTitle("My Tasks");
-  
-  $('a.view').click(function() { 
-    showSpinner(true);
-    $("#container").load(this.href, function(){
-      task_id = $(this).attr("id");
-      $("#menu_btn_dup").attr("data","id="+task_id);
-      $("#menu_btn_dup").show();
-      showSpinner(false);
-    });
-    return false; 
-  });
-  jStorage.flush();
-  
-  $("#course_id").change(function(){
-     var course_id = $(this).find("option:selected").val();
-     $.ajax({
+
+  $(".menu_container a").unbind('click').bind('click', function(){
+    idx = $(this).attr("value");
+    $(".menu_container a").removeClass("active");
+    $(this).addClass("active");
+    for(i=0;i<3;i++){
+      if(document.getElementById("menu"+(i+1))!=null){
+        document.getElementById("menu"+(i+1)).className = "tab_close";
+      }
+    }
+    document.getElementById("menu"+idx).className = "tab_open";
+    course_id = $("#course_id").find("option:selected").val();
+    if(course_id){
+      showSpinner(true);
+      $.ajax({
         type: "POST",  
         url: "/task/get_task",  
-        data: {course_id:course_id},
+        data: {menu_id:idx,course_id:course_id},
         success: function(data) {
-          $("tbody").html(data);
+          $("#task_show_list_data").html(data);
           showSpinner(false);
         }
-     });
+      }); 
+    }
   });
+    
+    //Show task by drop down course_id  
+    $("#course_id").change(function(){
+       showSpinner(true);
+       var course_id = $(this).find("option:selected").val();
+       $.ajax({
+          type: "POST",  
+          url: "/task/get_task",  
+          data: {course_id:course_id},
+          success: function(data) {
+            $("#task_show_list_data").html(data);
+            showSpinner(false);
+          }
+       });
+    });
 });
 </script>

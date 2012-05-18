@@ -40,24 +40,7 @@ function addNode(element) {
             <a href="javascript:void(0)"  id="menu4" value="4" class="tab_close"><span class="task_tab">Members</span></a>
             <a href="javascript:void(0)"  id="menu5" value="5" class="tab_close" ><span class="task_tab">Groups</span></a>
            </div>
-          
-          <!-- <div class="tabs menu_container" align="right">
-            <a href="javascript:void(0)" id="menu1" value="1" class="tab_open">
-              <img src="images/task_text.png" class="task_tab" />
-            </a> 
-            <a href="javascript:void(0)" id="menu2" value="2" class="tab_close">
-              <img src="images/grading_text.png" class="grading_tab" />
-            </a> 
-            <a href="javascript:void(0)" id="menu3" value="3" class="tab_close">
-              <img src="images/participants_text.png" class="participants_tab" />
-            </a> 
-            <a href="javascript:void(0)" id="menu4" value="4" class="tab_close">
-              <img src="images/participants_text.png" class="participants_tab" />
-            </a> 
-            <a href="javascript:void(0)" id="menu5" value="5" class="tab_close" id="group_tab">
-              <img src="images/task_text.png" class="groups_tab" />
-            </a> 
-          </div> -->
+         
           <!--tab content-->
           <div class="tab_content" id="div_1">
             <div class="spacebar10px"></div>
@@ -66,7 +49,7 @@ function addNode(element) {
               <div class="task_profile_image">
                 <div class="clip_img"></div>
                 <div id="task_image">
-                  <img src="images/task_profile_img.jpg" width="156" height="156" />
+                  <img src="<%=@task.image_file if @task %>" width="156" height="156" />
                 </div>
                 <div align="center"><a href="#" >REPLACE THIS IMAGE</a></div>
               </div>
@@ -114,14 +97,12 @@ function addNode(element) {
                         </select>
                       </div>
                     </div>
-                    <div class="catagory_viewfield" >CATEGORY
-                      
-                        <div id="categories_container" class='<%= @task && @task.category_id!=0 ? "" : "hide" %> dd_bg'>
-                          <% if @task && @task.category_id!=0 %>
-                            <%= render :partial => "course_categories", :locals=>{:categories=>@task.course.categories} %>
-                          <% end %>
-                        </div>
-                      
+                    <div class="catagory_viewfield" >CATEGORY  
+                      <div id="categories_container" class='<%= @task && @task.category_id!=0 ? "" : "hide" %> dd_bg'>
+                        <% if @task && @task.category_id!=0 %>
+                          <%= render :partial => "course_categories", :locals=>{:categories=>@task.course.categories} %>
+                        <% end %>
+                      </div>
                     </div>
                     <div class="clear"></div>
                   </div>
@@ -137,7 +118,6 @@ function addNode(element) {
                   <p>TASK NAME</p>
                   <div class="dd_bg">
                     <input type="text" name="task" id="task" class="dd_input" value="<%=@task.name if @task %>" onblur='javascript:setStorage("task_name", $(this).val())'/>
-                  </p>
                 </div>
                 <div class="clear"></div>
               </div>
