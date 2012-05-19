@@ -40,7 +40,7 @@ class Course < ActiveRecord::Base
 
   # This is the default course icon
   
-  @@default_image_file = "images/course_img_default.jpg"
+  @@default_image_file = "/images//course_img_default.jpg"
   cattr_accessor :default_image_file
   
   def image_file

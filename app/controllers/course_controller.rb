@@ -21,8 +21,8 @@ class CourseController < ApplicationController
         course_action = @profile.last_action('course')
         if course_action
           # This is the course that we were viewing before
-          # redirect_to "/course/show/#{course_action.action_param}"
-          # return
+          redirect_to "/course/show/#{course_action.action_param}"
+          return
         end
       end
       
