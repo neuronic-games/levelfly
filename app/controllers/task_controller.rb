@@ -73,29 +73,39 @@ class TaskController < ApplicationController
     end
   end
   
+  
   def get_task
+  arr=[]
     if params[:course_id] && !params[:course_id].empty? 
        if params[:menu_id] && !params[:menu_id].empty?
-         if params[:menu_id] == "3" # For DOne
-           course = Task.find(:all,:conditions=>["course_idk = ?",params[:course_id]])
-            #tasks_id.each do |course|
-              # tasks = TaskParticipant.find(:first,:conditions=>["task_id = ? AND complete_date IS NOT NULL AND status = 'C'",tasks.id])
-              # if tasks
-              # render:text=>"aaaaaaaa"
-              # else
-              # render:partial => "/task/task_list",:locals => {:@tasks =>course}  
-              # end
-           # end     
-         elsif params[:menu_id] == "2"
-           course = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])        
-         else    
-           course = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])      
-         end           
-         render:partial => "/task/task_list",:locals => {:@tasks =>course}  
+          tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])
+          if params[:menu_id] == "3"
+            tasks.each do |t|
+              task = t.task_participants.where("status = 'C' AND complete_date IS NOT NULL AND task_id = ?",t.id).first
+              if task 
+                arr.push(t)
+              end  
+            end   
+          elsif params[:menu_id] == "1"
+            tasks.each do |t|
+              task = t.task_participants.where("status = 'A' AND assign_date IS NOT NULL AND complete_date IS NOT NULL  AND task_id = ?",t.id).first
+              if task 
+                arr.push(t)
+              end  
+            end
+          else
+            tasks.each do |t|
+              task = t.task_participants.where("status = 'A' AND assign_date IS NOT NULL AND complete_date IS NULL  AND task_id = ?",t.id).first
+              if task && tasks.due_date
+                arr.push(t)
+              end  
+            end         
+          end
+          render:partial => "/task/task_list",:locals => {:@tasks =>arr}     
        else
-          course = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])
-          render:partial => "/task/task_list",:locals => {:@tasks =>course}  
-       end  
+          tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])
+          render:partial => "/task/task_list",:locals => {:@tasks =>tasks}      
+       end    
     end
   end
   
@@ -327,6 +337,6 @@ class TaskController < ApplicationController
   
   def view_task
      @tasks=Task.find(:all, :conditions =>["course_id = ?", params[:course_id]])
-     render :partial => "/task/list", :locals=>{:tasks=>@tasks,:course_id=>params[:course_id]}
+     render :partial => "/task/list", :locals=>{:tasks=>@tasks,:courses => params[:course_id]}
   end
 end

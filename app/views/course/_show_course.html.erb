@@ -7,7 +7,7 @@
   <div class="course_right" >
     <% if @courseMaster %>
     <% if @courseMaster.id == user_session[:profile_id] %>
-    <div class="clickable menu_container" value="2" style="position:absolute; right:250px;">
+    <div class="clickable" id="setup_icon" value="2" style="position:absolute; right:250px;">
     <a href="javascript:void(0)" id="menu2"  value="2" >
       <img src="images/setting_icon_gray.png">
      </a>
@@ -38,9 +38,9 @@
           
             <div class="CAL_01"><span class="field_label"> <% if @totaltask %> <% total_task = @totaltask.count %><%=total_task%><% else %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW</a></div>
              
-            <div class="menu_container">
+            <div class="menu_container1">
             <div class="CAL_01"><span class="field_label"> <%=@member_count%> MEMBERS <% "(#{@pending_count} PENDING)" if @pending_count > 0 %></span> 
-            <a href="javascript:void(0)" value="6" id="menu6"  class="green_bt19px">VIEW</a></div>
+            <a href="javascript:void(0)" id="btn_member"  class="green_bt19px">VIEW</a></div>
            
             </div>
           </div>
@@ -85,6 +85,7 @@
  </div>
  <script type="text/javascript">
  
+
   //For Active Task
    $("#btn_task").click(function(data){
    var course_id=$("#course_id_hdn").val();
@@ -96,6 +97,46 @@
         data: dataString,
         success: function(data) {
 		      $("#container").html(data);
+			    showSpinner(false);
+        },
+        error: function()
+        {
+          alert("An Error has occured");
+          showSpinner(false);
+        },
+      }); 
+    });
+    
+   // For member Page 
+   $("#btn_member").click(function(data){
+   showSpinner(true);
+   course_id = $("#course_id_hdn").val();   
+   $.ajax({  
+        type: "GET",  
+        url: "/course/view_member",  
+        data:{id:course_id},
+        success: function(data) {
+		      $("#load_data").html(data);
+			    showSpinner(false);
+        },
+        error: function()
+        {
+          alert("An Error has occured");
+          showSpinner(false);
+        },
+      }); 
+    });
+     
+   // For setup Page 
+   $("#setup_icon").click(function(data){
+   showSpinner(true);
+   course_id = $("#course_id_hdn").val();
+   $.ajax({  
+        type: "GET",  
+        url: "/course/view_setup",  
+        data:{id:course_id},
+        success: function(data) {
+		      $("#load_data").html(data);
 			    showSpinner(false);
         },
         error: function()

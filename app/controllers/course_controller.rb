@@ -307,31 +307,26 @@ class CourseController < ApplicationController
     if params[:value] && !params[:value].nil?
       if params[:value] == "1"
         render:partial => "/course/show_course"
-      else 
-        if params[:value] == "2"
-          render :partial => "/course/setup"
-        else 
-          if params[:value] == "3"
-            render :partial => "/course/forum",:locals=>{:@groups=>@groups}
-          else 
-            if params[:value] == "4"
-              render :partial => "/course/files"       
-            else 
-              if params[:value] == "5"
-                render :partial => "/course/stats"  
-                  else
-                    if params[:value] == "6"
-                    render :partial => "/course/member_list" 
-                  end                    
-              end  
-            end
-          end
-        end 
-      end 
-     else
-       render :partial => "/course/setup",:locals=>{course=>@course}         
-     end    
-   end     
+      elsif params[:value] == "3"
+        render :partial => "/course/forum",:locals=>{:@groups=>@groups}
+      elsif params[:value] == "4"
+        render :partial => "/course/files"       
+      elsif params[:value] == "5"
+        render :partial => "/course/stats"                     
+      end  
+    end
+    end
+      
+
+   def view_member
+     @course = Course.find_by_id(params[:id])
+     render :partial => "/course/member_list",:locals=>{:course=>@course}         
+   end
+
+   def view_setup
+     @course = Course.find_by_id(params[:id])
+     render :partial => "/course/setup",:locals=>{:course=>@course}         
+   end   
   
   def add_file
     school_id = params[:school_id]

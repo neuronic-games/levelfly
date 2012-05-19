@@ -1,4 +1,6 @@
+<%if !@tasks.nil? %>
 <% @tasks.reverse.each do |t| %>
+<% %>
 <div class="task_list_content course_tab_content" id="taskname_<%=t.id%>">
    <div class="course_left"></div>
     <div class="course_page_msg_box">
@@ -6,8 +8,11 @@
         <div class="msg_box_fullwidth2_task">
           <div class="msg_box_txt blue_bg_msg_txt2 taskmsg_bgc2" >
             <div class="staronavatar2"><img src="/images/star_up.png" width="36" height="37" /></div>
-            <div class="titleTcheckboxinner"><%#= t.task_participants.id if t.task_participants.id %>
-            <input type="checkbox" name="task_complete" id="task_complete" rel="<%=t.id%>"/></div>
+            <div class="titleTcheckboxinner">
+            <% t.task_participants.each do |status| %>
+            <input type="checkbox" <% if status.status == "C"%> checked="checked" <% end %> name="task_complete" id="task_complete" rel="<%=t.id%>"/>
+            <% end %>
+            </div>
             <div class="avatar_white_bdrC2task">
               <a href="/task/show/<%=t.id%>" id="<%=t.id%>" class="view">
                  <img src='<%= t.image_file %>' width="100" height="100" alt="<%=t.name%>" />
@@ -35,7 +40,7 @@
       </div>
   </div>
 <%end%>
-
+<%end%>
 <script type="text/javascript">
 
   setPageTitle("My Tasks");
@@ -53,7 +58,6 @@
   
  $('input[type="checkbox"]').unbind('click').bind('click',function() {
     check_val = $(this).is(':checked');
-    alert(check_val);
        showSpinner(true);
        task_id =$(this).attr("rel");
        $.ajax({

@@ -80,6 +80,10 @@ Oncapus::Application.routes.draw do
   
   post "course/show_course"
   
+  get "course/view_member"
+  
+  get "course/view_setup"
+  
   post "course/check_outcomes"
 
   get "course/edit"

@@ -80,13 +80,13 @@ $(document).ready(function(){
   setPageTitle(getStorage("course_name"));
   
   //Toggle Tabs
-  $(".menu_container a").delegate('', 'click', function(){
+  $(".menu_container").delegate('a', 'click', function(){
     showSpinner(true);
     idx = $(this).attr("value");
     
     $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
     
-    for(i=0;i<7;i++){
+    for(i=0;i<6;i++){
       //---- Set all menu as De-Selected
      
       // if(document.getElementById("menu"+(i+1))!=null){

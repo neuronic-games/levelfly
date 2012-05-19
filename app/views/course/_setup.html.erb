@@ -114,6 +114,26 @@
 </div>
 
 <script type="text/javascript">
+
+  // For setup Page 
+   $("#btn_member").click(function(data){
+   showSpinner(true);
+   course_id = $("#course_id_hdn").val();   
+   $.ajax({  
+        type: "GET",  
+        url: "/course/view_member",  
+        data:{id:course_id},
+        success: function(data) {
+		      $("#load_data").html(data);
+			    showSpinner(false);
+        },
+        error: function()
+        {
+          alert("An Error has occured");
+          showSpinner(false);
+        },
+      }); 
+    });
   $(function(){
     // Disable the tabs until the user has entered a name
     if ("<%=h @course.code %>" == "") {

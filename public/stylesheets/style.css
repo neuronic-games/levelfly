@@ -1105,7 +1105,12 @@ a.blue_bt19px:hover {
 }
 .date_viewfield {
   float:left;
-  width:83px;
+  width:95px;
+}
+.assign_date_viewfield {
+  float:left;
+  width:85px;
+  margin:0px 2px 0 10px;
 }
 .time_viewfield {
   float:left;
