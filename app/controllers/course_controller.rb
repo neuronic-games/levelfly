@@ -15,7 +15,9 @@ class CourseController < ApplicationController
       
       # Check to see if we have breadcrumbs on this action
       last_action = @profile.last_action('last')
-      if last_action.action_param != 'course'
+      if last_action.action_param == 'course'
+        @profile.record_action('last', 'course')
+      else
         # The last page that were viewing was not a course page, so show the 
         # last course page viewed instead of the course list
         course_action = @profile.last_action('course')
@@ -32,8 +34,6 @@ class CourseController < ApplicationController
         :conditions => ["participants.profile_id = ? AND participants.profile_type != 'P'", @profile.id]
       )
     end
-    
-    @profile.record_action('last', 'course')
     
     respond_to do |wants|
       wants.html do

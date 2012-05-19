@@ -12,14 +12,29 @@ class TaskController < ApplicationController
         :conditions => ["task_participants.profile_id = ? AND (tasks.name LIKE ?)", @profile.id, search_text]
       )
     else 
+
+      # Check to see if we have breadcrumbs on this action
+      last_action = @profile.last_action('last')
+      if last_action.action_param == 'task'
+        # Continue with showing the item, and record the fact
+        @profile.record_action('last', 'task')
+      else
+        # The last page that were viewing was not a course page, so show the 
+        # last course page viewed instead of the course list
+        action = @profile.last_action('task')
+        if action
+          # This is the course that we were viewing before
+          redirect_to "/task/show/#{action.action_param}"
+          return
+        end
+      end
+
       @tasks = Task.find(
         :all, 
         :include => [:task_participants], 
         :conditions => ["task_participants.profile_id = ?", @profile.id]
       )
     end
-    
-    @profile.record_action('last', 'task')
     
     respond_to do |wants|
       wants.html do
@@ -67,6 +82,7 @@ class TaskController < ApplicationController
     )
     
     @profile.record_action('last', 'task')
+    @profile.record_action('task', @task.id)
     
     respond_to do |wants|
       wants.html do
