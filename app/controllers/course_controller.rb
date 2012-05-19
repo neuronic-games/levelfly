@@ -13,12 +13,28 @@ class CourseController < ApplicationController
       )
     else
       
-     @courses = Course.find(
+      # Check to see if we have breadcrumbs on this action
+      last_action = @profile.last_action('last')
+      if last_action.action_param != 'course'
+        # The last page that were viewing was not a course page, so show the 
+        # last course page viewed instead of the course list
+        course_action = @profile.last_action('course')
+        if course_action
+          # This is the course that we were viewing before
+          # redirect_to "/course/show/#{course_action.action_param}"
+          # return
+        end
+      end
+      
+      @courses = Course.find(
         :all, 
         :include => [:participants], 
         :conditions => ["participants.profile_id = ? AND participants.profile_type != 'P'", @profile.id]
       )
-    end  
+    end
+    
+    @profile.record_action('last', 'course')
+    
     respond_to do |wants|
       wants.html do
         if request.xhr?
@@ -68,6 +84,9 @@ class CourseController < ApplicationController
     @course_owner = Participant.find(:first, :conditions=>["object_id = ? AND profile_type = 'M' AND object_type='Course'",params[:id]])   
     @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
+    
+    @profile.record_action('course', @course.id)
+    @profile.record_action('last', 'course')
     
     respond_to do |wants|
       wants.html do
@@ -122,15 +141,15 @@ class CourseController < ApplicationController
         end
       end
       
-      @same_code_courses = Course.find(:all, :conditions=>["code = ? AND id != ?",@course.code, @course.id])
-      if @same_code_courses
-        @same_code_courses.each do |same_course|
-          same_course.outcomes.each do |same_outcome|
-            @course.outcomes << same_outcome
-          end
-        end
-      end
-      
+      # @same_code_courses = Course.find(:all, :conditions=>["code = ? AND id != ?",@course.code, @course.id])
+      # if @same_code_courses
+      #   @same_code_courses.each do |same_course|
+      #     same_course.outcomes.each do |same_outcome|
+      #       @course.outcomes << same_outcome
+      #     end
+      #   end
+      # end
+
       #Save outcomes
       if params[:outcomes] && !params[:outcomes].empty?
         outcomes_array = params[:outcomes].split(",")
@@ -304,6 +323,7 @@ class CourseController < ApplicationController
       )
     @groups = Group.find(:all, :conditions=>["course_id = ?",params[:id]])
     @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
+
     if params[:value] && !params[:value].nil?
       if params[:value] == "1"
         render:partial => "/course/show_course"

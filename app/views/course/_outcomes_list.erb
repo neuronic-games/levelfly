@@ -1,6 +1,6 @@
 <div id="outcome_div_<%=outcomes.id%>" class="outcome_div outcome_data" id="category_div_<%= outcomes.id %>">
   <div class="outcomes_share_name">
-    <input class="dd_select brown_bg" type="checkbox" name="loaded_share[]"  /> 
+    <input class="dd_select brown_bg" type="checkbox" name="loaded_share[]" <%= 'disabled=true checked=true' if outcomes.shared %> /> 
     <input class="dd_input brown_bg" type="text" name="loaded_outcomes[]" value="<%= outcomes.name %>" rel="<%=outcomes.id%>" class="medium" />
   </div>  
   <div class="outcome_textarea">

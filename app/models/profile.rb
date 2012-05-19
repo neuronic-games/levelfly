@@ -4,6 +4,7 @@ class Profile < ActiveRecord::Base
   belongs_to :school
   belongs_to :user
   has_many :participants
+  has_many :profile_actions
   acts_as_taggable
 
   def self.create_for_user(user_id, default = "DEFAULT")
@@ -20,5 +21,18 @@ class Profile < ActiveRecord::Base
       avatar.save
     end
     return profile
+  end
+  
+  def last_action(action_type)
+    return ProfileAction.find(:first, :conditions => ["profile_id = ? and action_type = ?", self.id, action_type])
+  end
+  
+  def record_action(action_type, params)
+    profile_action = self.last_action(action_type)
+    if profile_action.nil?
+      profile_action = ProfileAction.new(:profile_id => self.id, :action_type => action_type)
+    end
+    profile_action.action_param = params
+    profile_action.save
   end
 end

@@ -18,6 +18,9 @@ class TaskController < ApplicationController
         :conditions => ["task_participants.profile_id = ?", @profile.id]
       )
     end
+    
+    @profile.record_action('last', 'task')
+    
     respond_to do |wants|
       wants.html do
         if request.xhr?
@@ -62,6 +65,9 @@ class TaskController < ApplicationController
       :include => [:profile], 
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @task.course_id]
     )
+    
+    @profile.record_action('last', 'task')
+    
     respond_to do |wants|
       wants.html do
         if request.xhr?
