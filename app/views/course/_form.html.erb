@@ -286,27 +286,27 @@ function save_course(channel) {
   //get outcomes from offline storage
   k = 0;
   $.each($('input[name="outcomes[]"]'), function() {
-    _outcomesObject[k] = $(this).val();
+    _outcomesObject[k] = $(this).val().replace(',', '');
     k++;
   });
 
   //get outcomes description from offline storage
   i = 0;
   $.each($('textarea[name="outcomes_descr[]"]'), function() {
-    _outcomes_descrObject[i] = $(this).val();
+    _outcomes_descrObject[i] = $(this).val().replace(',', '');
     i++;
   });
   
   //get categories from offline storage
   l = 0;
   $.each($('input[name="categories[]"]'), function() {
-    _categoriesObject[l] = $(this).val();
+    _categoriesObject[l] = $(this).val().replace(',', '');
     l++;
   });
   //get categories percent value from offline storage
   m = 0;
   $.each($('input[name="loaded_category_values[]"]'), function() {
-    _categories_persentObject[m] = $(this).val();
+    _categories_persentObject[m] = $(this).val().replace(',', '');
     m++;
   });
   
