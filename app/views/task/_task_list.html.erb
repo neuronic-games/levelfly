@@ -1,6 +1,6 @@
 <%if !@tasks.nil? %>
 <% @tasks.reverse.each do |t| %>
-<div class="task_list_content course_tab_content" id="taskname_<%=t.id%>">
+<div class="task_list_content course_tab_content" id="taskname_<%=t.id%>" task_id="<%=t.id%>">
    <div class="course_left"></div>
     <div class="course_page_msg_box">
       <div class="clipboard_list">
@@ -64,33 +64,37 @@
     });
    });
    
-   //For task list hover
-      $(".task_list_content").hover(
-        function () {
-          id = $(this).attr("id");
-          $("#"+id+" #tasks_hover").show();
-        }, 
-        function () {
-          id = $(this).attr("id");
-          $("#"+id+" #tasks_hover").hide();
-        }
-      );
-      
-      //Remove tasks
-      $(".tasks_del").click(function(){
-        showSpinner(true);
-        task_id=$(this).attr("rel");
-        $("#taskname_"+task_id).remove();
-        $.ajax({
-           type: "POST",  
-           url: "/task/remove_tasks",  
-           data: {task_id:task_id},
-           success: function(data) {
-             showSpinner(false);
-           }
-        });
-      });  
+  //For task list hover
+  $(".task_list_content").hover(
+    function () {
+      id = $(this).attr("id");
+      $("#"+id+" #tasks_hover").show();
+    }, 
+    function () {
+      id = $(this).attr("id");
+      $("#"+id+" #tasks_hover").hide();
+    }
+  );
+  
+  $(".task_list_content").click(function() {
+    var task_id = $(this).attr("task_id")
+    setAlert("Show task " + task_id);
+    load_data("/task/show/"+task_id, null);
+  });
+    
+  //Remove tasks
+  $(".tasks_del").click(function(){
+    showSpinner(true);
+    task_id=$(this).attr("rel");
+    $("#taskname_"+task_id).remove();
+    $.ajax({
+       type: "POST",  
+       url: "/task/remove_tasks",  
+       data: {task_id:task_id},
+       success: function(data) {
+         showSpinner(false);
+       }
+    });
+  });  
       
 </script>
-
-

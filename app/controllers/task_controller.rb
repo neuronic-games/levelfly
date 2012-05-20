@@ -71,10 +71,10 @@ class TaskController < ApplicationController
 
   def show
     @task = Task.find_by_id(params[:id])
-    @course=Course.find(@task.course_id)
+    @course = @task.course
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     #@outcomes = Outcome.find(:all, :conditions =>["course_id = ?", @task.course_id], :order => "name")
-    @outcomes = @course.outcomes
+    @outcomes = @course ? @course.outcomes : nil
     @courses = Course.find(
       :all, 
       :include => [:participants], 
