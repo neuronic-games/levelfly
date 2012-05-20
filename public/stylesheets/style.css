@@ -1693,11 +1693,6 @@ margin-left:33px;
     position: absolute;
     width: 209px;
 }
-.avat {
-    float: right;
-    margin-top: 171px;
-}
-
 
 /*new*/
 
@@ -2072,7 +2067,6 @@ div .taskmsg_bgc2 {
 
 .avat {
   float:left;
-  margin-top: 63px;
   position: absolute;
 }
 .avatar_editor {
@@ -2103,7 +2097,6 @@ div .taskmsg_bgc2 {
   float: left;
   height: 529px;
   width: 128px;
-  margin-top: 50px;
   -webkit-border-radius: 5px;
 }
 .wrapper .selections .indi {
@@ -2121,8 +2114,6 @@ div .taskmsg_bgc2 {
   background-color: #1D4D67;
   height: 529px;
   width: 128px;
-  /*margin-left: 50px;
-  margin-top: 50px;*/
   -webkit-border-radius: 5px;
 }
 
@@ -2144,7 +2135,7 @@ div .taskmsg_bgc2 {
   /*left: 246px;*/
   left: 240px;
   /*top: 192px;*/
-  top:0px;
+  top:-50px;
   background-repeat: no-repeat;
 }
 .wrapper .selections #dwnarr {
@@ -2156,7 +2147,7 @@ div .taskmsg_bgc2 {
   /*left: 244px;*/
   left:240px;
   /*top: 766px;*/
-  top:600px;
+  top:550px;
 }
 .wrapper .selections .lev0 .btn {
   width: 122px;
@@ -2248,7 +2239,6 @@ div .taskmsg_bgc2 {
   width:230px;
   height:529px;
   left:180px;
-  margin-top:50px;
   margin-left:19px;
   position:absolute;
 }

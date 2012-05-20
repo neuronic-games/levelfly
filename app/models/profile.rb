@@ -7,6 +7,10 @@ class Profile < ActiveRecord::Base
   has_many :profile_actions
   acts_as_taggable
 
+  def self.default_avatar_image
+    return '/images/wardrobe/null_profile.png'
+  end
+  
   def self.create_for_user(user_id, default = "DEFAULT")
     profile = Profile.find(:first, :conditions => ["user_id = ?", user_id])
     if profile.nil?

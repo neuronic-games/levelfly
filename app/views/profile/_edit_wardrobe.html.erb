@@ -123,8 +123,11 @@ $(document).ready(function(){
           // If the hair is changed, make sure that the color is the same for all hair
           if (model.item_type == 'hair' || model.item_type == 'facial_hair') {
             var current_image_file = _avatar["hair"];
-            var skin = current_image_file.substr(current_image_file.length-1);
-            image_file = image_file.substr(0, image_file.length-1)+skin;
+            if (parseInt(current_image_file.charAt(current_image_file.length-1)).toString() != "NaN") {
+              // Make sure that there is a color number at the end of the file name
+              var skin = current_image_file.substr(current_image_file.length-1);
+              image_file = image_file.substr(0, image_file.length-1)+skin;
+            }
           }
         }
         _avatar[model.item_type] = image_file;        
@@ -173,8 +176,15 @@ $(document).ready(function(){
   // Hair color change
   $(".hair_color").click(function(){
     var hair = _avatar.hair;
+    if (hair == undefined) {
+      // Something went wrong?
+      hair = "avatar/hair/bald";
+    }
     var color = $(this).attr("value");
-    hair = hair.substr(0, hair.length-1) + color;
+    var curColor = parseInt(hair.charAt(hair.length-1));
+    if (curColor.toString() != "NaN") {
+      hair = hair.substr(0, hair.length-1) + color;
+    }
     var facial_hair = _avatar.facial_hair;
     if (facial_hair != undefined && facial_hair != "null") {
       facial_hair = facial_hair.substr(0, facial_hair.length-1) + color;
@@ -203,7 +213,7 @@ function showColorPalette(_item_type, $this) {
     $("#head_color").hide();
   }
   //Show & move color palette
-  $(".color_palette").animate({top: parseInt($this.position().top) + 250 +'px'},250);
+  $(".color_palette").animate({top: parseInt($this.position().top) + 200 +'px'},250);
   $(".color_palette").animate({left: parseInt($this.position().left) + 480 +'px'},250);
   $(".color_palette").fadeIn(80);
 }
@@ -386,6 +396,7 @@ function saveAvatar() {
     var base64 = dataURL.replace(/^data:image\/(png|jpg);base64,/, '') ;
     
     //Save avatar data
+    $("#my_avatar_image").attr("src", "<%= Profile.default_avatar_image %>");
     $.ajax({ 
       // Previously was with getJson but having problem of too many parameters 
       // in request URI so switched to $.ajax with post
