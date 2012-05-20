@@ -288,20 +288,22 @@ class CourseController < ApplicationController
   end
   
   def check_outcomes
-  @outcomes = []
-     if params[:code] && !params[:code].nil?
-        @course = Course.find(:all,:conditions =>["code =?" ,params[:code]])
-        if @course.length>0
-            @course.each do |course|
-              course.outcomes.where("shared = 1").each do |value|
-                @outcomes << value
-              end 
-            end
-            render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes}
-        else
-          render :text=>"No outcomes.."         
-        end
-     end
+    @outcomes = []
+    @course = nil
+    if params[:code] && !params[:code].nil?
+      @courses = Course.find(:all, :conditions =>["code = ?", params[:code]], :order => "created_at")
+      if @courses.length > 0
+          @courses.each do |course|
+            @course = course if @course.nil?
+            course.outcomes.where(["shared = ?", true]).each do |value|
+              @outcomes << value
+            end 
+          end
+          render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes}
+      else
+        render :text=>"No outcomes.."         
+      end
+    end
   end
   
   def show_course

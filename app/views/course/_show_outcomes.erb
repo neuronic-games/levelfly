@@ -1,5 +1,15 @@
-<%if  @outcomes%>
+<%if @outcomes%>
   <% @outcomes.each do |outcomes| %>
     <%= render :partial => "/course/outcomes_list", :locals => {:outcomes=>outcomes} %>
   <%end%>
 <%end%>  
+
+<script type="text/javascript">
+  // Update the course name if the user has not entered a name yet
+  var current_name = $("#course_name").val().trim();
+  <% if @course %>
+  if (current_name == "") {
+    $("#course_name").val("<%=h @course.name %>");
+  }
+  <% end %>
+</script>
