@@ -4,6 +4,12 @@ class TaskController < ApplicationController
   
   def index
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @courses = Course.find(
+      :all, 
+      :include => [:participants], 
+      :conditions => ["participants.profile_id = ? AND participants.profile_type != 'P'", @profile.id],
+      :order => 'name'
+    )
     if params[:search_text]
       search_text =  "#{params[:search_text]}%"
       @tasks = Task.find(

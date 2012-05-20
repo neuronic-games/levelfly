@@ -31,7 +31,8 @@ class CourseController < ApplicationController
       @courses = Course.find(
         :all, 
         :include => [:participants], 
-        :conditions => ["participants.profile_id = ? AND participants.profile_type != 'P'", @profile.id]
+        :conditions => ["participants.profile_id = ? AND participants.profile_type != 'P'", @profile.id],
+        :order => 'name'
       )
     end
     
@@ -340,6 +341,11 @@ class CourseController < ApplicationController
 
    def view_member
      @course = Course.find_by_id(params[:id])
+     @peoples = Profile.find(
+       :all, 
+       :include => [:participants], 
+       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('P', 'S')", @course.id]
+     )
      render :partial => "/course/member_list",:locals=>{:course=>@course}         
    end
 

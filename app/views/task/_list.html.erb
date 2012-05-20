@@ -14,15 +14,15 @@
 
           <div style="margin:30px 0 20px 30px;">
           <span style="font-weight:bold;margin-right:15px;">SHOW:</span>
-          <%= select_tag "course_id", options_for_select(Course.all.collect{|c| [c.code,c.id]}),{:prompt => "All Courses"} %>
+          <%= select_tag "course_id", options_for_select(@courses.collect{|c| [c.name, c.id]}),{:prompt => "All Courses"} %>
           </div>
-           <div class="task_2box">
-           <div class="titleTcheckbox">&nbsp;</div>
-           <div class="titleTDue">DUE</div>
-           <div class="titleTTAsk">TASK</div>
-           <div class="titleTType">TYPE</div>
-<div class="clear"></div>
-           </div>
+          <div class="clipboard_header">
+            <div class="titleTcheckbox">&nbsp;</div>
+            <div class="titleTDue">DUE</div>
+            <div class="titleTTAsk">TASK</div>
+            <div class="titleTType">TYPE</div>
+          <div class="clear"></div>
+          </div>
           <div id="task_show_list_data">
             <%if @tasks %>
              <%= render :partial => "/task/task_list", :locals => {:t=>@tasks} %>

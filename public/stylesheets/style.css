@@ -1931,16 +1931,25 @@ margin-left:33px;
 
 /* For Files ADD CSS */
 
-.courses2TabCSS{
-		padding-top:7px;
-		width:auto; height:auto;
-	}
-
-.msg_big_boxC2 {
-	margin:0px 0px 0px 0px;
-	padding:0px 0px 0px 0px;
-	width:100%;
-	border-top:1px solid #aaa;
+.courses2TabCSS {
+	padding-top:7px;
+	width:auto; height:auto;
+}
+.clipboard_header { 
+  overflow:hidden;
+  background-color:#B1C4D0;
+  color:#E2E4EA;
+}
+.clipboard_list {
+  width:100%;
+  border-bottom:1px solid #B1C4D0;
+  color: #3B3131;
+}
+.blackboard_list {
+  margin:0px 0px 0px 0px;
+  padding:0px 0px 4px 0px;
+  width:100%;
+  background:url(../images/border_dashed.png) repeat-x bottom !important;
 }
 .msg_box_fullwidth2 {
 	padding:0 10px 0 0px;
@@ -2481,7 +2490,6 @@ float:left; height:800px;
     height: 80px;
     width: 80px;
 }
-.task_2box { overflow:hidden}
 .titleTcheckbox {
     color: #FFFFFF;
     float: left;
@@ -2493,7 +2501,6 @@ float:left; height:800px;
     
 }
 .titleTcheckboxinner {
-    color: #3B3131;
     float: left;
     font-size: 17px;
     font-weight: bold;
@@ -2502,7 +2509,6 @@ float:left; height:800px;
     width:20px;
 }
 .titleTDue {
-    color: #3B3131;
     float: left;
     font-size: 17px;
     font-weight: bold;
@@ -2512,7 +2518,6 @@ float:left; height:800px;
 }
 
 .titleTTAsk {
-    color: #3B3131;
     float: left;
     font-size: 17px;
     font-weight: bold;
@@ -2521,7 +2526,6 @@ float:left; height:800px;
 }
 
 .titleTType {
-    color: #3B3131;
     float: right;
     font-size: 17px;
     font-weight: bold;
@@ -2529,7 +2533,6 @@ float:left; height:800px;
     padding-top: 20px;
 }
 .titleTTypeinner {
-    color: #3B3131;
     float: right;
     font-size: 17px;
     font-weight: bold;
