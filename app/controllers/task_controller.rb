@@ -19,21 +19,8 @@ class TaskController < ApplicationController
       )
     else 
 
-      # Check to see if we have breadcrumbs on this action
-      last_action = @profile.last_action('last')
-      if last_action.action_param == 'task'
-        # Continue with showing the item, and record the fact
-        @profile.record_action('last', 'task')
-      else
-        # The last page that were viewing was not a course page, so show the 
-        # last course page viewed instead of the course list
-        action = @profile.last_action('task')
-        if action
-          # This is the course that we were viewing before
-          redirect_to "/task/show/#{action.action_param}"
-          return
-        end
-      end
+      # Check if the user was working on a details page before, and redirect if so
+      return if redirect_to_last_action(@profile, 'task', '/task/show')
 
       @tasks = Task.find(
         :all, 

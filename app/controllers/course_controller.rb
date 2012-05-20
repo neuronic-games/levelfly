@@ -12,21 +12,9 @@ class CourseController < ApplicationController
         :conditions => ["upper(courses.name) LIKE ? OR upper(courses.code) LIKE ?", search_text.upcase,  search_text.upcase]
       )
     else
-      
-      # Check to see if we have breadcrumbs on this action
-      last_action = @profile.last_action('last')
-      if last_action.action_param == 'course'
-        @profile.record_action('last', 'course')
-      else
-        # The last page that were viewing was not a course page, so show the 
-        # last course page viewed instead of the course list
-        course_action = @profile.last_action('course')
-        if course_action
-          # This is the course that we were viewing before
-          redirect_to "/course/show/#{course_action.action_param}"
-          return
-        end
-      end
+
+      # Check if the user was working on a details page before, and redirect if so
+      return if redirect_to_last_action(@profile, 'course', '/course/show')
       
       @courses = Course.find(
         :all, 

@@ -70,6 +70,25 @@ class ApplicationController < ActionController::Base
     request.format = :mobile if mobile_device?
   end
   
+  # Allow the user to go directly to a details page that they were working on before
+  def redirect_to_last_action(profile, action_type, action_path)
+    # Check to see if we have any info on this action
+    last_action = profile.last_action('last')
+    if last_action and last_action.action_param == action_type
+      profile.record_action('last', action_type)
+    else
+      # The last page that were viewing was not a course page, so show the 
+      # last course page viewed instead of the course list
+      action = profile.last_action(action_type)
+      if action
+        # This is the course that we were viewing before
+        redirect_to "#{action_path}/#{action.action_param}"
+        return true
+      end
+    end
+    return false
+  end
+  
   # def set_aws_vault(vault)
   #   ENV['S3_KEY']  = vault.account
   #   ENV['S3_SECR'] = vault.secret
