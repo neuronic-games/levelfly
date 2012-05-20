@@ -12,12 +12,12 @@
             <a href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><span class="task_tab">Done</span></a>
           </div>
 
-          <div style="margin:30px 0 20px 0;">
-          <span style="font-weight:bold;margin-right:15px;">COURSE:</span>
-          <%= select_tag "course_id", options_for_select(Course.all.collect{|c| [c.code,c.id]}),{:prompt => "Select All"} %>
+          <div style="margin:30px 0 20px 30px;">
+          <span style="font-weight:bold;margin-right:15px;">SHOW:</span>
+          <%= select_tag "course_id", options_for_select(Course.all.collect{|c| [c.code,c.id]}),{:prompt => "All Courses"} %>
           </div>
-            <div class="task_2box">
-            <div class="titleTcheckbox">&nbsp;</div>
+           <div class="task_2box">
+           <div class="titleTcheckbox">&nbsp;</div>
            <div class="titleTDue">DUE</div>
            <div class="titleTTAsk">TASK</div>
            <div class="titleTType">TYPE</div>

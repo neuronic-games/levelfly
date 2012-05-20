@@ -15,21 +15,16 @@
             </div>
             <div class="avatar_white_bdrC2task">
               <a href="/task/show/<%=t.id%>" id="<%=t.id%>" class="view">
-                 <img src='<%= t.image_file %>' width="100" height="100" alt="<%=t.name%>" />
+                 <img src='<%= t.image_file %>' width="150" height="150" alt="<%=t.name%>" />
               </a>
             </div>
-            <div class="titleTDue">
-              <h4 class="name"></h4>
-              <p>
-                 <%=show_date_format(t.due_date) if t.due_date%>
-              </p>
-            </div>
+            <div class="titleTDue"><%=show_date_format(t.due_date) if t.due_date%></div>
             <div class="titleTTAsk"><%=t.name %></div>
-            <div class="titleTTypeinner"> <%=t.course.code if t.course%><br/><%=t.course.section if t.course %></div>
+            <div class="titleTTypeinner"> <%=t.course.name if t.course%><br/><%=t.category.name if t.category %></div>
             <div class="clear"></div>
             <div id="tasks_hover" class="msg_bottom_linksC2" style="display:none;">
                 <div class="like_cmt">
-                  <a href="#" class="blue_bt19px">NOTE</a>
+                  <!-- <a href="#" class="blue_bt19px">NOTE</a> -->
                   <a href="#" class="tasks_del blue_bt19px" rel="<%=t.id %>">DEL</a>
                 </div>
               </div>

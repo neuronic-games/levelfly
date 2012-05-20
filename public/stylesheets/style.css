@@ -1938,16 +1938,16 @@ margin-left:33px;
 
 .msg_big_boxC2 {
 	margin:0px 0px 0px 0px;
-	padding:0px 0px 4px 0px;
+	padding:0px 0px 0px 0px;
 	width:100%;
-	background:url(../images/border_dashed.png) repeat-x bottom !important;
+	border-top:1px solid #aaa;
 }
 .msg_box_fullwidth2 {
 	padding:0 10px 0 0px;
 }
 .msg_box_fullwidth2:hover {
 	/*	background:url(../images/border_dashedH.png) repeat-x top !important;*/
-background:#5f6254 !important;
+  background:#5f6254 !important;
 	cursor:pointer;
 }
 .blue_bg_msg_txt2 {
@@ -2470,20 +2470,16 @@ float:left; height:800px;
 }
 
 .avatar_white_bdrC2task {
-    background: url("../images/avatar_bg.jpg") no-repeat scroll center center transparent;
     border: 5px solid #EAEBEB;
     border-radius: 10px 10px 10px 10px;
-    box-shadow: 0 0 2px 1px #000000 inset;
     float: left;
-    height: 39px;
     margin-right: 10px;
-    width: 39px;
+    height: 80px;
+    width: 80px;
 }
 .avatar_white_bdrC2task a img {
-    height: 35px;
-    margin-left: 0;
-    margin-top: 3px;
-    width: 39px;
+    height: 80px;
+    width: 80px;
 }
 .task_2box { overflow:hidden}
 .titleTcheckbox {
@@ -2493,7 +2489,7 @@ float:left; height:800px;
     font-weight: bold;
     margin-right: 0px;
     padding-top: 0;
-    width:114px;
+    width:160px;
     
 }
 .titleTcheckboxinner {
@@ -2511,7 +2507,7 @@ float:left; height:800px;
     font-size: 17px;
     font-weight: bold;
     margin-right: 54px;
-    padding-top: 0;
+    padding-top: 20px;
     width:100px;
 }
 
@@ -2521,8 +2517,7 @@ float:left; height:800px;
     font-size: 17px;
     font-weight: bold;
     padding-right: 40px;
-    padding-top: 0;
-    
+    padding-top: 20px;
 }
 
 .titleTType {
@@ -2531,7 +2526,7 @@ float:left; height:800px;
     font-size: 17px;
     font-weight: bold;
     padding-right: 170px;
-    padding-top: 0;
+    padding-top: 20px;
 }
 .titleTTypeinner {
     color: #3B3131;
@@ -2539,7 +2534,7 @@ float:left; height:800px;
     font-size: 17px;
     font-weight: bold;
     padding-right: 40px;
-    padding-top: 0;
+    padding-top: 20px;
     width:118px;
 }
 
