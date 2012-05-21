@@ -2543,3 +2543,411 @@ float:left; height:800px;
 background:#c8ccd4 !important;
 	cursor:pointer;
 }
+
+
+/***********************************************************************/
+/***********************grade book page**************************/
+.gradebook_content {
+	z-index:1000;
+	height:100%;
+	padding-right:75px;/*margin: -62px 0 0;*/
+}
+.gradebook_board_left {
+	background:url(../images/gradebg_left.png) 0 87px no-repeat;
+	padding-left:87px;
+	height:100%;
+}
+.gradebook_board_right {
+	background:url(../images/gradebg_right.png) right 87px no-repeat;
+	padding-right:86px;
+	height:100%;
+}
+.gradebook_board_center {
+	background:url(../images/gradebg_middle.png) 0 88px repeat-x;
+	/*height:732px;*/
+  height:100%;
+}
+.gradebook_pad_top {
+	width:100%;
+	height:46px;
+	overflow:hidden;
+	position:relative;
+	padding:78px 0 0 0;
+}
+.gradebook_pad {
+	width:100%;
+	padding-top:40px;
+	
+}
+.gradebook_tab_content {
+	padding-right:6px;
+}
+.gradebook_tabs {
+	float: right;
+	margin: 00px -93px 0 -5px;
+	position: relative;
+}
+.gradebook_tab_open {
+	background:#8fac24;
+	width:60px;
+	height:100px;
+	display:block;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	margin:0 0 5px 0;
+	-webkit-box-shadow: inset -1px 0px 1px 0px rgba(255, 255, 255, 0.6);
+	-moz-box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
+	box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
+}
+.gradebook_tab_close {
+	background:#8c9569;
+	width:60px;
+	height:100px;
+	display:block;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	margin:0 0 5px 0;
+	-webkit-box-shadow: inset -1px 0px 1px 0px rgba(255, 255, 255, 0.6);
+	-moz-box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
+	box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
+}
+.gradebook_tab_close:hover {
+	background:#8fac24;
+	width:60px;
+	height:100px;
+	display:block;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	margin:0 0 5px 0;
+	-webkit-box-shadow: inset -1px 0px 1px 0px rgba(255, 255, 255, 0.6);
+	-moz-box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
+	box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
+}
+.GB_course_box {float:left; width:50%; }
+.GB_course_box .page_heading { color:#3c68a3; font-size:23px; font-family: 'CollegeRegular'; float:left; padding: 4px 15px 0 0;}
+
+.selectbg{
+	background-image:url(../images/selectboxbg.png);
+	background-size:100%;
+	height:26px;
+	width:147px;
+	position:relative;
+	display:inline-block;
+	float:left;
+	font-family: 'CollegeRegular';
+	font-size:12px;
+}
+
+.selectbg select{
+	height:26px;
+	width:147px;
+	border:0px;
+	opacity:0;
+	position:absolute;
+filter:alpha(opacity="0");
+-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+
+
+
+}
+.fakebox{
+	position:absolute;
+	height:26px;
+	line-height:26px;
+	padding:0 0 0 10px;
+	color:#b3b3b3;
+	font-size:16px;
+	color:#000000;
+}
+.gradebook_partribbon { background:url(../images/gradepage_ribbon.png) no-repeat center 129px; height:100% }
+.spacebarGbook { height:55px; overflow:hidden;}
+.GB_Table { font-size:16px; font-family: 'CollegeRegular'; position:absolute; }
+
+.alignL { text-align:left;}
+.GB_Table thead { border-bottom:#064978 1px solid }
+.GB_Table th {  padding:7px; font-weight:normal; vertical-align:middle; }
+.fixedcolum { left:0}
+.GBtable_wrapper { padding:0 10px 0 0;  height:300px;   }
+.selectbg2{
+	background:url(../images/selectboxbg2.png);
+	height:26px;
+	width:137px;
+	position:relative;
+	display:inline-block;
+	
+	font-family: 'CollegeRegular';
+	font-size:12px;
+
+	top:0;
+	
+}
+
+.selectbg2 select{
+	height:26px;
+	width:137px;
+	border:0px;
+	opacity:0;
+	position:absolute;
+filter:alpha(opacity="0");
+-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";}
+.GB_coursename { color:#2d4f7d; font-family:Arial, Helvetica, sans-serif; font-size:13px; text-align:left !important}
+.GB_odd { background:#c4c8d2;}
+.GB_Table tbody { }
+.GB_Table td{ padding:0px; font-size:17px; vertical-align:middle; text-align:center; min-height:60px; background-image:url(../images/GB_transparentbg.png); padding:0px !important; border-right:2px solid #cbcfda; width:32px;}
+.GB_Outcome_tdbg { padding:0px !important;}
+
+.GB_odd .GB_Outcome_tdbg td{ background-image:url(../images/GB_transparentbg.png); padding:0px !important; border-right:2px solid #c4c8d2; }
+.pdgnone { padding:0px !important;}
+.rotate_text {writing-mode:tb-rl;
+	-webkit-transform:rotate(90deg);
+	-moz-transform:rotate(90deg);
+	-o-transform: rotate(90deg); filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=90); 	}
+.GB_outcomment { font-family:Arial, Helvetica, sans-serif; font-size:10px; font-weight:bold; color:#6989b5; position:absolute; width:16px; white-space:nowrap; margin:0px 0 0 0; top:4px; }
+.GB_outcomment2 { font-family:Arial, Helvetica, sans-serif; font-size:10px; font-weight:bold; color:#6989b5; position:absolute; width:16px; white-space:nowrap; margin:0px 0 0 0; top:34px; }
+@font-face {
+    font-family: 'SeanRegular';
+    src: url('../fonts/handsean-webfont.eot');
+    src: url('../fonts/handsean-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/handsean-webfont.woff') format('woff'),
+         url('../fonts/handsean-webfont.ttf') format('truetype'),
+         url('../fonts/handsean-webfont.svg#SeanRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+.GDingbox {position:fixed; bottom:0; height:128px; z-index:9999; left:162px; right:185px; min-width:652px; font-family: 'CollegeRegular'; color:#888272;}
+.GDingbox_botright {background:url(../images/gradebook_btright.png) no-repeat right 33px; padding-right:30px;}
+.GDingbox_botcenter { background:url(../images/gradebook_btcenter.png) no-repeat 10px 33px;}
+.GDingbox_botleft {background:url(../images/gradebook_btleft.png) no-repeat; padding-left:30px;}
+.GDingbox_heading {font-size:24px; padding:16px 0 0 19px;}
+.GDingbox_botcontainer {height:100px; width:570px; margin:0 auto; padding:28px 0 0 0}
+.GDingboxinner_grade {float:left; border-right:#bc917d 1px solid; width:190px; height:65px; padding:0 3px;}
+.GDingboxinner_plusminus {float:left; border-right:#bc917d 1px solid; width:78px; height:65px; padding:0 3px;}
+.GDingboxinner_outcome {float:left; border-right:#bc917d 1px solid; width:114px; height:65px; padding:0 3px;}
+.GDingboxinner_latest {float:left; border-right:#bc917d 1px solid; width:114px; height:65px; padding:0 3px;}
+.GDingboxinner_delete {float:left; width:38px; height:65px; padding:0 3px;}
+input.grading_Btn { 	
+	background: url(../images/grading_bt.png) repeat scroll 0 0 transparent;
+	cursor: pointer;
+	font-family: verdana;
+	border: medium none;
+	color: #b10505;
+	font-size:19px;
+	height: 37px;
+	display:inline-block;
+	line-height:37px;
+	text-align:center;
+	text-transform:uppercase;
+	vertical-align: middle;
+	padding:0 7px 1px;
+	width: 38px;
+	font-family: 'SeanRegular';
+}
+input.grading_Btn2 { 	
+	cursor: pointer;
+	font-family: verdana;
+	border: medium none;
+	color: #b10505;
+
+	display:inline-block;
+
+	text-align:center;
+	text-transform:uppercase;
+	vertical-align: middle;
+
+
+	font-family: 'SeanRegular';
+	}
+.Gbtn1 { color:#464646 !important; background: url(../images/grading_bt.png) repeat scroll 0 0 transparent !important;}
+.Gbtn2 { color:#464646 !important; background: url(../images/grading_btout2.png) repeat scroll 0 0 transparent !important;}
+.Gbtn3 { color:#464646 !important; background: url(../images/grading_btout3.png) repeat scroll 0 0 transparent !important;}
+.fontsize0px { font-size:0px;}
+.fontsize0px { font-size:0px;}
+.fRight { float:right;}
+.GB_sttingbt { position:absolute; margin:-12px 0 0 0px; right:0;}
+.GBsttingbox { background:url(../images/setting_boxbg.png) no-repeat; width:292px; height:140px; position:absolute; margin:-137px -186px 0 0; z-index:9999; right:0; }
+/* santosh khalse */
+.Grade_box{
+	font-family: 'CollegeRegular';
+	float:right;
+	height:24px;
+	line-height:24px;
+	padding:3px 24px 0 0px;
+}
+
+.outcome_wp{
+	width:100%;
+	border-bottom:1px solid #7794ac;
+	height:30px;
+}
+
+.Grade_left_panel{
+	float:left;
+	height:auto;
+	width:60%;
+}
+.Grade_right_panel{
+	float:left;
+	height:auto;
+	width:40%;
+	position:relative;
+	overflow-y: scroll; 
+	overflow: -moz-scrollbars-horizontal;
+}
+
+
+
+.Name_box{
+    padding-left: 7px;
+	color: #2D4F7D;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+}
+
+.GB_left_table{
+	 font-family: 'CollegeRegular';
+    font-size: 16px;
+}
+
+.GB_left_table td{
+	height:46px;
+}
+
+.b_box{
+	line-height:30px;
+}
+
+.Number_box{
+	background-image: url("../images/GB_transparentbg.png");
+    border-right: 2px solid #CBCFDA;
+    font-size: 17px;
+    min-height: 60px;
+    text-align: center;
+    vertical-align: middle;
+    width: 32px;
+}
+
+.GB_right_table{
+	font-family: 'CollegeRegular';
+    font-size: 16px;
+}
+
+.GB_right_table td{
+	height:46px;
+	text-align:center;
+	width:30px;
+	min-width:30px;
+}
+
+.Dark_no{
+	background:#b2bacb;
+}
+
+.scrollableArea{
+	width:auto!important;
+}
+
+.GB_course_box2 .page_heading { color:#3c68a3; font-size:23px; font-family: 'CollegeRegular'; float:right; padding: 4px 15px 0 0;}
+.GB_course_box2 {float:left; width:50%; padding:0 0% 0 0;}
+
+.selectbg3{
+	background-image:url(../images/selectboxbg.png);
+	background-size:100%;
+	height:26px;
+	width:147px;
+	position:relative;
+	display:inline-block;
+	float:right;
+	font-family: 'CollegeRegular';
+	font-size:12px;
+}
+
+.selectbg3 select{
+	height:26px;
+	width:147px;
+	border:0px;
+	opacity:0;
+	position:absolute;
+filter:alpha(opacity="0");
+-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+}
+
+.task_left_wp{
+	width:33%;
+	font-family: 'CollegeRegular';
+	padding-left:2%;
+	position:relative;
+	float:left;
+}
+.task_left_wp td{
+	height:47px;
+	text-align:center;
+}
+
+.task_left_heading{
+	position:relative;
+	width:100%;
+	border-bottom:1px solid #7794AC;
+	height:30px;
+}
+
+.task_left_heading span{
+	display:block;
+	float:right;
+	line-height:20px;
+	padding:6px 30px 0 0;
+}
+
+.icon_setting{
+	position:absolute;
+	top:-10px;
+	right:0px;
+}
+
+.Light_no{
+	background:#b7c0d2;
+}
+
+.width_30{
+	width:30px;
+}
+
+.task_right_wp{
+	float:left;
+	height:auto;
+	width:65%;
+	font-family: 'CollegeRegular';
+		overflow-y: scroll; 
+	overflow: -moz-scrollbars-horizontal;
+}
+
+.task_right_wp td{
+	text-align:center;
+	height:47px;
+}
+
+.task_right_heading{
+	height:31px;
+	border-bottom: 1px solid #7794AC;
+}
+
+.task_right_heading th{
+	font-weight:normal;
+	min-width:80px;
+}
+.extra_height_gradepage {height:150px}
+/*sadique*/
+.Grade_left_panel_head{
+	float:left;
+	height:auto;
+	width:52%;
+}
+.Grade_right_panel_head{
+	float:left;
+	height:auto;
+	width:48%;
+	
+}

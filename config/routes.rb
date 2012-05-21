@@ -46,7 +46,9 @@ Oncapus::Application.routes.draw do
   
   get "task/edit"
 
-  get "task/save"
+  get "task/save" 
+  
+  post "task/check_priorities"
   
   post "task/save"
   
@@ -128,6 +130,8 @@ Oncapus::Application.routes.draw do
   
   post "group/delete_participant"
   
+  get "grade_book/index"
+  
   get "wardrobe/index"
   
   get "wardrobe/new"
@@ -177,6 +181,8 @@ Oncapus::Application.routes.draw do
   post "message/unfriend"
   
   match 'task' => 'task#index'
+  
+  match 'grade_book' => 'grade_book#index'
     
   match 'main' => 'course#index'
   

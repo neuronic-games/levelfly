@@ -94,34 +94,57 @@ class TaskController < ApplicationController
     if params[:course_id] && !params[:course_id].empty? 
        if params[:menu_id] && !params[:menu_id].empty?
           tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])
-          if params[:menu_id] == "3"
-            tasks.each do |t|
-              task = t.task_participants.where("status = 'C' AND complete_date IS NOT NULL AND task_id = ?",t.id).first
-              if task 
-                arr.push(t)
-              end  
-            end   
-          elsif params[:menu_id] == "1"
-            tasks.each do |t|
-              task = t.task_participants.where("status = 'A' AND assign_date IS NOT NULL AND complete_date IS NOT NULL  AND task_id = ?",t.id).first
-              if task 
-                arr.push(t)
-              end  
-            end
-          else
+          if params[:menu_id] == "1"
             tasks.each do |t|
               task = t.task_participants.where("status = 'A' AND assign_date IS NOT NULL AND complete_date IS NULL  AND task_id = ?",t.id).first
-              if task && tasks.due_date
+              if task 
                 arr.push(t)
               end  
-            end         
-          end
+           end
+          elsif params[:menu_id] == "2"
+             tasks.each do |t|
+                task = t.task_participants.where("status = 'C' AND assign_date IS NOT NULL AND complete_date IS NOT NULL  AND task_id = ?",t.id).first
+                if task && tasks.due_date
+                  arr.push(t)
+                end  
+              end         
+          else
+             tasks.each do |t|
+              task = t.task_participants.where("status = 'A' AND complete_date IS NULL AND assign_date IS NOT NULL AND priority='H' AND task_id = ?",t.id).first
+              if task 
+                arr.push(t)
+              end  
+            end  
+          end    
           render:partial => "/task/task_list",:locals => {:@tasks =>arr}     
        else
           tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])
           render:partial => "/task/task_list",:locals => {:@tasks =>tasks}      
        end    
+    else
+      tasks = Task.all
+      render:partial => "/task/task_list",:locals => {:@tasks =>tasks}  
     end
+  end
+  
+   
+  
+  def check_priorities
+    status = false
+    if params[:task_id] && !params[:task_id].empty?
+       @task = TaskParticipant.find(:first,:conditions=>["task_id =?",params[:task_id]])
+        if @task
+          if params[:priority] == "L"
+            @task.priority = "H"
+            @task.save
+          else
+            @task.priority = "L"
+            @task.save
+          end
+        end
+        status = true
+    end
+    render :text => {"status"=>status}.to_json
   end
   
   def save
@@ -139,6 +162,7 @@ class TaskController < ApplicationController
     @task.level = params[:level] if params[:level]
     @task.school_id = params[:school_id] if params[:school_id]
     @task.course_id = params[:course_id] if params[:course_id]
+    @task.archived = false
     @task.category_id = params[:category_id] if params[:category_id]
     
     if params[:file]
@@ -171,6 +195,7 @@ class TaskController < ApplicationController
         @task_participant.profile_id = user_session[:profile_id]
         @task_participant.profile_type = "O"
         @task_participant.status = "A"
+        @task_participant.priority = "L"
         @task_participant.task_id = @task.id
         if @task_participant.save
           Feed.create(

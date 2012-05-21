@@ -6,12 +6,20 @@
       <div class="clipboard_list">
         <div class="msg_box_fullwidth2_task">
           <div class="msg_box_txt blue_bg_msg_txt2 taskmsg_bgc2" >
-            <div class="staronavatar2"><img src="/images/star_up.png" width="36" height="37" /></div>
-            <div class="titleTcheckboxinner">
-            <% t.task_participants.each do |status| %>
-            <input type="checkbox" <% if status.status == "C"%> checked="checked" <% end %> name="task_complete" id="task_complete" rel="<%=t.id%>"/>
+            <% t.task_participants.each do |participant| %>
+            <div class="staronavatar2" id="staronavatar2">
+            <a href="javascript:void(0)" id="<%= t.id %>" rel="<%= participant.priority %>">
+            <% if participant.priority == "H" %>
+            <img src="/images/star_up.png" width="36" height="37" />
+            <% end %>
+            <% if participant.priority == "L" %>
+            <img src="/images/star_down.png" width="36" height="37" /></a>
             <% end %>
             </div>
+            <div class="titleTcheckboxinner">
+            <input type="checkbox" <% if participant.status == "C" %> checked="checked" <% end %> name="task_complete" id="task_complete" rel="<%=t.id%>"/>
+            </div>
+            <% end %>
             <div class="avatar_white_bdrC2task">
               <a href="/task/show/<%=t.id%>" id="<%=t.id%>" class="view">
                  <img src='<%= t.image_file %>' width="150" height="150" alt="<%=t.name%>" />
@@ -19,7 +27,7 @@
             </div>
             <div class="titleTDue"><%=show_date_format(t.due_date) if t.due_date%></div>
             <div class="titleTTAsk"><%=t.name %></div>
-            <div class="titleTTypeinner"> <%=t.course.name if t.course%><br/><%=t.category.name if t.category %></div>
+            <div class="titleTTypeinner"> <%=t.course.name if t.course %><br/><%=t.category.name if t.category %></div>
             <div class="clear"></div>
             <div id="tasks_hover" class="msg_bottom_linksC2" style="display:none;">
                 <div class="like_cmt">
@@ -87,15 +95,39 @@
   $(".tasks_del").click(function(){
     showSpinner(true);
     task_id=$(this).attr("rel");
-    $("#taskname_"+task_id).remove();
     $.ajax({
        type: "POST",  
        url: "/task/remove_tasks",  
        data: {task_id:task_id},
        success: function(data) {
-         showSpinner(false);
+         if(data.status){
+           $("#taskname_"+task_id).remove();
+           showSpinner(false);
+         }
        }
     });
   });  
+  
+  // For task priority
+  $("#staronavatar2 a").unbind("click").bind("click",function(){
+    showSpinner(true);  
+    priority = $(this).attr("rel");
+    task_id = $(this).attr("id");
+    $.ajax({
+      type:"POST",
+      url:"/task/check_priorities",
+      data:{priority:priority,task_id:task_id},
+      success:function(data){
+        if(data.status)
+          showSpinner(false);
+        else  
+          showSpinner(true);
+      },
+      error:function(){
+        alert("Error");
+        showSpinner(false);
+      }
+    });
+  });
       
 </script>
