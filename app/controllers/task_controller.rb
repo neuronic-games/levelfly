@@ -120,15 +120,16 @@ class TaskController < ApplicationController
             end  
           end    
           render:partial => "/task/task_list",:locals => {:@tasks =>arr}     
-       else
-          tasks.each do |t|
-              task = t.task_participants.where("complete_date IS NULL AND task_id = ?",t.id).first
-              if task 
-                arr.push(t)
-              end  
-           end
-          render:partial => "/task/task_list",:locals => {:@tasks =>arr}      
-       end   
+        else
+          @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+          tasks = Task.find(
+            :all, 
+            :include => [:task_participants], 
+            :conditions => ["task_participants.profile_id = ?", @profile.id]
+            )
+          render :partial => "/task/task_list",:locals => {:@tasks =>tasks}  
+        end
+
   end
   
    
