@@ -7,37 +7,32 @@
         <div class="msg_box_fullwidth2_task">
           <div class="msg_box_txt blue_bg_msg_txt2 taskmsg_bgc2" >
             <% t.task_participants.each do |participant| %>
-            <div class="staronavatar2" id="staronavatar2">
-            <a href="javascript:void(0)" id="<%= t.id %>" rel="<%= participant.priority %>">
-            <% if participant.priority == "H" %>
-            <img src="/images/star_up.png" width="36" height="37" />
-            <% else %>
-            <img src="/images/star_down.png" width="36" height="37" /></a>
-            <% end %>
-            </div>
-            <div class="titleTcheckboxinner">
-            <input type="checkbox" <% if participant.status == "C" %> checked="checked" <% end %> name="task_complete" id="task_complete" rel="<%=t.id%>"/>
-            </div>
-            <% end %>
-            <div class="avatar_white_bdrC2task">
-              <a href="/task/show/<%=t.id%>" id="<%=t.id%>" class="view">
-                 <img src='<%= t.image_file %>' width="150" height="150" alt="<%=t.name%>" />
-              </a>
-            </div>
-            <div class="titleTDue"><%=show_date_format(t.due_date) if t.due_date%></div>
-            <div class="titleTTAsk"><%=t.name %></div>
-            <div class="titleTTypeinner"> <%=t.course.name if t.course %><br/><%=t.category.name if t.category %></div>
-            <div class="clear"></div>
-            <div id="tasks_hover" class="msg_bottom_linksC2" style="display:none;">
-                <div class="like_cmt">
-                  <!-- <a href="#" class="blue_bt19px">NOTE</a> -->
-                  <a href="#" class="blue_bt19px" rel="<%=t.id %>">Low Priority</a>
-                  <a href="#" class="tasks_del blue_bt19px" rel="<%=t.id %>">Remove</a>
-                </div>
+              <div class="staronavatar2" id="staronavatar2">
+              <img src="/images/<% if participant.priority == "H" %>star_up<%else%>star_down<%end%>.png" width="36" height="37" task_id="<%=t.id %>" class="tasks_pri_toggle" />
               </div>
+              <div class="titleTcheckboxinner">
+              <input type="checkbox" <% if participant.status == "C" %> checked="checked" <% end %> name="task_complete" id="task_complete" rel="<%=t.id%>"/>
+              </div>
+              <div class="avatar_white_bdrC2task">
+                <a href="/task/show/<%=t.id%>" id="<%=t.id%>" class="view">
+                   <img src='<%= t.image_file %>' width="150" height="150" alt="<%=t.name%>" />
+                </a>
+              </div>
+              <div class="titleTDue"><%=show_date_format(t.due_date) if t.due_date%></div>
+              <div class="titleTTAsk"><%=t.name %></div>
+              <div class="titleTTypeinner"> <%=t.course.name if t.course %><br/><%=t.category.name if t.category %></div>
               <div class="clear"></div>
+              <div id="tasks_hover" class="msg_bottom_linksC2" style="display:none;">
+                  <div class="like_cmt">
+                    <!-- <a href="#" class="blue_bt19px">NOTE</a> -->
+                    <a href="#" class="tasks_pri_toggle blue_bt19px" task_id="<%=t.id %>"><% if participant.priority == 'H'%>Low Priority<%else%>High Priority<%end%></a>
+                    <a href="#" class="tasks_del blue_bt19px" rel="<%=t.id %>">Remove</a>
+                  </div>
+                </div>
+                <div class="clear"></div>
+              </div>
             </div>
-          </div>
+          <% end %>
         </div>
       </div>
   </div>
