@@ -11,10 +11,16 @@
             <a href="javascript:void(0)"  id="menu2" value="2" class="tab_close" ><span class="task_tab">Past</span></a>
             <a href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><span class="task_tab">Starred</span></a>
           </div>
-
           <div style="margin:30px 0 20px 30px;">
           <span style="font-weight:bold;margin-right:15px;">SHOW:</span>
-          <%= select_tag "course_id", options_for_select(@courses.collect{|c| [c.name, c.id]}),{:prompt => "All Courses"} %>
+
+          <select id="course_id">
+          <option value="">All Courses</option>
+          <% @courses.each do |c| %> 
+          <option value="<%= c.id %>"  <% if defined?(course_id) %><%if c.id == course_id.to_i %> selected <%end%><%end%>><%= c.name %></option>
+          <% end %>
+          </select>
+          
           </div>
           <div class="clipboard_header">
             <div class="titleTcheckbox">&nbsp;</div>
@@ -55,7 +61,6 @@ $(document).ready(function(){
     }
     document.getElementById("menu"+idx).className = "tab_open";
     course_id = $("#course_id").find("option:selected").val();
-    if(course_id){
       showSpinner(false);
       $.ajax({
         type: "POST",  
@@ -66,9 +71,6 @@ $(document).ready(function(){
           showSpinner(false);
         }
       }); 
-    }else{
-      showSpinner(false);
-    }
   });
     
     //Show task by drop down course_id  
@@ -81,6 +83,9 @@ $(document).ready(function(){
           data: {course_id:course_id},
           success: function(data) {
             $("#task_show_list_data").html(data);
+            $("#menu1").attr("class","tab_open");
+            $("#menu2").attr("class","tab_close");
+            $("#menu3").attr("class","tab_close");
             showSpinner(false);
           }
        });

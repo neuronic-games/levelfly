@@ -11,8 +11,7 @@
             <a href="javascript:void(0)" id="<%= t.id %>" rel="<%= participant.priority %>">
             <% if participant.priority == "H" %>
             <img src="/images/star_up.png" width="36" height="37" />
-            <% end %>
-            <% if participant.priority == "L" %>
+            <% else %>
             <img src="/images/star_down.png" width="36" height="37" /></a>
             <% end %>
             </div>

@@ -25,7 +25,7 @@ class TaskController < ApplicationController
       @tasks = Task.find(
         :all, 
         :include => [:task_participants], 
-        :conditions => ["task_participants.profile_id = ?", @profile.id]
+        :conditions => ["task_participants.profile_id = ? AND complete_date IS NULL", @profile.id]
       )
     end
     
@@ -92,25 +92,28 @@ class TaskController < ApplicationController
   def get_task
   arr=[]
     if params[:course_id] && !params[:course_id].empty? 
-       if params[:menu_id] && !params[:menu_id].empty?
-          tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])
+      tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])
+    else
+      tasks = Task.all
+    end
+    if params[:menu_id] && !params[:menu_id].empty?
           if params[:menu_id] == "1"
             tasks.each do |t|
-              task = t.task_participants.where("status = 'A' AND assign_date IS NOT NULL AND complete_date IS NULL  AND task_id = ?",t.id).first
+              task = t.task_participants.where("complete_date IS NULL AND task_id = ?",t.id).first
               if task 
                 arr.push(t)
               end  
            end
           elsif params[:menu_id] == "2"
              tasks.each do |t|
-                task = t.task_participants.where("status = 'C' AND assign_date IS NOT NULL AND complete_date IS NOT NULL  AND task_id = ?",t.id).first
-                if task && tasks.due_date
+                task = t.task_participants.where("complete_date IS NOT NULL  AND task_id = ?",t.id).first
+                if task 
                   arr.push(t)
                 end  
               end         
           else
              tasks.each do |t|
-              task = t.task_participants.where("status = 'A' AND complete_date IS NULL AND assign_date IS NOT NULL AND priority='H' AND task_id = ?",t.id).first
+              task = t.task_participants.where("complete_date IS NULL AND priority='H' AND task_id = ?",t.id).first
               if task 
                 arr.push(t)
               end  
@@ -118,13 +121,14 @@ class TaskController < ApplicationController
           end    
           render:partial => "/task/task_list",:locals => {:@tasks =>arr}     
        else
-          tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])
-          render:partial => "/task/task_list",:locals => {:@tasks =>tasks}      
-       end    
-    else
-      tasks = Task.all
-      render:partial => "/task/task_list",:locals => {:@tasks =>tasks}  
-    end
+          tasks.each do |t|
+              task = t.task_participants.where("complete_date IS NULL AND task_id = ?",t.id).first
+              if task 
+                arr.push(t)
+              end  
+           end
+          render:partial => "/task/task_list",:locals => {:@tasks =>arr}      
+       end   
   end
   
    
@@ -377,6 +381,12 @@ class TaskController < ApplicationController
   
   def view_task
      @tasks=Task.find(:all, :conditions =>["course_id = ?", params[:course_id]])
-     render :partial => "/task/list", :locals=>{:tasks=>@tasks,:courses => params[:course_id]}
+     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+     @courses = Course.find(
+      :all, 
+      :include => [:participants], 
+      :conditions => ["participants.profile_id = ? and participants.profile_type = ?", @profile.id, 'M']
+    )
+     render :partial => "/task/list", :locals=>{:tasks=>@tasks,:course_id=>params[:course_id]}
   end
 end
