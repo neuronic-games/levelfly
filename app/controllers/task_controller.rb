@@ -122,8 +122,13 @@ class TaskController < ApplicationController
           render:partial => "/task/task_list",:locals => {:@tasks =>tasks}      
        end    
     else
-      tasks = Task.all
-      render:partial => "/task/task_list",:locals => {:@tasks =>tasks}  
+      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      tasks = Task.find(
+        :all, 
+        :include => [:task_participants], 
+        :conditions => ["task_participants.profile_id = ?", @profile.id]
+        )
+      render :partial => "/task/task_list",:locals => {:@tasks =>tasks}  
     end
   end
   
