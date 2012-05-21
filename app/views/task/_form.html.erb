@@ -165,7 +165,7 @@ function addNode(element) {
               <!--list box-->
               <div class="task_detailbox">
                 <div class="empty_num_space" ></div>
-                <div class="field_box2"> SHARED NOTES
+                <div class="field_box2"> DESCRIPTION
                   <fieldset>
                     <div class="dd_bg ">
                       <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea"><%=@task.descr if @task %></textarea>
@@ -179,7 +179,7 @@ function addNode(element) {
               <!--list box-->
               <div class="task_detailbox">
                 <div class="empty_num_space" ></div>
-                <div class="field_box2"> PRIVATE NOTES
+                <div class="field_box2"> NOTES
                   <fieldset>
                     <div class="dd_bg ">
                       <textarea name="notes" id="notes" class="dd_textarea" style="height:150px;"></textarea>

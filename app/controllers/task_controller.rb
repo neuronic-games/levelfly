@@ -25,7 +25,7 @@ class TaskController < ApplicationController
       @tasks = Task.find(
         :all, 
         :include => [:task_participants], 
-        :conditions => ["task_participants.profile_id = ? AND complete_date IS NULL", @profile.id]
+        :conditions => ["task_participants.profile_id = ? and complete_date is null and archived = ?", @profile.id, false]
       )
     end
     
@@ -132,8 +132,6 @@ class TaskController < ApplicationController
 
   end
   
-   
-  
   def check_priorities
     status = false
     if params[:task_id] && !params[:task_id].empty?
@@ -149,7 +147,18 @@ class TaskController < ApplicationController
         end
         status = true
     end
-    render :text => {"status"=>status}.to_json
+    render :text => { :status => status, :priority => @task.priority }.to_json
+  end
+
+  def toggle_priority
+    status = false
+    @task = TaskParticipant.find(:first, :conditions => ["task_id = ?", params[:task_id]])
+    if @task
+      @task.priority = (@task.priority == "L" ? "H" : "L")
+      @task.save
+      status = true
+    end
+    render :text => { :status => status, :priority => @task.priority }.to_json
   end
   
   def save
@@ -268,8 +277,9 @@ class TaskController < ApplicationController
   def remove_tasks
     if params[:task_id] && !params[:task_id].empty?
        @task = Task.find(params[:task_id])
-       @task.delete
-       render :text => {"status"=>"true"}.to_json
+       @task.archived = true
+       @task.save
+       render :text => {:status=>true}.to_json
     end
   end
   
