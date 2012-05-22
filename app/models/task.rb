@@ -45,7 +45,7 @@ class Task < ActiveRecord::Base
       :all, 
       :include => [:task_participants], 
       :conditions => conditions,
-      :order => "due_date desc"
+      :order => "due_date"
     )
   end
   

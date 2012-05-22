@@ -136,7 +136,13 @@
     <div id="waiting" class="waiting"><img src="/images/ajax-loader.gif"></div>
   </div><!-- wrapper -->
 </div><!-- body_bg -->
+
+<!--popup start-->
+<div id="avatar_card" class="popup_box1 hide"></div>
+<!--popup end-->
+
 <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=user_session[:profile_id] %>"/>
+
 </body>
 <script type="text/javascript">
 
@@ -209,6 +215,28 @@
     //Fill up the #container with according call
     $("#frm_search, #root_level, #container").delegate(".menu_btn", "click", loadPage);
     $(".page_switcher").click(loadPage);
+    
+    $('#container').delegate('.profile', 'click', function(){
+      var p = $(this);
+      var position = p.position();
+      showSpinner(true);
+      $.ajax({  
+        type: "POST",  
+        url: "/message/add_friend_card",
+        data: {profile_id:this.id},
+        success: function(data) {
+          if (data) {
+            $('#avatar_card').html(data);
+            $('#avatar_card').css("top",position.top-30);
+            $('#avatar_card').css("left",position.left-20);
+            $('#avatar_card').show();
+          }
+          showSpinner(false);
+        }
+      });
+      return false;
+    });
+
   }); //document.ready
   
   function loadPage(dest, title) {
@@ -289,6 +317,7 @@
     $("#alert").html(text);
     // $("#alert").fadeIn("fast").delay(1000).fadeOut(1000);
   }
+  
 -->
 </script>
 </html>

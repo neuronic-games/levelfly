@@ -1,7 +1,3 @@
-<!--popup start-->
-<div class="popup_box1" id="avatar_card"></div>
-<!--popup end-->
-
 <div class="messages_content load_messages">
   <div class="msg_content_left">
   
@@ -15,30 +11,21 @@
     <% end %>
     
     <!-- Invites -->
-    <div id="course_requests">
     <% if @friend_requests and not @friend_requests.empty? %>
-    <div id="friend_requests">
+    <div id="course_requests">
      <h2>INVITES</h2>
       <% @friend_requests.each do |friend_request| %>
         <%= render :partial => "/message/friend_requests", :locals => {:friend_request=>friend_request} %>
       <% end %>
     </div>
     <% end %>
-    </div>
       
     <!-- Message -->
     <div id="message_wrapper" class="message_wrapper">
       <% if @messages %>
       <h2>MESSAGES</h2>
         <% @messages.each do |message| %>
-          <% if message.target_type == "Course"  %>
-            <% if belongs_to_course_message(message.target_id) %>
-            <%= belongs_to_course_message(message.target_id) %>
-              <%= render :partial => "/message/messages", :locals => {:message=>message} %>
-            <% end %>
-          <% else %>
-            <%= render :partial => "/message/messages", :locals => {:message=>message} %>
-          <% end %>
+          <%= render :partial => "/message/messages", :locals => {:message=>message} %>
         <% end %>
       <% end %>
     </div>
@@ -52,10 +39,6 @@
          <% end %>
       <% end %>
     </div>
-    
-    <!-- Add Friend -->
-    <div id="avatar_card" class="hide"></div>
-    <!-- Add Friend ends -->
     
   </div>
   
@@ -133,26 +116,6 @@ $(document).ready(function() {
         }
       });
     }
-  });
-  
-  $('.message_wrapper, .friend_list').delegate('.profile', 'click', function(){
-    var p = $(this);
-    var position = p.position();
-    showSpinner(true);
-    $.ajax({  
-      type: "POST",  
-      url: "/message/add_friend_card",
-      data: {profile_id:this.id},
-      success: function(data) {
-        if (data) {
-          $('#avatar_card').html(data);
-          $('#avatar_card').css("top",position.top-30);
-          $('#avatar_card').css("left",position.left-20);
-          $('#avatar_card').show();
-        }
-        showSpinner(false);
-      }
-    });
   });
   
 </script>
