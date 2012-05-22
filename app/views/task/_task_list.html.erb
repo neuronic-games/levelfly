@@ -3,7 +3,7 @@
 <div class="task_list_content course_tab_content" id="taskname_<%=t.id%>" task_id="<%=t.id%>">
    <div class="course_left"></div>
     <div class="course_page_msg_box">
-      <div class="clipboard_list">
+      <div class="clipboard_list" task_id="<%=t.id%>">
         <div class="msg_box_fullwidth2_task">
           <div class="msg_box_txt blue_bg_msg_txt2 taskmsg_bgc2" >
             <% t.task_participants.each do |participant| %>
@@ -55,18 +55,23 @@
   
  $('input[type="checkbox"]').unbind('click').bind('click',function() {
     check_val = $(this).is(':checked');
-       showSpinner(true);
-       task_id =$(this).attr("rel");
-       $.ajax({
+    showSpinner(true);
+    task_id = $(this).attr("rel");
+    $.ajax({
        type:"POST",
        url:"/task/task_complete",
        data:{task_id:task_id,check_val:check_val},
        success:function(data){
          showSpinner(false);
+         if (check_val) {
+           $(".clipboard_list[task_id="+task_id+"]").css("background-color", "#BCD599");
+         } else {
+           $(".clipboard_list[task_id="+task_id+"]").css("background-color", "");
+         }
        }
     });
     event.stopPropagation();
-   });
+  });
    
   //For task list hover
   $(".task_list_content").hover(
