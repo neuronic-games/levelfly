@@ -116,7 +116,9 @@ function addNode(element) {
                       <input type="text" name="due_date" id="due_date" class="dd_input"  <%if @task %> value="<%=@task.due_date%>" readonly="readonly" <%end%>/>
                     </div>
                   </div>
-                  <div class="rating_viewfield">Rating
+                  <div class="rating_viewfield" style="text-align:center;">
+                    <img src="<%=@task.rating_icon_file%>" class="task_rating_icon task_raiting" task_id="<%=@task.id%>"><br />
+                    Rating
                   </div>
                 </div>
                 <div class="clear"></div>

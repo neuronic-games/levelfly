@@ -79,4 +79,8 @@ class Task < ActiveRecord::Base
     self.points = suggested_points
   end
   
+  def rating_icon_file
+    return "/images/ui/task_rating_#{self.level}.png"
+  end
+  
 end

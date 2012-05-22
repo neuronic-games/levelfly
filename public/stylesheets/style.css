@@ -407,6 +407,10 @@ a.icon_tasks_active {
   font-weight:bold;
   z-index:9999;
 }
+.task_rating_icon {
+  width: 50px;
+  height: 50px;
+}
 /****icon networks****/
 a.icon_networks {
   background:url(../images/groups_icon.png) no-repeat 19px 5px;
@@ -1961,11 +1965,22 @@ margin-left:33px;
   overflow:hidden;
   background-color:#B1C4D0;
   color:#E2E4EA;
+  margin: 0 20px 0 20px;
 }
 .clipboard_list {
-  width:100%;
   border-bottom:1px solid #B1C4D0;
   color: #3B3131;
+  padding: 5px 0 5px 0;
+  margin: 0 20px 0 20px;
+  overflow: hidden;
+}
+.clipboard_list:hover {
+  background-color: #F2F4FB;
+  cursor: pointer;
+}
+.list_hover {
+  position: absolute; 
+  display: none;
 }
 .blackboard_list {
   margin:0px 0px 0px 0px;
@@ -2491,9 +2506,6 @@ float:right; margin:0 45px 2px 0;height:68px;
 .user_profile_left{
 float:left; height:800px;
 }
-#tasks_hover{
-  float:right;
-}
 
 .avatar_white_bdrC2task {
     border: 5px solid #EAEBEB;
@@ -2514,8 +2526,7 @@ float:left; height:800px;
     font-weight: bold;
     margin-right: 0px;
     padding-top: 0;
-    width:160px;
-    
+    width:120px;
 }
 .titleTcheckboxinner {
     float: left;
@@ -2546,18 +2557,16 @@ float:left; height:800px;
     float: right;
     font-size: 17px;
     font-weight: bold;
-    padding-right: 170px;
     padding-top: 20px;
+    width:180px;
 }
-.titleTTypeinner {
-    float: right;
-    font-size: 17px;
-    font-weight: bold;
-    padding-right: 40px;
-    padding-top: 20px;
-    width:118px;
+.titleTrating {
+  float: right;
+  font-size: 17px;
+  font-weight: bold;
+  padding-top: 20px;
+  width: 70px;
 }
-
 .staronavatar2  img{
 	position:absolute;
 	margin:-14px 0 0 9px;

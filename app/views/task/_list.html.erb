@@ -12,26 +12,30 @@
             <!-- <a href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><span class="task_tab">Starred</span></a> -->
           </div>
           <div style="margin:30px 0 20px 30px;">
-          <span style="font-weight:bold;margin-right:15px;">SHOW:</span>
+            <span style="font-weight:bold;margin-right:15px;">SHOW:</span>
 
-          <select id="course_id">
-            <option value="">All Courses</option>
-            <option value="starred">Starred Tasks</option>
-            <optgroup label="By Course">
-              <% @courses.each do |c| %> 
-              <option value="<%= c.id %>"  <% if defined?(course_id) %><%if c.id == course_id.to_i %> selected <%end%><%end%>><%= c.name %></option>
-              <% end %>
-            </optgroup>
-          </select>
+            <select id="course_id">
+              <option value="">All Courses</option>
+              <option value="starred">Starred Tasks</option>
+              <optgroup label="By Course">
+                <% @courses.each do |c| %> 
+                <option value="<%= c.id %>"  <% if defined?(course_id) %><%if c.id == course_id.to_i %> selected <%end%><%end%>><%= c.name %></option>
+                <% end %>
+              </optgroup>
+            </select>
           
           </div>
+          
           <div class="clipboard_header">
             <div class="titleTcheckbox">&nbsp;</div>
             <div class="titleTDue">DUE</div>
             <div class="titleTTAsk">TASK</div>
+            <!-- From the right -->
+            <div class="titleTrating">RATING</div>
             <div class="titleTType">TYPE</div>
-          <div class="clear"></div>
+            <div class="clear"></div>
           </div>
+          
           <div id="task_show_list_data">
             <%if @tasks %>
              <%= render :partial => "/task/task_list", :locals => {:t=>@tasks} %>
