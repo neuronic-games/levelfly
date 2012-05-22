@@ -167,6 +167,7 @@ class TaskController < ApplicationController
     @task.level = params[:level] if params[:level]
     @task.school_id = params[:school_id] if params[:school_id]
     @task.course_id = params[:course_id] if params[:course_id]
+    @task.points = 0
     @task.archived = false
     @task.category_id = params[:category_id] if params[:category_id]
     
@@ -263,6 +264,11 @@ class TaskController < ApplicationController
   end
   
   def create
+  end
+  
+  def view_setup
+    @task = Task.find_by_id(params[:id])
+    render :partial => "/task/setup",:locals=>{:task=>@task}      
   end
   
   def remove_tasks

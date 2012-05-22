@@ -46,7 +46,7 @@
 <script type="text/javascript">
 
   setPageTitle("My Tasks");
-  $('a.view').click(function() { 
+  $('a.view').click(function() {
     showSpinner(true);
     $("#container").load(this.href, function(){
       task_id = $(this).attr("id");

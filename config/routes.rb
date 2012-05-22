@@ -9,6 +9,8 @@ Oncapus::Application.routes.draw do
   get "task/view_task"
   
   get "task/list"
+  
+   get "task/view_setup"
    
   get "profile/index"
 
@@ -93,6 +95,8 @@ Oncapus::Application.routes.draw do
   get "course/save"
   
   post "course/add_file"
+  
+  get "course/add_file"
   
   post "course/save"
   

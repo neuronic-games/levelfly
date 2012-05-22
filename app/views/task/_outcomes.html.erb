@@ -1,0 +1,27 @@
+<div>
+<div id="add_outcomes_task">
+  <a class="blue_bt19px" id="add_outcome_task" >ADD OUTCOME</a> 
+</div>
+
+<div id="load_outcomes">
+  <% if @course %>
+    <%  @course.outcomes.each do |outcomes| %>
+      <%= render :partial => "/course/outcomes_list", :locals => {:outcomes=>outcomes} %>
+     <% end %>
+  <% end %>
+</div>
+<div>
+  <div id="outcome_container">
+    <!-- New outcomes will be added here -->
+  </div> 
+</div>
+</div>
+<script type="text/javascript">
+
+
+  $(document).ready(function(){
+    
+    
+    
+  });
+</script>

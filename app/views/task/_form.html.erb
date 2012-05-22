@@ -5,7 +5,7 @@ function addNode(element) {
   if(element == "outcome") {
     var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counter);
     newNode.css("marginTop" , "20px");
-    newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" value="" class="medium" onblur="javascript:setStorage(\'task_outcomes_'+_counter+'\', $(this).val())" />');
+    newNode.html('<input type="text" name="outcomes[]" id="outcomes_' + _counter + '" value="" class="dd_input_task" onblur="javascript:setStorage(\'task_outcomes_'+_counter+'\', $(this).val())" /></div>');
     newNode.appendTo("#outcome_container");
     _counter++;
   } else if (element == "people") {
@@ -33,33 +33,22 @@ function addNode(element) {
         <div class="task_pad">
           <!-- tabs-->
           
+          
           <div class="tabs menu_container" align="right">
             <a href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><span class="task_tab">Task</span></a>
-            <a href="javascript:void(0)"  id="menu2" value="2" class="tab_close" ><span class="task_tab">Grading</span></a>
+            <a href="javascript:void(0)"  id="menu2" value="2" class="tab_close" ><span class="task_tab">Files</span></a>
             <a href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><span class="task_tab">Forums</span></a>
             <a href="javascript:void(0)"  id="menu4" value="4" class="tab_close"><span class="task_tab">Members</span></a>
             <a href="javascript:void(0)"  id="menu5" value="5" class="tab_close" ><span class="task_tab">Groups</span></a>
            </div>
           
-          <!-- <div class="tabs menu_container" align="right">
-            <a href="javascript:void(0)" id="menu1" value="1" class="tab_open">
-              <img src="/images//task_text.png" class="task_tab" />
-            </a> 
-            <a href="javascript:void(0)" id="menu2" value="2" class="tab_close">
-              <img src="/images//grading_text.png" class="grading_tab" />
-            </a> 
-            <a href="javascript:void(0)" id="menu3" value="3" class="tab_close">
-              <img src="/images//participants_text.png" class="participants_tab" />
-            </a> 
-            <a href="javascript:void(0)" id="menu4" value="4" class="tab_close">
-              <img src="/images//participants_text.png" class="participants_tab" />
-            </a> 
-            <a href="javascript:void(0)" id="menu5" value="5" class="tab_close" id="group_tab">
-              <img src="/images//task_text.png" class="groups_tab" />
-            </a> 
-          </div> -->
           <!--tab content-->
           <div class="tab_content" id="div_1">
+           <div class="clickable menu_container"  style="position:absolute; right:250px;top:175px;">
+            <a href="javascript:void(0)" class="setup_page_link" id="menu6" value="6">
+              <img src="/images/setting_icon_gray.png">
+            </a>
+           </div>
             <div class="spacebar10px"></div>
             <div class="spacebar10px"></div>
             <div class="task_left">
@@ -68,7 +57,9 @@ function addNode(element) {
                 <div id="task_image">
                   <img src="/images//task_profile_img.jpg" width="156" height="156" />
                 </div>
-                <div align="center"><a href="#" >REPLACE THIS IMAGE</a></div>
+                <div align="center"><%#= @task.course.name%><br/>
+                Category :
+                </div>
               </div>
               <div class="task_pdf" align="center">
                 <ul id="filelist">
@@ -98,33 +89,9 @@ function addNode(element) {
             <div class="task_right" >
               <!--list box-->
               <div class="task_detailbox">
-                <div class="round_num" >1</div>
+                <!--<div class="round_num" >1</div>-->
                 <div class="field_box1">
-                  <div class="greybox">
-                    <p>Select a Course and Category first to apply the starting information
-                      that you have set up for new tasks.</p>
-                    <div class="spacebar10px"></div>
-                    <div class="course_viewfield">COURSE
-                      <div class="dd_bg ">
-                        <select name="course" id="course" class="dd_select">
-                          <option value="">SELECT</option>
-                          <% @courses.each do |c| %>
-                          <option value="<%= c.id %>" <%=@task.course_id==c.id ? "Selected" : ""  if @task %>><%= c.name %></option>
-                          <% end %>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="catagory_viewfield" >CATEGORY
-                      
-                        <div id="categories_container" class='<%= @task && @task.category_id!=0 ? "" : "hide" %> dd_bg'>
-                          <% if @task && @task.category_id!=0 %>
-                            <%= render :partial => "course_categories", :locals=>{:categories=>@task.course.categories} %>
-                          <% end %>
-                        </div>
-                      
-                    </div>
-                    <div class="clear"></div>
-                  </div>
+                 
                 </div>
                 <div class="clear"></div>
               </div>
@@ -132,11 +99,11 @@ function addNode(element) {
               <div class="spacebar10px"></div>
               <!--list box-->
               <div class="task_detailbox">
-                <div class="round_num" >2</div>
+                <!--<div class="round_num" >2</div>-->
                 <div class="field_box2">
-                  <p>TASK NAME</p>
+                  <p>Name</p>
                   <div class="dd_bg">
-                    <input type="text" name="task" id="task" class="dd_input" value="<%=@task.name if @task %>" onblur='javascript:setStorage("task_name", $(this).val())'/>
+                    <input type="text" name="task" id="task" class="dd_input" <%if @task %> value="<%=@task.name %>" readonly="readonly" <%end%> onblur='javascript:setStorage("task_name", $(this).val())'/>
                   </p>
                 </div>
                 <div class="clear"></div>
@@ -145,12 +112,15 @@ function addNode(element) {
               <div class="spacebar10px"></div>
               <!--list box-->
               <div class="task_detailbox">
-                <div class="round_num" >3</div>
+               <!-- <div class="round_num" >3</div>-->
                 <div class="field_box2">
-                  <div class="date_viewfield">DUE DATE
+                  <div class="date_viewfield">Due Date
                     <div class="dd_bg">
-                      <input type="text" name="due_date" id="due_date" class="dd_input" value="<%=@task.due_date if @task %>"/>
+                      <input type="text" name="due_date" id="due_date" class="dd_input"  <%if @task %> value="<%=@task.due_date%>" readonly="readonly" <%end%>/>
                     </div>
+                  </div>
+                  <div class="rating_viewfield">Rating
+                    
                   </div>
                   <!-- <div class="time_viewfield" >TIME
                     <div class="dd_bg">
@@ -165,10 +135,10 @@ function addNode(element) {
               <!--list box-->
               <div class="task_detailbox">
                 <div class="empty_num_space" ></div>
-                <div class="field_box2"> SHARED NOTES
+                <div class="field_box2"> Description
                   <fieldset>
                     <div class="dd_bg ">
-                      <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea"><%=@task.descr if @task %></textarea>
+                      <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea"><%=@task.descr if @task%></textarea>
                     </div>
                   </fieldset>
                 </div>
@@ -179,10 +149,10 @@ function addNode(element) {
               <!--list box-->
               <div class="task_detailbox">
                 <div class="empty_num_space" ></div>
-                <div class="field_box2"> PRIVATE NOTES
+                <div class="field_box2"> Outcomes
                   <fieldset>
                     <div class="dd_bg ">
-                      <textarea name="notes" id="notes" class="dd_textarea" style="height:150px;"></textarea>
+                      
                     </div>
                   </fieldset>
                 </div>
@@ -193,39 +163,12 @@ function addNode(element) {
           </div>
           <input type="hidden" name="task_id" id="task_id_hdn" value="<%=@task.id if @task %>" />
           <input type="hidden" name="school_id" id="task_school_id_hdn" value="<%= @profile.school_id %>" />
+          <input type="hidden" name="course_school_id_hdn" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
+          <input type="hidden" name="course_id_hdn" id="course_id_hdn" value="<%= @task.course.id %>" />
+          <div id="setup" class="tab_content hide"></div>
         </div>
         <div id="div_2" class="tab_content hide">
-            <div class="frm_label">
-              Level
-            </div>
-            <div class="frm_input">
-              <div class="level_radio">
-                <input type="radio" name="level" id="level_easy" value="1" onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==1 ? "checked" : ""  if @task %>/>
-              </div>
-              <div class="level_label">
-                Easy
-              </div>
-              <div class="level_radio">
-                <input type="radio" name="level" id="level_medium" value="2" onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==2 ? "checked" : ""  if @task %>/>
-              </div>
-              <div class="level_label">
-                Medium
-              </div>
-              <div class="level_radio">
-                <input type="radio" name="level" id="level_high" value="3"  onClick='javascript:setStorage("task_level", $(this).val())' <%=@task.level==3 ? "checked" : ""  if @task %>/>
-              </div>
-              <div class="level_label">
-                Hard
-              </div>
-            </div>
-            <div class="frm_label">
-              Outcomes
-            </div>
-            <div class="frm_input" id="outcomes_container">
-              <% if @outcomes %>
-                <%= render :partial => "course_outcomes" %>
-              <% end %>
-            </div>
+          <%= render :partial => "/course/files" %>                
           </div>
           <div id="div_3" class="tab_content hide">
             <div class="frm_label">
@@ -276,7 +219,135 @@ function addNode(element) {
               <!-- Message ends -->
             <% end %>
           </div>
-		  
+		   <div id="div_6" class="tab_content hide">
+            <div class="spacebar10px"></div>
+            <div class="spacebar10px"></div>
+            <div class="task_left">
+              <div class="task_profile_image">
+                <div class="clip_img"></div>
+                <div id="task_image">
+                  <img src="/images//task_profile_img.jpg" width="156" height="156" />
+                </div>
+                <div align="center"><%#= @task.course.name%><br/>
+                   <div class="course_select_viewfield">
+                      <div class="dd_bg ">
+                        <select name="course" id="course" class="dd_select">
+                          <option value="">SELECT</option>
+                          <% @courses.each do |c| %>
+                          <option value="<%= c.id %>" <%=@task.course_id==c.id ? "Selected" : ""  if @task %>><%= c.name %></option>
+                          <% end %>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="catagory_viewfield" >
+                      <div id="categories_container" class='<%= @task && @task.category_id!=0 ? "" : "hide" %> dd_bg'>
+                        <% if @task && @task.category_id!=0 %>
+                          <%= render :partial => "course_categories", :locals=>{:categories=>@task.course.categories} %>
+                        <% end %>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="task_pdf" align="center">
+                <ul id="filelist">
+                  <!-- file list here -->
+                  <% if @task %>
+                    <% @task.attachments.each do |a| %>
+                      <li id="item_<%=a.id%>">
+                        <div class="file_name" id="filename_<%= a.id %>">
+                          <a href="<%=a.resource.url%>" target="_blank">
+                            <%=a.resource_file_name%>
+                          </a>
+                        </div>
+                        <div class="file_remove" id="fileremove_<%=a.id%>">
+                          <a href="javascript:void(0)" class="remove_resource" id="<%= a.id %>">
+                            Remove
+                          </a>
+                        </div>
+                      </li>
+                    <% end %>
+                  <% end %>
+                </ul>
+              </div>
+              <div class="drop_a_file_box" align="center" id="upload_container">DROP A FILE HERE<br />
+                TO MAKE IT AVAILABLE<br />
+                TO ALL PARTICIPANTS.</div>
+            </div>
+            <div class="task_right" >
+              <!--list box-->
+              <div class="task_detailbox">
+                <!--<div class="round_num" >1</div>-->
+                <div class="field_box1">
+               
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="spacebar10px"></div>
+              <div class="spacebar10px"></div>
+              <!--list box-->
+              <div class="task_detailbox">
+                <!--<div class="round_num" >2</div>-->
+                <div class="field_box2">
+                  <p>Name</p>
+                  <div class="dd_bg">
+                    <input type="text" name="task" id="task" class="dd_input" value="<%=@task.name if @task %>" onblur='javascript:setStorage("task_name", $(this).val())'/>
+                  </p>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="spacebar10px"></div>
+              <div class="spacebar10px"></div>
+              <!--list box-->
+              <div class="task_detailbox">
+               <!-- <div class="round_num" >3</div>-->
+                <div class="field_box_setup">
+                  <div class="date_viewfield">Due Date
+                    <div class="dd_bg">
+                      <input type="text" name="due_date" id="due_date" class="dd_input" value="<%=@task.due_date if @task %>"/>
+                    </div>
+                  <div class="task_com_viewfield">Task Completion
+                    <div class="dd_bg ">
+                        <select name="course" id="course" class="dd_select">
+                          <option value="">SELECT</option>
+                          <option value="">fff</option>
+                          <option value="">sss</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="rating_viewfield">Rating
+                    
+                  </div>
+                  
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="spacebar10px"></div>
+              <div class="spacebar10px"></div>
+              <!--list box-->
+              <div class="task_detailbox">
+                <div class="empty_num_space" ></div>
+                <div class="field_box2"> Description
+                  <fieldset>
+                    <div class="dd_bg ">
+                      <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea"><%=@task.descr if @task %></textarea>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="clear"></div>
+              </div>
+              <div class="spacebar10px"></div>
+              <div class="spacebar10px"></div>
+              <!--list box-->
+              <div class="task_detailbox">
+                <div class="empty_num_space" ></div>
+                <div class="field_box2"> Outcomes
+                  <%= render :partial => "outcomes" %>
+                </div>
+                <div class="clear"></div>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
 		  <div id="div_5" class="tab_content hide">
 		 <div class="frm_label">
           <!--Groups-->
@@ -287,6 +358,7 @@ function addNode(element) {
           <%= render :partial => "/shared/group_form" %>
        <% end %>
 		  </div> 
+     
         <div class="clear"></div>
       </div>
     </div>
@@ -309,7 +381,7 @@ var j = 0;
 
 var _taskPeopleObject = [];
 var _addTaskPeopleEmailObject = [];
-
+var _outcomeValueObject = [];
 //set storage on load while view of task
 if($("#task").val()!="") {setStorage("task_name", $("#task").val());}
 if($("#descr").val()!="") {setStorage("task_descr", $("#descr").val());}
@@ -323,10 +395,11 @@ $(document).ready(function(){
   
   //Toggle Tabs
   $(".menu_container a").unbind('click').bind('click', function(){
+    
     idx = $(this).attr("value");
     $(".menu_container a").removeClass("active");
     $(this).addClass("active");
-    for(i=0;i<6;i++){
+    for(i=0;i<7;i++){
       //---- Set all menu as De-Selected
       if(document.getElementById("menu"+(i+1))!=null){
         document.getElementById("menu"+(i+1)).className = "tab_close";
@@ -350,6 +423,13 @@ $(document).ready(function(){
   $("#group_tab").click(function(){
     save_task();
  });//Submit data
+ 
+  //Add a category
+
+    $("#add_outcome_task").click(function(){
+       addNode('outcome');
+       $("#hdn_is_page_change").val(true);
+    });
   
   //Submit data
   $("#btn_task").unbind('click').bind('click', function(){
@@ -390,8 +470,14 @@ $(document).ready(function(){
       k++;
     });
     
-    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id;  
-    //alert (dataString);return false;  
+    l = 0;
+    $("input[name='outcomes[]']").each(function(){
+        _outcomeValueObject[l] =  $(this).attr('value');
+        l++;
+    });
+    
+    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id + '&outcomes=' + _outcomeValueObject;  
+   // alert (dataString);return false;  
     $.ajax({  
       type: "POST",  
       url: "/task/save",  
@@ -659,12 +745,12 @@ function save_task() {
     
     //For outcome data object (gather values from dynamic created nodes)
     var outcomeObject = [];
-    i = 0
+    i = 0;
     $("input[name='chk_outcomes[]']").each(function(){
         if(this.checked) {
           storage_key = "task_outcomes_"+$(this).attr('id');
           outcomeObject[i] =  getStorage(storage_key);
-          i++
+          i++;
         }
     });
     //get people id from offline storage

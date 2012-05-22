@@ -1057,6 +1057,11 @@ a.blue_bt19px:hover {
   float:left;
   width:49%;
 }
+.course_select_viewfield {
+  float:left;
+  width:83%;
+  margin:0 0 0 35px;
+}
 .bluebox {
   padding:5px 10px;
   background:#b1c4d0;
@@ -1103,8 +1108,19 @@ a.blue_bt19px:hover {
 .field_box2 {
   padding: 0 15px 0 38px;
 }
+.field_box_setup{
+  padding: 0 15px 0 38px;
+}
 .date_viewfield {
   float:left;
+  width:95px;
+}
+.rating_viewfield {
+  float:right;
+  width:95px;
+}
+.task_com_viewfield {
+  float:center;
   width:95px;
 }
 .assign_date_viewfield {
@@ -1227,13 +1243,23 @@ a.blue_bt19px:hover {
   font-size:12px;
   font-weight:bold;
 }
+.dd_input_task {
+  width:30%;
+  height:20px;
+  background:#b1c4d0;
+  font-family:Arial, Helvetica, sans-serif;
+  border:none;
+  color:#334274;
+  font-size:12px;
+  font-weight:bold;
+}
 .dd_bg .dd_textarea {
-  width:100%;
+  /*width:100%;*/
   border:none;
   overflow:auto;
   background:#b1c4d0;
-  height:170px;
-  *height:165px;
+  height:100px;
+  /**height:165px;*/
   resize:none;
   font-family:Arial, Helvetica, sans-serif;
   color:#334274;
@@ -2950,4 +2976,24 @@ filter:alpha(opacity="0");
 	height:auto;
 	width:48%;
 	
+}
+.clickable #menu6{
+  background:none;
+	padding-top:0;
+	height:auto;
+	display:block;
+	-moz-border-radius-topleft: none;
+	-moz-border-radius-topright: none;
+	-moz-border-radius-bottomright: none;
+	-moz-border-radius-bottomleft: none;
+	-webkit-border-radius: none;
+	border-radius: none;
+	margin:0;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+  text-decoration:none;
+}
+#add_outcomes_task{
+  float:right;
 }
