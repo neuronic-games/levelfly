@@ -16,6 +16,9 @@ class Course < ActiveRecord::Base
   
   # Defaults
   
+  @@default_points_max = 1000  # Total XP that a course may give out
+  cattr_accessor :default_points_max
+  
   # These 3 numbers defines the ratio of XP given out by low, medium and high rating tasks
   
   @@default_rating_low = 1
@@ -60,4 +63,16 @@ class Course < ActiveRecord::Base
   def code_section
     return "#{self.code}#{'-' unless self.section.blank?}#{self.section}"
   end
+  
+  # The number of points that remains unallocated. Sum up the the points for all tasks associated
+  # with this course, plus any extra credit, and minus from the max 1000 points.
+  def remaining_points
+    total_points = Task.sum(:points,
+      :conditions => ["course_id = ? and archived = ?", self.id, false])
+    
+    # FIXME: What about rainy-day bucket and extra credit tasks?
+    
+    return Course.default_points_max - total_points
+  end
+  
 end

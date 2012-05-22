@@ -49,4 +49,34 @@ class Task < ActiveRecord::Base
     )
   end
   
+  # Calculate the point value of this task based on the task rating and the task estimate counts
+  # in the associated course. Each course is allocated a total of 1000 points that are distributed
+  # to all the tasks associated with the course. The amount of points is also weighted by the task
+  # raiting.
+  def calc_point_value
+    return 0 if self.course.nil?
+    return 0 if self.level.nil? or self.level > 2 or self.level < 0
+
+    remaining_points = self.course.remaining_points
+    return 0 unless remaining_points > 0
+    
+    # level = 0,1,2
+    rating_ratio = [self.course.rating_low, self.course.rating_medium, self.course.rating_high]
+
+    # Calculate how many units in total are estimated for the course
+    total_units = self.course.rating_low * self.course.tasks_low +
+      self.course.rating_medium * self.course.tasks_medium +
+      self.course.rating_high * self.course.tasks_high
+
+    # Calculate how much one unit is worth in terms of XP
+    unit =  self.course.default_points_max / total_units
+    
+    # Calculate how much XP this task should be allocated. We will need to track how much points
+    # have been allocated to the course over the life of the course. If the allocated points is over
+    # the max (1000 points), then no more points can be allocated to tasks for this course.
+    suggested_points = unit * rating_ratio[self.level]
+    suggested_points = remaining_points if remaining_points < suggested_points
+    self.points = suggested_points
+  end
+  
 end
