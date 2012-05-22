@@ -51,6 +51,8 @@ Oncapus::Application.routes.draw do
   get "task/save" 
   
   post "task/check_priorities"
+
+  post "task/toggle_priority"
   
   post "task/save"
   
