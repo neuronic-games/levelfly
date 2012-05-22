@@ -1068,9 +1068,10 @@ a.blue_bt19px:hover {
   color:#334274;
   font-size:12px;
 }
-.catagory_viewfield {
+.catagory_task_viewfield {
   float: left;
-  margin-right: 10px;
+  width:183px;
+  margin-right: 15px 0px 0px 35px;
 }
 
 .field_title {
