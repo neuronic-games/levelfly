@@ -134,9 +134,14 @@ class TaskController < ApplicationController
     @task.level = params[:level] if params[:level]
     @task.school_id = params[:school_id] if params[:school_id]
     @task.course_id = params[:course_id] if params[:course_id]
-    @task.points = 0
     @task.archived = false
     @task.category_id = params[:category_id] if params[:category_id]
+    
+    # Has something changed on the task that could change it's points value?
+    # FIXME: We may want to recalculate points if the task raiting or course settings change
+    if @task.points == 0
+      @task.calc_point_value
+    end
     
     if params[:file]
       @task.image.destroy if @task.image
