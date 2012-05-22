@@ -22,11 +22,7 @@ class TaskController < ApplicationController
       # Check if the user was working on a details page before, and redirect if so
       return if redirect_to_last_action(@profile, 'task', '/task/show')
 
-      @tasks = Task.find(
-        :all, 
-        :include => [:task_participants], 
-        :conditions => ["task_participants.profile_id = ? and complete_date is null and archived = ?", @profile.id, false]
-      )
+      @tasks = Task.filter_by(@profile.id, "", "current")
     end
     
     respond_to do |wants|
@@ -88,48 +84,11 @@ class TaskController < ApplicationController
     end
   end
   
-  
   def get_task
-  arr=[]
-    if params[:course_id] && !params[:course_id].empty? 
-      tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]])
-    else
-      tasks = Task.all
-    end
-    if params[:menu_id] && !params[:menu_id].empty?
-          if params[:menu_id] == "1"
-            tasks.each do |t|
-              task = t.task_participants.where("complete_date IS NULL AND task_id = ?",t.id).first
-              if task 
-                arr.push(t)
-              end  
-           end
-          elsif params[:menu_id] == "2"
-             tasks.each do |t|
-                task = t.task_participants.where("complete_date IS NOT NULL  AND task_id = ?",t.id).first
-                if task 
-                  arr.push(t)
-                end  
-              end         
-          else
-             tasks.each do |t|
-              task = t.task_participants.where("complete_date IS NULL AND priority='H' AND task_id = ?",t.id).first
-              if task 
-                arr.push(t)
-              end  
-            end  
-          end    
-          render:partial => "/task/task_list",:locals => {:@tasks =>arr}     
-        else
-          @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-          tasks = Task.find(
-            :all, 
-            :include => [:task_participants], 
-            :conditions => ["task_participants.profile_id = ?", @profile.id]
-            )
-          render :partial => "/task/task_list",:locals => {:@tasks =>tasks}  
-        end
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    tasks = Task.filter_by(@profile.id, params[:show], params[:filter])
 
+    render :partial => "/task/task_list", :locals => {:@tasks =>tasks}
   end
   
   def check_priorities

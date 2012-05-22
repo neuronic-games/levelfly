@@ -7,18 +7,21 @@
           <!-- tabs-->
           
           <div class="tabs menu_container" align="right">
-            <a href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><span class="task_tab">Current</span></a>
-            <a href="javascript:void(0)"  id="menu2" value="2" class="tab_close" ><span class="task_tab">Past</span></a>
-            <a href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><span class="task_tab">Starred</span></a>
+            <a href="javascript:void(0)"  id="menu1" value="1" filter="current" class="side_tab tab_open" ><span class="task_tab">Current</span></a>
+            <a href="javascript:void(0)"  id="menu2" value="2" filter="past" class="side_tab tab_close" ><span class="task_tab">Past</span></a>
+            <!-- <a href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><span class="task_tab">Starred</span></a> -->
           </div>
           <div style="margin:30px 0 20px 30px;">
           <span style="font-weight:bold;margin-right:15px;">SHOW:</span>
 
           <select id="course_id">
-          <option value="">All Courses</option>
-          <% @courses.each do |c| %> 
-          <option value="<%= c.id %>"  <% if defined?(course_id) %><%if c.id == course_id.to_i %> selected <%end%><%end%>><%= c.name %></option>
-          <% end %>
+            <option value="">All Courses</option>
+            <option value="starred">Starred Tasks</option>
+            <optgroup label="By Course">
+              <% @courses.each do |c| %> 
+              <option value="<%= c.id %>"  <% if defined?(course_id) %><%if c.id == course_id.to_i %> selected <%end%><%end%>><%= c.name %></option>
+              <% end %>
+            </optgroup>
           </select>
           
           </div>
@@ -47,48 +50,35 @@
 </div>
 
 <script type="text/javascript">
-  //Toggle Tabs
-$(document).ready(function(){
 
-  $(".menu_container a").unbind('click').bind('click', function(){
-    idx = $(this).attr("value");
-    $(".menu_container a").removeClass("active");
-    $(this).addClass("active");
-    for(i=0;i<3;i++){
-      if(document.getElementById("menu"+(i+1))!=null){
-        document.getElementById("menu"+(i+1)).className = "tab_close";
-      }
-    }
-    document.getElementById("menu"+idx).className = "tab_open";
-    course_id = $("#course_id").find("option:selected").val();
-      showSpinner(false);
-      $.ajax({
-        type: "POST",  
-        url: "/task/get_task",  
-        data: {menu_id:idx,course_id:course_id},
-        success: function(data) {
-          $("#task_show_list_data").html(data);
-          showSpinner(false);
-        }
-      }); 
+$(document).ready(function() {
+
+  // Handler for side-tabs
+  $(".side_tab").unbind('click').bind('click', function(){
+    $('.side_tab').addClass("tab_close").removeClass("tab_open");
+    $(this).addClass("tab_open").removeClass("tab_close");
+    getTasks();
   });
     
-    //Show task by drop down course_id  
-    $("#course_id").change(function(){
-       showSpinner(true);
-       var course_id = $(this).find("option:selected").val();
-       $.ajax({
-          type: "POST",  
-          url: "/task/get_task",  
-          data: {course_id:course_id},
-          success: function(data) {
-            $("#task_show_list_data").html(data);
-            $("#menu1").attr("class","tab_open");
-            $("#menu2").attr("class","tab_close");
-            $("#menu3").attr("class","tab_close");
-            showSpinner(false);
-          }
-       });
-    });
+  // Handler for SHOW selection
+  $("#course_id").change(function(){
+    getTasks();
+  });
 });
+
+// Retrieve tasks based on the current filters
+function getTasks() {
+  showSpinner(true);
+  var filter = $(".tab_open:first").attr("filter");
+  var show = $("#course_id").find("option:selected").val();
+  $.ajax({
+     type: "POST",  
+     url: "/task/get_task",  
+     data: {filter:filter, show:show},
+     success: function(data) {
+       $("#task_show_list_data").html(data);
+       showSpinner(false);
+     }
+  });
+}
 </script>
