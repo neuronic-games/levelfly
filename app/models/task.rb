@@ -83,4 +83,28 @@ class Task < ActiveRecord::Base
     return "/images/ui/task_rating_#{self.level}.png"
   end
   
+  def self.send_task_complete(task_id,check_val)
+    status = false
+    @participant = TaskParticipant.find(:first,:conditions=>["task_id =?",task_id])
+    @task = Task.find_by_id(@participant.task_id)
+     if @participant
+       @avatar = Avatar.find(:first,:conditions=>["profile_id =?",@participant.task_id])
+       if check_val == "true"
+          @participant.complete_date = Date.today
+          @participant.status = 'C'
+          @participant.save
+          @avatar.points = @task.points
+          @avatar.save
+        else
+          @participant.complete_date = ""
+          @participant.status = 'P'
+          @participant.save
+          @avatar.points = 0
+          @avatar.save
+        end
+        status = true
+      end
+      return status
+  end
+  
 end

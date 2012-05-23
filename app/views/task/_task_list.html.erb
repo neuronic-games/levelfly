@@ -7,7 +7,7 @@
 
       <div class="list_hover" style="margin-top:70px; margin-left:118px;">
         <div class="like_cmt">
-          <a href="#" class="tasks_pri_toggle tasks_pri_toggle_btn blue_bt19px" task_id="<%=t.id %>"><% if participant.priority == 'H'%>Unstar<%else%>Star<%end%></a>
+          <a href="#" class="tasks_pri_toggle tasks_pri_toggle_btn blue_bt19px" task_id="<%=t.id %>"><% if participant.priority == "H"%>Unstar<%else%>Star<%end%></a>
           <a href="#" class="tasks_del blue_bt19px" task_id="<%=t.id %>">Remove</a>
         </div>
       </div>
@@ -67,7 +67,7 @@
        data:{task_id:task_id,check_val:check_val},
        success:function(data){
          showSpinner(false);
-         if (check_val) {
+         if (data.status) {
            $(".clipboard_list[task_id="+task_id+"]").css("background-color", "#BCD599");
          } else {
            $(".clipboard_list[task_id="+task_id+"]").css("background-color", "");

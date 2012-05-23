@@ -42,7 +42,7 @@ function addNode(element) {
           <!--tab content-->
           <div class="tab_content" id="div_1">
            <div class="clickable menu_container"  style="position:absolute; right:250px;top:175px;">
-            <a href="javascript:void(0)" class="setup_page_link" id="menu6" value="6">
+            <a href="javascript:void(0)" class="setup_page_link" id="menu3" value="3">
               <img src="/images/setting_icon_gray.png">
             </a>
            </div>
@@ -54,8 +54,8 @@ function addNode(element) {
                 <div id="task_image">
                   <img src="/images//task_profile_img.jpg" width="156" height="156" />
                 </div>
-                <div align="center"><%#= @task.course.name%><br/>
-                Category :
+                <div id="show_task_name" align="center"><%= @task.course.name if @task%><br/>
+                <span>Category:<%#= @task.categories.name if @task %></span>
                 </div>
               </div>
               <div class="task_pdf" align="center">
@@ -113,12 +113,12 @@ function addNode(element) {
                 <div class="field_box2">
                   <div class="date_viewfield">Due Date
                     <div class="dd_bg">
-                      <input type="text" name="due_date" id="due_date" class="dd_input"  <%if @task %> value="<%=@task.due_date%>" readonly="readonly" <%end%>/>
+                      <input type="text" class="dd_input"  <%if @task %> value="<%=@task.due_date%>" readonly="readonly" <%end%>/>
                     </div>
                   </div>
-                  <div class="rating_viewfield" style="text-align:center;">
-                    <img src="<%=@task.rating_icon_file%>" class="task_rating_icon task_raiting" task_id="<%=@task.id%>"><br />
-                    Rating
+                  <div class="rating_viewfield">
+                   Rating
+                    <img src="<%=@task.rating_icon_file if @task%>" class="task_rating_icon task_raiting" task_id="<%=@task.id if @task%>">
                   </div>
                 </div>
                 <div class="clear"></div>
@@ -129,10 +129,10 @@ function addNode(element) {
               <div class="task_detailbox">
                 <div class="empty_num_space" ></div>
 
-                <div class="field_box2"> DESCRIPTION
+                <div class="field_box2"> Description
                   <fieldset>
                     <div class="dd_bg ">
-                      <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea"><%=@task.descr if @task%></textarea>
+                      <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea" readonly="<%= @task ? true : false %>"><%=@task.descr if @task%></textarea>
                     </div>
                   </fieldset>
                 </div>
@@ -145,11 +145,13 @@ function addNode(element) {
                 <div class="empty_num_space" ></div>
 
                 <div class="field_box2"> Outcomes
-                  <fieldset>
-                    <div class="dd_bg ">
-                      
-                    </div>
-                  </fieldset>
+                  <div id="load_outcomes">
+                    <% if @outcomes %>
+                      <%  @outcomes.each do |outcomes| %>
+                        <div class="task_outcomes"><%= outcomes.name %><br/></div>
+                       <% end %>
+                    <% end %>
+                  </div>
                 </div>
                 <div class="clear"></div>
               </div>
@@ -162,59 +164,12 @@ function addNode(element) {
           <input type="hidden" name="course_id_hdn" id="course_id_hdn" value="<%= @task.course.id if @task and @task.course%>" />
           <div id="setup" class="tab_content hide"></div>
         </div>
+        
         <div id="div_2" class="tab_content hide">
           <%= render :partial => "/course/files" %>                
-          </div>
-          <div id="div_3" class="tab_content hide">
-            <div class="frm_label">
-              Organizer
-            </div>
-            <div class="frm_input">
-              <input type="text" name="organizer" id="organizer" value="<%=@profile.full_name%>" readonly="true" class="medium" onblur='javascript:setStorage("task_organizer", $(this).val())'/>
-            </div>
-            <div class="frm_label small_label">
-              Participants
-            </div>
-            <div class="frm_input" id="participants_container">
-              <% if @people %>
-                <%= render :partial => "course_peoples" %>
-              <% end %>
-            </div>
-            <div class="frm_input" id="add_task_people_container" style="padding-left:22px;">
-              <input type="text" name="add_task_people_email[]" value="Type in email to add" class="medium node" id="add_task_people_email_1"/>
-            </div>
-          </div>
-          <div id="div_4" class="tab_content hide">
-            <% if @task %>
-              <!-- Message -->
-              <div id="msg_input" class="message_input hide">
-                <label>Message</label> <br />
-                  <textarea id="msg_content" name="msg_content" cols="15" rows="6"></textarea> <br />
-                  <span>
-                    <input type="button" name="sbmt_msg" class="sbmt_msg" title="msg_content" id="<%=@task.id%>" rel="Task" value="Post" />
-                  </span>
-                  &nbsp;
-                  <span>
-                    <a href="javascript:void(0)" onclick="javascript:$('#msg_input').fadeOut()">Cancel</a>
-                  </span>
-              </div>
-              <div class="frm_label">
-                <input type="button" name="post_msg" id="post_msg" value="Post Message" class="big_btn" onclick="javascript:$('#msg_input').fadeIn()"/>
-              </div>
-              <div class="frm_input">
-                <div id="message_wrapper" class="message_wrapper">
-                  &nbsp;
-                  <% if @task.messages %>
-                    <% @task.messages.each do |message| %>
-                      <%= render :partial => "/message/messages", :locals => {:message=>message} %>
-                    <% end %>
-                  <% end %>
-                </div>
-              </div>
-              <!-- Message ends -->
-            <% end %>
-          </div>
-		   <div id="div_6" class="tab_content hide">
+        </div>
+
+		    <div id="div_3" class="tab_content hide">
             <div class="spacebar10px"></div>
             <div class="spacebar10px"></div>
             <div class="task_left">
@@ -309,8 +264,9 @@ function addNode(element) {
                         </select>
                       </div>
                   </div>
-                  <div class="rating_viewfield">Rating
-                    
+                  <div class="rating_viewfield">
+                    Rating
+                    <img src="<%=@task.rating_icon_file if @task%>" class="task_rating_icon task_raiting" task_id="<%=@task.id if @task%>">
                   </div>
                   
                 </div>
@@ -336,29 +292,39 @@ function addNode(element) {
               <div class="task_detailbox">
                 <div class="empty_num_space" ></div>
                 <div class="field_box2"> Outcomes
-                  
+                  <div id="load_outcomes">
+                    <% if @outcomes %>
+                      <% @outcomes.each do |outcomes| %>
+                        <%= render :partial => "course_outcomes" , :locals=>{:outcomes=>outcomes} %>
+                      <% end %>  
+                    <% end %>
+                  </div>
+                </div>
+                
+                <div class="field_box2"> Members
+                  <div id="load_task_participant">
+                   <% if @people %>
+                    <% @people.each do |people| %>
+                      <div class="task_member">
+                        <%= outcomes.name %><br/>
+                      </div>
+                    <% end %>  
+                   <%end%>
+                  </div>
                 </div>
                 <div class="clear"></div>
               </div>
             </div>
             <div class="clear"></div>
           </div>
-		  <div id="div_5" class="tab_content hide">
-		 <div class="frm_label">
-          <!--Groups-->
-         </div>
-	     <% if @groups %>
-           <%= render :partial => "/shared/list", :locals => {:groups=>@groups, :mode=>"list"} %>
-		   <%else%>
-          <%= render :partial => "/shared/group_form" %>
-       <% end %>
-		  </div> 
-     
         <div class="clear"></div>
       </div>
     </div>
   </div>
 </div>
+<% if defined?(task_new) && task_new == true %>
+    <input type="hidden" id="task_new" value="<%=task_new%>"/>
+  <%end%>
 <script type="text/javascript">
 <!--
 //Flush the previous offline storage
@@ -388,13 +354,20 @@ if($("#course_categories") && $("#course_categories").val()!="") {setStorage("ta
  
 $(document).ready(function(){
   
+  //For new Task
+  task_new = $("#task_new").attr("value");
+  if(task_new)
+  {
+    $("#div_3").removeClass("hide");
+    $("#div_1").addClass("hide");
+  }
   //Toggle Tabs
   $(".menu_container a").unbind('click').bind('click', function(){
     
     idx = $(this).attr("value");
     $(".menu_container a").removeClass("active");
     $(this).addClass("active");
-    for(i=0;i<7;i++){
+    for(i=0;i<4;i++){
       //---- Set all menu as De-Selected
       if(document.getElementById("menu"+(i+1))!=null){
         document.getElementById("menu"+(i+1)).className = "tab_close";
@@ -405,11 +378,6 @@ $(document).ready(function(){
       }
     }
     
-    if(idx == 3) {
-      $("#task_btn_remove").fadeIn();
-    } else {
-     $("#task_btn_remove").hide();
-    }
     //---- Selected menu will highlighted
     document.getElementById("menu"+idx).className = "tab_open";
     $("#div_"+idx).fadeIn();

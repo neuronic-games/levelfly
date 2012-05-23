@@ -1075,7 +1075,7 @@ a.blue_bt19px:hover {
 .catagory_task_viewfield {
   float: left;
   width:183px;
-  margin-right: 15px 0px 0px 35px;
+  margin: 15px 0px 0px 35px;
 }
 
 .field_title {
@@ -1123,6 +1123,10 @@ a.blue_bt19px:hover {
 .rating_viewfield {
   float:right;
   width:95px;
+  text-align:center;
+}
+.rating_viewfield img{
+  margin:0 0 0 0;
 }
 .task_com_viewfield {
   float:center;
@@ -1270,6 +1274,7 @@ a.blue_bt19px:hover {
   color:#334274;
   font-size:12px;
   font-weight:bold;
+  width:415px;
 }
 .pdg78px {padding:78px 0 0 0}
 
@@ -2987,7 +2992,7 @@ filter:alpha(opacity="0");
 	width:48%;
 	
 }
-.clickable #menu6{
+.clickable #menu3{
   background:none;
 	padding-top:0;
 	height:auto;
@@ -3006,4 +3011,29 @@ filter:alpha(opacity="0");
 }
 #add_outcomes_task{
   float:right;
+}
+#show_task_name{
+  font-size: 20px;
+  color:#666668;
+  font-weight: bold;
+  text-transform:uppercase;
+  text-align:center;
+}
+#show_task_name  span{
+  font-size: 16px;
+  color: #666668;
+  text-transform:lowercase;
+  font-weight: bold;
+  text-align:center;
+}
+.task_outcomes {
+  background: url(/images/border_dashed.png) repeat-x bottom !important;
+  margin:10px 0 18px 0;
+  padding:4px 0px 9px 12px;
+}
+
+.task_member{
+  background: url(/images/border_dashed.png) repeat-x bottom !important;
+  margin:10px 0 18px 0;
+  padding:4px 0px 9px 12px;
 }

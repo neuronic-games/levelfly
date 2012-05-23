@@ -1,9 +1,8 @@
-<% @outcomes.each do |o| %>
-<div class="frm_input" id="task_outcome_div_<%=o.id%>">
-  <input type="checkbox" name="chk_outcomes[]" id="<%=o.id%>" <%= @task && outcome_associate(o.id, @task.id) ? "checked='checked'" : "" %> value="<%=o.id%>" />
-  <input type="text" name="task_outcomes[]" value="<%= o.name %>" readonly="true" id="task_outcomes_<%=o.id%>" class="medium" />
+<div class="task_outcomes">
+<input type="checkbox" name="chk_outcomes[]" id="<%=outcomes.id%>" <%= @task && outcome_associate(outcomes.id, @task.id) ? "checked='checked'" : "" %> value="<%=outcomes.id%>" />
+&nbsp;&nbsp;&nbsp;<%= outcomes.name %><br/>
 </div>
-<% end %>
+
 
 <script type="text/javascript">
 <!--

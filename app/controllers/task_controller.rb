@@ -21,7 +21,6 @@ class TaskController < ApplicationController
 
       # Check if the user was working on a details page before, and redirect if so
       return if redirect_to_last_action(@profile, 'task', '/task/show')
-
       @tasks = Task.filter_by(@profile.id, "", "current")
     end
     
@@ -44,7 +43,7 @@ class TaskController < ApplicationController
     respond_to do |wants|
       wants.html do
         if request.xhr?
-          render :partial => "/task/form"
+          render :partial => "/task/form" ,:locals=>{:task_new => true}
         else
           render
         end
@@ -252,22 +251,12 @@ class TaskController < ApplicationController
     end
   end
   
+  
   def task_complete
     if params[:task_id] && !params[:task_id].empty?
-       @task = TaskParticipant.find(:first,:conditions=>["task_id =?",params[:task_id]])
-        if @task
-          if params[:check_val] == "true"
-            @task.complete_date = Date.today
-            @task.status = 'C'
-            @task.save
-          else
-            @task.complete_date = ""
-            @task.status = 'P'
-            @task.save
-          end
-        end
-        render :text => {"status"=>"true"}.to_json
+      status = Task.send_task_complete(params[:task_id],params[:check_val])
     end
+    render :text => {"status"=> status}.to_json
   end
   
   def edit
