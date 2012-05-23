@@ -63,11 +63,12 @@ class TaskController < ApplicationController
       :conditions => ["participants.profile_id = ? and participants.profile_type = ?", @profile.id, 'M']
     )
     @groups = Group.find(:all, :conditions =>["task_id = ?", @task.id])
-    @people = Participant.find(
-      :all, 
-      :include => [:profile], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @task.course_id]
-    )
+    
+    @peoples = Profile.find(
+       :all, 
+       :include => [:participants], 
+       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type ='S' ", @course.id]
+     )
     
     @profile.record_action('last', 'task')
     @profile.record_action('task', @task.id)

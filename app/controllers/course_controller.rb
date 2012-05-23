@@ -334,7 +334,7 @@ class CourseController < ApplicationController
      @peoples = Profile.find(
        :all, 
        :include => [:participants], 
-       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('P', 'S')", @course.id]
+       :conditions => ["participant.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('P', 'S')", @course.id]
      )
      render :partial => "/course/member_list",:locals=>{:course=>@course}         
    end
