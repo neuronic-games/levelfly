@@ -1,11 +1,9 @@
 <% if @outcomes %>
   <% @outcomes.each do |outcomes| %>
-    <%# if outcome_associate(outcomes.id, @task.id) %>
     <div id="task_outcomes_<%=outcomes.id%>" class="task_outcomes">
-    <input type="checkbox" name="chk_outcomes[]" checked="true"  id="<%=outcomes.id%>"  value="<%=outcomes.id%>" />
+    <input type="checkbox" name="chk_outcomes[]" checked="true"   id="<%=outcomes.id%>"  value="<%=outcomes.id%>" />
     &nbsp;&nbsp;&nbsp;<%= outcomes.name %><br/>
     </div>
-    <%# end %>
   <% end %>  
 <% end %>
 
@@ -18,33 +16,6 @@
       deleteStorage("task_outcomes_"+$(this).attr('id'));
     }
   });
-  
-  
-  $('input[name="chk_outcomes[]"]').unbind('click').bind('click',function() {
-    check_val = $(this).is(':checked');
-    outcome_id = $(this).attr('id');
-    task_id = $("#task_id_hdn").val();
-    if(!this.checked)
-    {
-      $("#task_outcomes_"+outcome_id).remove();
-      deleteStorage("task_outcomes_"+$(this).attr('id'));
-      showSpinner(true);
-      $.ajax({
-         type:"POST",
-         dataType: "json",
-         url:"/task/outcome_unchecked",
-         data:{task_id:task_id,outcome_id:outcome_id},
-         success:function(data){
-           //if (data.status) {
-             // $("#task_outcomes_"+outcome_id).remove();
-          // }
-           showSpinner(false);
-         }
-      });
-    }else
-    {
-       setStorage("task_outcomes_"+$(this).attr('id'), $(this).val());
-    }
-  });
+
 -->
 </script>
