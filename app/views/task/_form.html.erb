@@ -148,25 +148,15 @@ function addNode(element) {
                     <div id="load_outcomes">
                       <% if @outcomes %>
                         <% @outcomes.each do |outcomes| %>
+                        <% if outcome_associate(outcomes.id, @task.id) %>
                           <div class="task_outcomes">
                             <%= outcomes.name %><br/>
                           </div> 
+                        <% end %>    
                         <% end %>  
                       <% end %>
                     </div>
                   </div>  
-                  <br/><br/>
-                  <div class="field_box2"> Members
-                    <div id="load_task_participant">
-                     <% if @people %>
-                        <% @people.each do |p| %>
-                        <div class="task_member" id="task_people_div_<%=p.profile.id%>">
-                          <%= p.profile.full_name %><br/>
-                        </div>
-                        <% end %>
-                     <%end%>
-                    </div>
-                  </div>
                 </div>
                 <div class="clear"></div>
               </div>
