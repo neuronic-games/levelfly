@@ -10,6 +10,7 @@ class TaskController < ApplicationController
       :conditions => ["participants.profile_id = ? AND participants.profile_type != 'P'", @profile.id],
       :order => 'name'
     )
+
     if params[:search_text]
       search_text =  "#{params[:search_text]}%"
       @tasks = Task.find(
@@ -50,12 +51,35 @@ class TaskController < ApplicationController
       end
     end
   end
+  
+  
+   def outcome_unchecked
+    status = false
+    if params[:task_id] && !params[:task_id].nil?
+      outcome_task = OutcomeTask.find(:first, :conditions=>["outcome_id = ? AND task_id = ?", params[:outcome_id], params[:task_id]])
+      if outcome_task
+        outcome_task.delete
+        status = true
+      end
+    end
+    render :text => {"status"=>status}.to_json
+  end
 
+  
   def show
     @task = Task.find_by_id(params[:id])
     @course = @task.course
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    #@outcomes = Outcome.find(:all, :conditions =>["course_id = ?", @task.course_id], :order => "name")
+    @outcomes = @course.outcomes
+    
+    # @outcome.each do |outcome|
+    # puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa#{@outcome}"
+    # outcome_task = OutcomeTask.find(:first, :conditions=>["outcome_id = ? AND task_id = ?", outcome.id, @task.id])
+    # if outcome_task
+      
+    # end  
+    # end
+    
     @outcomes = @course ? @course.outcomes : nil
     @courses = Course.find(
       :all, 
@@ -64,12 +88,12 @@ class TaskController < ApplicationController
     )
     @groups = Group.find(:all, :conditions =>["task_id = ?", @task.id])
     
-    @peoples = Profile.find(
-       :all, 
-       :include => [:participants], 
-       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type ='S' ", @course.id]
-     )
-    
+    @people = Participant.find(
+      :all, 
+      :include => [:profile], 
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type in ('S','P')", @task.course_id]
+    )
+     
     @profile.record_action('last', 'task')
     @profile.record_action('task', @task.id)
     
@@ -330,10 +354,11 @@ class TaskController < ApplicationController
     end
   end
   
+  
   def course_outcomes
     if !params[:course_id].nil?
       @course = Course.find(params[:course_id])
-      @outcomes = @course.outcomes
+      @outcomes = @course ? @course.outcomes : nil
       render :partial => "/task/course_outcomes"
     end
   end
@@ -343,11 +368,14 @@ class TaskController < ApplicationController
       @people = Participant.find(
         :all, 
         :include => [:profile], 
-        :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", params[:course_id]]
+        :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('P', 'S')", params[:course_id]]
       )
       render :partial => "/task/course_peoples"
     end
   end
+  
+  
+  
   
   def view_task
      @tasks=Task.find(:all, :conditions =>["course_id = ?", params[:course_id]])

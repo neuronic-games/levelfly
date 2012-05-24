@@ -1,7 +1,7 @@
 <% @people.each do |p| %>
-<div class="frm_input" id="task_people_div_<%=p.profile.id%>">
+<div class="task_member" id="task_people_div_<%=p.profile.id%>">
   <input type="checkbox" name="chk_task_people[]" checked="true" id="<%=p.profile.id%>" />
-  <input type="text" name="task_people[]" value="<%= p.profile.full_name %>" readonly="true" id="task_people_<%=p.profile.id%>" class="medium" />
+   &nbsp;&nbsp;&nbsp;<%= p.profile.full_name %><br/>
   <input type="hidden" name="task_people_id[]" value="<%= p.profile.id %>" id="task_people_email_<%=p.profile.id%>" class="medium" />
 </div>
 <% end %>
