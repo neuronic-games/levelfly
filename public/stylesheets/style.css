@@ -532,6 +532,10 @@ a.icon_stats_active {
   padding:0 2% 0 0;
 }
 .messages_content {padding: 130px 0 0;}
+.subject {
+  font-weight: bold;
+  color: red;
+}
 .msg_big_box .avatar_white_bdr {
   border:#eaebeb 5px solid;
   float:left;

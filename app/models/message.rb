@@ -54,9 +54,9 @@ class Message < ActiveRecord::Base
   end
   
   def formatted_content
-    # return self.content.gsub("\n", "<br />")
-    # For some reason, <br /> is not being applied in the message display
-    
-    return self.content
+    lines = self.content.split("\n")
+    lines[0] = "<span class='subject'>#{lines[0]}</span>" if lines.length > 1
+    final = lines.join("<br />")
+    return final.html_safe
   end
 end

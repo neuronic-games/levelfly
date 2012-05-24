@@ -7,7 +7,7 @@
   <div class="positn_rtlv"><div class="msg_big_box_arrow"><img src="/images//blue_arrow.png" width="15px" height="21px" /></div></div>
     <div class="msg_box_txt blue_bg_msg_txt">
       <h3 class="name"><%=h message.profile.full_name%></h3>
-      <div><%=h message.formatted_content%></div>
+      <div><%= message.formatted_content%></div>
       <div class="msg_bottom_links">
         <div class="time"><%= time_ago_in_words(message.created_at) %> ago</div>
         <div class="like_cmt">
