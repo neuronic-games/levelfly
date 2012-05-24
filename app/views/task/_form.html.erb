@@ -55,9 +55,13 @@ function addNode(element) {
                 <div id="task_image">
                   <img src="/images//task_profile_img.jpg" width="156" height="156" />
                 </div>
-                <div id="show_task_name" align="center"><p><%= @task.course.name if @task%></p><br/>
-                <span>Category:<%#= @task.categories.name if @task %></span>
+                <% if @task and @task.course %>
+                <div class="task_info_meta">
+                  <div class="title">TASK FOR</div>
+                  <% if @task and @task.course %><div class="course_name"><%= @task.course.name %></div><% end %>
+                  <% if @task and @task.category %><div class="category_name"><%= @task.category.name %></div><% end %>
                 </div>
+                <% end %>
               </div>
               <div class="task_pdf" align="center">
                 <ul id="filelist">

@@ -3032,6 +3032,22 @@ filter:alpha(opacity="0");
   font-weight: bold;
   text-align:center;
 }
+.task_info_meta {
+  margin-left: 50px;
+}
+.task_info_meta > .title {
+  font-size: 9px;
+}
+.task_info_meta > .course_name {
+  font-size: 20px;
+  color:#666668;
+  font-weight: bold;
+}
+.task_info_meta > .category_name {
+  font-size: 14px;
+  color:#666668;
+  font-weight: bold;
+}
 .task_outcomes {
   background: url(/images/border_dashed.png) repeat-x bottom !important;
   margin:10px 0 18px 0;
