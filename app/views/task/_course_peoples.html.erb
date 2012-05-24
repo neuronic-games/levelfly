@@ -1,7 +1,11 @@
 <% @people.each do |p| %>
 <div class="task_member" id="task_people_div_<%=p.profile.id%>">
   <input type="checkbox" name="chk_task_people[]" checked="true" id="<%=p.profile.id%>" />
-   &nbsp;&nbsp;&nbsp;<%= p.profile.full_name %><br/>
+
+  <img src="<%=p.profile.image_file_name%>" id="<%=p.profile_id%>" class="<%= 'profile' if p.profile_id != user_session[:profile_id] %> avatar_medium"/>
+
+   <%= p.profile.full_name %>
+
   <input type="hidden" name="task_people_id[]" value="<%= p.profile.id %>" id="task_people_email_<%=p.profile.id%>" class="medium" />
 </div>
 <% end %>

@@ -84,10 +84,10 @@ function addNode(element) {
                   <% end %>
                 </ul>
               </div>
-              <div class="drop_a_file_box" align="center" id="upload_container">DROP A FILE HERE<br />
+              <div class="drop_a_file_box" align="center" id="upload_container" style="display: none;">DROP A FILE HERE<br />
                 TO MAKE IT AVAILABLE<br />
                 TO ALL PARTICIPANTS.</div>
-            </div>
+              </div>
             <div class="task_right" >
               <!--list box-->
               <div class="task_detailbox">
@@ -148,19 +148,20 @@ function addNode(element) {
               <div class="task_detailbox">
                 <div class="empty_num_space" ></div>
                  
-                  <div class="field_box2"> Outcomes
+                <% if !@task.outcomes.empty? %>
+                  <div class="field_box2">Outcomes
                     <div id="load_outcomes">
-                      <% if @outcomes %>
-                        <% @outcomes.each do |outcomes| %>
-                        <% if outcome_associate(outcomes.id, @task.id) %>
-                          <div class="task_outcomes">
-                            <%= outcomes.name %><br/>
-                          </div> 
-                        <% end %>    
-                        <% end %>  
-                      <% end %>
+
+                    <% @task.outcomes.each do |outcomes| %>
+                      <div class="task_outcomes">
+                        <span class="outcome_name"><%= outcomes.name %></span>
+                        <% if !outcomes.descr.empty? %>— <span class="outcome_descr"><%= outcomes.descr %></span><% end %>
+                      </div> 
+                    <% end %>  
+
                     </div>
                   </div>  
+                  <% end %>
                 </div>
                 <div class="clear"></div>
               </div>
@@ -228,10 +229,10 @@ function addNode(element) {
                   <% end %>
                 </ul>
               </div>
-              <div class="drop_a_file_box" align="center" id="upload_container">DROP A FILE HERE<br />
+              <div class="drop_a_file_box" align="center" id="upload_container" style="display:none;">DROP A FILE HERE<br />
                 TO MAKE IT AVAILABLE<br />
                 TO ALL PARTICIPANTS.</div>
-            </div>
+              </div>
             <div class="task_right" >
               <!--list box-->
               <div class="task_detailbox">
@@ -301,27 +302,32 @@ function addNode(element) {
               <!--list box-->
               <div class="task_detailbox">
                 <div class="empty_num_space" ></div>
-                <div class="field_box2"> Outcomes
+                <div class="field_box2">Outcomes
                   <div id="load_outcomes_wall">
                     <% if @outcomes %>
                       <% @outcomes.each do |outcomes| %>
                         <div id="task_outcomes_<%=outcomes.id%>" class="task_outcomes">
                         <input type="checkbox" <%= @task && outcome_associate(outcomes.id, @task.id) ? "checked='checked'" : "" %> name="chk_outcomes[]"  id="<%=outcomes.id%>"  value="<%=outcomes.id%>" />
-                        &nbsp;&nbsp;&nbsp;<%= outcomes.name %><br/>
+
+                        &nbsp;&nbsp;&nbsp;
+                        <span class="outcome_name"><%= outcomes.name %></span>
+                        <% if !outcomes.descr.empty? %>— <span class="outcome_descr"><%= outcomes.descr %></span><% end %>
                         </div>
                       <% end %>  
                     <% end %>
                   </div>
                 </div>
-                <br/><br/>
-                <div class="field_box2"> Members
+                <% if @people and !@people.empty? %>
+                <br /><br />
+                <div class="field_box2">Members
                   <div id="load_task_participant_wall">
                    <% if @people %>
                       <%= render :partial => "course_peoples" %>
                    <%end%>
                   </div>
                 </div>
-                <div class="clear"></div>
+                <% end %>
+                <div class="clear end_of_page"></div>
               </div>
             </div>
             <div class="clear"></div>

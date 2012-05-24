@@ -10,6 +10,7 @@ class Task < ActiveRecord::Base
   has_many :attachments, :as => :object
   has_many :messages, :as => :parent
   has_many :outcome_tasks
+
   has_attached_file :image,
     :storage => :s3,
     :s3_credentials => { :access_key_id => School.vault.account, :secret_access_key => School.vault.secret },
@@ -20,6 +21,10 @@ class Task < ActiveRecord::Base
     return image_file_name ? image.url : Course.default_image_file
   end 
 
+  def outcomes
+    return OutcomeTask.find(:all, :conditions => ["task_id = ?", self.id]).collect {|x| x.outcome}
+  end
+  
   def show_date_format(the_date)
     return the_date.strftime('%d/%m/%Y')
   end

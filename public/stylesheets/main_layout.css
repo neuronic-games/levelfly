@@ -503,6 +503,19 @@ table.blackboard_list tr {
 .profile {
   cursor:pointer;
 }
+.avatar_medium {
+  border:#eaebeb 5px solid;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background: url(../images/avatar_bg.jpg) no-repeat center;
+  -moz-box-shadow: inset 0px 0px 2px 1px #000000;
+  -webkit-box-shadow: inset 0px 0px 2px 1px #000000;
+  box-shadow: inset 0px 0px 2px 1px #000000;
+  width: 60px;
+  height: 60px;
+  vertical-align:middle;
+}
 img.image_icon_drop_target {
   position:absolute;
   left:0px;

@@ -1168,6 +1168,9 @@ a.blue_bt19px:hover {
   font-size:0px;
   height:0px;
 }
+.end_of_page {
+  height:100px;
+}
 .task_side_buttons {
   bottom: 0;
   position: fixed;
@@ -3033,7 +3036,7 @@ filter:alpha(opacity="0");
   text-align:center;
 }
 .task_info_meta {
-  margin-left: 50px;
+  margin: 10px 0 0 50px;
 }
 .task_info_meta > .title {
   font-size: 9px;
@@ -3049,13 +3052,18 @@ filter:alpha(opacity="0");
   font-weight: bold;
 }
 .task_outcomes {
-  background: url(/images/border_dashed.png) repeat-x bottom !important;
-  margin:10px 0 18px 0;
-  padding:4px 0px 9px 12px;
+  margin: 10px 0 0 0;
+  padding: 4px 0px 4px 12px;
+  border-bottom: 1px solid #ccc;
 }
-
-.task_member{
-  background: url(/images/border_dashed.png) repeat-x bottom !important;
-  margin:10px 0 18px 0;
-  padding:4px 0px 9px 12px;
+.task_outcomes > .outcome_name {
+  font-weight: bold;
+}
+.task_outcomes > .outcome_descr {
+  font-weight: normal;
+}
+.task_member {
+  margin: 10px 0 0 0;
+  padding: 4px 0px 4px 12px;
+  border-bottom: 1px solid #ccc;
 }

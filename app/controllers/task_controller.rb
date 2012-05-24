@@ -71,16 +71,6 @@ class TaskController < ApplicationController
     @course = @task.course
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @outcomes = @course.outcomes
-    
-    # @outcome.each do |outcome|
-    # puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa#{@outcome}"
-    # outcome_task = OutcomeTask.find(:first, :conditions=>["outcome_id = ? AND task_id = ?", outcome.id, @task.id])
-    # if outcome_task
-      
-    # end  
-    # end
-    
-    @outcomes = @course ? @course.outcomes : nil
     @courses = Course.find(
       :all, 
       :include => [:participants], 
