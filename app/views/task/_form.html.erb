@@ -148,7 +148,7 @@ function addNode(element) {
               <div class="task_detailbox">
                 <div class="empty_num_space" ></div>
                  
-                <% if !@task.outcomes.empty? %>
+                <% if @task and !@task.outcomes.empty? %>
                   <div class="field_box2">Outcomes
                     <div id="load_outcomes">
 
@@ -188,19 +188,21 @@ function addNode(element) {
                 <div id="task_image">
                   <img src="/images//task_profile_img.jpg" width="156" height="156" />
                 </div>
-                <div align="center"><%#= @task.course.name%><br/>
+                <div class="task_info_meta">
+                  <div class="title">TASK FOR</div>
+                </div>
+                <div align="center">
                    <div class="course_select_viewfield">
-                      <div class="dd_bg ">
-                        <select name="course" id="course" class="dd_select">
-                          <option value="">SELECT</option>
-                          <% @courses.each do |c| %>
-                          <option value="<%= c.id %>" <%=@task.course_id==c.id ? "Selected" : ""  if @task %>><%= c.name %></option>
-                          <% end %>
-                        </select>
-                      </div>
+                      <select name="course" id="course" class="clipboard_select">
+                        <option value="">SELECT</option>
+                        <% @courses.each do |c| %>
+                        <option value="<%= c.id %>" <%=@task.course_id==c.id ? "Selected" : ""  if @task %>><%= c.name %></option>
+                        <% end %>
+                      </select>
                     </div>
+                    
                     <div class="catagory_task_viewfield" >
-                      <div id="categories_container" class='<%= @task && @task.category_id!=0 ? "" : "hide" %> dd_bg'>
+                      <div id="categories_container" class='<%= @task && @task.category_id!=0 ? "" : "hide" %>'>
                         <% if @task && @task.category_id!=0 %>
                           <%= render :partial => "course_categories", :locals=>{:categories=>@task.course.categories} %>
                         <% end %>
@@ -268,15 +270,12 @@ function addNode(element) {
                   
                   
                 </div>
-                <div class="date_viewfield">Task Completion
-                    <div class="dd_bg ">
-                        <select name="course" id="course" class="dd_select">
-                          <option value="">SELECT</option>
-                          <option value="">fff</option>
-                          <option value="">sss</option>
-                        </select>
-                      </div>
-                  </div>
+                <div class="date_viewfield hide">Task Completion<br />
+                  <select name="task_completion" class="clipboard_select">
+                    <option value="">SELECT</option>
+                    <option value="confirm__by_creator">Confirm by Creator</option>
+                  </select>
+                </div>
                   <div class="rating_viewfield">
                     Rating
                     <img src="<%=@task.rating_icon_file if @task%>" class="task_rating_icon task_raiting" task_id="<%=@task.id if @task%>">
@@ -290,7 +289,7 @@ function addNode(element) {
                 <div class="empty_num_space" ></div>
                 <div class="field_box2"> Description
                   <fieldset>
-                    <div class="dd_bg ">
+                    <div class="dd_bg">
                       <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea"><%=@task.descr if @task %></textarea>
                     </div>
                   </fieldset>

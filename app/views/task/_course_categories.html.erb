@@ -1,4 +1,4 @@
-<select name="course_categories" id="course_categories" onblur='javascript:setStorage("task_category", $(this).val())' class="dd_select">
+<select name="course_categories" id="course_categories" onblur='javascript:setStorage("task_category", $(this).val())' class="clipboard_select">
   <option value="null">SELECT</option>
   <% categories.each do |c| %>
   <option value="<%= c.id %>" <%=@task.category_id==c.id ? "Selected" : ""  if @task %>><%= c.name %></option>

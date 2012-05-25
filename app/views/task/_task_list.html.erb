@@ -3,7 +3,7 @@
 <% else %>
   <% @tasks.each do |t| %>
     <% participant = t.task_participants[0] %>
-    <div class="task_list_content clipboard_list" task_id="<%=t.id%>">
+    <div class="task_list_content clipboard_list" task_id="<%=t.id%>" style="height:100px;">
 
       <div class="list_hover" style="margin-top:70px; margin-left:118px;">
         <div class="like_cmt">
@@ -28,7 +28,7 @@
       
       <div class="titleTDue"><%=show_date_format(t.due_date) if t.due_date%></div>
       
-      <div class="titleTTAsk"><%=t.name %></div>
+      <div class="titleTTAsk"><%=t.name %><br /><span class="description"><%=t.descr%></span></div>
       
       <!-- From the right -->
       <div class="titleTrating">
