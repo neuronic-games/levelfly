@@ -6,7 +6,7 @@ class Task < ActiveRecord::Base
   belongs_to :course
   belongs_to :group
   has_many :task_participants
-  #has_many :participants, :as => :object
+  has_many :participants, :as => :object
   has_many :attachments, :as => :object
   has_many :messages, :as => :parent
   has_many :outcome_tasks
@@ -28,6 +28,7 @@ class Task < ActiveRecord::Base
   def show_date_format(the_date)
     return the_date.strftime('%d/%m/%Y')
   end
+  
   
   def self.filter_by(profile_id, filter, period)
     conditions = ["task_participants.profile_id = ? and archived = ?", profile_id, false]

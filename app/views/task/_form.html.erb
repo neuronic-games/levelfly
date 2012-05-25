@@ -11,7 +11,7 @@ function addNode(element) {
   } else if (element == "people") {
     var newNode = $(document.createElement('div')).attr("id", 'task people_node_div' + _counter_people);
     newNode.css("marginTop" , "20px");
-    newNode.html('<input type="text" name="add_task_people_email[]" value="Type in email to add" class="medium node" id="add_task_people_email_' + _counter_people + '" />');
+    newNode.html('<input type="text" onblur="javascript:setStorage(\'task_people_'+_counter+'\', $(this).val())" name="add_task_people_email[]" value="Type in email to add" class="medium node" id="add_task_people_email_' + _counter_people + '" />');
     newNode.appendTo("#add_task_people_container");
     _counter_people++;
   }
@@ -23,7 +23,7 @@ function addNode(element) {
   <a href="javascript:void(0)" id="btn_task" class="big_orange_btn">POST</a>
   <a href="javascript:void(0)" class="big_blue_btn">PRINT</a>
   <a href="javascript:void(0)" id="task_btn_remove" class="big_blue_btn">REMOVE</a>
-  <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@course ? false : true %>" />
+  <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@task ? false : true %>" />
 </div>
 <!-- notepad start-->
 <div class="task_content">
@@ -316,16 +316,23 @@ function addNode(element) {
                     <% end %>
                   </div>
                 </div>
-                <% if @people and !@people.empty? %>
+                
                 <br /><br />
                 <div class="field_box2">Members
                   <div id="load_task_participant_wall">
-                   <% if @people %>
-                      <%= render :partial => "course_peoples" %>
-                   <%end%>
+                  <% if @people and !@people.empty? %>
+                   <% @people.each do |p| %>
+                        <div class="task_member" id="task_people_div_<%=p.profile.id%>">
+                          <input type="checkbox" <%= @task && member_associate(p.profile_id, @task.id) ? "checked='checked'" : "" %> name="chk_task_people[]" id="<%=p.profile.id%>" />
+                          <img src="<%=p.profile.image_file_name%>" id="<%=p.profile_id%>" class="<%= "profile" if p.profile_id != user_session[:profile_id] %> avatar_medium"/>
+                         
+                           <%= p.profile.full_name %>
+                        </div>
+                   <% end %>
+                    <% end %>
                   </div>
                 </div>
-                <% end %>
+               
                 <div class="clear end_of_page"></div>
               </div>
             </div>
@@ -441,7 +448,7 @@ $(document).ready(function(){
   });
   
   
-  $('input[name="chk_outcomes[]"]').unbind('click').bind('click',function() {
+  $('#load_outcomes_wall').delegate('input[name="chk_outcomes[]"]', 'change', function(){
     check_val = $(this).is(':checked');
     outcome_id = $(this).attr('id');
     task_id = $("#task_id_hdn").val();
@@ -456,9 +463,6 @@ $(document).ready(function(){
          url:"/task/outcome_unchecked",
          data:{task_id:task_id,outcome_id:outcome_id},
          success:function(data){
-           //if (data.status) {
-             // $("#task_outcomes_"+outcome_id).remove();
-          // }
            showSpinner(false);
          }
       });
@@ -466,6 +470,28 @@ $(document).ready(function(){
     {
        setStorage("task_outcomes_"+$(this).attr('id'), $(this).val());
     }
+  });
+  
+  $('#load_task_participant_wall').delegate('input[name="chk_task_people[]"]', 'change', function(){
+    check_val = $(this).is(':checked');
+    deleteStorage("task_people_"+$(this).attr('id'));
+    member_id = $(this).attr('id');
+    task_id = $("#task_id_hdn").val();
+    course_id = $("#course_id_hdn").val();
+    
+    showSpinner(true);
+    $.ajax({
+       type:"POST",
+       dataType: "json",
+       url:"/task/member_unchecked",
+       data:{task_id:task_id,member_id:member_id,check_val:check_val},
+       success:function(data){
+         if(data.status)
+         {
+           showSpinner(false);
+         } 
+       }
+    });
   });
   
   $(function() {
@@ -703,20 +729,26 @@ function save_task(channel) {
     });
     //get people id from offline storage
     j = 0;
-    $.each($('input[name="task_people_id[]"]'), function() {
-      _taskPeopleObject[j] = getStorage($(this).attr('id'));
-      j++;
+    $.each($('input[name="chk_task_people[]"]'), function() {
+      if(this.checked) {
+         storage_key = "task_people_"+$(this).attr('value');
+        _taskPeopleObject[j] = getStorage(storage_key);
+        j++;
+      }
     });
     
     //get people email from offline storage
-    k = 0;
-    $.each($('input[name="add_task_people_email[]"]'), function() {
+    /*k = 0;
+    $.each($('input[name="chk_task_people[]"]'), function() {
       _addTaskPeopleEmailObject[k] = getStorage($(this).attr('id'));
       k++;
-    });
+    });*/
+    
+    
     
     var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id;  
 
+    //alert(outcomeObject);  alert(dataString); return false;
     $.ajax({  
       type: "POST",  
       url: "/task/save",  
@@ -724,7 +756,6 @@ function save_task(channel) {
       dataType:"json",
       success: function(data) {
         if (data) {
-          console.log(data)
           $("#task_id_hdn").val(data.task.id);
           $("#task").val(data.task.name);
           $("#task_date").val(data.task.due_date);

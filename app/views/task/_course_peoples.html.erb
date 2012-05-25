@@ -1,19 +1,22 @@
 <% @people.each do |p| %>
 <div class="task_member" id="task_people_div_<%=p.profile.id%>">
-  <input type="checkbox" name="chk_task_people[]" checked="true" id="<%=p.profile.id%>" />
+  <input type="checkbox" name="chk_task_people[]" checked="true" value="<%=p.profile.id%>" id="<%=p.profile.id%>" />
 
-  <img src="<%=p.profile.image_file_name%>" id="<%=p.profile_id%>" class="<%= 'profile' if p.profile_id != user_session[:profile_id] %> avatar_medium"/>
+  <img src="<%=p.profile.image_file_name%>" id="<%=p.profile_id%>" class="<%= "profile" if p.profile_id != user_session[:profile_id] %> avatar_medium"/>
 
    <%= p.profile.full_name %>
-
-  <input type="hidden" name="task_people_id[]" value="<%= p.profile.id %>" id="task_people_email_<%=p.profile.id%>" class="medium" />
 </div>
 <% end %>
 
 <script type="text/javascript">
-  //set task people email to offline storage
-  $.each($('input[name="task_people_id[]"]'), function() {
-    //alert($(this).attr('id') +"==="+ $(this).val()) 
-    setStorage($(this).attr('id'), $(this).val());
+<!--
+  $($('input[name="chk_task_people[]"]')).each(function(){
+    if(this.checked) {
+      setStorage("task_people_"+$(this).attr('value'), $(this).val());
+    } else {
+      deleteStorage("task_people_"+$(this).attr('value'));
+    }
   });
+
+-->
 </script>

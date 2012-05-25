@@ -64,6 +64,26 @@ class TaskController < ApplicationController
     end
     render :text => {"status"=>status}.to_json
   end
+  
+  def member_unchecked
+    status = false
+    if params[:task_id] && !params[:task_id].nil?
+      participant = Participant.find(:first, :conditions=>["object_type = 'Task'  AND  profile_type = 'S' AND object_id = ? AND profile_id = ?",params[:task_id],params[:member_id]])
+      if participant
+        participant.delete
+        status = true
+      else
+        @participant = Participant.new
+        @participant.object_type = 'Task'
+        @participant.profile_type = 'S'
+        @participant.profile_id = params[:member_id]
+        @participant.object_id = params[:task_id]
+        @participant.save
+        status = true        
+      end 
+    end
+    render :text => {"status"=>status}.to_json
+  end
 
   
   def show
@@ -199,31 +219,31 @@ class TaskController < ApplicationController
       
       if params[:people_id] && !params[:people_id].empty?
         peoples_array = params[:people_id].split(",")
-        peoples_email_array = params[:people_email].split(",")
-        peoples_email_array.each do |p_email|
-          user = User.find(:first, :conditions=>["email = ?", p_email])
-          if(user)
-            profile = Profile.find(:first, :conditions=>["user_id = ?", user.id])
-            peoples_array.push(profile.id)
-          else
-            @user =  User.create(
-              :email => p_email, 
-              :password => Devise.friendly_token[0,20], 
-              :confirmed_at => DateTime.now
-            )
-            if @user.save!
-              @profile = Profile.create(
-                :user_id => @user.id, 
-                :school_id => @task.school_id,
-                :name => @user.email, 
-                :full_name => @user.email
-              )
-              if @profile.save!
-                peoples_array.push(@profile.id)
-              end
-            end
-          end
-        end
+        # peoples_email_array = params[:people_email].split(",")
+        # peoples_email_array.each do |p_email|
+          # user = User.find(:first, :conditions=>["email = ?", p_email])
+          # if(user)
+            # profile = Profile.find(:first, :conditions=>["user_id = ?", user.id])
+            # peoples_array.push(profile.id)
+          # else
+            # @user =  User.create(
+              # :email => p_email, 
+              # :password => Devise.friendly_token[0,20], 
+              # :confirmed_at => DateTime.now
+            # )
+            # if @user.save!
+              # @profile = Profile.create(
+                # :user_id => @user.id, 
+                # :school_id => @task.school_id,
+                # :name => @user.email, 
+                # :full_name => @user.email
+              # )
+              # if @profile.save!
+                # peoples_array.push(@profile.id)
+              # end
+            # end
+          # end
+        # end
       
         # Participant record for student (looping on coming people_id)
         peoples_array.each do |p_id|
@@ -358,7 +378,7 @@ class TaskController < ApplicationController
       @people = Participant.find(
         :all, 
         :include => [:profile], 
-        :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('P', 'S')", params[:course_id]]
+        :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S' ", params[:course_id]]
       )
       render :partial => "/task/course_peoples"
     end
@@ -368,13 +388,14 @@ class TaskController < ApplicationController
   
   
   def view_task
-     @tasks=Task.find(:all, :conditions =>["course_id = ?", params[:course_id]])
      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
      @courses = Course.find(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.profile_id = ? and participants.profile_type = ?", @profile.id, 'M']
+      :conditions => ["participants.profile_type = 'S' AND participants.profile_id = ?", @profile.id]
     )
-     render :partial => "/task/list", :locals=>{:tasks=>@tasks,:course_id=>params[:course_id]}
+    @tasks = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
+    render :partial => "/task/list", :locals=>{:tasks=>@tasks,:course_id=>params[:course_id]}
   end
+
 end

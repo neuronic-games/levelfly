@@ -58,6 +58,8 @@ Oncapus::Application.routes.draw do
   
   post "task/outcome_unchecked"
   
+  post "task/member_unchecked"
+  
   post "task/task_complete"
   
   post "task/remove_tasks"
