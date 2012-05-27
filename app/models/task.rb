@@ -11,11 +11,20 @@ class Task < ActiveRecord::Base
   has_many :messages, :as => :parent
   has_many :outcome_tasks
 
+  after_initialize :init_defaults
+
   has_attached_file :image,
     :storage => :s3,
     :s3_credentials => { :access_key_id => School.vault.account, :secret_access_key => School.vault.secret },
     :path => "schools/:school/courses/:course/tasks/:id/:filename",
     :bucket => School.vault.folder
+
+  @@levels = ["Low", "Medium", "High"]
+  cattr_accessor :levels
+
+  def init_defaults
+    self.level = 0
+  end
     
   def image_file
     return image_file_name ? image.url : Course.default_image_file

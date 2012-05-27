@@ -28,7 +28,11 @@
       
       <div class="titleTDue"><%=show_date_format(t.due_date) if t.due_date%></div>
       
-      <div class="titleTTAsk"><%=t.name %><br /><span class="description"><%=t.descr%></span></div>
+      <!-- This column does not expand well. Do we need to control max-width via JavaScript? -->
+      <div class="titleTTAsk" style="min-width:250px; max-width:250px;">
+        <div class="title"><%=t.name %></div>
+        <div class="description"><%=t.descr%></div>
+      </div>
       
       <!-- From the right -->
       <div class="titleTrating">

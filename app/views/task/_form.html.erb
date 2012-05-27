@@ -19,9 +19,9 @@ function addNode(element) {
 -->
 </script>
 <div class="task_side_buttons"> 
-  <a href="javascript:void(0)" class="big_blue_btn">ATTACH</a>
-  <a href="javascript:void(0)" id="btn_task" class="big_orange_btn">POST</a>
-  <a href="javascript:void(0)" class="big_blue_btn">PRINT</a>
+  <!-- <a href="javascript:void(0)" class="big_blue_btn">ATTACH</a> -->
+  <a href="javascript:void(0)" id="btn_task" class="big_orange_btn">SAVE</a>
+  <!-- <a href="javascript:void(0)" class="big_blue_btn">PRINT</a> -->
   <a href="javascript:void(0)" id="task_btn_remove" class="big_blue_btn">REMOVE</a>
   <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@task ? false : true %>" />
 </div>
@@ -203,7 +203,7 @@ function addNode(element) {
                     
                     <div class="catagory_task_viewfield" >
                       <div id="categories_container" class='<%= @task && @task.category_id!=0 ? "" : "hide" %>'>
-                        <% if @task && @task.category_id!=0 %>
+                        <% if @task and @task.category %>
                           <%= render :partial => "course_categories", :locals=>{:categories=>@task.course.categories} %>
                         <% end %>
                       </div>
@@ -277,8 +277,13 @@ function addNode(element) {
                   </select>
                 </div>
                   <div class="rating_viewfield">
-                    Rating
-                    <img src="<%=@task.rating_icon_file if @task%>" class="task_rating_icon task_raiting" task_id="<%=@task.id if @task%>">
+                    Rating<br />
+                    <select id="level" name="level" class="clipboard_select" style="width:80px;">
+                      <option value="2">High</option>
+                      <option value="1">Medium</option>
+                      <option value="0">Low</option>
+                    </select>
+                    
                   </div>
                 <div class="clear"></div>
               </div>
@@ -301,6 +306,8 @@ function addNode(element) {
               <!--list box-->
               <div class="task_detailbox">
                 <div class="empty_num_space" ></div>
+                
+                
                 <div class="field_box2">Outcomes
                   <div id="load_outcomes_wall">
                     <% if @outcomes %>
@@ -316,6 +323,7 @@ function addNode(element) {
                     <% end %>
                   </div>
                 </div>
+                
                 
                 <br /><br />
                 <div class="field_box2">Members
@@ -574,6 +582,7 @@ $(document).ready(function(){
       task_uploader.settings.multipart_params.course_id = getStorage("task_course");
       task_uploader.settings.multipart_params.category_id = getStorage("task_category");
       task_uploader.settings.multipart_params.due_date = getStorage("task_due_date");
+      task_uploader.settings.multipart_params.level = getStorage("task_level");
       task_uploader.start();
     });
     
@@ -615,8 +624,9 @@ $(document).ready(function(){
         var task_due_date = getStorage("task_due_date");
         var task_course = getStorage("task_course");
         var task_category = getStorage("task_category");
+        var task_level = getStorage("task_level");
         
-        $.getJSON('/task/save/', {task:task_name, course_id:task_course, category_id: task_category, due_date:task_due_date}, function(data) {
+        $.getJSON('/task/save/', {task:task_name, course_id:task_course, category_id: task_category, due_date:task_due_date, level:task_level}, function(data) {
           $('#task_id_hdn').val(data.task.id);
           uploader.settings.multipart_params.id = data.task.id;
           uploader.start();
@@ -760,6 +770,7 @@ function save_task(channel) {
           $("#task").val(data.task.name);
           $("#task_date").val(data.task.due_date);
           $("#descr").val(data.task.descr);
+          $("#level").val(data.task.level);
           if(channel == "btn_task") {
             $("#container").load('/task/index', function(){
               showSpinner(false);

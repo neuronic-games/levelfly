@@ -1128,7 +1128,6 @@ a.blue_bt19px:hover {
 }
 .rating_viewfield {
   float:right;
-  width:auto;
   text-align:center;
 }
 .rating_viewfield img{
@@ -1599,9 +1598,6 @@ width:70%;
 height:100%;
 background-color:#FFFFFF;
 }
-#level{
-color:#FFFFFF;
-}
 .Uprofile_gap {height:150px;}
 .profile_left {
   /*position:absolute;*/
@@ -1997,6 +1993,18 @@ margin-left:33px;
 .clipboard_list:hover {
   background-color: #F2F4FB;
   cursor: pointer;
+}
+.clipboard_list .title {
+  font-size: 17px;
+  font-weight: bold;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+}
+.clipboard_list .description {
+  font-size: 14px;
+  font-weight: normal;
+  overflow: hidden; 
+  text-overflow: ellipsis;
 }
 .list_hover {
   position: absolute; 

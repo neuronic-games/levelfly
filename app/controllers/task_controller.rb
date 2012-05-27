@@ -41,6 +41,7 @@ class TaskController < ApplicationController
     @courses = Course.find(:all, 
       :include => [:participants], 
       :conditions => ["participants.profile_id = ? and participants.profile_type = ?", @profile.id, 'M'])
+    @task = Task.new
     respond_to do |wants|
       wants.html do
         if request.xhr?
