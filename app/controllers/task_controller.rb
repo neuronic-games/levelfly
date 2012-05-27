@@ -12,11 +12,11 @@ class TaskController < ApplicationController
     )
 
     if params[:search_text]
-      search_text =  "#{params[:search_text]}%"
+      search_text =  "%#{params[:search_text]}%"
       @tasks = Task.find(
         :all, 
         :include => [:task_participants], 
-        :conditions => ["task_participants.profile_id = ? AND (tasks.name LIKE ?)", @profile.id, search_text]
+        :conditions => ["task_participants.profile_id = ? AND (tasks.name LIKE ? OR tasks.descr LIKE ?)", @profile.id, search_text, search_text]
       )
     else 
 
