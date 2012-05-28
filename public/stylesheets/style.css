@@ -1446,6 +1446,18 @@ a.blue_bt19px:hover {
 	border:#898888 1px solid;
 	color:#FFFFFF !important;
 }
+.brown_bg_input {
+	background:#898888 !important;
+	border:#898888 1px solid;
+	color:#FFFFFF !important;
+  width:405px;
+}
+.brown_bg_textarea {
+	background:#898888 !important;
+	border:#898888 1px solid;
+	color:#FFFFFF !important;
+  width:280px;
+}
 .course_teacher_name .avatar_white_bdr {
 	border:#eaebeb 5px solid;
 	margin:0 auto;
@@ -3080,4 +3092,119 @@ filter:alpha(opacity="0");
   margin: 10px 0 0 0;
   padding: 4px 0px 4px 12px;
   border-bottom: 1px solid #ccc;
+}
+
+/********************************group page************************************/
+.group_content {
+	z-index:1000;
+	height:100%;
+	padding-right:120px;/*margin: -62px 0 0;*/
+}
+.group_board_left {
+	background:url(../images/course_left_bar.jpg) 0 125px no-repeat;
+	padding-left:57px;
+	height:100%;
+}
+.group_board_right {
+	background:url(../images/course_right_bar.jpg) right 125px no-repeat;
+	padding-right:57px;
+	height:100%;
+}
+.group_board_center {
+	background:url(../images/course_middle_bar.jpg) 0 125px repeat-x;
+	/*height:732px;*/
+  height:100%;
+}
+.group_pad_top {
+	width:100%;
+	height:97px;
+	overflow:hidden;
+	position:relative;
+	padding:78px 0 0 0;
+}
+.group_pad {
+	width:100%;
+}
+.group_tab_content {
+	padding-right:6px;
+	overflow: hidden;
+}
+.group_tabs {
+	float: right;
+	margin: 0 -80px 0 -5px;
+	position: relative;
+}
+.group_image_name {
+	float:right;
+	width:50%;
+  margin:15px -35px 0 0px;
+}
+.group_image_name .avatar_white_bdr {
+	border:#eaebeb 5px solid;
+	margin:0 auto;
+	/*width:14%;*/
+  width:72px;
+	height:72px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	background:url(../images/avatar_bg.jpg) no-repeat center;
+	-moz-box-shadow:inset 0px 0px 2px 1px #000000;
+	-webkit-box-shadow:inset 0px 0px 2px 1px #000000;
+	box-shadow:inset 0px 0px 2px 1px #000000;
+}
+.group_image_name .avatar_name {
+	text-align:center;
+	padding:5px 0 0 0;
+}
+.group_privacy{
+  margin: 60px 0 0 0;
+  font-size: 20px;
+}
+.privacy_setting{
+  margin:21px 0px 16px 10px;
+  letter-spacing: 2px;
+}
+.privacy_setting span{
+  margin:0 0px 0px 18px;
+}
+
+
+
+
+
+.group_left {
+	float:left;
+	margin: 0 -200px 0 0;
+	width: 200px;
+	font-family: 'MyriadWebRegular';
+	font-size:12px;
+	color:#9ab0b9;
+}
+.group_profile_image {
+	background:url(../images/task_profile_img_bg.png) no-repeat 5px 0;
+	width: 200px;
+	height:189px;
+	position:relative;
+}
+.group_profile_image img {
+	padding:16px 0 17px 20px;
+}
+.group_right {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:10px;
+	color:#cac6c6;
+	font-weight:bold;
+	padding:0 0 0 202px;
+}
+.group_detailbox {
+	overflow:hidden;
+	width:100%;
+}
+.group_field_box{
+	padding:20px 15px 20px 38px;
+}
+.group_viewfield {
+  float:left;
+  width:49%;
 }

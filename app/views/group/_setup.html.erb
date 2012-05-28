@@ -1,0 +1,98 @@
+<div id="div_2" class="tab_content">
+  <div class="group_left">
+    <div class="group_profile_image" id="group_image">
+      <!--<img id="course_thumb" src='<%#= @course.image_file %>' width="156" height="156" alt="Course image" />-->
+      <img class="image_icon_drop_target" src="/images/course_img_drop.png" />
+    </div>
+  </div>
+  <div class="group_right" >
+    <div class="group_detailbox">
+
+    <div class="group_field_box">
+        <div class="group_viewfield field_label">NAME
+          <div class="dd_bg brown_bg_input">
+            <input type="text" name="group_name" id="group_name" class="dd_select brown_bg" value="<%=@group.name if @group%>" onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+          </div>
+        </div>
+        
+         <div class="group_viewfield field_label">Description
+          <div class="dd_bg brown_bg_textarea">
+            <textarea name="group_descr" id="group_descr" rows="4"  onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@group.descr if @group%></textarea>
+          </div>
+         </div>
+        
+         <div class="group_image_name">
+            <div class="avatar_white_bdr"><img  src="<%#=@courseMaster.image_file_name%>" /></div>
+            <div class="avatar_name"><%#=@courseMaster.full_name%></div> 
+         </div>
+         <div class="clear"></div>
+          
+         <div class="group_privacy">Privacy
+            <div class="privacy_setting">
+            <input type="checkbox" name="" checked="true" id=""/><span>Anyone can join
+            </span></div> 
+            <div class="privacy_setting">
+            <input type="checkbox" name="" checked="true" id=""/><span>Only invited people can join</span>
+            </div> 
+            <div class="privacy_setting">
+            <input type="checkbox" name="" checked="true" id=""/><span>Anyone can see group content</span>
+            </div> 
+            <div class="privacy_setting">
+            <input type="checkbox" name="" checked="true" id=""/><span>Only members can see group contents</span>
+            </div> 
+         </div>
+         <div class="clear"></div>  
+         
+      </div>
+      <div class="clear"></div>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+
+ //For image uploads
+    var base_params = {
+      'authenticity_token' : token,  //For csrf-authentication
+      'school_id' : $("#group_school_id_hdn").val(),
+      'id' : $("#group_id_hdn").val()
+    }
+    
+    //Uploader task image upload
+    var group_uploader = new plupload.Uploader({
+      runtimes: 'html5',
+      drop_element: 'group_image',
+      container: 'group_image',
+      max_file_size: '5mb',
+      resize : {width : 125, height : 125},
+      url: '/group/save',
+      multipart_params: base_params,
+      filters : [
+        {title : "Image files", extensions : "jpg,gif,png,JPG,PNG,GIF,JPEG"}
+      ]
+    });
+    
+    group_uploader.init();
+    
+    group_uploader.bind('FilesAdded', function(up, files) {
+      showSpinner(true);
+      group_uploader.settings.multipart_params.name = getStorage("group_name");
+      group_uploader.settings.multipart_params.descr = getStorage("group_descr");
+      group_uploader.start();
+    });
+    
+    group_uploader.bind('UploadProgress', function(up, file) {
+      $('#group_image').html('<center>Uploading..</center>');
+    });
+    
+    group_uploader.bind('FileUploaded', function(up, file, info) {
+      alert(info.response);
+      var obj = jQuery.parseJSON( info.response);
+      groupImg = $('<img width="156" height="156">').attr('src',obj.image_url);
+      group_uploader.settings.multipart_params.id = obj.group.id;
+      $("#group_id_hdn").val(obj.group.id);
+      $('#group_image').html(groupImg);
+      showSpinner(false);
+    });
+  
+</script>

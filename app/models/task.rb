@@ -23,7 +23,7 @@ class Task < ActiveRecord::Base
   cattr_accessor :levels
 
   def init_defaults
-    self.level = 0
+    #self.level = 0
   end
     
   def image_file

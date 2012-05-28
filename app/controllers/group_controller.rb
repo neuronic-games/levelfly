@@ -48,7 +48,7 @@ class GroupController < ApplicationController
     respond_to do |wants|
       wants.html do
         if request.xhr?
-          render :partial => "/shared/group_form"
+          render :partial => "/shared/group_form",:locals=>{:group_new=>true}
         else
           render
         end
@@ -87,6 +87,49 @@ class GroupController < ApplicationController
     render :text => {"group"=>@group}.to_json
   end
   
+  def save
+    status = false
+    if params[:id] && !params[:id].empty?
+      @group = Group.find(params[:id])
+    else
+      # Save a new group
+      @group = Group.new
+    end
+    @group.name = params[:name] if params[:name]
+    @group.descr = params[:descr] if params[:descr]
+    
+    if params[:file]
+      @group.image.destroy if @group.image
+      @group.image = params[:file]
+    end
+    
+     if @group.save
+      status = true
+      image_url = params[:file] ? @group.image.url : ""
+     end
+    render :text => {"status"=>status, "group"=>@group, "image_url"=>image_url}.to_json 
+  end
+  
+   def view_setup
+     @group = Group.find_by_id(params[:id])
+     render :partial => "/group/setup",:locals=>{:group=>@group}         
+   end 
+   
+   
+   def show_group
+    @group = Group.find_by_id(params[:id])
+    if params[:value] && !params[:value].nil?
+      if params[:value] == "1"
+        render:partial => "/group/group_wall"
+      elsif params[:value] == "2"
+        render :partial => "/group/setup"
+      elsif params[:value] == "3"
+        render :partial => "/group/files"                         
+      end  
+    end
+    end
+   
+  
  def show
 	 @group = Group.find(params[:id])
    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
@@ -99,7 +142,7 @@ class GroupController < ApplicationController
     respond_to do |wants|
       wants.html do
         if request.xhr?
-          render :partial => "/shared/group_form"
+          render :partial => "/shared/group_form",:locals=>{:group_new=>false}
         else
           render
          end
