@@ -1,0 +1,83 @@
+<div id="div_1" class="tab_content">
+  <div class="group_left">
+    <div class="group_profile_image" id="group_image">
+      <img id="group_thumb" src='<%#= @course.image_file %>' width="156" height="156" alt="Course image" />
+      <img id="group_image_drop" class="image_icon_drop_target" src="/images/course_img_drop.png" />
+    </div>
+  </div>
+  <div class="group_right" >
+    <div class="clickable" id="setup_icon" style="position:absolute; right:250px;">
+      <a href="javascript:void(0)" id="menu2"  value="2" >
+        <img src="/images/setting_icon_gray.png">
+      </a>
+    </div>
+    <div class="group_detailbox">
+    <div class="group_field_box">
+        <div class="group_viewfield field_label">NAME
+          <div class="dd_bg brown_bg_input">
+            <input type="text" name="group_name" id="group_name" class="dd_select brown_bg" <%if @group %> value="<%=@group.name if @group%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+          </div>
+        </div>
+        
+        <div class="group_viewfield field_label">Description
+          <div class="dd_bg brown_bg_textarea">
+            <textarea name="group_descr" id="group_descr" rows="4" <%if @group %> value="<%=@group.descr if @group%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@group.descr if @group%></textarea>
+          </div>
+        </div>
+        
+        <div class="group_image_name">
+           <div class="avatar_white_bdr"><img  src="<%#=@courseMaster.image_file_name%>" /></div>
+           <div class="avatar_name"><%=user_session[:full_name]%></div> 
+        </div>
+       <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+  <div class="clear"></div>
+
+  <% if @group %>
+  <!-- Message -->
+    <div class="frm_input" style="margin-left: 230px;">
+
+      <div style="margin-left: 90px; text-align:right;">
+        <textarea id="msg_content" name="msg_content" style="width:310px; background-color: #CCE8F4; color: #4A4F4E;" placeholder="Enter your message to share..."></textarea> <br />
+        <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
+        <a href="javascript:void(0)" id="<%=@group.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="Group" onclick="javascript:void(0);">Post</a>
+      </div>
+      <div id="message_wrapper_group" class="message_wrapper_group">
+      &nbsp;
+      <% if @group_messages = @group.messages.find(:all,:order => "created_at DESC" )%>
+        <% @group_messages.each do |message| %>
+          <%= render :partial => "/message/messages", :locals => {:message=>message} %>
+        <% end %>
+      <% end %>
+      </div>
+    </div>
+  <!-- Message ends -->
+  <% end %>
+  <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+// For setup Page 
+   $("#setup_icon").click(function(data){
+   showSpinner(true);
+   group_id = $("#group_id_hdn").val();
+   $.ajax({  
+        type: "GET",  
+        url: "/group/view_setup",  
+        data:{id:group_id},
+        success: function(data) {
+		      $("#load_data").html(data);
+			    showSpinner(false);
+        },
+        error: function()
+        {
+          alert("An Error has occured");
+          showSpinner(false);
+        },
+      }); 
+    });
+
+</script>

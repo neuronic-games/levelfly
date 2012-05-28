@@ -1,105 +1,90 @@
-<div class="pdg78px">
-<div class="screen_title">
-  VIEW GROUP
-</div>
-<div class="content_wrapper">
-  <div class="content_container">
-    <form name="frm_task" id="frm_task" enctype="multipart/form-data">
-      <div id="div_1" class="form_container">
-        <div class="left_form_container">
-          <div class="thumbnail_large" id="course_image">
-            <img id="group_thumb" src='<%= @course && @course.image_file_name ? @course.image.url : "/images/majors/ACCOUNTING.png" %>' alt="Group image" />
-          </div>
-        </div>
-        <div class="right_form_container">
-          <div class="frm_input">
-            <span>Name</span>
-            <span><input type="text" name="group_name" id="group_name" class="dd_input brown_bg" value="<%=@group.name if @group%>" onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' /></span>
-          </div><br/><br/>
-          <div class="frm_input">
-            <span>Description</span>
-            <span><textarea name="group_descr" id="group_descr" rows="5"  onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@group.descr if @group%></textarea></span>
-          </div>
-         </div>
-      </div>
-	  
-	    <div id="div_2" class="form_container hide">
-        <div class="frm_label small_label">
-          Participants
-        </div>
-        <div class="frm_input">
-          <input type="text" name="add_people_email[]" class="medium" id="add_people_text" /> 
-          <input type="button" name="btn_add_people" id="btn_add_people_group" value="Add" />
-          <div class="frm_input" id="add_people_container">
-          </div>
-        </div>
-        <div class="frm_label small_label">
-          &nbsp;
-        </div>
-        <div id="group_people" class="frm_input">
-          <% if @peoples %>
-            <%= render :partial => "/shared/participant_list", :locals => {:peoples=>@peoples, :mode=>"list"} %>
-          <% end %>
-        </div>
-        <div id="participant_list" class="hide">
-          <div style="width:40px;height:10px;float:right;padding:2px;">
-            <a href="javascript:void(0)" onClick="javascript:$('#participant_list').hide();">Close</a>
-          </div>
-          <div id="participant_list_inner">
-              Loading...
-          </div>
+<div class="group_content">
+  <div class="group_board_left">
+    <div class="group_board_right">
+      <div class="group_board_center">
+        <div class="texture_board">
+        <div class="group_pad_top"> </div>
+          <div class="group_pad">
+             <div class="course_tabs menu_container" align="right">
+              <a href="javascript:void(0)"  id="menu1" value="1" class="side_tab side_tab_open" ><span class="task_tab">Group</span></a>
+              <a href="javascript:void(0)"  id="menu3" value="3" class="side_tab side_tab_close"><span class="task_tab">Files</span></a>
+            </div>
+                      
+            <div class="course_tab_content">
+              <div class="right_form_containerr" id="load_data">
+                  <!-- Data load here-->     
+                <% if defined?(group_new) && group_new == true %>
+                  <%= render :partial=>"group/setup" %>
+                <% else %>
+                  <%= render :partial=>"group/group_wall" %>
+                <% end %>
+              </div>
+             <input type="hidden" name="task_id" id="task_id_id_hdn" value="<%= @task_id if @task%>" />
+             <input type="hidden" name="course_id" id="course_id_id_hdn" value="<%= @course_id if @course%>" />
+             <input type="hidden" name="group_id" id="group_id_hdn" value="<%= @group.id if @group%>" />
+             <input type="hidden" name="wall_id" id="group_wall_id_hdn" value="<%= @wall.id if @wall && !@wall.nil? %>" />
+             <input type="hidden" name="school_id" id="group_school_id_hdn" value="<%#= @profile.school_id %>" />
+            </div>
+            <div class="clear"></div>
+          </div>  
         </div>
       </div>
-      <input type="hidden" name="task_id" id="task_id_id_hdn" value="<%= @task_id if @task%>" />
-      <input type="hidden" name="course_id" id="course_id_id_hdn" value="<%= @course_id if @course%>" />
-      <input type="hidden" name="group_id" id="group_id_hdn" value="<%= @group.id if @group%>" />
-      <input type="hidden" name="wall_id" id="group_wall_id_hdn" value="<%= @wall.id if @wall && !@wall.nil? %>" />
-      <input type="hidden" name="school_id" id="group_school_id_hdn" value="<%#= @profile.school_id %>" />
-     </form>
+    </div>
   </div>
 </div>
-</div>
-<div class= "menu_container">
-<% if @group%>
-<div class="menu_container">
-<div>
-    <a href="javascript:void(0)" value="2" id="menu2" class="sbmt_course">PEOPLE</a>
-</div>
-</div>
-<%end%>
-</div>
 <div id="sidebar_right">
-  <div id="crud_level">
-    <input type="button" name="btn_group" id="btn_group" class="sbmt_group" value="Save"/>
+  <div class="course_side_buttons"> 
+    <a href="javascript:void(0)" name="btn_group" id="btn_group" class="big_orange_btn">Save</a>
+    <% if @course%>
+      <a href="javascript:void(0)" name="menu_btn_addfile" id="menu_btn_addfile" class="big_blue_btn">ADD FILE</a>
+      <a href="javascript:void(0)" name="btn_category_remove" id="btn_category_remove" class="big_blue_btn">REMOVE</a>
+    <% end %>
     <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@group ? false : true %>" />
   </div><!-- crud_level -->
 </div>
-<script type="text/javascript">
 
+
+<script type="text/javascript">
+<!--
 jStorage.flush();
 
 //set storage on load while view of group
 if($("#group_name").val()!=""){setStorage("group_name", $("#group_name").val());} else {setStorage("group_name", "New Group");}
 if($("#group_descr").val()!="") {setStorage("group_descr", $("#group_descr").val());} else {setStorage("group_descr", "New Group Description");}
-$(document).ready(function(){
-$(".menu_container a").unbind('click').bind('click', function(){
+$(document).ready(function()
+{
+
+ $(".menu_container").delegate('a', 'click', function()
+ {
+    //showSpinner(true);
     idx = $(this).attr("value");
-    $(".menu_container a").removeClass("active");
-    $(this).addClass("active");
-    for(i=0;i<3;i++){
+    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
+    for(i=0;i<4;i++){
+      //---- Set all menu as De-Selected
       if(idx != i){
         $("#div_"+i).hide();
       }
     }
-    /*if(idx == 1) {
-	
-      $("#btn_people_remove").fadeIn();
-    } else {
-     $("#btn_people_remove").hide();
-    }*/
+    $('#menu'+idx).addClass("side_tab_open").removeClass("side_tab_close");
     $("#div_"+idx).fadeIn();
+    
+    group_id = $("#group_id_hdn").val();    
+    var data = {value:idx,id:group_id};
+    $("#load_data").load("/group/show_group",data, function(response, status, xhr) {
+      if(response)
+      {
+        $("#load_data").html(response); 
+        showSpinner(false);
+      }
+      if (status == "error")
+      {
+        var msg = "Sorry but there was an error: ";
+        alert(msg);
+      }
+    });
+    
     is_page_change = $("#hdn_is_page_change").val();
-    if(is_page_change=="true") {
+    if(is_page_change == "true") {
       save_group(this.id);
     }
   });
@@ -108,6 +93,8 @@ $(".menu_container a").unbind('click').bind('click', function(){
  $("#btn_group").unbind('click').bind('click', function(){
     save_group(this.id);
   });
+  
+   
  
    //List people (participants)
   $("#btn_add_people_group").click(function() {
@@ -178,6 +165,40 @@ $(".menu_container a").unbind('click').bind('click', function(){
     }
   });
   
+   
+  //Post Message
+  $('.right_form_containerr').delegate('.sbmt_msg', 'click', function(){
+    showSpinner(true);
+    parent_id = $(this).attr("id");
+    parent_type = $(this).attr("rel");
+    text = $(this).attr("title");
+    message = $("#"+text).val();
+    if(message.trim().length==0){
+      showSpinner(false);
+      return;
+    }
+    setAlert("Posted: "+message);
+    var dataString = {parent_id:parent_id, parent_type:parent_type,target_id:parent_id, content: message};
+    //console.log(dataString)
+   // return false;
+    $.ajax({  
+      type: "POST",  
+      url: "/message/save",  
+      data: dataString,
+      success: function(data) {
+        $("#"+text).val("");
+        if(parent_type=="Group") {
+          $("#message_wrapper_group").prepend(data);
+          $("#msg_input").fadeOut();
+        } else if (parent_type=="Message") {
+          $("#post_comment_"+parent_id).hide();
+          $("#messsage_box_"+parent_id).append(data);
+        }
+        showSpinner(false);
+      }
+    });  
+  });
+  
   //Delete participant 
   $(".people_node li").delegate(".people_delete a", "click", function(){
     showSpinner(true);
@@ -220,23 +241,25 @@ function save_group(channel) {
         alert('An error has occured');
       },
       success: function(data) {
-      $("#group_id_hdn").val(data.group.id);
-        if (data.group.course_id) {
-          $("#container").load('/course/');
+        if (data) {
+          $("#group_id_hdn").val(data.group.id);
+          $("#group_name").val(data.group.name);
+          $("#group_descr").val(data.group.descr);
+          if(channel == "btn_group") {
+            $("#container").load('/group/index', function(){
+              showSpinner(false);
+            });
+          } else {
             showSpinner(false);
-        } else if (data.group.task_id) {
-          $("#container").load('/task/');
-            showSpinner(false);
-        } else if (channel=="btn_group") {
-          $("#container").load('/group/');
-            showSpinner(false);
+          }
+          $("#hdn_is_page_change").val(false);
         } else {
-           alert("ERROR");
-           showSpinner(false);
+          alert("ERROR");
+          showSpinner(false);
         }
       }
     }); 	
     return false;  
 }
 -->
-</script>;
+</script>

@@ -275,15 +275,14 @@ function addNode(element) {
                     <option value="confirm__by_creator">Confirm by Creator</option>
                   </select>
                 </div>
-                  <div class="rating_viewfield">
-                    Rating<br />
-                    <select id="level" name="level" class="clipboard_select" style="width:80px;">
-                      <option value="2">High</option>
-                      <option value="1">Medium</option>
-                      <option value="0">Low</option>
-                    </select>
-                    
-                  </div>
+                <div class="rating_viewfield">
+                   Rating<br />
+                   <select id="level" name="level" class="clipboard_select" style="width:80px;">
+                     <option <%if @task.level==2 %>selected="selected"<%end%> value="2">High</option>
+                     <option <%if @task.level==1 %>selected="selected"<%end%> value="1">Medium</option>
+                     <option <%if @task.level==0 %>selected="selected"<%end%> value="0">Low</option>
+                   </select>        
+                </div>
                 <div class="clear"></div>
               </div>
               <div class="spacebar10px"></div>
@@ -378,12 +377,16 @@ else {setStorage("task_name", "Task Name");}
 if($("#descr").val()!="") {setStorage("task_descr", $("#descr").val());}
 else {setStorage("task_descr", "Description");}
 if($("#course").val()!="") {setStorage("task_course", $("#course").val());}
-if($("#due_date").val()!="") {setStorage("task_due_date", $("#due_date").val());}
 if($("#level").val()!="") {setStorage("task_level", $("#level").val());}
+if($("#due_date").val()!="") {setStorage("task_due_date", $("#due_date").val());}
 if($("#course_categories") && $("#course_categories").val()!="") {setStorage("task_category", $("#course_categories").val());}
-
+$("#level").change(function(){
+  if($(this).val()!="") {setStorage("task_level", $(this).val());}
+});
+  
  
 $(document).ready(function(){
+
   
   //For new Task
   task_new = $("#task_new").attr("value");
@@ -754,10 +757,9 @@ function save_task(channel) {
     });*/
     
     
-    
     var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id;  
 
-    //alert(outcomeObject);  alert(dataString); return false;
+    //alert(dataString); return false;
     $.ajax({  
       type: "POST",  
       url: "/task/save",  

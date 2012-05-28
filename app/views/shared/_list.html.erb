@@ -1,35 +1,50 @@
-<div class="pdg78px">
-<div class="content_wrapper" id ="show_groups">
-  <table width="100%" align="center" cellspacing="0" cellpadding="4">
-    <tr class="tbl_header">
-      <td width="40%">
-        Name
-      </td>
-      <td>
-        Description
-      </td>
-    </tr>
-    <% @groups.each do |g| %>
-    <tr class="<%= cycle("even", "odd") %>">
-      <td>
-        <a href="/group/show/<%=g.id%>" class="view"><%=g.name%></a>
-      </td>
-      <td>
-        <%=g.descr %>
-      </td>
-    </tr>
-    <% end %>
-  </table>
+<div class="group_content">
+  <div class="group_board_left">
+    <div class="group_board_right">
+      <div class="group_board_center">
+        <div class="texture_board">
+        <div class="group_pad_top"> </div>
+          <div class="group_pad">
+            <table class="blackboard_list">
+              <tr>
+                <th width="110">
+                </th>
+                <th>
+                  Name
+                </th>
+                <th width="100">
+                  Description
+                </th>
+              </tr>
+              <% @groups.each do |g| %>
+              <tr>
+                <td>
+                  <a href="/group/show/<%=g.id%>" class="view">
+                    <img src='<%#= g.image_file %>' width="100" height="100" alt="<%=g.name%>" />
+                  </a>
+                </td>
+                <td>
+                  <a href="/group/show/<%=g.id%>" class="view"><%=g.name%></a>
+                </td>
+                <td>
+                  <%=g.descr%>
+                </td>
+              </tr>
+              <% end %>
+            </table>
+          </div>  
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-  <div class="task_side_buttons">
-    <a href="javascript:void(0)" name="menu_btn_add" id="add_new_group" class="big_blue_btn">Add</a>
+<div id="sidebar_right">
+  <div class="course_side_buttons">
+    <a class="big_blue_btn menu_btn" name="menu_btn_add" id="add_new_group" rel="/group/new"href="javascript:void(0)">ADD</a>
   </div><!-- crud_level -->
 </div>
 
-<div id="create_group" style="Display:none">
-  <%= render :partial => "/shared/group_form" %>
-</div>
-</div>
+
 <script type="text/javascript">
 <!--
 $(document).ready(function(){

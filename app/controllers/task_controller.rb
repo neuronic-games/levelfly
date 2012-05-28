@@ -220,33 +220,6 @@ class TaskController < ApplicationController
       
       if params[:people_id] && !params[:people_id].empty?
         peoples_array = params[:people_id].split(",")
-        # peoples_email_array = params[:people_email].split(",")
-        # peoples_email_array.each do |p_email|
-          # user = User.find(:first, :conditions=>["email = ?", p_email])
-          # if(user)
-            # profile = Profile.find(:first, :conditions=>["user_id = ?", user.id])
-            # peoples_array.push(profile.id)
-          # else
-            # @user =  User.create(
-              # :email => p_email, 
-              # :password => Devise.friendly_token[0,20], 
-              # :confirmed_at => DateTime.now
-            # )
-            # if @user.save!
-              # @profile = Profile.create(
-                # :user_id => @user.id, 
-                # :school_id => @task.school_id,
-                # :name => @user.email, 
-                # :full_name => @user.email
-              # )
-              # if @profile.save!
-                # peoples_array.push(@profile.id)
-              # end
-            # end
-          # end
-        # end
-      
-        # Participant record for student (looping on coming people_id)
         peoples_array.each do |p_id|
           participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Task' AND profile_id = ?", @task.id, p_id])
           if !participant

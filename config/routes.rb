@@ -127,12 +127,18 @@ Oncapus::Application.routes.draw do
   get "group/index"
   
   get "group/new"
+  
+  post "group/save"
 
   get "group/show"
 
   get "group/create"
   
   post "group/create"
+  
+  get "group/view_setup"
+  
+  post "group/show_group"
   
   post "group/get_participants"
   
