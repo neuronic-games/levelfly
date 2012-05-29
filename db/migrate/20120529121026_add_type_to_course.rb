@@ -1,5 +1,5 @@
 class AddTypeToCourse < ActiveRecord::Migration
   def change
-    add_column :courses, :parent_type, :string
+    add_column :courses, :type, :string
   end
 end
