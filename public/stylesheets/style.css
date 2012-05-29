@@ -537,9 +537,9 @@ a.icon_stats_active {
   font-weight: bold;
   color: red;
 }
-.msg_big_box .avatar_white_bdr {
+.avatar_white_bdr {
   border:#eaebeb 5px solid;
-  float:left;
+/*  float:left;*/
   /*width:14%;*/
   width:72px;
   height:72px;
@@ -550,6 +550,9 @@ a.icon_stats_active {
   -moz-box-shadow:inset 0px 0px 2px 1px #000000;
   -webkit-box-shadow:inset 0px 0px 2px 1px #000000;
   box-shadow:inset 0px 0px 2px 1px #000000;
+}
+.msg_big_box .avatar_white_bdr {
+  float: left;
 }
 .avatar_white_bdr  img{
   margin-top: -9px;
@@ -2031,6 +2034,19 @@ margin-left:33px;
   width:100%;
   background:url(../images/border_dashed.png) repeat-x bottom !important;
 }
+.blackboard_list .title {
+  font-size: 17px;
+  font-weight: bold;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+}
+.blackboard_list .description {
+  font-size: 14px;
+  font-weight: normal;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+}
+
 .msg_box_fullwidth2 {
 	padding:0 10px 0 0px;
 }

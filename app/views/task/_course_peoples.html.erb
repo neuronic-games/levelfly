@@ -2,7 +2,7 @@
 <div class="task_member" id="task_people_div_<%=p.profile.id%>">
   <input type="checkbox" name="chk_task_people[]" checked="true" value="<%=p.profile.id%>" id="<%=p.profile.id%>" />
 
-  <img src="<%=p.profile.image_file_name%>" id="<%=p.profile_id%>" class="<%= "profile" if p.profile_id != user_session[:profile_id] %> avatar_medium"/>
+  <img src="<%=p.profile.image_file_name%>" profile_id="<%=p.profile_id%>" class="profile avatar_medium"/>
 
    <%= p.profile.full_name %>
 </div>

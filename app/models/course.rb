@@ -46,6 +46,8 @@ class Course < ActiveRecord::Base
   @@default_image_file = "/images//course_img_default.jpg"
   cattr_accessor :default_image_file
   
+  @owner = nil
+  
   def image_file
     return image_file_name ? image.url : Course.default_image_file
   end
@@ -73,6 +75,17 @@ class Course < ActiveRecord::Base
     # FIXME: What about rainy-day bucket and extra credit tasks?
     
     return Course.default_points_max - total_points
+  end
+  
+  def owner
+    if @owner == nil
+      @owner = Profile.find(
+      :first, 
+      :include => [:participants], 
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", self.id]
+      )
+    end
+    return @owner
   end
   
 end

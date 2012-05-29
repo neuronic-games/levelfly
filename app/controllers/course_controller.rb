@@ -3,6 +3,8 @@ class CourseController < ApplicationController
   before_filter :authenticate_user!
 
   def index
+    section_type = params[:section_type]
+    
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if params[:search_text]
       search_text =  "#{params[:search_text]}%"
@@ -37,7 +39,7 @@ class CourseController < ApplicationController
     respond_to do |wants|  
       wants.html do
         if request.xhr?
-          render :partial => "/course/list",:locals=>{:section_type=>params[:section_type]}
+          render :partial => "/course/list",:locals=>{:section_type=>section_type}
         else
           render
         end
