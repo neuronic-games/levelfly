@@ -11,7 +11,7 @@
                 <th width="110">
                 </th>
                 <% if defined?(section_type) %>
-                <% if section_type == "Course" %>
+                <% if section_type == "C" %>
                 <th>
                   Course 
                 </th>
@@ -19,7 +19,7 @@
                   Course Code
                 </th>
                 <% end %>
-                <% if section_type == "Group" %>
+                <% if section_type == "G" %>
                 <th>
                   Name
                 </th>
@@ -43,7 +43,7 @@
                   </a>
                 </td>
                 <td>
-                  <% if defined?(section_type) && section_type == "Group"%>
+                  <% if defined?(section_type) && section_type == "G"%>
                   <%=c.descr%>
                   <% else %>
                   <%=c.code%>-<%=c.section%>
@@ -53,6 +53,9 @@
               <% end %>
             </table>
           </div>  
+
+          <div class="clear end_of_page"></div>
+
         </div>
       </div>
     </div>
@@ -69,7 +72,13 @@
 
 $(document).ready(function(){
   
-  setPageTitle("My Courses");
+  section_type = $("#section_type").val();
+  if (section_type == "G") {
+    setPageTitle("My Groups");
+  }
+  else {
+    setPageTitle("My Courses");
+  }
   
   //prepare show links
   $('a.view').click(function() {

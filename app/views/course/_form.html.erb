@@ -28,7 +28,7 @@
             <div class="course_tab_content">
               <div class="right_form_containerr" id="load_data">
                   <!-- Data load here-->   
-                <% if defined?(section_type) && section_type == "Group" %>
+                <% if defined?(section_type) && section_type == "G" %>
                 
                 <% if defined?(course_new) && course_new == true %>
                   <%= render :partial=>"group/setup" %>
@@ -238,7 +238,7 @@ $(document).ready(function(){
       data: dataString,
       success: function(data) {
         $("#"+text).val("");
-        if(parent_type=="Course") {
+        if(parent_type=="C") {
           $("#message_wrapper").prepend(data);
           $("#msg_input").fadeOut();
         } else if (parent_type=="Message") {
@@ -286,17 +286,17 @@ function save_course(channel) {
   section_type = $("#section_type").val();
   //Get data from offline storage
   
-  if(section_type == "Group")
+  if(section_type == "G")
   {
     name = getStorage("group_name");
     descr = getStorage("group_descr");  
-    section_type = "Group";
+    section_type = "G";
   }
   else
   {
     name = getStorage("course_name");
     descr = getStorage("course_descr");
-    section_type = "Course";
+    section_type = "C";
   }
   
   id = $("#course_id_hdn").val();
@@ -358,7 +358,7 @@ function save_course(channel) {
     dataType:"json",
     success: function(data) {
       if (data) {
-        if(data.course.parent_type == "Group")
+        if(data.course.parent_type == "G")
         {
           $("#group_name").val(data.course.name);
           $("#group_descr").val(data.course.descr);
@@ -370,7 +370,7 @@ function save_course(channel) {
           $("#course_section").val(data.course.section);
         }         
         if(channel=="btn_course") {
-          $("#container").load('/course/index', function(){
+          $("#container").load('/course/index?section_type='+section_type, function(){
             showSpinner(false);
           });
         } else {

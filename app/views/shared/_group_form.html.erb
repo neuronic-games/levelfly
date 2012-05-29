@@ -187,7 +187,7 @@ $(document).ready(function()
       data: dataString,
       success: function(data) {
         $("#"+text).val("");
-        if(parent_type=="Group") {
+        if(parent_type=="G") {
           $("#message_wrapper_group").prepend(data);
           $("#msg_input").fadeOut();
         } else if (parent_type=="Message") {

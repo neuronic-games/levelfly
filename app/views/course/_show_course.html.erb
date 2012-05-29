@@ -46,8 +46,8 @@
           </div>
           <div class="course_teacher_name">
            <% if @courseMaster %>
-            <div class="avatar_white_bdr"><img  src="<%#=@courseMaster.image_file_name%>" /></div>
-            <div class="avatar_name"><%#=@courseMaster.full_name%></div>
+            <div class="avatar_white_bdr"><img  src="<%=@courseMaster.image_file_name%>" /></div>
+            <div class="avatar_name"><%=@courseMaster.full_name%></div>
             <% end %>
           </div>
        <div class="clear"></div>
@@ -65,7 +65,7 @@
         <textarea id="msg_content" name="msg_content" style="width:310px; background-color: #CCE8F4; color: #4A4F4E;" placeholder="Enter your message to share..."></textarea> <br />
         <!-- When user click on cancel button first data will clear from textarea and finall popup window will hide.-->
         <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
-        <a href="javascript:void(0)" id="<%=@course.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="Course" onclick="javascript:void(0);">Post</a>
+        <a href="javascript:void(0)" id="<%=@course.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="C" onclick="javascript:void(0);">Post</a>
       </div>
 
 
