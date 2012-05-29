@@ -370,7 +370,7 @@ function save_course(channel) {
           $("#course_section").val(data.course.section);
         }         
         if(channel=="btn_course") {
-          $("#container").load('/course/index',{section_type:section_type}, function(){
+          $("#container").load('/course/index', function(){
             showSpinner(false);
           });
         } else {
