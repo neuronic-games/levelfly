@@ -307,6 +307,11 @@ class CourseController < ApplicationController
   
   def view_group_setup
      @course = Course.find_by_id(params[:id])
+     @courseMaster = Profile.find(
+      :first, 
+      :include => [:participants], 
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", params[:id]]
+      )
      render :partial => "/group/setup",:locals=>{:@course=>@course}         
   end 
    
