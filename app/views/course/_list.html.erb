@@ -10,12 +10,25 @@
               <tr>
                 <th width="110">
                 </th>
+                <% if defined?(section_type) %>
+                <% if section_type == "Course" %>
                 <th>
-                  Course
+                  Course 
                 </th>
                 <th width="100">
                   Course Code
                 </th>
+                <% end %>
+                <% if section_type == "Group" %>
+                <th>
+                  Name
+                </th>
+                <th width="100">
+                  Description
+                </th>
+                <% end %>
+                <input type="hidden" id="section_type" value="<%=section_type%>"/>
+                <% end %>
               </tr>
               <% @courses.reverse.each do |c| %>
               <tr>
@@ -30,7 +43,11 @@
                   </a>
                 </td>
                 <td>
+                  <% if defined?(section_type) && section_type == "Group"%>
+                  <%=c.descr%>
+                  <% else %>
                   <%=c.code%>-<%=c.section%>
+                  <% end %>
                 </td>
               </tr>
               <% end %>
@@ -44,7 +61,7 @@
 
 <div id="sidebar_right">
   <div class="course_side_buttons">
-    <a class="big_blue_btn menu_btn" name="menu_btn_add" id="menu_btn_add" rel="/course/new"href="javascript:void(0)">ADD</a>
+    <a class="big_blue_btn menu_btn" <% if defined?(section_type) %> data="<%=section_type%>" <%end%> name="menu_btn_add" id="menu_btn_add" rel="/course/new"href="javascript:void(0)">ADD</a>
   </div><!-- crud_level -->
 </div>
 
@@ -57,7 +74,9 @@ $(document).ready(function(){
   //prepare show links
   $('a.view').click(function() {
     showSpinner(true);
-    $("#container").load(this.href, function(){
+    section_type = $("#section_type").val();
+    url = this.href+"?section_type="+section_type;
+    $("#container").load(url, function(){
       $("#menu_btn_dup").show();
       showSpinner(false);
     }); 

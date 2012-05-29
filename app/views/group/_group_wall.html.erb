@@ -1,12 +1,11 @@
 <div id="div_1" class="tab_content">
   <div class="group_left">
     <div class="group_profile_image" id="group_image">
-      <img id="group_thumb" src='<%#= @course.image_file %>' width="156" height="156" alt="Course image" />
-      <img id="group_image_drop" class="image_icon_drop_target" src="/images/course_img_drop.png" />
+       <img id="group_thumb" src='<%= @course.image_file %>' width="156" height="156" alt="Course image" />
     </div>
   </div>
   <div class="group_right" >
-    <div class="clickable" id="setup_icon" style="position:absolute; right:250px;">
+    <div class="clickable" id="group_setup_icon" style="position:absolute; right:250px;">
       <a href="javascript:void(0)" id="menu2"  value="2" >
         <img src="/images/setting_icon_gray.png">
       </a>
@@ -15,19 +14,19 @@
     <div class="group_field_box">
         <div class="group_viewfield field_label">NAME
           <div class="dd_bg brown_bg_input">
-            <input type="text" name="group_name" id="group_name" class="dd_select brown_bg" <%if @group %> value="<%=@group.name if @group%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+            <input type="text" name="group_name" id="group_name" class="dd_select brown_bg" <%if @course %> value="<%=@course.name if @course%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
           </div>
         </div>
         
         <div class="group_viewfield field_label">Description
           <div class="dd_bg brown_bg_textarea">
-            <textarea name="group_descr" id="group_descr" rows="4" <%if @group %> value="<%=@group.descr if @group%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@group.descr if @group%></textarea>
+            <textarea name="group_descr" id="group_descr" rows="4" cols="34" <%if @course %> value="<%=@course.descr if @course%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
           </div>
         </div>
         
         <div class="group_image_name">
-           <div class="avatar_white_bdr"><img  src="<%#=@courseMaster.image_file_name%>" /></div>
-           <div class="avatar_name"><%=user_session[:full_name]%></div> 
+           <div class="avatar_white_bdr"><img  src="<%=@courseMaster.image_file_name%>" /></div>
+           <div class="avatar_name"><%=@courseMaster.full_name%></div> 
         </div>
        <div class="clear"></div>
       </div>
@@ -61,13 +60,13 @@
 
 <script type="text/javascript">
 // For setup Page 
-   $("#setup_icon").click(function(data){
+   $("#group_setup_icon").click(function(data){
    showSpinner(true);
-   group_id = $("#group_id_hdn").val();
+   course_id = $("#course_id_hdn").val(); 
    $.ajax({  
         type: "GET",  
-        url: "/group/view_setup",  
-        data:{id:group_id},
+        url: "/course/view_group_setup",  
+        data:{id:course_id},
         success: function(data) {
 		      $("#load_data").html(data);
 			    showSpinner(false);

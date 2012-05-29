@@ -6,6 +6,7 @@ class CourseController < ApplicationController
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if params[:search_text]
       search_text =  "#{params[:search_text]}%"
+      
       @courses = Course.find(
         :all,
         :include => [:participants], 
@@ -16,18 +17,27 @@ class CourseController < ApplicationController
       # Check if the user was working on a details page before, and redirect if so
       return if redirect_to_last_action(@profile, 'course', '/course/show')
       
+      if !params[:section_type].nil?
       @courses = Course.find(
         :all, 
         :include => [:participants], 
-        :conditions => ["participants.profile_id = ? AND participants.profile_type != 'P'", @profile.id],
+        :conditions => ["participants.profile_id = ? AND parent_type= ? AND participants.profile_type != 'P'", @profile.id,params[:section_type]],
         :order => 'name'
       )
+      else
+      @courses = Course.find(
+        :all, 
+        :include => [:participants], 
+        :conditions => ["participants.profile_id = ? AND parent_type= 'Course' AND participants.profile_type != 'P'", @profile.id],
+        :order => 'name'
+      )
+      end
     end
     
-    respond_to do |wants|
+    respond_to do |wants|  
       wants.html do
         if request.xhr?
-          render :partial => "/course/list"
+          render :partial => "/course/list",:locals=>{:section_type=>params[:section_type]}
         else
           render
         end
@@ -43,7 +53,7 @@ class CourseController < ApplicationController
     respond_to do |wants|
       wants.html do
         if request.xhr?
-          render :partial => "/course/form" ,:locals=>{:course_new=>true}
+          render :partial => "/course/form" ,:locals=>{:course_new=>true,:section_type=>params[:section_type]}
         else
           render
         end
@@ -80,7 +90,7 @@ class CourseController < ApplicationController
     respond_to do |wants|
       wants.html do
         if request.xhr?
-          render :partial => "/course/form",:locals=>{:course_new=>false}
+          render :partial => "/course/form",:locals=>{:course_new =>false,:section_type =>params[:section_type]}
         else
            
         end
@@ -98,6 +108,7 @@ class CourseController < ApplicationController
    
     @course.name = params[:course] if params[:course]
     @course.descr = params[:descr] if params[:descr]
+    @course.parent_type = params[:section_type] if params[:section_type]
     @course.code = params[:code].upcase if params[:code]
     @course.section = params[:section] if params[:section]
     @course.school_id = params[:school_id] if params[:school_id]
@@ -294,6 +305,12 @@ class CourseController < ApplicationController
     end
   end
   
+  def view_group_setup
+     @course = Course.find_by_id(params[:id])
+     render :partial => "/group/setup",:locals=>{:@course=>@course}         
+  end 
+   
+  
   def show_course
     @course = Course.find_by_id(params[:id])
     @peoples = Profile.find(
@@ -315,10 +332,12 @@ class CourseController < ApplicationController
     @groups = Group.find(:all, :conditions=>["course_id = ?",params[:id]])
     #@totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @totaltask = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
-    if params[:value] && !params[:value].nil?
-      if params[:value] == "1"
-        render:partial => "/course/show_course"
-      elsif params[:value] == "3"
+    if params[:value] && !params[:value].nil?  
+      if (params[:section_type] == "Group" && params[:value] == "1")
+        render:partial => "/group/group_wall" 
+      elsif params[:value] == "1" 
+        render:partial => "/course/show_course"  
+      elsif params[:value] == "3" 
         render :partial => "/course/forum",:locals=>{:@groups=>@groups}
       elsif params[:value] == "4"
         render :partial => "/course/files"       

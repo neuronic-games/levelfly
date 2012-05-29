@@ -106,13 +106,13 @@
           <div class="icon_box"><span class="msg_count" style="display:none;">1</span><a href="javascript:void(0);" id="msg" rel="/message/" class="icon_msg menu_btn">messages</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"><a href="javascript:void(0);" id="courses" rel="/course/" class="icon_courses_active menu_btn">courses</a> </div>
+          <div class="icon_box"><a href="javascript:void(0);" id="courses" rel="/course/" class="icon_courses_active menu_btn" data="Course">courses</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
           <div class="icon_box"> <a href="javascript:void(0);" id="tasks" rel1="/system/alert/" rel="/task/" class="icon_tasks menu_btn">tasks</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"> <a href="javascript:void(0);" id="networks" rel1="/system/alert/" rel="/group/" class="icon_networks menu_btn">Groups</a> </div>
+          <div class="icon_box"> <a href="javascript:void(0);" id="networks" rel1="/system/alert/" rel="/course/" data="Group" class="icon_networks menu_btn">Groups</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
           <!-- <div class="icon_box"> <a href="javascript:void(0);" id="stats" rel="/system/alert/" class="icon_stats menu_btn">Leader board</a> </div>
@@ -248,6 +248,7 @@
     }
     setAlert("Loading " + target);
     var data = $(this).attr("data");
+    //alert(data);
     load_data(target,data);
     set_search(target);
     if (title != undefined) {
@@ -270,7 +271,7 @@
       $.ajax({
         type: "GET",  
         url: target,
-        data: data,
+        data: {section_type:data},
         success: function(data) {
           if (data) {
             $("#container").html(data);

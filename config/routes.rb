@@ -104,6 +104,8 @@ Oncapus::Application.routes.draw do
   
   get "course/add_file"
   
+  get "course/view_group_setup"
+  
   post "course/save"
   
   post "course/remove_course_outcomes"

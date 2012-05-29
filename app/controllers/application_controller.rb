@@ -79,6 +79,7 @@ class ApplicationController < ActionController::Base
     else
       # The last page that were viewing was not a course page, so show the 
       # last course page viewed instead of the course list
+      puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa#{action_type}"
       action = profile.last_action(action_type)
       if action
         # This is the course that we were viewing before

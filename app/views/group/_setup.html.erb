@@ -1,8 +1,7 @@
 <div id="div_2" class="tab_content">
   <div class="group_left">
     <div class="group_profile_image" id="group_image">
-      <!--<img id="course_thumb" src='<%#= @course.image_file %>' width="156" height="156" alt="Course image" />-->
-      <img class="image_icon_drop_target" src="/images/course_img_drop.png" />
+        <img id="course_thumb" <%if @course.image_file %> src="<%= @course.image_file %>" <%else%> src="/images/course_img_drop.png" <%end%> width="156" height="156" alt="Course image" />
     </div>
   </div>
   <div class="group_right" >
@@ -11,13 +10,13 @@
     <div class="group_field_box">
         <div class="group_viewfield field_label">NAME
           <div class="dd_bg brown_bg_input">
-            <input type="text" name="group_name" id="group_name" class="dd_select brown_bg" value="<%=@group.name if @group%>" onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+            <input type="text" name="group_name" id="group_name" class="dd_select brown_bg" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
           </div>
         </div>
         
          <div class="group_viewfield field_label">Description
           <div class="dd_bg brown_bg_textarea">
-            <textarea name="group_descr" id="group_descr" rows="4"  onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@group.descr if @group%></textarea>
+            <textarea name="group_descr" id="group_descr" rows="4"  onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
           </div>
          </div>
         
@@ -54,8 +53,8 @@
  //For image uploads
     var base_params = {
       'authenticity_token' : token,  //For csrf-authentication
-      'school_id' : $("#group_school_id_hdn").val(),
-      'id' : $("#group_id_hdn").val()
+      'school_id' : $("#course_school_id_hdn").val(),
+      'id' : $("#course_id_hdn").val()
     }
     
     //Uploader task image upload
@@ -65,7 +64,7 @@
       container: 'group_image',
       max_file_size: '5mb',
       resize : {width : 125, height : 125},
-      url: '/group/save',
+      url: '/course/save',
       multipart_params: base_params,
       filters : [
         {title : "Image files", extensions : "jpg,gif,png,JPG,PNG,GIF,JPEG"}
@@ -78,6 +77,7 @@
       showSpinner(true);
       group_uploader.settings.multipart_params.name = getStorage("group_name");
       group_uploader.settings.multipart_params.descr = getStorage("group_descr");
+      group_uploader.settings.multipart_params.parent_type = "Group";
       group_uploader.start();
     });
     
@@ -86,11 +86,10 @@
     });
     
     group_uploader.bind('FileUploaded', function(up, file, info) {
-      alert(info.response);
       var obj = jQuery.parseJSON( info.response);
       groupImg = $('<img width="156" height="156">').attr('src',obj.image_url);
-      group_uploader.settings.multipart_params.id = obj.group.id;
-      $("#group_id_hdn").val(obj.group.id);
+      group_uploader.settings.multipart_params.id = obj.course.id;
+      $("#course_id_hdn").val(obj.course.id);
       $('#group_image').html(groupImg);
       showSpinner(false);
     });
