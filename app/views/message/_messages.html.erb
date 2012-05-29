@@ -1,6 +1,6 @@
 <div class="msg_big_box" id="messsage_box_<%=message.id%>">
   <div class="avatar_white_bdr">
-    <img src="<%=message.profile.image_file_name%>" id="<%=message.profile_id%>" class="<%= 'profile' if message.profile_id != user_session[:profile_id] %>"/>
+    <img src="<%=message.profile.image_file_name%>" profile_id="<%=message.profile_id%>" class="profile"/>
   </div>
   
   <div class="msg_box_fullwidth">

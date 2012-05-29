@@ -223,7 +223,7 @@
       $.ajax({  
         type: "POST",  
         url: "/message/add_friend_card",
-        data: {profile_id:this.id},
+        data: {profile_id:p.attr("profile_id")},
         success: function(data) {
           if (data) {
             $('#avatar_card').html(data);

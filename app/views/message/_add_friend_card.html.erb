@@ -26,16 +26,22 @@
     </div>
     <div align="right" id="root_btn">
       <!-- <a href="javascript:void(0)" rel="switch" id="note_root" class="blue_bt19px">Note</a>  -->
-      <a href="javascript:void(0)" rel="switch" id ="message_root" class="blue_bt19px">Message</a> 
-      <% if is_friend(user_session[:profile_id], profile.id) %>
-        <a href="javascript:void(0)" id="unfriend" class="blue_bt19px">UNFRIEND</a>
-      <% else %>
-        <% if is_request_pending(profile.id, user_session[:profile_id]) %>
-          <a href="javascript:void(0)" class="blue_bt19px">PENDING</a>
+      
+      <% if user_session[:profile_id] != profile.id %>
+        <a href="javascript:void(0)" rel="switch" id ="message_root" class="blue_bt19px">Message</a> 
+      
+        <% if is_friend(user_session[:profile_id], profile.id) %>
+          <a href="javascript:void(0)" id="unfriend" class="blue_bt19px">UNFRIEND</a>
         <% else %>
-          <a href="javascript:void(0)" class="blue_bt19px send_btn" id="Friend" rel="save">Friend</a>
+          <% if is_request_pending(profile.id, user_session[:profile_id]) %>
+            <a href="javascript:void(0)" class="blue_bt19px">PENDING</a>
+          <% else %>
+            <a href="javascript:void(0)" class="blue_bt19px send_btn" id="Friend" rel="save">Friend</a>
+          <% end %>
         <% end %>
+        
       <% end %>
+      
     </div>
   </div>
 </div>

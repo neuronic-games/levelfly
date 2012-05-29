@@ -741,6 +741,9 @@ a.blue_bt19px:hover {
   width:auto;
   overflow:hidden;
 }
+.course_tab_content .bdr_dotted {
+  border-bottom:3px dotted #777;
+}
 /***friend list**/
 .friend_list {
   float:right;
