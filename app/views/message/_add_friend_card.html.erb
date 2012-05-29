@@ -27,7 +27,12 @@
     <div align="right" id="root_btn">
       <!-- <a href="javascript:void(0)" rel="switch" id="note_root" class="blue_bt19px">Note</a>  -->
       
-      <% if user_session[:profile_id] != profile.id %>
+      <% if user_session[:profile_id] == profile.id %>
+        <!-- Actions for me -->
+        <a href="javascript:void(0)" rel="/system/alert/" id ="my_stats" class="blue_bt19px menu_btn">Stats</a> 
+      
+      <% else %>
+        <!-- Actions for other -->
         <a href="javascript:void(0)" rel="switch" id ="message_root" class="blue_bt19px">Message</a> 
       
         <% if is_friend(user_session[:profile_id], profile.id) %>
