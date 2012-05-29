@@ -36,10 +36,11 @@
         <a href="javascript:void(0)" rel="switch" id ="message_root" class="blue_bt19px">Message</a> 
       
         <% if is_friend(user_session[:profile_id], profile.id) %>
-          <a href="javascript:void(0)" id="unfriend" class="blue_bt19px">UNFRIEND</a>
+          <a href="javascript:void(0)" id="unfriend" class="blue_bt19px">Un-Friend</a>
         <% else %>
           <% if is_request_pending(profile.id, user_session[:profile_id]) %>
-            <a href="javascript:void(0)" class="blue_bt19px">PENDING</a>
+            <!-- Friend request pending -->
+            <a href="javascript:void(0)" id="unfriend" class="blue_bt19px">Un-Friend</a>
           <% else %>
             <a href="javascript:void(0)" class="blue_bt19px send_btn" id="Friend" rel="save">Friend</a>
           <% end %>
