@@ -18,8 +18,12 @@
               <!-- tabs-->
               
             <div class="course_tabs menu_container" align="right">
-              <a href="javascript:void(0)"  id="menu1" value="1" class="side_tab side_tab_open" ><span class="task_tab">Course</span></a>
-              <a href="javascript:void(0)"  id="menu3" value="3" class="side_tab side_tab_close"><span class="task_tab">Forums</span></a>
+              <a href="javascript:void(0)"  id="menu1" value="1" class="side_tab side_tab_open" ><span class="task_tab">  <% if defined?(section_type) && section_type == "C" %> Course <%else%> Group <%end%></span></a>
+              
+              <% if defined?(section_type) && section_type == "C" %>
+              <a href="javascript:void(0)"  id="menu3" value="3" class="side_tab side_tab_close"><span class="task_tab"> Forums</span></a>
+              <%end%>
+              
               <a href="javascript:void(0)"  id="menu4" value="4" class="side_tab side_tab_close"><span class="task_tab">Files</span></a>
             </div>
             <% if defined?(section_type)  %>

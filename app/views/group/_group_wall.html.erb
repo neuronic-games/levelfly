@@ -10,6 +10,10 @@
       <a href="javascript:void(0)" id="btn_member"  class="green_bt19px">VIEW</a></div>
     </div>
     
+    <div class="send_group_invitation">
+     <a href="javascript:void(0)" id="member_join" class="big_blue_btn">JOIN</a>
+    </div>
+    
   </div>
   <div class="group_right" >
   
@@ -74,7 +78,33 @@
 </div>
 
 <script type="text/javascript">
-// For setup Page 
+   
+   // Send request to group owner for join group
+   $("#member_join").click(function(){
+      course_id = $("#course_id_hdn").val(); 
+      $.ajax({  
+        type: "POST",  
+        url: "/course/send_group_invitation",  
+        data:{id:course_id},
+        dataType : "JSON",
+        success: function(data) {
+          if(data.status)
+          {
+             setAlert("You have addded to the group sucessfully!");
+          }else{
+             setAlert("You have already added");
+          }
+			    showSpinner(false);
+        },
+        error: function()
+        {
+          alert("An Error has occured");
+          showSpinner(false);
+        },
+      }); 
+   });
+   
+   // For setup Page 
    $("#group_setup_icon").click(function(data){
    showSpinner(true);
    course_id = $("#course_id_hdn").val(); 

@@ -110,6 +110,23 @@
       </div>
     </div>
   </div>
+  
+  <div class="group_privacy">Privacy
+    <div class="privacy_setting">
+    <input type="radio" name="joinning_group[]" checked="true" value="I"/><span>Anyone can join
+    </span></div> 
+    <div class="privacy_setting">
+    <input type="radio" name="joinning_group[]" <% if @course.join_type == "R" %> checked="true" <% end %> value="R"/><span>Only invited people can join</span>
+    </div> 
+    <br/>
+    <div class="privacy_setting">
+    <input type="radio" name="viewing_group[]" checked="true" value="A"/><span>Anyone can see group content</span>
+    </div> 
+    <div class="privacy_setting">
+    <input type="radio" name="viewing_group[]" <% if @course.visibility_type == "M" %> checked="true" <% end %> value="M"/><span>Only members can see group contents</span>
+    </div> 
+ </div>
+ 
 </div>
 
 <script type="text/javascript">

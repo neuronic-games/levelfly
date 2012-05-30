@@ -21,8 +21,12 @@ class CourseController < ApplicationController
       
       if !params[:section_type].nil?
       
-      
-       @courses = Course.joins("LEFT OUTER JOIN participants ON participants.object_id=courses.id").where("participants.profile_id = ? AND courses.parent_type = ? AND participants.profile_type!='P'", @profile.id,params[:section_type])     
+       if params[:section_type] == 'C'
+       @courses = Course.joins("INNER JOIN participants ON participants.object_id=courses.id").where("participants.profile_id = ? AND courses.parent_type = ? AND participants.profile_type!='P'", @profile.id,params[:section_type])  
+       end
+       if params[:section_type] == 'G'
+       @courses = Course.joins("INNER JOIN participants ON participants.object_id=courses.id").where("courses.parent_type = ? AND courses.join_type = 'I' AND participants.profile_type!='P'", params[:section_type])  
+       end         
             
         # @courses = Course.find(
         #   :all, 
@@ -48,6 +52,25 @@ class CourseController < ApplicationController
           render
         end
       end
+    end
+  end
+  
+  def send_group_invitation
+    status = false
+    if params[:id] && !params[:id].nil?
+      @course = Course.find_by_id(params[:id])
+      @participant =  participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Group' AND profile_id = ? ", params[:id], user_session[:profile_id]]) 
+      if !@participant 
+        @participant = Participant.new
+        @participant.object_id    = params[:id] if params[:id]
+        @participant.profile_id   = user_session[:profile_id]
+        @participant.object_type  = "Group"
+        @participant.profile_type = "S"  
+        if @participant.save
+          status = true
+        end
+      end
+      render :text => {"status"=>status}.to_json
     end
   end
   
