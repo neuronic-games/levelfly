@@ -47,7 +47,7 @@
                 <td>
                   <a href="/course/show/<%=c.id%>" class="view">
                     <div class="title"><%=c.name %></div>
-                    <div class="description"><%=c.descr%></div>
+                    <% if defined?(section_type) && section_type == "G"%><div class="description"><%=c.descr%></div><% end %>
                   </a>
                 </td>
                 <td>
