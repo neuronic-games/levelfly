@@ -72,6 +72,10 @@ class ApplicationController < ActionController::Base
   
   # Allow the user to go directly to a details page that they were working on before
   def redirect_to_last_action(profile, action_type, action_path)
+    # Temporarily disabled
+    profile.record_action('last', action_type)
+    return false
+    
     # Check to see if we have any info on this action
     last_action = profile.last_action('last')
     if last_action and last_action.action_param == action_type
