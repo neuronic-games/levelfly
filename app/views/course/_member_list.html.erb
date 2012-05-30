@@ -32,9 +32,10 @@
 //List people (participants)
   $("#btn_add_people").click(function() {
     course_id = $("#course_id_hdn").val();
+    section_type = $("#section_type").val(); 
     email_id = $("#add_course_people").val();
     node_class = "even";
-    dataString = {course_id:course_id, email:email_id};
+    dataString = {course_id:course_id, email:email_id,section_type:section_type};
     if (course_id && email_id) {
         showSpinner(true); 
         $.ajax({  

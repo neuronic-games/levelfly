@@ -1,4 +1,4 @@
-<% if @outcomes %>
+<% if !@outcomes.nil? %>
   <% @outcomes.each do |outcomes| %>
     <div id="task_outcomes_<%=outcomes.id%>" class="task_outcomes">
     <input type="checkbox" name="chk_outcomes[]" checked="true"   id="<%=outcomes.id%>"  value="<%=outcomes.id%>" />

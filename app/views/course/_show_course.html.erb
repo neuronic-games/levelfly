@@ -72,7 +72,7 @@
       <div id="message_wrapper" class="message_wrapper">
       
       &nbsp;
-      <% if @course_messages=@course.messages.find(:all,:order => "created_at DESC" )%>
+      <% if @course_messages = Message.find(:all,:conditions=>["profile_id = ? AND parent_id = ? AND parent_type = 'C'",user_session[:profile_id],@course.id],:order => "created_at DESC" )%>
         <% @course_messages.each do |message| %>
           <%= render :partial => "/message/messages", :locals => {:message=>message} %>
         <% end %>
@@ -110,25 +110,7 @@
       }); 
     });
     
-   // For member Page 
-   $("#btn_member").click(function(data){
-   showSpinner(true);
-   course_id = $("#course_id_hdn").val();   
-   $.ajax({  
-        type: "GET",  
-        url: "/course/view_member",  
-        data:{id:course_id},
-        success: function(data) {
-		      $("#load_data").html(data);
-			    showSpinner(false);
-        },
-        error: function()
-        {
-          alert("An Error has occured");
-          showSpinner(false);
-        },
-      }); 
-    });
+  
      
    // For setup Page 
    $("#setup_icon").click(function(data){

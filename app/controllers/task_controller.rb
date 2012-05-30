@@ -4,27 +4,28 @@ class TaskController < ApplicationController
   
   def index
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    @courses = Course.find(
-      :all, 
-      :include => [:participants], 
-      :conditions => ["participants.profile_id = ? AND participants.profile_type != 'P'", @profile.id],
-      :order => 'name'
-    )
-
-    if params[:search_text]
-      search_text =  "%#{params[:search_text]}%"
-      @tasks = Task.find(
+    if @profile
+      @courses = Course.find(
         :all, 
-        :include => [:task_participants], 
-        :conditions => ["task_participants.profile_id = ? AND (tasks.name LIKE ? OR tasks.descr LIKE ?)", @profile.id, search_text, search_text]
+        :include => [:participants], 
+        :conditions => ["participants.profile_id = ? AND participants.profile_type != 'P'", @profile.id],
+        :order => 'name'
       )
-    else 
-
-      # Check if the user was working on a details page before, and redirect if so
-      return if redirect_to_last_action(@profile, 'task', '/task/show')
-      @tasks = Task.filter_by(@profile.id, "", "current")
-    end
     
+      if params[:search_text]
+        search_text =  "%#{params[:search_text]}%"
+        @tasks = Task.find(
+          :all, 
+          :include => [:task_participants], 
+          :conditions => ["task_participants.profile_id = ? AND (tasks.name LIKE ? OR tasks.descr LIKE ?)", @profile.id, search_text, search_text]
+        )
+      else 
+
+        # Check if the user was working on a details page before, and redirect if so
+        return if redirect_to_last_action(@profile, 'task', '/task/show')
+        @tasks = Task.filter_by(@profile.id, "", "current")
+      end
+    end
     respond_to do |wants|
       wants.html do
         if request.xhr?

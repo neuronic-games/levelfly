@@ -3225,3 +3225,7 @@ filter:alpha(opacity="0");
   float:left;
   width:49%;
 }
+
+.view_group_member{
+  margin:17px 0px 0 40px;
+}

@@ -18,8 +18,10 @@
               <option value="">All Courses</option>
               <option value="starred">Starred Tasks</option>
               <optgroup label="By Course">
-                <% @courses.each do |c| %> 
-                <option value="<%= c.id %>"  <% if defined?(course_id) %><%if c.id == course_id.to_i %> selected <%end%><%end%>><%= c.name %></option>
+                <% unless @courses.nil? %>
+                  <% @courses.each do |c| %> 
+                  <option value="<%= c.id %>"  <% if defined?(course_id) %><%if c.id == course_id.to_i %> selected <%end%><%end%>><%= c.name %></option>
+                  <% end %>
                 <% end %>
               </optgroup>
             </select>
@@ -37,7 +39,7 @@
           </div>
           
           <div id="task_show_list_data">
-            <%if @tasks %>
+             <% unless @tasks.nil? %>
              <%= render :partial => "/task/task_list", :locals => {:t=>@tasks} %>
             <% end %>
           </div>

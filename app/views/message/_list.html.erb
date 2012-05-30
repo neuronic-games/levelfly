@@ -84,7 +84,7 @@ $(document).ready(function() {
       data: dataString,
       success: function(data) {
         $("#"+text).val("");
-        if (parent_type=="Message") {
+        if (parent_type == "Message") {
           $("#post_comment_"+parent_id).hide();
           $("#messsage_box_"+parent_id).append(data);
         } else {

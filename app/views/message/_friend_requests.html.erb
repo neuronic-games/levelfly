@@ -19,6 +19,7 @@
         </div>
       </div>
     </div>
+    <input type="hidden" value="<%=friend_request.parent_type%>" id="section_type_<%=friend_request.id%>" />
     <div class="clear"></div>
   </div>
 </div>
@@ -29,8 +30,9 @@ $('.friend-request').unbind("click").bind("click", function(){
   showSpinner(true);
   message_id = this.id;
   action = $(this).attr('rel');
+  section_type = $("#section_type_"+message_id).val();
   message_type = $(this).attr('data'); 
-  var dataString = {message_id:message_id, activity:action};
+  var dataString = {message_id:message_id, activity:action,section_type:section_type};
   if(message_id) {
     if(message_type == "course_invite"){ 
       $.ajax({  

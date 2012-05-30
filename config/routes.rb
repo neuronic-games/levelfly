@@ -108,6 +108,10 @@ Oncapus::Application.routes.draw do
   
   post "course/save"
   
+  post "course/group_joinning"
+  
+  post "course/group_viewing"
+  
   post "course/remove_course_outcomes"
   
   post "course/remove_course_files"

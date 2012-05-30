@@ -166,6 +166,28 @@ $(document).ready(function(){
     save_course(this.id);
   });
   
+   // For member Page 
+
+   $("#btn_member").live('click', function(){
+   showSpinner(true);
+   course_id = $("#course_id_hdn").val();   
+   section_type = $("#section_type").val();
+   $.ajax({  
+        type: "GET",  
+        url: "/course/view_member",  
+        data:{id:course_id,section_type:section_type},
+        success: function(data) {
+		      $("#load_data").html(data);
+			    showSpinner(false);
+        },
+        error: function()
+        {
+          alert("An Error has occured");
+          showSpinner(false);
+        },
+      }); 
+    });
+  
   //For updating outcomes (in course view screen)
   $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
     var outcome_id = $(this).attr('rel');
@@ -238,10 +260,18 @@ $(document).ready(function(){
       data: dataString,
       success: function(data) {
         $("#"+text).val("");
-        if(parent_type=="C") {
+        if(parent_type=="C") 
+        {
           $("#message_wrapper").prepend(data);
           $("#msg_input").fadeOut();
-        } else if (parent_type=="Message") {
+        }
+        else if(parent_type=="G") 
+        {
+          $("#message_wrapper_group").prepend(data);
+          $("#msg_input").fadeOut();
+        } 
+        else if (parent_type=="Message") 
+        {
           $("#post_comment_"+parent_id).hide();
           $("#messsage_box_"+parent_id).append(data);
         }

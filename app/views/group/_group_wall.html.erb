@@ -3,13 +3,25 @@
     <div class="group_profile_image" id="group_image">
        <img id="group_thumb" src='<%= @course.image_file %>' width="156" height="156" alt="Course image" />
     </div>
+    
+    <div class="menu_container1 view_group_member">
+      <div class="CAL_01"><span class="field_label"> 
+      <% if !@member_count.nil? %><%= @member_count %><%else%>0<%end%> MEMBERS <% if !@pending_count.nil? %><% "(#{@pending_count} PENDING)" %><%end%></span> 
+      <a href="javascript:void(0)" id="btn_member"  class="green_bt19px">VIEW</a></div>
+    </div>
+    
   </div>
   <div class="group_right" >
+  
+    <% if @courseMaster %>
+    <% if @courseMaster.id == user_session[:profile_id] %>
     <div class="clickable" id="group_setup_icon" style="position:absolute; right:250px;">
       <a href="javascript:void(0)" id="menu2"  value="2" >
         <img src="/images/setting_icon_gray.png">
       </a>
     </div>
+    <% end %>
+    <% end %>
     <div class="group_detailbox">
     <div class="group_field_box">
         <div class="group_viewfield field_label">NAME
@@ -24,9 +36,12 @@
           </div>
         </div>
         
+        
         <div class="group_image_name">
-           <div class="avatar_white_bdr"><img  src="<%#=@courseMaster.image_file_name%>" /></div>
-           <div class="avatar_name"><%#=@courseMaster.full_name%></div> 
+           <% if @courseMaster %>
+           <div class="avatar_white_bdr"><img  src="<%=@courseMaster.image_file_name%>" /></div>
+           <div class="avatar_name"><%=@courseMaster.full_name%></div> 
+           <% end %>
         </div>
        <div class="clear"></div>
       </div>
@@ -35,19 +50,19 @@
   </div>
   <div class="clear"></div>
 
-  <% if @group %>
+  <% if @course %>
   <!-- Message -->
     <div class="frm_input" style="margin-left: 230px;">
 
       <div style="margin-left: 90px; text-align:right;">
         <textarea id="msg_content" name="msg_content" style="width:310px; background-color: #CCE8F4; color: #4A4F4E;" placeholder="Enter your message to share..."></textarea> <br />
         <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
-        <a href="javascript:void(0)" id="<%=@group.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="G" onclick="javascript:void(0);">Post</a>
+        <a href="javascript:void(0)" id="<%=@course.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="G" onclick="javascript:void(0);">Post</a>
       </div>
       <div id="message_wrapper_group" class="message_wrapper_group">
       &nbsp;
-      <% if @group_messages = @group.messages.find(:all,:order => "created_at DESC" )%>
-        <% @group_messages.each do |message| %>
+      <% if @course_messages = Message.find(:all,:conditions=>["profile_id = ? AND parent_id = ? AND parent_type = 'G'",user_session[:profile_id],@course.id],:order => "created_at DESC" )%>
+        <% @course_messages.each do |message| %>
           <%= render :partial => "/message/messages", :locals => {:message=>message} %>
         <% end %>
       <% end %>

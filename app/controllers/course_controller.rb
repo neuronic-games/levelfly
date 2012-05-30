@@ -20,12 +20,16 @@ class CourseController < ApplicationController
       return if redirect_to_last_action(@profile, 'course', '/course/show')
       
       if !params[:section_type].nil?
-      @courses = Course.find(
-        :all, 
-        :include => [:participants], 
-        :conditions => ["participants.profile_id = ? AND parent_type= ? AND participants.profile_type != 'P'", @profile.id,params[:section_type]],
-        :order => 'name'
-      )
+      
+      
+       @courses = Course.joins("LEFT OUTER JOIN participants ON participants.object_id=courses.id").where("participants.profile_id = ? AND courses.parent_type = ? AND participants.profile_type!='P'", @profile.id,params[:section_type])     
+            
+        # @courses = Course.find(
+        #   :all, 
+        #   :include => [:participants], 
+        #   :conditions => ["participants.profile_id = ? AND parent_type= ? AND      participants.profile_type != 'P'", @profile.id,params[:section_type]],
+        #   :order => 'name'
+        # )
       else
       @courses = Course.find(
         :all, 
@@ -44,6 +48,32 @@ class CourseController < ApplicationController
           render
         end
       end
+    end
+  end
+  
+  def group_joinning
+    status = false
+    if params[:id] && !params[:id].nil?
+      @course = Course.find_by_id(params[:id])
+      if @course
+        @course.join_type = params[:join_type]
+        @course.save
+        status = true
+      end
+      render :text => {"status"=>status}.to_json
+    end
+  end
+  
+  def group_viewing
+    status = false
+    if params[:id] && !params[:id].nil?
+      @course = Course.find_by_id(params[:id])
+      if @course
+        @course.visibility_type = params[:visibility_type]
+        @course.save
+        status = true
+      end
+      render :text => {"status"=>status}.to_json
     end
   end
   
@@ -200,12 +230,18 @@ class CourseController < ApplicationController
       @user = User.find_by_email(params[:email])
       if @user 
         @profile = Profile.find_by_user_id(@user.id)
+        if params[:section_type] == 'G'
+           section_type = 'Group'
+        end   
+        if params[:section_type] == 'C'
+           section_type = 'Course'
+        end 
         if @profile
-          participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", params[:course_id], @profile.id])
+          participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type= ? AND profile_id = ?", params[:course_id], @profile.id,section_type])
           if !participant_exist
             @participant = Participant.new
             @participant.object_id = params[:course_id]
-            @participant.object_type = "Course"
+            @participant.object_type = section_type
             @participant.profile_id = @profile.id
             @participant.profile_type = "P"
             if @participant.save
@@ -216,7 +252,7 @@ class CourseController < ApplicationController
               )
               
               # Send a message. It may also send an email.
-              @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id])
+              @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type)
               status = true
             end
           else 
@@ -308,7 +344,18 @@ class CourseController < ApplicationController
   end
   
   def view_group_setup
+    
      @course = Course.find_by_id(params[:id])
+     @member_count = Profile.count(
+      :all, 
+      :include => [:participants], 
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id]
+      )
+      @pending_count = Profile.count(
+      :all, 
+      :include => [:participants], 
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('P')", @course.id]
+     )
      @courseMaster = Profile.find(
       :first, 
       :include => [:participants], 
@@ -323,13 +370,13 @@ class CourseController < ApplicationController
     @peoples = Profile.find(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('P', 'S')", @course.id]
+      :conditions => ["participants.object_id = ? AND participants.object_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S')", @course.id]
     )
     @member_count = @peoples.length
     @pending_count = Profile.count(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('P')", @course.id]
+      :conditions => ["participants.object_id = ? AND participants.object_type IN ('Course','Group') AND participants.profile_type IN ('P')", @course.id]
     )
     @courseMaster = Profile.find(
       :first, 
@@ -357,10 +404,15 @@ class CourseController < ApplicationController
 
    def view_member
      @course = Course.find_by_id(params[:id])
+     if params[:section_type] == 'G'
+        section_type = 'Group'
+     else   
+        section_type = 'Course'
+     end   
      @peoples = Profile.find(
        :all, 
        :include => [:participants], 
-       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('P', 'S')", @course.id]
+       :conditions => ["participants.object_id = ? AND participants.object_type= ? AND participants.profile_type IN ('P', 'S')", @course.id,section_type]
      )
      render :partial => "/course/member_list",:locals=>{:course=>@course}         
    end
