@@ -539,8 +539,6 @@ a.icon_stats_active {
 }
 .avatar_white_bdr {
   border:#eaebeb 5px solid;
-/*  float:left;*/
-  /*width:14%;*/
   width:72px;
   height:72px;
   -webkit-border-radius: 10px;
