@@ -11,9 +11,6 @@
       <a href="javascript:void(0)" id="btn_member"  class="green_bt19px">VIEW</a></div>
     </div>
     
-    <div class="send_group_invitation">
-     <a href="javascript:void(0)" id="member_join" class="big_blue_btn">JOIN</a>
-    </div>
     
   </div>
   <div class="group_right" >
@@ -57,9 +54,13 @@
 
   <% if @course %>
   <!-- Message -->
-    <div class="frm_input" style="margin-left: 230px;">
+    <div class="frm_input">
+    
+      <div class="send_group_invitation">
+       <a href="javascript:void(0)" id="member_join" class="big_blue_btn">JOIN</a>
+      </div>
 
-      <div style="margin-left: 90px; text-align:right;">
+      <div class="show_group_messages">
         <textarea id="msg_content" name="msg_content" style="width:310px; background-color: #CCE8F4; color: #4A4F4E;" placeholder="Enter your message to share..."></textarea> <br />
         <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
         <a href="javascript:void(0)" id="<%=@course.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="G" onclick="javascript:void(0);">Post</a>

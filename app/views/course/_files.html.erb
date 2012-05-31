@@ -48,6 +48,11 @@
 <script type="text/javascript">
   $(function(){
   
+       <% if @courseMaster %>
+       <% if @courseMaster.id != user_session[:profile_id] %>
+       $("#show_file").css("display","none");
+       <%end%>
+       <%end%>
        //Remove files
       $(".files_del").click(function(){
         showSpinner(true);

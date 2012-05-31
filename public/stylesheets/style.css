@@ -9,14 +9,14 @@ html, body, div, span, applet, embed, object, iframe, frameset, p, q, blockquote
   border:0;
   outline:0;
   font-weight:inherit;
-  font-size:10pt;
+  /*font-size:10pt;*/
   vertical-align:baseline;
   line-height:inherit;
   background:transparent;
   border-collapse:collapse;
   border-spacing:0;
   list-style:none;
-  font-family:Arial, Helvetica, sans-serif;
+  /*font-family:Arial, Helvetica, sans-serif;*/
 }
 textarea {
   overflow:auto;
@@ -261,7 +261,7 @@ body {
 	display:table-cell;
   /*float:left;*/
   /*width:13%;*/
-  width:140px;
+  width:145px;
   /*margin-right:-140px;*/
   /*height:800px;*/
   height:100%;
@@ -1443,7 +1443,7 @@ a.blue_bt19px:hover {
 	width:100%;
 }
 .course_field_box1 {
-	padding:20px 15px 20px 38px;
+	padding:20px 0 20px 6px;
 }
 .brown_bg {
 	background:#898888 !important;
@@ -1454,13 +1454,13 @@ a.blue_bt19px:hover {
 	background:#898888 !important;
 	border:#898888 1px solid;
 	color:#FFFFFF !important;
-  width:405px;
+  width:282px;
 }
 .brown_bg_textarea {
 	background:#898888 !important;
 	border:#898888 1px solid;
 	color:#FFFFFF !important;
-  width:280px;
+  width:205px;
 }
 .course_teacher_name .avatar_white_bdr {
 	border:#eaebeb 5px solid;
@@ -2822,7 +2822,7 @@ filter:alpha(opacity="0");
 .GDingboxinner_outcome {float:left; border-right:#bc917d 1px solid; width:114px; height:65px; padding:0 3px;}
 .GDingboxinner_latest {float:left; border-right:#bc917d 1px solid; width:114px; height:65px; padding:0 3px;}
 .GDingboxinner_delete {float:left; width:38px; height:65px; padding:0 3px;}
-input.grading_Btn { 	
+input[type="button"].grading_Btn { 	
 	background: url(../images/grading_bt.png) repeat scroll 0 0 transparent;
 	cursor: pointer;
 	font-family: verdana;
@@ -2872,7 +2872,7 @@ input.grading_Btn2 {
 }
 
 .outcome_wp{
-	width:100%;
+	width:89%;
 	border-bottom:1px solid #7794ac;
 	height:30px;
 }
@@ -3176,20 +3176,21 @@ filter:alpha(opacity="0");
 }
 .group_privacy{
   margin: 60px 0 0 0;
-  font-size: 20px;
+  font-size: 13px;
 }
-.privacy_setting{
-  margin:21px 0px 16px 10px;
-  letter-spacing: 2px;
+.privacy_setting {
+    letter-spacing: 0;
+    margin: 21px 0 16px 10px;
 }
 .privacy_setting span{
   margin:0 0px 0px 18px;
 }
 
-
-
-
-
+.show_group_messages {
+    float: right;
+    margin: 30px 0 0;
+    text-align:right;
+}
 .group_left {
 	float:left;
 	margin: 0 -200px 0 0;
@@ -3219,7 +3220,7 @@ filter:alpha(opacity="0");
 	width:100%;
 }
 .group_field_box{
-	padding:20px 15px 20px 38px;
+	padding:19px 14px 38px 12px;
 }
 .group_viewfield {
   float:left;
@@ -3229,6 +3230,7 @@ filter:alpha(opacity="0");
 .view_group_member{
   margin:17px 0px 0 40px;
 }
-.send_group_invitation{
-  margin:30px 0px 0 37px;
+.send_group_invitation {
+    float: left;
+    margin: 30px 0 0 -73px;
 }

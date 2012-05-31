@@ -309,6 +309,7 @@ div .small_label {
 div .frm_input {
   float:left;
   width:415px;
+  margin-left:115px;
 }
 div .frm_button{
   position:absolute;
