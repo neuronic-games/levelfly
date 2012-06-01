@@ -159,6 +159,8 @@ Oncapus::Application.routes.draw do
   get "leader_board/index"
   
   post "leader_board/show_user_profile"
+
+  get "leader_board/get_rows"
   
   post "grade_book/get_task"
   

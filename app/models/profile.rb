@@ -39,4 +39,11 @@ class Profile < ActiveRecord::Base
     profile_action.action_param = params
     profile_action.save
   end
+  
+  def major_school
+    info = []
+    info << self.major.name if self.major
+    info << self.school.code if self.school
+    return info.join(", ")
+  end
 end

@@ -38,23 +38,23 @@
       <div class="positn_rtlv">
         <div class="level_00">
           <div class="head">Level</div>
-          <div class="count"><%=h "%02d" % user_session[:profile_level].to_s.to_i %></div>
+          <div class="count"><%=h "%02d" % @profile.level.to_i %></div>
         </div>
       </div>
       <div class="avatar_box">
         <div class="avatar">
-          <a href="javascript:void(0);" rel="/profile/user_profile" class="page_switcher"><img id="my_avatar_image" src="<%=user_session[:profile_image]%>" /></a>
+          <a href="javascript:void(0);" rel="/profile/user_profile" class="page_switcher"><img id="my_avatar_image" src="<%= @profile.image_file_name %>" /></a>
         </div>
         <div class="avatar_detail">
           <div id="tool_bar_full_name" class="full_name">
-            <% if user_session[:profile_name].blank? %>
+            <% if @profile.full_name.blank? %>
             <a href="javascript:void(0);" rel="/profile/user_profile" class="page_switcher full_name">EDIT MY PROFILE</a>
             <% else %>
-            <%=user_session[:profile_name]%>
+            <%= @profile.full_name %>
             <% end %>
           </div>
           
-          <h2><%=h user_session[:profile_major] + ", " unless user_session[:profile_major].blank? %><%=h user_session[:profile_school] %></h2>
+          <h2><%= @profile.major_school %></h2>
         </div>
         <div class="clear"></div>
       </div>

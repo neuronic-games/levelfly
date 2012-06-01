@@ -40,20 +40,14 @@ class ApplicationController < ActionController::Base
   
   def set_current_profile()
     if current_user and user_session[:profile_id].blank?
-      @profile = Profile.create_for_user(current_user.id)
-      publish_profile(@profile)
+      profile = Profile.create_for_user(current_user.id)
+      publish_profile(profile)
     end
   end
   
   def publish_profile(profile)
     user_session[:profile_id] = profile.id
-    user_session[:profile_name] = profile.full_name
-    user_session[:profile_image] = profile.image_file_name
-    user_session[:profile_major] = profile.major.name if profile.major
-    user_session[:profile_school] = profile.school.code if profile.school
-    user_session[:profile_level] = profile.avatar.level
-    user_session[:vault] = profile.school.vaults[0].folder if profile.school
-    puts "=========== Saving profile #{user_session[:profile_id]}"
+    @profile = profile
   end
 
   def mobile_device?

@@ -7,23 +7,26 @@
         <div class="leader_pad">
           <!-- tabs-->
           <div class="leader_tabs" align="right">
-          <a href="javascript:void(0)"  id="menu1" value="1" class="side_tab side_tab_open"><span class="task_tab"> School</span></a>
-          <a href="javascript:void(0)"  id="menu2" value="2" class="side_tab side_tab_close"><span class="task_tab"> Courses</span></a>
-          <a href="javascript:void(0)"  id="menu3" value="3" class="side_tab side_tab_close"><span class="task_tab"> Groups</span></a>
-          <a href="javascript:void(0)"  id="menu4" value="4" class="side_tab side_tab_close"><span class="task_tab"> Friends</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_open" filter="school"><span class="task_tab">Everyone</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close" filter="course"><span class="task_tab"> Courses<br />& Groups</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close" filter="friend"><span class="task_tab"> Friends</span></a>
           </div>
+
           <!-- NEW BOX START HERE -->
           <div class="leader_TabCSS">
             <div class="steel_pin"><img src="images/pin_steel.png" /></div>
             <div class="leader_topselect">
-            <div class="clear"></div>
+              <div class="clear"></div>
             </div>
-            <div class="LB_table" id="user_record">
-              <%= render :partial=>"courses_list" %> 
+
+            <div id="rows" class="LB_table">
+              <!-- Data rows goes here -->
             </div>
+            
           </div>
-          <div class="clear"></div>
-          <!-- NEW BOX CLSOE HERE -->
+
+          <div class="clear end_of_page"></div>
+
         </div>
       </div>
     </div>
@@ -31,3 +34,35 @@
 </div>
 
 
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+  setPageTitle("Leaderboard");
+  jStorage.flush();
+  getRows();
+
+  // Handler for side-tabs
+  $(".side_tab").unbind('click').bind('click', function(){
+    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
+    $(this).addClass("side_tab_open").removeClass("side_tab_close");
+    getRows();
+  });
+});
+
+// Retrieve tasks based on the current filters
+function getRows() {
+  showSpinner(true);
+  var filter = $(".side_tab_open:first").attr("filter");
+
+  $.ajax({
+     type: "GET",  
+     url: "/leader_board/get_rows",  
+     data: {filter:filter},
+     success: function(data) {
+       $("#rows").html(data);
+       showSpinner(false);
+     }
+  });
+}
+</script>

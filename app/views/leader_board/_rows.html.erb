@@ -1,0 +1,24 @@
+<div class="LB_tableheader">
+  <div class="LBT_ava"> &nbsp;</div>
+  <div class="LBT_name">&nbsp;</div>
+  <div class="LBT_level">LEVEL</div>
+  <div class="LBT_xp">XP</div>
+  <div class="LBT_badges">BADGES</div>
+  <div class="LBT_Likes">LIKES</div>
+</div>
+<% unless @profiles.nil? %>
+  <% @profiles.each do |p| %> 
+    <div class="LB_tablecontent <%= cycle("even", "odd") %>">
+      <div class="LBT_ava">
+        <div class="avatarWbdr"><img src="<%= p.image_file_name%>" class="profile" profile_id="<%= p.id %>" /></div>
+      </div>
+      <div class="LBT_name"> <span class="name_txt"><%= p.full_name %> </span><br />
+        <span class="course_txt"><%= p.major_school %></span> </div>
+      <div class="LBT_level"><%= p.level %></div>
+      <div class="LBT_xp"><%= p.xp %></div>
+      <div class="LBT_badges"><%= p.badge_count %></div>
+      <div class="LBT_Likes"><%= p.like_received %></div>
+    </div>
+  <% end %>
+<% end %>  
+

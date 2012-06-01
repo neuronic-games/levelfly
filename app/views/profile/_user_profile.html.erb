@@ -10,10 +10,10 @@
     
     <div class="profile_item">
       <div id="full_name" class="full_name">
-        <input type="text" name="full_name" id="full_name_input" class="full_name" value="<%=user_session[:profile_name]%>" placeholder="Enter Name" />
+        <input type="text" name="full_name" id="full_name_input" class="full_name" value="<%= profile.full_name %>" placeholder="Enter Name" />
       </div>
       
-      <% if user_session[:profile_id] != profile.id %>
+      <% if @profile.id != profile.id %>
       <span id="input_un_bl">
         <% if is_friend(user_session[:profile_id], profile.id) %>
         <a href="javascript:void(0)" id="unfriend" class="btn">UNFRIEND</a>

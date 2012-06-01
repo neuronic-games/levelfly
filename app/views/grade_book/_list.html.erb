@@ -280,7 +280,10 @@
 <script>
 
 $(document).ready(function(){
-    //Toggle Tabs
+
+  setPageTitle("GradeBook");
+
+  //Toggle Tabs
   $(".menu_container").delegate('a', 'click', function(){
     //showSpinner(true);
     idx = $(this).attr("value");
