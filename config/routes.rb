@@ -156,6 +156,10 @@ Oncapus::Application.routes.draw do
   
   get "grade_book/index"
   
+  get "leader_board/index"
+  
+  post "leader_board/show_user_profile"
+  
   post "grade_book/get_task"
   
   get "wardrobe/index"
@@ -209,6 +213,8 @@ Oncapus::Application.routes.draw do
   match 'task' => 'task#index'
   
   match 'grade_book' => 'grade_book#index'
+  
+  match 'leader_board' => 'leader_board#index'
     
   match 'main' => 'course#index'
   

@@ -22,6 +22,8 @@
   <script src="/assets/ui/jquery.ui.autocomplete.js"></script>
   <script src="/assets/ui/jquery.ui.datepicker.js"></script>
   <script src="/assets/ui/jquery.maskedinput-1.3.min.js"></script>
+  <script src="/assets/ui/jquery.thumbnailScroller.js"></script>
+  <script src="/assets/ui/jquery-ui-1.8.13.custom.min.js"></script>
   <script src="/assets/jstorage.js"></script>
   <script type="text/javascript" src="/assets/fileupload/plupload.js"></script>
   <script type="text/javascript" src="/assets/fileupload/plupload.html5.js"></script>
@@ -102,25 +104,39 @@
             <!--<a href="#" class="uparrow"></a>-->
           </div>
           <!--icon-->
+          
+          <div class="jTscrollerContainer">
+          <div class="jTscroller">
+          
+          
           <div class="space_btwn_icon"></div>
           <div class="icon_box"><span class="msg_count" style="display:none;">1</span><a href="javascript:void(0);" id="msg" rel="/message/" class="icon_msg menu_btn">messages</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"><a href="javascript:void(0);" id="courses" rel="/course/" class="icon_courses_active menu_btn" data="C">courses</a> </div>
+          <div class="icon_box"><a href="javascript:void(0);" id="courses" rel="/course/" class="icon_courses menu_btn" data="C">courses</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"> <a href="javascript:void(0);" id="tasks" rel1="/system/alert/" rel="/task/" class="icon_tasks menu_btn">tasks</a> </div>
+          <div class="icon_box"> <a href="javascript:void(0);" id="tasks" rel1="/system/alert/" rel="/task/" class="icon_tasks_active menu_btn">tasks</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
           <div class="icon_box"> <a href="javascript:void(0);" id="networks" rel1="/system/alert/" rel="/course/" data="G" class="icon_networks menu_btn">Groups</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <!-- <div class="icon_box"> <a href="javascript:void(0);" id="stats" rel="/system/alert/" class="icon_stats menu_btn">Leader board</a> </div>
-          <div class="space_btwn_icon"></div> -->
           <div class="icon_box"> <a href="javascript:void(0);" id="grade" rel="/grade_book/" class="icon_grade menu_btn">Grade book</a> </div>
           <div class="space_btwn_icon"></div>
-          <a href="javascript:void(0);" id="wardrobe" rel="/wardrobe/" class="menu_btn downarrow"></a>
+          <div class="icon_box"> <a href="javascript:void(0);" id="leader_board" rel="/leader_board/" class="icon_leader menu_btn">Leader board</a> </div>
+          <div class="space_btwn_icon"></div> 
+          
+          </div>
+          </div>
+          <div class="downarrow jTscrollerNextButton"></div>
+          <div class="downarrow jTscrollerPrevButton"></div>
+          <!--<a href="javascript:void(0);" class="menu_btn downarrow jTscrollerNextButton">
+          <a href="javascript:void(0);" id="wardrobe" rel="/wardrobe/" class="menu_btn downarrow jTscrollerNextButton"></a>
+           <a href="#" class="jTscrollerPrevButton"></a>-->
+       <!-- <a href="#" class="jTscrollerNextButton"></a>-->
         </div>
+        
       </div>
       
       <div class="middle_main_div">
@@ -147,6 +163,27 @@
 <script type="text/javascript">
 
 <!--
+  jQuery.noConflict(); 
+  (function($){
+  window.onload=function(){ 
+    $("#root_level").thumbnailScroller({ 
+      scrollerType:"clickButtons", 
+      scrollerOrientation:"vertical", 
+      scrollSpeed:2, 
+      scrollEasing:"easeOutCirc", 
+      scrollEasingAmount:800, 
+      acceleration:4, 
+      scrollSpeed:800, 
+      noScrollCenterSpace:10, 
+      autoScrolling:0, 
+      autoScrollingSpeed:2000, 
+      autoScrollingEasing:"easeInOutQuad", 
+      autoScrollingDelay:500 
+    });
+  }
+})(jQuery);
+
+
   var token = $("meta[name='csrf-token']").attr("content");
   var search_arr = {
     "/profile/user_profile" : "Find Friend",

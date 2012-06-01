@@ -9,7 +9,6 @@ html, body, div, span, applet, embed, object, iframe, frameset, p, q, blockquote
   border:0;
   outline:0;
   font-weight:inherit;
-  /*font-size:10pt;*/
   vertical-align:baseline;
   line-height:inherit;
   background:transparent;
@@ -68,6 +67,7 @@ img {
 html {height:100%;}
 body {
   font-family:Arial, Helvetica, sans-serif;
+  font-size:10pt;
   background:url(../images/body_bg.png) repeat;
   height:100%;
 }
@@ -1545,6 +1545,7 @@ a.green_bt19px:hover {
 .course_newmsg_bt {
 	padding-right:20px
 }
+/* For grade icon */
 a.icon_grade {
 	background:url(../images/grade_book_icon.png) no-repeat 17px 3px;
 	padding:58px 0 0;
@@ -1554,6 +1555,20 @@ a.icon_grade:hover {
 	padding:58px 0 0;
 }
 a.icon_grade_active {
+	background:url(../images/grade_book_icon_hover.png) no-repeat 17px 3px;
+	padding:58px 0 0;
+	color:#6a7c28;
+}
+/* For Leader icon */
+a.icon_leader {
+	background:url(../images/grade_book_icon.png) no-repeat 17px 3px;
+	padding:58px 0 0;
+}
+a.icon_leader:hover {
+	background:url(../images/grade_book_icon_hover.png) no-repeat 17px 3px;
+	padding:58px 0 0;
+}
+a.icon_leader_active {
 	background:url(../images/grade_book_icon_hover.png) no-repeat 17px 3px;
 	padding:58px 0 0;
 	color:#6a7c28;
@@ -2732,6 +2747,7 @@ background:#c8ccd4 !important;
 	float:left;
 	font-family: 'CollegeRegular';
 	font-size:12px;
+  overflow:hidden;
 }
 
 .selectbg select{
@@ -2906,7 +2922,7 @@ input.grading_Btn2 {
 }
 
 .GB_left_table td{
-	height:46px;
+	height:40px;
 }
 
 .b_box{
@@ -3234,3 +3250,208 @@ filter:alpha(opacity="0");
     float: left;
     margin: 30px 0 0 -73px;
 }
+
+/********************************leader page************************************/
+.leader_content {
+	z-index:1000;
+	height:100%;
+	padding-right:120px;/*margin: -62px 0 0;*/
+}
+.leader_board_left {
+	background:url(../images/leaderbg_left.png) 0 125px no-repeat;
+	padding-left:83px;
+	height:100%;
+}
+.leader_board_right {
+	background:url(../images/leaderbg_right.png) right 125px no-repeat;
+	padding-right:83px;
+	height:100%;
+}
+.leader_board_center {
+	background:url(../images/leaderbg_middle.png) 0 125px repeat-x;
+	/*height:732px;*/
+  height:100%;
+}
+.leader_pad_top {
+	width:100%;
+	height:97px;
+	overflow:hidden;
+	position:relative;
+	padding:78px 0 0 0;
+}
+.leader_pad {
+	width:100%;
+}
+.leader_tab_content {
+	padding-right:6px;
+	overflow: hidden;
+}
+.leader_tabs {
+	float: right;
+	margin: 0 -120px 0 -5px;
+	position: relative;
+}
+.leader_tab_open {
+	background:#8fac24;
+	width:60px;
+	height:100px;
+	display:block;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	margin:0 0 5px 0;
+	-webkit-box-shadow: inset -1px 0px 1px 0px rgba(255, 255, 255, 0.6);
+	-moz-box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
+	box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
+}
+.leader_tab_close {
+	background:#8c9569;
+	width:60px;
+	height:100px;
+	display:block;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	margin:0 0 5px 0;
+	-webkit-box-shadow: inset -1px 0px 1px 0px rgba(255, 255, 255, 0.6);
+	-moz-box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
+	box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
+}
+.leader_tab_close:hover {
+	background:#8fac24;
+	width:60px;
+	height:100px;
+	display:block;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	margin:0 0 5px 0;
+	-webkit-box-shadow: inset -1px 0px 1px 0px rgba(255, 255, 255, 0.6);
+	-moz-box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
+	box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
+}
+.leader_TabCSS {
+	padding-top:7px;
+	width:auto;
+	height:auto;
+}
+.LB_table {
+	display:table;
+	width:100%
+}
+.LB_table .odd {
+	background:#f2fad6;
+}
+.LB_table .even {
+	background:#ebf7c2;
+}
+.LB_tableheader {
+	height:20px;
+	border-bottom:#FF0000 1px solid;
+	display:table-row;
+}
+.LB_tableheader div {
+	font-family: 'CollegeRegular';
+	font-size:18px;
+	color:#b3c76a;
+	text-align:center;
+}
+.LB_table .LBT_ava {
+	width:10%;
+	display:table-cell;
+	padding:5px;
+}
+.LB_table .LBT_name {
+	width:22%;
+	display:table-cell;
+}
+.LB_table .LBT_level {
+	width:17%;
+	display:table-cell
+}
+.LB_table .LBT_xp {
+	width:17%;
+	display:table-cell
+}
+.LB_table .LBT_badges {
+	width:17%;
+	display:table-cell
+}
+.LB_table .LBT_Likes {
+	width:17%;
+	display:table-cell
+}
+.LB_table .LB_tablecontent {
+	display:table-row;
+}
+.LB_table .LB_tablecontent div {
+	font-family: 'CollegeRegular';
+	color:#2e2e2e;
+	font-size:22px;
+	text-align:center;
+	vertical-align:middle;
+}
+.LB_tablecontent .LBT_ava .avatarWbdr {
+	border:#eaebeb 4px solid;
+	float:left;
+	/*width:14%;*/
+  width:54px;
+	height:54px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	background:url(../images/avatar_bg.jpg) no-repeat center;
+	-moz-box-shadow:inset 0px 0px 2px 1px #000000;
+	-webkit-box-shadow:inset 0px 0px 2px 1px #000000;
+	box-shadow:inset 0px 0px 2px 1px #000000;
+	margin:0 10px 0 0;
+}
+.avatarWbdr img {
+	width:53px;
+	height:53px;
+}
+.LBT_name {
+	color:#3a4512 !important;
+	font-family:Arial, Helvetica, sans-serif;
+	text-align:left !important;
+}
+.LBT_name .name_txt {
+	font-size:12px;
+	font-weight:bold;
+}
+.LBT_name .course_txt {
+	font-size:11px;
+}
+.steel_pin {
+	text-align:center;
+	height:50px;
+	margin:-20px 0 0 0
+}
+.leader_topselect {
+	height:60px;
+}
+.leader_heading {
+	color:#b3c76a;
+	font-size:23px;
+	font-family: 'CollegeRegular';
+	float:left;
+	padding: 4px 15px 0 0;
+}
+
+
+@charset "utf-8";
+
+.nav_box{position:relative; width:800px; height:122px; padding:0; overflow:hidden; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;}
+.nav_box .jTscrollerContainer{position:absolute;}
+.nav_box .jTscroller{position:relative; height:100%; margin:0; left:0; top:0; display:inline-block; *display:inline;}
+.nav_box .jTscrollerNextButton,.nav_box .jTscrollerPrevButton{position:absolute; display:block; width:40px; height:40px; -moz-border-radius:20px; -webkit-border-radius:20px; border-radius:20px; opacity:0.7;}
+
+.nav_box .jTscrollerNextButton:hover,.nav_box .jTscrollerPrevButton:hover{background-color:#d56916; opacity:1;}
+
+.nav_box#root_level{position:fixed; width:100px; height:495px; margin:0;}
+
+
+.nav_box#root_level .jTscroller a:hover{opacity:1;}
+.nav_box#root_level .jTscroller a:first-child{margin-top:10px;}
+.nav_box#root_level .jTscrollerNextButton{margin:10px 0 10px -20px; bottom:0; left:50%; -moz-transform:rotate(90deg); -webkit-transform:rotate(90deg); -o-transform:rotate(90deg); -ms-transform:rotate(90deg);}
+.nav_box#root_level .jTscrollerPrevButton{margin:10px 0 10px -20px; top:0; left:50%; -moz-transform:rotate(90deg); -webkit-transform:rotate(90deg); -o-transform:rotate(90deg); -ms-transform:rotate(90deg);}

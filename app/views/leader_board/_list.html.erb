@@ -1,0 +1,57 @@
+<!-- Leader Board -->
+<div class="leader_content">
+  <div class="leader_board_left">
+    <div class="leader_board_right">
+      <div class="leader_board_center">
+        <div class="leader_pad_top"> </div>
+        <div class="leader_pad">
+          <!-- tabs-->
+          <div class="leader_tabs" align="right">
+          <a href="javascript:void(0)"  id="menu1" value="1" class="side_tab side_tab_open"><span class="task_tab"> Course</span></a>
+          <a href="javascript:void(0)"  id="menu2" value="2" class="side_tab side_tab_close"><span class="task_tab"> Grading</span></a>
+          <a href="javascript:void(0)"  id="menu3" value="3" class="side_tab side_tab_close"><span class="task_tab"> Members</span></a>
+          </div>
+          <!-- NEW BOX START HERE -->
+          <div class="leader_TabCSS">
+            <div class="steel_pin"><img src="images/pin_steel.png" /></div>
+            <div class="leader_topselect">
+              <div class="leader_heading">COURSE</div>
+              <div class="selectbg"> <span class="fakebox">All Courses</span>
+               <select id="course_id">
+                  <% unless @courses.nil? %>
+                    <% @courses.each do |c| %> 
+                    <option value="<%= c.id %>"><%= c.name %></option>
+                    <% end %>
+                  <% end %>
+               </select>
+              </div>
+              <div class="clear"></div>
+            </div>
+            <div class="LB_table" id="user_record">
+              <%= render :partial=>"courses_list" %> 
+            </div>
+          </div>
+          <div class="clear"></div>
+          <!-- NEW BOX CLSOE HERE -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+<script>
+$('#course_id').change(function(){
+  var singleValues = $("#course_id :selected").text();
+  course_id = $(this).val();
+  $(this).parent().find('.fakebox').html(singleValues );
+  $.ajax({
+    type :"POST",
+    url: "/leader_board/show_user_profile",  
+    data: {course_id:course_id},
+    success: function(data){     
+      $("#user_record").html(data);          
+     }
+  });
+});
+</script>
+
