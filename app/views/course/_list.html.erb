@@ -59,10 +59,12 @@
                 </td>
                 
                 <td style="text-align:center;">
+                  <% if c.owner %>
                   <div class="avatar_white_bdr">
                     <img src="<%=c.owner.image_file_name%>" profile_id="<%=c.owner.id%>" class="profile"/>
                   </div>
                   <%= c.owner.full_name %>
+                  <% end %>
                 </td>
               </tr>
               <% end %>

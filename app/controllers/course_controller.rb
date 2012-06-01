@@ -20,27 +20,19 @@ class CourseController < ApplicationController
       return if redirect_to_last_action(@profile, 'course', '/course/show')
       
       if !params[:section_type].nil?
-      
-       if params[:section_type] == 'C'
-       @courses = Course.joins("INNER JOIN participants ON participants.object_id=courses.id").where("participants.profile_id = ? AND courses.parent_type = ? AND participants.profile_type!='P'", @profile.id,params[:section_type])  
-       end
-       if params[:section_type] == 'G'
-       @courses = Course.joins("INNER JOIN participants ON participants.object_id=courses.id").where("courses.parent_type = ? AND courses.join_type = 'I' AND participants.profile_type!='P'", params[:section_type])  
-       end         
-            
-        # @courses = Course.find(
-        #   :all, 
-        #   :include => [:participants], 
-        #   :conditions => ["participants.profile_id = ? AND parent_type= ? AND      participants.profile_type != 'P'", @profile.id,params[:section_type]],
-        #   :order => 'name'
-        # )
+        if params[:section_type] == 'C'
+          @courses = Course.joins("INNER JOIN participants ON participants.object_id=courses.id").where("participants.profile_id = ? AND courses.parent_type = ? AND participants.profile_type!='P' AND courses.archived = ?", @profile.id,params[:section_type], false)
+        end
+        if params[:section_type] == 'G'
+          @courses = Course.joins("INNER JOIN participants ON participants.object_id=courses.id").where("courses.parent_type = ? AND courses.join_type = 'I' AND participants.profile_type!='P' AND courses.archived = ?", params[:section_type], false)
+        end
       else
-      @courses = Course.find(
-        :all, 
-        :include => [:participants], 
-        :conditions => ["participants.profile_id = ? AND parent_type= 'Course' AND participants.profile_type != 'P'", @profile.id],
-        :order => 'name'
-      )
+        @courses = Course.find(
+          :all, 
+          :include => [:participants], 
+          :conditions => ["participants.profile_id = ? AND parent_type= 'Course' AND participants.profile_type != 'P'", @profile.id],
+          :order => 'name'
+        )
       end
     end
     
