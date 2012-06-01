@@ -38,7 +38,7 @@
       <div class="positn_rtlv">
         <div class="level_00">
           <div class="head">Level</div>
-          <div class="count"><%=h "%02d" % @profile.level.to_i %></div>
+          <div class="count"><%= "%02d" % @profile.level %></div>
         </div>
       </div>
       <div class="avatar_box">
@@ -122,9 +122,10 @@
           <div class="icon_box"> <a href="javascript:void(0);" id="networks" rel1="/system/alert/" rel="/course/" data="G" class="icon_networks menu_btn">Groups</a> </div>
           <div class="space_btwn_icon"></div>
           <!--icon-->
-          <div class="icon_box"> <a href="javascript:void(0);" id="grade" rel="/grade_book/" class="icon_grade menu_btn">Grade book</a> </div>
-          <div class="space_btwn_icon"></div>
           <div class="icon_box"> <a href="javascript:void(0);" id="leader_board" rel="/leader_board/" class="icon_leader menu_btn">Leader board</a> </div>
+          <div class="space_btwn_icon"></div>
+          <!--icon-->
+          <div class="icon_box"> <a href="javascript:void(0);" id="grade" rel="/grade_book/" class="icon_grade menu_btn">Grade book</a> </div>
           <div class="space_btwn_icon"></div> 
           
           </div>

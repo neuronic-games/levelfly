@@ -1,4 +1,4 @@
-<div class="level_01"><%= '%02d' % profile.avatar.level %></div>
+<div class="level_01"><%= '%02d' % profile.level %></div>
 <div class="top_img"></div>
 <div class="shadow_repeat">
   <div>
@@ -11,8 +11,8 @@
       <div class="spacebar10px"></div>
     </div>
     <div class="clear"></div>
-    <span class="pop_fav_icon"><img src="/images//fav.png" align="absbottom" /> <%=profile.like_received ? profile.like_received : 0 %></span>
-    <span class="pop_win_icon"><img src="/images//cup_icon.png" align="absbottom" /> <%=profile.avatar.points ? profile.avatar.points : 0 %></span>
+    <span class="pop_fav_icon"><img src="/images//fav.png" align="absbottom" /> <%= profile.like_received %></span>
+    <span class="pop_win_icon"><img src="/images//cup_icon.png" align="absbottom" /> <%= profile.xp %></span>
     <div id="msg_input" class="hide">
       <textarea name="message" id="message" class="msg_txt" placeholder="Enter your message..."></textarea>
     </div>

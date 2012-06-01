@@ -56,12 +56,12 @@
     </div>
 
     <div class="profile_item gap">
-      <div class="big_number"><%=h profile.avatar.level %></div>
+      <div class="big_number"><%=h profile.level %></div>
       <div class="caption">Level</div>
     </div>
 
     <div class="profile_item gap">
-      <div class="big_number"><%=h profile.like_received ? profile.like_received : 0 %></div>
+      <div class="big_number"><%= profile.like_received %></div>
       <div class="caption">Likes</div>
     </div>
       
