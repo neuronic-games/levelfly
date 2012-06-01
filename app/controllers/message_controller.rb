@@ -67,11 +67,8 @@ class MessageController < ApplicationController
   
   def like
     if params[:message_id] && !params[:message_id].nil?
-      @message = Message.find(params[:message_id])
-      if(@message)
-        @message.like = @message.like + 1
-        @message.save
-        @like = Like.create(:message_id=>@message.id, :profile_id=>user_session[:profile_id])
+      @message = Like.add(params[:message_id], user_session[:profile_id])
+      if @message
         render :text => {"action"=>"unlike", "count"=>@message.like}.to_json
       end
     end
@@ -79,12 +76,8 @@ class MessageController < ApplicationController
   
   def unlike
     if params[:message_id] && !params[:message_id].nil?
-      @message = Message.find(params[:message_id])
-      if(@message)
-        @message.like = @message.like - 1
-        @message.save
-        @like = Like.find(:first, :conditions=>["message_id = ? AND profile_id = ?", @message.id,user_session[:profile_id]])
-        @like.destroy if @like
+      @message = Like.remove(params[:message_id], user_session[:profile_id])
+      if @message
         render :text => {"action"=>"like", "count"=>@message.like}.to_json
       end
     end
