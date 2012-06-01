@@ -1561,15 +1561,15 @@ a.icon_grade_active {
 }
 /* For Leader icon */
 a.icon_leader {
-	background:url(../images/grade_book_icon.png) no-repeat 17px 3px;
+	background:url(../images/stats_icon.png) no-repeat 17px 3px;
 	padding:58px 0 0;
 }
 a.icon_leader:hover {
-	background:url(../images/grade_book_icon_hover.png) no-repeat 17px 3px;
+	background:url(../images/stats_icon_hover.png) no-repeat 17px 3px;
 	padding:58px 0 0;
 }
 a.icon_leader_active {
-	background:url(../images/grade_book_icon_hover.png) no-repeat 17px 3px;
+	background:url(../images/stats_icon_hover.png) no-repeat 17px 3px;
 	padding:58px 0 0;
 	color:#6a7c28;
 }
