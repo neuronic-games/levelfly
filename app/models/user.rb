@@ -21,4 +21,5 @@ class User < ActiveRecord::Base
       Participant.create(:object_id => self.id, :object_type => 'User', :profile_id => profile_id, :profile_type => 'F')
     end
   end
+  
 end

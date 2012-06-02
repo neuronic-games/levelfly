@@ -51,12 +51,12 @@ class CourseController < ApplicationController
     status = false
     if params[:id] && !params[:id].nil?
       @course = Course.find_by_id(params[:id])
-      @participant =  participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Group' AND profile_id = ? ", params[:id], user_session[:profile_id]]) 
+      @participant =  participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ? ", params[:id], user_session[:profile_id]])
       if !@participant 
         @participant = Participant.new
         @participant.object_id    = params[:id] if params[:id]
         @participant.profile_id   = user_session[:profile_id]
-        @participant.object_type  = "Group"
+        @participant.object_type  = "Course"
         @participant.profile_type = "S"  
         if @participant.save
           status = true

@@ -568,7 +568,7 @@ a.blue_bt19px:hover {
   z-index:1000;
   height:100%;
   padding-right:90px;
-  /*margin: -62px 0 0;*/
+  margin: -62px 0 0;
 }
 .board_left {
   background:url(../images/board_left.png) 0 0px no-repeat;
