@@ -69,11 +69,14 @@
        type:"POST",
        url:"/task/task_complete",
        data:{task_id:task_id,check_val:check_val},
+       dataType:"json",
        success:function(data){
          showSpinner(false);
          if (data.status) {
+           setAlert("Task completed")
            $(".clipboard_list[task_id="+task_id+"]").css("background-color", "#BCD599");
          } else {
+           setAlert("Task not completed")
            $(".clipboard_list[task_id="+task_id+"]").css("background-color", "");
          }
        }

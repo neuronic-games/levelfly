@@ -22,6 +22,24 @@ class Task < ActiveRecord::Base
   @@levels = ["Low", "Medium", "High"]
   cattr_accessor :levels
 
+  @@profile_type_owner = 'O'
+  cattr_accessor :profile_type_owner
+
+  @@profile_type_member = 'M'
+  cattr_accessor :profile_type_member
+
+  @@status_assigned = 'A'
+  cattr_accessor :status_assigned
+
+  @@status_complete = 'C'
+  cattr_accessor :status_complete
+
+  @@status_incomplete = 'I'
+  cattr_accessor :status_incomplete
+
+  @@status_pending = 'P'
+  cattr_accessor :status_pending
+
   def init_defaults
     #self.level = 0
   end
@@ -98,28 +116,42 @@ class Task < ActiveRecord::Base
     return "/images/ui/task_rating_#{self.level}.png"
   end
   
-  def self.send_task_complete(task_id,check_val)
-    status = false
-    @participant = TaskParticipant.find(:first,:conditions=>["task_id =?",task_id])
-    @task = Task.find_by_id(@participant.task_id)
-     if @participant
-       @avatar = Avatar.find(:first,:conditions=>["profile_id =?",@participant.task_id])
-       if check_val == "true"
-          @participant.complete_date = Date.today
-          @participant.status = 'C'
-          @participant.save
-          @avatar.points = @task.points
-          @avatar.save
-        else
-          @participant.complete_date = ""
-          @participant.status = 'P'
-          @participant.save
-          @avatar.points = 0
-          @avatar.save
-        end
-        status = true
+  # Mark the task as complete and give points
+  def self.complete_task(task_id, complete, profile_id)
+    status = nil
+    participant = TaskParticipant.find(:first,
+      :include => [:profile, :task],
+      :conditions => ["task_id = ? and profile_id = ?", task_id, profile_id])
+    return status if participant.nil?
+    
+    profile = participant.profile
+    task = participant.task
+
+    if participant.profile_type == Task.profile_type_owner
+      # If the owner marks the task as complete, we need to close out the task for all members,
+      # and mark it incomplete for them. Owner does not get points. There is no going back on this action.
+      participant.complete_date = Time.now
+      participant.status = Task.status_complete
+      participant.save
+      participants = TaskParticipant.find(:all,
+        :include => [:profile, :task],
+        :conditions => ["task_id = ? and profile_type = ? and status <> ?", task_id, Task.profile_type_member, Task.status_complete])
+      participants.each do |a_participant|
+        a_participant.complete_date = Time.now
+        a_participant.status = Task.status_incomplete
+        a_participant.save
       end
-      return status
-  end
-  
+      status = true
+    elsif participant.profile_type == Task.profile_type_member
+      # Give points to members who completed the task
+      participant.complete_date = complete ? Time.now : nil
+      participant.status = complete ? Task.status_complete : Task.status_assigned
+      profile.xp += complete ? task.points : -task.points
+      participant.save
+      profile.save
+      status = complete
+    end
+
+    return status
+  end  
 end

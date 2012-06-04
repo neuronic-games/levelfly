@@ -146,7 +146,7 @@ class TaskController < ApplicationController
 
   def toggle_priority
     status = false
-    @task = TaskParticipant.find(:first, :conditions => ["task_id = ?", params[:task_id]])
+    @task = TaskParticipant.find(:first, :conditions => ["task_id = ? and profile_id = ?", params[:task_id], user_session[:profile_id]])
     if @task
       @task.priority = (@task.priority == "L" ? "H" : "L")
       @task.save
@@ -191,20 +191,20 @@ class TaskController < ApplicationController
         OutcomeTask.delete_all(["outcome_id NOT IN (?) AND task_id = ?", params[:outcomes], @task.id])
         outcomes_array = params[:outcomes].split(",")
         outcomes_array.each do |o|
-            outcome_task = OutcomeTask.find(:first, :conditions => ["task_id = ? AND outcome_id = ?", @task.id, o])
-            if !outcome_task
-              #OutcomeTask record
-              @outcome_task = OutcomeTask.new
-              @outcome_task.task_id = @task.id
-              @outcome_task.outcome_id = o
-              #@outcome_task.points_percentage = params[:points]
-              @outcome_task.save
-            end
+          outcome_task = OutcomeTask.find(:first, :conditions => ["task_id = ? AND outcome_id = ?", @task.id, o])
+          if !outcome_task
+            #OutcomeTask record
+            @outcome_task = OutcomeTask.new
+            @outcome_task.task_id = @task.id
+            @outcome_task.outcome_id = o
+            #@outcome_task.points_percentage = params[:points]
+            @outcome_task.save
+          end
         end
       end
       # Participant record
       task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='O' AND profile_id = ?", @task.id, user_session[:profile_id]])
-     if !task_participant
+      if !task_participant
         @task_participant = TaskParticipant.new
         @task_participant.profile_id = user_session[:profile_id]
         @task_participant.profile_type = "O"
@@ -222,17 +222,19 @@ class TaskController < ApplicationController
       if params[:people_id] && !params[:people_id].empty?
         peoples_array = params[:people_id].split(",")
         peoples_array.each do |p_id|
-          participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Task' AND profile_id = ?", @task.id, p_id])
-          if !participant
-            @participant = Participant.new
-            @participant.object_id = @task.id
-            @participant.object_type = "Task"
-            @participant.profile_id = p_id
-            @participant.profile_type = "S"
-            if @participant.save
+          
+          task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='M' AND profile_id = ?", @task.id, p_id])
+          if !task_participant
+            @task_participant = TaskParticipant.new
+            @task_participant.profile_id = p_id
+            @task_participant.profile_type = "M"
+            @task_participant.status = "A"
+            @task_participant.priority = "L"
+            @task_participant.task_id = @task.id
+            if @task_participant.save
               Feed.create(
-                :profile_id => @participant.profile_id,
-                :wall_id =>wall_id
+                :profile_id => p_id,
+                :wall_id => wall_id
               )
             end
           end
@@ -261,12 +263,12 @@ class TaskController < ApplicationController
     end
   end
   
-  
   def task_complete
+    status = nil
     if params[:task_id] && !params[:task_id].empty?
-      status = Task.send_task_complete(params[:task_id],params[:check_val])
+      status = Task.complete_task(params[:task_id], params[:check_val]=="true", user_session[:profile_id])
     end
-    render :text => {"status"=> status}.to_json
+    render :text => {:status => status}.to_json
   end
   
   def edit

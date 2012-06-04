@@ -12,7 +12,8 @@ module TaskHelper
   
   def member_associate(member_id, task_id)
     if member_id
-      participant = Participant.find(:first, :conditions=>["object_type = 'Task' AND profile_id = ? AND object_id = ? AND profile_type != 'D' ", member_id, task_id])
+      participant = TaskParticipant.find(:first, 
+        :conditions => ["profile_id = ? AND task_id = ? AND profile_type = ? ", member_id, task_id, Task.profile_type_member])
       if participant
         return true
       end
