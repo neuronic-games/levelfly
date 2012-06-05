@@ -568,7 +568,7 @@ a.blue_bt19px:hover {
   z-index:1000;
   height:100%;
   padding-right:90px;
-  margin: -62px 0 0;
+  /*margin: -62px 0 0;*/
 }
 .board_left {
   background:url(../images/board_left.png) 0 0px no-repeat;
@@ -1094,11 +1094,17 @@ a.blue_bt19px:hover {
 	color:#FFFFFF !important;
   width:282px;
 }
+.brown_bg_input_1 {
+	background:#898888 !important;
+	border:#898888 1px solid;
+	color:#FFFFFF !important;
+  width:87px;
+}
 .brown_bg_textarea {
 	background:#898888 !important;
 	border:#898888 1px solid;
 	color:#FFFFFF !important;
-  width:205px;
+  width:188px;
 }
 .course_teacher_name .avatar_white_bdr {
 	border:#eaebeb 5px solid;
@@ -2878,11 +2884,15 @@ filter:alpha(opacity="0");
 }
 .group_viewfield {
   float:left;
-  width:49%;
+  /*width:49%;*/
 }
 
-.view_group_member{
+/*.view_group_member{
   margin:17px 0px 0 40px;
+}*/
+
+.view_group_member{
+  margin-top:-100px;
 }
 .send_group_invitation {
     float: left;
@@ -3080,8 +3090,8 @@ filter:alpha(opacity="0");
 .nav_box .jTscrollerContainer{position:absolute; }
 .nav_box .jTscroller{position:relative; height:100%; margin:0; left:0; top:0; display:inline-block; *display:inline;}
 .jTscrollerNextButton,.jTscrollerPrevButton{position:absolute; display:block; width:40px; height:40px;  cursor:pointer }
-.nav_box#root_level{position:fixed; width:110px; height:471px; margin:0; bottom:50px;}
+.nav_box#root_level{position:fixed; width:110px; height:471px; margin:0; bottom:25px;}
 .nav_box#root_level .jTscroller a:hover{opacity:1;}
-.nav_box#root_level .jTscroller a:first-child{margin-top:10px;}
+.nav_box#root_level .jTscroller a:first-child{margin-top:9px;}
 .jTscrollerNextButton{margin:0px 0px -14px 20px; bottom:0;  background:url(../images/down_arrow.png) no-repeat center; padding:0px 0 0 0; z-index:9999;}
-.jTscrollerPrevButton{margin:-13px 0px 0px 20px; top:0; background:url(../images/up_arrow.png) no-repeat center;}
+.jTscrollerPrevButton{margin:-9px 0px 0px 20px; top:0; background:url(../images/up_arrow.png) no-repeat center;}

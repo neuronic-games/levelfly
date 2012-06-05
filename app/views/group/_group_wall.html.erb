@@ -3,14 +3,7 @@
     <div class="group_profile_image" id="group_image">
        <img id="group_thumb" src='<%= @course.image_file %>' width="156" height="156" alt="Course image" />
     </div>
-    
-    <div class="menu_container1 view_group_member">
-      <div class="CAL_01"><span class="field_label"> 
-      <% if !@member_count.nil? %><%= @member_count %><%else%>0<%end%> MEMBERS <% if !@pending_count.nil? %><% "(#{@pending_count} PENDING)" %><%end%></span>
-      
-      <a href="javascript:void(0)" id="btn_member"  class="green_bt19px">VIEW</a></div>
-    </div>
-    
+  
     
   </div>
   <div class="group_right" >
@@ -27,7 +20,7 @@
     <div class="group_detailbox">
     <div class="group_field_box">
         <div class="group_viewfield field_label">NAME
-          <div class="dd_bg brown_bg_input">
+          <div class="dd_bg brown_bg_input_1">
             <input type="text" name="group_name" id="group_name" class="dd_select brown_bg" <%if @course %> value="<%=@course.name if @course%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
           </div>
         </div>
@@ -46,7 +39,18 @@
            <% end %>
         </div>
        <div class="clear"></div>
+        
+    <div class="menu_container1 view_group_member">
+      <div class="CAL_01"><span class="field_label"> 
+      <% if !@member_count.nil? %><%= @member_count %><%else%>0<%end%> MEMBERS <% if !@pending_count.nil? %><% "(#{@pending_count} PENDING)" %><%end%></span>
+      
+      <a href="javascript:void(0)" id="btn_member"  class="green_bt19px">VIEW</a></div>
+    </div>
+    
+    
+      
       </div>
+      
       <div class="clear"></div>
     </div>
   </div>
