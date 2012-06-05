@@ -21,18 +21,25 @@ class CourseController < ApplicationController
       
       if !params[:section_type].nil?
         if params[:section_type] == 'C'
-          @courses = Course.joins("INNER JOIN participants ON participants.object_id=courses.id").where("participants.profile_id = ? AND courses.parent_type = ? AND participants.profile_type!='P' AND courses.archived = ?", @profile.id,params[:section_type], false)
+          @courses = Course.find(
+            :all, 
+            :select => "distinct *",
+            :include => [:participants], 
+            :conditions => ["participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?", @profile.id, Course.parent_type_course, Course.join_type_invite, Course.profile_type_pending, false],
+            :order => 'name'
+          )
         end
         if params[:section_type] == 'G'
-          @courses = Course.joins("INNER JOIN participants ON participants.object_id=courses.id").where("courses.parent_type = ? AND courses.join_type = 'I' AND participants.profile_type!='P' AND courses.archived = ?", params[:section_type], false)
+          @courses = Course.find(
+            :all, 
+            :select => "distinct *",
+            :include => [:participants], 
+            :conditions => ["participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?", @profile.id, Course.parent_type_group, Course.join_type_invite, Course.profile_type_pending, false],
+            :order => 'name'
+          )
         end
       else
-        @courses = Course.find(
-          :all, 
-          :include => [:participants], 
-          :conditions => ["participants.profile_id = ? AND parent_type= 'Course' AND participants.profile_type != 'P'", @profile.id],
-          :order => 'name'
-        )
+        @courses = []
       end
     end
     

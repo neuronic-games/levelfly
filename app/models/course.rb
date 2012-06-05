@@ -42,9 +42,30 @@ class Course < ActiveRecord::Base
   cattr_accessor :default_tasks_high
 
   # This is the default course icon
-  
-  @@default_image_file = "/images//course_img_default.jpg"
+
+  @@default_image_file = "/images/course_img_default.jpg"
   cattr_accessor :default_image_file
+
+  @@parent_type_group = 'G'
+  cattr_accessor :parent_type_group
+
+  @@parent_type_course = 'C'
+  cattr_accessor :parent_type_course
+
+  @@parent_type_group = 'G'
+  cattr_accessor :parent_type_group
+
+  @@join_type_invite = 'I'
+  cattr_accessor :join_type_invite
+
+  @@profile_type_master = 'M'
+  cattr_accessor :profile_type_master
+
+  @@profile_type_student = 'S'
+  cattr_accessor :profile_type_student
+
+  @@profile_type_pending = 'P'
+  cattr_accessor :profile_type_pending
   
   @owner = nil
   
