@@ -210,6 +210,12 @@ a.icon_stats_active {
     /*padding: 130px 0 0;*/
     width: 100%;     
 }
+.msg_content {
+  width: 515px;
+  background-color: #CCE8F4; 
+  color: #4A4F4E;
+  padding: 2px;
+}
 .msg_content_left {
   width:65%;
   font-family:Arial, Helvetica, sans-serif;
@@ -1092,19 +1098,16 @@ a.blue_bt19px:hover {
 	background:#898888 !important;
 	border:#898888 1px solid;
 	color:#FFFFFF !important;
-  width:282px;
 }
 .brown_bg_input_1 {
 	background:#898888 !important;
 	border:#898888 1px solid;
 	color:#FFFFFF !important;
-  width:87px;
 }
 .brown_bg_textarea {
 	background:#898888 !important;
 	border:#898888 1px solid;
 	color:#FFFFFF !important;
-  width:188px;
 }
 .course_teacher_name .avatar_white_bdr {
 	border:#eaebeb 5px solid;
@@ -2673,7 +2676,7 @@ filter:alpha(opacity="0");
 	height:auto;
 	width:65%;
 	font-family: 'CollegeRegular';
-		overflow-y: scroll; 
+	overflow-y: scroll; 
 	overflow: -moz-scrollbars-horizontal;
 }
 
@@ -2837,6 +2840,18 @@ filter:alpha(opacity="0");
 .group_privacy{
   margin: 60px 0 0 0;
   font-size: 13px;
+}
+.group_input input, .group_input textarea {
+  background: #898888;
+  color: #ffffff;
+  padding: 2px;
+}
+.group_name {
+  width: 200px;
+}
+.group_descr {
+  width: 300px;
+  color:#FFFFFF !important;
 }
 .privacy_setting {
     letter-spacing: 0;

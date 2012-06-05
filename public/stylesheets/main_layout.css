@@ -593,7 +593,7 @@ div .small_label {
 }
 div .frm_input {
   float:left;
-  width:415px;
+  width:615px;
   margin-left:115px;
 }
 div .frm_button{
@@ -823,8 +823,9 @@ img.image_icon_drop_target {
 
 .comment_input textarea {
   background:#B9D48F;
-  width:310px;
+  width:515px;
   color:#4A4A48;
+  padding: 2px;
 }
 
 .note_btn,.msg_btn,.root_btn {width:225px;text-align:right;}

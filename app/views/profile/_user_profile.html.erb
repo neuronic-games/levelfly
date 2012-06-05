@@ -159,15 +159,15 @@
 <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value=" <%=profile.id%>"/>
 
 <script type="text/javascript">
-var _level_meter =  new Array(0, 150, 200, 350, 400, 500, 550, 700, 750, 900);
+var _level_meter =  new Array(0, 0, 200, 350, 400, 500, 550, 700, 750, 900);
 
 $(document).ready(function(){
 
   setPageTitle('My Profile');
   
   $('.profile_share').hide();
-  var _level = 2;  // next level
-  var _xp = 170;  // current xp
+  var _level = <%= profile.level + 1 %>;  // next level
+  var _xp = <%= profile.xp %>;  // current xp
 
   var maxWidthLevel = parseInt($('#level_meter').css('width'));
   var targetXp = parseInt(_level_meter[_level]-_level_meter[_level-1]);

@@ -18,19 +18,18 @@
     <% end %>
     <% end %>
     <div class="group_detailbox">
-    <div class="group_field_box">
+    <div class="group_field_box group_input">
         <div class="group_viewfield field_label">NAME
-          <div class="dd_bg brown_bg_input_1">
-            <input type="text" name="group_name" id="group_name" class="dd_select brown_bg" <%if @course %> value="<%=@course.name if @course%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+          <div>
+            <input type="text" name="group_name" id="group_name" class="group_name" class="dd_select brown_bg" <%if @course %> value="<%=@course.name if @course%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
           </div>
         </div>
         
         <div class="group_viewfield field_label">Description
-          <div class="dd_bg brown_bg_textarea">
-            <textarea name="group_descr" id="group_descr" rows="4" cols="34" <%if @course %> value="<%=@course.descr if @course%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
+          <div>
+            <textarea name="group_descr" id="group_descr" class="group_descr" rows="4" cols="34" <%if @course %> value="<%=@course.descr if @course%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
           </div>
         </div>
-        
         
         <div class="group_image_name">
            <% if @courseMaster %>
@@ -38,16 +37,15 @@
            <div class="avatar_name"><%=@courseMaster.full_name%></div> 
            <% end %>
         </div>
-       <div class="clear"></div>
+ 
+        <div class="clear"></div>
         
-    <div class="menu_container1 view_group_member">
-      <div class="CAL_01"><span class="field_label"> 
-      <% if !@member_count.nil? %><%= @member_count %><%else%>0<%end%> MEMBERS <% if !@pending_count.nil? %><% "(#{@pending_count} PENDING)" %><%end%></span>
-      
-      <a href="javascript:void(0)" id="btn_member"  class="green_bt19px">VIEW</a></div>
-    </div>
-    
-    
+        <div class="menu_container1 view_group_member">
+          <div class="CAL_01"><span class="field_label"> 
+          <% if !@member_count.nil? %><%= @member_count %><%else%>0<%end%> MEMBERS <% if !@pending_count.nil? %><% "(#{@pending_count} PENDING)" %><%end%></span>
+
+          <a href="javascript:void(0)" id="btn_member"  class="green_bt19px">VIEW</a></div>
+        </div>
       
       </div>
       
@@ -65,7 +63,7 @@
       </div> -->
 
       <div class="show_group_messages">
-        <textarea id="msg_content" name="msg_content" style="width:310px; background-color: #CCE8F4; color: #4A4F4E;" placeholder="Enter your message to share..."></textarea> <br />
+        <textarea id="msg_content" name="msg_content" class="msg_content" placeholder="Enter your message to share..."></textarea> <br />
         <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
         <a href="javascript:void(0)" id="<%=@course.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="G" onclick="javascript:void(0);">Post</a>
       </div>
@@ -80,6 +78,9 @@
         <% end %>
       <% end %>
       </div>
+      
+      <div class="end_of_page"></div>
+      
     </div>
   <!-- Message ends -->
   <% end %>
