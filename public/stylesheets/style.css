@@ -574,7 +574,9 @@ a.blue_bt19px:hover {
   z-index:1000;
   height:100%;
   padding-right:90px;
-  /*margin: -62px 0 0;*/
+  /* We can't remove this margin setting because it will make the clipboard too low in the page. 
+     We need to fix the problem with the short clipboard in another way */
+  margin: -62px 0 0;
 }
 .board_left {
   background:url(../images/board_left.png) 0 0px no-repeat;
