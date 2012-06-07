@@ -6,11 +6,13 @@ class GradeBookController < ApplicationController
        @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
        if @profile
        @courses = Course.find(
-          :all, 
+          :all,
           :include => [:participants]
           #:conditions => ["participants.profile_id = ? AND participants.profile_type != 'P'", @profile.id],
           #:order => 'name'
        )
+       @participant = Profile.all( :joins => [:participants],:select => ["profiles.full_name"])
+
        @tasks = Task.find(:all)
 
        end
@@ -24,12 +26,17 @@ class GradeBookController < ApplicationController
         end
       end
     end
-    
+
     def get_task
        if params[:course_id] && !params[:course_id].nil?
+         @profile = Profile.find(user_session[:profile_id])
+         @course = Course.find(params[:course_id])
+         @outcomes = @course.outcomes
+         @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND object_type = 'Course'",params[:course_id]],:select => ["profiles.full_name"])
+
          @tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]], :select => "name,id")
        end
-       render :partial => "/grade_book/show_task"
+       render :partial => "/grade_book/show_participant"
     end
 
 end

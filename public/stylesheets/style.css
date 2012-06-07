@@ -211,7 +211,7 @@ a.icon_stats_active {
     width: 100%;     
 }
 .msg_content {
-  width: 515px;
+  width: 300px;
   background-color: #CCE8F4; 
   color: #4A4F4E;
   padding: 2px;
@@ -222,6 +222,10 @@ a.icon_stats_active {
   font-size:11px;
   float:left;
   padding:0 2% 0 0;
+}
+.mes_dis{
+ width:520px;
+ float:left;
 }
 .messages_content {padding: 0px 0 0;}
 .subject {
@@ -239,6 +243,11 @@ a.icon_stats_active {
   -moz-box-shadow:inset 0px 0px 2px 1px #000000;
   -webkit-box-shadow:inset 0px 0px 2px 1px #000000;
   box-shadow:inset 0px 0px 2px 1px #000000;
+}
+
+.message_wrapper_group{
+    float:right;
+    width:404px;
 }
 .msg_big_box .avatar_white_bdr {
   float: left;
@@ -576,7 +585,7 @@ a.blue_bt19px:hover {
   padding-right:90px;
   /* We can't remove this margin setting because it will make the clipboard too low in the page. 
      We need to fix the problem with the short clipboard in another way */
-  margin: -62px 0 0;
+ /* margin: -62px 0 0;  */
 }
 .board_left {
   background:url(../images/board_left.png) 0 0px no-repeat;
@@ -2326,18 +2335,19 @@ background:#c8ccd4 !important;
 }
 .gradebook_pad_top {
 	width:100%;
-	height:46px;
+	/*height:46px;   */
 	overflow:hidden;
 	position:relative;
 	padding:0px 0 0 0;
 }
 .gradebook_pad {
 	width:100%;
-	padding-top:40px;
+	/*padding-top:40px; */
 	
 }
 .gradebook_tab_content {
 	padding-right:6px;
+    padding-top: 104px;
 }
 .gradebook_tabs {
 	float: right;
@@ -2383,8 +2393,8 @@ background:#c8ccd4 !important;
 	-moz-box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
 	box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
 }
-.GB_course_box {float:left; width:50%; }
-.GB_course_box .page_heading { color:#3c68a3; font-size:23px; font-family: 'CollegeRegular'; float:left; padding: 4px 15px 0 0;}
+.GB_course_box {float:left; width:50%; margin-top:-81px;}
+.page_heading { color:#3c68a3; font-size:23px; font-family: 'CollegeRegular'; float:left; padding: 4px 15px 0 0;}
 
 .selectbg{
 	background-image:url(../images/selectboxbg.png);
@@ -2420,7 +2430,7 @@ filter:alpha(opacity="0");
 	font-size:16px;
 	color:#000000;
 }
-.gradebook_partribbon { background:url(../images/gradepage_ribbon.png) no-repeat center 129px; height:100% }
+.gradebook_partribbon { background:url(../images/gradepage_ribbon.png) no-repeat center 45px; height:100% }
 .spacebarGbook { height:55px; overflow:hidden;}
 .GB_Table { font-size:16px; font-family: 'CollegeRegular'; position:absolute; }
 
@@ -2609,7 +2619,7 @@ input.grading_Btn2 {
 }
 
 .GB_course_box2 .page_heading { color:#3c68a3; font-size:23px; font-family: 'CollegeRegular'; float:right; padding: 4px 15px 0 0;}
-.GB_course_box2 {float:left; width:50%; padding:0 0% 0 0;}
+.GB_course_box2 {float:left; width:50%; padding:0 0% 0 0;margin-top: -108px;}
 
 .selectbg3{
 	background-image:url(../images/selectboxbg.png);
@@ -2849,10 +2859,10 @@ filter:alpha(opacity="0");
   padding: 2px;
 }
 .group_name {
-  width: 200px;
+  width: 112px;
 }
 .group_descr {
-  width: 300px;
+  width: 168px;
   color:#FFFFFF !important;
 }
 .privacy_setting {

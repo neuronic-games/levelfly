@@ -1,0 +1,135 @@
+<div class="GB_course_box">
+
+  <div class="spacebarGbook"></div>
+  <div class="GBtable_wrapper">
+    <div class="outcome_wp">
+      <div class="Grade_left_panel_head"><div class="Grade_box">GRADE</div></div>
+      <div class="Grade_right_panel_head">
+        <div class="selectbg2"> <span class="fakebox">ALL OUTCOMES</span>
+          <select id="outcome_id">
+            <% unless @outcomes.nil? %>
+                <% @outcomes.each do |o| %>
+                    <option value="<%= o.id %>"><%= o.name %></option>
+                <% end %>
+            <% end %>
+          </select>
+        </div>
+      </div>
+    </div><!--outcome_wp-->
+
+    <div class="Grade_left_panel">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" class="GB_left_table">
+
+        <%if !@participant.nil?%>
+        <% @participant.each do |p|%>
+        <tr class="<%= cycle("GB_odd","")%>">
+          <td width="63%" class="Name_box"><%= p.full_name%></td>
+          <td width="37%" align="center" valign="middle"> <div class="b_box">B</div></td>
+        </tr>
+        <%end%>
+        <%end%>
+      </table>
+    </div><!--Grade_left_panel-->
+
+    <div class="Grade_right_panel">
+
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" class="GB_right_table">
+        <%if !@participant.nil?%>
+        <% @participant.each do |p|%>
+        <tr class="<%= cycle("Dark_no","")%>">
+          <td>
+            <div class="GB_outcomment rotate_text">WRITING USING A QUILL</div>
+          </td>
+          <td>1</td>
+          <td>2</td>
+          <td>2</td>
+          <td>1</td>
+          <td>2</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+        <%end%>
+        <%end%>
+
+      </table>
+    </div><!--Grade_right_panel-->
+  </div>
+</div>
+
+<div class="GB_course_box2">
+
+  <div class="selectbg3" id="show_all_task">
+    <%= render :partial => "/grade_book/show_task" %>
+  </div>
+
+  <div class="page_heading">TASK</div>
+  <div class="clear"></div>
+  <div class="spacebarGbook"></div>
+
+  <div class="task_left_wp">
+    <div class="task_left_heading">
+      <div class="positn_rtlv"><div id="seting_box" style="display:none;" class="GBsttingbox"></div>
+        <div class="GB_sttingbt"><img id="setting_icon" src="images/GB_setting_icon.png" /></div></div>
+      <span>ESSAY</span>
+    </div><!--task_left_heading-->
+    <div class="clear"></div>
+    <table width="100%" border="0">
+      <tr class="GB_odd">
+        <td>B+</td>
+        <td class="Dark_no width_30"><div class="GB_outcomment2 rotate_text">WRITING USING A QUILL</div>3</td>
+        <td class="Dark_no width_30"><div class="GB_outcomment2 rotate_text">WRITING USING A QUILL</div>2</td>
+      </tr>
+      <tr>
+        <td>A+</td>
+        <td class="Light_no width_30">3</td>
+        <td class="Light_no width_30">2</td>
+      </tr>
+
+      <tr class="GB_odd">
+        <td>B+</td>
+        <td class="Dark_no width_30"><div class="GB_outcomment2 rotate_text">WRITING USING A QUILL</div>3</td>
+        <td class="Dark_no width_30"><div class="GB_outcomment2 rotate_text">WRITING USING A QUILL</div>2</td>
+      </tr>
+    </table>
+  </div><!--task_left_wp-->
+
+  <div class="task_right_wp">
+
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr class="task_right_heading">
+        <th>ESSAY 2</th>
+        <th>ESSAY 3</th>
+        <th>ESSAY 4</th>
+        <th>ESSAY 5</th>
+        <th>ESSAY 6</th>
+      </tr>
+      <tr class="GB_odd">
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+
+      <tr >
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+
+      <tr class="GB_odd">
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+
+  </div><!--task_left_heading-->
+
+</div>

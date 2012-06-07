@@ -16,32 +16,32 @@
             <div class="course_pad_top"> </div>
             <div class="course_pad">
               <!-- tabs-->
-              
+
             <div class="course_tabs menu_container" align="right">
               <a href="javascript:void(0)"  id="menu1" value="1" class="side_tab side_tab_open" ><span class="task_tab">  <% if defined?(section_type) && section_type == "C" %> Course <%else%> Group <%end%></span></a>
-              
+
               <% if defined?(section_type) && section_type == "C" %>
               <a href="javascript:void(0)"  id="menu3" value="3" class="side_tab side_tab_close"><span class="task_tab"> Forums</span></a>
               <%end%>
-              
+
               <a href="javascript:void(0)"  id="menu4" value="4" class="side_tab side_tab_close"><span class="task_tab">Files</span></a>
             </div>
             <% if defined?(section_type)  %>
                <input type="hidden" id="section_type" value="<%=section_type%>"  />
-            <%end%>            
+            <%end%>
             <div class="course_tab_content">
               <div class="right_form_containerr" id="load_data">
-                  <!-- Data load here-->   
+                  <!-- Data load here-->
                 <% if defined?(section_type) && section_type == "G" %>
-                
+
                 <% if defined?(course_new) && course_new == true %>
                   <%= render :partial=>"group/setup" %>
                 <% else %>
                   <%= render :partial=>"group/group_wall" %>
                 <% end %>
-                
+
                 <% else %>
-                
+
                 <% if defined?(course_new) && course_new == true %>
                   <%= render :partial=>"course/setup" %>
                 <% else %>
@@ -61,7 +61,7 @@
     </div>
  </div>
 <script type="text/javascript">
-<!-- 
+<!--
 jStorage.flush();
 //For dynamic added nodes
 var _counterPeople = 2;
@@ -78,18 +78,18 @@ $.each($('input[name="outcomes[]"], input[name="people_id[]"], input[name="categ
 });
 
 //set storage on load while view of course
-if($("#course_name").val()!="") {setStorage("course_name", $("#course_name").val());} 
+if($("#course_name").val()!="") {setStorage("course_name", $("#course_name").val());}
 else {setStorage("course_name", "Course Name");}
 if($("#course_descr").val()!="") {setStorage("course_descr", $("#course_descr").val());} else {setStorage("course_descr", "New Course Description");}
-if($("#course_code").val()!="") {setStorage("course_code", $("#course_code").val());} 
+if($("#course_code").val()!="") {setStorage("course_code", $("#course_code").val());}
 else {setStorage("course_code", "Course Code");}
-if($("#course_section").val()!="") {setStorage("course_section", $("#course_section").val());} 
+if($("#course_section").val()!="") {setStorage("course_section", $("#course_section").val());}
 else {setStorage("course_section", "Section");}
 
 
 if($("#group_name").val()!=""){setStorage("group_name", $("#group_name").val());}
 else {setStorage("group_name", "New Group");}
-if($("#group_descr").val()!="") {setStorage("group_descr", $("#group_descr").val());} 
+if($("#group_descr").val()!="") {setStorage("group_descr", $("#group_descr").val());}
 else {setStorage("group_descr", "New Group Description");}
 
 $(document).ready(function(){
@@ -97,20 +97,20 @@ $(document).ready(function(){
   <% if defined?(course_new) && course_new == true %>
     $("#menu1").addClass("side_tab_close").removeClass("side_tab_open");
   <% end %>
-  
+
   // Course name
   setPageTitle(getStorage("course_name"));
-  
+
   //Toggle Tabs
   $(".menu_container").delegate('a', 'click', function(){
     showSpinner(true);
     idx = $(this).attr("value");
-    
+
     $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
-    
+
     for(i=0;i<6;i++){
       //---- Set all menu as De-Selected
-     
+
       // if(document.getElementById("menu"+(i+1))!=null){
       //   document.getElementById("menu"+(i+1)).className = "side_tab side_tab_close";
       // }
@@ -118,18 +118,18 @@ $(document).ready(function(){
         $("#div_"+i).hide();
       }
     }
- 
+
     //---- Selected menu will highlighted
     $('#menu'+idx).addClass("side_tab_open").removeClass("side_tab_close");
     $("#div_"+idx).fadeIn();
-    
-    course_id = $("#course_id_hdn").val(); 
-    section_type = $("#section_type").val(); 
+
+    course_id = $("#course_id_hdn").val();
+    section_type = $("#section_type").val();
     var data = {value:idx,id:course_id,section_type:section_type};
     $("#load_data").load("/course/show_course",data, function(response, status, xhr) {
       if(response)
       {
-        $("#load_data").html(response); 
+        $("#load_data").html(response);
         showSpinner(false);
       }
       if (status == "error")
@@ -143,42 +143,42 @@ $(document).ready(function(){
     if(is_page_change == "true") {
       save_course(this.id);
     }
-    
+
     if(idx == 2) {
       $("#btn_category_remove").fadeIn();
     } else {
       $("#btn_category_remove").fadeOut();
     }
-    
+
     if(idx == 4) {
       $("#menu_btn_addfile").fadeIn();
     } else {
       $("#menu_btn_addfile").fadeOut();
     }
-    
+
   });
-  
+
   //Add File by button
-  
+
   $("#menu_btn_addfile").click(function(){
      $("#confirm_upload").show();
      $("#show_file_data").hide();
   });
-   
+
   //Submit data
   $("#btn_course").unbind('click').bind('click', function(){
     save_course(this.id);
   });
-  
-   // For member Page 
+
+   // For member Page
 
    $("#btn_member").live('click', function(){
    showSpinner(true);
-   course_id = $("#course_id_hdn").val();   
+   course_id = $("#course_id_hdn").val();
    section_type = $("#section_type").val();
-   $.ajax({  
-        type: "GET",  
-        url: "/course/view_member",  
+   $.ajax({
+        type: "GET",
+        url: "/course/view_member",
         data:{id:course_id,section_type:section_type},
         success: function(data) {
 		      $("#load_data").html(data);
@@ -189,9 +189,9 @@ $(document).ready(function(){
           alert("An Error has occured");
           showSpinner(false);
         },
-      }); 
+      });
     });
-  
+
   //For updating outcomes (in course view screen)
   $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
     var outcome_id = $(this).attr('rel');
@@ -200,9 +200,9 @@ $(document).ready(function(){
     if(outcome_id) {
       showSpinner(true);
       //alert (dataString);return false;
-      $.ajax({  
-        type: "POST",  
-        url: "/course/update_course_outcomes",  
+      $.ajax({
+        type: "POST",
+        url: "/course/update_course_outcomes",
         data: dataString,
         error: function(){alert("Error");showSpinner(false);},
         success: function(data) {
@@ -213,11 +213,11 @@ $(document).ready(function(){
           }
           showSpinner(false);
         }
-      });  
-      return false; 
+      });
+      return false;
     }
   });
-  
+
   //For updating categories (in course view screen)
   $('input[name="loaded_categories[]"]').unbind('blur').bind('blur', function(){
     var category_id = $(this).attr('rel');
@@ -226,9 +226,9 @@ $(document).ready(function(){
     if(category_id) {
       showSpinner(true);
       //alert (dataString);return false;
-      $.ajax({  
-        type: "POST",  
-        url: "/course/update_course_categories",  
+      $.ajax({
+        type: "POST",
+        url: "/course/update_course_categories",
         data: dataString,
         success: function(data) {
           if (data) {
@@ -238,12 +238,12 @@ $(document).ready(function(){
           }
           showSpinner(false);
         }
-      });  
-      return false; 
+      });
+      return false;
     }
   });
-  
-  
+
+
   //Post Message
   $('.right_form_containerr').delegate('.sbmt_msg', 'click', function(){
     showSpinner(true);
@@ -258,40 +258,40 @@ $(document).ready(function(){
     setAlert("Posted: "+message);
     var dataString = {parent_id:parent_id, parent_type:parent_type, content: message};
     //alert(dataString.content);return false;
-    $.ajax({  
-      type: "POST",  
-      url: "/message/save",  
+    $.ajax({
+      type: "POST",
+      url: "/message/save",
       data: dataString,
       success: function(data) {
         $("#"+text).val("");
-        if(parent_type=="C") 
+        if(parent_type=="C")
         {
           $("#message_wrapper").prepend(data);
           $("#msg_input").fadeOut();
         }
-        else if(parent_type=="G") 
+        else if(parent_type=="G")
         {
           $("#message_wrapper_group").prepend(data);
           $("#msg_input").fadeOut();
-        } 
-        else if (parent_type=="Message") 
+        }
+        else if (parent_type=="Message")
         {
           $("#post_comment_"+parent_id).hide();
           $("#messsage_box_"+parent_id).append(data);
         }
         showSpinner(false);
       }
-    });  
+    });
   });
-  
+
   //Like/Unlike a message or comment
   $('.message_wrapper').delegate('.like', 'click', function(){
     showSpinner(true);
     if(this.id){
       action = $(this).attr('rel');
       controller = this;
-      $.ajax({  
-        type: "POST",  
+      $.ajax({
+        type: "POST",
         url: "/message/"+action,
         dataType: 'json',
         data: {message_id:this.id},
@@ -306,7 +306,7 @@ $(document).ready(function(){
       });
     }
   });
-  
+
   //Upload doc file
 });
 
@@ -319,11 +319,11 @@ $(".download_files").click(function(){
 function save_course(channel) {
   section_type = $("#section_type").val();
   //Get data from offline storage
-  
+
   if(section_type == "G")
   {
     name = getStorage("group_name");
-    descr = getStorage("group_descr");  
+    descr = getStorage("group_descr");
     section_type = "G";
   }
   else
@@ -332,21 +332,21 @@ function save_course(channel) {
     descr = getStorage("course_descr");
     section_type = "C";
   }
-  
+
   id = $("#course_id_hdn").val();
   code = getStorage("course_code");
   section = getStorage("course_section");
   school_id = $("#course_school_id_hdn").val();
   wall_id = $("#course_wall_id_hdn").val();
-  
+
   rating_low = getStorage("course_rating_low");
   rating_medium = getStorage("course_rating_medium");
   rating_high = getStorage("course_rating_high");
   task_low = getStorage("task_low");
   task_medium = getStorage("task_medium");
   task_high = getStorage("task_high");
-  
-  
+
+
   //get outcomes from offline storage
   k = 0;
   $.each($('input[name="outcomes[]"]'), function() {
@@ -360,7 +360,7 @@ function save_course(channel) {
     _outcomes_descrObject[i] = $(this).val().replace(',', '');
     i++;
   });
-  
+
   //get categories from offline storage
   l = 0;
   $.each($('input[name="categories[]"]'), function() {
@@ -373,21 +373,21 @@ function save_course(channel) {
     _categories_persentObject[m] = $(this).val().replace(',', '');
     m++;
   });
-  
+
   n = 0;
   $.each($('input[name="outcomes_share[]"]'), function() {
     _outcomes_shareObject[n] = $(this).is(":checked");
     n++;
   });
- 
-  var dataString = 'id='+ id +'&course='+ name + '&descr=' + descr + '&section_type=' + section_type + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id + '&percent_value=' +_categories_persentObject+ '&outcome_share='+_outcomes_shareObject+'&rating_low=' +rating_low + '&rating_medium=' +rating_medium + '&rating_high=' +rating_high + '&task_low=' +task_low + '&task_medium=' +task_medium + '&task_high=' +task_high; 
+
+  var dataString = 'id='+ id +'&course='+ name + '&descr=' + descr + '&section_type=' + section_type + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id + '&percent_value=' +_categories_persentObject+ '&outcome_share='+_outcomes_shareObject+'&rating_low=' +rating_low + '&rating_medium=' +rating_medium + '&rating_high=' +rating_high + '&task_low=' +task_low + '&task_medium=' +task_medium + '&task_high=' +task_high;
 
   //alert(dataString);  return false;
-   
+
   showSpinner(true);
   $.ajax({
-    type: "POST",  
-    url: "/course/save",  
+    type: "POST",
+    url: "/course/save",
     data: dataString,
     dataType:"json",
     success: function(data) {
@@ -396,13 +396,13 @@ function save_course(channel) {
         {
           $("#group_name").val(data.course.name);
           $("#group_descr").val(data.course.descr);
-        } 
+        }
         else
         {
           $("#course_name").val(data.course.name);
           $("#course_code").val(data.course.code);
           $("#course_section").val(data.course.section);
-        }         
+        }
         if(channel=="btn_course") {
           $("#container").load('/course/index?section_type='+section_type, function(){
             showSpinner(false);
@@ -416,9 +416,9 @@ function save_course(channel) {
         showSpinner(false);
       }
     }
-  });  
-  
-  return false;  
+  });
+
+  return false;
 }
 
 -->

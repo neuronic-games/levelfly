@@ -593,8 +593,9 @@ div .small_label {
 }
 div .frm_input {
   float:left;
-  width:615px;
-  margin-left:115px;
+  width:500px;
+  /*width:615px;*/
+  /*margin-left:115px;*/
 }
 div .frm_button{
   position:absolute;

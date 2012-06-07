@@ -27,7 +27,7 @@
         
         <div class="group_viewfield field_label">Description
           <div>
-            <textarea name="group_descr" id="group_descr" class="group_descr" rows="4" cols="34" <%if @course %> value="<%=@course.descr if @course%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
+            <textarea name="group_descr" id="group_descr" class="group_descr" rows="2" cols="34" <%if @course %> value="<%=@course.descr if @course%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
           </div>
         </div>
         
@@ -56,7 +56,7 @@
 
   <% if @course %>
   <!-- Message -->
-    <div class="frm_input">
+    <div class="mes_dis">
     
       <!-- <div class="send_group_invitation">
        <a href="javascript:void(0)" id="member_join" class="big_blue_btn">JOIN</a>
