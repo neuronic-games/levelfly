@@ -5,15 +5,17 @@ class GradeBookController < ApplicationController
     def index
        @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
        if @profile
-       @courses = Course.find(
-          :all,
-          :include => [:participants]
-          #:conditions => ["participants.profile_id = ? AND participants.profile_type != 'P'", @profile.id],
-          #:order => 'name'
-       )
-       @participant = Profile.all( :joins => [:participants],:select => ["profiles.full_name"])
+         @courses = Course.find(
+           :all, 
+           :select => "distinct *",
+           :include => [:participants], 
+           :conditions => ["participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?", @profile.id, Course.parent_type_course, Course.join_type_invite, Course.profile_type_pending, false],
+           :order => 'name'
+         )
+       
+         @participant = Profile.all( :joins => [:participants],:select => ["profiles.full_name"])
 
-       @tasks = Task.find(:all)
+         @tasks = Task.find(:all)
 
        end
        respond_to do |wants|

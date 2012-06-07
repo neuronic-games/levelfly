@@ -7,8 +7,9 @@ class TaskController < ApplicationController
     if @profile
       @courses = Course.find(
         :all, 
+        :select => "distinct *",
         :include => [:participants], 
-        :conditions => ["participants.profile_id = ? AND participants.profile_type != 'P'", @profile.id],
+        :conditions => ["participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?", @profile.id, Course.parent_type_course, Course.profile_type_pending, false],
         :order => 'name'
       )
     
