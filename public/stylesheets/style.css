@@ -221,7 +221,7 @@ a.icon_stats_active {
   font-family:Arial, Helvetica, sans-serif;
   font-size:11px;
   float:left;
-  padding:0 2% 0 0;
+  padding:0px 2% 0 0;
 }
 .mes_dis{
  width:520px;
@@ -448,7 +448,6 @@ a.blue_bt19px:hover {
 /***friend list**/
 .friend_list {
   float:right;
-  padding-right:0;
   font-family:Arial, Helvetica, sans-serif;
   font-size:10px;
   color:#e7ebed;
@@ -585,31 +584,50 @@ a.blue_bt19px:hover {
   padding-right:90px;
   /* We can't remove this margin setting because it will make the clipboard too low in the page. 
      We need to fix the problem with the short clipboard in another way */
- /* margin: -62px 0 0;  */
+  margin-left:-22px;
+}
+
+
+.all_task_list{
+  z-index:1000;
+  height:100%;
+  padding-right:90px;
 }
 .board_left {
   background:url(../images/board_left.png) 0 0px no-repeat;
-  padding-left:54px;
+  padding-left:48px;
   height:100%;
+  
+  
 }
 .board_right {
   background:url(../images/board_right.png) right 0px no-repeat;
   padding-right:48px;
   height:100%;
+  
 }
 .board_center {
   background:url(../images/board_center.png) 0 0px repeat-x;
   /*height:732px;*/
   height:100%;
+  
 }
 .task_pad_top {
   width:100%;
-  height:97px;
+  height:42px;
   overflow:hidden;
   position:relative;
-  padding:0px 0 0 0;
+  padding-top:0px;
 }
-.task_pad_top_inner {background:url(../images/note_pad_top.png) no-repeat center; position:absolute; left:50%; margin:0 0 0 -155px; height:97px; width:311px; z-index:9999;}
+.task_pad_top_inner {
+    background: url("../images/note_pad_top.png") no-repeat scroll center center transparent;
+    height: 97px;
+    left: 47%;
+    margin: -50px 0 0 -155px;
+    position: fixed;
+    width: 311px;
+    z-index: 9999;
+}
 .task_pad {
   width:100%;
 }
@@ -729,6 +747,9 @@ a.blue_bt19px:hover {
   float:left;
   width:83%;
   margin:0 0 0 35px;
+}
+.course_select{
+margin-top:-20px;
 }
 .bluebox {
   padding:5px 10px;
@@ -2316,20 +2337,21 @@ background:#c8ccd4 !important;
 .gradebook_content {
 	z-index:1000;
 	height:100%;
-	padding-right:75px;/*margin: -62px 0 0;*/
+	padding-right:75px;
+  margin: 0px 0 0 -28px;
 }
 .gradebook_board_left {
-	background:url(../images/gradebg_left.png) 0 0px no-repeat;
+	background:url(../images/gradebg_left.png) 0 -25px no-repeat;
 	padding-left:87px;
 	height:100%;
 }
 .gradebook_board_right {
-	background:url(../images/gradebg_right.png) right 0px no-repeat;
+	background:url(../images/gradebg_right.png) right -25px no-repeat;
 	padding-right:86px;
 	height:100%;
 }
 .gradebook_board_center {
-	background:url(../images/gradebg_middle.png) 0 0px repeat-x;
+	background:url(../images/gradebg_middle.png) 0 -25px repeat-x;
 	/*height:732px;*/
   height:100%;
 }
@@ -2338,20 +2360,17 @@ background:#c8ccd4 !important;
 	/*height:46px;   */
 	overflow:hidden;
 	position:relative;
-	padding:0px 0 0 0;
 }
 .gradebook_pad {
 	width:100%;
-	/*padding-top:40px; */
-	
 }
 .gradebook_tab_content {
 	padding-right:6px;
-    padding-top: 104px;
+    padding-top: 88px;
 }
 .gradebook_tabs {
 	float: right;
-	margin: 00px -93px 0 -5px;
+	margin: 83px -93px 0 -5px;
 	position: relative;
 }
 .gradebook_tab_open {
@@ -2393,7 +2412,7 @@ background:#c8ccd4 !important;
 	-moz-box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
 	box-shadow: inset -1px 0px 1px 0px rgba(256, 255, 255, 0.6);
 }
-.GB_course_box {float:left; width:50%; margin-top:-81px;}
+.GB_course_box {float:left; width:50%;margin-top:-192px;}
 .page_heading { color:#3c68a3; font-size:23px; font-family: 'CollegeRegular'; float:left; padding: 4px 15px 0 0;}
 
 .selectbg{
@@ -2430,7 +2449,7 @@ filter:alpha(opacity="0");
 	font-size:16px;
 	color:#000000;
 }
-.gradebook_partribbon { background:url(../images/gradepage_ribbon.png) no-repeat center 45px; height:100% }
+.gradebook_partribbon { background:url(../images/gradepage_ribbon.png) no-repeat center 20px; height:100% }
 .spacebarGbook { height:55px; overflow:hidden;}
 .GB_Table { font-size:16px; font-family: 'CollegeRegular'; position:absolute; }
 
@@ -2619,7 +2638,7 @@ input.grading_Btn2 {
 }
 
 .GB_course_box2 .page_heading { color:#3c68a3; font-size:23px; font-family: 'CollegeRegular'; float:right; padding: 4px 15px 0 0;}
-.GB_course_box2 {float:left; width:50%; padding:0 0% 0 0;margin-top: -108px;}
+.GB_course_box2 {float:left; width:50%; padding:0 0% 0 0;margin-top:-224px;}
 
 .selectbg3{
 	background-image:url(../images/selectboxbg.png);
@@ -2787,45 +2806,7 @@ filter:alpha(opacity="0");
 }
 
 /********************************group page************************************/
-.group_content {
-	z-index:1000;
-	height:100%;
-	padding-right:120px;/*margin: -62px 0 0;*/
-}
-.group_board_left {
-	background:url(../images/course_left_bar.jpg) 0 125px no-repeat;
-	padding-left:57px;
-	height:100%;
-}
-.group_board_right {
-	background:url(../images/course_right_bar.jpg) right 125px no-repeat;
-	padding-right:57px;
-	height:100%;
-}
-.group_board_center {
-	background:url(../images/course_middle_bar.jpg) 0 125px repeat-x;
-	/*height:732px;*/
-  height:100%;
-}
-.group_pad_top {
-	width:100%;
-	height:97px;
-	overflow:hidden;
-	position:relative;
-	padding:78px 0 0 0;
-}
-.group_pad {
-	width:100%;
-}
-.group_tab_content {
-	padding-right:6px;
-	overflow: hidden;
-}
-.group_tabs {
-	float: right;
-	margin: 0 -80px 0 -5px;
-	position: relative;
-}
+
 .group_image_name {
 	float:right;
 	width:50%;
@@ -2850,7 +2831,7 @@ filter:alpha(opacity="0");
 	padding:5px 0 0 0;
 }
 .group_privacy{
-  margin: 60px 0 0 0;
+  margin: 49px 0 0 0;
   font-size: 13px;
 }
 .group_input input, .group_input textarea {
@@ -2956,6 +2937,7 @@ filter:alpha(opacity="0");
 }
 .leader_pad {
 	width:100%;
+  padding-top:0px;
 }
 .leader_tab_content {
 	padding-right:6px;

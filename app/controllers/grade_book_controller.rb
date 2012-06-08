@@ -10,12 +10,25 @@ class GradeBookController < ApplicationController
            :select => "distinct *",
            :include => [:participants], 
            :conditions => ["participants.profile_id = ? AND parent_type = ? AND participants.profile_type = ? AND courses.archived = ?", @profile.id, Course.parent_type_course, Course.profile_type_master, false],
-           :order => 'name'
+           :order => 'courses.created_at DESC'
          )
-       
-         @participant = Profile.all( :joins => [:participants],:select => ["profiles.full_name"])
+         
+         @last_courses = Course.find(
+           :first, 
+           :select => "distinct *",
+           :include => [:participants], 
+           :conditions => ["participants.profile_id = ? AND parent_type = ? AND participants.profile_type = ? AND courses.archived = ?", @profile.id, Course.parent_type_course, Course.profile_type_master, false],
+           :order => 'courses.created_at DESC'
+         )
+         
+         @course_id = @last_courses.id
+         @outcomes = @last_courses.outcomes
+         @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND object_type = 'Course'",@course_id],:select => ["profiles.full_name"])
 
-         @tasks = Task.find(:all)
+         @tasks = Task.find(:all,:conditions=>["course_id = ?",@course_id], :select => "name,id")
+       
+         #@participant = Profile.all( :joins => [:participants],:select => ["profiles.full_name"])         
+         #@tasks = Task.find(:all)
 
        end
        respond_to do |wants|

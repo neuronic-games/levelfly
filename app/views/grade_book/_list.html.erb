@@ -1,4 +1,3 @@
-
 <div class="task_side_buttons"> <a href="#" class="big_blue_btn">ATTACH</a> <a href="#" class="big_orange_btn">POST</a> <a href="#" class="big_blue_btn">PRINT</a> </div>
 <!-- notepad start-->
   <div class="gradebook_content">
@@ -66,16 +65,19 @@
               <!--tab content-->
               <div class="gradebook_tab_content">
                <!-- <div class="spacebar10px"></div>  -->
-                <div class="course_select"></div>
+                <div class="course_select">
                 <div class="page_heading">COURSE</div>
-                <div class="selectbg"> <span class="fakebox">All Courses</span>
-                  <select id="course_id">
-                    <% unless @courses.nil? %>
-                        <% @courses.each do |c| %>
-                            <option value="<%= c.id %>"><%= c.name %></option>
+                <div class="selectbg"> 
+                 <% unless @last_courses.nil? %>
+                    <span class="fakebox"><%=@last_courses.name%></span>
+                 <% end %>
+                 <select id="course_id">
+                  <% unless @courses.nil? %>
+                    <% @courses.each do |c| %>
+                      <option value="<%= c.id %>"><%= c.name %></option>
                         <% end %>
-                    <% end %>
-                  </select>
+                  <% end %>
+                 </select>
                 </div>
                 </div>
                 <div class="clear"></div>
@@ -139,6 +141,7 @@ $('#task_id').change(function(){
 $("#setting_icon").click(function(){
   $("#seting_box").show();
 });
+
 </script>
 
 

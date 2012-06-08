@@ -1,8 +1,9 @@
 <span class="fakebox">All Task</span>
-<select id="course_id">
+<select id="task_id">
   <% unless @tasks.nil? %>
     <% @tasks.each do |t| %> 
     <option value="<%= t.id %>"><%= t.name %></option>
     <% end %>
   <% end %>
 </select>
+
