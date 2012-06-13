@@ -93,13 +93,14 @@
         </div>
       </div>
     </div>
+    <input type="hidden" name="grade_val"  id ="grad_val" value="">
   </div>
 <script>
 
 $(document).ready(function(){
-
+  
   setPageTitle("GradeBook");
-
+  var arr = new Array();
   //Toggle Tabs
   $(".menu_container").delegate('a', 'click', function(){
     //showSpinner(true);
@@ -118,20 +119,107 @@ $(document).ready(function(){
    // $("#div_"+idx).fadeIn();
     
   });
+  
+  $(".Grade_left_panel").delegate("tr","click",function(){
+   idx = $(this).find('input').attr("id");
+   arr.push(idx);
+   $(this).css("background-color","#b0c4d0");
+  });
+  
+  $('.grading_Btn').click(function(){
+    var val = $(this).val();
+    $.each(arr, function(index, id) { 
+        $("#"+id).attr("value",val.toUpperCase())
+        $("#"+id).parent('table').css("background-color","#ffffff");
+        //console.log($("#"+id).parent('tr'));
+      });
+      $("#GB_left_table").find('tr').css("background-color","");
+    arr = [];
+  });
 });
 $('#course_id').change(function(){
   var singleValues = $("#course_id :selected").text();
+  var participant;
+  var tasks;
+  var outcomes
   course_id = $(this).val();
   $(this).parent().find('.fakebox').html(singleValues );
   $.ajax({
     type :"POST",
-    url: "/grade_book/get_task",  
+    url: "/grade_book/get_task", 
+    dataType: "json",
     data: {course_id:course_id},
     success: function(data){
-      $("#all_participant").html(data);
+      participant = data.participant
+      outcomes = data.outcomes
+      tasks = data.tasks
+      var option =''
+      var col =''
+         $(tasks).each(function(i, value) {
+            option = option + "<option value = "+ value.id +">" + value.name +"</option>"
+            col= col + "<th>"+value.name+"</th>"
+         });
+           $('#task_id').html(option)
+           $('.task_right_heading').html("<tr>"+col+"</tr>")
+           
+      var option_outcomes =''
+         $(outcomes).each(function(i, value) {
+            option_outcomes = option_outcomes + "<option value = "+ value.id +">" + value.name +"</option>"
+         });
+         $('#outcome_id').html(option_outcomes)
+
+       var  table = $("<table></table>")
+       var  table2 = $("<table></table>")
+       table.addClass("GB_left_table");
+       table.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
+       table2.addClass("GB_right_table");
+       table.attr("id","GB_left_table")
+       table2.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
+         $(participant).each(function(i, value) {
+            var rows =$("<tr></tr>")
+            var cols =$("<td></td>");
+            var col2 =$("<td></td>");
+            var div = $("<div></div>");
+            var div2 = $("<div></div>")
+            var rows2 =$("<tr></tr>")
+            var cols2 =$("<td></td>");
+            var cols3 =$("<td></td>");
+            var cols4 =$("<td></td>");
+            var text = '';
+            cols.addClass("Name_box");
+            div2.addClass("GB_outcomment rotate_text")
+            div2.html("WRITING USING A QUILL");
+            div.addClass("b_box");
+            col2.css({"align":"center", "valign":"center", "width":"37%"});
+            cols.attr('width','63%');
+            cols.html(value.full_name);
+            var  text = $("<input type ='text' value = 'C' id = '"+ value.id +"' maxlength='1' readonly='readonly' size='5'/>")
+            text.addClass("grades")
+            div.html(text);
+            col2.html(div);
+            rows.html(cols);
+            cols2.html(div2);
+           
+            cols3.html("2");
+            cols4.html("2");
+            rows2.html(cols2);
+            rows2.append(cols3);
+            rows2.append(cols4);
+            rows2.addClass("Dark_no");
+            table2.append(rows2);
+            if (i%2==0)
+            rows.addClass("GB_odd");
+            rows.append(col2);
+            table.append(rows);
+           
+         });
+         $('.GB_left_table').replaceWith(table)
+         $('.GB_right_table').replaceWith(table2)
+         //$("#GB_left_table").attr("class", "GB_left_table");
      }
   });
 });
+
 
 $('#task_id').change(function(){
   var singleValues = $("#task_id :selected").text();
@@ -141,7 +229,9 @@ $('#task_id').change(function(){
 $("#setting_icon").click(function(){
   $("#seting_box").show();
 });
-
+/*$(function() {
+  $('.editable').inlineEdit();
+});*/
 </script>
 
 

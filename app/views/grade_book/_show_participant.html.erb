@@ -3,7 +3,7 @@
   <div class="spacebarGbook"></div>
   <div class="GBtable_wrapper">
     <div class="outcome_wp">
-      <div class="Grade_left_panel_head"><div class="Grade_box">GRADE</div></div>
+      <div class="Grade_left_panel_head"><div class="Grade_box ">GRADE</div></div>
       <div class="Grade_right_panel_head">
         <div class="selectbg2"> <span class="fakebox">ALL OUTCOMES</span>
           <select id="outcome_id">
@@ -18,13 +18,13 @@
     </div><!--outcome_wp-->
 
     <div class="Grade_left_panel">
-      <table width="100%" border="0" cellpadding="0" cellspacing="0" class="GB_left_table">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" class="GB_left_table" id = "GB_left_table">
 
         <%if !@participant.nil?%>
         <% @participant.each do |p|%>
         <tr class="<%= cycle("GB_odd","")%>">
           <td width="63%" class="Name_box"><%= p.full_name%></td>
-          <td width="37%" align="center" valign="middle"> <div class="b_box">B</div></td>
+          <td width="37%" align="center" valign="middle"> <div class="b_box"><input type="text" name="grade" id="<%=p.id%>" class="grades" value="B" maxlength="1" readonly="readonly" size="5"/></div></td>
         </tr>
         <%end%>
         <%end%>
@@ -93,11 +93,12 @@
         <td class="Dark_no width_30"><div class="GB_outcomment2 rotate_text">WRITING USING A QUILL</div>2</td>
       </tr>
     </table>
+    
   </div><!--task_left_wp-->
 
   <div class="task_right_wp">
 
-    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" id="heading_task">
       <tr class="task_right_heading">
         <% unless @tasks.nil? %>
           <% @tasks.each do |t| %> 
