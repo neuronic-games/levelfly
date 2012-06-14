@@ -23,7 +23,7 @@
         <%if !@participant.nil?%>
         <% @participant.each do |p|%>
         <tr class="<%= cycle("GB_odd","")%>">
-          <td width="63%" class="Name_box"><%= p.full_name%></td>
+          <td width="63%" class="Name_box"><%= p.profile.full_name%></td>
           <td width="37%" align="center" valign="middle"> <div class="b_box"><input type="text" name="grade" id="<%=p.id%>" class="grades" value="B" maxlength="1" readonly="readonly" size="5"/></div></td>
         </tr>
         <%end%>
