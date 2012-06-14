@@ -5,13 +5,10 @@
     <div class="outcome_wp">
       <div class="Grade_left_panel_head"><div class="Grade_box ">GRADE</div></div>
       <div class="Grade_right_panel_head">
-        <div class="selectbg2"> <span class="fakebox">ALL OUTCOMES</span>
+        <div class="selectbg2"> <span class="fakebox">OUTCOMES</span>
           <select id="outcome_id">
-            <% unless @outcomes.nil? %>
-                <% @outcomes.each do |o| %>
-                    <option value="<%= o.id %>"><%= o.name %></option>
-                <% end %>
-            <% end %>
+             <option value="1">OUTCOMES</option>
+             <option value="2">Notes</option>
           </select>
         </div>
       </div>
@@ -23,7 +20,7 @@
         <%if !@participant.nil?%>
         <% @participant.each do |p|%>
         <tr class="<%= cycle("GB_odd","")%>">
-          <td width="63%" class="Name_box"><%= p.profile.full_name%></td>
+          <td width="63%" class="Name_box"><%= p.full_name%></td>
           <td width="37%" align="center" valign="middle"> <div class="b_box"><input type="text" name="grade" id="<%=p.id%>" class="grades" value="B" maxlength="1" readonly="readonly" size="5"/></div></td>
         </tr>
         <%end%>
@@ -98,7 +95,7 @@
 
   <div class="task_right_wp">
 
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" id="heading_task">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" id="heading_task" class = "heading_task">
       <tr class="task_right_heading">
         <% unless @tasks.nil? %>
           <% @tasks.each do |t| %> 
@@ -106,29 +103,25 @@
           <% end %>
         <% end %>
       </tr>
-      <tr class="GB_odd">
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-
-      <tr >
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
-
-      <tr class="GB_odd">
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-      </tr>
+     <%if !@participant.nil?%>
+       <% @participant.each do |p|%>
+        <tr class="GB_row">
+        <% unless @tasks.nil? %>
+         <% @tasks.each do |t| %> 
+          <td> 
+            <table border="0" class ="task_grades">
+              <tr class="GB_odd">
+                <td><input type="text" name="task_grade" id="<%=t.id%>_<%=p.id%>" class="task_grade" value="B" maxlength="1" readonly="readonly" size="1"/></td>
+                <td class="Dark_no width_30">3</td>
+                <td class="Dark_no width_30">2</td>
+              </tr>
+            </table>
+          </td>
+        <% end %>
+       <% end %>
+       </tr>
+      <% end %>
+     <% end %> 
     </table>
 
   </div><!--task_left_heading-->

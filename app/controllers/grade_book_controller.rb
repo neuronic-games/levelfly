@@ -20,8 +20,8 @@ class GradeBookController < ApplicationController
            
            @course_id = @latest_course.id
            @outcomes = @latest_course.outcomes
-           #@participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id"])
-           @participant = @courses.first.participants
+           @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id"])
+           #@participant = @courses.first.participants
 
            @tasks = Task.find(:all,:conditions=>["course_id = ?",@course_id], :select => "name,id")
          end
@@ -42,14 +42,15 @@ class GradeBookController < ApplicationController
          @profile = Profile.find(user_session[:profile_id])
          @course = Course.find(params[:course_id])
          @outcomes = @course.outcomes
-         #@participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND object_type = 'Course'",params[:course_id]],:select => ["profiles.full_name,participants.id"])
-         @participant = @course.participants
+         #@outcomes = @course.outcomes
+         @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND object_type = 'Course'",params[:course_id]],:select => ["profiles.full_name,participants.id"])
+         #@participant = @course.participants
          @tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]], :select => "name,id")
        end
       # render :partial => "/grade_book/show_participant"
        respond_to do |format|
           format.html # index.html.erb
-        format.json   {
+          format.json   {
           render :json =>{ 
           :tasks => @tasks,
           :participant => @participant,

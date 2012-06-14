@@ -120,22 +120,37 @@ $(document).ready(function(){
     
   });
   
-  $(".Grade_left_panel").delegate("tr","click",function(){
+  /*$(".Grade_left_panel").delegate("tr","click",function(){
    idx = $(this).find('input').attr("id");
    arr.push(idx);
    $(this).css("background-color","#b0c4d0");
   });
-  
+  */
   $('.grading_Btn').click(function(){
+   
     var val = $(this).val();
+    var ids 
     $.each(arr, function(index, id) { 
+        ids = id.split("_")
         $("#"+id).attr("value",val.toUpperCase())
         $("#"+id).parent('table').css("background-color","#ffffff");
-        //console.log($("#"+id).parent('tr'));
+        console.log(id);
+         $("#"+id).css("background-color","");
+          $("#"+ids[1]).attr("value",val.toUpperCase())
       });
-      $("#GB_left_table").find('tr').css("background-color","");
+    
     arr = [];
   });
+  
+  $(".task_right_wp").delegate("input","click",function(){
+    console.log("clck");
+   id = $(this).attr("id");
+   arr.push(id);
+    console.log(arr);
+   $(this).css("background-color","#b0c4d0");
+  });
+  
+  
 });
 $('#course_id').change(function(){
   var singleValues = $("#course_id :selected").text();
@@ -155,19 +170,23 @@ $('#course_id').change(function(){
       tasks = data.tasks
       var option =''
       var col =''
+      var row =$("<tr></tr>")
+      var  table3 = $("<table></table>") 
          $(tasks).each(function(i, value) {
             option = option + "<option value = "+ value.id +">" + value.name +"</option>"
             col= col + "<th>"+value.name+"</th>"
          });
            $('#task_id').html(option)
-           $('.task_right_heading').html("<tr>"+col+"</tr>")
-           
-      var option_outcomes =''
+           //$('.task_right_heading').html("<tr>"+col+"</tr>")
+            row.html(col);
+            row.addClass("task_right_heading");
+            table3.append(row);
+      /*var option_outcomes =''
          $(outcomes).each(function(i, value) {
             option_outcomes = option_outcomes + "<option value = "+ value.id +">" + value.name +"</option>"
          });
          $('#outcome_id').html(option_outcomes)
-
+      */
        var  table = $("<table></table>")
        var  table2 = $("<table></table>")
        table.addClass("GB_left_table");
@@ -175,6 +194,8 @@ $('#course_id').change(function(){
        table2.addClass("GB_right_table");
        table.attr("id","GB_left_table")
        table2.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
+       table3.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
+       table3.attr("id","heading_task")
          $(participant).each(function(i, value) {
             var rows =$("<tr></tr>")
             var cols =$("<td></td>");
@@ -199,22 +220,62 @@ $('#course_id').change(function(){
             col2.html(div);
             rows.html(cols);
             cols2.html(div2);
-           
+            $(outcomes).each(function(i, outcomes) {
+              var outcomes_col =$("<td></td>");
+              var  text = $("<input type ='text' value = '0' id = '"+ outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
+              outcomes_col.html(text)
+              rows2.append(outcomes_col);
+             });
             cols3.html("2");
             cols4.html("2");
-            rows2.html(cols2);
-            rows2.append(cols3);
-            rows2.append(cols4);
-            rows2.addClass("Dark_no");
-            table2.append(rows2);
+            //rows2.html(cols2);
+            //rows2.append(cols3);
+            //rows2.append(cols4);
             if (i%2==0)
+            {
             rows.addClass("GB_odd");
+            rows2.addClass("Dark_no");
+            }
+            table2.append(rows2);
             rows.append(col2);
             table.append(rows);
-           
+            var row_item = $("<tr></tr>");
+            var all_col='';
+            
+            
+            
+            $(tasks).each(function(i, task) {
+              var column =$("<td></td>");
+              var col2 =$("<td></td>");
+              //var col2 =$("<td></td>");
+              //var col3 =$("<td></td>");
+              var rows =$("<tr></tr>");
+              var main_col=$("<td></td>");
+              var  table_task = $("<table></table>");
+              var  text = $("<input type ='text' value = 'A' id = '"+ task.id +"_"+value.id+"' maxlength='1' readonly='readonly' size='1'/>")
+              column.html(text);
+              rows.addClass("GB_odd");
+              rows.append(column);
+              col2.html("2");
+              rows.append(col2);
+              //column.html("1");
+              //rows.append(column);
+              table_task.html(rows);
+              main_col.html(table_task)
+              row_item.append(main_col)
+            });     
+            row_item.addClass("GB_row")
+         
+            
+            
+            
+            table3.append(row_item);
+            table3.addClass("heading_task");
+         
          });
          $('.GB_left_table').replaceWith(table)
          $('.GB_right_table').replaceWith(table2)
+         $('.heading_task').replaceWith(table3)
          //$("#GB_left_table").attr("class", "GB_left_table");
      }
   });
