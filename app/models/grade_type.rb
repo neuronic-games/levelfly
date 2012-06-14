@@ -28,21 +28,25 @@ class GradeType < ActiveRecord::Base
   end
   
   # Convert a letter grade (e.g. B+) to a grade percent value (e.g. 88.33)
-  def self.to_value(letter, school_id)
+  def self.letter_to_value(letter, school_id)
     self.init_defaults(school_id)
     return @@data[school_id][letter]
   end
   
   # Convert a grade percent value to a letter grade
-  def self.to_letter(value, school_id)
+  def self.value_to_letter(value, school_id)
     self.init_defaults(school_id)
     
     letter = nil
     idx = 0
     @@data[school_id]["value_min"].each do |value_min|
+      if value_min > value
+        idx += 1
+        next
+      end
+
       letter = @@data[school_id]["letter"][idx]
-      break if value_min < value
-      idx += 1
+      break
     end
     
     return letter
