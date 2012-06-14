@@ -186,3 +186,18 @@ WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_hobbies'], :
 
 # Misc
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_misc'], :name => 'Pitchfork', :item_type => 'prop', :image_file => 'basic/props/pitchfork', :sort_order => 0, :depth => 2)
+
+# School Grades
+SchoolGrade.create(:school_id => school, :letter => 'A', :percent_min => 93, :percent_max => 100, :value => 4.0)
+SchoolGrade.create(:school_id => school, :letter => 'A-', :percent_min => 90, :percent_max => 92, :value => 3.7)
+SchoolGrade.create(:school_id => school, :letter => 'B+', :percent_min => 87, :percent_max => 89, :value => 3.3)
+SchoolGrade.create(:school_id => school, :letter => 'B', :percent_min => 83, :percent_max => 86, :value => 3.0)
+SchoolGrade.create(:school_id => school, :letter => 'B-', :percent_min => 80, :percent_max => 82, :value => 2.7)
+SchoolGrade.create(:school_id => school, :letter => 'C+', :percent_min => 77, :percent_max => 79, :value => 2.3)
+SchoolGrade.create(:school_id => school, :letter => 'C', :percent_min => 73, :percent_max => 76, :value => 2.0)
+SchoolGrade.create(:school_id => school, :letter => 'C-', :percent_min => 70, :percent_max => 72, :value => 1.7)
+SchoolGrade.create(:school_id => school, :letter => 'D+', :percent_min => 67, :percent_max => 69, :value => 1.3)
+SchoolGrade.create(:school_id => school, :letter => 'D', :percent_min => 63, :percent_max => 66, :value => 1.0)
+SchoolGrade.create(:school_id => school, :letter => 'D-', :percent_min => 60, :percent_max => 62, :value => 0.7)
+SchoolGrade.create(:school_id => school, :letter => 'F', :value => 0.0)
+SchoolGrade.create(:school_id => school, :letter => 'U', :value => 0.0)
