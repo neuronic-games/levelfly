@@ -127,26 +127,41 @@ $(document).ready(function(){
   });
   */
   $('.grading_Btn').click(function(){
-   
     var val = $(this).val();
     var ids 
     $.each(arr, function(index, id) { 
-        ids = id.split("_")
-        $("#"+id).attr("value",val.toUpperCase())
-        $("#"+id).parent('table').css("background-color","#ffffff");
-        console.log(id);
+      
+        $("#"+id).attr("value",val.toUpperCase());
          $("#"+id).css("background-color","");
-          $("#"+ids[1]).attr("value",val.toUpperCase())
+         //$("#"+ids[1]).attr("value",val.toUpperCase())
       });
     
     arr = [];
   });
   
   $(".task_right_wp").delegate("input","click",function(){
-    console.log("clck");
+   
    id = $(this).attr("id");
    arr.push(id);
-    console.log(arr);
+   $(this).css("background-color","#b0c4d0");
+  });
+  
+   $(".task_right_wp").delegate("input","change",function(){
+   
+   id = $(this).attr("id");
+   rel = $(this).attr("rel");
+   var sum = 0
+   var val = 0
+   var count = 0
+   $("input[rel="+rel+"]").each(function(index,item){
+     sum = sum + parseInt(item.value)
+     count =index+1
+   });
+    val = sum/count
+     console.log(sum);
+     console.log(count);
+     console.log(val);
+     $("#"+rel).attr("value",val) ;   
    $(this).css("background-color","#b0c4d0");
   });
   
@@ -177,7 +192,6 @@ $('#course_id').change(function(){
             col= col + "<th>"+value.name+"</th>"
          });
            $('#task_id').html(option)
-           //$('.task_right_heading').html("<tr>"+col+"</tr>")
             row.html(col);
             row.addClass("task_right_heading");
             table3.append(row);
@@ -196,7 +210,7 @@ $('#course_id').change(function(){
        table2.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
        table3.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
        table3.attr("id","heading_task")
-         $(participant).each(function(i, value) {
+         $(participant).each(function(p, value) {
             var rows =$("<tr></tr>")
             var cols =$("<td></td>");
             var col2 =$("<td></td>");
@@ -221,17 +235,21 @@ $('#course_id').change(function(){
             rows.html(cols);
             cols2.html(div2);
             $(outcomes).each(function(i, outcomes) {
+              var grade_col =$("<td></td>");
               var outcomes_col =$("<td></td>");
-              var  text = $("<input type ='text' value = '0' id = '"+ outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
-              outcomes_col.html(text)
+              var outcome_name =$("<div></div>"); 
+              if(p==0)
+              {
+              outcome_name.html(outcomes.name)
+              }
+              outcome_name.addClass("GB_outcomment rotate_text");
+              outcomes_col.html(outcome_name);
+              var  text = $("<input type ='text' value = '0' id = '"+value.id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
+              grade_col.html(text)
               rows2.append(outcomes_col);
+              rows2.append(grade_col);
              });
-            cols3.html("2");
-            cols4.html("2");
-            //rows2.html(cols2);
-            //rows2.append(cols3);
-            //rows2.append(cols4);
-            if (i%2==0)
+            if (p%2==0)
             {
             rows.addClass("GB_odd");
             rows2.addClass("Dark_no");
@@ -241,33 +259,52 @@ $('#course_id').change(function(){
             table.append(rows);
             var row_item = $("<tr></tr>");
             var all_col='';
-            
-            
-            
+                
             $(tasks).each(function(i, task) {
-              var column =$("<td></td>");
-              var col2 =$("<td></td>");
-              //var col2 =$("<td></td>");
-              //var col3 =$("<td></td>");
+              
               var rows =$("<tr></tr>");
               var main_col=$("<td></td>");
-              var  table_task = $("<table></table>");
-              var  text = $("<input type ='text' value = 'A' id = '"+ task.id +"_"+value.id+"' maxlength='1' readonly='readonly' size='1'/>")
-              column.html(text);
-              rows.addClass("GB_odd");
-              rows.append(column);
-              col2.html("2");
-              rows.append(col2);
+              var table_task = $("<table></table>");
+              var len = task.task_outcomes.length
+             // main_col.css({"border-left":"1px solid white","padding":"0.5px"})
+            
+            if(len>0)
+            {
+                for (i=0; i<len; i++)
+                {
+                var column =$("<td></td>");
+                var col2 =$("<td></td>");
+                var outcome =$("<td></td>");
+                var outcome_div =$("<div></div>"); 
+                var  text_grade = $("<input type ='text' value = 'A' id = 'grade_"+value.id+"_"+task.task_outcomes[i].id+"_"+task.id +"' maxlength='1' size='1'/>")
+                var  text_point = $("<input type ='text' value = '0' id = 'point_"+value.id+"_"+task.task_outcomes[i].id+"_"+task.id +"' maxlength='1' size='1'/>")
+                column.html(text_grade);
+                col2.addClass("Dark_no width_30")
+                rows.append(column);
+                if(p==0)
+                {
+                outcome_div.html(task.task_outcomes[i].name)
+                }
+                outcome_div.addClass("GB_outcomment rotate_text");
+                outcome.html(outcome_div)
+                col2.html(text_point);
+                rows.append(col2);
+                rows.append(outcome)
+                }
+             }   
+             // }
               //column.html("1");
               //rows.append(column);
+               if (p%2==0)
+                {
+                 rows.addClass("GB_odd");
+                }
+             
               table_task.html(rows);
               main_col.html(table_task)
               row_item.append(main_col)
             });     
             row_item.addClass("GB_row")
-         
-            
-            
             
             table3.append(row_item);
             table3.addClass("heading_task");

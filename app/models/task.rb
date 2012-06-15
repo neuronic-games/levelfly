@@ -10,7 +10,8 @@ class Task < ActiveRecord::Base
   has_many :attachments, :as => :object
   has_many :messages, :as => :parent
   has_many :outcome_tasks
-
+  has_many :outcomes, :through => :outcome_tasks
+  
   after_initialize :init_defaults
 
   has_attached_file :image,

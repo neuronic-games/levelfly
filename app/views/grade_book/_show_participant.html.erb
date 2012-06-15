@@ -21,7 +21,8 @@
         <% @participant.each do |p|%>
         <tr class="<%= cycle("GB_odd","")%>">
           <td width="63%" class="Name_box"><%= p.full_name%></td>
-          <td width="37%" align="center" valign="middle"> <div class="b_box"><input type="text" name="grade" id="<%=p.id%>" class="grades" value="B" maxlength="1" readonly="readonly" size="5"/></div></td>
+          <td width="37%" align="center" valign="middle"> 
+          <div class="b_box"><input type="text" name="grade" id="<%=p.id%>" class="grades" value="B" maxlength="1" readonly="readonly" size="5"/></div></td>
         </tr>
         <%end%>
         <%end%>
@@ -32,22 +33,18 @@
 
       <table width="100%" border="0" cellpadding="0" cellspacing="0" class="GB_right_table">
         <%if !@participant.nil?%>
-        <% @participant.each do |p|%>
-        <tr class="<%= cycle("Dark_no","")%>">
-          <td>
-            <div class="GB_outcomment rotate_text">WRITING USING A QUILL</div>
-          </td>
-          <td>1</td>
-          <td>2</td>
-          <td>2</td>
-          <td>1</td>
-          <td>2</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-        </tr>
-        <%end%>
+          <% @participant.each_with_index do |p,i|%>
+          <tr class="<%= cycle("Dark_no","")%>">
+            <%if !@outcomes.nil?%>
+               <% @outcomes.each do |o|%>
+                <td>
+                  <div class="GB_outcomment rotate_text"><%if i == 0%><%=o.name%><%end%></div>
+                </td>
+                <td><input type="text" name="grade" id="point_<%=p.id%>_<%=o.id%>" class="grades" value="0" maxlength="1" readonly="readonly" size="1"/></td>
+              <%end%>
+            <%end%>
+          </tr>
+          <%end%>
         <%end%>
 
       </table>
@@ -69,27 +66,9 @@
     <div class="task_left_heading">
       <div class="positn_rtlv"><div id="seting_box" style="display:none;" class="GBsttingbox"></div>
         <div class="GB_sttingbt"><img id="setting_icon" src="images/GB_setting_icon.png" /></div></div>
-      <span>TASK</span>
+     
     </div><!--task_left_heading-->
     <div class="clear"></div>
-    <table width="100%" border="0">
-      <tr class="GB_odd">
-        <td>B+</td>
-        <td class="Dark_no width_30"><div class="GB_outcomment2 rotate_text">WRITING USING A QUILL</div>3</td>
-        <td class="Dark_no width_30"><div class="GB_outcomment2 rotate_text">WRITING USING A QUILL</div>2</td>
-      </tr>
-      <tr>
-        <td>A+</td>
-        <td class="Light_no width_30">3</td>
-        <td class="Light_no width_30">2</td>
-      </tr>
-
-      <tr class="GB_odd">
-        <td>B+</td>
-        <td class="Dark_no width_30"><div class="GB_outcomment2 rotate_text">WRITING USING A QUILL</div>3</td>
-        <td class="Dark_no width_30"><div class="GB_outcomment2 rotate_text">WRITING USING A QUILL</div>2</td>
-      </tr>
-    </table>
     
   </div><!--task_left_wp-->
 
@@ -104,16 +83,21 @@
         <% end %>
       </tr>
      <%if !@participant.nil?%>
-       <% @participant.each do |p|%>
+       <% @participant.each_with_index do |p,i|%>
         <tr class="GB_row">
         <% unless @tasks.nil? %>
          <% @tasks.each do |t| %> 
-          <td> 
-            <table border="0" class ="task_grades">
-              <tr class="GB_odd">
-                <td><input type="text" name="task_grade" id="<%=t.id%>_<%=p.id%>" class="task_grade" value="B" maxlength="1" readonly="readonly" size="1"/></td>
-                <td class="Dark_no width_30">3</td>
-                <td class="Dark_no width_30">2</td>
+          <td > 
+            <table border="0" class ="task_grades_hieg">
+              <tr <%if i%2 == 0%>class="GB_odd"<%end%>>
+               <% @task_outcomes = t.outcomes%>
+                <% if !@task_outcomes.nil?%>
+                   <% @task_outcomes.each do |o|%>
+                  <td><input type="text" name="task_grade" id="grade_<%=p.id%>_<%=o.id%>_<%=t.id%>" rel = "<%=p.id%>" class="task_grade" value="A" maxlength="2" size="1"/></td>
+                  <td class="Dark_no width_30"><div class="GB_outcomment2 rotate_text"><%if i == 0%><%=o.name%><%end%></div></td>
+                  <td class="Dark_no width_30"><input type="text" name="task_point" id="point_<%=p.id%>_<%=o.id%>_<%=t.id%>" rel= "point_<%=p.id%>_<%=o.id%>"class="task_point" value="0" maxlength="2"  size="1"/></td>
+                  <%end%>
+                <%end%>
               </tr>
             </table>
           </td>

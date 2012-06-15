@@ -624,7 +624,7 @@ a.blue_bt19px:hover {
     height: 97px;
     left: 47%;
     margin: -50px 0 0 -155px;
-    position: fixed;
+    position: absolute;/*fixed*/
     width: 311px;
     z-index: 9999;
 }
@@ -2492,8 +2492,8 @@ filter:alpha(opacity="0");
 	-webkit-transform:rotate(90deg);
 	-moz-transform:rotate(90deg);
 	-o-transform: rotate(90deg); filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=90); 	}
-.GB_outcomment { font-family:Arial, Helvetica, sans-serif; font-size:10px; font-weight:bold; color:#6989b5; position:absolute; width:16px; white-space:nowrap; margin:0px 0 0 0; top:4px; }
-.GB_outcomment2 { font-family:Arial, Helvetica, sans-serif; font-size:10px; font-weight:bold; color:#6989b5; position:absolute; width:16px; white-space:nowrap; margin:0px 0 0 0; top:34px; }
+.GB_outcomment { font-family:Arial, Helvetica, sans-serif; font-size:10px; font-weight:bold; color:#6989b5; width:16px; white-space:nowrap; margin:0px 0 0 0;  }/*position:absolute;top:4px;*/
+.GB_outcomment2 { font-family:Arial, Helvetica, sans-serif; font-size:10px; font-weight:bold; color:#6989b5; width:16px; white-space:nowrap; margin:0px 0 0 0; top:34px;/*position:absolute;*/}
 @font-face {
     font-family: 'SeanRegular';
     src: url('../fonts/handsean-webfont.eot');
@@ -2566,7 +2566,7 @@ input.grading_Btn2 {
 }
 
 .outcome_wp{
-	width:89%;
+	width:100%;
 	border-bottom:1px solid #7794ac;
 	height:30px;
 }
@@ -2600,7 +2600,8 @@ input.grading_Btn2 {
 }
 
 .GB_left_table td{
-	height:40px;
+	height:
+  41px;/*40px*/
 }
 
 .b_box{
@@ -2623,7 +2624,8 @@ input.grading_Btn2 {
 }
 
 .GB_right_table td{
-	height:46px;
+	/*height:46px;/*/
+  line-height:47px;
 	text-align:center;
 	width:30px;
 	min-width:30px;
@@ -2663,7 +2665,7 @@ filter:alpha(opacity="0");
 }
 
 .task_left_wp{
-	width:33%;
+	width:6%;/*33*/
 	font-family: 'CollegeRegular';
 	padding-left:2%;
 	position:relative;
@@ -2678,7 +2680,7 @@ filter:alpha(opacity="0");
 	position:relative;
 	width:100%;
 	border-bottom:1px solid #7794AC;
-	height:30px;
+	height:35px;
 }
 
 .task_left_heading span{
@@ -2705,7 +2707,7 @@ filter:alpha(opacity="0");
 .task_right_wp{
 	float:left;
 	height:auto;
-	width:65%;
+	width:90%;
 	font-family: 'CollegeRegular';
 	overflow-y: scroll; 
 	overflow: -moz-scrollbars-horizontal;
@@ -2713,11 +2715,12 @@ filter:alpha(opacity="0");
 
 .task_right_wp td{
 	text-align:center;
-	height:47px;
+	/*height:47px;/*/
+  line-height:47px;
 }
 
 .task_right_heading{
-	height:31px;
+	height:36px;
 	border-bottom: 1px solid #7794AC;
 }
 
@@ -3094,6 +3097,8 @@ filter:alpha(opacity="0");
 	float:left;
 	padding: 4px 15px 0 0;
 }
+
+.task_grades_hieg {/*height:60px;*/}
 
 .nav_box{position:relative; width:800px; height:122px; padding:0; overflow:hidden; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;}
 .nav_box .jTscrollerContainer{position:absolute; }

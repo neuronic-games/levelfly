@@ -22,8 +22,12 @@ class GradeBookController < ApplicationController
            @outcomes = @latest_course.outcomes
            @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id"])
            #@participant = @courses.first.participants
-
            @tasks = Task.find(:all,:conditions=>["course_id = ?",@course_id], :select => "name,id")
+           # if not @tasks.nil?
+              # @tasks.each do |t|           
+               # @task_outcomes =  
+              # end
+           # end
          end
        end
        respond_to do |wants|
@@ -46,6 +50,12 @@ class GradeBookController < ApplicationController
          @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND object_type = 'Course'",params[:course_id]],:select => ["profiles.full_name,participants.id"])
          #@participant = @course.participants
          @tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]], :select => "name,id")
+         @task_outcomes = []
+          if not @tasks.nil?
+            @tasks.each do |t|           
+              t["task_outcomes"] = t.outcomes
+            end
+          end
        end
       # render :partial => "/grade_book/show_participant"
        respond_to do |format|
@@ -54,8 +64,8 @@ class GradeBookController < ApplicationController
           render :json =>{ 
           :tasks => @tasks,
           :participant => @participant,
-          :outcomes => @outcomes}}
-        
+          :outcomes => @outcomes,
+          :profile => @profile}}
        end
 
     end
