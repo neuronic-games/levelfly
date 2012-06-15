@@ -244,7 +244,7 @@ $('#course_id').change(function(){
               }
               outcome_name.addClass("GB_outcomment rotate_text");
               outcomes_col.html(outcome_name);
-              var  text = $("<input type ='text' value = '0' id = '"+value.id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
+              var  text = $("<input type ='text' value = '0' id = 'point_"+value.id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
               grade_col.html(text)
               rows2.append(outcomes_col);
               rows2.append(grade_col);
@@ -277,19 +277,22 @@ $('#course_id').change(function(){
                 var outcome =$("<td></td>");
                 var outcome_div =$("<div></div>"); 
                 var  text_grade = $("<input type ='text' value = 'A' id = 'grade_"+value.id+"_"+task.task_outcomes[i].id+"_"+task.id +"' maxlength='1' size='1'/>")
-                var  text_point = $("<input type ='text' value = '0' id = 'point_"+value.id+"_"+task.task_outcomes[i].id+"_"+task.id +"' maxlength='1' size='1'/>")
-                column.html(text_grade);
+                var  text_point = $("<input type ='text' value = '0' id = 'point_"+value.id+"_"+task.task_outcomes[i].id+"_"+task.id +"' rel = 'point_"+value.id+"_"+task.task_outcomes[i].id+"' maxlength='1' size='1'/>")
+                column.html(text_grade);                                                                                                           
                 col2.addClass("Dark_no width_30")
+                outcome.addClass("Dark_no width_30")
+                if(i==0)
                 rows.append(column);
                 if(p==0)
                 {
-                outcome_div.html(task.task_outcomes[i].name)
+                  outcome_div.html(task.task_outcomes[i].name)
                 }
                 outcome_div.addClass("GB_outcomment rotate_text");
                 outcome.html(outcome_div)
                 col2.html(text_point);
-                rows.append(col2);
                 rows.append(outcome)
+                rows.append(col2);
+                
                 }
              }   
              // }

@@ -92,8 +92,10 @@
               <tr <%if i%2 == 0%>class="GB_odd"<%end%>>
                <% @task_outcomes = t.outcomes%>
                 <% if !@task_outcomes.nil?%>
-                   <% @task_outcomes.each do |o|%>
-                  <td><input type="text" name="task_grade" id="grade_<%=p.id%>_<%=o.id%>_<%=t.id%>" rel = "<%=p.id%>" class="task_grade" value="A" maxlength="2" size="1"/></td>
+                   <% @task_outcomes.each_with_index do |o,j|%>
+                   <%if j==0%>
+                    <td><input type="text" name="task_grade" id="grade_<%=p.id%>_<%=o.id%>_<%=t.id%>" rel = "<%=p.id%>" class="task_grade" value="A" maxlength="2" size="1"/></td>
+                    <%end%>
                   <td class="Dark_no width_30"><div class="GB_outcomment2 rotate_text"><%if i == 0%><%=o.name%><%end%></div></td>
                   <td class="Dark_no width_30"><input type="text" name="task_point" id="point_<%=p.id%>_<%=o.id%>_<%=t.id%>" rel= "point_<%=p.id%>_<%=o.id%>"class="task_point" value="0" maxlength="2"  size="1"/></td>
                   <%end%>
