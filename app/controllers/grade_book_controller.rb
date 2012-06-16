@@ -69,5 +69,26 @@ class GradeBookController < ApplicationController
        end
 
     end
+    
+  def grade_calculate
+    if params[:characters] && !params[:characters].nil?
+      characters = params[:characters]
+      school_id = params[:school_id]
+      sum = 0
+      count = 0
+      average = 0 
+      characters.each do |c|
+        percent = GradeType.letter_to_value(c, school_id)
+        if percent.nil?
+          percent=0
+        end
+        sum = sum + percent
+        count= count + 1
+      end  
+      average = sum/count
+      @grade = GradeType.value_to_letter(average, school_id)
+      render :json =>{grade:@grade}
+    end
+  end
 
 end

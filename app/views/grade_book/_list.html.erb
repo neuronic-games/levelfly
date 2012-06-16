@@ -94,6 +94,7 @@
       </div>
     </div>
     <input type="hidden" name="grade_val"  id ="grad_val" value="">
+    <input type="hidden" name="school_id"  id ="school_id" value="<%=@latest_course.school_id if @latest_course%>">
   </div>
 <script>
 
@@ -101,6 +102,7 @@ $(document).ready(function(){
   
   setPageTitle("GradeBook");
   var arr = new Array();
+  var grades = new Array();
   //Toggle Tabs
   $(".menu_container").delegate('a', 'click', function(){
     //showSpinner(true);
@@ -146,23 +148,50 @@ $(document).ready(function(){
    $(this).css("background-color","#b0c4d0");
   });
   
-   $(".task_right_wp").delegate("input","change",function(){
-   
+  
+  $(".task_right_wp").delegate("input","change",function(){
    id = $(this).attr("id");
    rel = $(this).attr("rel");
-   var sum = 0
-   var val = 0
-   var count = 0
-   $("input[rel="+rel+"]").each(function(index,item){
-     sum = sum + parseInt(item.value)
-     count =index+1
-   });
-    val = sum/count
-     console.log(sum);
-     console.log(count);
-     console.log(val);
-     $("#"+rel).attr("value",val) ;   
-   $(this).css("background-color","#b0c4d0");
+   var type = rel.split("_")
+   if(type[0]=="p")
+   {
+     var sum = 0
+     var val = 0
+     var count = 0
+     $("input[rel="+rel+"]").each(function(index,item){
+       var points = parseInt(item.value)
+       if (isNaN(points))
+       {
+         points=0
+       }
+       sum = sum + points
+       count =index+1
+     });
+      val = sum/count
+      $("#"+rel).attr("value",val) ; 
+      }
+   else
+    {
+      $("input[rel="+rel+"]").each(function(index,item){
+       grades.push(item.value)
+       count =index+1
+     });
+    var school_id = $("#school_id").val();
+    $.ajax({
+    type :"POST",
+    url: "/grade_book/grade_calculate", 
+    dataType: "json",
+    data: {school_id:school_id,characters:grades},
+    error: function(e){alert("error");},
+    success: function(data){
+        console.log(data);
+        $("#"+rel).attr("value",data.grade);
+        grades = [];
+    }
+    
+    });
+    }  
+   $(this).css("background-color","");
   });
   
   
@@ -244,7 +273,7 @@ $('#course_id').change(function(){
               }
               outcome_name.addClass("GB_outcomment rotate_text");
               outcomes_col.html(outcome_name);
-              var  text = $("<input type ='text' value = '0' id = 'point_"+value.id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
+              var  text = $("<input type ='text' value = '0' id = 'p_"+value.id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
               grade_col.html(text)
               rows2.append(outcomes_col);
               rows2.append(grade_col);
@@ -253,6 +282,10 @@ $('#course_id').change(function(){
             {
             rows.addClass("GB_odd");
             rows2.addClass("Dark_no");
+            }
+            else
+            {
+            rows2.addClass("light_row");
             }
             table2.append(rows2);
             rows.append(col2);
@@ -276,11 +309,20 @@ $('#course_id').change(function(){
                 var col2 =$("<td></td>");
                 var outcome =$("<td></td>");
                 var outcome_div =$("<div></div>"); 
-                var  text_grade = $("<input type ='text' value = 'A' id = 'grade_"+value.id+"_"+task.task_outcomes[i].id+"_"+task.id +"' maxlength='1' size='1'/>")
-                var  text_point = $("<input type ='text' value = '0' id = 'point_"+value.id+"_"+task.task_outcomes[i].id+"_"+task.id +"' rel = 'point_"+value.id+"_"+task.task_outcomes[i].id+"' maxlength='1' size='1'/>")
+                var  text_grade = $("<input type ='text' value = 'A' id = 'g_"+value.id+"_"+task.id +"' maxlength='1' size='2' rel = '"+ value.id +"'/>")
+                var  text_point = $("<input type ='text' value = '0' id = 'p_"+value.id+"_"+task.task_outcomes[i].id+"_"+task.id +"' rel = 'p_"+value.id+"_"+task.task_outcomes[i].id+"' maxlength='1' size='2'/>")
                 column.html(text_grade);                                                                                                           
-                col2.addClass("Dark_no width_30")
-                outcome.addClass("Dark_no width_30")
+               
+                if(p%2==0)
+                {
+                  outcome.addClass("Dark_no width_30")
+                  col2.addClass("Dark_no width_30")
+                }
+                else
+                {
+                  outcome.addClass("light_row width_30")
+                   col2.addClass("light_row width_30")
+                }
                 if(i==0)
                 rows.append(column);
                 if(p==0)
