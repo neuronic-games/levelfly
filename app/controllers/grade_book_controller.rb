@@ -87,7 +87,7 @@ class GradeBookController < ApplicationController
       end  
       average = sum/count
       @grade = GradeType.value_to_letter(average, school_id)
-      render :json =>{grade:@grade}
+      render :json => {:grade => @grade}
     end
   end
 
