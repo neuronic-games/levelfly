@@ -15,7 +15,7 @@
     </div><!--outcome_wp-->
 
     <div class="Grade_left_panel">
-      <table width="100%" border="0" cellpadding="0" cellspacing="0" class="GB_left_table" id = "GB_left_table">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" class="GB_table GB_left_table" id="GB_left_table">
 
         <%if !@participant.nil?%>
         <% @participant.each do |p|%>
@@ -31,7 +31,7 @@
 
     <div class="Grade_right_panel">
 
-      <table width="100%" border="0" cellpadding="0" cellspacing="0" class="GB_right_table">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" class="GB_table GB_right_table">
         <%if !@participant.nil?%>
           <% @participant.each_with_index do |p,i|%>
           <tr class="<%= cycle("Dark_no","light_row")%>">
@@ -74,7 +74,7 @@
 
   <div class="task_right_wp">
 
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" id="heading_task" class = "heading_task">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" id="heading_task" class="heading_task">
       <tr class="task_right_heading">
         <% unless @tasks.nil? %>
           <% @tasks.each do |t| %> 
@@ -88,7 +88,7 @@
         <% unless @tasks.nil? %>
          <% @tasks.each do |t| %> 
           <td > 
-            <table border="0" class ="task_grades_hieg">
+            <table border="0" class="GB_table GB_editable task_grades_hieg">
               <tr <%if i%2 == 0%>class="GB_odd"<%end%>>
                <% @task_outcomes = t.outcomes%>
                 <% if !@task_outcomes.nil?%>

@@ -74,6 +74,11 @@ class GradeBookController < ApplicationController
     if params[:characters] && !params[:characters].nil?
       characters = params[:characters]
       school_id = params[:school_id]
+      
+      # Save the grade
+      
+      # Calculate the GPA
+      
       sum = 0
       count = 0
       average = 0 

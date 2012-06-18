@@ -167,30 +167,29 @@ $(document).ready(function(){
        sum = sum + points
        count =index+1
      });
-      val = sum/count
-      $("#"+rel).attr("value",val) ; 
-      }
+     val = sum/count
+     $("#"+rel).attr("value",val) ; 
+   }
    else
-    {
-      $("input[rel="+rel+"]").each(function(index,item){
+   {
+     $("input[rel="+rel+"]").each(function(index,item){
        grades.push(item.value)
        count =index+1
      });
     var school_id = $("#school_id").val();
     $.ajax({
-    type :"POST",
-    url: "/grade_book/grade_calculate", 
-    dataType: "json",
-    data: {school_id:school_id,characters:grades},
-    error: function(e){alert("error");},
-    success: function(data){
-        console.log(data);
-        $("#"+rel).attr("value",data.grade);
-        grades = [];
-    }
-    
+      type :"POST",
+      url: "/grade_book/grade_calculate", 
+      dataType: "json",
+      data: {school_id:school_id,characters:grades},
+      error: function(e){alert("error");},
+      success: function(data){
+          console.log(data);
+          $("#"+rel).attr("value",data.grade);
+          grades = [];
+      }
     });
-    }  
+   }  
    $(this).css("background-color","");
   });
   
