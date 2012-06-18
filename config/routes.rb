@@ -166,6 +166,8 @@ Oncapus::Application.routes.draw do
   
   post "grade_book/grade_calculate"
   
+  post "grade_book/outcomes_points"
+  
   get "wardrobe/index"
   
   get "wardrobe/new"

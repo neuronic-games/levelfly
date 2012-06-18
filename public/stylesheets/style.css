@@ -2602,7 +2602,7 @@ input.grading_Btn2 {
 
 .GB_table td {
 	height:41px;/*40px*/
-	text-align: center;
+	/*text-align: center;*/
 }
 
 .b_box{
@@ -3114,3 +3114,10 @@ filter:alpha(opacity="0");
 .nav_box#root_level .jTscroller a:first-child{margin-top:9px;}
 .jTscrollerNextButton{margin:0px 0px -14px 20px; bottom:0;  background:url(../images/down_arrow.png) no-repeat center; padding:0px 0 0 0; z-index:9999;}
 .jTscrollerPrevButton{margin:-9px 0px 0px 20px; top:0; background:url(../images/up_arrow.png) no-repeat center;}
+
+
+.editable_field:hover {
+  background: #DFD4B6;
+}
+.task_grade{ text-align:center;}
+.td_align{vertical-align:middle;}
