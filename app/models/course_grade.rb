@@ -10,8 +10,7 @@ class CourseGrade < ActiveRecord::Base
   # If outcome_id is nil, the grade is a percent grade for the course. If outcome_id is present,
   # the grade is a outcome grade 1-3.
   def self.save_grade(profile_id, grade, course_id, outcome_id = nil)
-    cg = CourseGrade.find(:first, 
-      :conditions => {:profile_id => profile_id, :course_id => course_id, :outcome_id => outcome_id})
+    cg = CourseGrade.where(:profile_id => profile_id, :course_id => course_id, :outcome_id => outcome_id).first
     if cg.nil?
       profile = Profile.find(profile_id)
       school_id = profile.school_id
@@ -32,7 +31,7 @@ class CourseGrade < ActiveRecord::Base
   # Returns two hashes of course and outcome grades. The key is the course_id. Outcome grades are represented
   # as a hash of a hash.
   def self.load_grade(profile_id, course_id)
-    cg_list = CourseGrade.find(:all, :conditions => {:profile_id => profile_id, :course_id => course_id})
+    cg_list = CourseGrade.where(:profile_id => profile_id, :course_id => course_id)
     
     course_grades = {}
     outcome_grades = {}

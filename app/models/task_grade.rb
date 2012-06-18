@@ -7,6 +7,7 @@ class TaskGrade < ActiveRecord::Base
     else
       self.task_grade_save(school_id,course_id,task_id, profile_id,task_grade)
     end
+    CourseGrade.save_grade
   end
 
   def self.task_grade_save(school_id,course_id,task_id, profile_id,task_grade)
