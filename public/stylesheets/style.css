@@ -2342,12 +2342,12 @@ background:#c8ccd4 !important;
   margin: 0px 0 0 -28px;
 }
 .gradebook_board_left {
-	background:url(../images/gradebg_left.png) 0 -25px no-repeat;
+	background:url(../images/gradebg_left.png) 0 -26px no-repeat;/*-25px*/
 	padding-left:87px;
 	height:100%;
 }
 .gradebook_board_right {
-	background:url(../images/gradebg_right.png) right -25px no-repeat;
+	background:url(../images/gradebg_right.png) right -26px no-repeat;/*-25px*/
 	padding-right:86px;
 	height:100%;
 }
@@ -2601,7 +2601,7 @@ input.grading_Btn2 {
 }
 
 .GB_table td {
-	height:41px;/*40px*/
+	height:47px;/*41px*/
 	/*text-align: center;*/
 }
 
@@ -3119,5 +3119,10 @@ filter:alpha(opacity="0");
 .editable_field:hover {
   background: #DFD4B6;
 }
-.task_grade{ text-align:center;}
+.task_grade{ text-align:center; text-transform:uppercase;}
 .td_align{vertical-align:middle;}
+.warning{
+border-style:solid;
+border-width:1px;
+color:red
+}

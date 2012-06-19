@@ -1,13 +1,13 @@
 class TaskGrade < ActiveRecord::Base
 
-  def self.task_grades(school_id,course_id,task_id, profile_id,task_grade)
+  def self.task_grades(school_id,course_id,task_id, profile_id,task_grade,grade)
     @grade= TaskGrade.where("school_id = ? and course_id = ? and task_id =? and profile_id = ? ",school_id,course_id,task_id,profile_id).first
     if !@grade.nil?
       self.task_grade_update(school_id,course_id,task_id, profile_id,task_grade,@grade)
     else
       self.task_grade_save(school_id,course_id,task_id, profile_id,task_grade)
     end
-    CourseGrade.save_grade
+    CourseGrade.save_grade(profile_id, grade, course_id)
   end
 
   def self.task_grade_save(school_id,course_id,task_id, profile_id,task_grade)
