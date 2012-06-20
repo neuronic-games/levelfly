@@ -51,4 +51,14 @@ class GradeType < ActiveRecord::Base
     
     return letter
   end
+  
+  def self.is_num(num)
+    if num =~ /^[-+]?[0-9]*\.?[0-9]+$/
+      return true
+    else
+      return false  
+    end
+   
+  end
+  
 end

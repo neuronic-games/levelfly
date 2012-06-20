@@ -14,26 +14,26 @@
                       <div class="GDingboxinner_grade" >
                         <div align="center">GRADES</div>
                         <div class="fontsize0px">
-                          <input name="" type="button" value="a" class="grading_Btn" />
-                          <input name="" type="button" value="b" class="grading_Btn" />
-                          <input name="" type="button" value="c" class="grading_Btn" />
-                          <input name="" type="button" value="d" class="grading_Btn" />
-                          <input name="" type="button" value="f" class="grading_Btn" />
+                          <input name="" type="button" value="a" id ="letter_a" class="grading_Btn alphabet" />
+                          <input name="" type="button" value="b" id ="letter_b" class="grading_Btn alphabet" />
+                          <input name="" type="button" value="c" id ="letter_c" class="grading_Btn alphabet" />
+                          <input name="" type="button" value="d" id ="letter_d" class="grading_Btn alphabet" />
+                          <input name="" type="button" value="f" id ="letter_f" class="grading_Btn alphabet" />
                         </div>
                       </div>
                       <div class="GDingboxinner_plusminus" >
                         <div align="center">&nbsp;</div>
                         <div class="fontsize0px">
-                          <input name="" type="image" src="images/grade_plus.png" class="grading_Btn2" />
-                          <input name="" src="images/grade_minus.png" type="image"  class="grading_Btn2" />
+                          <input name="" type="image" src="images/grade_plus.png" class="grading_Btn2 symbol" value="+" id="plus"/>
+                          <input name="" src="images/grade_minus.png" type="image"  class="grading_Btn2 symbol" value="-"  id="minus"/>
                         </div>
                       </div>
                       <div class="GDingboxinner_outcome" >
                         <div align="center">OUTCOMES</div>
                         <div class="fontsize0px">
-                          <input name="" type="button" value="1" class="grading_Btn Gbtn1" />
-                          <input name="" type="button" value="2" class="grading_Btn Gbtn2" />
-                          <input name="" type="button" value="3" class="grading_Btn Gbtn3" />
+                          <input name="" type="button" value="1" class="grading_Btn Gbtn1 outcome_point" id="one_point" />
+                          <input name="" type="button" value="2" class="grading_Btn Gbtn2 outcome_point" id="two_point"/>
+                          <input name="" type="button" value="3" class="grading_Btn Gbtn3 outcome_point" id="three_point"/>
                         </div>
                       </div>
                       <div class="GDingboxinner_latest" >
@@ -94,6 +94,9 @@
       </div>
     </div>
     <input type="hidden" name="grade_val"  id ="grad_val" value="">
+    <input type="hidden" name="clicked_id"  id ="clicked_id" value="">
+    <input type="hidden" name="plus_minus"  id ="plus_minus" value="">
+    <input type="hidden" name="outcome_points"  id ="outcome_points" value="">
     <input type="hidden" name="school_id"  id ="school_id" value="<%=@latest_course.school_id if @latest_course%>">
   </div>
 <script>
@@ -103,9 +106,14 @@ $(document).ready(function(){
   setPageTitle("GradeBook");
   var arr = new Array();
   var grades = new Array();
-  grades_arr = ["A","A-","B+","B","B-","C+","C","C-","D+","D","D-","F"];
-  points_arr = [1,2,3];
+  var grades_arr = ["A","A-","B+","B","B-","C+","C","C-","D+","D","D-","F"];
+  var points_arr = [1,2,3];
+  var final_value
+  var arr_id =[];
   var previous_grade;
+  var select_alphabet = false;
+  var select_symbol = false;
+  var select_points = false;
   //Toggle Tabs
   $(".menu_container").delegate('a', 'click', function(){
     //showSpinner(true);
@@ -131,25 +139,112 @@ $(document).ready(function(){
    $(this).css("background-color","#b0c4d0");
   });
   */
-  $('.grading_Btn').click(function(){
-    var val = $(this).val();
-    var ids 
-    $.each(arr, function(index, id) { 
-        $("#"+id).attr("value",val.toUpperCase());
-        $("#"+id).css("background-color","");
-         //$("#"+ids[1]).attr("value",val.toUpperCase())
+  $('.outcome_point').click(function(){
+    select_alphabet = true;select_symbol = true;
+    final_value = ''
+    var prevoius = $("#outcome_points").val();
+    $("#outcome_points").val($(this).attr("id"));
+    $.each(arr_id, function(index, id) { 
+       $("#"+id).removeClass("select_btn");
+    });
+    arr_id.push($(this).attr("id"));
+   
+    if(prevoius == $(this).attr("id") && select_points == false)
+      {
+        select_points = true;
+        $(this).removeClass("select_btn");
+      }
+      else
+      {
+        select_points = false;
+        $(this).addClass("select_btn");
+         final_value = $(this).val();
+      }
+  });
+
+  $('.symbol').click(function(){
+    if(arr.length>0)
+    {
+      select_alphabet = true;
+      select_points = true;
+      $("#plus").removeClass("select_btn");
+      $("#minus").removeClass("select_btn");
+      var prevoius = $("#plus_minus").val();
+      $("#plus_minus").val($(this).attr("id"));
+      var val = $(this).val();
+      var grade;
+      var total_grade = '';
+      arr_id.push($(this).attr("id"))
+      $.each(arr, function(index, value) { 
+          grade = value.toUpperCase();
       });
+       
+       if (arr.length>1)
+       arr.pop();
+       arr.push(val);
+       if(prevoius == $(this).attr("id") && select_symbol == false)
+       {
+          $(this).removeClass("select_btn");
+          select_symbol = true
+          arr.pop();
+       }
+       else
+       {
+        $(this).addClass("select_btn");
+        select_symbol = false;
+        arr.pop();
+        arr.push(val);
+       }
+       $.each(arr, function(index, value) { 
+          total_grade = total_grade + value.toUpperCase();
+      }); 
+      
+      final_value = total_grade;      
+    }
+    else
+    {
+      alert("Select Grade First");
+    }
+  });
+  
+  $('.alphabet').click(function(){
+    select_symbol = true;
+    select_points = true;
+    final_value='';
+    var prevoius = $("#clicked_id").val();
+    $("#clicked_id").val($(this).attr("id"));
+    $.each(arr_id, function(index, id) { 
+       $("#"+id).removeClass("select_btn");
+    });
     arr = [];
+    arr_id = [];
+    var val = $(this).val();
+    arr.push(val.toUpperCase());
+    arr_id.push($(this).attr("id"));
+    if(prevoius == $(this).attr("id") && select_alphabet == false)
+    {
+      $(this).removeClass("select_btn");
+      arr.pop();
+      select_alphabet = true;
+    }
+    else    
+    {
+      $(this).addClass("select_btn"); 
+      select_alphabet = false;
+      final_value = val.toUpperCase();
+    }
+    
   });
   
   $(".task_right_wp").delegate("input","click",function(){
    id = $(this).attr("id");
-    arr.push(id);
     document.getElementById(id).focus();
     document.getElementById(id).select();
     previous_grade = $(this).val();
+    $(this).attr("value",final_value);
    //$(this).css("background-color","#DFD4B6");
    $(this).removeClass("warning");
+   $(this).trigger("change");
   });
   
   function valid_grade(val,id)
@@ -160,9 +255,22 @@ $(document).ready(function(){
       {
         $("#"+id).removeClass("warning");
         flag = true;
-        return false;
+        return flag;
       }
     });
+    if (flag == false)
+    {
+      for (value=0; value<=100; value++)  
+      {
+        var points = parseFloat(value)
+        if(val<=value )
+        {
+          $("#"+id).removeClass("warning");
+          flag = true;
+          break;
+        }
+      }
+    }
     if (flag == false)
     {
       //alert("Entar Valid Grade");
@@ -180,7 +288,7 @@ $(document).ready(function(){
         {
           $("#"+id).removeClass("warning");
           flag = true;
-          return false;
+          return flag;
         }
      });
       if (flag == false)
@@ -192,85 +300,91 @@ $(document).ready(function(){
      return flag;    
   }
   
-  
   $(".task_right_wp").delegate("input","change",function(){
-    
-    id = $(this).attr("id");
-    rel = $(this).attr("rel");
     var val = $(this).val();
-    $(this).val(val.toUpperCase());
-  
-    var valid = false;
-    if(id[0]=="g")
-    {
-      valid = valid_grade(val.toUpperCase(),id)
-    }
-    else
-    {
-      valid = valid_point(val,id)
-    }
-  
-    if(valid==true)
-    {
-      var course_id = $("#course_id").val();
-      var school_id = $("#school_id").val();
-      var type = rel.split("_")
-      if(type[0]=="p")
-      {
-        var sum = 0
-        var val = 0
-        var count = 0
-        var ids= id.split("_")
-        var participant_id = ids[1];
-        var outcome_id = ids[2];
     
-        $("input[rel="+rel+"]").each(function(index,item){
-          var points = parseInt(item.value);
-         
-          if (isNaN(points)==false)
-          {
-            sum = sum + points
-            count = index + 1
-          }
-        });
-        val = sum/count
-        
-        $.ajax({
-          type :"POST",
-          url: "/grade_book/outcomes_points", 
-          dataType: "json",
-          data: {school_id:school_id,course_id:course_id,outcome_id:outcome_id,participant_id:participant_id,points:val},
-          error: function(e){alert("error");},
-          success: function(data){
-            $("#"+rel).attr("value",data.points) ; 
-          }
-        });
+    if (val!="")
+    {
+      id = $(this).attr("id");
+      rel = $(this).attr("rel");
+      grades=[];
+      $(this).val(val.toUpperCase());
+    
+      var valid = false;
+      if(id[0]=="g")
+      {
+        valid = valid_grade(val.toUpperCase(),id)
+        console.log(valid);
       }
       else
       {
-        $("input[rel="+rel+"]").each(function(index,item){
-          grades.push(item.value)
-          count =index+1
-       });
-       console.log(grades);
-        var ids= id.split("_")
-        var task_id = ids[2];
-        var task_grade = $(this).val();
-        task_grade = task_grade.toUpperCase();
-        var participant_id = rel;
-        $.ajax({
-          type :"POST",
-          url: "/grade_book/grade_calculate", 
-          dataType: "json",
-          data: {school_id:school_id,characters:grades,course_id:course_id,task_id:task_id,participant_id:participant_id,task_grade:task_grade},
-          error: function(e){alert("error");},
-          success: function(data){
-            $("#"+rel).attr("value",data.grade);
-            grades = [];
-          }
-        });
-      }  
-    $(this).css("background-color","");  
+        valid = valid_point(val,id)
+      }
+    
+      if(valid==true)
+      {
+        var course_id = $("#course_id").val();
+        var school_id = $("#school_id").val();
+        var type = rel.split("_")
+        if(type[0]=="p")
+        {
+          var sum = 0
+          var average = 0
+          var count = 0
+          var ids= id.split("_")
+          var participant_id = ids[1];
+          var outcome_id = ids[2];
+          var task_id = ids[3]
+      
+          $("input[rel="+rel+"]").each(function(index,item){
+            var points = parseInt(item.value);
+           
+            if (isNaN(points)==false)
+            {
+              sum = sum + points
+              count = count + 1
+            }
+          });
+          average = sum/count
+          console.log(average);
+          $.ajax({
+            type :"POST",
+            url: "/grade_book/outcomes_points", 
+            dataType: "json",
+            data: {school_id:school_id,course_id:course_id,task_id:task_id,outcome_id:outcome_id,participant_id:participant_id,average:average,outcome_val:val},
+            error: function(e){alert("error");},
+            success: function(data){
+              $("#"+rel).attr("value",data.average) ; 
+            }
+          });
+        }
+        else
+        {
+          $("input[rel="+rel+"]").each(function(index,item){
+            grades.push(item.value)
+            count =index+1
+         });
+         console.log(grades);
+          var ids= id.split("_")
+          var task_id = ids[2];
+          var task_grade = $(this).val();
+          task_grade = task_grade.toUpperCase();
+          console.log(task_grade)
+          var participant_id = rel;
+          $.ajax({
+            type :"POST",
+            url: "/grade_book/grade_calculate", 
+            dataType: "json",
+            data: {school_id:school_id,characters:grades,course_id:course_id,task_id:task_id,participant_id:participant_id,task_grade:task_grade},
+            error: function(e){alert("error");},
+            success: function(data){
+              $("#"+rel).attr("value",data.grade);
+              grades = [];
+            }
+          });
+        }  
+      $(this).css("background-color","");  
+     }
    }
    //$(this).css("background-color","");
   });
@@ -380,7 +494,7 @@ $('#course_id').change(function(){
           var main_col=$("<td></td>");
           var table_task = $("<table></table>");
           var len = task.task_outcomes.length;
-          var  text_grade = $("<input type ='text' value = '' id = 'g_"+value.id+"_"+task.id +"' maxlength='2' size='2' rel = '"+ value.id +"'/>");
+          var  text_grade = $("<input type ='text' value = '' id = 'g_"+value.id+"_"+task.id +"' maxlength='4' size='2' rel = '"+ value.id +"'/>");
           text_grade.addClass("editable_field task_grade")
           column.html(text_grade); 
           if (p!=0)

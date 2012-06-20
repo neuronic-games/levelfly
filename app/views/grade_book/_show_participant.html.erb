@@ -73,7 +73,7 @@
     
   </div><!--task_left_wp-->
 
-  <div class="task_right_wp">
+  <div class="task_right_wp"><!--Right side table-->
 
     <table width="100%" border="0" cellpadding="0" cellspacing="0" id="heading_task" class="heading_task">
       <tr class="task_right_heading">
@@ -93,7 +93,7 @@
               <tr <%if i%2 == 0%>class="GB_odd"<%end%>>
               <% @task_outcomes = t.outcomes%>
                <td <%if (i==0)%>class=""<%else%>class="td_align"<%end%>>
-                 <input type="text" name="task_grade" id="g_<%=p.id%>_<%=t.id%>" rel = "<%=p.id%>" class="task_grade editable_field" value="" maxlength="2" size="1"/>
+                 <input type="text" name="task_grade" id="g_<%=p.id%>_<%=t.id%>" rel = "<%=p.id%>" class="task_grade editable_field" value="" maxlength="4" size="1"/>
                </td>
                
                 <% if !@task_outcomes.nil?%>

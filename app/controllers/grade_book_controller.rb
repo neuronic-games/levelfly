@@ -73,7 +73,12 @@ class GradeBookController < ApplicationController
       participant_id = params[:participant_id]
       task_grade = params[:task_grade]
       participant = Participant.find(participant_id)
-    
+      num = GradeType.is_num(task_grade)
+      if num == false     
+        points = GradeType.letter_to_value(task_grade, school_id)
+        task_grade = points
+      end
+      
       # Save the grade
       if !participant.nil?      
         # Calculate the GPA
@@ -84,14 +89,23 @@ class GradeBookController < ApplicationController
         characters.each do |c|
           percent = -1
           if !c.blank?
-            percent = GradeType.letter_to_value(c, school_id)
+          num = GradeType.is_num(c)
+            if num == true
+              percent = c.to_f
+            else
+              percent = GradeType.letter_to_value(c, school_id)
+            end    
             if (!percent.nil? and percent > -1)
               sum = sum + percent
               count = count + 1
             end
           end 
-        end  
-        average = sum/count
+        end 
+        if (sum >0 and count >0)
+          average = sum/count
+        else
+          average = 0 
+        end
         @grade = GradeType.value_to_letter(average, school_id)
         @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, participant.profile_id,task_grade,average)
         render :json => {:grade => @grade}
@@ -101,15 +115,17 @@ class GradeBookController < ApplicationController
   
   def outcomes_points
     if params[:course_id] && !params[:course_id].nil?
-      points = params[:points]
+      average = params[:average]
       school_id = params[:school_id]
       course_id = params[:course_id]
       outcome_id = params[:outcome_id]
       participant_id = params[:participant_id]
+      task_id = params[:task_id]
+      outcome_val = params[:outcome_val]
       participant = Participant.find(participant_id)
       if !participant.nil?
-        @grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, participant.profile_id,points)
-        render :json => {:points => points}
+        @grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, participant.profile_id,average,task_id,outcome_val)
+        render :json => {:average => average}
       end  
     end
     

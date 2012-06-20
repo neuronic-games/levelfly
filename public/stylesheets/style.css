@@ -3122,7 +3122,6 @@ filter:alpha(opacity="0");
 .task_grade{ text-align:center; text-transform:uppercase;}
 .td_align{vertical-align:middle;}
 .warning{
-border-style:solid;
-border-width:1px;
-color:red
+background-color:#FF4D4D
 }
+.select_btn{background-color:#AFDCB6 !important;}
