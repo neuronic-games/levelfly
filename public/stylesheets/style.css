@@ -2511,11 +2511,11 @@ filter:alpha(opacity="0");
 .GDingbox_botcenter { background:url(../images/gradebook_btcenter.png) no-repeat 10px 33px;}
 .GDingbox_botleft {background:url(../images/gradebook_btleft.png) no-repeat; padding-left:30px;}
 .GDingbox_heading {font-size:24px; padding:16px 0 0 19px;}
-.GDingbox_botcontainer {height:100px; width:570px; margin:0 auto; padding:28px 0 0 0}
+.GDingbox_botcontainer {height:100px; width:700px; margin:0 auto; padding:28px 0 0 0}
 .GDingboxinner_grade {float:left; border-right:#bc917d 1px solid; width:190px; height:65px; padding:0 3px;}
 .GDingboxinner_plusminus {float:left; border-right:#bc917d 1px solid; width:78px; height:65px; padding:0 3px;}
 .GDingboxinner_outcome {float:left; border-right:#bc917d 1px solid; width:114px; height:65px; padding:0 3px;}
-.GDingboxinner_latest {float:left; border-right:#bc917d 1px solid; width:114px; height:65px; padding:0 3px;}
+.GDingboxinner_latest {float:left; border-right:#bc917d 1px solid; width:185px; height:65px; padding:0 3px;}
 .GDingboxinner_delete {float:left; width:38px; height:65px; padding:0 3px;}
 input[type="button"].grading_Btn { 	
 	background: url(../images/grading_bt.png) repeat scroll 0 0 transparent;
@@ -2549,6 +2549,25 @@ input.grading_Btn2 {
 
 	font-family: 'SeanRegular';
 	}
+input[type="button"].grading_Btn3 { 	
+	background: url(../images/grading_bt_long.png) repeat scroll 0 0 transparent;
+	cursor: pointer;
+	font-family: verdana;
+	border: medium none;
+	color: #b10505;
+	font-size:19px;
+	height: 37px;
+	display:inline-block;
+	line-height:37px;
+	text-align:center;
+	text-transform:uppercase;
+	vertical-align: middle;
+	padding:0 7px 1px;
+	width: 60px;
+	font-family: 'SeanRegular';
+}  
+  
+  
 .Gbtn1 { color:#464646 !important; background: url(../images/grading_bt.png) repeat scroll 0 0 transparent !important;}
 .Gbtn2 { color:#464646 !important; background: url(../images/grading_btout2.png) repeat scroll 0 0 transparent !important;}
 .Gbtn3 { color:#464646 !important; background: url(../images/grading_btout3.png) repeat scroll 0 0 transparent !important;}
@@ -3118,6 +3137,7 @@ filter:alpha(opacity="0");
 
 .editable_field:hover {
   background: #DFD4B6;
+  cursor: hand;cursor: pointer;
 }
 .task_grade{ text-align:center; text-transform:uppercase;}
 .td_align{vertical-align:middle;}
@@ -3125,3 +3145,5 @@ filter:alpha(opacity="0");
 background-color:#FF4D4D
 }
 .select_btn{background-color:#AFDCB6 !important;}
+.hover{cursor: hand;cursor: pointer;}
+.cursor_none{cursor:none !important;}

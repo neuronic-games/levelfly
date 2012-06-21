@@ -39,15 +39,15 @@
                       <div class="GDingboxinner_latest" >
                         <div align="center">LATEST</div>
                         <div class="fontsize0px">
-                          <input name="" src="images/grade_latestbt.png" type="image" class="grading_Btn2" />
-                          <input name="" src="images/grade_latestbt.png" type="image" class="grading_Btn2" />
-                          <input name="" src="images/grade_latestbt.png" type="image" class="grading_Btn2" />
+                          <input name="" type="button" value="?" class="grading_Btn3  letest" id="letest1" />
+                          <input name="" type="button" value="?" class="grading_Btn3  letest" id="letest2" />
+                          <input name="" type="button" value="?" class="grading_Btn3  letest" id="letest3" />
                         </div>
                       </div>
-                      <div class="GDingboxinner_delete" >
+                      <div class="GDingboxinner_delete">
                         <div align="center">&nbsp;</div>
                         <div class="fontsize0px">
-                          <input name="" src="images/grade_deletebt.png" type="image" class="grading_Btn2" />
+                          <input name="" src="images/grade_deletebt.png" type="image" class="grading_Btn2 reset_field" id="reset_fields" />
                         </div>
                       </div>
                     </div>
@@ -95,6 +95,7 @@
     </div>
     <input type="hidden" name="grade_val"  id ="grad_val" value="">
     <input type="hidden" name="clicked_id"  id ="clicked_id" value="">
+    <input type="hidden" name="letest"  id ="letest" value="">
     <input type="hidden" name="plus_minus"  id ="plus_minus" value="">
     <input type="hidden" name="outcome_points"  id ="outcome_points" value="">
     <input type="hidden" name="school_id"  id ="school_id" value="<%=@latest_course.school_id if @latest_course%>">
@@ -107,13 +108,15 @@ $(document).ready(function(){
   var arr = new Array();
   var grades = new Array();
   var grades_arr = ["A","A-","B+","B","B-","C+","C","C-","D+","D","D-","F"];
-  var points_arr = [1,2,3];
+  var points_arr = ["",1,2,3];
   var final_value
   var arr_id =[];
   var previous_grade;
   var select_alphabet = false;
   var select_symbol = false;
   var select_points = false;
+  var letest_points = false;
+  var letest = "";
   //Toggle Tabs
   $(".menu_container").delegate('a', 'click', function(){
     //showSpinner(true);
@@ -139,8 +142,85 @@ $(document).ready(function(){
    $(this).css("background-color","#b0c4d0");
   });
   */
+  $(".task_right_wp").delegate("th","click",function(){
+    var id = $(this).attr("id");
+    $("."+id).each(function() {
+      $(this).attr("value",final_value);
+    });
+
+    //("."+id).attr("value",2);
+     console.log("."+id);
+  });
+  
+  
+  $(".task_right_wp").delegate("div","click",function(){
+  //$(".GB_outcomment2").click(function(){
+    var id = $(this).attr("id");
+    $("."+id).each(function() {
+      $(this).attr("value",final_value);
+    });
+    $(this).trigger("change");
+  });
+  
+  $(".reset_field").click(function(){
+    var first = true; 
+    $.each(arr_id, function(index, id) { 
+        console.log(id+" "+$(this).attr("id"));
+        if (id == "reset_fields")
+        {
+          first = false;
+          if($("#reset_fields").hasClass("select_btn"))
+            $("#reset_fields").removeClass("select_btn");
+          else 
+            $("#reset_fields").addClass("select_btn"); 
+        }
+        else{
+          $("#"+id).removeClass("select_btn");
+          }
+    });
+    if (first == true)
+      $(this).addClass("select_btn");
+     arr = [];
+     arr_id=[];
+     final_value = '';
+     
+     arr_id.push($(this).attr("id"));
+    
+  });
+  
+  
+  $(".letest").click(function(){
+    if($(this).val()=="" || $(this).val() == "?"){
+      alert("Enter A valid value in grade field for update letest");
+    }
+    else{
+      $.each(arr_id, function(index, id) { 
+         $("#"+id).removeClass("select_btn");
+      });
+      arr = [];
+      final_value = ''
+      arr_id = [];
+      arr_id.push($(this).attr("id"));
+      var prevoius = $("#letest").val();
+      $("#letest").val($(this).attr("id"));
+      if(prevoius == $(this).attr("id") && letest_points == false)
+        {
+          letest_points = true;
+          $(this).removeClass("select_btn");
+        }
+      else
+      {
+        letest_points = false;
+        $(this).addClass("select_btn");
+        final_value = $(this).val();
+      }
+    }
+  
+  });
+  
   $('.outcome_point').click(function(){
     select_alphabet = true;select_symbol = true;
+    arr = [];
     final_value = ''
     var prevoius = $("#outcome_points").val();
     $("#outcome_points").val($(this).attr("id"));
@@ -160,6 +240,7 @@ $(document).ready(function(){
         $(this).addClass("select_btn");
          final_value = $(this).val();
       }
+      console.log(arr);
   });
 
   $('.symbol').click(function(){
@@ -205,6 +286,7 @@ $(document).ready(function(){
     {
       alert("Select Grade First");
     }
+       console.log(arr);
   });
   
   $('.alphabet').click(function(){
@@ -233,6 +315,7 @@ $(document).ready(function(){
       select_alphabet = false;
       final_value = val.toUpperCase();
     }
+       console.log(arr);
     
   });
   
@@ -244,11 +327,14 @@ $(document).ready(function(){
     $(this).attr("value",final_value);
    //$(this).css("background-color","#DFD4B6");
    $(this).removeClass("warning");
+   //$(this).attr("disabled","disabled");
+   //document.getElementById('reset_fields').focus(); 
    $(this).trigger("change");
   });
   
   function valid_grade(val,id)
-  {   
+  {  
+    var last="";
     var flag = false;
     $(grades_arr).each(function(i, grade) {
       if(grade == val)
@@ -263,11 +349,34 @@ $(document).ready(function(){
       for (value=0; value<=100; value++)  
       {
         var points = parseFloat(value)
-        if(val<=value )
+        if(val<=value && val !="")
         {
+          
           $("#"+id).removeClass("warning");
           flag = true;
-          break;
+         if((val != $("#letest1").val()) && (val != $("#letest2").val()) && (val != $("#letest3").val()))
+          {
+            if (letest == ""){
+              $("#letest1").attr("value",val);
+              last = "letest1";
+            }
+            else if(letest=="letest1"){
+              $("#letest2").attr("value",val);
+              last = "letest2";
+            }
+            else if(letest=="letest2"){
+              $("#letest3").attr("value",val);
+              last = "letest3";
+            }
+            else if(letest=="letest3"){
+              $("#letest1").attr("value",val);
+              last = "letest1";
+            }
+            letest = last;
+           
+            break;
+          } 
+          
         }
       }
     }
@@ -302,9 +411,8 @@ $(document).ready(function(){
   
   $(".task_right_wp").delegate("input","change",function(){
     var val = $(this).val();
-    
-    if (val!="")
-    {
+    //if (val!="")
+    //{
       id = $(this).attr("id");
       rel = $(this).attr("rel");
       grades=[];
@@ -346,6 +454,8 @@ $(document).ready(function(){
             }
           });
           average = sum/count
+          if (isNaN(average)==true)
+          average='';
           console.log(average);
           $.ajax({
             type :"POST",
@@ -385,7 +495,7 @@ $(document).ready(function(){
         }  
       $(this).css("background-color","");  
      }
-   }
+   //}
    //$(this).css("background-color","");
   });
   
@@ -407,15 +517,19 @@ $('#course_id').change(function(){
       outcomes = data.outcomes;
       tasks = data.tasks;
       var option ='';
-      var col ='';
       var row =$("<tr></tr>");
       var  table3 = $("<table></table>") 
       $(tasks).each(function(i, value) {
+        var col =$("<th></th>") ;
         option = option + "<option value = "+ value.id +">" + value.name +"</option>"
-        col= col + "<th>"+value.name+"</th>"
+        //col= col + "<th>"+value.name+"</th>"
+        col.html(value.name);   
+        col.addClass("hover");
+        col.attr("id",value.id)
+        row.append(col);
       });
       $('#task_id').html(option);
-      row.html(col);
+     
       row.addClass("task_right_heading");
       table3.append(row);
       /*var option_outcomes =''
@@ -495,7 +609,7 @@ $('#course_id').change(function(){
           var table_task = $("<table></table>");
           var len = task.task_outcomes.length;
           var  text_grade = $("<input type ='text' value = '' id = 'g_"+value.id+"_"+task.id +"' maxlength='4' size='2' rel = '"+ value.id +"'/>");
-          text_grade.addClass("editable_field task_grade")
+          text_grade.addClass("editable_field task_grade "+task.id +"");
           column.html(text_grade); 
           if (p!=0)
           column.addClass("td_align")
@@ -509,9 +623,9 @@ $('#course_id').change(function(){
               var point_column =$("<td></td>");
               var outcome =$("<td></td>");
               var outcome_div =$("<div></div>"); 
-             
+              
               var  text_point = $("<input type ='text' value = '' id = 'p_"+value.id+"_"+task.task_outcomes[i].id+"_"+task.id +"' rel = 'p_"+value.id+"_"+task.task_outcomes[i].id+"' maxlength='1' size='2'/>");
-              text_point.addClass("editable_field task_grade");
+              text_point.addClass("editable_field task_grade "+task.id+"_"+task.task_outcomes[i].id+"");
               if(p%2==0)
               {
                 outcome.addClass("Dark_no width_30");
@@ -527,8 +641,10 @@ $('#course_id').change(function(){
               if(p==0)
               {
                 outcome_div.html(task.task_outcomes[i].name);
+                outcome.addClass("hover")
               }
-              outcome_div.addClass("GB_outcomment rotate_text");
+              outcome_div.addClass("GB_outcomment2 rotate_text");
+              outcome_div.attr("id",task.id+"_"+task.task_outcomes[i].id)
               outcome.html(outcome_div);
               point_column.html(text_point);
               point_column.addClass("td_align")

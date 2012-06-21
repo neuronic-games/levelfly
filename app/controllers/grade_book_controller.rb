@@ -14,14 +14,25 @@ class GradeBookController < ApplicationController
          )
          
          if @courses.length > 0
-         
+           @school_id = @profile.school_id
            @latest_course = @courses.first    
            @course_id = @latest_course.id
            @outcomes = @latest_course.outcomes
-           @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id"])
+           @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
            #@participant = @courses.first.participants
            @tasks = Task.find(:all,:conditions=>["course_id = ?",@course_id], :select => "name,id")
-           
+           # if not @participant.nil?
+            # @participant.each do |p|
+              # participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, @course_id)
+              # puts"=====#{p.profile_id}====#{@course_id}"
+              # participant_grade.each do |key, val|
+                # puts"#{key}====#{val}"
+              # end
+              # outcome_grade.each do |key, val|
+                # puts"#{key}==outcome==#{val}"
+              # end
+            # end
+          # end
          end
        end
        respond_to do |wants|

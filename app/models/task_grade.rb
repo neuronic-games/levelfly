@@ -25,5 +25,14 @@ class TaskGrade < ActiveRecord::Base
   def self.task_grade_update(task_grade,grade_obj)
     grade_obj.update_attribute('grade',task_grade)
   end
+  
+  def self.load_task_grade(school_id, course_id,task_id,profile_id)
+    task_grade = TaskGrade.where("school_id = ? and course_id = ? and task_id = ? and profile_id = ?",school_id, course_id,task_id,profile_id).first
+    if task_grade.nil?
+      return nil
+    else
+      return task_grade.grade 
+    end
+  end  
 
 end

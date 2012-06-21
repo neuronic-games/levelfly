@@ -40,11 +40,20 @@ class CourseGrade < ActiveRecord::Base
         course_grades[cg.course_id] = cg.grade
       else
         outcome_grades[cg.course_id] = {} if outcome_grades[cg.course_id].nil?
-        outcome_grades[cg.course_id][cg.outcome_id] = cg.grade
+        outcome_grades[cg.outcome_id] = cg.grade
       end
     end
     
     return course_grades, outcome_grades
+  end
+  
+  def self.load_outcomes(profile_id, course_id,outcome_id)
+    outcome_point = CourseGrade.where("profile_id = ? and course_id = ? and outcome_id = ?",profile_id, course_id,outcome_id).first
+    if outcome_point.nil?
+      return nil
+    else
+      return outcome_point.grade
+    end
   end
   
 end

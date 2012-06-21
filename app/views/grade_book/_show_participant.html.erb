@@ -21,9 +21,16 @@
         <% @participant.each do |p|%>
         <tr class="<%= cycle("GB_odd","")%>">
           <td width="63%" class="Name_box td_align"><%= p.full_name%></td><!-- td_align-->
+          <%participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, @course_id)%>
+          <%val = participant_grade[@course_id]%>
+          <%grade=""%>
+          <%if !val.nil?%>
+            <% grade = GradeType.value_to_letter(val, @school_id)%>
+          <%end%>
           <td class="td_align"> 
-            <div class="b_box"><input type="text" name="grade" id="<%=p.id%>" class="task_grade" value="" maxlength="1" readonly="readonly" size="5"/></div>
+            <div class="b_box"><input type="text" name="grade" id="<%=p.id%>" class="task_grade" value="<%=grade%>" maxlength="1" readonly="readonly" size="5"/></div>
           </td>
+       
         </tr>
         <%end%>
         <%end%>
@@ -41,7 +48,8 @@
                 <td>
                   <div class="GB_outcomment rotate_text"><%if i == 0%><%=o.name%><%end%></div>
                 </td>
-                <td class="td_align"><input type="text" name="grade" id="p_<%=p.id%>_<%=o.id%>" class="grades" value="" maxlength="1" readonly="readonly" size="1"/></td>
+                <%outcome_grade = CourseGrade.load_outcomes(p.profile_id, @course_id,o.id)%>
+                <td class="td_align"><input type="text" name="grade" id="p_<%=p.id%>_<%=o.id%>" class="grades" value="<%=outcome_grade%>" maxlength="1" readonly="readonly" size="1"/></td>
               <%end%>
             <%end%>
           </tr>
@@ -79,7 +87,7 @@
       <tr class="task_right_heading">
         <% unless @tasks.nil? %>
           <% @tasks.each do |t| %> 
-          <th><%= t.name %></th>
+          <th class = "hover" id ="<%=t.id%>"><%= t.name %></th>
           <% end %>
         <% end %>
       </tr>
@@ -92,18 +100,24 @@
             <table border="0" class="GB_table GB_editable task_grades_hieg">
               <tr <%if i%2 == 0%>class="GB_odd"<%end%>>
               <% @task_outcomes = t.outcomes%>
+              <%task_grade = TaskGrade.load_task_grade(@school_id, @course_id,t.id,p.profile_id)%>
+              <%grade=""%>
+              <%if !task_grade.nil?%>
+                <% grade = GradeType.value_to_letter(task_grade, @school_id)%>
+              <%end%>
                <td <%if (i==0)%>class=""<%else%>class="td_align"<%end%>>
-                 <input type="text" name="task_grade" id="g_<%=p.id%>_<%=t.id%>" rel = "<%=p.id%>" class="task_grade editable_field" value="" maxlength="4" size="1"/>
+                 <input type="text" name="task_grade" value="<%=grade%>" id="g_<%=p.id%>_<%=t.id%>" rel = "<%=p.id%>" class="task_grade editable_field <%=t.id%>" maxlength="4" size="1"/>
                </td>
                
                 <% if !@task_outcomes.nil?%>
                   <% @task_outcomes.each_with_index do |o,j|%>
                    
-                  <td class="<%if i%2==0%>Dark_no<%else%>light_row<%end%> width_30 ">
-                    <div class="GB_outcomment2 rotate_text"><%if i == 0%><%=o.name%><%end%></div>
+                  <td class="<%if i%2==0%>Dark_no<%else%>light_row<%end%> width_30 <%if i == 0%>hover<%end%>">
+                    <div class="GB_outcomment2 rotate_text" id ="<%=t.id%>_<%=o.id%>"><%if i == 0%><%=o.name%><%end%></div>
                   </td>
+                  <%outcome_grade = OutcomeGrade.load_task_outcomes(@school_id, @course_id,t.id,p.profile_id,o.id)%>
                   <td class="<%if i%2==0%>Dark_no<%else%>light_row<%end%> width_30 td_align">
-                    <input type="text" name="task_point" id="p_<%=p.id%>_<%=o.id%>_<%=t.id%>" rel= "p_<%=p.id%>_<%=o.id%>"class="task_grade editable_field" value="" maxlength="1" size="2"/>
+                    <input type="text" name="task_point" value="<%=outcome_grade%>" id="p_<%=p.id%>_<%=o.id%>_<%=t.id%>" rel= "p_<%=p.id%>_<%=o.id%>"class="task_grade editable_field <%=t.id%>_<%=o.id%>" maxlength="1" size="2"/>
                   </td>
                   <%end%>
                 <%end%>
