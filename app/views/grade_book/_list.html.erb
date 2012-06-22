@@ -199,7 +199,7 @@ $(document).ready(function(){
   
   $(".letest").click(function(){
     if($(this).val()=="" || $(this).val() == "?"){
-      alert("Enter A valid value in grade field for update letest");
+      // alert("Enter A valid value in grade field for update letest");
     }
     else{
       select_points = false
@@ -317,7 +317,7 @@ $(document).ready(function(){
     }
     else
     {
-      alert("Select Grade First");
+      // alert("Select Grade First");
     }
        console.log(arr);
   });
@@ -539,12 +539,14 @@ $('#course_id').change(function(){
   var outcomes
   course_id = $(this).val();
   $(this).parent().find('.fakebox').html(singleValues );
+  showSpinner(true);
   $.ajax({
     type :"POST",
     url: "/grade_book/get_task", 
     dataType: "json",
     data: {course_id:course_id},
     success: function(data){
+      showSpinner(false);
       participant = data.participant;
       outcomes = data.outcomes;
       tasks = data.tasks;
