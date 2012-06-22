@@ -50,7 +50,7 @@ class CourseGrade < ActiveRecord::Base
   def self.load_outcomes(profile_id, course_id,outcome_id)
     outcome_point = CourseGrade.where("profile_id = ? and course_id = ? and outcome_id = ?",profile_id, course_id,outcome_id).first
     if outcome_point.nil?
-      return nil
+      return ""
     else
       return outcome_point.grade
     end

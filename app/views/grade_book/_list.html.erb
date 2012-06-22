@@ -40,8 +40,6 @@
                         <div align="center">LATEST</div>
                         <div class="fontsize0px">
                           <input name="" type="button" value="?" class="grading_Btn3  letest" id="letest1" />
-                          <input name="" type="button" value="?" class="grading_Btn3  letest" id="letest2" />
-                          <input name="" type="button" value="?" class="grading_Btn3  letest" id="letest3" />
                         </div>
                       </div>
                       <div class="GDingboxinner_delete">
@@ -63,7 +61,7 @@
                  <a href="javascript:void(0)"  id="menu2" value="2" class="side_tab side_tab_close"><span class="task_tab"> Past</span></a>
               </div>
               <!--tab content-->
-              <div class="gradebook_tab_content">
+              <div class="gradebook_tab_content gradebook_tab_content2">
                <!-- <div class="spacebar10px"></div>  -->
                 <div class="course_select">
                 <div class="page_heading">COURSE</div>
@@ -107,9 +105,9 @@ $(document).ready(function(){
   setPageTitle("GradeBook");
   var arr = new Array();
   var grades = new Array();
-  var grades_arr = ["A","A-","B+","B","B-","C+","C","C-","D+","D","D-","F"];
+  var grades_arr = ["","A","A-","B+","B","B-","C+","C","C-","D+","D","D-","F"];
   var points_arr = ["",1,2,3];
-  var final_value
+  var final_value='';
   var arr_id =[];
   var previous_grade;
   var select_alphabet = false;
@@ -117,6 +115,10 @@ $(document).ready(function(){
   var select_points = false;
   var letest_points = false;
   var letest = "";
+  var show_setting = false;
+  var reset =  false;
+  var alphabet = "" ;
+  var sign = "";
   //Toggle Tabs
   $(".menu_container").delegate('a', 'click', function(){
     //showSpinner(true);
@@ -147,8 +149,6 @@ $(document).ready(function(){
     $("."+id).each(function() {
       $(this).attr("value",final_value);
     });
-
-    //("."+id).attr("value",2);
      console.log("."+id);
   });
   
@@ -164,6 +164,10 @@ $(document).ready(function(){
   
   $(".reset_field").click(function(){
     var first = true; 
+    select_points = false
+    select_alphabet = false;
+    select_symbol = false;
+    reset = false
     $.each(arr_id, function(index, id) { 
         console.log(id+" "+$(this).attr("id"));
         if (id == "reset_fields")
@@ -171,15 +175,19 @@ $(document).ready(function(){
           first = false;
           if($("#reset_fields").hasClass("select_btn"))
             $("#reset_fields").removeClass("select_btn");
-          else 
-            $("#reset_fields").addClass("select_btn"); 
+          else {
+            $("#reset_fields").addClass("select_btn");
+            reset = true;
+          }         
         }
         else{
           $("#"+id).removeClass("select_btn");
           }
     });
-    if (first == true)
-      $(this).addClass("select_btn");
+    if (first == true){
+     $(this).addClass("select_btn");
+     reset = true  
+     }
      arr = [];
      arr_id=[];
      final_value = '';
@@ -194,32 +202,44 @@ $(document).ready(function(){
       alert("Enter A valid value in grade field for update letest");
     }
     else{
+      select_points = false
+      select_alphabet = false;
+      select_symbol = false;
+      var first = true; 
       $.each(arr_id, function(index, id) { 
-         $("#"+id).removeClass("select_btn");
-      });
-      arr = [];
-      final_value = ''
-      arr_id = [];
-      arr_id.push($(this).attr("id"));
-      var prevoius = $("#letest").val();
-      $("#letest").val($(this).attr("id"));
-      if(prevoius == $(this).attr("id") && letest_points == false)
+        if (id == "letest1")
         {
-          letest_points = true;
-          $(this).removeClass("select_btn");
+          first = false;
+          if($("#letest1").hasClass("select_btn"))
+            $("#letest1").removeClass("select_btn");
+          else 
+            $("#letest1").addClass("select_btn"); 
         }
-      else
-      {
-        letest_points = false;
-        $(this).addClass("select_btn");
-        final_value = $(this).val();
-      }
+        else{
+          $("#"+id).removeClass("select_btn");
+        }
+      });
+      if (first == true){
+       $(this).addClass("select_btn");
+       final_value = $(this).val();
+       arr_id.push($(this).attr("id"));
+      } 
+      else {
+        final_value = '';
+        $(this).removeClass("select_btn");
+      }  
+        arr = [];
+        arr_id=[];
+      console.log(first)      ;
+      
     }
   
   });
   
   $('.outcome_point').click(function(){
-    select_alphabet = true;select_symbol = true;
+    //select_alphabet = true;select_symbol = true;
+    select_alphabet = false;
+    select_symbol = false;
     arr = [];
     final_value = ''
     var prevoius = $("#outcome_points").val();
@@ -227,27 +247,40 @@ $(document).ready(function(){
     $.each(arr_id, function(index, id) { 
        $("#"+id).removeClass("select_btn");
     });
+    arr_id = [];
     arr_id.push($(this).attr("id"));
    
-    if(prevoius == $(this).attr("id") && select_points == false)
+    if(prevoius == $(this).attr("id"))// && select_points == false)
       {
-        select_points = true;
-        $(this).removeClass("select_btn");
+        
+        if ( select_points == true){
+            $(this).removeClass("select_btn");
+            final_value=''
+            select_points = false
+        }
+        else{
+          $(this).addClass("select_btn");
+          final_value = $(this).val();
+        }
       }
       else
       {
-        select_points = false;
+        //select_points = false;
+        select_points = true;
         $(this).addClass("select_btn");
          final_value = $(this).val();
       }
-      console.log(arr);
+
   });
+  
+  
 
   $('.symbol').click(function(){
     if(arr.length>0)
     {
-      select_alphabet = true;
-      select_points = true;
+     /* select_alphabet = true;
+      select_points = true;*/
+       select_points = false
       $("#plus").removeClass("select_btn");
       $("#minus").removeClass("select_btn");
       var prevoius = $("#plus_minus").val();
@@ -290,8 +323,9 @@ $(document).ready(function(){
   });
   
   $('.alphabet').click(function(){
-    select_symbol = true;
-    select_points = true;
+    /*select_symbol = true;
+    select_points = true;*/
+    select_points = false
     final_value='';
     var prevoius = $("#clicked_id").val();
     $("#clicked_id").val($(this).attr("id"));
@@ -328,8 +362,12 @@ $(document).ready(function(){
    //$(this).css("background-color","#DFD4B6");
    $(this).removeClass("warning");
    //$(this).attr("disabled","disabled");
-   //document.getElementById('reset_fields').focus(); 
-   $(this).trigger("change");
+   console.log(final_value+"************"+reset);
+   if(final_value != "" || reset == true)
+   {
+    document.getElementById('reset_fields').focus(); 
+    $(this).trigger("change");
+   }
   });
   
   function valid_grade(val,id)
@@ -351,34 +389,15 @@ $(document).ready(function(){
         var points = parseFloat(value)
         if(val<=value && val !="")
         {
-          
           $("#"+id).removeClass("warning");
           flag = true;
-         if((val != $("#letest1").val()) && (val != $("#letest2").val()) && (val != $("#letest3").val()))
+          if(val != $("#letest1").val())
           {
-            if (letest == ""){
-              $("#letest1").attr("value",val);
-              last = "letest1";
-            }
-            else if(letest=="letest1"){
-              $("#letest2").attr("value",val);
-              last = "letest2";
-            }
-            else if(letest=="letest2"){
-              $("#letest3").attr("value",val);
-              last = "letest3";
-            }
-            else if(letest=="letest3"){
-              $("#letest1").attr("value",val);
-              last = "letest1";
-            }
-            letest = last;
-           
-            break;
-          } 
-          
-        }
-      }
+            $("#letest1").attr("value",val);
+          }           
+          break;
+        } 
+      } 
     }
     if (flag == false)
     {
@@ -499,6 +518,19 @@ $(document).ready(function(){
    //$(this).css("background-color","");
   });
   
+  $("#setting_icon").click(function(){
+  //$("#seting_box").show();
+  if (show_setting == false){
+    $("#seting_box").show();
+    show_setting = true;
+    }
+  else{
+    $("#seting_box").hide();
+    show_setting = false;
+    }
+});
+  
+  
 });
 $('#course_id').change(function(){
   var singleValues = $("#course_id :selected").text();
@@ -539,24 +571,36 @@ $('#course_id').change(function(){
          $('#outcome_id').html(option_outcomes)
       */
       var  table = $("<table></table>");
+      var  table_note = $("<table></table>");
       var  table2 = $("<table></table>");
-      table.addClass("GB_left_table GB_table");
+      table.addClass("GB_left_table GB_table");//table for participant name and grade
+      table.attr("id","GB_left_table")
       table.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
-      table2.addClass("GB_right_table");
-      table.attr("id","GB_left_table");
+      table2.addClass("GB_right_table");//table outcome  average grade 
+      table2.attr("id","GB_right_table");
       table2.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
       table3.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
       table3.attr("id","heading_task");
+      /*table_note.addClass("GB_left_table GB_table");//table for participant name and grade for note
+      table_note.attr("id","GB_left_table_note")
+      table_note.attr("display","none")
+      table_note.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});*/
       $(participant).each(function(p, value) {
+        var count =0;
         var rows =$("<tr></tr>");
         var cols =$("<td></td>");
         var col2 =$("<td></td>");
         var div = $("<div></div>");
+        var cols_note =$("<td></td>");
+        var rows_note =$("<tr></tr>");
+        var div_note = $("<div></div>");
+        var col2_note =$("<td></td>");
         var div2 = $("<div></div>");
         var rows2 =$("<tr></tr>");
         var cols2 =$("<td></td>");
         cols.attr('width','63%');
         var text = '';
+        //var text2 = '';
         div2.addClass("GB_outcomment rotate_text");
         div2.html("WRITING USING A QUILL");
         div.addClass("b_box");
@@ -564,13 +608,26 @@ $('#course_id').change(function(){
         cols.addClass("Name_box td_align");
         cols.html(value.full_name);
         cols2.addClass("");
-        var  text = $("<input type ='text' value = '' id = '"+ value.id +"' maxlength='1' readonly='readonly' size='5'/>")
-        text.addClass("task_grade")
-        //text.addClass("grades");
-        div.html(text);
-        col2.html(div);
+        var  text = $("<input type ='text' value = '"+value.grade+"' id = '"+ value.id +"' maxlength='1' readonly='readonly' size='5'/>")         
+        text.addClass("task_grade")         
+        div.html(text);        
+        col2.html(div);        
         rows.html(cols);
-        cols2.html(div2);
+        rows.append(col2);
+        table.append(rows);
+        /*cols_note.attr('width','63%');
+        div_note.addClass("b_box");
+        cols_note.addClass("Name_box td_align");
+        cols_note.html(value.full_name);
+        var  text2 = $("<input type ='text' value = 'D' id = '"+ value.id +"' maxlength='1' readonly='readonly' size='5'/>")
+        text2.addClass("task_grade");
+        div_note.html(text2);
+        col2_note.html(div_note);
+        rows_note.html(cols_note);
+        rows_note.append(col2_note);
+        table_note.append(rows_note);*/
+       
+        //cols2.html(div2);
         $(outcomes).each(function(i, outcomes) {
           var grade_col =$("<td></td>");
           var outcomes_col =$("<td></td>");
@@ -579,9 +636,10 @@ $('#course_id').change(function(){
           {
             outcome_name.html(outcomes.name);
           }
+          //console.log(value.course_outcomes)
           outcome_name.addClass("GB_outcomment rotate_text");
           outcomes_col.html(outcome_name);
-          var  text = $("<input type ='text' value = '' id = 'p_"+value.id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
+          var  text = $("<input type ='text' value = '"+value.course_outcomes[i]+"' id = 'p_"+value.id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
           text.addClass("")
           grade_col.html(text);
           grade_col.addClass("td_align")
@@ -598,8 +656,7 @@ $('#course_id').change(function(){
           rows2.addClass("light_row");
         }
         table2.append(rows2);
-        rows.append(col2);
-        table.append(rows);
+        
         var row_item = $("<tr></tr>");
         var all_col='';
         $(tasks).each(function(i, task) {
@@ -608,7 +665,7 @@ $('#course_id').change(function(){
           var main_col=$("<td></td>");
           var table_task = $("<table></table>");
           var len = task.task_outcomes.length;
-          var  text_grade = $("<input type ='text' value = '' id = 'g_"+value.id+"_"+task.id +"' maxlength='4' size='2' rel = '"+ value.id +"'/>");
+          var  text_grade = $("<input type ='text' value = '"+value.task_grade[i]+"' id = 'g_"+value.id+"_"+task.id +"' maxlength='4' size='2' rel = '"+ value.id +"'/>");
           text_grade.addClass("editable_field task_grade "+task.id +"");
           column.html(text_grade); 
           if (p!=0)
@@ -623,8 +680,9 @@ $('#course_id').change(function(){
               var point_column =$("<td></td>");
               var outcome =$("<td></td>");
               var outcome_div =$("<div></div>"); 
-              
-              var  text_point = $("<input type ='text' value = '' id = 'p_"+value.id+"_"+task.task_outcomes[i].id+"_"+task.id +"' rel = 'p_"+value.id+"_"+task.task_outcomes[i].id+"' maxlength='1' size='2'/>");
+             
+              var  text_point = $("<input type ='text' value = '"+value.task_outcome_grade[count]+"' id = 'p_"+value.id+"_"+task.task_outcomes[i].id+"_"+task.id +"' rel = 'p_"+value.id+"_"+task.task_outcomes[i].id+"' maxlength='1' size='2'/>");
+              count = count + 1 ;
               text_point.addClass("editable_field task_grade "+task.id+"_"+task.task_outcomes[i].id+"");
               if(p%2==0)
               {
@@ -668,9 +726,11 @@ $('#course_id').change(function(){
         table3.addClass("heading_task");
      });
      $('.GB_left_table').replaceWith(table);
+     //$('.GB_left_table_note').replaceWith(table_note);
      $('.GB_right_table').replaceWith(table2);
      $('.heading_task').replaceWith(table3);
          //$("#GB_left_table").attr("class", "GB_left_table");
+     $("#outcome_note").parent().find('.fakebox').html("OUTCOMES");
      }
   });
 });
@@ -680,8 +740,21 @@ $('#task_id').change(function(){
   $(this).parent().find('.fakebox').html(singleValues );
 });
 
-$("#setting_icon").click(function(){
-  $("#seting_box").show();
+$('#outcome_note').change(function(){
+  var singleValues = $("#outcome_note :selected").text();
+  $("#outcome_note").parent().find('.fakebox').html(singleValues);
+  if ($(this).val()== 2){
+    $("#GB_right_table").hide();
+    $("#GB_left_table").hide();
+    $("#GB_left_table_note").show();
+    $("#GB_right_table_note").show();
+  }
+  else{
+    $("#GB_right_table").show();
+    $("#GB_left_table").show();
+    $("#GB_left_table_note").hide();
+    $("#GB_right_table_note").hide();
+  }
 });
 
 

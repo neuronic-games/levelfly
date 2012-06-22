@@ -34,7 +34,7 @@ class OutcomeGrade < ActiveRecord::Base
   def self.load_task_outcomes(school_id, course_id,task_id,profile_id,outcome_id)
     outcome_point = OutcomeGrade.where("school_id = ? and course_id = ? and task_id = ? and profile_id = ? and outcome_id = ?",school_id, course_id,task_id,profile_id,outcome_id).first
     if outcome_point.nil?
-      return nil
+      return ""
     else
       return outcome_point.grade 
     end

@@ -21,18 +21,7 @@ class GradeBookController < ApplicationController
            @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
            #@participant = @courses.first.participants
            @tasks = Task.find(:all,:conditions=>["course_id = ?",@course_id], :select => "name,id")
-           # if not @participant.nil?
-            # @participant.each do |p|
-              # participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, @course_id)
-              # puts"=====#{p.profile_id}====#{@course_id}"
-              # participant_grade.each do |key, val|
-                # puts"#{key}====#{val}"
-              # end
-              # outcome_grade.each do |key, val|
-                # puts"#{key}==outcome==#{val}"
-              # end
-            # end
-          # end
+          
          end
        end
        respond_to do |wants|
@@ -52,9 +41,56 @@ class GradeBookController < ApplicationController
         @course = Course.find(params[:course_id])
         @outcomes = @course.outcomes
         #@outcomes = @course.outcomes
-        @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND object_type = 'Course'",params[:course_id]],:select => ["profiles.full_name,participants.id"])
-        #@participant = @course.participants
+        @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND object_type = 'Course'",params[:course_id]],:select => ["profiles.full_name,participants.id,participants.profile_id"])
         @tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]], :select => "name,id")
+        #@participant = @course.participants
+          if not @participant.nil?
+            @participant.each do |p|
+              outcomes_grade = []
+              array_task_grade = []
+              array_task_outcome_grade = []
+              participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, params[:course_id])
+              if participant_grade.blank?
+                p["grade"] = ""
+              else   
+                participant_grade.each do |key, val|
+                  grade = GradeType.value_to_letter(val, @profile.school_id)
+                  p["grade"] = grade
+                end  
+              end
+              if !@outcomes.nil?
+                @outcomes.each do |o|
+                  outcome_grade = CourseGrade.load_outcomes(p.profile_id, params[:course_id],o.id)
+                  outcomes_grade.push(outcome_grade)                  
+                end
+                p["course_outcomes"] = outcomes_grade
+              end
+              if not @tasks.nil?
+                @tasks.each do |t| 
+                 
+                  task_grade = TaskGrade.load_task_grade(@profile.school_id, params[:course_id],t.id,p.profile_id)
+                  grade=""
+                  if !task_grade.blank?
+                    grade = GradeType.value_to_letter(task_grade, @profile.school_id)
+                  end
+                  array_task_grade.push(grade)
+                  task_outcomes = t.outcomes
+                  task_outcomes.each do |o|
+                    task_outcome_grade = OutcomeGrade.load_task_outcomes(@profile.school_id, params[:course_id],t.id,p.profile_id,o.id)
+                    if task_outcome_grade.nil?
+                      task_outcome_grade=""
+                    end
+                    array_task_outcome_grade.push(task_outcome_grade)
+                     puts"#{task_outcome_grade}==="
+                  end
+                 
+                end
+                p["task_grade"] = array_task_grade
+              end  
+              
+              p["task_outcome_grade"] = array_task_outcome_grade
+            end
+          end
         @task_outcomes = []
           if not @tasks.nil?
             @tasks.each do |t|           
