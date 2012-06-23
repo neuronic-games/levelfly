@@ -186,7 +186,7 @@ $(document).ready(function(){
     alphabet = "" ;
     sign = "";
     $.each(arr_id, function(index, id) { 
-        console.log(id+" "+$(this).attr("id")+"alphabet ="+select_alphabet);
+        //console.log(id+" "+$(this).attr("id")+"alphabet ="+select_alphabet);
         if (id == "undo")
         {
           first = false;
@@ -209,7 +209,7 @@ $(document).ready(function(){
      }
      arr_id=[];
      arr_id.push($(this).attr("id"));
-     console.log(final_value);
+     //console.log(final_value);
   });
   
   $(".reset_field").click(function(){
@@ -329,7 +329,7 @@ $(document).ready(function(){
    // {
      /* select_alphabet = true;
       select_points = true;*/
-      console.log(arr_id)
+     // console.log(arr_id)
       select_points = false
       $.each(arr_id, function(index, id) { 
         $("#"+id).removeClass("select_btn");
@@ -374,7 +374,7 @@ $(document).ready(function(){
            arr_id.push("letter_f");
         }
        }
-        console.log(previous +"=="+$(this).attr("id")+" symbol "+select_symbol+"arrr="+arr_id);
+        //console.log(previous +"=="+$(this).attr("id")+" symbol "+select_symbol+"arrr="+arr_id);
       //final_value = total_grade;      
     /*}
     else
@@ -387,7 +387,7 @@ $(document).ready(function(){
   $('.alphabet').click(function(){
     /*select_symbol = true;
     select_points = true;*/
-     console.log(arr_id)
+     //console.log(arr_id)
     select_symbol = true
     select_points = false
     var previous = $("#clicked_id").val();
@@ -407,7 +407,7 @@ $(document).ready(function(){
       $(this).removeClass("select_btn");
       select_alphabet = true;
       alphabet = "";
-       console.log("ifffff");
+       //console.log("ifffff");
        final_value="";
     }
     else    
@@ -426,7 +426,7 @@ $(document).ready(function(){
         final_value = alphabet
         }
     }
-     console.log(previous +"=="+$(this).attr("id")+" alph "+select_alphabet+"arrr="+arr_id);
+    // console.log(previous +"=="+$(this).attr("id")+" alph "+select_alphabet+"arrr="+arr_id);
   });
   
   $(".task_right_wp").delegate("input","click",function(){

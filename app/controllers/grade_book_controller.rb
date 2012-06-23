@@ -84,7 +84,7 @@ class GradeBookController < ApplicationController
                       task_outcome_grade=""
                     end
                     array_task_outcome_grade.push(task_outcome_grade)
-                  puts"#{array_task_outcome_grade}===#{}" 
+                  #puts"#{array_task_outcome_grade}===#{}" 
                   end
                  
                 end
