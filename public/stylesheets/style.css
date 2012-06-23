@@ -2566,6 +2566,23 @@ input[type="button"].grading_Btn3 {
 	width: 60px;
 	font-family: 'SeanRegular';
 }  
+
+input[type="button"].grading_Btn4 { 	
+	background: url(../images/grading_bt_long.png) repeat scroll 0 0 transparent;
+	cursor: pointer;
+	font-family: verdana;
+	border: medium none;
+	color: #b10505;
+	font-size:20px;
+	height: 37px;
+	display:inline-block;
+	line-height:37px;
+	text-align:center;
+	vertical-align: middle;
+	padding:0 7px 1px;
+	width: 60px;
+	font-family: 'arail';
+}  
   
   
 .Gbtn1 { color:#464646 !important; background: url(../images/grading_bt.png) repeat scroll 0 0 transparent !important;}

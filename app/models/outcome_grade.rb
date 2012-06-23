@@ -8,12 +8,13 @@ class OutcomeGrade < ActiveRecord::Base
     if average.blank?
       average = nil
     end
+    CourseGrade.save_grade(profile_id, average, course_id,outcome_id)
     if !@outcome_grade.nil?
       self.outcome_grade_update(outcome_val,@outcome_grade)
     else
       self.outcome_grade_save(school_id,course_id,outcome_id, profile_id,task_id,outcome_val)
     end
-    CourseGrade.save_grade(profile_id, average, course_id,outcome_id)
+  
   end
 
   def self.outcome_grade_save(school_id,course_id,outcome_id, profile_id,task_id,outcome_val)
@@ -25,10 +26,13 @@ class OutcomeGrade < ActiveRecord::Base
     @outcome_grade.grade = outcome_val
     @outcome_grade.task_id = task_id
     @outcome_grade.save
+    return ""
   end
   
   def self.outcome_grade_update(outcome_val,outcome_grade)
+     grade = outcome_grade.grade
      outcome_grade.update_attribute('grade',outcome_val)
+     return grade
   end
   
   def self.load_task_outcomes(school_id, course_id,task_id,profile_id,outcome_id)

@@ -18,7 +18,7 @@ class GradeBookController < ApplicationController
            @latest_course = @courses.first    
            @course_id = @latest_course.id
            @outcomes = @latest_course.outcomes
-           @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
+           @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'P' AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
            #@participant = @courses.first.participants
            @tasks = Task.find(:all,:conditions=>["course_id = ?",@course_id], :select => "name,id")
           
@@ -41,7 +41,7 @@ class GradeBookController < ApplicationController
         @course = Course.find(params[:course_id])
         @outcomes = @course.outcomes
         #@outcomes = @course.outcomes
-        @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND object_type = 'Course'",params[:course_id]],:select => ["profiles.full_name,participants.id,participants.profile_id"])
+        @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id = ? AND participants.profile_type = 'P' AND object_type = 'Course'",params[:course_id]],:select => ["profiles.full_name,participants.id,participants.profile_id"])
         @tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]], :select => "name,id")
         #@participant = @course.participants
           if not @participant.nil?
@@ -61,6 +61,9 @@ class GradeBookController < ApplicationController
               if !@outcomes.nil?
                 @outcomes.each do |o|
                   outcome_grade = CourseGrade.load_outcomes(p.profile_id, params[:course_id],o.id)
+                  if outcome_grade.nil?
+                    outcome_grade=""
+                  end
                   outcomes_grade.push(outcome_grade)                  
                 end
                 p["course_outcomes"] = outcomes_grade
@@ -81,7 +84,7 @@ class GradeBookController < ApplicationController
                       task_outcome_grade=""
                     end
                     array_task_outcome_grade.push(task_outcome_grade)
-                     puts"#{task_outcome_grade}==="
+                  puts"#{array_task_outcome_grade}===#{}" 
                   end
                  
                 end
@@ -121,6 +124,7 @@ class GradeBookController < ApplicationController
       task_grade = params[:task_grade]
       participant = Participant.find(participant_id)
       num = GradeType.is_num(task_grade)
+      previous_grade=""
       if num == false     
         points = GradeType.letter_to_value(task_grade, school_id)
         task_grade = points
@@ -155,7 +159,10 @@ class GradeBookController < ApplicationController
         end
         @grade = GradeType.value_to_letter(average, school_id)
         @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, participant.profile_id,task_grade,average)
-        render :json => {:grade => @grade}
+        if !@grade_task.blank?
+          previous_grade = GradeType.value_to_letter(@grade_task, school_id)
+        end
+          render :json => {:grade => @grade,:previous_grade=>previous_grade}
       end  
     end
   end
@@ -170,12 +177,14 @@ class GradeBookController < ApplicationController
       task_id = params[:task_id]
       outcome_val = params[:outcome_val]
       participant = Participant.find(participant_id)
+      previous_grade = ""
       if !participant.nil?
-        @grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, participant.profile_id,average,task_id,outcome_val)
-        render :json => {:average => average}
+        previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, participant.profile_id,average,task_id,outcome_val)
+        render :json => {:average => average,:previous_grade=>previous_grade}
       end  
     end
     
   end
+  
 
 end
