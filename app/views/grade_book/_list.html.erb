@@ -48,6 +48,12 @@
                           <input name="" src="images/grade_deletebt.png" type="image" class="grading_Btn2 reset_field" id="reset_fields" />
                         </div>
                       </div>
+                      <div class="GDingboxinner_latest" >
+                        <div align="center">&nbsp;</div>
+                        <div class="fontsize0px">
+                          <input name="" type="button" value="Undo" class="grading_Btn4  undo" id="undo" />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -92,6 +98,7 @@
       </div>
     </div>
     <input type="hidden" name="grade_val"  id ="grad_val" value="">
+    <input type="hidden" name="previous_grade"  id ="previous_grade" value="">
     <input type="hidden" name="clicked_id"  id ="clicked_id" value="">
     <input type="hidden" name="letest"  id ="letest" value="">
     <input type="hidden" name="plus_minus"  id ="plus_minus" value="">
@@ -106,6 +113,7 @@ $(document).ready(function(){
   var arr = new Array();
   var grades = new Array();
   var grades_arr = ["","A","A-","B+","B","B-","C+","C","C-","D+","D","D-","F"];
+  var arr_alphabet_id = ["letter_a","letter_b","letter_c","letter_d","letter_f"]
   var points_arr = ["",1,2,3];
   var final_value='';
   var arr_id =[];
@@ -117,6 +125,7 @@ $(document).ready(function(){
   var letest = "";
   var show_setting = false;
   var reset =  false;
+  var last_value = "";
   var alphabet = "" ;
   var sign = "";
   //Toggle Tabs
@@ -145,31 +154,73 @@ $(document).ready(function(){
   });
   */
   $(".task_right_wp").delegate("th","click",function(){
+   if(final_value != "" || reset == true)
+   {
     var id = $(this).attr("id");
     $("."+id).each(function() {
       $(this).attr("value",final_value);
     });
-     console.log("."+id);
+
+   } 
   });
-  
   
   $(".task_right_wp").delegate("div","click",function(){
   //$(".GB_outcomment2").click(function(){
+   if(final_value != "" || reset == true)
+   {
     var id = $(this).attr("id");
     $("."+id).each(function() {
       $(this).attr("value",final_value);
     });
+
     $(this).trigger("change");
+   }
+  });
+  
+  $(".undo").click(function(){
+    var first = true; 
+    select_points = false
+    select_alphabet = true;
+    select_symbol = true;
+    reset = false
+    alphabet = "" ;
+    sign = "";
+    $.each(arr_id, function(index, id) { 
+        //console.log(id+" "+$(this).attr("id")+"alphabet ="+select_alphabet);
+        if (id == "undo")
+        {
+          first = false;
+          if($("#undo").hasClass("select_btn")){
+            $("#undo").removeClass("select_btn");
+            final_value = '';    
+            }
+          else {
+            $("#undo").addClass("select_btn");
+             final_value = $("#previous_grade").val();
+          }         
+        }
+        else{
+          $("#"+id).removeClass("select_btn");
+          }
+    });
+    if (first == true){
+     $(this).addClass("select_btn");
+      final_value = $("#previous_grade").val();
+     }
+     arr_id=[];
+     arr_id.push($(this).attr("id"));
+     //console.log(final_value);
   });
   
   $(".reset_field").click(function(){
     var first = true; 
     select_points = false
-    select_alphabet = false;
-    select_symbol = false;
+    select_alphabet = true;
+    select_symbol = true;
     reset = false
+    alphabet = "" ;
+    sign = "";
     $.each(arr_id, function(index, id) { 
-        console.log(id+" "+$(this).attr("id"));
         if (id == "reset_fields")
         {
           first = false;
@@ -188,10 +239,8 @@ $(document).ready(function(){
      $(this).addClass("select_btn");
      reset = true  
      }
-     arr = [];
      arr_id=[];
-     final_value = '';
-     
+     final_value = '';    
      arr_id.push($(this).attr("id"));
     
   });
@@ -202,9 +251,11 @@ $(document).ready(function(){
       // alert("Enter A valid value in grade field for update letest");
     }
     else{
+      alphabet = "" ;
+      sign = "";
       select_points = false
-      select_alphabet = false;
-      select_symbol = false;
+      select_alphabet = true;
+      select_symbol = true;
       var first = true; 
       $.each(arr_id, function(index, id) { 
         if (id == "letest1")
@@ -222,27 +273,26 @@ $(document).ready(function(){
       if (first == true){
        $(this).addClass("select_btn");
        final_value = $(this).val();
+       arr_id=[];
        arr_id.push($(this).attr("id"));
       } 
       else {
         final_value = '';
         $(this).removeClass("select_btn");
-      }  
-        arr = [];
         arr_id=[];
-      console.log(first)      ;
-      
+      }        
     }
   
   });
   
   $('.outcome_point').click(function(){
     //select_alphabet = true;select_symbol = true;
-    select_alphabet = false;
-    select_symbol = false;
-    arr = [];
+    select_alphabet = true;
+    select_symbol = true;
     final_value = ''
-    var prevoius = $("#outcome_points").val();
+    alphabet = "" ;
+    sign = "";
+    var previous = $("#outcome_points").val();
     $("#outcome_points").val($(this).attr("id"));
     $.each(arr_id, function(index, id) { 
        $("#"+id).removeClass("select_btn");
@@ -250,7 +300,7 @@ $(document).ready(function(){
     arr_id = [];
     arr_id.push($(this).attr("id"));
    
-    if(prevoius == $(this).attr("id"))// && select_points == false)
+    if(previous == $(this).attr("id"))// && select_points == false)
       {
         
         if ( select_points == true){
@@ -261,6 +311,7 @@ $(document).ready(function(){
         else{
           $(this).addClass("select_btn");
           final_value = $(this).val();
+          select_points = true;
         }
       }
       else
@@ -272,85 +323,116 @@ $(document).ready(function(){
       }
 
   });
-  
-  
-
+  /**/
   $('.symbol').click(function(){
-    if(arr.length>0)
-    {
+    //if(arr.length>0)
+   // {
      /* select_alphabet = true;
       select_points = true;*/
-       select_points = false
+     // console.log(arr_id)
+      select_points = false
+      $.each(arr_id, function(index, id) { 
+        $("#"+id).removeClass("select_btn");
+       if(id == "letter_a" || id == "letter_b" || id == "letter_c" || id == "letter_d" || id == "letter_f")
+       {
+         $("#"+id).addClass("select_btn");
+       }
+        
+      });
       $("#plus").removeClass("select_btn");
       $("#minus").removeClass("select_btn");
-      var prevoius = $("#plus_minus").val();
+      var previous = $("#plus_minus").val();
       $("#plus_minus").val($(this).attr("id"));
       var val = $(this).val();
-      var grade;
       var total_grade = '';
-      arr_id.push($(this).attr("id"))
-      $.each(arr, function(index, value) { 
-          grade = value.toUpperCase();
-      });
-       
-       if (arr.length>1)
-       arr.pop();
-       arr.push(val);
-       if(prevoius == $(this).attr("id") && select_symbol == false)
+      arr_id = [];
+      arr_id.push($(this).attr("id"))       
+       if(previous == $(this).attr("id") && select_symbol == false)
        {
           $(this).removeClass("select_btn");
           select_symbol = true
-          arr.pop();
+          sign ="";
+          final_value = alphabet
        }
        else
        {
         $(this).addClass("select_btn");
         select_symbol = false;
-        arr.pop();
-        arr.push(val);
+        sign = $(this).val();
+        if (alphabet!="")
+        {
+          final_value =  alphabet+sign;
+          if(alphabet=="A")
+           arr_id.push("letter_a");
+          else if(alphabet=="B")
+           arr_id.push("letter_b");
+          else if(alphabet=="C")
+           arr_id.push("letter_c");
+          else if(alphabet=="D")
+           arr_id.push("letter_d");
+          else if(alphabet=="F")
+           arr_id.push("letter_f");
+        }
        }
-       $.each(arr, function(index, value) { 
-          total_grade = total_grade + value.toUpperCase();
-      }); 
-      
-      final_value = total_grade;      
-    }
+        //console.log(previous +"=="+$(this).attr("id")+" symbol "+select_symbol+"arrr="+arr_id);
+      //final_value = total_grade;      
+    /*}
     else
     {
+<<<<<<< HEAD
       // alert("Select Grade First");
     }
        console.log(arr);
+=======
+      alert("Select Grade First");
+    }*/
+    
+>>>>>>> 74a0036b4114bb8dc978f8f3cf38b84d839faca6
   });
   
   $('.alphabet').click(function(){
     /*select_symbol = true;
     select_points = true;*/
+     //console.log(arr_id)
+    select_symbol = true
     select_points = false
-    final_value='';
-    var prevoius = $("#clicked_id").val();
+    var previous = $("#clicked_id").val();
     $("#clicked_id").val($(this).attr("id"));
     $.each(arr_id, function(index, id) { 
        $("#"+id).removeClass("select_btn");
+       if(id == "plus" || id == "minus")
+       {
+         $("#"+id).addClass("select_btn");
+       }
     });
-    arr = [];
     arr_id = [];
     var val = $(this).val();
-    arr.push(val.toUpperCase());
     arr_id.push($(this).attr("id"));
-    if(prevoius == $(this).attr("id") && select_alphabet == false)
+    if(previous == $(this).attr("id") && select_alphabet == false)
     {
       $(this).removeClass("select_btn");
-      arr.pop();
       select_alphabet = true;
+      alphabet = "";
+       //console.log("ifffff");
+       final_value="";
     }
     else    
     {
       $(this).addClass("select_btn"); 
       select_alphabet = false;
-      final_value = val.toUpperCase();
+      alphabet = val.toUpperCase();
+      if(sign!=""){
+        final_value = alphabet+sign;
+        if(sign=="+")
+         arr_id.push("plus");
+        else 
+         arr_id.push("minus");
+        }
+      else{
+        final_value = alphabet
+        }
     }
-       console.log(arr);
-    
+    // console.log(previous +"=="+$(this).attr("id")+" alph "+select_alphabet+"arrr="+arr_id);
   });
   
   $(".task_right_wp").delegate("input","click",function(){
@@ -362,7 +444,6 @@ $(document).ready(function(){
    //$(this).css("background-color","#DFD4B6");
    $(this).removeClass("warning");
    //$(this).attr("disabled","disabled");
-   console.log(final_value+"************"+reset);
    if(final_value != "" || reset == true)
    {
     document.getElementById('reset_fields').focus(); 
@@ -441,7 +522,6 @@ $(document).ready(function(){
       if(id[0]=="g")
       {
         valid = valid_grade(val.toUpperCase(),id)
-        console.log(valid);
       }
       else
       {
@@ -475,7 +555,6 @@ $(document).ready(function(){
           average = sum/count
           if (isNaN(average)==true)
           average='';
-          console.log(average);
           $.ajax({
             type :"POST",
             url: "/grade_book/outcomes_points", 
@@ -483,7 +562,8 @@ $(document).ready(function(){
             data: {school_id:school_id,course_id:course_id,task_id:task_id,outcome_id:outcome_id,participant_id:participant_id,average:average,outcome_val:val},
             error: function(e){alert("error");},
             success: function(data){
-              $("#"+rel).attr("value",data.average) ; 
+              $("#"+rel).attr("value",data.average); 
+              $("#previous_grade").attr("value",data.previous_grade);
             }
           });
         }
@@ -493,12 +573,10 @@ $(document).ready(function(){
             grades.push(item.value)
             count =index+1
          });
-         console.log(grades);
           var ids= id.split("_")
           var task_id = ids[2];
           var task_grade = $(this).val();
           task_grade = task_grade.toUpperCase();
-          console.log(task_grade)
           var participant_id = rel;
           $.ajax({
             type :"POST",
@@ -508,6 +586,7 @@ $(document).ready(function(){
             error: function(e){alert("error");},
             success: function(data){
               $("#"+rel).attr("value",data.grade);
+              $("#previous_grade").attr("value",data.previous_grade);
               grades = [];
             }
           });
@@ -638,7 +717,6 @@ $('#course_id').change(function(){
           {
             outcome_name.html(outcomes.name);
           }
-          //console.log(value.course_outcomes)
           outcome_name.addClass("GB_outcomment rotate_text");
           outcomes_col.html(outcome_name);
           var  text = $("<input type ='text' value = '"+value.course_outcomes[i]+"' id = 'p_"+value.id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
@@ -745,7 +823,7 @@ $('#task_id').change(function(){
 $('#outcome_note').change(function(){
   var singleValues = $("#outcome_note :selected").text();
   $("#outcome_note").parent().find('.fakebox').html(singleValues);
-  if ($(this).val()== 2){
+  /*if ($(this).val()== 2){
     $("#GB_right_table").hide();
     $("#GB_left_table").hide();
     $("#GB_left_table_note").show();
@@ -756,7 +834,7 @@ $('#outcome_note').change(function(){
     $("#GB_left_table").show();
     $("#GB_left_table_note").hide();
     $("#GB_right_table_note").hide();
-  }
+  }*/
 });
 
 
