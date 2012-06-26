@@ -41,13 +41,9 @@ class GradeBookController < ApplicationController
         @course = Course.find(params[:course_id])
         @outcomes = @course.outcomes
         #@outcomes = @course.outcomes
-<<<<<<< HEAD
-        @participant = Participant.all(:joins => [:profile],
-          :conditions => ["participants.object_id = ? and object_type = 'Course'", params[:course_id]],
+        @participant = Participant.all( :joins => [:profile], 
+          :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
           :select => ["profiles.full_name,participants.id,participants.profile_id"])
-=======
-        @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id = ? AND participants.profile_type = 'P' AND object_type = 'Course'",params[:course_id]],:select => ["profiles.full_name,participants.id,participants.profile_id"])
->>>>>>> 74a0036b4114bb8dc978f8f3cf38b84d839faca6
         @tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]], :select => "name,id")
         #@participant = @course.participants
           if not @participant.nil?
