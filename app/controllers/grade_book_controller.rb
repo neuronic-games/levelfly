@@ -18,7 +18,7 @@ class GradeBookController < ApplicationController
            @latest_course = @courses.first    
            @course_id = @latest_course.id
            @outcomes = @latest_course.outcomes
-           @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'P' AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
+           @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
            #@participant = @courses.first.participants
            @tasks = Task.find(:all,:conditions=>["course_id = ?",@course_id], :select => "name,id")
           
@@ -184,8 +184,20 @@ class GradeBookController < ApplicationController
         previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, participant.profile_id,average,task_id,outcome_val)
         render :json => {:average => average,:previous_grade=>previous_grade}
       end  
-    end
-    
+    end   
+  end
+  
+  def load_notes
+    if params[:course_id] && !params[:course_id].nil?
+      @profile = Profile.find(user_session[:profile_id])
+      #@course = Course.find(params[:course_id])
+      #@outcomes = @course.outcomes
+       @tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]], :select => "name,id")
+       @participant = Participant.all( :joins => [:profile], 
+          :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
+          :select => ["profiles.full_name,participants.id,participants.profile_id"])
+      render :json => {:participant => @participant, :tasks=> @tasks}
+    end  
   end
   
 
