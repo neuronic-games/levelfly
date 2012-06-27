@@ -2,7 +2,7 @@
 <select id="task_id">
   <% unless @tasks.nil? %>
     <% @tasks.each do |t| %> 
-    <option value="<%= t.id %>"><%= t.name %></option>
+    <option value="t_<%= t.id %>"><%= t.name %></option>
     <% end %>
   <% end %>
 </select>
