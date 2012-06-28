@@ -259,7 +259,7 @@ class CourseController < ApplicationController
            section_type = 'Course'
         end 
         if @profile
-          participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type= ? AND profile_id = ?", params[:course_id], @profile.id,section_type])
+          participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type= ? AND profile_id = ?", params[:course_id], section_type, @profile.id])
           if !participant_exist
             @participant = Participant.new
             @participant.object_id = params[:course_id]
