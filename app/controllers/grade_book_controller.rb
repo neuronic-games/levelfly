@@ -57,7 +57,7 @@ class GradeBookController < ApplicationController
             outcomes_grade = []
             array_task_grade = []
             array_task_outcome_grade = []
-            participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, params[:course_id])
+            participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, params[:course_id],@profile.school_id)
             if participant_grade.blank?
               p["grade"] = ""
             else   
@@ -68,7 +68,7 @@ class GradeBookController < ApplicationController
             end
             if !@outcomes.nil?
               @outcomes.each do |o|
-                outcome_grade = CourseGrade.load_outcomes(p.profile_id, params[:course_id],o.id)
+                outcome_grade = CourseGrade.load_outcomes(p.profile_id, params[:course_id],o.id,@profile.school_id)
                 if outcome_grade.nil?
                   outcome_grade=""
                 end
@@ -199,12 +199,42 @@ class GradeBookController < ApplicationController
   def load_notes
     if params[:course_id] && !params[:course_id].nil?
       @profile = Profile.find(user_session[:profile_id])
-       @participant = Participant.all( :joins => [:profile], 
-          :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
-          :select => ["profiles.full_name,participants.id,participants.profile_id"])
+      @participant = Participant.all( :joins => [:profile], 
+      :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
+      :select => ["profiles.full_name,participants.id,participants.profile_id"])
+      if not @participant.nil?
+        @participant.each do |p|
+          participant_note = CourseGrade.load_notes(p.profile_id, params[:course_id], @profile.school_id)
+          if participant_note.blank?
+            p["notes"] = ""
+          else   
+            p["notes"] = participant_note              
+          end
+        end
+      end
       render :json => {:participant => @participant}
     end  
   end
   
+  #Save Notes for praticipants 
+  def save_notes
+    if params[:course_id] && !params[:course_id].nil?
+      school_id = params[:school_id]
+      course_id = params[:course_id]
+      notes = params[:notes]
+      participant_id = params[:participant_id]
+      participant = Participant.find(participant_id)
+      notes = CourseGrade.save_notes(participant.profile_id, course_id,school_id,notes)
+      render :json => {:notes => @notes}
+    end
+  end
+  
+  def course_outcomes
+     if !params[:course_id].nil?
+      @course = Course.find(params[:course_id])
+      @outcomes_course = @course ? @course.outcomes : nil
+      render :partial => "/grade_book/add_new_task"
+    end
+  end
 
 end

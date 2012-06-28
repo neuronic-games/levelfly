@@ -21,7 +21,7 @@
         <% @participant.each do |p|%>
           <tr class="<%= cycle("GB_odd","")%>">
             <td width="63%" class="Name_box td_align"><%= p.full_name%></td><!-- td_align-->
-            <%participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, @course_id)%>
+            <%participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, @course_id,@school_id)%>
             <%val = participant_grade[@course_id]%>
             <%grade=""%>
             <%if !val.nil?%>
@@ -49,7 +49,7 @@
                 <td>
                   <div class="GB_outcomment rotate_text"><%if i == 0%><%=o.name%><%end%></div>
                 </td>
-                <%outcome_grade = CourseGrade.load_outcomes(p.profile_id, @course_id,o.id)%>
+                <%outcome_grade = CourseGrade.load_outcomes(p.profile_id, @course_id,o.id,@school_id)%>
                 <td class="td_align"><input type="text" name="grade" id="p_<%=p.id%>_<%=o.id%>" class="grades" value="<%=outcome_grade%>" maxlength="1" readonly="readonly" size="1"/></td>
               <%end%>
             <%end%>
@@ -88,7 +88,7 @@
       <tr class="task_right_heading">
         <% unless @tasks.nil? %>
           <% @tasks.each do |t| %> 
-          <th class = "hover" id ="t_<%=t.id%>"><%= t.name %></th>
+          <th class = "hover red_border" id ="t_<%=t.id%>"><%= t.name %></th>
           <% end %>
         <% end %>
       </tr>
@@ -97,7 +97,7 @@
         <tr class="GB_row">
         <% unless @tasks.nil? %>
           <% @tasks.each do |t| %> 
-          <td > 
+          <td class="red_border"> 
             <table border="0" class="GB_table GB_editable task_grades_hieg">
               <tr <%if i%2 == 0%>class="GB_odd"<%end%>>
               <% @task_outcomes = t.outcomes%>
@@ -125,6 +125,7 @@
               </tr>
             </table>
           </td>
+         
         <% end %>
        <% end %>
        </tr>

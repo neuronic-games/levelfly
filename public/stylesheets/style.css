@@ -2611,12 +2611,12 @@ input[type="button"].grading_Btn4 {
 .Grade_left_panel{
 	float:left;
 	height:auto;
-	width:60%;
+	width:53%;/*60*/
 }
 .Grade_right_panel{
 	float:left;
 	height:auto;
-	width:40%;
+	width:47%;/*40*/
 	position:relative;
 	overflow-y: scroll; 
 	overflow: -moz-scrollbars-horizontal;
@@ -3166,3 +3166,16 @@ background-color:#FF4D4D
 .cursor_none{cursor:none !important;}
 .gradebook_tab_content2{min-width: 100%; width: 500px;}
 .GB_odd2 { background:#c4c8d2;}
+.notes_margin{margin-top: -10px; height: 57px;}
+ .add_task{
+  background: none repeat scroll 0 0 #FFFFFF;
+  border: 1px solid black;
+  height: 350px;
+  margin-left: 115px;
+  margin-top: -150px;
+  padding: 10px; 
+  position: absolute;
+  width: 370px;
+  z-index: 9999;
+}
+.red_border{border-right: 1px solid red;}
