@@ -189,7 +189,8 @@ class TaskController < ApplicationController
       #get wall id
       wall_id = Wall.get_wall_id(@task.id,"Task")
       if params[:outcomes] && !params[:outcomes].empty?
-        OutcomeTask.delete_all(["outcome_id NOT IN (?) AND task_id = ?", params[:outcomes], @task.id])
+        outcome_ids = params[:outcomes].split(",")
+        OutcomeTask.delete_all(["outcome_id NOT IN (?) AND task_id = ?", outcome_ids, @task.id])
         outcomes_array = params[:outcomes].split(",")
         outcomes_array.each do |o|
           outcome_task = OutcomeTask.find(:first, :conditions => ["task_id = ? AND outcome_id = ?", @task.id, o])
