@@ -224,9 +224,13 @@ a.icon_stats_active {
   float:left;
   padding:0px 2% 0 0;
 }
-.mes_dis{
+/*.mes_dis{
  width:520px;
  float:left;
+}*/
+.mes_dis {
+    float: left;
+    width: 100%;
 }
 .messages_content {padding: 0px 0 0;}
 .subject {
@@ -246,9 +250,14 @@ a.icon_stats_active {
   box-shadow:inset 0px 0px 2px 1px #000000;
 }
 
-.message_wrapper_group{
+/*.message_wrapper_group{
     float:right;
     width:404px;
+}*/
+.message_wrapper_group {
+    float: left;
+    margin-left: 120px;
+    width: 75%;
 }
 .msg_big_box .avatar_white_bdr {
   float: left;
@@ -2898,10 +2907,16 @@ filter:alpha(opacity="0");
   margin:0 0px 0px 18px;
 }
 
-.show_group_messages {
+/*.show_group_messages {
     float: right;
     margin: 30px 0 0;
     text-align:right;
+}*/
+.show_group_messages {
+    float: left;
+    margin-left: 120px;
+    text-align: right;
+    width: 75%;
 }
 .group_left {
 	float:left;
@@ -3171,11 +3186,46 @@ background-color:#FF4D4D
   background: none repeat scroll 0 0 #FFFFFF;
   border: 1px solid black;
   height: 350px;
-  margin-left: 115px;
-  margin-top: -150px;
+  margin-left: 215px;
+  margin-top: -250px;
   padding: 10px; 
   position: absolute;
   width: 370px;
   z-index: 9999;
 }
 .red_border{border-right: 1px solid #C06A70;}
+.task_input
+{
+    border: 1px solid black;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    height: 20px;
+}
+.task_name_pos{padding: 0 15px 0 38px;}
+input[type="button"].task_btn { 	
+	cursor: pointer;
+	font-family: verdana;
+	border: 1px solid black;
+	font-size:12px;
+	height: 37px;
+	display:inline-block;
+	line-height:37px;
+	text-align:center;
+	text-transform:uppercase;
+	vertical-align: middle;
+	padding:0 7px 1px;
+	width: 80px;
+	font-family: 'Arial';
+}
+div .frm_input2 {
+  float:left;
+  width:85%;
+}
+.msg_content2 {
+  width: 420px;
+  background-color: #CCE8F4; 
+  color: #4A4F4E;
+  padding: 2px;
+}
+.resize_message_box{width:84%; margin-left:110px;}

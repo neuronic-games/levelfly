@@ -1,5 +1,7 @@
 <div class ="add_new_task" id ="add_new_task">
-  <div>TASK<input type ="text" id ="new_task" value=""></div>
+  <div>TASK&nbsp;&nbsp;&nbsp;<input type ="text" class = "task_input" id ="new_task" value=""></div>
+  </br>
+  </br>
   <div>OUTCOMES</div>
   <% if !@outcomes_course.nil? %>
     <% @outcomes_course.each do |outcomes| %>
@@ -10,8 +12,8 @@
     <% end %>  
   <% end %>
   <div>
-    <input name="" type="button" value="DON'T ADD" class="" id="dont_add_btn" />
-    <input name="" type="button" value="ADD" class="" id="add_btn" />
+    <input name="" type="button" value="DON'T ADD" class="task_btn" id="dont_add_btn" />
+    <input name="" type="button" value="ADD" class="task_btn" id="add_btn" />
   </div>
 </div>
 

@@ -102,6 +102,7 @@
         </div>
       </div>
     </div>
+
     <input type="hidden" name="grade_val"  id ="grad_val" value="">
     <input type="hidden" name="previous_grade"  id ="previous_grade" value="">
     <input type="hidden" name="clicked_id"  id ="clicked_id" value="">
@@ -138,6 +139,7 @@ $(document).ready(function(){
   var last_value = "";
   var alphabet = "" ;
   var sign = "";
+  var people = new Array();
   //Toggle Tabs
   $(".menu_container").delegate('a', 'click', function(){
     //showSpinner(true);
@@ -557,12 +559,15 @@ $(document).ready(function(){
   
 
 $('#course_id').change(function(){
+  $("#add_task").hide();
   var singleValues = $("#course_id :selected").text();
   $(this).parent().find('.fakebox').html(singleValues );
   load_outcomes();
+  
 });
 
 function load_outcomes(){
+
   var participant;
   var tasks;
   var outcomes
@@ -611,6 +616,7 @@ function load_outcomes(){
       table3.attr("id","heading_task");
       table3.addClass("heading_task");
       $(participant).each(function(p, value){
+    
         var count =0;
         var rows =$("<tr></tr>");
         var cols =$("<td></td>");
@@ -724,6 +730,7 @@ function load_outcomes(){
      $('.GB_right_table').replaceWith(table2);
      $('.heading_task').replaceWith(table3);
      $(".task_right_wp").scrollLeft(0);
+
     }
   });
 }
@@ -781,6 +788,7 @@ function load_outcomes(){
   });
   
   $('#task_id').change(function(){
+    $("#add_task").hide();
     var singleValues = $("#task_id :selected").text();
     $(this).parent().find('.fakebox').html(singleValues);
      // $(".task_right_wp").scrollLeft(0);
@@ -844,8 +852,9 @@ function load_outcomes(){
     
     var task = $("#new_task").val();
     var course_id = $("#course_id").val();
-    var school_id = $("#school_id").val();     
-    var dataString = 'task='+ task + '&course_id=' + course_id + '&outcomes=' +outcomeObject + '&school_id=' +school_id;  
+    var school_id = $("#school_id").val();  
+    var dataString = 'task='+ task + '&course_id=' + course_id + '&outcomes=' +outcomeObject + '&school_id=' + school_id + '&people_id=' + "all_people";  
+    showSpinner(true);
     $.ajax({
       type:"POST",
       url:"/task/save",
@@ -855,6 +864,7 @@ function load_outcomes(){
       success: function(resp){    
           load_outcomes();
       $("#add_task").hide();
+      showSpinner(false);
       }      
     });  
     }

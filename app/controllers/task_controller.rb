@@ -93,6 +93,7 @@ class TaskController < ApplicationController
     @task = Task.find_by_id(params[:id])
     @course = @task.course
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    puts"#{@task.id}"
     @outcomes = @course.outcomes
     @courses = Course.find(
       :all, 
@@ -220,9 +221,14 @@ class TaskController < ApplicationController
           )
         end
       end
-      
       if params[:people_id] && !params[:people_id].empty?
-        peoples_array = params[:people_id].split(",")
+              
+        if params[:people_id]=="all_people"
+          peoples_array = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",params[:course_id]],:select => ["participants.profile_id"])
+          puts"alll"
+        else
+          peoples_array = params[:people_id].split(",")
+        end
         peoples_array.each do |p_id|
           
           task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='M' AND profile_id = ?", @task.id, p_id])

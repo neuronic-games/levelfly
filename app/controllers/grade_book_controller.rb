@@ -5,7 +5,8 @@ class GradeBookController < ApplicationController
   def index
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if @profile
-      @courses = []
+      @courses = [];
+      @people =[];
       @course = Course.find(
         :all, 
         :select => "distinct *",
@@ -26,6 +27,11 @@ class GradeBookController < ApplicationController
         @outcomes = @latest_course.outcomes
         @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
         #@participant = @courses.first.participants
+        if not @participant.nil?
+          @participant.each do |p|
+            @people.push(p.profile_id)
+          end
+        end  
         @tasks = Task.find(:all,:conditions=>["course_id = ?",@course_id], :select => "name,id")
       end
       

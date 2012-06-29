@@ -155,7 +155,7 @@ function addNode(element) {
                     <% @task.outcomes.each do |outcomes| %>
                       <div class="task_outcomes">
                         <span class="outcome_name"><%= outcomes.name %></span>
-                        <% if !outcomes.descr.empty? %>— <span class="outcome_descr"><%= outcomes.descr %></span><% end %>
+                        <% if !outcomes.descr.nil? %>— <span class="outcome_descr"><%= outcomes.descr %></span><% end %>
                       </div> 
                     <% end %>  
 
@@ -317,7 +317,7 @@ function addNode(element) {
 
                         &nbsp;&nbsp;&nbsp;
                         <span class="outcome_name"><%= outcomes.name %></span>
-                        <% if !outcomes.descr.empty? %>— <span class="outcome_descr"><%= outcomes.descr %></span><% end %>
+                        <% if !outcomes.descr.nil? %>— <span class="outcome_descr"><%= outcomes.descr %></span><% end %>
                         </div>
                       <% end %>  
                     <% end %>
