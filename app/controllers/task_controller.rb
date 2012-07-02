@@ -250,8 +250,9 @@ class TaskController < ApplicationController
       end
       status = true
       image_url = params[:file] ? @task.image.url : ""
+      @task_outcomes = @task.outcomes
     end
-    render :text => {"status"=>status, "task"=>@task, "image_url"=>image_url}.to_json
+    render :text => {"status"=>status, "task"=>@task, "image_url"=>image_url, "participants"=>peoples_array, "outcomes"=> @task_outcomes}.to_json
   end
   
   def create

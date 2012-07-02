@@ -140,6 +140,7 @@ $(document).ready(function(){
   var alphabet = "" ;
   var sign = "";
   var people = new Array();
+
   //Toggle Tabs
   $(".menu_container").delegate('a', 'click', function(){
     //showSpinner(true);
@@ -323,6 +324,7 @@ $(document).ready(function(){
 
   $('.symbol').click(function(){
     var letter="";
+    final_value = '';
     select_points = false
     $.each(arr_id, function(index, id) { 
       $("#"+id).removeClass("select_btn");
@@ -481,7 +483,7 @@ $(document).ready(function(){
         var average = 0;
         var count = 0;
         var ids= id.split("_");
-        var participant_id = ids[1];
+        var profile_id = ids[1];
         var outcome_id = ids[2];
         var task_id = ids[3];
         $("input[rel="+rel+"]").each(function(index,item){
@@ -498,7 +500,7 @@ $(document).ready(function(){
           type :"POST",
           url: "/grade_book/outcomes_points", 
           dataType: "json",
-          data: {school_id:school_id,course_id:course_id,task_id:task_id,outcome_id:outcome_id,participant_id:participant_id,average:average,outcome_val:val},
+          data: {school_id:school_id,course_id:course_id,task_id:task_id,outcome_id:outcome_id,profile_id:profile_id,average:average,outcome_val:val},
           error: function(e){alert("error");},
           success: function(data){
             $("#"+rel).attr("value",data.average); 
@@ -516,12 +518,12 @@ $(document).ready(function(){
         var task_id = ids[2];
         var task_grade = val;
         task_grade = task_grade.toUpperCase();
-        var participant_id = rel;
+        var profile_id = rel;
         $.ajax({
           type :"POST",
           url: "/grade_book/grade_calculate", 
           dataType: "json",
-          data: {school_id:school_id,characters:grades,course_id:course_id,task_id:task_id,participant_id:participant_id,task_grade:task_grade},
+          data: {school_id:school_id,characters:grades,course_id:course_id,task_id:task_id,profile_id:profile_id,task_grade:task_grade},
           error: function(e){alert("error");},
           success: function(data){
             $("#"+rel).attr("value",data.grade);
@@ -587,6 +589,7 @@ function load_outcomes(){
       tasks = data.tasks;
       var option ='';
       var row =$("<tr></tr>");
+      row.attr("id","table_heading");
       var  table3 = $("<table></table>") 
       $(tasks).each(function(i, value) {
         var col =$("<th></th>") ;
@@ -600,7 +603,7 @@ function load_outcomes(){
         $("#task_id").parent().find('.fakebox').html(value.name);
       });
       $('#task_id').html(option);
-     
+      
       row.addClass("task_right_heading");
       table3.append(row);
       var  table = $("<table></table>");
@@ -616,7 +619,7 @@ function load_outcomes(){
       table3.attr("id","heading_task");
       table3.addClass("heading_task");
       $(participant).each(function(p, value){
-    
+
         var count =0;
         var rows =$("<tr></tr>");
         var cols =$("<td></td>");
@@ -638,7 +641,7 @@ function load_outcomes(){
         cols.addClass("Name_box td_align");
         cols.html(value.full_name);
         cols2.addClass("");
-        var  text = $("<input type ='text' value = '"+value.grade+"' id = '"+ value.id +"' maxlength='1' readonly='readonly' size='5'/>")         
+        var  text = $("<input type ='text' value = '"+value.grade+"' id = '"+ value.profile_id +"' maxlength='1' readonly='readonly' size='5'/>")         
         text.addClass("task_grade")         
         div.html(text);        
         col2.html(div);        
@@ -646,6 +649,7 @@ function load_outcomes(){
         rows.append(col2);
       
         $(outcomes).each(function(i, outcomes){
+
           var grade_col =$("<td></td>");
           var outcomes_col =$("<td></td>");
           var outcome_name =$("<div></div>"); 
@@ -654,7 +658,7 @@ function load_outcomes(){
           }
           outcome_name.addClass("GB_outcomment rotate_text");
           outcomes_col.html(outcome_name);
-          var  text = $("<input type ='text' value = '"+value.course_outcomes[i]+"' id = 'p_"+value.id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
+          var  text = $("<input type ='text' value = '"+value.course_outcomes[i]+"' id = 'p_"+value.profile_id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
           text.addClass("")
           grade_col.html(text);
           grade_col.addClass("td_align")
@@ -680,7 +684,7 @@ function load_outcomes(){
           main_col.addClass("red_border")
           var table_task = $("<table></table>");
           var len = task.task_outcomes.length;
-          var  text_grade = $("<input type ='text' value = '"+value.task_grade[i]+"' id = 'g_"+value.id+"_"+task.id +"' maxlength='4' size='2' rel = '"+ value.id +"'/>");
+          var  text_grade = $("<input type ='text' value = '"+value.task_grade[i]+"' id = 'g_"+value.profile_id+"_"+task.id +"' maxlength='4' size='2' rel = '"+ value.profile_id +"'/>");
           text_grade.addClass("editable_field task_grade t_"+task.id +"");
           column.html(text_grade); 
           if (p!=0)
@@ -692,7 +696,7 @@ function load_outcomes(){
               var point_column =$("<td></td>");
               var outcome =$("<td></td>");
               var outcome_div =$("<div></div>");             
-              var  text_point = $("<input type ='text' value = '"+value.task_outcome_grade[count]+"' id = 'p_"+value.id+"_"+task.task_outcomes[i].id+"_"+task.id +"' rel = 'p_"+value.id+"_"+task.task_outcomes[i].id+"' maxlength='1' size='2'/>");
+              var  text_point = $("<input type ='text' value = '"+value.task_outcome_grade[count]+"' id = 'p_"+value.profile_id+"_"+task.task_outcomes[i].id+"_"+task.id +"' rel = 'p_"+value.profile_id+"_"+task.task_outcomes[i].id+"' maxlength='1' size='2'/>");
               count = count + 1 ;
               text_point.addClass("editable_field task_grade "+task.id+"_"+task.task_outcomes[i].id+"");
               if(p%2==0){
@@ -724,13 +728,15 @@ function load_outcomes(){
           row_item.append(main_col);
         });     
         row_item.addClass("GB_row");
+        row_item.attr("id","r_"+p)
         table3.append(row_item);        
      });
      $('.GB_left_table').replaceWith(table);
      $('.GB_right_table').replaceWith(table2);
      $('.heading_task').replaceWith(table3);
      $(".task_right_wp").scrollLeft(0);
-
+     /*scroll_div(last_task);
+     last_task = 0;*/
     }
   });
 }
@@ -771,7 +777,7 @@ function load_outcomes(){
               //rows_note.addClass("");
               rows_note.addClass("light_row")
             }
-            var  textarea = $("<textarea id = 'n_"+ value.id +"'>"+value.notes+"</textarea>")
+            var  textarea = $("<textarea id = 'n_"+ value.profile_id +"'>"+value.notes+"</textarea>")
             textarea.css("height","29px");
             textarea.css("line-height"," 110%");
             textarea.css("resize","none");
@@ -793,27 +799,24 @@ function load_outcomes(){
     $(this).parent().find('.fakebox').html(singleValues);
      // $(".task_right_wp").scrollLeft(0);
       var val = $(this).val();
-      x=$("#"+val).position();
-      div =$(".task_right_wp").position();
-      var position = document.getElementById('task_right_wp').scrollLeft;
-     $(".task_right_wp").animate({scrollLeft: (x.left-div.left)+position }, 1000);
+      scroll_div(val);
      //$(".task_right_wp").scrollLeft(x.left-div.left,1);    
   });
-  
+   
   $(".Grade_right_panel").delegate("textarea","change",function(){
 
     var notes = $(this).val();
     var course_id = $("#course_id").val();
     var arr = $(this).attr("id");
     var arr2 = arr.split("_");
-    var participant_id = arr2[1];
+    var profile_id = arr2[1];
     var school_id = $("#school_id").val();
     showSpinner(true);
     $.ajax({
       type :"POST",
       url: "/grade_book/save_notes", 
       dataType: "json",
-      data: {school_id:school_id,course_id:course_id,participant_id:participant_id,notes:notes},
+      data: {school_id:school_id,course_id:course_id,profile_id:profile_id,notes:notes},
       error: function(e){alert("error");},
       success: function(data){
          showSpinner(false);
@@ -862,15 +865,82 @@ function load_outcomes(){
       dataType: "json",
       error:  function(e){alert("error");},
       success: function(resp){    
-          load_outcomes();
-      $("#add_task").hide();
-      showSpinner(false);
+        //load_outcomes();table_heading
+        var col = $("<th></th>");
+        var option = $("<option></option>")
+        option = option + "<option value = t_"+resp.task.id +">" + resp.task.name +"</option>"
+        col.html(resp.task.name);
+        col.addClass("red_border");
+        col.addClass("hover");
+        col.attr("id","t_"+resp.task.id)
+        $("#table_heading").append(col);
+        $("#task_id").parent().find('.fakebox').html(resp.task.name);
+        $('#task_id').append(option);
+        $("#add_task").hide();
+        showSpinner(false);
+
+        $(resp.participants).each(function(p, value){ 
+          var row_item = $("<tr></tr>");
+          var rows =$("<tr></tr>");
+          var column =$("<td></td>");
+          var main_col=$("<td></td>");
+          main_col.addClass("red_border")
+          var table_task = $("<table></table>");
+          var  text_grade = $("<input type ='text' value = '' id = 'g_"+value.profile_id+"_"+resp.task.id +"' maxlength='4' size='2' rel = '"+ value.profile_id +"'/>");
+          text_grade.addClass("editable_field task_grade t_"+resp.task.id +"");
+          column.html(text_grade); 
+          if (p!=0)
+          column.addClass("td_align")
+          rows.append(column);
+
+            $(resp.outcomes).each(function(o, task_outcome){ 
+              var point_column =$("<td></td>");
+              var outcome =$("<td></td>");
+              var outcome_div =$("<div></div>");             
+              var  text_point = $("<input type ='text' value = '' id = 'p_"+value.profile_id+"_"+task_outcome.id+"_"+resp.task.id +"' rel = 'p_"+value.profile_id+"_"+task_outcome.id+"' maxlength='1' size='2'/>");
+
+              text_point.addClass("editable_field task_grade "+resp.task.id+"_"+task_outcome.id+"");
+              if(p%2==0){
+                outcome.addClass("Dark_no width_30");
+                point_column.addClass("Dark_no width_30");
+              }
+              else{
+                outcome.addClass("light_row width_30");
+                point_column.addClass("light_row width_30");
+              }             
+              if(p==0){
+                outcome_div.html(task_outcome.name);
+                outcome.addClass("hover")
+              }
+              outcome_div.addClass("GB_outcomment2 rotate_text");
+              outcome_div.attr("id",resp.task.id+"_"+task_outcome.id)
+              outcome.html(outcome_div);
+              point_column.html(text_point);
+              point_column.addClass("td_align")
+              rows.append(outcome);
+              rows.append(point_column);
+            });
+          
+          if (p%2==0){
+              rows.addClass("GB_odd");
+            }
+          $("#r_"+p).append(rows);
+        });    
+        scroll_div("t_"+resp.task.id);
       }      
     });  
     }
   });
 
 });
+
+ function scroll_div(val){
+      x=$("#"+val).position();
+      div =$(".task_right_wp").position();
+      var position = document.getElementById('task_right_wp').scrollLeft;
+     $(".task_right_wp").animate({scrollLeft: (x.left-div.left)+position }, 1000);
+  }
+  
 </script>
 
 

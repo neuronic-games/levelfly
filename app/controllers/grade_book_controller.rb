@@ -27,11 +27,7 @@ class GradeBookController < ApplicationController
         @outcomes = @latest_course.outcomes
         @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
         #@participant = @courses.first.participants
-        if not @participant.nil?
-          @participant.each do |p|
-            @people.push(p.profile_id)
-          end
-        end  
+        
         @tasks = Task.find(:all,:conditions=>["course_id = ?",@course_id], :select => "name,id")
       end
       
@@ -135,9 +131,9 @@ class GradeBookController < ApplicationController
       school_id = params[:school_id]
       course_id = params[:course_id]
       task_id = params[:task_id]
-      participant_id = params[:participant_id]
+      profile_id = params[:profile_id]
       task_grade = params[:task_grade]
-      participant = Participant.find(participant_id)
+      #participant = Participant.find(participant_id)
       num = GradeType.is_num(task_grade)
       previous_grade=""
       if num == false     
@@ -146,7 +142,7 @@ class GradeBookController < ApplicationController
       end
       
       # Save the grade
-      if !participant.nil?      
+      if !profile_id.nil?      
         # Calculate the GPA
         sum = 0
         count = 0
@@ -173,7 +169,7 @@ class GradeBookController < ApplicationController
           average = 0 
         end
         @grade = GradeType.value_to_letter(average, school_id)
-        @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, participant.profile_id,task_grade,average)
+        @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, profile_id,task_grade,average)
         if !@grade_task.blank?
           previous_grade = GradeType.value_to_letter(@grade_task, school_id)
         end
@@ -189,13 +185,13 @@ class GradeBookController < ApplicationController
       school_id = params[:school_id]
       course_id = params[:course_id]
       outcome_id = params[:outcome_id]
-      participant_id = params[:participant_id]
+      profile_id = params[:profile_id]
       task_id = params[:task_id]
       outcome_val = params[:outcome_val]
-      participant = Participant.find(participant_id)
+      #participant = Participant.find(participant_id)
       previous_grade = ""
-      if !participant.nil?
-        previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, participant.profile_id,average,task_id,outcome_val)
+      if !profile_id.nil?
+        previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, profile_id,average,task_id,outcome_val)
         render :json => {:average => average,:previous_grade=>previous_grade}
       end  
     end   
@@ -228,9 +224,9 @@ class GradeBookController < ApplicationController
       school_id = params[:school_id]
       course_id = params[:course_id]
       notes = params[:notes]
-      participant_id = params[:participant_id]
-      participant = Participant.find(participant_id)
-      notes = CourseGrade.save_notes(participant.profile_id, course_id,school_id,notes)
+      profile_id = params[:profile_id]
+      #participant = Participant.find(participant_id)
+      notes = CourseGrade.save_notes(profile_id, course_id,school_id,notes)
       render :json => {:notes => @notes}
     end
   end
@@ -242,5 +238,6 @@ class GradeBookController < ApplicationController
       render :partial => "/grade_book/add_new_task"
     end
   end
+  
 
 end

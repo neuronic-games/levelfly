@@ -1,8 +1,9 @@
- <div class="Uprofile_gap"></div>
-<div class="profile_left user_profile_left">
-  <div style="float:right;">
+ <div style="margin :14px 0 0 415px;">
     <a href="javascript:void(0)" class="big_blue_btn" name="save_my_look" id="save_my_look" onClick="saveAvatar(); loadPage('/profile/user_profile');">Save</a>
   </div>
+ <div class="Uprofile_gap!"></div>
+<div class="profile_left user_profile_left">
+  
  
   <div class="selections" style="position:relative;">
     <div id="wardrobe_options" class="wardrobe_options">
@@ -213,7 +214,7 @@ function showColorPalette(_item_type, $this) {
     $("#head_color").hide();
   }
   //Show & move color palette
-  $(".color_palette").animate({top: parseInt($this.position().top) + 300 +'px'},250);
+  $(".color_palette").animate({top: parseInt($this.position().top) + 200 +'px'},250);
   $(".color_palette").animate({left: parseInt($this.position().left) + 480 +'px'},250);
   $(".color_palette").fadeIn(80);
 }
