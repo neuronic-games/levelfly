@@ -92,6 +92,8 @@ Oncapus::Application.routes.draw do
   
   get "course/view_member"
   
+  post "course/course_stats"
+  
   get "course/view_setup"
   
   post "course/check_outcomes"
@@ -169,6 +171,8 @@ Oncapus::Application.routes.draw do
   post "grade_book/save_notes"
   
   post "grade_book/course_outcomes"
+  
+  post "grade_book/load_outcomes"
   
   post "grade_book/grade_calculate"
   

@@ -456,7 +456,7 @@ form {margin:0px;padding:0px;}
   text-align: center;
   visibility: hidden;
   padding-top:280px;
-  z-index:9001;
+  z-index:9999;
 }
 .marked_item {
   background-color:#A9A9A9;

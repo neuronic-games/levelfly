@@ -1214,8 +1214,8 @@ a.green_bt19px:hover {
 	margin-right:5px;
 }
 .course_teacher_name {
-	float:right;
-	width:50%;
+	float:left;/*right*/
+	width:45%;/*50*/
 }
 .course_page_msg_box {
 	font-family:Arial, Helvetica, sans-serif;
@@ -3224,17 +3224,6 @@ background-color:#FF4D4D
 .gradebook_tab_content2{min-width: 100%; width: 500px;}
 .GB_odd2 { background:#c4c8d2;}
 .notes_margin{margin-top: -10px; height: 57px;}
- .add_task{
-  background: none repeat scroll 0 0 #FFFFFF;
-  border: 1px solid black;
-  height: 350px;
-  margin-left: 215px;
-  margin-top: -250px;
-  padding: 10px; 
-  position: absolute;
-  width: 370px;
-  z-index: 8888;
-}
 .red_border{border-right: 1px solid #C06A70;}
 .task_input
 {
@@ -3271,3 +3260,132 @@ div .frm_input2 {
   padding: 2px;
 }
 .resize_message_box{width:84%; margin-left:110px;}
+
+
+
+.brown_bg02 {
+	background:#bfb496 !important;
+	border:#bfb496 1px solid;
+	color:#5b5757 !important;
+}
+.add_task_popup {
+	border:solid 0px #000000;
+	-moz-border-radius: 16px;
+	-webkit-border-radius: 16px;
+	border-radius: 16px;
+	-moz-box-shadow: 0px 0px 12px #333333;
+	-webkit-box-shadow: 0px 0px 12px #333333;
+	box-shadow: 0px 0px 12px #333333;
+	background:#FFF url(../images/add_newtask_bg.jpg) repeat;
+	width:40%;
+	height:50%;
+	margin:-15% 0 0 -25%;
+	left:50%;
+	top:50%;
+	padding:20px 20px;
+	position:absolute;
+	z-index:9998;
+}
+.add_task_popup .heading {
+	color: #3C68A3;
+	font-family: 'CollegeRegular';
+	font-size: 21px;
+	padding: 4px 15px 0 0;
+	border-bottom:#dba29c solid 1px;
+	padding:0 0 5px 0;
+}
+.add_task_popup .heading02 {
+	float:left;
+	padding:5px 15px 0 0;
+}
+.add_task_popup .heading02_field {
+	padding-left:95px;
+}
+.add_task_popup .boxadnt {
+	padding:20px 20px 0;
+	font-weight:bold;
+	color:#5b5757
+}
+.rfw {
+	font-weight:normal;
+	vertical-align: text-top;
+	line-height:13px;
+}
+/*checkbox design*/
+  .custom-checkbox {
+	position: relative;
+	display: inline-block;
+	padding:0px 10px 0 0;
+}
+.ie8 .custom-checkbox {
+	zoom: 1;
+}
+.custom-checkbox > .box {
+	position: relative;
+	display: block;
+	width: 14px;
+	height: 14px;
+	background-color:#bfb496;
+}
+.custom-checkbox > .box > .tick {
+	position: absolute;
+	left: 2px;
+	top: -2px;
+	width: 14px;
+	height: 6px;
+	border-bottom: 2px solid #333;
+	border-left: 2px solid #333;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	display: none;
+}
+.oldie .custom-checkbox > .box > .tick {
+	left: 1px;
+	top: -5px;
+	zoom: 1;
+}
+.ie7 .custom-checkbox > .box > .tick {
+ filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.7071067811865476, M12=0.7071067811865475, M21=-0.7071067811865475, M22=0.7071067811865476, sizingMethod='auto expand');
+}
+.ie8 .custom-checkbox > .box > .tick {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.7071067811865476, M12=0.7071067811865475, M21=-0.7071067811865475, M22=0.7071067811865476, sizingMethod='auto expand')";
+}
+.custom-checkbox > input:checked + .box > .tick {
+	display: block;
+}
+.custom-checkbox.checked > .box > .tick {
+	display: block;
+}
+.custom-checkbox > input {
+	position: absolute;
+	outline: none;
+	left: 0;
+	top: 0;
+	padding: 0;
+	width: 16px;
+	height: 16px;
+	border: none;
+	margin: 0;
+	opacity: 0;
+	z-index: 1;
+}
+.ie7 .custom-checkbox > input {
+ filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+.ie8 .custom-checkbox > input {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(opacity=0)";
+}
+.custom-checkbox > input:active + .box {
+	border-color: #aaa;
+	background-color: #bfb496;
+}
+.inlineblock {
+	display:inline-block;
+}
+.clr_red {
+	background:#bd6f49;
+}
+

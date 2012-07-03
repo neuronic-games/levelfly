@@ -747,7 +747,48 @@ function load_outcomes(){
     course_id = $("#course_id").val();
     var val = $(this).val();
     if (val==1){
-      load_outcomes();
+     showSpinner(true);
+      $.ajax({
+        type :"POST",
+        url: "/grade_book/load_outcomes", 
+        dataType: "json",
+        data: {course_id:course_id},
+        success: function(data){
+          var  table2 = $("<table></table>");
+          table2.addClass("GB_right_table");//table outcome  average grade 
+          table2.attr("id","GB_right_table");
+          table2.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
+          showSpinner(false);
+          $(data.participants).each(function(p, value){
+            var rows2 =$("<tr></tr>");
+            $(data.outcomes).each(function(i, outcomes){
+              var grade_col =$("<td></td>");
+              var outcomes_col =$("<td></td>");
+              var outcome_name =$("<div></div>"); 
+              if(p==0){
+                outcome_name.html(outcomes.name);
+              }
+              outcome_name.addClass("GB_outcomment rotate_text");
+              outcomes_col.html(outcome_name);
+              var  text = $("<input type ='text' value = '"+value.course_outcomes[i]+"' id = 'p_"+value.profile_id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
+              text.addClass("")
+              grade_col.html(text);
+              grade_col.addClass("td_align")
+              rows2.append(outcomes_col);
+              rows2.append(grade_col);
+            });
+            if (p%2==0){
+              rows2.addClass("Dark_no");
+            }
+            else{
+              rows2.addClass("light_row");
+            }
+            table2.append(rows2);
+          });
+          $('.GB_right_table').replaceWith(table2);
+        }
+      });
+     //load_outcomes();
     }
     else{
       showSpinner(true);
@@ -825,6 +866,7 @@ function load_outcomes(){
   });
   $(".new_task").click(function(){
     var course_id = $("#course_id").val();
+    showSpinner(true);
     $.ajax({
       type:"POST",
       url:"/grade_book/course_outcomes",
@@ -833,11 +875,12 @@ function load_outcomes(){
       success: function(resp){       
          $("#add_task").show();
          $("#add_task").html(resp);
+          showSpinner(false);
         }      
     });
   });
   
-  $(".add_task").delegate("input","click",function(){
+  $(".add_task").delegate("a","click",function(){
     id = $(this).attr("id");
     if (id=="dont_add_btn"){
       $("#add_task").hide();
@@ -856,7 +899,8 @@ function load_outcomes(){
     var task = $("#new_task").val();
     var course_id = $("#course_id").val();
     var school_id = $("#school_id").val();  
-    var dataString = 'task='+ task + '&course_id=' + course_id + '&outcomes=' +outcomeObject + '&school_id=' + school_id + '&people_id=' + "all_people";  
+    var level = 0;
+    var dataString = 'task='+ task + '&course_id=' + course_id + '&outcomes=' +outcomeObject + '&level=' + level + '&school_id=' + school_id + '&people_id=' + "all_people";  
     showSpinner(true);
     $.ajax({
       type:"POST",
@@ -878,13 +922,14 @@ function load_outcomes(){
         $('#task_id').append(option);
         $("#add_task").hide();
         showSpinner(false);
-
+      
         $(resp.participants).each(function(p, value){ 
           var row_item = $("<tr></tr>");
-          var rows =$("<tr></tr>");
+          var rows =$("<td></td>");
           var column =$("<td></td>");
           var main_col=$("<td></td>");
           main_col.addClass("red_border")
+          rows.addClass("red_border")
           var table_task = $("<table></table>");
           var  text_grade = $("<input type ='text' value = '' id = 'g_"+value.profile_id+"_"+resp.task.id +"' maxlength='4' size='2' rel = '"+ value.profile_id +"'/>");
           text_grade.addClass("editable_field task_grade t_"+resp.task.id +"");
@@ -892,13 +937,11 @@ function load_outcomes(){
           if (p!=0)
           column.addClass("td_align")
           rows.append(column);
-
             $(resp.outcomes).each(function(o, task_outcome){ 
               var point_column =$("<td></td>");
               var outcome =$("<td></td>");
               var outcome_div =$("<div></div>");             
               var  text_point = $("<input type ='text' value = '' id = 'p_"+value.profile_id+"_"+task_outcome.id+"_"+resp.task.id +"' rel = 'p_"+value.profile_id+"_"+task_outcome.id+"' maxlength='1' size='2'/>");
-
               text_point.addClass("editable_field task_grade "+resp.task.id+"_"+task_outcome.id+"");
               if(p%2==0){
                 outcome.addClass("Dark_no width_30");

@@ -1,20 +1,32 @@
-<div class ="add_new_task" id ="add_new_task">
-  <div>TASK&nbsp;&nbsp;&nbsp;<input type ="text" class = "task_input" id ="new_task" value=""></div>
-  </br>
-  </br>
-  <div>OUTCOMES</div>
-  <% if !@outcomes_course.nil? %>
-    <% @outcomes_course.each do |outcomes| %>
-      <div id="task_outcomes_<%=outcomes.id%>" class="task_outcomes">
-      <input type="checkbox" name="chk_outcomes[]" checked="true" id="<%=outcomes.id%>"  value="<%=outcomes.id%>" />
-      &nbsp;&nbsp;&nbsp;<%= outcomes.name %><br/>
+<div class="add_task_popup">
+  <div class="heading">New Task</div>
+  <div class="boxadnt"> <span class="heading02">Task Name</span>
+    <div class="heading02_field">
+      <div class="dd_bg brown_bg02">
+        <input type ="text" class = "dd_input brown_bg02" id ="new_task" value="">
       </div>
-    <% end %>  
-  <% end %>
-  <div>
-    <input name="" type="button" value="DON'T ADD" class="task_btn" id="dont_add_btn" />
-    <input name="" type="button" value="ADD" class="task_btn" id="add_btn" />
+    </div>
+    <div class="clear"></div>
+    <div class="spacebar10px"></div>
+    <div>
+    <div >Outcomes</div>
+      <div class="spacebar10px"></div>
+      <% if !@outcomes_course.nil? %>
+       <% @outcomes_course.each do |outcomes| %>
+        <div id="task_outcomes_<%=outcomes.id%>" class="">
+          <span class="custom-checkbox">
+          <input type="checkbox" name="chk_outcomes[]" checked="true" id="<%=outcomes.id%>"  value="<%=outcomes.id%>" />
+          <span class="box"><span class="tick"></span></span> </span><span class="rfw"><%= outcomes.name %></span>
+          <div class="spacebar10px"></div>
+        </div>
+       <% end %>  
+      <% end %>
+    </div>  
+    <div class="spacebar10px"></div>
+    <div class="spacebar10px"></div>
   </div>
+  <div align="right">
+  <a class="big_blue_btn inlineblock" id = "dont_add_btn" href="javascript:void(0)">Don't add</a> <a class="big_orange_btn inlineblock clr_red" id = "add_btn" href="javascript:void(0)">add task</a></div>
 </div>
 
 

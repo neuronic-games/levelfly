@@ -239,5 +239,30 @@ class GradeBookController < ApplicationController
     end
   end
   
+  
+  def load_outcomes
+    if !params[:course_id].nil?
+      @course = Course.find(params[:course_id])
+      @profile = Profile.find(user_session[:profile_id])
+      @outcomes = @course ? @course.outcomes : nil
+      @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
+      if not @participant.nil?
+        @participant.each do |p|
+          outcomes_grade = []
+          if !@outcomes.nil?
+            @outcomes.each do |o|
+              outcome_grade = CourseGrade.load_outcomes(p.profile_id, params[:course_id],o.id,@profile.school_id)
+            if outcome_grade.nil?
+              outcome_grade=""
+            end
+              outcomes_grade.push(outcome_grade)                  
+            end
+            p["course_outcomes"] = outcomes_grade
+          end
+        end 
+      end
+      render :json => {:outcomes => @outcomes, :participants=>@participant}
+    end
+  end
 
 end

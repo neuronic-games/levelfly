@@ -191,6 +191,26 @@ $(document).ready(function(){
         },
       });
     });
+    
+   $("#btn_xp_badges").live('click', function(){
+   showSpinner(true);
+   course_id = $("#course_id_hdn").val();
+   $.ajax({
+        type: "POST",
+        url: "/course/course_stats",
+        data:{id:course_id},
+        success: function(data) {
+		      $("#load_data").html(data);
+			    showSpinner(false);
+        },
+        error: function()
+        {
+          alert("An Error has occured");
+          showSpinner(false);
+        },
+      });
+    });
+    
 
   //For updating outcomes (in course view screen)
   $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
