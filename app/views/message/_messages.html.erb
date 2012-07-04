@@ -13,7 +13,7 @@
         <div class="like_cmt">
           <span class="fav_icon"><img src="/images//fav.png" align="absbottom" /><span id="count_<%=message.id%>"><%=message.like%></span> </span>
           <span id="link_<%=message.id%>">
-            <a href="javascript:void(0)" id="<%=message.id%>" rel="<%=user_like(message.profile_id, message.id) ? "unlike" : "like" %>" class="blue_bt19px like">
+            <a href="javascript:void(0)" id="<%=message.id%>" rel="<%=user_like(message.profile_id, message.id) ? "unlike" : "like" %>" rev = "<%=message.parent_id%>" class="blue_bt19px like">
               <%=user_like(user_session[:profile_id], message.id) ? "UNLIKE" : "LIKE" %>
             </a>
           </span>
@@ -38,11 +38,11 @@
   <% comment_list(message.id).each_with_index do |comment,i|%>
       <%if i < total %>
           <div class="hide msg_small_box" id="comment_box_<%=message.id%>"> 
-             <%= render :partial => "/message/comments", :locals => {:comment=>comment} %>
+             <%= render :partial => "/message/comments", :locals => {:comment=>comment,:course_id=>message.parent_id} %>
           </div> 
       <% else %>
         <% if i >= total %>
-         <%= render :partial => "/message/comments", :locals => {:comment=>comment} %>
+         <%= render :partial => "/message/comments", :locals => {:comment=>comment,:course_id=>message.parent_id} %>
         <% end %>           
       <% end %> 
   <% end %> 

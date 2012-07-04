@@ -74,14 +74,27 @@ class CourseGrade < ActiveRecord::Base
   def self.average_points(course_id,outcomes,school_id,profile_id)
     points = []
     students = []
+    top_students = {}
+    grade =""
     outcomes.each do |o|
+      students = []
       #@students = CourseGrade.find(:all, :conditions=>["school_id = ? and course_id = ? and outcome_id = ?",school_id,course_id,o.id], :limit => 1, :order => 'grade DESC')
-      @students = CourseGrade.where("school_id = ? and course_id = ? and outcome_id = ?",school_id,course_id,o.id).order("grade DESC")
+      @students = CourseGrade.select("profile_id").where("school_id = ? and course_id = ? and outcome_id = ?",school_id,course_id,o.id).order("grade DESC").limit(3)
       outcome_point = CourseGrade.where("school_id = ? and course_id = ? and outcome_id = ? and profile_id = ?",school_id,course_id,o.id,profile_id).first   
-      points.push(outcome_point.grade)
-      students.push(@students)
+      if outcome_point.nil?
+        grade =""
+      else
+        grade = outcome_point.grade
+      end
+      points.push(grade)
+      @students.each do |s|
+        profile = Profile.select("id,full_name,image_file_name").where("id = ?",s.profile_id).first
+        students.push(profile)  
+      end
+      top_students[o.id] = students
+      #students.push(top_students)
     end
-    return points, students
+    return points, top_students
   end
   
   

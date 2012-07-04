@@ -1,3 +1,121 @@
-COURSE STATS
-<%=@course.id%>
-<%= @grade[0]%><%= @grade[1]%>
+ <div class="course_pad">
+    <!-- tabs-->
+    <!--tab content-->
+    <div class="course_tab_content">
+      <!--01 line box-->
+      <div>
+        <!--box-->
+        <div class="stat_box01 stat_width01 floatL">
+          <div class="stat_head01 floatL">Grade</div>
+          <div class="stat_value01 floatL"><span class="red_txtbig"><%if !@grade.nil?%><%= @grade[0]%></span> <span class="red_txtsmall"><%= @grade[1]%><%end%></span>
+            <div class="stat_value02"></div>
+          </div>
+        </div>
+        <!--box-->
+        <div class="stat_box01 stat_width02 floatL">
+          <div class="stat_head01 floatL">xp</div>
+          <div class="stat_value01 floatL"><span class="red_txtbig">123</span>
+            <div class="stat_value02">3456 Total</div>
+          </div>
+        </div>
+        <!--box-->
+        <div class="stat_box01 stat_width03 floatL">
+          <div class="stat_head01 floatL">likes</div>
+          <div class="stat_value01 floatL"><span class="red_txtbig"><%if @likes%><%=@likes.count%><%end%></span>
+            <div class="stat_value02">3456 Total</div>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="spacebar10px"></div>
+      <!--02 line box-->
+      <div>
+        <div class="stat_head01 font18">Badges</div>
+        <div class="spacebar10px"></div>
+        <ul class="stat_icons_box">
+          <li>
+            <div class="SI_icon"><img src="images/phoney.png" /></div>
+            <span>Phoney</span></li>
+          <li>
+            <div class="SI_icon"><img src="images/text_manic.png" /></div>
+            <span>Text-maniac</span></li>
+          <li>
+            <div class="SI_icon"><img src="images/commenter.png" /></div>
+            <span>Commenter</span></li>
+          <li>
+            <div class="SI_icon"><img src="images/television.png" /></div>
+            <span>Television</span></li>
+          <li>
+            <div class="SI_icon"><img src="images/geek.png" /></div>
+            <span>Geek</span></li>
+          <li>
+            <div class="SI_icon"></div>
+            <span>&nbsp;</span></li>
+          <li>
+            <div class="SI_icon"></div>
+            <span>&nbsp;</span></li>
+        </ul>
+        <div class="clear"></div>
+      </div>
+      <div class="spacebar10px"></div>
+      <!--03 line box-->
+      <div class="stat_head01">Outcomes</div>
+      <div class="spacebar10px"></div>
+      <!-- outcome box-->
+      <%if !@outcomes.nil?%>
+        <% @outcomes.each_with_index do |o,i|%>
+        <ul class="outcomes_box">
+          <li class="odd" id ="li_<%=o.id%>"> <span class="oB_box01"><%=o.name%></span> <span class="oB_box02"> <span class="oB_box001"><%=@points[i]%></span> <span class="oB_box002"><%=o.descr%></span> </span> <span class="oB_box03">
+            <a class="blue_bt19px more_btn_stat" href="javascript:void(0);" id ="more_btn" rel ="<%=o.id%>" >More</a></span> <span class="clear"></span> 
+          <div class="hide" id = "<%=o.id%>">
+          <span> <span class="stat_head01 font14">TOP ACHIEVERS</span> <span class="spacebar10px"></span>
+          <% @students[o.id].each do |p|%>
+         
+          <ul class="stat_icons_box2">
+            <li class="width12">
+              <div class="avatar_white_bdr01"><img src="<%=p.image_file_name%>" profile_id="<%= p.id %>" width="54" height="53" /></div>
+              <span><%=p.full_name%></span></li>
+          </ul>
+          <%end%>
+          <span class="clear"></span> </span></li>
+        </ul>
+        <div>
+        <%end%>
+      <%end%>
+      <!-- outcome box-->
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+<script type="text/javascript">
+
+  $(function(){
+  
+    $(".more_btn_stat").click(function(){
+      var id = $(this).attr("rel");
+      if($(this).text()=="More"){
+        $("#"+id).slideDown(500);
+        $(this).text("Less");
+       // $("#li_"+id).addClass("selctd");
+      }
+      else{
+        $("#"+id).slideUp(500);
+        $(this).text("More");
+        //$("#li_"+id).removeClass("selctd");
+      }
+       
+    });
+    
+    $(".odd").hover(
+        function () {
+          id = $(this).attr("id");
+          $("#"+id).addClass("selctd");
+        }, 
+        function () {
+          id = $(this).attr("id");
+         $("#"+id).removeClass("selctd");
+        }
+      );
+    
+  });
+</script>    

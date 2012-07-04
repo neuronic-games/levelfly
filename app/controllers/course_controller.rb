@@ -459,26 +459,27 @@ class CourseController < ApplicationController
   end
   
   def course_stats
-  if params[:id] && !params[:id].nil?
-    @grade = []
-    @points = []
-    @course = Course.find(params[:id])
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
-    @course_grade, oc = CourseGrade.load_grade(@profile.id, @course.id,@profile.school_id)
-      if !@course_grade.nil?
-      @course_grade.each do |key , val|
-        @grade.push(val)
-        letter = GradeType.value_to_letter(val, @profile.school_id)
-        @grade.push(letter)
+    if params[:id] && !params[:id].nil?
+      @grade = []
+      @points = []
+      @course = Course.find(params[:id])
+      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      @likes = Like.where("course_id = ?",@course.id)
+      #@participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
+      @course_grade, oc = CourseGrade.load_grade(@profile.id, @course.id,@profile.school_id)
+        if !@course_grade.nil?
+        @course_grade.each do |key , val|
+          @grade.push(val)
+          letter = GradeType.value_to_letter(val, @profile.school_id)
+          @grade.push(letter)
+        end
       end
-    end
-    @outcomes = @course.outcomes
-    if !@outcomes.nil?
-      @points, @students = CourseGrade.average_points(@course.id,@outcomes,@profile.school_id,@profile.id)   
-    end
-    render :partial =>"/course/course_stats"
-  end  
+      @outcomes = @course.outcomes
+      if !@outcomes.nil?
+         @points, @students = CourseGrade.average_points(@course.id,@outcomes,@profile.school_id,@profile.id) 
+      end
+      render :partial =>"/course/course_stats"
+    end  
   end
   
 end

@@ -3388,4 +3388,139 @@ div .frm_input2 {
 .clr_red {
 	background:#bd6f49;
 }
-
+.stat_box01 {
+	width:33%;
+	padding:10px 0 0 0
+}
+.stat_head01 {
+	font-family: 'CollegeRegular';
+	font-size:24px;
+	color:#aabe95;
+	padding:10px 20px 0 0;
+	text-transform:uppercase;
+}
+.stat_value01 {
+}
+.red_txtbig {
+	color: #8D130D;
+	font-family: 'AthleticRegular';
+	font-size: 46px;
+	text-align: center;
+	text-shadow: 2px 2px #FFFFFF;
+}
+.red_txtsmall {
+	color: #8D130D;
+	font-family: 'AthleticRegular';
+	font-size: 30px;
+	text-align: center;
+	text-shadow: 2px 2px #FFFFFF;
+	font-weight:bold;
+}
+.stat_value02 {
+	font-size:14px;
+	color:#9d9d9d;
+}
+.stat_width01 {
+	width:40%
+}
+.stat_width02 {
+	width:40%
+}
+.stat_width03 {
+	width:20%
+}
+.floatL {
+	float:left
+}
+.stat_icons_box {
+}
+.stat_icons_box li {
+	font-size:12px;
+	color:#fefffd;
+	float:left;
+	width:14%;
+	text-align:center;
+}
+.stat_icons_box li .SI_icon {
+	background:url(../images/round_bg.png) no-repeat;
+	width:52px;
+	height:52px;
+	vertical-align:middle;
+	text-align:center;
+	margin:0 auto;
+	padding:3px 0 0 0
+}
+.font18 {
+	font-size:18px;
+}
+.outcomes_box {
+	color:#FFF;
+}
+.outcomes_box li.odd {
+	background:url(../images/border01.png) repeat-x left top;
+	padding:20px 10px;
+}
+.outcomes_box li.selctd {
+	background:#5f6254 url(../images/border01.png) repeat-x left top;
+	padding:20px 10px;
+  cursor:pointer;
+}
+.outcomes_box span {
+	display:block;
+}
+.font14 {
+	font-size:14px
+}
+.oB_box01 {
+	width:30%;
+	float:left;
+	font-size:14px
+}
+.oB_box02 {
+	width:60%;
+	float:left;
+}
+.oB_box001 {
+	width:75px;
+	float:left;
+	background:url(../images/star_circle.png) no-repeat;
+	height:45px;
+	font-family: 'CollegeRegular';
+	font-size:20px;
+	color:#494646;
+	text-align:center;
+	padding:30px 0 0 0
+}
+.oB_box002 {
+	padding:0 0 0 100px;
+}
+.oB_box03 {
+	width:10%;
+	float:left;
+}
+.oB_box03 a {
+	float:right
+}
+.avatar_white_bdr01 {
+	border:#eaebeb 4px solid;
+	/*width:14%;*/
+  width:54px;
+	margin:0 auto;
+	height:53px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	background:url(../images/avatar_bg.jpg) no-repeat center;
+	-moz-box-shadow:inset 0px 0px 2px 1px #000000;
+	-webkit-box-shadow:inset 0px 0px 2px 1px #000000;
+	box-shadow:inset 0px 0px 2px 1px #000000;
+}
+.stat_icons_box2 {
+}
+.stat_icons_box2 li {
+	font-size:12px;
+	color:#fefffd;
+	float:left;
+	width:18%;
+	text-align:center;
+}

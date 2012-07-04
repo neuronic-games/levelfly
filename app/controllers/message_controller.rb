@@ -50,11 +50,11 @@ class MessageController < ApplicationController
       @message.message_type = params[:message_type] if params[:message_type]
       @message.wall_id = Wall.get_wall_id(params[:parent_id], params[:parent_type]) #params[:wall_id]
       @message.post_date = DateTime.now
-      
+      @msg = Message.find(params[:parent_id])
       if @message.save
         case params[:parent_type]
           when "Message"
-            render :partial => "comments", :locals => {:comment => @message}
+            render :partial => "comments", :locals => {:comment => @message,:course_id=>@msg.parent_id}
           when "Profile"
             message = (params[:message_type]=="Friend") ? "Friend request sent" : "Message sent"
             render :text => {"status"=>"save", "message"=>message}.to_json
@@ -67,7 +67,7 @@ class MessageController < ApplicationController
   
   def like
     if params[:message_id] && !params[:message_id].nil?
-      @message = Like.add(params[:message_id], user_session[:profile_id])
+      @message = Like.add(params[:message_id], user_session[:profile_id],params[:course_id])
       if @message
         render :text => {"action"=>"unlike", "count"=>@message.like}.to_json
       end
@@ -76,7 +76,7 @@ class MessageController < ApplicationController
   
   def unlike
     if params[:message_id] && !params[:message_id].nil?
-      @message = Like.remove(params[:message_id], user_session[:profile_id])
+      @message = Like.remove(params[:message_id], user_session[:profile_id], params[:course_id])
       if @message
         render :text => {"action"=>"like", "count"=>@message.like}.to_json
       end

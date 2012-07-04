@@ -201,6 +201,9 @@ $(document).ready(function(){
         data:{id:course_id},
         success: function(data) {
 		      $("#load_data").html(data);
+          /*$("#btn_course").hide();
+          $("#menu_btn_addfile").hide();
+          $("#btn_category_remove").hide();*/
 			    showSpinner(false);
         },
         error: function()
@@ -309,12 +312,13 @@ $(document).ready(function(){
     showSpinner(true);
     if(this.id){
       action = $(this).attr('rel');
+      course_id = $(this).attr('rev');
       controller = this;
-      $.ajax({
-        type: "POST",
+      $.ajax({  
+        type: "POST",  
         url: "/message/"+action,
         dataType: 'json',
-        data: {message_id:this.id},
+        data: {message_id:this.id,course_id:course_id},
         success: function(data) {
           if (data) {
             $(controller).attr('rel',data.action);
