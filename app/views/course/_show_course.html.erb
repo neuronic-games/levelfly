@@ -79,7 +79,7 @@
       <div id="message_wrapper" class="message_wrapper resize_message_box" >
       
       &nbsp;
-      <% if @course_messages = Message.find(:all,:conditions=>["profile_id = ? AND parent_id = ? AND parent_type = 'C'",user_session[:profile_id],@course.id],:order => "created_at DESC" )%>
+      <% if @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C'",@course.id],:order => "created_at DESC" )%>
         <% @course_messages.each do |message| %>
           <%= render :partial => "/message/messages", :locals => {:message=>message} %>
         <% end %>

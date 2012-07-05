@@ -20,9 +20,9 @@ class MessageController < ApplicationController
     else 
       @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type in ('Message')", wall_ids, false], :order => 'created_at DESC')
       
-      @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite') AND profile_id = ? AND (archived is NULL or archived = ?)", @profile.id, false])
+      @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite') AND parent_id = ? AND (archived is NULL or archived = ?)", @profile.id, false])
       
-      @respont_to_course = Message.find(:all,:conditions=>["target_type = 'Course' AND message_type = 'Message' AND parent_type='Profile' AND profile_id = ? AND archived =?", @profile.id,false])
+      @respont_to_course = Message.find(:all,:conditions=>["target_type = 'Course' AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived =?", @profile.id,false])
     end
     @friend = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", @profile.id])
 
@@ -50,10 +50,11 @@ class MessageController < ApplicationController
       @message.message_type = params[:message_type] if params[:message_type]
       @message.wall_id = Wall.get_wall_id(params[:parent_id], params[:parent_type]) #params[:wall_id]
       @message.post_date = DateTime.now
-      @msg = Message.find(params[:parent_id])
+      
       if @message.save
         case params[:parent_type]
           when "Message"
+            @msg = Message.find(params[:parent_id])
             render :partial => "comments", :locals => {:comment => @message,:course_id=>@msg.parent_id}
           when "Profile"
             message = (params[:message_type]=="Friend") ? "Friend request sent" : "Message sent"
@@ -96,7 +97,7 @@ class MessageController < ApplicationController
       @message = Message.find(params[:message_id])
       if @message
         if params[:activity] && !params[:activity].nil?
-          @course_participant = Participant.where("object_type = ? AND object_id = ? AND profile_id = ? AND profile_type='P'",params[:section_type],@message.target_id,@message.profile_id).first
+          @course_participant = Participant.where("object_type = ? AND object_id = ? AND profile_id = ? AND profile_type='P'",params[:section_type],@message.target_id,@message.parent_id).first
           if params[:activity] == "add"
             course = Course.find(@message.target_id)
             if @course_participant
@@ -110,7 +111,7 @@ class MessageController < ApplicationController
             if @course_participant
              @course_participant.delete
             end
-            @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,"Rejected")
+            @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,"Rejected",params[:section_type])
             render :text => "friend_list"
          end
          @message.archived = true

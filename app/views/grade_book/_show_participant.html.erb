@@ -7,8 +7,10 @@
       <div class="Grade_right_panel_head">
         <div class="selectbg2"> <span class="fakebox">OUTCOMES</span>
           <select id="outcome_note">
+            <%if !@latest_course.nil? %>
              <option value="1">OUTCOMES</option>
              <option value="2">NOTES</option>
+            <% end %>
           </select>
         </div>
       </div>

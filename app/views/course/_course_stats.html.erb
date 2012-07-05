@@ -15,14 +15,14 @@
         <div class="stat_box01 stat_width02 floatL">
           <div class="stat_head01 floatL">xp</div>
           <div class="stat_value01 floatL"><span class="red_txtbig">123</span>
-            <div class="stat_value02">3456 Total</div>
+            <div class="stat_value02"><%=@profile.xp%> Total</div>
           </div>
         </div>
         <!--box-->
         <div class="stat_box01 stat_width03 floatL">
           <div class="stat_head01 floatL">likes</div>
           <div class="stat_value01 floatL"><span class="red_txtbig"><%if @likes%><%=@likes.count%><%end%></span>
-            <div class="stat_value02">3456 Total</div>
+            <div class="stat_value02"><%=@profile.like_received%> Total</div>
           </div>
         </div>
         <div class="clear"></div>
@@ -68,18 +68,10 @@
           <li class="odd" id ="li_<%=o.id%>"> <span class="oB_box01"><%=o.name%></span> <span class="oB_box02"> <span class="oB_box001"><%=@points[i]%></span> <span class="oB_box002"><%=o.descr%></span> </span> <span class="oB_box03">
             <a class="blue_bt19px more_btn_stat" href="javascript:void(0);" id ="more_btn" rel ="<%=o.id%>" >More</a></span> <span class="clear"></span> 
           <div class="hide" id = "<%=o.id%>">
-          <span> <span class="stat_head01 font14">TOP ACHIEVERS</span> <span class="spacebar10px"></span>
-          <% @students[o.id].each do |p|%>
-         
-          <ul class="stat_icons_box2">
-            <li class="width12">
-              <div class="avatar_white_bdr01"><img src="<%=p.image_file_name%>" profile_id="<%= p.id %>" width="54" height="53" /></div>
-              <span><%=p.full_name%></span></li>
-          </ul>
-          <%end%>
-          <span class="clear"></span> </span></li>
+             <%= render :partial=>"/course/top_achivers"%>
+          </div>  
+          <span class="clear"></span></li>
         </ul>
-        <div>
         <%end%>
       <%end%>
       <!-- outcome box-->
@@ -87,14 +79,28 @@
     <div class="clear"></div>
   </div>
   <div class="clear"></div>
+  <input type="hidden" name="course_id"  id ="course_id" value="<%=@course.id%>">
 <script type="text/javascript">
 
   $(function(){
   
     $(".more_btn_stat").click(function(){
       var id = $(this).attr("rel");
-      if($(this).text()=="More"){
-        $("#"+id).slideDown(500);
+      if($(this).text()=="More"){     
+        var course_id = $("#course_id").val();
+        var outcome_id = $(this).attr("rel");
+        showSpinner(true);
+        $.ajax({
+          type :"POST",
+          url: "/course/top_achivers", 
+          data: {course_id:course_id,outcome_id:outcome_id},
+          error: function(e){alert("error");},
+          success: function(data){
+             showSpinner(false);
+             $("#"+outcome_id).html(data);
+             $("#"+outcome_id).slideDown(500);
+          }
+        });    
         $(this).text("Less");
        // $("#li_"+id).addClass("selctd");
       }
@@ -102,8 +108,7 @@
         $("#"+id).slideUp(500);
         $(this).text("More");
         //$("#li_"+id).removeClass("selctd");
-      }
-       
+      }      
     });
     
     $(".odd").hover(

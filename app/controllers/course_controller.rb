@@ -476,10 +476,19 @@ class CourseController < ApplicationController
       end
       @outcomes = @course.outcomes
       if !@outcomes.nil?
-         @points, @students = CourseGrade.average_points(@course.id,@outcomes,@profile.school_id,@profile.id) 
+         @points , @course_xp = CourseGrade.get_outcomes(@course.id,@outcomes,@profile.school_id,@profile.id) 
       end
       render :partial =>"/course/course_stats"
     end  
   end
+  
+   def top_achivers
+    if params[:outcome_id] && !params[:course_id].nil?
+       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+       @students = Course.get_top_achievers(@profile.school_id,params[:course_id], params[:outcome_id])
+       render :partial =>"/course/top_achivers"
+    end
+    
+   end
   
 end

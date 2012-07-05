@@ -109,4 +109,9 @@ class Course < ActiveRecord::Base
     return @owner
   end
   
+  def self.get_top_achievers(school_id,course_id,outcome_id)
+    @students = CourseGrade.where("school_id = ? and course_id = ? and outcome_id = ? and grade > '2'",school_id,course_id,outcome_id).order("grade DESC")
+    return @students
+  end
+  
 end

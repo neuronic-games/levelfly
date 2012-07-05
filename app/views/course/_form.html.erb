@@ -172,7 +172,7 @@ $(document).ready(function(){
 
    // For member Page
 
-   $("#btn_member").live('click', function(){
+  /* $("#btn_member").live('click', function(){
    showSpinner(true);
    course_id = $("#course_id_hdn").val();
    section_type = $("#section_type").val();
@@ -190,20 +190,41 @@ $(document).ready(function(){
           showSpinner(false);
         },
       });
-    });
-    
-   $("#btn_xp_badges").live('click', function(){
-   showSpinner(true);
-   course_id = $("#course_id_hdn").val();
-   $.ajax({
-        type: "POST",
-        url: "/course/course_stats",
-        data:{id:course_id},
+    });*/
+   
+   $('.course_tab_content').delegate('a', 'click', function(){
+   //$("#btn_xp_badges").live('click', function(){
+   if($(this).attr("id")=="btn_xp_badges"){
+     showSpinner(true);
+     course_id = $("#course_id_hdn").val();
+     $.ajax({
+          type: "POST",
+          url: "/course/course_stats",
+          data:{id:course_id},
+          success: function(data) {
+            $("#load_data").html(data);
+            /*$("#btn_course").hide();
+            $("#menu_btn_addfile").hide();
+            $("#btn_category_remove").hide();*/
+            showSpinner(false);
+          },
+          error: function()
+          {
+            alert("An Error has occured");
+            showSpinner(false);
+          },
+        });
+    }
+    else if($(this).attr("id")=="btn_member"){
+      showSpinner(true);
+      course_id = $("#course_id_hdn").val();
+      section_type = $("#section_type").val();
+      $.ajax({
+        type: "GET",
+        url: "/course/view_member",
+        data:{id:course_id,section_type:section_type},
         success: function(data) {
 		      $("#load_data").html(data);
-          /*$("#btn_course").hide();
-          $("#menu_btn_addfile").hide();
-          $("#btn_category_remove").hide();*/
 			    showSpinner(false);
         },
         error: function()
@@ -212,7 +233,9 @@ $(document).ready(function(){
           showSpinner(false);
         },
       });
-    });
+    }
+    
+  });
     
 
   //For updating outcomes (in course view screen)

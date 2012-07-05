@@ -1,0 +1,15 @@
+<span> <span class="stat_head01 font14">TOP ACHIEVERS</span> <span class="spacebar10px"></span>
+<%if @students%>
+<%if !@students.nil?%>
+  <% @students.each do |p|%>
+     <%if !p.nil?%>
+    <ul class="stat_icons_box2">
+      <li class="width12">
+        <div class="avatar_white_bdr01"><img src="<%=p.profile.image_file_name%>" profile_id="<%= p.profile.id %>" width="54" height="53" /></div>
+        <span><%=p.profile.full_name%></span></li>
+    </ul>
+    <%end%>
+  <%end%>
+<%end%>
+<%end%>
+</span>  
