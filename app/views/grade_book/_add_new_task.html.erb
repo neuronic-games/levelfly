@@ -15,7 +15,7 @@
        <% @outcomes_course.each do |outcomes| %>
         <div id="task_outcomes_<%=outcomes.id%>" class="">
           <span class="custom-checkbox">
-          <input type="checkbox" name="chk_outcomes[]" checked="true" id="<%=outcomes.id%>"  value="<%=outcomes.id%>" />
+          <input type="checkbox" name="chk_outcomes[]" checked="true" id="<%=outcomes.id%>"  value="<%=outcomes.id%>" <%if outcomes.shared == true%>disabled="disabled"<%end%> />
           <span class="box"><span class="tick"></span></span> </span><span class="rfw"><%= outcomes.name %></span>
           <div class="spacebar10px"></div>
         </div>

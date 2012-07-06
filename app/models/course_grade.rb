@@ -85,7 +85,7 @@ class CourseGrade < ActiveRecord::Base
       end
       points.push(grade)
     end
-    return points, course_xp
+    return points, course_xp.first.total
   end
   
   

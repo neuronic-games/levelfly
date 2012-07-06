@@ -6,6 +6,7 @@ class CourseController < ApplicationController
     section_type = params[:section_type]
     
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    
     if params[:search_text]
       search_text =  "#{params[:search_text]}%"
       
@@ -119,6 +120,11 @@ class CourseController < ApplicationController
     @course = Course.find_by_id(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @wall = Wall.find(:first,:conditions=>["parent_id = ? AND parent_type='Course'", @course.id])
+    if !@profile.avatar.nil?
+    @badges = AvatarBadge.select("count(*) as total").where("avatar_id = ? and course_id = ?",@profile.avatar.id,@course.id)
+    end
+    xp = TaskGrade.select("sum(points) as total").where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course.id,@profile.id)
+    @course_xp = xp.first.total
     @member_count = Profile.count(
       :all, 
       :include => [:participants], 
@@ -390,6 +396,11 @@ class CourseController < ApplicationController
   def show_course
     @course = Course.find_by_id(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    if !@profile.avatar.nil?
+    @badges = AvatarBadge.select("count(*) as total").where("avatar_id = ? and course_id = ?",@profile.avatar.id,@course.id)
+    end
+    xp = TaskGrade.select("sum(points) as total").where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course.id,@profile.id)
+    @course_xp = xp.first.total
     @peoples = Profile.find(
       :all, 
       :include => [:participants], 
@@ -467,7 +478,7 @@ class CourseController < ApplicationController
       @likes = Like.where("course_id = ?",@course.id)
       #@participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
       @course_grade, oc = CourseGrade.load_grade(@profile.id, @course.id,@profile.school_id)
-        if !@course_grade.nil?
+      if !@course_grade.nil?
         @course_grade.each do |key , val|
           @grade.push(val)
           letter = GradeType.value_to_letter(val, @profile.school_id)
@@ -478,17 +489,20 @@ class CourseController < ApplicationController
       if !@outcomes.nil?
          @points , @course_xp = CourseGrade.get_outcomes(@course.id,@outcomes,@profile.school_id,@profile.id) 
       end
+      if !@profile.avatar.nil?
+        badge_ids = AvatarBadge.find(:all, :select => "badge_id", :conditions =>["avatar_id = ? and course_id = ?",@profile.avatar.id,@course.id]).collect(&:badge_id)
+        @badge = Badge.where("id in (?)",badge_ids)
+      end
       render :partial =>"/course/course_stats"
     end  
   end
   
-   def top_achivers
+  def top_achivers
     if params[:outcome_id] && !params[:course_id].nil?
        @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
        @students = Course.get_top_achievers(@profile.school_id,params[:course_id], params[:outcome_id])
        render :partial =>"/course/top_achivers"
-    end
-    
-   end
+    end    
+  end
   
 end

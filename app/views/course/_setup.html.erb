@@ -63,14 +63,16 @@
     <div class="page_block_left">
       <span class="field_title">Outcomes</span>
       <span class="field_notes">
-        Please consider adding your own outcomes. The locked outcomes are shared and cannot be changed.
+         Description of what the feature is
       </span>
+      </br>
+      <div class="add_outcome_bt "><!--course_setup_button-->
+        <a class="blue_bt19px" onclick="addOutcome();">ADD OUTCOME</a> 
+      </div>
     </div>
   
     <div class="page_block_right">
-      <div class="add_outcome_bt course_setup_button">
-        <a class="blue_bt19px" onclick="addOutcome();">ADD OUTCOME</a> 
-      </div>
+      
       
       <div id="load_outcomes">
         <% if @course %>
@@ -91,15 +93,17 @@
   <div class="page_block">
     <div class="page_block_left">
       <span class="field_title">Grading Categories</span>
-      <span class="field_notes">
-        Please add a new grading category and the percentage of the final grade.
+      <span style = "" class="field_notes">
+        Description of what the feature is
       </span>
+      </br>
+      <div class="add_outcome_bt "><!--course_setup_button-->
+        <a class="blue_bt19px" onclick="addCategory();">ADD CATEGORY</a> 
+      </div>
     </div>
   
     <div class="page_block_right">
-      <div class="add_outcome_bt course_setup_button">
-        <a class="blue_bt19px" onclick="addCategory();">ADD CATEGORY</a> 
-      </div>
+      
       <% if @course %>
         <% @course.categories.each do |c| %>
         <%= render :partial => "/course/category_list", :locals => {:c=>c} %>
@@ -323,13 +327,14 @@
       _counterPeople++;
     } else if(element=="outcome"){
       var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counterOutcome);
-      newNode.html('<div style="margin-top:5px; height:48px; width:500px;" class="outcome_div"><div style="float:left; height:45px;" > <input type="checkbox" id="outcomes_'+_counterOutcome+'" class="dd_select brown_bg" name="outcomes_share[]" /> <input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="dd_select brown_bg medium" placeholder="Enter name" /></div><div style="float:left; margin-left:10px;height:68px;"><textarea class="small dd_input brown_bg" style="width:260px; height:41px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '" placeholder="Enter description" "></textarea></div></div>');
+      newNode.html('<div style="margin-top:5px; height:48px; width:500px;" class="outcome_div"><div style="float:left; height:45px;" > <input type="checkbox" id="outcomes_'+_counterOutcome+'" class="dd_select brown_bg" name="outcomes_share[]" /> <input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="dd_select brown_bg medium" placeholder="Enter name" />  <div><span class="share_with" >SHARE</span><div style="margin-top:-6px"> <span class="share_with"style="margin-left:-27px" >WITH OTHERS</span></div></div> </div><div style="float:left; margin-left:10px;height:68px;margin-left:25px"><textarea class="small dd_input brown_bg" style="width:260px; height:41px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '" placeholder="Enter description" "></textarea></div></div>');
       newNode.appendTo("#add_outcome_container");
       _counterOutcome++;
     } else if(element=="category"){
       var newNode = $(document.createElement('div')).attr("id", 'category_node_div' + _counterCategory);
-      $('#add_category_container div').css("height","30px");
-      newNode.html('<input type="text" name="categories[]" id="categories_' + _counterCategory + '" value="" class="dd_select brown_bg medium" placeholder="Enter name" />&nbsp;&nbsp;&nbsp;<input type="text" id="loaded_category_values_'+_counterCategory+'" name="loaded_category_values[]" value="" class="dd_select brown_bg medium" placeholder="Enter percent" />%');
+      $('#add_category_container div').css("height","35px");
+      $('#add_category_container').css("margin-top","12px");
+      newNode.html('<input type="text" name="categories[]" id="categories_' + _counterCategory + '" value="" class="dd_select brown_bg medium" placeholder="Enter name" />&nbsp;&nbsp;&nbsp;<input type="text" id="loaded_category_values_'+_counterCategory+'" name="loaded_category_values[]" value="" class="percent_width dd_select brown_bg medium" placeholder="percent" />%');
       newNode.appendTo("#add_category_container");
       _counterCategory++;
     }

@@ -152,7 +152,19 @@ class Task < ActiveRecord::Base
       profile.save
       status = complete
     end
-
+    Task.task_grade_points(task_id)
+    
     return status
   end  
+  
+  def self.task_grade_points(task_id)
+    @task = Task.find(task_id)
+    @task_grade = TaskGrade.where("task_id = ? ", task_id)
+    if !@task_grade.nil?
+      @task_grade.each do |t|
+         t.update_attribute('points',@task.points)
+      end
+    end
+  end
+  
 end
