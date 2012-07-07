@@ -374,13 +374,15 @@ class TaskController < ApplicationController
   
   
   def view_task
-     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-     @courses = Course.find(
-      :all, 
-      :include => [:participants], 
-      :conditions => ["participants.profile_type = 'S' AND participants.profile_id = ?", @profile.id]
-    )
-    @tasks = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @courses = Course.find(
+        :all, 
+        :select => "distinct *",
+        :include => [:participants], 
+        :conditions => ["participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?", @profile.id, Course.parent_type_course, Course.profile_type_pending, false],
+        :order => 'name'
+      )
+    @tasks = Task.filter_by(@profile.id, params[:course_id], "current")
     render :partial => "/task/list", :locals=>{:tasks=>@tasks,:course_id=>params[:course_id]}
   end
 

@@ -133,6 +133,7 @@ class GradeBookController < ApplicationController
       task_id = params[:task_id]
       profile_id = params[:profile_id]
       task_grade = params[:task_grade]
+      arr_grade = [];
       #participant = Participant.find(participant_id)
       num = GradeType.is_num(task_grade)
       previous_grade=""
@@ -144,39 +145,43 @@ class GradeBookController < ApplicationController
       # Save the grade
       if !profile_id.nil?      
         # Calculate the GPA
-        sum = 0
-        count = 0
-        average = 0 
         #percent = -1
-        characters.each do |c|
-          percent = -1
-          if !c.blank?
-          num = GradeType.is_num(c)
-            if num == true
-              percent = c.to_f
-            else
-              percent = GradeType.letter_to_value(c, school_id)
-            end    
-            if (!percent.nil? and percent > -1)
-              sum = sum + percent
-              count = count + 1
-            end
-          end 
-        end 
-        if (sum >0 and count >0)
-          average = sum/count
-        else
+        characters.each_with_index do |grades,i|
+          sum = 0
+          count = 0
           average = 0 
-        end
-        @grade = GradeType.value_to_letter(average, school_id)
-        @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, profile_id,task_grade,average)
-        if !@grade_task.blank?
-          previous_grade = GradeType.value_to_letter(@grade_task, school_id)
-        end
-          render :json => {:grade => @grade,:previous_grade=>previous_grade}
+          grades[1].each do |c|
+            percent = -1
+            if !c.blank?
+              num = GradeType.is_num(c)
+              if num == true
+                percent = c.to_f
+              else
+                percent = GradeType.letter_to_value(c, school_id)
+              end    
+              if (!percent.nil? and percent > -1)
+                sum = sum + percent
+                count = count + 1
+              end
+            end 
+          end 
+          if (sum >0 and count >0)
+            average = sum/count
+          else
+            average = 0 
+          end
+          @grade = GradeType.value_to_letter(average, school_id)
+          arr_grade.push(@grade)
+          @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, profile_id[i],task_grade,average)
+          if !@grade_task.blank?
+            previous_grade = GradeType.value_to_letter(@grade_task, school_id)
+          end
+        end  
       end  
-    end
+        render :json => {:grade => arr_grade,:previous_grade=>previous_grade}
+    end  
   end
+
   
   #save outcome points 
   def outcomes_points
@@ -185,13 +190,15 @@ class GradeBookController < ApplicationController
       school_id = params[:school_id]
       course_id = params[:course_id]
       outcome_id = params[:outcome_id]
-      profile_id = params[:profile_id]
+      profile_ids = params[:profile_id]#.split(",")
       task_id = params[:task_id]
       outcome_val = params[:outcome_val]
       #participant = Participant.find(participant_id)
       previous_grade = ""
-      if !profile_id.nil?
-        previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, profile_id,average,task_id,outcome_val)
+      if !profile_ids.nil?
+        #profile_ids.each do |p|
+          previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, profile_ids,average,task_id,outcome_val)
+       # end
         render :json => {:average => average,:previous_grade=>previous_grade}
       end  
     end   

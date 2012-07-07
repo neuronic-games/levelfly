@@ -140,6 +140,14 @@ $(document).ready(function(){
   var alphabet = "" ;
   var sign = "";
   var people = new Array();
+  var arr_rel = new Array();
+  var arr_profile = new Array();
+  var arr_average =  new Array();
+  var arrOfgrades = new Array();
+  var previous_values = new Array();
+  var arr_ids = new Array();
+  var given_val ="";
+  var click_id = "";
 
   //Toggle Tabs
   $(".menu_container").delegate('a', 'click', function(){
@@ -156,35 +164,6 @@ $(document).ready(function(){
    // $("#div_"+idx).fadeIn();
   });
   
-  $(".task_right_wp").delegate("th","click",function(){
-   if(final_value != "" || reset == true)
-   {
-    var id = $(this).attr("id");
-    $("."+id).each(function() {
-      $(this).attr("value",final_value);
-      var idx = $(this).attr("id")
-      var val = $(this).val();
-      var rel = $(this).attr("rel");
-      grades = [];
-      save_grade(val,idx,rel);
-    });
-   } 
-  });
-  
-  $(".task_right_wp").delegate("div","click",function(){
-   if(final_value != "" || reset == true)
-   {
-    var id = $(this).attr("id");
-    $("."+id).each(function() {
-      $(this).attr("value",final_value);
-      var idx = $(this).attr("id")
-      var val = $(this).val();
-      var rel = $(this).attr("rel");
-      grades = [];
-      save_grade(val,idx,rel);
-    });
-   }
-  });
   
   $(".undo").click(function(){
     var first = true; 
@@ -405,18 +384,6 @@ $(document).ready(function(){
     }
   });
   
-  $(".task_right_wp").delegate("input","click",function(){
-    id = $(this).attr("id");
-    document.getElementById(id).focus();
-    document.getElementById(id).select();
-    previous_grade = $(this).val();
-    $(this).removeClass("warning");
-    if(final_value != "" || reset == true){
-      document.getElementById('reset_fields').focus(); 
-      $(this).attr("value",final_value);  
-      $(this).trigger("change");
-    }
-  });
   
   function valid_grade(val,id){  
     var last="";
@@ -465,7 +432,7 @@ $(document).ready(function(){
     return flag;    
   }
 
-  function save_grade(val,id,rel){ 
+  function save_grade(val,id,rel,arrOfProfile){ 
     var valid = false;
     if(id[0]=="g"){
       valid = valid_grade(val.toUpperCase(),id)
@@ -476,44 +443,65 @@ $(document).ready(function(){
     if(valid==true){
       var course_id = $("#course_id").val();
       var school_id = $("#school_id").val();
-      var type = rel.split("_");
+      var type = id[0].split("_");
       showSpinner(true);
       if(type[0]=="p"){
-        var sum = 0;
-        var average = 0;
-        var count = 0;
+        
         var ids= id.split("_");
         var profile_id = ids[1];
         var outcome_id = ids[2];
         var task_id = ids[3];
-        $("input[rel="+rel+"]").each(function(index,item){
-          var points = parseInt(item.value);
-          if (isNaN(points)==false){
-            sum = sum + points
-            count = count + 1
-          }
-        });
-        average = sum/count;
-        if (isNaN(average)==true)
-        average='';
+        var len = rel.length
+        for(i = 0; i<rel.length;i++){
+          var sum = 0;
+          var average = 0;
+          var count = 0;
+          $("input[rel="+rel[i]+"]").each(function(index,item){
+            var points = parseInt(item.value);
+            if (isNaN(points)==false){
+              sum = sum + points
+              count = count + 1
+            }
+          });
+          average = sum/count;
+          if (isNaN(average)==true)
+            arr_average.push('')
+            arr_average.push(average.toFixed(2))
+        }
         $.ajax({
           type :"POST",
           url: "/grade_book/outcomes_points", 
           dataType: "json",
-          data: {school_id:school_id,course_id:course_id,task_id:task_id,outcome_id:outcome_id,profile_id:profile_id,average:average,outcome_val:val},
+          data: {school_id:school_id,course_id:course_id,task_id:task_id,outcome_id:outcome_id,profile_id:arrOfProfile,average:arr_average,outcome_val:val},
           error: function(e){alert("error");},
           success: function(data){
-            $("#"+rel).attr("value",data.average); 
-            $("#previous_grade").attr("value",data.previous_grade);
+            $(rel).each(function(index,item){
+              $("#"+item).attr("value",data.average[index]);            
+            });
+            $(arr_ids).each(function(index,item){
+              $("#"+item).removeClass("warning");
+            });
+            
+            arr_average=[]; 
+            arr_profile=[];
+            arr_rel=[];
+            previous_values=[];
+            arr_ids=[];
+            $("#previous_grade").attr("value",data.previous_grade[0]);
             showSpinner(false);
           }
         });
       }
       else{
-        $("input[rel="+rel+"]").each(function(index,item){
+       for(i = 0; i<rel.length;i++)
+      {
+        $("input[rel="+rel[i]+"]").each(function(index,item){
           grades.push(item.value);
           count =index+1
        });
+       arrOfgrades.push(grades)
+       grades=[];
+      } 
         var ids = id.split("_");
         var task_id = ids[2];
         var task_grade = val;
@@ -523,28 +511,120 @@ $(document).ready(function(){
           type :"POST",
           url: "/grade_book/grade_calculate", 
           dataType: "json",
-          data: {school_id:school_id,characters:grades,course_id:course_id,task_id:task_id,profile_id:profile_id,task_grade:task_grade},
+          data: {school_id:school_id,characters:arrOfgrades,course_id:course_id,task_id:task_id,profile_id:profile_id,task_grade:task_grade},
           error: function(e){alert("error");},
           success: function(data){
-            $("#"+rel).attr("value",data.grade);
+            $(rel).each(function(index,item){
+              $("#"+item).attr("value",data.grade[index]);            
+            })
+            $(arr_ids).each(function(index,item){
+              $("#"+item).removeClass("warning");
+            });
+            //$("#"+rel).attr("value",data.grade);
             $("#previous_grade").attr("value",data.previous_grade);
             grades = [];
+            arrOfgrades=[];
+            arr_profile=[];
+            arr_rel=[];
+            previous_values=[];
+            arr_ids=[];
             showSpinner(false);
           }
         });
       }  
       $(this).css("background-color","");  
     }
+    else{
+      $(arr_ids).each(function(index,item){
+        $("#"+item).addClass("warning");
+        $("#"+item).attr("value",previous_values[index]);
+      });
+      arr_ids=[];
+      arr_average=[]; 
+      arr_profile=[];
+      arr_rel=[];
+      arrOfgrades=[];
+      previous_values=[];
+    }
   }
+  
+  $(".task_right_wp").delegate("th","click",function(){
+   if(final_value != "" || reset == true)
+   {
+    var id = $(this).attr("id");
+    $("."+id).each(function() {
+      previous_values.push($(this).val())
+      $(this).attr("value",final_value);
+      click_id = $(this).attr("id")
+      given_val = $(this).val();
+      var rel = $(this).attr("rel");
+      grades = [];
+      var ids= click_id.split("_");
+      var profile_id = ids[1];
+      arr_profile.push(profile_id)
+      arr_rel.push(rel);
+      arr_ids.push(click_id);
+     
+    });
+    save_grade(given_val,click_id,arr_rel,arr_profile)   
+   } 
+  });
+  
+  $(".task_right_wp").delegate("div","click",function(){
+   if(final_value != "" || reset == true)
+   {
+    var id = $(this).attr("id");
+    $("."+id).each(function() {
+      previous_values.push($(this).val())
+      $(this).attr("value",final_value);
+      click_id = $(this).attr("id")
+      given_val = $(this).val();
+      var rel = $(this).attr("rel");
+      grades = [];
+      var ids= click_id.split("_");
+      var profile_id = ids[1];
+      arr_profile.push(profile_id)
+      arr_rel.push(rel);
+      arr_ids.push(click_id);
+      
+      //save_grade(val,idx,rel);
+    });
+    save_grade(given_val,click_id,arr_rel,arr_profile)     
+   }
+  });
   
   
   $(".task_right_wp").delegate("input","change",function(){
-      var val = $(this).val();
       id = $(this).attr("id");
+      if ($(this).attr("id")!=arr_ids[0])
+      previous_values.push($(this).val())
+      var val = $(this).val();
+     
       rel = $(this).attr("rel");
       grades=[];
       $(this).val(val.toUpperCase());
-      save_grade(val,id,rel)
+      var ids= id.split("_");
+      var profile_id = ids[1];
+      arr_profile.push(profile_id)
+      arr_rel.push(rel);
+      arr_ids.push(id);
+      save_grade(val,id,arr_rel,arr_profile)
+  });
+  
+  
+  $(".task_right_wp").delegate("input","click",function(){
+    previous_values.push($(this).val())
+    id = $(this).attr("id");
+    arr_ids.push(id);
+    document.getElementById(id).focus();
+    document.getElementById(id).select();
+    previous_grade = $(this).val();
+    $(this).removeClass("warning");
+    if(final_value != "" || reset == true){
+      document.getElementById('reset_fields').focus(); 
+      $(this).attr("value",final_value);  
+      $(this).trigger("change");
+    }
   });
   
   $("#setting_icon").click(function(){

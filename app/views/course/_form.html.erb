@@ -331,7 +331,7 @@ $(document).ready(function(){
   });
 
   //Like/Unlike a message or comment
-  $('.message_wrapper').delegate('.like', 'click', function(){
+  $('.right_form_containerr').delegate('.like', 'click', function(){
     showSpinner(true);
     if(this.id){
       action = $(this).attr('rel');

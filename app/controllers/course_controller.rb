@@ -418,8 +418,8 @@ class CourseController < ApplicationController
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", params[:id]]
       )
     @groups = Group.find(:all, :conditions=>["course_id = ?",params[:id]])
-    #@totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
-    @totaltask = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
+    @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
+    #@totaltask = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
     if params[:value] && !params[:value].nil?  
       if (params[:section_type] == "G" && params[:value] == "1")
         render:partial => "/group/group_wall" 
