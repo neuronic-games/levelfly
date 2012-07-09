@@ -1,6 +1,6 @@
+
+<%if  @students && !@students.nil?%>
 <span> <span class="stat_head01 font14">TOP ACHIEVERS</span> <span class="spacebar10px"></span>
-<%if @students%>
-<%if !@students.nil?%>
   <% @students.each do |p|%>
      <%if !p.nil?%>
     <ul class="stat_icons_box2">
@@ -10,6 +10,7 @@
     </ul>
     <%end%>
   <%end%>
+</span>   
 <%end%>
-<%end%>
-</span>  
+
+ 

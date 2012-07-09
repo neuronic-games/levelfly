@@ -1,14 +1,5 @@
 <div class="messages_content load_messages">
   <div class="msg_content_left">
-  
-    <!-- Respond -->
-    <% if @respont_to_course and not @respont_to_course.empty? %>
-    <div id="course_requset_respond">
-      <% @respont_to_course.each do |respond_course| %>
-        <%= render :partial => "/message/respond_to_course", :locals => {:respond_course=>respond_course} %>
-      <% end %>
-    </div>
-    <% end %>
     
     <!-- Invites -->
     <% if @friend_requests and not @friend_requests.empty? %>
@@ -21,9 +12,18 @@
     <% end %>
       
     <!-- Message -->
+     <!-- Respond -->
     <div id="message_wrapper" class="message_wrapper">
-      <% if @messages %>
+     
       <h2>MESSAGES</h2>
+       <% if @respont_to_course and not @respont_to_course.empty? %>
+        <div id="course_requset_respond">
+          <% @respont_to_course.each do |respond_course| %>
+            <%= render :partial => "/message/respond_to_course", :locals => {:respond_course=>respond_course} %>
+          <% end %>
+        </div>
+      <% end %>
+       <% if @messages %>
         <% @messages.each do |message| %>
           <%= render :partial => "/message/messages", :locals => {:message=>message} %>
         <% end %>

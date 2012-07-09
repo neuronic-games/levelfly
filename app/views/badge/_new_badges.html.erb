@@ -1,0 +1,37 @@
+<div id="sidebar_right">
+  <div class="course_side_buttons">
+    <a href="javascript:void(0)" name="btn_save" id="btn_save" class="big_blue_btn">SAVE</a>
+    <a href="javascript:void(0)" name="btn_dont_save" id="btn_dont_save" class="big_blue_btn">DON'T SAVE</a>    
+    <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=@profile.id if @profile%>" />
+  </div><!-- crud_level -->
+</div>
+<div>
+  <input name="1st_prize" src="images/badges/1st_prize.png" type="image" class="grading_Btn2 reset_field" id="badge_image" />  
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+  
+  $("#badge_image").click(function(){ 
+    var image = "public/images/badges/"+$(this).attr("name")+".png";
+    console.log(image)
+    $.ajax({
+        type: "POST",
+        url: "/badge/save",
+        data:{image:image},
+        success: function(data) {
+          showSpinner(false);
+        },
+        error: function()
+        {
+          alert("An Error has occured");
+          showSpinner(false);
+        },
+     });
+    
+    
+  });
+  $("#btn_save").click(function(){ 
+    console.log("click")
+  });
+});
+</script>

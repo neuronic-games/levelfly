@@ -1,0 +1,37 @@
+<div id="sidebar_right">
+  <div class="course_side_buttons">
+    <a href="javascript:void(0)" name="btn_give" id="btn_give" class="big_blue_btn">GIVE</a>
+    <a href="javascript:void(0)" name="btn_dont_give" id="btn_dont_give" class="big_blue_btn">DON'T GIVE</a>
+    <a href="javascript:void(0)" name="btn_create_new" id="btn_create_new" class="big_blue_btn">CREATE NEW</a>
+    <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=@profile.id if @profile%>" />
+  </div><!-- crud_level -->
+</div>
+<%if @badges && !@badges.nil?%>
+  <% @badges.each do |b|%>
+    <%#=b.badge_image.image_file_name%>
+     <input name="1st_prize" src="images/badges/1st_prize.png" type="image" class="grading_Btn2 reset_field" id="badge_image" />  
+  <% end %>
+<%end%>  
+  
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $("#btn_create_new").click(function(){ 
+   $.ajax({
+        type: "POST",
+        url: "/badge/new_badges",
+        success: function(data) {
+          $("#container").html(data);  
+          $("#page_title").html("NEW BADGES")
+          showSpinner(false);
+        },
+        error: function()
+        {
+          alert("An Error has occured");
+          showSpinner(false);
+        },
+     });
+  });     
+});
+
+</script>

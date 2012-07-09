@@ -1,4 +1,4 @@
-<div class="level_01"><%= '%02d' % profile.level %></div>
+<div class="level_01"><%= "%02d" % profile.level %></div>
 <div class="top_img"></div>
 <div class="shadow_repeat">
   <div>
@@ -33,8 +33,11 @@
       
       <% else %>
         <!-- Actions for other -->
-        <a href="javascript:void(0)" rel="switch" id ="message_root" class="blue_bt19px">Message</a> 
-      
+        <% if @participant && !@participant.nil?%>
+          <a href="javascript:void(0)" data ="<%=@participant.id%>"rel="<%=@participant.object_id%>" rev="<%=profile.id%>" id ="give_badges" class="blue_bt19px give_badges">Give Badge</a> 
+        <% end %>
+          <a href="javascript:void(0)" rel="switch" id ="message_root" class="blue_bt19px">Message</a> 
+
         <% if is_friend(user_session[:profile_id], profile.id) %>
           <a href="javascript:void(0)" id="unfriend" class="blue_bt19px">Un-Friend</a>
         <% else %>
@@ -131,6 +134,28 @@ $('#unfriend').click(function(){
     });
   }
 });
+
+$('#give_badges').click(function(){    
+     course_id = $(this).attr("rel");
+     profile_id = $(this).attr("rev");
+     console.log(course_id)
+     $.ajax({
+          type: "POST",
+          url: "/badge/give_badges",
+          data:{course_id:course_id,profile_id:profile_id},
+          success: function(data) {
+             $('#avatar_card').html("");
+            $("#container").html(data);
+            $("#page_title").html("BADGES")
+            showSpinner(false);
+          },
+          error: function()
+          {
+            alert("An Error has occured");
+            showSpinner(false);
+          },
+       });  
+  }); 
 
 // Hide the card if clicked outside
 $(document).click(function (e)

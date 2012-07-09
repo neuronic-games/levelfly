@@ -251,12 +251,13 @@
     
     $('#container').delegate('.profile', 'click', function(){
       var p = $(this);
+      var course_id = p.attr("rel");
       var position = p.position();
       showSpinner(true);
       $.ajax({  
         type: "POST",  
         url: "/message/add_friend_card",
-        data: {profile_id:p.attr("profile_id")},
+        data: {profile_id:p.attr("profile_id"),course_id:course_id},
         success: function(data) {
           if (data) {
             $('#avatar_card').html(data);
@@ -269,7 +270,7 @@
       });
       return false;
     });
-
+  
   }); //document.ready
   
   function loadPage(dest, title) {

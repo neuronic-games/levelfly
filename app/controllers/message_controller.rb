@@ -87,6 +87,13 @@ class MessageController < ApplicationController
   def add_friend_card
     if params[:profile_id] && !params[:profile_id].nil?
       @profile = Profile.find(params[:profile_id])
+      if params[:course_id] && !params[:course_id].nil?
+        @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+        @owner = Participant.find(:first,:conditions=>["object_id = ? and profile_id = ? and profile_type= 'M' and object_type = 'Course'",params[:course_id],@current_user.id])
+        if !@owner.nil?
+          @participant = Participant.find(:first, :conditions => ["object_id = ? and profile_id = ? and object_type = 'Course' and profile_type='S'",params[:course_id],@profile.id])
+        end  
+      end
       render :partial => "add_friend_card", :locals => {:profile => @profile}
     end
   end

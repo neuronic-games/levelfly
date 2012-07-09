@@ -504,5 +504,5 @@ class CourseController < ApplicationController
        render :partial =>"/course/top_achivers"
     end    
   end
-  
+
 end
