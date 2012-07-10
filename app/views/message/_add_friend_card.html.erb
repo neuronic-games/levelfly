@@ -138,7 +138,6 @@ $('#unfriend').click(function(){
 $('#give_badges').click(function(){    
      course_id = $(this).attr("rel");
      profile_id = $(this).attr("rev");
-     console.log(course_id)
      $.ajax({
           type: "POST",
           url: "/badge/give_badges",
@@ -147,6 +146,7 @@ $('#give_badges').click(function(){
              $('#avatar_card').html("");
             $("#container").html(data);
             $("#page_title").html("BADGES")
+            $("#alert").html("Loading /Badges/")
             showSpinner(false);
           },
           error: function()

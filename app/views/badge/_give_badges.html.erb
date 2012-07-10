@@ -1,25 +1,84 @@
-<div id="sidebar_right">
-  <div class="course_side_buttons">
-    <a href="javascript:void(0)" name="btn_give" id="btn_give" class="big_blue_btn">GIVE</a>
-    <a href="javascript:void(0)" name="btn_dont_give" id="btn_dont_give" class="big_blue_btn">DON'T GIVE</a>
-    <a href="javascript:void(0)" name="btn_create_new" id="btn_create_new" class="big_blue_btn">CREATE NEW</a>
-    <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=@profile.id if @profile%>" />
-  </div><!-- crud_level -->
-</div>
-<%if @badges && !@badges.nil?%>
-  <% @badges.each do |b|%>
-    <%#=b.badge_image.image_file_name%>
-     <input name="1st_prize" src="images/badges/1st_prize.png" type="image" class="grading_Btn2 reset_field" id="badge_image" />  
-  <% end %>
-<%end%>  
-  
+<div class="badge_content">
+  <div class="badge_board_left">
+    <div class="badge_board_right">
+      <div class="badge_board_center">
+        <div class="badge_pad_top"> </div>
+          <div id = "badge_content" class="badge_contenttt">
+            <div id="sidebar_right">
+              <div class="course_side_buttons">
+                <a href="javascript:void(0)" name="btn_give" id="btn_give_badge" class="big_blue_btn">GIVE</a>
+                <a href="javascript:void(0)" name="btn_dont_give" id="btn_dont_give" class="big_blue_btn">DON'T GIVE</a>
+                <a href="javascript:void(0)" name="btn_create_new" id="btn_create_new" class="big_blue_btn">CREATE NEW</a>
+                <input type="hidden" name="hdn_field_profile_id" id="hdn_field_profile_id" value="<%=profile_id if profile_id%>" />
+                <input type="hidden" name="hdn_field_course_id" id="hdn_field_course_id" value="<%=course_id if course_id%>" />
+              </div><!-- crud_level -->
+            </div>
 
+            <div class="badges_box1">
+             <p class="badges_heading">Last Used</p>
+             <div>
+              <%if @last_used && !@last_used.nil?%>
+              <% @last_used.each do |b|%>
+              <div class="badgeselctdiv" id="d_<%=b.id%>"> 
+                <div class="supernote-hover-demo1">
+                  <div class="badge_imgdiv given_badge" id="<%=b.id%>" ><img src="images/badges/<%=b.badge_image.image_file_name%>"/> </div> 
+                    <div class="badge_cont"><%=b.name%></div> 
+                  <div class="clear"></div>
+                </div>
+                 <div class="like_cmt notedefault hide" id="supernote-note-demo1">
+                 <a class="blue_bt19px" id = "<%=b.id%>" href="javascript:void(0)">DELETE</a>
+                 </div>
+              </div>
+              <% end %>
+            <% end %> 
+           </div>     
+
+            <!------------------------badge div end------------------->
+             
+            <div>
+                <div class="border1"></div>
+                <p class="badges_heading">All Badges</p>
+                 
+               <!------------------------badge div start------------------->
+              <%if @badges && !@badges.nil?%>
+                <% @badges.each do |b|%>
+                <div class="badgeselctdiv" id="d_<%=b.id%>"> 
+                  <div class="supernote-hover-demo1">
+                    <div class="badge_imgdiv given_badge" id="<%=b.id%>" ><img src="images/badges/<%=b.badge_image.image_file_name%>"/> </div> 
+                      <div class="badge_cont"><%=b.name%></div> 
+                    <div class="clear"></div>
+                  </div>
+                   <div class="like_cmt notedefault hide" id="supernote-note-demo1">
+                   <a class="blue_bt19px" id = "<%=b.id%>" href="javascript:void(0)">DELETE</a>
+                   </div>
+                </div>
+                <% end %>
+              <% end %>   
+               <!------------------------badge div end-------------------> 
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="end_of_page"></div>
+
+      </div>
+    </div>
+  </div>
+</div>
 <script type="text/javascript">
 $(document).ready(function() {
+  var id ="";
+  var previous_click = "";
+  
   $("#btn_create_new").click(function(){ 
+    var student_id =$("#hdn_field_profile_id").val();
+    var course_id =$("#hdn_field_course_id").val();
    $.ajax({
         type: "POST",
         url: "/badge/new_badges",
+        data:{profile_id:student_id,course_id:course_id},
         success: function(data) {
           $("#container").html(data);  
           $("#page_title").html("NEW BADGES")
@@ -31,7 +90,81 @@ $(document).ready(function() {
           showSpinner(false);
         },
      });
-  });     
+  });   
+  
+  /*$(".given_badge").click(function(){
+    var badge_id = $(this).attr("id");
+    
+  });   */
+  
+  $(".given_badge").click(function(){ 
+    $("#"+previous_click).removeClass("selected_badge");
+    id = $(this).attr("id");
+    $(this).addClass("selected_badge");
+    previous_click = id;    
+  });
+    
+  $("#btn_give_badge").click(function(){ 
+    if (id==""){
+    }
+    else{
+      var badge_id = id;
+      var student_id =$("#hdn_field_profile_id").val();
+      var course_id =$("#hdn_field_course_id").val();
+      $.ajax({
+        type: "POST",
+        url: "/badge/give_badge_to_student",
+        dataType: 'json',
+        data:{badge_id:badge_id,profile_id:student_id,course_id:course_id},
+        success: function(data) {
+          //$("#container").html(data);  
+          if(data.status==false)
+          {
+            alert("This badge already given to this student for this course")
+          }
+          else
+          $("#"+id).removeClass("selected_badge");
+          showSpinner(false);
+        },
+        error: function()
+        {
+          alert("An Error has occured");
+          showSpinner(false);
+        },
+      });
+      }  
+    });
+    $("#btn_dont_give").click(function(){ 
+      $("#"+previous_click).removeClass("selected_badge");
+      $("#"+id).removeClass("selected_badge");
+    });
+    
+  $(".badgeselctdiv").hover(
+    function () {
+      $(".notedefault", this).show();
+    }, 
+    function () {
+      $(".notedefault", this).hide();
+    }
+  );  
+  $(".blue_bt19px").click(function(){
+    var badge_id = $(this).attr("id");
+    $.ajax({
+        type: "POST",
+        url: "/badge/delete_badge",
+        data:{badge_id:badge_id},
+        success: function(data) {
+          $("#d_"+badge_id).remove();
+          showSpinner(false);
+        },
+        error: function()
+        {
+          alert("An Error has occured");
+          showSpinner(false);
+        },
+      });
+  });
+
 });
 
 </script>

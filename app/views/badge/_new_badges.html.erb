@@ -1,37 +1,89 @@
-<div id="sidebar_right">
-  <div class="course_side_buttons">
-    <a href="javascript:void(0)" name="btn_save" id="btn_save" class="big_blue_btn">SAVE</a>
-    <a href="javascript:void(0)" name="btn_dont_save" id="btn_dont_save" class="big_blue_btn">DON'T SAVE</a>    
-    <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=@profile.id if @profile%>" />
-  </div><!-- crud_level -->
-</div>
-<div>
-  <input name="1st_prize" src="images/badges/1st_prize.png" type="image" class="grading_Btn2 reset_field" id="badge_image" />  
+<div class="badge_content">
+  <div class="badge_board_left">
+    <div class="badge_board_right">
+      <div class="badge_board_center">
+        <div class="badge_pad_top"> </div>
+        <div id = "badge_content" class="badge_contentt">
+        <div id="sidebar_right">
+          <div class="course_side_buttons">
+            <a href="javascript:void(0)" name="btn_save" id="btn_save" class="big_blue_btn">SAVE</a>
+            <a href="javascript:void(0)" name="btn_dont_save" id="btn_dont_save" class="big_blue_btn">DON'T SAVE</a>    
+            <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=@profile.id if @profile%>" />
+            <input type="hidden" name="hdn_field_profile_id" id="hdn_field_profile_id" value="<%=profile_id if profile_id%>" />
+            <input type="hidden" name="hdn_field_course_id" id="hdn_field_course_id" value="<%=course_id if course_id%>" />
+          </div><!-- crud_level -->
+        </div>
+        <div class="badges_box1" style="width:550px">
+
+          <div class="badgetitlediv"><div class="badge_title">Badge Name</div>
+            <div>
+              <input name="new_badge_name" type="text" id="new_badge" value="" class="dd_input_new_badge"/>
+            </div>
+          </div>
+
+        <div class="border2"></div>
+          <div class="choose_badge">Choose an Image for badge</div>
+
+          <div style ="width:550px">
+          
+            <%if @badge_image && !@badge_image.nil? %>
+              <% @badge_image.each do|bm|%>
+                 <div style ="float:left"><input id="<%=bm.id%>" src="images/badges/<%=bm.image_file_name%>" type="image" class="grading_Btn2 badge_image" /></div>  
+              <%end%>  
+            <%end%>  
+
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
+  var id ="";
+  var previous_click = "";
+  var all_imaegs = new Array();
+  $(".badge_image").click(function(){ 
+    $("#"+previous_click).removeClass("selected_badge");
+    id = $(this).attr("id");
+    $(this).addClass("selected_badge");
+    previous_click = id;    
+  });
   
-  $("#badge_image").click(function(){ 
-    var image = "public/images/badges/"+$(this).attr("name")+".png";
-    console.log(image)
-    $.ajax({
-        type: "POST",
-        url: "/badge/save",
-        data:{image:image},
-        success: function(data) {
-          showSpinner(false);
-        },
-        error: function()
-        {
-          alert("An Error has occured");
-          showSpinner(false);
-        },
-     });
-    
-    
-  });
+  
   $("#btn_save").click(function(){ 
-    console.log("click")
+      var badge_image_id = id;
+      var badge_name = $("#new_badge").val();
+      if (id==""){
+        alert("select any image");
+      }
+      else if($("#new_badge").val()==""){
+        alert("Enter new badge name")
+      }
+      else
+      {
+        var student_id =$("#hdn_field_profile_id").val();
+        var course_id =$("#hdn_field_course_id").val();
+        $.ajax({
+          type: "POST",
+          url: "/badge/save",
+          data:{badge_image_id:badge_image_id,badge_name:badge_name,profile_id:student_id,course_id:course_id},
+          success: function(data) {
+             $("#container").html(data);  
+             $("#new_badge").attr("value","");
+             $("#"+id).removeClass("selected_badge")
+            showSpinner(false);
+          },
+          error: function()
+          {
+            alert("An Error has occured");
+            showSpinner(false);
+          },
+       });
+     }
+  
   });
+  
 });
 </script>

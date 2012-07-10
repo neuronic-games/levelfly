@@ -22,7 +22,7 @@ class MessageController < ApplicationController
       
       @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite') AND parent_id = ? AND (archived is NULL or archived = ?)", @profile.id, false])
       
-      @respont_to_course = Message.find(:all,:conditions=>["target_type = 'Course' AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived =?", @profile.id,false])
+      @respont_to_course = Message.find(:all,:conditions=>["target_type = 'Course' AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived =?", @profile.id,false], :order => 'created_at DESC')
     end
     @friend = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", @profile.id])
 

@@ -3553,3 +3553,68 @@ div .frm_input2 {
 	width:18%;
 	text-align:center;
 }
+
+.dd_input_new_badge {
+  width:50%;
+  height:20px;
+  background:#ffffff;
+  font-family:Arial, Helvetica, sans-serif;
+  /*border:none;*/
+  color:#334274;
+  font-size:12px;
+  font-weight:bold;
+  margin-top :5px;
+}
+
+.badge_title{
+  color:#8ea900;
+  font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
+  font-size: 18px;
+ 
+}
+.badgetitlediv{ margin: 0px 0px 0px 16px;}
+
+.choose_badge{
+  color:#FFFFFF;
+  font-family: Arial;
+  font-size: 15px;
+  margin: 10px 20px 20px 16px;
+}
+
+.badges_box1{ width:654px;margin:60px 0px 0px 120px;}
+.badges_heading{font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;font-size: 15px; color:#8ea900;margin:30px 0px 0px 0px;}
+.badgeselctdiv{ width:290px; float:left; margin:10px 20px 0px 0px; padding:0px 8px 0px 3px;height: 65px;}
+.badge_imgdiv{ float:left;}
+.badge_cont{ float:left; color:#a8afb3; font-size:12px; margin:0px 0px 0px 5px; padding-top:27px; vertical-align:middle;}
+.notedefault{position: relative; float:right; margin-top:-45px; display:block;}
+.badgeselctdiv:hover{background-color:#4b5f72;-moz-border-radius: 4px;-webkit-border-radius:4px;-khtml-border-radius: 4px;border-radius: 4px;background:url(../images/trans_gray.png) repeat center;}
+.border1{ height:1px;background-color:#666666; margin-top:160px; position:relative}
+.border2{ height:1px;background-color:#666666; margin:20px 0px 20px 0px;}
+.selected_badge{background-color:#4b5f72;-moz-border-radius: 4px;-webkit-border-radius:4px;-khtml-border-radius: 4px;border-radius: 4px;background:url(../images/trans_gray.png) repeat center;}}
+.badge_content {
+	z-index:1000;
+	height:100%;
+	padding-right:120px;/*margin: -62px 0 0;*/
+}
+.badge_board_left {
+	padding-left:57px;
+	height:100%;
+}
+.badge_board_right {
+	padding-right:57px;
+	height:100%;
+}
+.badge_board_center {
+	/*height:732px;*/
+  height:100%;
+}
+.badge_pad_top {
+	width:100%;
+	height:60px;
+	overflow:hidden;
+	position:relative;
+	padding:0px 0 0 0;
+}
+.badge_pad {
+	width:100%;
+}

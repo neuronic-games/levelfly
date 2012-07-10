@@ -120,8 +120,8 @@ class CourseController < ApplicationController
     @course = Course.find_by_id(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @wall = Wall.find(:first,:conditions=>["parent_id = ? AND parent_type='Course'", @course.id])
-    if !@profile.avatar.nil?
-    @badges = AvatarBadge.select("count(*) as total").where("avatar_id = ? and course_id = ?",@profile.avatar.id,@course.id)
+    if !@profile.nil?
+    @badges = AvatarBadge.select("count(*) as total").where("profile_id = ? and course_id = ?",@profile.id,@course.id)
     end
     xp = TaskGrade.select("sum(points) as total").where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course.id,@profile.id)
     @course_xp = xp.first.total
@@ -396,8 +396,8 @@ class CourseController < ApplicationController
   def show_course
     @course = Course.find_by_id(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    if !@profile.avatar.nil?
-    @badges = AvatarBadge.select("count(*) as total").where("avatar_id = ? and course_id = ?",@profile.avatar.id,@course.id)
+    if !@profile.nil?
+    @badges = AvatarBadge.select("count(*) as total").where("profile_id = ? and course_id = ?",@profile.id,@course.id)
     end
     xp = TaskGrade.select("sum(points) as total").where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course.id,@profile.id)
     @course_xp = xp.first.total
@@ -489,8 +489,8 @@ class CourseController < ApplicationController
       if !@outcomes.nil?
          @points , @course_xp = CourseGrade.get_outcomes(@course.id,@outcomes,@profile.school_id,@profile.id) 
       end
-      if !@profile.avatar.nil?
-        badge_ids = AvatarBadge.find(:all, :select => "badge_id", :conditions =>["avatar_id = ? and course_id = ?",@profile.avatar.id,@course.id]).collect(&:badge_id)
+      if !@profile.nil?
+        badge_ids = AvatarBadge.find(:all, :select => "badge_id", :conditions =>["profile_id = ? and course_id = ?",@profile.id,@course.id]).collect(&:badge_id)
         @badge = Badge.where("id in (?)",badge_ids)
       end
       render :partial =>"/course/course_stats"
