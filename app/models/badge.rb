@@ -3,9 +3,7 @@ belongs_to :badge_image
 
   def self.load_all_badges(profile)
     @badges = Badge.where("school_id = ? and (creator_profile_id = ? or creator_profile_id IS NULL)",profile.school_id,profile.id)
-    @last_used = Badge.select("badges.id, badges.name, badges.badge_image_id")
-    .joins("inner join avatar_badges on badge_id = badges.id")
-    .where("avatar_badges.giver_profile_id = ?",profile.id).order("avatar_badges.created_at desc").limit("4")
+    @last_used = Badge.select("badges.id, badges.name, badges.badge_image_id").joins("inner join avatar_badges on badge_id = badges.id").where("avatar_badges.giver_profile_id = ?",profile.id).order("avatar_badges.created_at desc").limit("4")
     return @badges,@last_used
   end
 
