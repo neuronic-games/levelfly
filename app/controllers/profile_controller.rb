@@ -139,11 +139,13 @@ class ProfileController < ApplicationController
   def user_profile
     if params[:profile_id].blank?
       @profile = Profile.find(user_session[:profile_id])
+       badge_ids = AvatarBadge.find(:all, :select => "badge_id", :conditions =>["profile_id = ? ",@profile.id]).collect(&:badge_id)
     else
       @profile = Profile.find(params[:profile_id])
+       badge_ids = AvatarBadge.find(:all, :select => "badge_id", :conditions =>["profile_id = ? ",@profile.id]).collect(&:badge_id)
     end
     @friends = @profile.user.friends
-
+    @badge = Badge.where("id in (?)",badge_ids).order("created_at desc")
     render :partial => "/profile/user_profile", :locals => {:profile => @profile}
   end
 

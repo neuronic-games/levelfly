@@ -57,11 +57,24 @@ before_filter :authenticate_user!
     end
   end
   
+  def warning_box
+    if params[:badge_id] && !params[:badge_id].nil?
+      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      @count_students = AvatarBadge.select("count(*) as total").where("badge_id = ? and giver_profile_id = ?",params[:badge_id],@profile.id)
+      render :partial =>"/badge/warning_box"
+    end
+  end
+  
   def delete_badge
     if params[:badge_id] && !params[:badge_id].nil?
+      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
       @badge = Badge.find(params[:badge_id]) 
       if @badge
-        @badge.delete
+        @badge_people = AvatarBadge.find(:all, :select=>"id",:conditions=>["giver_profile_id = ? and badge_id = ?",@profile.id,@badge.id]).collect(&:id)
+        if !@badge_people.nil?
+          puts"#{@badge_people.count}"
+          AvatarBadge.delete_all(["id in (?)", @badge_people])
+        end
       end
     end
     render :text=> "DELETED"

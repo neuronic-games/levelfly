@@ -36,20 +36,19 @@
         <%if @badge && !@badge.nil?%>
           <% @badge.each do |b|%>  
           <li>
-            <div class="SI_icon"><img src="images/phoney.png" /></div>
-            <span><%=b.name%></span></li>
+            <div class="SI_icon"><img src="images/badges/<%=b.badge_image.image_file_name%>"class="icon_style_badge"/></div>
+            <span class="text_style_badge"><%=b.name%></span></li>
           <%end%>
         <%end%>  
           <li>
-          <div class="SI_icon"></div>
+          <div class="SI_icon" style="width:52px;"></div>
             <span>&nbsp;</span></li>
           <li>
-            <div class="SI_icon"></div>
+            <div class="SI_icon" style="width:52px;" ></div>
             <span>&nbsp;</span></li>
         </ul>
         <div class="clear"></div>
       </div>
-      <div class="spacebar10px"></div>
       <!--03 line box-->
       <div class="stat_head01">Outcomes</div>
       <div class="spacebar10px"></div>

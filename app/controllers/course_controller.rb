@@ -300,6 +300,13 @@ class CourseController < ApplicationController
       participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ? ", params[:course_id], params[:profile_id]]) 
       if participant
         participant.delete
+        @wall_id = Wall.find(:first, :conditions=>["parent_id = ? and parent_type = 'C'",params[:course_id]])
+        if !@wall_id.nil?
+          @feed = Feed.find(:first, :conditions=>["profile_id = ? and wall_id = ? ",params[:profile_id],@wall_id.id])
+          if !@feed.nil?
+            @feed.delete
+          end
+        end
         status = true
       end
     end
@@ -491,7 +498,7 @@ class CourseController < ApplicationController
       end
       if !@profile.nil?
         badge_ids = AvatarBadge.find(:all, :select => "badge_id", :conditions =>["profile_id = ? and course_id = ?",@profile.id,@course.id]).collect(&:badge_id)
-        @badge = Badge.where("id in (?)",badge_ids)
+        @badge = Badge.where("id in (?)",badge_ids).order("created_at desc")
       end
       render :partial =>"/course/course_stats"
     end  

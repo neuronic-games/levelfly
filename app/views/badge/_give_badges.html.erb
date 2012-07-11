@@ -19,9 +19,9 @@
              <div>
               <%if @last_used && !@last_used.nil?%>
               <% @last_used.each do |b|%>
-              <div class="badgeselctdiv" id="d_<%=b.id%>"> 
+              <div class="badgeselctdiv" id="last_used_<%=b.id%>"> 
                 <div class="supernote-hover-demo1">
-                  <div class="badge_imgdiv given_badge" id="<%=b.id%>" ><img src="images/badges/<%=b.badge_image.image_file_name%>"/> </div> 
+                  <div class="badge_imgdiv given_badge" id="l_<%=b.id%>" ><img src="images/badges/<%=b.badge_image.image_file_name%>"/> </div> 
                     <div class="badge_cont"><%=b.name%></div> 
                   <div class="clear"></div>
                 </div>
@@ -31,20 +31,22 @@
               </div>
               <% end %>
             <% end %> 
+             <div class="clear"></div>
+             <div class="border1"></div>
            </div>     
 
             <!------------------------badge div end------------------->
              
             <div>
-                <div class="border1"></div>
+               
                 <p class="badges_heading">All Badges</p>
                  
                <!------------------------badge div start------------------->
               <%if @badges && !@badges.nil?%>
                 <% @badges.each do |b|%>
-                <div class="badgeselctdiv" id="d_<%=b.id%>"> 
+                <div class="badgeselctdiv" id="all_<%=b.id%>"> 
                   <div class="supernote-hover-demo1">
-                    <div class="badge_imgdiv given_badge" id="<%=b.id%>" ><img src="images/badges/<%=b.badge_image.image_file_name%>"/> </div> 
+                    <div class="badge_imgdiv given_badge" id="a_<%=b.id%>" ><img src="images/badges/<%=b.badge_image.image_file_name%>"/> </div> 
                       <div class="badge_cont"><%=b.name%></div> 
                     <div class="clear"></div>
                   </div>
@@ -55,11 +57,14 @@
                 <% end %>
               <% end %>   
                <!------------------------badge div end-------------------> 
+               <div id="warning_box" class="warning_box hide" >
+                 <%= render :partial=>"/badge/warning_box"%>
+               </div>
                 <div class="clear"></div>
               </div>
             </div>
           </div>
-
+       
 
           <div class="end_of_page"></div>
 
@@ -69,9 +74,9 @@
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
-  var id ="";
+  var id = "";
   var previous_click = "";
-  
+  var delete_badge_id = "";
   $("#btn_create_new").click(function(){ 
     var student_id =$("#hdn_field_profile_id").val();
     var course_id =$("#hdn_field_course_id").val();
@@ -101,14 +106,17 @@ $(document).ready(function() {
     $("#"+previous_click).removeClass("selected_badge");
     id = $(this).attr("id");
     $(this).addClass("selected_badge");
-    previous_click = id;    
+    console.log(id+"=========="+previous_click)    
+    previous_click = id;  
+
   });
     
   $("#btn_give_badge").click(function(){ 
     if (id==""){
     }
     else{
-      var badge_id = id;
+      var ids = id.split("_");
+      var badge_id = ids[1];  
       var student_id =$("#hdn_field_profile_id").val();
       var course_id =$("#hdn_field_course_id").val();
       $.ajax({
@@ -148,14 +156,16 @@ $(document).ready(function() {
     }
   );  
   $(".blue_bt19px").click(function(){
-    var badge_id = $(this).attr("id");
-    $.ajax({
+    delete_badge_id = $(this).attr("id");
+    console.log($(this).attr("id"))
+      $.ajax({
         type: "POST",
-        url: "/badge/delete_badge",
-        data:{badge_id:badge_id},
-        success: function(data) {
-          $("#d_"+badge_id).remove();
+        url: "/badge/warning_box",
+        data:{badge_id:delete_badge_id},
+        success: function(resp) {
           showSpinner(false);
+          $("#warning_box").html(resp)
+          $("#warning_box").show();
         },
         error: function()
         {
@@ -164,7 +174,34 @@ $(document).ready(function() {
         },
       });
   });
-
+  
+  $(".warning_box").delegate("a","click",function(){
+    if($(this).attr("id")=="delete_btn"){
+      var badge_id = delete_badge_id;
+      var course_id =$("#hdn_field_course_id").val();
+      $.ajax({
+          type: "POST",
+          url: "/badge/delete_badge",
+          data:{badge_id:badge_id,course_id:course_id},
+          success: function(data) {
+            $("#warning_box").hide();
+            $("#last_used_"+badge_id).remove();
+            $("#all_"+badge_id).remove();
+            delete_badge_id="";
+            showSpinner(false);
+          },
+          error: function()
+          {
+            alert("An Error has occured");
+            showSpinner(false);
+          },
+        });
+    }
+    else if($(this).attr("id")=="dont_delete_btn"){
+       $("#warning_box").hide();
+    }
+  });
+  
 });
 
 </script>

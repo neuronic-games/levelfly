@@ -238,6 +238,8 @@ Oncapus::Application.routes.draw do
   
   post "badge/delete_badge"
   
+  post "badge/warning_box"
+  
   match 'task' => 'task#index'
   
   match 'grade_book' => 'grade_book#index'

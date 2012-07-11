@@ -6,7 +6,6 @@ class MessageController < ApplicationController
     user_session[:last_check_time] = DateTime.now
     @profile = Profile.find(user_session[:profile_id])
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?", @profile.id]).collect(&:wall_id)
-
     if params[:search_text]
       search_text =  "%#{params[:search_text]}%"
       @comment_ids = Message.find(:all,
@@ -40,6 +39,7 @@ class MessageController < ApplicationController
   
   def save
     if params[:parent_id] && !params[:parent_id].nil?
+      wall_id = Wall.get_wall_id(params[:parent_id], params[:parent_type]) #params[:wall_id]
       @message = Message.new
       @message.profile_id = user_session[:profile_id]
       @message.parent_id = params[:parent_id] #params[:target_id]
@@ -48,7 +48,7 @@ class MessageController < ApplicationController
       @message.target_id = params[:parent_id]
       @message.target_type = params[:parent_type]
       @message.message_type = params[:message_type] if params[:message_type]
-      @message.wall_id = Wall.get_wall_id(params[:parent_id], params[:parent_type]) #params[:wall_id]
+      @message.wall_id = wall_id
       @message.post_date = DateTime.now
       
       if @message.save
@@ -60,6 +60,10 @@ class MessageController < ApplicationController
             message = (params[:message_type]=="Friend") ? "Friend request sent" : "Message sent"
             render :text => {"status"=>"save", "message"=>message}.to_json
           else
+           @feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",user_session[:profile_id],wall_id])
+            if @feed.nil?
+              Feed.create(:profile_id => user_session[:profile_id],:wall_id =>wall_id)
+            end
             render :partial => "messages", :locals => {:message => @message}
         end
       end
@@ -123,6 +127,11 @@ class MessageController < ApplicationController
          end
          @message.archived = true
          @message.save
+          wall_id = Wall.get_wall_id(@message.target_id, "C")
+              Feed.create(
+                :profile_id => @message.parent_id,
+                :wall_id =>wall_id
+              )
         end
       end
     end      

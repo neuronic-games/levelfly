@@ -13,7 +13,7 @@
         <div class="like_cmt">
           <span class="fav_icon"><img src="/images//fav.png" align="absbottom" /><span id="count_<%=message.id%>"><%=message.like%></span> </span>
           <span id="link_<%=message.id%>">
-            <a href="javascript:void(0)" id="<%=message.id%>" rel="<%=user_like(message.profile_id, message.id) ? "unlike" : "like" %>" rev = "<%=message.parent_id%>" class="blue_bt19px like">
+            <a href="javascript:void(0)" id="<%=message.id%>" rel="<%=user_like(user_session[:profile_id], message.id) ? "unlike" : "like" %>" rev = "<%=message.parent_id%>" class="blue_bt19px like">
               <%=user_like(user_session[:profile_id], message.id) ? "UNLIKE" : "LIKE" %>
             </a>
           </span>

@@ -3445,14 +3445,15 @@ div .frm_input2 {
 	float:left;
 	width:14%;
 	text-align:center;
+  height:100px;
 }
 .stat_icons_box li .SI_icon {
 	background:url(../images/round_bg.png) no-repeat;
-	width:52px;
+	width:46px;
 	height:52px;
 	vertical-align:middle;
 	text-align:center;
-	margin:0 auto;
+	margin: 0 auto 4px;
 	padding:3px 0 0 0
 }
 .font18 {
@@ -3588,7 +3589,7 @@ div .frm_input2 {
 .badge_cont{ float:left; color:#a8afb3; font-size:12px; margin:0px 0px 0px 5px; padding-top:27px; vertical-align:middle;}
 .notedefault{position: relative; float:right; margin-top:-45px; display:block;}
 .badgeselctdiv:hover{background-color:#4b5f72;-moz-border-radius: 4px;-webkit-border-radius:4px;-khtml-border-radius: 4px;border-radius: 4px;background:url(../images/trans_gray.png) repeat center;}
-.border1{ height:1px;background-color:#666666; margin-top:160px; position:relative}
+.border1{ height:1px;background-color:#666666; margin-top:18px; position:relative}
 .border2{ height:1px;background-color:#666666; margin:20px 0px 20px 0px;}
 .selected_badge{background-color:#4b5f72;-moz-border-radius: 4px;-webkit-border-radius:4px;-khtml-border-radius: 4px;border-radius: 4px;background:url(../images/trans_gray.png) repeat center;}}
 .badge_content {
@@ -3617,4 +3618,31 @@ div .frm_input2 {
 }
 .badge_pad {
 	width:100%;
+}
+
+.text_style_badge{margin: 10px 0 0 0px;}
+.icon_style_badge{margin:-6px 0 0 -10px;}
+
+.warningbox{
+border:solid 0px #000000;
+	-moz-border-radius: 16px;
+	-webkit-border-radius: 16px;
+	border-radius: 16px;
+	-moz-box-shadow: 0px 0px 12px #333333;
+	-webkit-box-shadow: 0px 0px 12px #333333;
+	box-shadow: 0px 0px 12px #333333;
+	background:#FFF url(../images/add_newtask_bg.jpg) repeat;
+	margin:-15% 0 0 -25%;
+	left:65%;
+	padding:20px 20px;
+	position:absolute;
+	z-index:9998;
+}
+.warningbox .heading {
+	color: #3C68A3;
+	font-family: 'CollegeRegular';
+	font-size: 21px;
+	padding: 4px 15px 0 0;
+	border-bottom:#dba29c solid 1px;
+	padding:0 0 5px 0;
 }

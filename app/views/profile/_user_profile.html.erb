@@ -84,13 +84,23 @@
     </div>
     <div class="profile_item full_width">
       <div class="caption">Badges</div>
-      <div class="profile_row_border full_width">
-      <% if @friends.empty? %>
-        <div class="profile_item_empty">No Badges</div>
-      <% else %>
-      <% end %>
+        <div class="profile_row_border full_width">
+         <%if @badge && @badge.nil?%>
+            <div class="profile_item_empty">No Badges</div>
+          <% else %>
+          <ul class="stat_icons_box">    
+              <% @badge.each do |b|%>  
+              <li>
+                <div class="SI_icon"><img src="images/badges/<%=b.badge_image.image_file_name%>"class="icon_style_badge"/></div>
+                <span class="text_style_badge"><%=b.name%></span></li>
+              <%end%>  
+            <li>
+          </ul> 
+          <% end %>
+        <div class="clear"></div>
+      </div>       
       </div>
-    </div>
+   
   </div>
 
   <!-- Groups -->
