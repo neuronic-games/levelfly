@@ -80,21 +80,22 @@ $(document).ready(function() {
   $("#btn_create_new").click(function(){ 
     var student_id =$("#hdn_field_profile_id").val();
     var course_id =$("#hdn_field_course_id").val();
-   $.ajax({
-        type: "POST",
-        url: "/badge/new_badges",
-        data:{profile_id:student_id,course_id:course_id},
-        success: function(data) {
-          $("#container").html(data);  
-          $("#page_title").html("NEW BADGES")
-          showSpinner(false);
-        },
-        error: function()
-        {
-          alert("An Error has occured");
-          showSpinner(false);
-        },
-     });
+    showSpinner(true);
+     $.ajax({
+          type: "POST",
+          url: "/badge/new_badges",
+          data:{profile_id:student_id,course_id:course_id},
+          success: function(data) {
+            $("#container").html(data);  
+            $("#page_title").html("NEW BADGES")
+            showSpinner(false);
+          },
+          error: function()
+          {
+            alert("An Error has occured");
+            showSpinner(false);
+          },
+       });
   });   
   
   /*$(".given_badge").click(function(){
@@ -119,6 +120,7 @@ $(document).ready(function() {
       var badge_id = ids[1];  
       var student_id =$("#hdn_field_profile_id").val();
       var course_id =$("#hdn_field_course_id").val();
+      showSpinner(true);
       $.ajax({
         type: "POST",
         url: "/badge/give_badge_to_student",
@@ -158,6 +160,7 @@ $(document).ready(function() {
   $(".blue_bt19px").click(function(){
     delete_badge_id = $(this).attr("id");
     console.log($(this).attr("id"))
+      showSpinner(true);
       $.ajax({
         type: "POST",
         url: "/badge/warning_box",
@@ -179,6 +182,7 @@ $(document).ready(function() {
     if($(this).attr("id")=="delete_btn"){
       var badge_id = delete_badge_id;
       var course_id =$("#hdn_field_course_id").val();
+      showSpinner(true);
       $.ajax({
           type: "POST",
           url: "/badge/delete_badge",

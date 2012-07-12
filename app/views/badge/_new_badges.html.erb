@@ -65,6 +65,7 @@ $(document).ready(function() {
       {
         var student_id =$("#hdn_field_profile_id").val();
         var course_id =$("#hdn_field_course_id").val();
+        showSpinner(true);
         $.ajax({
           type: "POST",
           url: "/badge/save",
