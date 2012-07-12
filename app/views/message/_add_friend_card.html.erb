@@ -6,13 +6,17 @@
       <img onClick="user_profile(<%=profile.id%>);" src="<%=profile.image_file_name%>" id="<%=profile.id%>" class="profile"/>
     </div>
     <div class="txt"> <span class="pop_name"><b><%=profile.full_name%></b><br />
-      <%= "#{profile.major.name}, " if profile.major%><%=profile.school.code%></span>
-      <p><%=profile.tag_list%></p>
-      <div class="spacebar10px"></div>
+      <%= "#{profile.major.name}, " if profile.major%><%=profile.school.code%><a id="view_participant_profile" class="blue_bt19px view_profile" style="float:right"rev="" rel="<%=profile.id%>" data="" href="javascript:void(0)">VIEW</a></span>
+      <p><%#=profile.tag_list%></p>
+      <div>
+        <span class="pop_fav_icon"><img src="/images//fav1.png" align="absbottom" /> <%= profile.like_received %></span>
+    <span class="pop_win_icon"><img src="/images//cup_icon.png" align="absbottom" /> <%= profile.xp %></span>
+    <span class="pop_win_icon"><img src="/images//fav.png" align="absbottom" />   <%if @badges && !@badges.first.total.nil?%><%=@badges.first.total%><%else%>0<%end%></span>
+    </div>
+    <div class="spacebar10px"></div>
     </div>
     <div class="clear"></div>
-    <span class="pop_fav_icon"><img src="/images//fav.png" align="absbottom" /> <%= profile.like_received %></span>
-    <span class="pop_win_icon"><img src="/images//cup_icon.png" align="absbottom" /> <%= profile.xp %></span>
+    <div class="spacebar10px"></div> 
     <div id="msg_input" class="hide">
       <textarea name="message" id="message" class="msg_txt" placeholder="Enter your message..."></textarea>
     </div>
@@ -39,11 +43,11 @@
           <a href="javascript:void(0)" rel="switch" id ="message_root" class="blue_bt19px">Message</a> 
 
         <% if is_friend(user_session[:profile_id], profile.id) %>
-          <a href="javascript:void(0)" id="unfriend" class="blue_bt19px">Un-Friend</a>
+          <a href="javascript:void(0)" id="unfriend" rel ="<%= profile.id%>" class="blue_bt19px">Un-Friend</a>
         <% else %>
           <% if is_request_pending(profile.id, user_session[:profile_id]) %>
             <!-- Friend request pending -->
-            <a href="javascript:void(0)" id="unfriend" class="blue_bt19px">Un-Friend</a>
+            <a href="javascript:void(0)" rel ="<%= profile.id%>" id="unfriend" class="blue_bt19px">Un-Friend</a>
           <% else %>
             <a href="javascript:void(0)" class="blue_bt19px send_btn" id="Friend" rel="save">Friend</a>
           <% end %>
@@ -115,7 +119,8 @@ $('.send_btn').click(function(){
 //Unfriend
 $('#unfriend').click(function(){
   showSpinner(true);
-  profile_id = $('#hdn_profile_id').val();
+  profile_id = $(this).attr("rel");
+  console.log(profile_id)
   if(profile_id) {
     var dataString = {profile_id:profile_id}
     $.ajax({
@@ -147,6 +152,27 @@ $('#give_badges').click(function(){
             $("#container").html(data);
             $("#page_title").html("BADGES")
             $("#alert").html("Loading /Badges/")
+            showSpinner(false);
+          },
+          error: function()
+          {
+            alert("An Error has occured");
+            showSpinner(false);
+          },
+       });  
+  }); 
+  
+  $('#view_participant_profile').click(function(){    
+     profile_id = $(this).attr("rel");
+     $.ajax({
+          type: "GET",
+          url: "/profile/user_profile",
+          data:{profile_id:profile_id},
+          success: function(data) {
+             $('#avatar_card').html("");
+            $("#container").html(data);
+            //$("#page_title").html("BADGES")
+            $("#alert").html("Loading /Profile/")
             showSpinner(false);
           },
           error: function()

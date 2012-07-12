@@ -97,11 +97,27 @@ OC = {
 };
 
 $(document).ready(function(){
+var avatar_exist = false;
+var key;
+for (var k in h) {
+if (h.hasOwnProperty(k)) {
+    if (k==<%=profile_user_id%>){
+      avatar_exist = true;
+      key = k;
+      break;   
+    }
+  }
+}
+if (avatar_exist == false)
+  loadWardrobe();
+else
+{
   if (_avatar == undefined) {
     loadWardrobe();
   } else {
-    showFullAvatar();
+    showFullAvatar(h[key]);
   }
+}
 });
 
 function loadWardrobe() {
@@ -118,6 +134,7 @@ function loadWardrobe() {
         _avatar = data.avatar;
         _major = data.major;
         _school = data.school;
+        h[profile_user_id]=data.avatar;
         if (data.new_profile == true) {
           acceptCode();
         }
@@ -126,7 +143,7 @@ function loadWardrobe() {
         jStorage.set("j_avatar",data.avatar);
         jStorage.set("j_major",data.major);
         //jStorage.set("j_school",data.school);
-        showFullAvatar();
+        showFullAvatar(_avatar);
       }
    ).error(function() { 
      alert("Showing from stograge");
@@ -137,7 +154,7 @@ function loadWardrobe() {
    });
 }
 
-function showFullAvatar() {
+function showFullAvatar(_avatar) {
   $("#background").attr("src", "/images/wardrobe/"+_avatar.background+".png");
   $("#avatar_body").attr("src", "/images/wardrobe/"+_avatar.body+".png"); //Id changed by vaibhav because having id "body" is creating problem with jQuery.position()
   // $("#hat_back").attr("src", "/images/wardrobe/"+_avatar.hat_back+".png");

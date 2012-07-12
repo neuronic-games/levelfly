@@ -29,7 +29,7 @@
    </select></span></div>
      
   
-   <div class="titleTextKind">Kind</div>
+   <div class="titleTextKind">Size</div>
    <div class="titleTextUpdated">Updated</div><br/><br/>
    <div id="all_files">
     <div id="show_file" class="btn_drop_file">DROP FILE HERE</div>
@@ -69,6 +69,35 @@
            }
         });
       });
+      
+    $(".file_pri_toggle").click(function(event){
+    showSpinner(true);
+    att_id = $(this).attr("rel");
+    $.ajax({
+       type: "POST",  
+       url: "/course/toggle_priority_file",  
+       data: {id:att_id},
+       dataType: "json",
+       success: function(data) {
+           if (data.starred) {
+             $(".file_pri_toggle_btn[rel="+att_id+"]").html("Unstar");
+             $(".file_pri_toggle_img[rel="+att_id+"]").attr("src", "/images/star_up.png");
+           } else {
+             $(".file_pri_toggle_btn[rel="+att_id+"]").html("Star");
+             $(".file_pri_toggle_img[rel="+att_id+"]").attr("src", "/images/star_down.png");
+           }
+        showSpinner(false);
+       },
+       error: function(){
+          alert("An Error has occured");
+          showSpinner(false);
+        }
+    });
+
+  });  
+      
+      
+      
       
       $(".files_download").click(function(){
         $("#file_download").show();

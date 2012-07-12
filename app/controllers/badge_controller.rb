@@ -24,6 +24,7 @@ before_filter :authenticate_user!
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
       @badge = Badge.new
       @badge.name = params[:badge_name]
+      @badge.descr = params[:descr]
       @badge.badge_image_id = params[:badge_image_id]
       @badge.school_id = @profile.school_id
       @badge.creator_profile_id = @profile.id

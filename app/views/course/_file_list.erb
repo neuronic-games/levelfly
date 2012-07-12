@@ -4,11 +4,11 @@
     <div class="msg_big_boxC2">
       <div class="msg_box_fullwidth2">
         <div class="msg_box_txt blue_bg_msg_txt2 coursemsg_bgc2" >
-          <div class="staronavatar"><img src="/images/star_up.png" width="36" height="37" /></div>
+          <div class="staronavatar"><img src="/images/<%if a.starred == true %>star_up<%else%>star_down<%end%>.png" width="36" height="37" rel="<%=a.id%>" class="file_pri_toggle file_pri_toggle_img" /></div>
           <div class="avatar_white_bdrC2">
              <img src="<%=a.owner.image_file_name%>" class="profile" profile_id="<%=a.owner_id%>" />
           </div>
-          <div class="titleTDue">
+          <div class="titleTextheading">
             <h4 class="name"><%=a.resource_file_name%></h4>
             <p>
               Uploaded by <%=h a.owner.full_name%><br />
@@ -20,9 +20,10 @@
           <div class="clear"></div>
           <div id="files_hover" class="msg_bottom_linksC2" style="display:none;">
               <div class="like_cmt"> 
-                <a href="#" class="files_download blue_bt19px">Download</a> 
-                <a href="#" class="blue_bt19px">Share</a> 
-                <a href="#" class="files_del blue_bt19px" rel="<%= a.id %>">DEL</a>
+                <a href="javascript:void(0)" class="file_pri_toggle file_pri_toggle_btn blue_bt19px" rel="<%=a.id%>"><%if a.starred == true %>Un-Star<%else%>Star<%end%></a>
+                <a href="javascript:void(0)" class="files_download blue_bt19px">Download</a> 
+                <a href="javascript:void(0)" class="blue_bt19px">Share</a> 
+                <a href="javascript:void(0)" class="files_del blue_bt19px" rel="<%= a.id %>">DEL</a>
               </div>
             </div>
             <div class="clear"></div>
@@ -49,4 +50,4 @@
   </div>                  
 </div>
 
-<!--tab content-->    
+<!--tab content-->   

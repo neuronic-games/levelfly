@@ -46,4 +46,10 @@ class Profile < ActiveRecord::Base
     info << self.school.code if self.school
     return info.join(", ")
   end
+  
+  def friends
+    profiles = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", self.id])#.collect! {|x| x.profile}
+    return profiles
+  end
+  
 end

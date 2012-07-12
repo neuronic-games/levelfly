@@ -90,6 +90,8 @@ Oncapus::Application.routes.draw do
   
   post "course/show_course"
   
+  post "course/toggle_priority_file"
+  
   get "course/view_member"
   
   post "course/course_stats"

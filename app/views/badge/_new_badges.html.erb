@@ -17,7 +17,12 @@
 
           <div class="badgetitlediv"><div class="badge_title">Badge Name</div>
             <div>
-              <input name="new_badge_name" type="text" id="new_badge" value="" class="dd_input_new_badge"/>
+              <input name="new_badge_name" type="text" id="new_badge" value="" class="dd_input_new_badge" />
+            </div>
+          </div></br>
+          <div class="badgetitlediv"><div class="badge_title">Description</div>
+            <div>
+              <textarea name="new_badge_name" type="text" id="new_badge_descr" value="" style="height:50px;" class="dd_input_new_badge"/>
             </div>
           </div>
 
@@ -55,6 +60,7 @@ $(document).ready(function() {
   $("#btn_save").click(function(){ 
       var badge_image_id = id;
       var badge_name = $("#new_badge").val();
+      var descr = $("#new_badge_descr").val();
       if (id==""){
         alert("select any image");
       }
@@ -69,7 +75,7 @@ $(document).ready(function() {
         $.ajax({
           type: "POST",
           url: "/badge/save",
-          data:{badge_image_id:badge_image_id,badge_name:badge_name,profile_id:student_id,course_id:course_id},
+          data:{badge_image_id:badge_image_id,badge_name:badge_name,profile_id:student_id,course_id:course_id,descr:descr},
           success: function(data) {
              $("#container").html(data);  
              $("#new_badge").attr("value","");

@@ -31,13 +31,7 @@ class CourseController < ApplicationController
           )
         end
         if params[:section_type] == 'G'
-          @courses = Course.find(
-            :all, 
-            :select => "distinct *",
-            :include => [:participants], 
-            :conditions => ["participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?", @profile.id, Course.parent_type_group, Course.join_type_invite, Course.profile_type_pending, false],
-            :order => 'name'
-          )
+          @courses = Course.all_group(@profile.id)
         end
       else
         @courses = []
@@ -510,6 +504,17 @@ class CourseController < ApplicationController
        @students = Course.get_top_achievers(@profile.school_id,params[:course_id], params[:outcome_id])
        render :partial =>"/course/top_achivers"
     end    
+  end
+  
+  def toggle_priority_file
+    if params[:id] and !params[:id].nil?
+      @att = Attachment.find(params[:id])
+      if !@att.nil?
+
+        @att.update_attribute('starred',(@att.starred == true ? false : true))
+      end
+      render :text => {:starred => @att.starred }.to_json
+    end
   end
 
 end

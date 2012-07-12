@@ -42,6 +42,7 @@ $('.friend-request').unbind("click").bind("click", function(){
         data: dataString,
         success: function(data) {
           setAlert(data);
+          $("#request_box_"+message_id).fadeOut(1500);
           showSpinner(false);
         }
       });

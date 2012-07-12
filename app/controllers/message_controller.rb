@@ -98,6 +98,7 @@ class MessageController < ApplicationController
           @participant = Participant.find(:first, :conditions => ["object_id = ? and profile_id = ? and object_type = 'Course' and profile_type='S'",params[:course_id],@profile.id])
         end  
       end
+      @badges = AvatarBadge.select("count(*) as total").where("profile_id = ? ",@profile.id)
       render :partial => "add_friend_card", :locals => {:profile => @profile}
     end
   end
