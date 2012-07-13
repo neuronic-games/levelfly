@@ -138,6 +138,8 @@ Oncapus::Application.routes.draw do
   
   post "course/delete_participant"
   
+  post "course/get_group" 
+  
   get "group/index"
   
   get "group/new"

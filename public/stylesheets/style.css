@@ -1776,10 +1776,8 @@ margin-left:33px;
   background:#5f6254 !important;
 	cursor:pointer;
 }
-.tab_content div.msg_box_fullwidth2:hover {
-  background:#123456 !important;
-	cursor:pointer;
-}
+.tab_content div .coursemsg_bgc2 {color:#000 !important;}
+.tab_content div .msg_big_boxC2 {background:none !important; border-bottom: 1px solid #DBA29C !important;}
 
 /*.course_tab_content div.msg_box_fullwidth2:hover {
   background:#F9EDBE !important;
@@ -1820,6 +1818,9 @@ background:none;
 
 div .coursemsg_bgc2 {
 	color:#fff;
+}
+.coursemsg_bgc3 {
+	color:#000;
 }
 .coursemsg_bgc2:hover {
 	color:#fff;
@@ -3641,7 +3642,7 @@ border:solid 0px #000000;
 	box-shadow: 0px 0px 12px #333333;
 	background:#FFF url(../images/add_newtask_bg.jpg) repeat;
 	margin:-15% 0 0 -25%;
-	left:65%;
+	left:54%;
 	padding:20px 20px;
 	position:absolute;
 	z-index:9998;
@@ -3658,3 +3659,5 @@ border:solid 0px #000000;
 	border-radius: 10px 10px 10px 10px;
 }
 .view_profile{float:left;margin-top:-15px}
+.selected_badge_position{float: right;margin: 18px 89px;}
+.tab_pos{margin-right:-25px;}

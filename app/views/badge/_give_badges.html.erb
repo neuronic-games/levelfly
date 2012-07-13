@@ -11,6 +11,7 @@
                 <a href="javascript:void(0)" name="btn_create_new" id="btn_create_new" class="big_blue_btn">CREATE NEW</a>
                 <input type="hidden" name="hdn_field_profile_id" id="hdn_field_profile_id" value="<%=profile_id if profile_id%>" />
                 <input type="hidden" name="hdn_field_course_id" id="hdn_field_course_id" value="<%=course_id if course_id%>" />
+                <input type="hidden" name="hdn_last_action" id="hdn_last_action" value="<%=session[:controller]%>" />
               </div><!-- crud_level -->
             </div>
 
@@ -87,7 +88,8 @@ $(document).ready(function() {
           data:{profile_id:student_id,course_id:course_id},
           success: function(data) {
             $("#container").html(data);  
-            $("#page_title").html("NEW BADGES")
+            //$("#page_title").html("NEW BADGES")
+            setPageTitle("NEW BADGES");
             showSpinner(false);
           },
           error: function()
@@ -106,8 +108,7 @@ $(document).ready(function() {
   $(".given_badge").click(function(){ 
     $("#"+previous_click).removeClass("selected_badge");
     id = $(this).attr("id");
-    $(this).addClass("selected_badge");
-    console.log(id+"=========="+previous_click)    
+    $(this).addClass("selected_badge");  
     previous_click = id;  
 
   });
@@ -130,11 +131,38 @@ $(document).ready(function() {
           //$("#container").html(data);  
           if(data.status==false)
           {
-            alert("This badge already given to this student for this course")
+            alert("This badge already given to this student for this course");
+            showSpinner(false);
           }
-          else
-          $("#"+id).removeClass("selected_badge");
-          showSpinner(false);
+          else{
+            $("#"+id).removeClass("selected_badge");
+            showSpinner(false);
+            var controller = $("#hdn_last_action").val();
+            if(controller=="message"){
+              var url = "/message/" 
+              var section_type = ""
+            }
+            else if(controller =="course"){
+              var url ="/course/show"
+              var section_type = "C"
+            }
+            else{
+              var section_type=""
+            }
+             if(controller!="")
+             {
+             showSpinner(true);
+             $.ajax({
+              type: "GET",
+              url: url,
+              data:{id:course_id,section_type:section_type},
+              success: function(data) {
+               $("#container").html(data);  
+               showSpinner(false);
+              }
+              });  
+            }      
+          }            
         },
         error: function()
         {
@@ -159,7 +187,6 @@ $(document).ready(function() {
   );  
   $(".blue_bt19px").click(function(){
     delete_badge_id = $(this).attr("id");
-    console.log($(this).attr("id"))
       showSpinner(true);
       $.ajax({
         type: "POST",

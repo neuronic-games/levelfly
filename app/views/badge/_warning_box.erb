@@ -3,12 +3,13 @@
     <div class="clear"></div>
     <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
-     <div >Are you sure to delete this badge given to <%=@count_students.first.total if @count_students%> Students</div>
+     <div >You are about to remove a badge that has been given to <%=@count_students.first.total if @count_students%> people. Are you sure?" </div>
     
     <div class="spacebar10px"></div>
   <div align="right">
+  <a class="big_blue_btn inlineblock" id = "dont_delete_btn" href="javascript:void(0)">DON'T DELETE</a>
   <a class="big_orange_btn inlineblock clr_red" id = "delete_btn" href="javascript:void(0)">DELETE</a> 
-  <a class="big_blue_btn inlineblock" id = "dont_delete_btn" href="javascript:void(0)">DON'T DELETE</a></div>
+  </div>
 </div>
 
 <script type="text/javascript">

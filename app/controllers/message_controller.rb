@@ -26,7 +26,7 @@ class MessageController < ApplicationController
     @friend = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", @profile.id])
 
     @profile.record_action('last', 'message')
-    
+    session[:controller]="message"
     render :partial => "list",:locals => {:friend_id => @friend_id} 
   end
   

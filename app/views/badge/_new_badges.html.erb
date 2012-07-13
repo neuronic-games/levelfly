@@ -17,6 +17,7 @@
 
           <div class="badgetitlediv"><div class="badge_title">Badge Name</div>
             <div>
+              <div class ="selected_badge_position hide"><input id="selected_badge" src="" type="image" class="grading_Btn2" /></div>  
               <input name="new_badge_name" type="text" id="new_badge" value="" class="dd_input_new_badge" />
             </div>
           </div></br>
@@ -25,7 +26,6 @@
               <textarea name="new_badge_name" type="text" id="new_badge_descr" value="" style="height:50px;" class="dd_input_new_badge"/>
             </div>
           </div>
-
         <div class="border2"></div>
           <div class="choose_badge">Choose an Image for badge</div>
 
@@ -52,8 +52,18 @@ $(document).ready(function() {
   $(".badge_image").click(function(){ 
     $("#"+previous_click).removeClass("selected_badge");
     id = $(this).attr("id");
-    $(this).addClass("selected_badge");
-    previous_click = id;    
+    image_path = $(this).attr("src");
+    if(previous_click == id){
+      $(this).removeClass("selected_badge");
+      $(".selected_badge_position").hide();
+    }
+    else{
+      $(this).addClass("selected_badge");
+      $(".selected_badge_position").show();
+    }
+    previous_click = id;
+    $("#selected_badge").attr("src",image_path);
+  
   });
   
   

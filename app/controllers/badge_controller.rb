@@ -71,11 +71,11 @@ before_filter :authenticate_user!
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
       @badge = Badge.find(params[:badge_id]) 
       if @badge
-        @badge_people = AvatarBadge.find(:all, :select=>"id",:conditions=>["giver_profile_id = ? and badge_id = ?",@profile.id,@badge.id]).collect(&:id)
-        if !@badge_people.nil?
-          puts"#{@badge_people.count}"
-          AvatarBadge.delete_all(["id in (?)", @badge_people])
-        end
+        #@badge_people = AvatarBadge.find(:all, :select=>"id",:conditions=>["giver_profile_id = ? and badge_id = ?",@profile.id,@badge.id]).collect(&:id)
+        #if !@badge_people.nil?
+        AvatarBadge.delete_all(["giver_profile_id = ? and badge_id = ?",@profile.id,@badge.id])
+        @badge.delete
+        #end
       end
     end
     render :text=> "DELETED"

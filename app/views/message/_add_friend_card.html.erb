@@ -9,9 +9,9 @@
       <%= "#{profile.major.name}, " if profile.major%><%=profile.school.code%><a id="view_participant_profile" class="blue_bt19px view_profile" style="float:right"rev="" rel="<%=profile.id%>" data="" href="javascript:void(0)">VIEW</a></span>
       <p><%#=profile.tag_list%></p>
       <div>
-        <span class="pop_fav_icon"><img src="/images//fav1.png" align="absbottom" /> <%= profile.like_received %></span>
+        <span class="pop_fav_icon"><img src="/images//fav.png" align="absbottom" /> <%= profile.like_received %></span>
     <span class="pop_win_icon"><img src="/images//cup_icon.png" align="absbottom" /> <%= profile.xp %></span>
-    <span class="pop_win_icon"><img src="/images//fav.png" align="absbottom" />   <%if @badges && !@badges.first.total.nil?%><%=@badges.first.total%><%else%>0<%end%></span>
+    <span class="pop_win_icon"><img src="/images//badge_icon.png" align="absbottom" />   <%if @badges && !@badges.first.total.nil?%><%=@badges.first.total%><%else%>0<%end%></span>
     </div>
     <div class="spacebar10px"></div>
     </div>
@@ -120,7 +120,6 @@ $('.send_btn').click(function(){
 $('#unfriend').click(function(){
   showSpinner(true);
   profile_id = $(this).attr("rel");
-  console.log(profile_id)
   if(profile_id) {
     var dataString = {profile_id:profile_id}
     $.ajax({

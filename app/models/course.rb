@@ -114,14 +114,18 @@ class Course < ActiveRecord::Base
     return @students
   end
   
-  def self.all_group(profile_id)
+  def self.all_group(profile,filter)
+    if filter == "M"
     @courses = Course.find(
             :all, 
             :select => "distinct *",
             :include => [:participants], 
-            :conditions => ["participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?", profile_id, Course.parent_type_group, Course.join_type_invite, Course.profile_type_pending, false],
+            :conditions => ["participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?", profile.id, Course.parent_type_group, Course.join_type_invite, Course.profile_type_pending, false],
             :order => 'name'
           )
+    else
+     @courses = Course.find(:all, :conditions=>["parent_type = ? and school_id = ?",Course.parent_type_group,profile.school_id])
+    end    
     return @courses      
   end
   

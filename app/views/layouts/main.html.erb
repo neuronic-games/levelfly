@@ -106,23 +106,23 @@
           <div class="jTscrollerContainer">
             <div class="jTscroller">
               <div class="space_btwn_icon"></div>
-              <div class="icon_box"><span class="msg_count" style="display:none;">1</span><a href="javascript:void(0);" id="msg" rel="/message/" class="icon_msg menu_btn">messages</a> </div>
+              <div class="icon_box"><span class="msg_count" style="display:none;">1</span><a href="javascript:void(0);" id="msg" rel="/message/" rev = "/message/" class="icon_msg menu_btn">messages</a> </div>
               <div class="space_btwn_icon"></div>
               <!--icon-->
-              <div class="icon_box"><a href="javascript:void(0);" id="courses" rel="/course/" class="icon_courses menu_btn" data="C">courses</a> </div>
+              <div class="icon_box"><a href="javascript:void(0);" id="courses" rel="/course/" rev = "/course/" class="icon_courses menu_btn" data="C">courses</a> </div>
               <div class="space_btwn_icon"></div>
               <!--icon-->
-              <div class="icon_box"> <a href="javascript:void(0);" id="tasks" rel1="/system/alert/" rel="/task/" class="icon_tasks_active menu_btn">tasks</a> </div>
+              <div class="icon_box"> <a href="javascript:void(0);" id="tasks" rel1="/system/alert/" rel="/task/" rev = "/task/" class="icon_tasks_active menu_btn">tasks</a> </div>
               <div class="space_btwn_icon"></div>
               <!--icon-->
-              <div class="icon_box"> <a href="javascript:void(0);" id="networks" rel1="/system/alert/" rel="/course/" data="G" class="icon_networks menu_btn">Groups</a> </div>
+              <div class="icon_box"> <a href="javascript:void(0);" id="networks" rel1="/system/alert/" rel="/course/"rev = "/group/" data="G" class="icon_networks menu_btn">Groups</a> </div>
               <div class="space_btwn_icon"></div>
               <!--icon-->
-              <div class="icon_box"> <a href="javascript:void(0);" id="leader_board" rel="/leader_board/" class="icon_leader menu_btn">Leader board</a> </div>
+              <div class="icon_box"> <a href="javascript:void(0);" id="leader_board" rel="/leader_board/" rev = "/leader_board/" class="icon_leader menu_btn">Leader board</a> </div>
               <div class="space_btwn_icon"></div>
                <div class="space_btwn_icon"></div>
               <!--icon-->
-              <div class="icon_box"> <a href="javascript:void(0);" id="grade" rel="/grade_book/" class="icon_grade menu_btn">Grade book</a> </div>
+              <div class="icon_box"> <a href="javascript:void(0);" id="grade" rel="/grade_book/" rev = "/grade_book/" class="icon_grade menu_btn">Grade book</a> </div>
               <div class="space_btwn_icon"></div> 
             </div>
           </div>
@@ -221,10 +221,19 @@ var h = new Object(); // or just {}
     
     // Search form post when enter pressed
     $('#frm_search').submit(function() {
+      var data = ""; 
       search_text = $("#search_input").val();
       if(search_url && search_text !="") {
+        if(search_url=="/group/"){
+          search_url ="/course/"
+          var data = "G"
+        }
+        else if(search_url=="/course/")
+          var data = "C"
+        else
+          var data = ""
         showSpinner(true);
-        dataString = {search_text : search_text}
+        dataString = {search_text:search_text,section_type:data}
         $.ajax({
           type: "POST",  
           url: search_url,
@@ -280,11 +289,11 @@ var h = new Object(); // or just {}
     if (target == undefined) {
       target = dest;
     }
-    setAlert("Loading " + target);
+    setAlert("Loading " + $(this).attr("rev"));
     var data = $(this).attr("data");
     //alert(data);
     load_data(target,data);
-    set_search(target);
+    set_search($(this).attr("rev"));
     if (title != undefined) {
       setPageTitle(title);
     }

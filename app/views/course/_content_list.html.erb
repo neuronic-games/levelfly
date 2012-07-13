@@ -1,0 +1,70 @@
+ <table class="blackboard_list" id ="course_group_content">
+              <tr>
+                <th width="110">
+                </th>
+                <% if defined?(section_type) %>
+                
+                <% if section_type == "C" %>
+                <th>
+                  Course 
+                </th>
+                <th width="100">
+                  Course Code
+                </th>
+                <% end %>
+                
+                <% if section_type == "G" %>
+                <th>
+                  Name
+                </th>
+                <th width="100">
+                  Formed
+                </th>
+                <% end %>
+                
+                <th width="60" style="text-align:center;">
+                  Organizer
+                </th>
+                
+                <input type="hidden" id="section_type" value="<%=section_type%>"/>
+                <% end %>
+              </tr>
+              <% @courses.reverse.each do |c| %>
+              <tr class="course_row">
+                <td>
+                  <a href="/course/show/<%=c.id%>" class="view">
+                    <img src='<%= c.image_file %>' width="100" height="100" alt="<%=c.name%>" />
+                  </a>
+                </td>
+                <td>
+                  <a href="/course/show/<%=c.id%>" class="view">
+                    <div class="title"><%=c.name %></div>
+                    <% if defined?(section_type) && section_type == "G"%><div class="description"><%=c.descr%></div><% end %>
+                  </a>
+
+                  <div class="list_hover">
+                    <% if defined?(section_type) and section_type == "G" and c.owner.id != user_session[:profile_id] %>
+                    <a href="#" class="join_btn blue_bt19px" course_id="<%= c.id %>">Join</a>
+                    <% end %>
+                  </div>
+
+                </td>
+                <td>
+                  <% if defined?(section_type) && section_type == "G"%>
+                  <%=show_date_format(c.created_at)%>
+                  <% else %>
+                  <%=c.code%>-<%=c.section%>
+                  <% end %>
+                </td>
+                
+                <td style="text-align:center;">
+                  <% if c.owner %>
+                  <div class="avatar_white_bdr">
+                    <img src="<%=c.owner.image_file_name%>" profile_id="<%=c.owner.id%>" class="profile"/>
+                  </div>
+                  <%= c.owner.full_name %>
+                  <% end %>
+                </td>
+              </tr>
+              <% end %>
+            </table>

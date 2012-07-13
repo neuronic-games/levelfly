@@ -9,12 +9,16 @@ class CourseController < ApplicationController
     
     if params[:search_text]
       search_text =  "#{params[:search_text]}%"
+      if params[:section_type]=="C"
+        @courses = Course.find(
+          :all,
+          :include => [:participants], 
+          :conditions => ["(upper(courses.name) LIKE ? OR upper(courses.code) LIKE ?) and parent_type = ?",Course.parent_type_course,search_text.upcase,  search_text.upcase])
       
-      @courses = Course.find(
-        :all,
-        :include => [:participants], 
-        :conditions => ["upper(courses.name) LIKE ? OR upper(courses.code) LIKE ?", search_text.upcase,  search_text.upcase]
-      )
+      elsif params[:section_type]=="G"
+        @courses = Course.find(:all, :conditions=>["(upper(courses.name) LIKE ? OR upper(courses.code) LIKE ?) and parent_type = ? and school_id = ?",search_text.upcase,search_text.upcase, Course.parent_type_group,@profile.school_id])
+      end
+     
     else
 
       # Check if the user was working on a details page before, and redirect if so
@@ -31,7 +35,7 @@ class CourseController < ApplicationController
           )
         end
         if params[:section_type] == 'G'
-          @courses = Course.all_group(@profile.id)
+          @courses = Course.all_group(@profile,"M")
         end
       else
         @courses = []
@@ -140,7 +144,7 @@ class CourseController < ApplicationController
     
     @profile.record_action('course', @course.id)
     @profile.record_action('last', 'course')
-    
+    session[:controller]="course"
     respond_to do |wants|
       wants.html do
         if request.xhr?
@@ -517,4 +521,12 @@ class CourseController < ApplicationController
     end
   end
 
+  
+  def get_group
+    if params[:filter] && !params[:filter].nil?
+        @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+        @courses = Course.all_group(@profile,params[:filter])
+        render :partial => "/course/content_list",:locals=>{:section_type=>"G"}
+    end
+  end
 end
