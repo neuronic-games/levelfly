@@ -7,8 +7,8 @@
           <div class="course_pad">
            <% if section_type == "G" %>
             <div class="tabs menu_container" align="right">
-            <a href="javascript:void(0)"  id="menu1" value="1" filter="M" class="side_tab tab_pos side_tab_open" ><span class="task_tab">My Groups</span></a>
-            <a href="javascript:void(0)"  id="menu2" value="2" filter="A" class="side_tab tab_pos side_tab_close" ><span class="task_tab">All Groups</span></a>
+            <a href="javascript:void(0)"  id="menu1" value="1" filter="M" class="side_tab tab_pos side_tab_open" ><span class="task_tab">Active</span></a>
+            <a href="javascript:void(0)"  id="menu2" value="2" filter="A" class="side_tab tab_pos side_tab_close" ><span class="task_tab">All</span></a>
             <!-- <a href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><span class="task_tab">Starred</span></a> -->
           </div>
           <%end%>
@@ -37,10 +37,10 @@ $(document).ready(function(){
   
   section_type = $("#section_type").val();
   if (section_type == "G") {
-    setPageTitle("My Groups");
+    setPageTitle("Mine");
   }
   else {
-    setPageTitle("My Courses");
+    setPageTitle("Mine");
   }
   
   //prepare show links
