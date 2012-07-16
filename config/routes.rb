@@ -210,6 +210,8 @@ Oncapus::Application.routes.draw do
   
   get "message/friends_only_all"
   
+  post "message/remove_request_message"
+  
   # end  added for new message funtionalites >>>  lmit>>> frinds messages
   
   post "message/save"

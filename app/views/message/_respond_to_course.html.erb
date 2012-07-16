@@ -1,4 +1,4 @@
-<div class="msg_big_box" id="request_box_<%=respond_course.id%>">
+<div class="msg_big_box request_message" id="request_box_<%=respond_course.id%>">
   <div class="avatar_white_bdr">
     <img src="<%=respond_course.profile.image_file_name%>" profile_id="<%=respond_course.profile.id%>" class="profile"/>
   </div>
@@ -11,6 +11,24 @@
         <div class="time"><%= time_ago_in_words(respond_course.created_at) %> ago</div>
       </div>
     </div>
+     <div class="list_notifications" id="rq_<%=respond_course.id %>">
+        <div class="like_cmt">
+          <a href="javascript:void(0);" class="message_del blue_bt19px" rel="<%=respond_course.id %>">DELETE</a>
+        </div>
+      </div>
+    
     <div class="clear"></div>
   </div>
 </div>
+<script type="text/javascript">
+  $(function(){ 
+  $(".request_message").hover(
+    function () {
+      $(".list_notifications", this).show();
+    }, 
+    function () {
+      $(".list_notifications", this).hide();
+    }
+  );
+});
+</script>

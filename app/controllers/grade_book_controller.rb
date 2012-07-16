@@ -259,9 +259,9 @@ class GradeBookController < ApplicationController
           if !@outcomes.nil?
             @outcomes.each do |o|
               outcome_grade = CourseGrade.load_outcomes(p.profile_id, params[:course_id],o.id,@profile.school_id)
-            if outcome_grade.nil?
-              outcome_grade=""
-            end
+              if outcome_grade.nil?
+                outcome_grade=""
+              end
               outcomes_grade.push(outcome_grade)                  
             end
             p["course_outcomes"] = outcomes_grade

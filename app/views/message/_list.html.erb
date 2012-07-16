@@ -11,19 +11,20 @@
     </div>
     <% end %>
       
-    <!-- Message -->
+
      <!-- Respond -->
     <div id="message_wrapper" class="message_wrapper">
-     
-      <h2>MESSAGES</h2>
        <% if @respont_to_course and not @respont_to_course.empty? %>
+         <h2>NOTIFICATIONS</h2>
         <div id="course_requset_respond">
           <% @respont_to_course.each do |respond_course| %>
             <%= render :partial => "/message/respond_to_course", :locals => {:respond_course=>respond_course} %>
           <% end %>
         </div>
       <% end %>
+     <!-- Message -->
        <% if @messages %>
+       <h2>MESSAGES</h2>
         <% @messages.each do |message| %>
           <%= render :partial => "/message/messages", :locals => {:message=>message} %>
         <% end %>
@@ -56,6 +57,8 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+   
+    console.log(request);
     $.ajaxSetup({ cache: false }); 
     setInterval(function() {
       $.ajax({
@@ -68,6 +71,27 @@ $(document).ready(function() {
     }, 10000*20); 
 });
 
+   var request = "";
+   var message = "";
+$('.message_list').click(function(){  
+    var id = $(this).attr("id");
+    var ids =id.split("_");
+    //$("#m_"+ids[2]).addClass("show");
+    if($("#m_"+ids[2]).hasClass("show"))
+    $("#m_"+ids[2]).removeClass("show")
+    else
+    $("#m_"+ids[2]).addClass("show")   
+  });
+  
+  $('.request_message').click(function(){  
+    var id = $(this).attr("id");
+    var ids =id.split("_");
+    if($("#rq_"+ids[2]).hasClass("show"))
+      $("#rq_"+ids[2]).removeClass("show")
+    else
+      $("#rq_"+ids[2]).addClass("show")  
+  });
+  
   setPageTitle("My Messages");
   
   //Post Message
@@ -119,5 +143,22 @@ $(document).ready(function() {
       });
     }
   });
+  
+  
+   $(".message_del").click(function(){
+        showSpinner(true);
+        id=$(this).attr("rel");
+        var dataString = 'id='+id;
+        $.ajax({
+           type: "POST",  
+           url: "/message/remove_request_message",  
+           data: dataString,
+           dataType:"json",
+           success: function(data) {
+             $("#request_box_"+id).fadeOut(1000);
+             showSpinner(false);
+             }
+        });
+     });
   
 </script>
