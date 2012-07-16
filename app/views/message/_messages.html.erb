@@ -1,4 +1,4 @@
-<div class="msg_big_box" id="messsage_box_<%=message.id%>">
+<div class="msg_big_box message_list" id="messsage_box_<%=message.id%>">
   <div class="avatar_white_bdr">
     <img src="<%=message.profile.image_file_name%>" profile_id="<%=message.profile_id%>" rel="<%=message.parent_id%>" class="profile"/>
   </div>
@@ -12,6 +12,7 @@
         <div class="time"><%= time_ago_in_words(message.created_at) %> ago</div>
         <div class="like_cmt">
           <span class="fav_icon"><img src="/images//fav.png" align="absbottom" /><span id="count_<%=message.id%>"><%=message.like%></span> </span>
+          <span class="list_messages" id="m_<%=message.id%>">
           <span id="link_<%=message.id%>">
             <a href="javascript:void(0)" id="<%=message.id%>" rel="<%=user_like(user_session[:profile_id], message.id) ? "unlike" : "like" %>" rev = "<%=message.parent_id%>" class="blue_bt19px like">
               <%=user_like(user_session[:profile_id], message.id) ? "UNLIKE" : "LIKE" %>
@@ -20,7 +21,8 @@
           <span>
             <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#post_comment_<%=message.id%>').show()">COMMENT</a>
           </span>
-        </div>
+        </span>
+       </div>
       </div>
     </div>
     <div class="clear"></div>
@@ -64,4 +66,16 @@ function view_all_comment(message_id){
    $("#comment_box_"+message_id+".msg_small_box").show();
    $("#show_all_coments_"+message_id).css("display","none");
 }
+$(".message_list").hover(
+    function () {
+      $(".list_messages", this).show();
+    }, 
+    function () {
+      $(".list_messages", this).hide();
+    }
+  );
+
+</script>
+
+
 </script>

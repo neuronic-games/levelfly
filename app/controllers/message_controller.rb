@@ -252,4 +252,15 @@ class MessageController < ApplicationController
     @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND profile_id=? AND message_type ='Message' AND parent_type='Profile'", wall_ids, false,params[:friend_id]])  
     render :partial => "list",:locals => {:limit => @limitAttr}
   end
+  
+  def remove_request_message
+    if params[:id] && !params[:id].nil?
+      @message = Message.find(params[:id])
+      if @message
+        @message.delete
+        render :json => {:status => true}
+      end
+    end
+    
+  end
 end

@@ -3553,7 +3553,9 @@ div .frm_input2 {
 	-moz-box-shadow:inset 0px 0px 2px 1px #000000;
 	-webkit-box-shadow:inset 0px 0px 2px 1px #000000;
 	box-shadow:inset 0px 0px 2px 1px #000000;
+  
 }
+.avatar_white_bdr01 img{ margin-left: -7px; }
 .stat_icons_box2 {
 }
 .stat_icons_box2 li {
@@ -3661,3 +3663,10 @@ border:solid 0px #000000;
 .view_profile{float:left;margin-top:-15px}
 .selected_badge_position{float: right;margin: 18px 89px;}
 .tab_pos{margin-right:-25px;}
+.list_notifications {
+  display: none;
+  float:right;
+  margin: -27px 14px;
+}
+.list_messages {display: none;}
+ 
