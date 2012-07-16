@@ -1,5 +1,5 @@
 <!--box 2nd-->
-<div class="msg_small_box">
+<div class="msg_small_box comments_lists_box" id ="comments_box_<%=comment.id%>" >
   <div class="avatar_green_bdr_upper">
     <div class="avatar_green_bdr">
       <img src="<%=comment.profile.image_file_name%>" profile_id="<%=comment.profile.id%>" class="profile" />
@@ -12,9 +12,11 @@
     <div class="msg_bottom_links">
       <div class="time"><%= time_ago_in_words(comment.created_at) %> ago</div>
       <div class="like_cmt"><span class="fav_icon"><img src="/images/fav.png" align="absbottom" /><span id="count_<%=comment.id%>"><%=comment.like%></span></span> 
+      <span class="comments_lists" id="c_<%=comment.id%>">
       <span id="link_<%=comment.id%>">
         <a href="javascript:void(0)" class="blue_bt19px like" rev ="<%=course_id%>" rel="<%=user_like(user_session[:profile_id], comment.id) ? "unlike" : "like" %>" id="<%=comment.id%>"><%=user_like(user_session[:profile_id], comment.id) ? "UNLIKE" : "LIKE" %></a>
       </span>
+     </span>
     </div>
     </div>
   </div>
@@ -23,3 +25,13 @@
   <div class="clear"></div>
 </div>
 <!--box 2nd-->
+<script type="text/javascript">
+$(".comments_lists_box").hover(
+    function () {
+      $(".comments_lists", this).show();
+    }, 
+    function () {
+      $(".comments_lists", this).hide();
+    }
+  );
+</script>

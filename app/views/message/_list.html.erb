@@ -75,12 +75,11 @@ $(document).ready(function() {
    var message = "";
 $('.message_list').click(function(){  
     var id = $(this).attr("id");
-    var ids =id.split("_");
-    //$("#m_"+ids[2]).addClass("show");
+    var ids = id.split("_");
     if($("#m_"+ids[2]).hasClass("show"))
-    $("#m_"+ids[2]).removeClass("show")
+      $("#m_"+ids[2]).removeClass("show")
     else
-    $("#m_"+ids[2]).addClass("show")   
+      $("#m_"+ids[2]).addClass("show")   
   });
   
   $('.request_message').click(function(){  
@@ -90,6 +89,15 @@ $('.message_list').click(function(){
       $("#rq_"+ids[2]).removeClass("show")
     else
       $("#rq_"+ids[2]).addClass("show")  
+  });
+  
+  $('.comments_lists_box').click(function(){  
+    var id = $(this).attr("id");
+    var ids =id.split("_");
+    if($("#c_"+ids[2]).hasClass("show"))
+      $("#c_"+ids[2]).removeClass("show")
+    else
+      $("#c_"+ids[2]).addClass("show")  
   });
   
   setPageTitle("My Messages");
