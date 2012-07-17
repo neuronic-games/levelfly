@@ -65,8 +65,8 @@
         <div class="setting_box"><a href="/users/sign_out" data-method="delete" rel="nofollow"><img src="/images//setting_icon.png" /></a></div>
         <div class="search_bg">
           <form id="frm_search">
-            <div id="clear_search" class="menu_btn hide" style="right:150px;margin-top:0px;">
-              X
+            <div id="clear_search" class="menu_btn" style="right:172px;margin-top:0px;">
+             <img src="/images/clear_icon.png"/>
             </div>
             <input name="search_text" id="search_input" type="text" value="Find Course" />
           </form>
@@ -190,6 +190,7 @@ var h = new Object(); // or just {}
     "/group/" : "Find Group"
   };
   var search_url = "/course/";
+  var section_type = "C"
   var search_term = $("#search_input").val();
   //Set CSRF Token (Required for ajax request (post))
   $(document).ajaxSend(function(e, xhr, options) {
@@ -221,19 +222,18 @@ var h = new Object(); // or just {}
     
     // Search form post when enter pressed
     $('#frm_search').submit(function() {
-      var data = ""; 
       search_text = $("#search_input").val();
       if(search_url && search_text !="") {
         if(search_url=="/group/"){
           search_url ="/course/"
-          var data = "G"
+          var section_type = "G"
         }
         else if(search_url=="/course/")
-          var data = "C"
+          var section_type = "C"
         else
-          var data = ""
+          var section_type = ""
         showSpinner(true);
-        dataString = {search_text:search_text,section_type:data}
+        dataString = {search_text:search_text,section_type:section_type}
         $.ajax({
           type: "POST",  
           url: search_url,
@@ -301,14 +301,14 @@ var h = new Object(); // or just {}
   
   $(document).keyup(function(e) {
     if (e.keyCode == 27) { // Esc button pressed to clear the search
-      load_data(search_url, "")
+      load_data(search_url, section_type)
     }
   });
   
   //Load data for different results like Course listing, Task listing, Add course, Add task, Search results etc.
   function load_data(target, data) {
     if(target) {
-      $("#clear_search").hide();
+      //$("#clear_search").hide();
       $("#search_input").val(search_term);
       showSpinner(true);
       $.ajax({

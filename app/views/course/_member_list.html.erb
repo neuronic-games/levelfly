@@ -61,8 +61,9 @@
               if(data.already_added) {
                 alert("This participant is already added to this course!!");
               } else {
-                alert("ERROR");
+                alert("No account was found with this email address, An email is sent to "+email_id+" for invitation");
                 $("#course_participant_list").hide();
+                $("#add_course_people").val("");
               }
             }
             showSpinner(false);

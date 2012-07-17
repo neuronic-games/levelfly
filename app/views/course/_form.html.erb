@@ -2,8 +2,9 @@
   <div class="course_side_buttons">
     <a href="javascript:void(0)" name="btn_course" id="btn_course" class="big_orange_btn">Save</a>
     <% if @course%>
-      <a href="javascript:void(0)" name="menu_btn_addfile" id="menu_btn_addfile" class="big_blue_btn">ADD FILE</a>
-      <a href="javascript:void(0)" name="btn_category_remove" id="btn_category_remove" class="big_blue_btn">REMOVE</a>
+      <a href="javascript:void(0)" name="menu_btn_addfile" id="menu_btn_addfile" class="big_blue_btn hide">ADD FILE</a>
+      <a href="javascript:void(0)" name="btn_category_remove" id="btn_category_remove" class="big_blue_btn hide">REMOVE</a>
+      <a href="javascript:void(0)" name="btn_archive" id="btn_archive" class="big_blue_btn hide">ARCHIVE</a>
     <% end %>
     <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@course ? false : true %>" />
   </div><!-- crud_level -->
@@ -93,9 +94,10 @@ if($("#group_descr").val()!="") {setStorage("group_descr", $("#group_descr").val
 else {setStorage("group_descr", "New Group Description");}
 
 $(document).ready(function(){
-
+  var changed = false;
   <% if defined?(course_new) && course_new == true %>
     $("#menu1").addClass("side_tab_close").removeClass("side_tab_open");
+    $(".course_tabs").addClass("hide");
   <% end %>
 
   // Course name
@@ -105,7 +107,6 @@ $(document).ready(function(){
   $(".menu_container").delegate('a', 'click', function(){
     showSpinner(true);
     idx = $(this).attr("value");
-
     $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
 
     for(i=0;i<6;i++){
@@ -151,9 +152,13 @@ $(document).ready(function(){
     }
 
     if(idx == 4) {
-      $("#menu_btn_addfile").fadeIn();
+      $("#menu_btn_addfile").removeClass("hide");
+      $("#btn_course").removeClass("hide");
+      $("#btn_archive").addClass("hide");
     } else {
-      $("#menu_btn_addfile").fadeOut();
+      $("#menu_btn_addfile").addClass("hide");
+      $("#btn_course").addClass("hide");
+      $("#btn_archive").addClass("hide");
     }
 
   });
@@ -203,9 +208,6 @@ $(document).ready(function(){
           data:{id:course_id},
           success: function(data) {
             $("#load_data").html(data);
-            /*$("#btn_course").hide();
-            $("#menu_btn_addfile").hide();
-            $("#btn_category_remove").hide();*/
             showSpinner(false);
           },
           error: function()
@@ -361,7 +363,6 @@ $(document).ready(function(){
 $(".download_files").click(function(){
   alert("download");
 });
-
 //Save course
 function save_course(channel) {
   section_type = $("#section_type").val();
@@ -430,7 +431,7 @@ function save_course(channel) {
   var dataString = 'id='+ id +'&course='+ name + '&descr=' + descr + '&section_type=' + section_type + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id + '&percent_value=' +_categories_persentObject+ '&outcome_share='+_outcomes_shareObject+'&rating_low=' +rating_low + '&rating_medium=' +rating_medium + '&rating_high=' +rating_high + '&task_low=' +task_low + '&task_medium=' +task_medium + '&task_high=' +task_high;
 
   //alert(dataString);  return false;
-
+  if(changed==true){
   showSpinner(true);
   $.ajax({
     type: "POST",
@@ -450,13 +451,15 @@ function save_course(channel) {
           $("#course_code").val(data.course.code);
           $("#course_section").val(data.course.section);
         }
-        if(channel=="btn_course") {
+         showSpinner(false);
+         changed=false;
+       /* if(channel=="btn_course") {
           $("#container").load('/course/index?section_type='+section_type, function(){
             showSpinner(false);
           });
         } else {
           showSpinner(false);
-        }
+        }*/
         $("#hdn_is_page_change").val(false);
       } else {
         alert("ERROR");
@@ -464,7 +467,7 @@ function save_course(channel) {
       }
     }
   });
-
+  }
   return false;
 }
 

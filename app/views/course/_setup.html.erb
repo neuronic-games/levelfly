@@ -1,4 +1,4 @@
-<div id="div_2" class="tab_content">
+<div id="div_2" class="tab_content form_contents">
   <div class="course_left">
     <div class="course_profile_image" id="course_image">
       <img id="course_thumb" <%if @course.image_file %>src='<%= @course.image_file %>'<%else%>src="/images/course_img_drop.png" <%end%> width="156" height="156" alt="Course image" />
@@ -131,11 +131,20 @@
     <input type="radio" name="viewing_group[]" <% if @course.visibility_type == "M" %> checked="true" <% end %> value="M"/><span>Only members can see group contents</span>
     </div> 
  </div>
- 
+ <div id="confirm_box" class="hide">
+   <%= render :partial => "/course/confirm_box" %>
+ <div>
 </div>
 
 <script type="text/javascript">
-
+$(document).ready(function(){
+  $(".form_contents").delegate("input","change",function(){
+    changed=true;
+  });
+  $(".form_contents").delegate("textarea","change",function(){
+    changed=true;
+  });
+});
   $("#course_code").mask("aaa999", {placeholder:" "});
   
   // For setup Page 
@@ -293,8 +302,10 @@
       $("#menu4").fadeIn();
       
     });    
+ });
+  $("#btn_archive").click(function(){
+    $("#confirm_box").show();
   });
-
   // Field instructions
   $(".prompted").focus(function() {
     prompt = $(this).attr("prompt");
@@ -309,12 +320,14 @@
   function addOutcome() {
      addNode('outcome');
      $("#hdn_is_page_change").val(true);
+     changed=true;
   }
 
   //Add a category
   function addCategory() {
     addNode('category');
     $("#hdn_is_page_change").val(true);
+    changed=true;
   }
   
   //Adding text field nodes for peoples, outcomes, categories

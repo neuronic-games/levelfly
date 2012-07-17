@@ -1,8 +1,17 @@
 class UserMailer < ActionMailer::Base
-  default :from => "harshitatiwari@cdnsol.com"
+  default :from => "OnCampus Admin <admin@oncampus.com>"
   
-  def registration_confirmation(user)
+  def registration_confirmation(user,sender,course,school)
     #@user = user
-    mail(:to => user, :subject => "Registered", :message => "Welcome  to cdnsol com")
+    @user = user
+    @sender = sender
+    @course = course
+    @school =school
+    subject     " You have been invited to join #{@course.name} #{@course.code} by Prof. #{@sender.full_name} at #{@school.code}"
+    recipients  user
+    sent_on     Time.now
+    mail(:to => user, 
+    :subject => " You have been invited to join #{@course.name} #{@course.code} by Prof. #{@sender.full_name} at #{@school.code}",)
+    
   end
 end

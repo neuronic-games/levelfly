@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">     
+	</head>
+    <body>
+    	
+<p>Prof. <%=@sender.full_name%> has invited you to join <%=@course.name%> <%=@course.code%>. Please click the link below to accept this invitation.</p>
+<a href="http://localhost:3000/users/sign_up/?email=<%=@user%>?course_id=<%=@course.id%>">[Accept invitation to <%=@course.name%> <%=@course.code%>]</a>
+</br></br></br>
+Prof. <%=@sender.full_name%></br>
+<%=@school.name%>
+
+
+<style type="text/css">
+</style>
+</body>
+</html>
+
+			

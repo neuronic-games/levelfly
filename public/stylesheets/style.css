@@ -3181,6 +3181,7 @@ filter:alpha(opacity="0");
 .avatarWbdr img {
 	width:53px;
 	height:53px;
+  margin-left: -7px;
 }
 .LBT_name {
 	color:#3a4512 !important;
@@ -3662,7 +3663,7 @@ border:solid 0px #000000;
 }
 .view_profile{float:left;margin-top:-15px}
 .selected_badge_position{float: right;margin: 18px 89px;}
-.tab_pos{margin-right:-25px;}
+.tab_group{margin-right:-25px;}
 .list_notifications {
   display: none;
   float:right;
@@ -3670,3 +3671,4 @@ border:solid 0px #000000;
 }
 .list_messages {display: none;}
 .comments_lists {display: none;}
+.confirm_box_width{width:301px; left:60%;}

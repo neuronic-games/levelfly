@@ -7,11 +7,18 @@
           <div class="course_pad">
            <% if section_type == "G" %>
             <div class="tabs menu_container" align="right">
-            <a href="javascript:void(0)"  id="menu1" value="1" filter="M" class="side_tab tab_pos side_tab_open" ><span class="task_tab">Active</span></a>
-            <a href="javascript:void(0)"  id="menu2" value="2" filter="A" class="side_tab tab_pos side_tab_close" ><span class="task_tab">All</span></a>
+            <a href="javascript:void(0)"  id="menu1" value="1" filter="M" class="side_tab tab_group side_tab_open" ><span class="task_tab">Active</span></a>
+            <a href="javascript:void(0)"  id="menu2" value="2" filter="A" class="side_tab tab_group side_tab_close" ><span class="task_tab">All</span></a>
             <!-- <a href="javascript:void(0)"  id="menu3" value="3" class="tab_close"><span class="task_tab">Starred</span></a> -->
           </div>
           <%end%>
+          <% if section_type == "C" %>
+            <div class="tabs course_tabs" align="right">
+            <a href="javascript:void(0)"  id="menu1" value="1" filter="active" class="side_tab tab_course side_tab_open" ><span class="task_tab">Active</span></a>
+            <a href="javascript:void(0)"  id="menu2" value="2" filter="past" class="side_tab tab_course side_tab_close" ><span class="task_tab">Past</span></a>
+          </div>
+          <%end%>
+          
           <div id ="content_list">
            <%= render :partial=>"/course/content_list",:locals => {:section_type=>section_type}%>
            </div>  
@@ -44,16 +51,7 @@ $(document).ready(function(){
   }
   
   //prepare show links
-  $('a.view').click(function() {
-    showSpinner(true);
-    section_type = $("#section_type").val();
-    url = this.href+"?section_type="+section_type;
-    $("#container").load(url, function(){
-      $("#menu_btn_dup").show();
-      showSpinner(false);
-    }); 
-    return false; 
-  });
+  
   jStorage.flush();
 });
 
@@ -90,30 +88,45 @@ $(".join_btn").click(function(event){
   event.stopPropagation();
 });
   // Handler for side-tabs
-  $(".side_tab").unbind('click').bind('click', function(){
-    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
+  $(".tab_group").unbind('click').bind('click', function(){
+    $('.tab_group').addClass("side_tab_close").removeClass("side_tab_open");
     $(this).addClass("side_tab_open").removeClass("side_tab_close");
-    getGroups();
+    filter();
   });
     
+   $(".tab_course").unbind('click').bind('click', function(){
+    $('.tab_course').addClass("side_tab_close").removeClass("side_tab_open");
+    $(this).addClass("side_tab_open").removeClass("side_tab_close");
+     filter();
+  });  
   
 // Retrieve groups based on the current filters
-function getGroups() {
+function filter() {
   showSpinner(true);
+  var section_type = $("#section_type").val();
   var filter = $(".side_tab_open:first").attr("filter");
   $.ajax({
      type: "POST",  
-     url: "/course/get_group",  
-     data: {filter:filter},
+     url: "/course/filter",  
+     data: {filter:filter,section_type:section_type},
      success: function(data) {
        $("#content_list").html(data);
-        //$(".side_tab[filter="+filter+"]").addClass("tab_open");
        showSpinner(false);
      }
   });
 }
-
-
-
-
+/*
+function getCourses() {
+  showSpinner(true);
+  var filter = $(".side_tab_open:first").attr("filter");
+  $.ajax({
+     type: "POST",  
+     url: "/course/get_course",  
+     data: {filter:filter},
+     success: function(data) {
+       $("#content_list").html(data);
+       showSpinner(false);
+     }
+  });
+}*/
 </script>

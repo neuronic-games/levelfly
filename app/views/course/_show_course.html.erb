@@ -132,6 +132,8 @@
         success: function(data) {
 		      $("#load_data").html(data);
 			    showSpinner(false);
+          $("#btn_course").removeClass("hide");
+          $("#btn_archive").removeClass("hide");
         },
         error: function()
         {

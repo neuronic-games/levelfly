@@ -90,6 +90,8 @@ Oncapus::Application.routes.draw do
   
   post "course/show_course"
   
+  post "course/set_archive"
+   
   post "course/toggle_priority_file"
   
   get "course/view_member"
@@ -138,7 +140,7 @@ Oncapus::Application.routes.draw do
   
   post "course/delete_participant"
   
-  post "course/get_group" 
+  post "course/filter" 
   
   get "group/index"
   

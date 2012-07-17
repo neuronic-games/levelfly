@@ -13,7 +13,7 @@ class CourseController < ApplicationController
         @courses = Course.find(
           :all,
           :include => [:participants], 
-          :conditions => ["(upper(courses.name) LIKE ? OR upper(courses.code) LIKE ?) and parent_type = ?",Course.parent_type_course,search_text.upcase,  search_text.upcase])
+          :conditions => ["(upper(courses.name) LIKE ? OR upper(courses.code) LIKE ?) and parent_type = ?",search_text.upcase,  search_text.upcase, Course.parent_type_course])
       
       elsif params[:section_type]=="G"
         @courses = Course.find(:all, :conditions=>["(upper(courses.name) LIKE ? OR upper(courses.code) LIKE ?) and parent_type = ? and school_id = ?",search_text.upcase,search_text.upcase, Course.parent_type_group,@profile.school_id])
@@ -26,13 +26,7 @@ class CourseController < ApplicationController
       
       if !params[:section_type].nil?
         if params[:section_type] == 'C'
-          @courses = Course.find(
-            :all, 
-            :select => "distinct *",
-            :include => [:participants], 
-            :conditions => ["participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?", @profile.id, Course.parent_type_course, Course.join_type_invite, Course.profile_type_pending, false],
-            :order => 'name'
-          )
+          @courses = Course.course_filter(@profile.id,"")
         end
         if params[:section_type] == 'G'
           @courses = Course.all_group(@profile,"M")
@@ -252,7 +246,6 @@ class CourseController < ApplicationController
     status = false
     already_added = false
     if params[:email] && params[:email]
-      
       @user = User.find_by_email(params[:email])
       if @user 
         @profile = Profile.find_by_user_id(@user.id)
@@ -280,6 +273,7 @@ class CourseController < ApplicationController
               # Send a message. It may also send an email.
               @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type)
               status = true
+             
             end
           else 
               already_added = true
@@ -287,9 +281,17 @@ class CourseController < ApplicationController
         end
         render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user}.to_json
      else
+      send_email(params[:email],params[:course_id])
       render :text => {"status"=>status, "already_added" => already_added}.to_json
     end
    end
+  end
+  
+  def send_email(email,course)
+     @course = Course.find(course)
+     @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+     @school = School.find(@current_user.school_id)
+     UserMailer.registration_confirmation(email,@current_user,@course,@school).deliver
   end
   
   def delete_participant
@@ -323,12 +325,6 @@ class CourseController < ApplicationController
       Attachment.destroy(params[:files])
       render :text => {"status"=>"true"}.to_json
     end
-  end
-  def send_email
-      if params[:user] && !params[:user].nil?
-        UserMailer.registration_confirmation(params[:user]).deliver
-        render :text=> "Mail send successfully!!"
-      end
   end
   
   def update_course_outcomes
@@ -522,11 +518,27 @@ class CourseController < ApplicationController
   end
 
   
-  def get_group
+  def filter
     if params[:filter] && !params[:filter].nil?
-        @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-        @courses = Course.all_group(@profile,params[:filter])
-        render :partial => "/course/content_list",:locals=>{:section_type=>"G"}
+       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+       if params[:section_type] && ! params[:section_type].nil?
+         if  params[:section_type] =="C"
+          @courses = Course.course_filter(@profile.id,params[:filter])
+         elsif params[:section_type] =="G"
+          @courses = Course.all_group(@profile,params[:filter])
+         end
+      end
+       render :partial => "/course/content_list",:locals=>{:section_type=> params[:section_type]}
+    end
+  end
+    
+  def set_archive
+    if params[:id] && !params[:id].nil?
+      @course = Course.find(params[:id])
+      if @course
+        @course.update_attribute('archived',true)
+        render :json => {:status => "Success"}
+      end
     end
   end
 end
