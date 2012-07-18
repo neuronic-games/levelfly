@@ -305,6 +305,7 @@ a.icon_stats_active {
 }
 .msg_box_txt .time {
   float:left;
+  cursor: pointer;
 }
 a.blue_bt19px {
   font-family:Arial, Helvetica, sans-serif;
@@ -903,6 +904,9 @@ margin-top:-20px;
   text-transform:uppercase;
   padding:11px 0 0 0;
   text-align:center;
+}
+.smaller_text {
+  font-size:10px;
 }
 .big_blue_btn:hover {
   background:#6aa5bd;
