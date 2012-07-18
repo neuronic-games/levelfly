@@ -1,0 +1,40 @@
+<%if @message_id && !@message_id.nil?%>
+<div class="warningbox "style="position:fixed">
+  <div class="heading">Warning</div>
+    <div class="clear"></div>
+    <div class="spacebar10px"></div>
+    <div class="spacebar10px"></div>
+     <div >You are about to remove this message. Are you sure?" </div>
+    
+    <div class="spacebar10px"></div>
+  <div align="right">
+  <a class="big_blue_btn inlineblock" id = "dont_delete_btn" href="javascript:void(0)">DON'T DELETE</a>
+  <a class="big_orange_btn inlineblock clr_red" id = "delete_btn" href="javascript:void(0)" rel ="<%=@message_id%>">DELETE</a> 
+  </div>
+</div>
+<% end %>
+<script type="text/javascript">
+<!--
+ $("#dont_delete_btn").click(function(){
+      $("#div_message_delete").hide();
+  });
+  
+ $("#delete_btn").click(function(){
+    showSpinner(true);
+      id = $(this).attr("rel");
+      var dataString = 'id='+id;
+      $.ajax({
+           type: "POST",  
+           url: "/message/delete_message",  
+           dataType:"json",
+           data: dataString,
+           success: function(data) {
+             $("#div_message_delete").html("");
+             $("#div_message_delete").hide();
+             $("#messsage_box_"+id).fadeOut(1000);
+             showSpinner(false);
+             }
+        });
+  }); 
+-->
+</script>

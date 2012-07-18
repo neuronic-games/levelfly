@@ -1,0 +1,18 @@
+<div class="signin">
+  <h2>Sign up</h2>
+  <%= form_for(@user, :as => @user, :url => {:controller=>:system, :action=>:edit, :id => @user.id}, :html => {:name=>"events_form",:multipart => true, :method=>"post", :class=>"form-horizontal"}) do |f| %>
+    <%#= devise_error_messages! %>
+
+    <div><%= f.label :email %><br />
+    <%= f.email_field :email, :value=>@user.email %></div>
+
+    <div><%= f.label :password %><br />
+    <%= f.password_field :password %></div>
+
+    <div><%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation %></div>
+
+    <div><%= f.submit "Sign up" %></div>
+  <% end %>
+
+</div>

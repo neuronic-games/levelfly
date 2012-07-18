@@ -5,7 +5,7 @@
   </head>
   <body>
     <p><%=@sender.full_name%> has invited you to join <%=@course.name%> (<%=@course.code%>). Please click the link below to accept this invitation.</p>
-    <a href="http://<%= Oncapus::Application.config.action_mailer.default_url_options %>/users/sign_up/?email=<%=@user%>?course_id=<%=@course.id%>">Accept invitation to <%=@course.code%></a>
+    <a href="http://<%= Oncapus::Application.config.action_mailer.default_url_options %>/system/new_user/?email=<%=@user%>&course_id=<%=@course.id%>">Accept invitation to <%=@course.code%></a>
     <br /><br /><br />
     <%=@sender.full_name%><br />
     <%=@school.name%>

@@ -247,7 +247,7 @@ body{
 }
 
 .waiting {
-  position: absolute;
+  position: fixed;/*absolute*/
   top: 0px;
   left: 0px;
   width: 640px;

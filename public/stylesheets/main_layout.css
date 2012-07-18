@@ -449,7 +449,7 @@ form {margin:0px;padding:0px;}
 }
 
 .waiting {
-  position: absolute;
+  position: fixed;/*absolute*/
   top: 0px;
   left: 180px;
   width: 800px;

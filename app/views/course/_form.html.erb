@@ -107,6 +107,7 @@ $(document).ready(function(){
   $(".menu_container").delegate('a', 'click', function(){
     showSpinner(true);
     idx = $(this).attr("value");
+    
     $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
 
     for(i=0;i<6;i++){
@@ -153,7 +154,7 @@ $(document).ready(function(){
 
     if(idx == 4) {
       $("#menu_btn_addfile").removeClass("hide");
-      $("#btn_course").removeClass("hide");
+      //$("#btn_course").removeClass("hide");
       $("#btn_archive").addClass("hide");
     } else {
       $("#menu_btn_addfile").addClass("hide");
@@ -355,6 +356,34 @@ $(document).ready(function(){
       });
     }
   });
+   $('.right_form_containerr').delegate('.message_del', 'click', function(){
+      showSpinner(true);
+      id = $(this).attr("rel");
+      console.log(id)
+      var dataString = 'id='+id;
+      $.ajax({
+           type: "POST",  
+           url: "/message/confirm",  
+           data: dataString,
+           success: function(data) {
+             $("#div_message_delete").html(data);
+             $("#div_message_delete").show();
+             showSpinner(false);
+             }
+        });
+    }); 
+    
+ $('.right_form_containerr').delegate('.time', 'click', function(){
+    var id = $(this).attr("rel");
+    if($("#word_"+id).hasClass("hide")){
+      $("#word_"+id).removeClass("hide");
+      $("#date_"+id).addClass("hide");
+      }
+    else{
+      $("#date_"+id).removeClass("hide");
+      $("#word_"+id).addClass("hide");
+      }
+   });   
 
   //Upload doc file
 });

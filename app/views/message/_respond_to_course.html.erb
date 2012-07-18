@@ -8,12 +8,12 @@
       <h3 class="name"><%=respond_course.profile.full_name%></h3>
       <p><%=respond_course.content%></p>
       <div class="msg_bottom_links">
-        <div class="time"><%= time_ago_in_words(respond_course.created_at) %> ago</div>
+         <div class="time" rel ="<%=respond_course.id%>"><span id ="word_<%=respond_course.id%>"><%= time_ago_in_words(respond_course.created_at) %> ago</span><span class="hide" id ="date_<%=respond_course.id%>"><%=gdt(respond_course.created_at)%></span></div>
       </div>
     </div>
      <div class="list_notifications" id="rq_<%=respond_course.id %>">
         <div class="like_cmt">
-          <a href="javascript:void(0);" class="message_del blue_bt19px" rel="<%=respond_course.id %>">DELETE</a>
+          <a href="javascript:void(0);" class="notification_del blue_bt19px" rel="<%=respond_course.id %>">DELETE</a>
         </div>
       </div>
     

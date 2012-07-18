@@ -125,6 +125,7 @@
         data:{id:course_id},
         success: function(data) {
 		      $("#load_data").html(data);
+          $("#btn_course").removeClass("hide");
 			    showSpinner(false);
         },
         error: function()

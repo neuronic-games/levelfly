@@ -47,4 +47,12 @@ module MessageHelper
     end
   end
   
+  def gdt(d)
+    if not d.blank?
+      d.strftime ("%m/%d/%Y %I:%M %p")
+    else
+      ''
+    end
+  end 
+  
 end

@@ -18,14 +18,7 @@ function addNode(element) {
 }
 -->
 </script>
-<div class="task_pad_top_inner "></div>
-<div class="task_side_buttons"> 
-  <!-- <a href="javascript:void(0)" class="big_blue_btn">ATTACH</a> -->
-  <a href="javascript:void(0)" id="btn_task" class="big_orange_btn">SAVE</a>
-  <!-- <a href="javascript:void(0)" class="big_blue_btn">PRINT</a> -->
-  <a href="javascript:void(0)" id="task_btn_remove" class="big_blue_btn">REMOVE</a>
-  <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@task ? false : true %>" />
-</div>
+
 <!-- notepad start-->
 
 <div class="task_content">
@@ -180,6 +173,14 @@ function addNode(element) {
         </div>
 
 		    <div id="div_3" class="tab_content hide">
+          <div class="task_pad_top_inner "></div>
+            <div class="task_side_buttons"> 
+              <!-- <a href="javascript:void(0)" class="big_blue_btn">ATTACH</a> -->
+              <a href="javascript:void(0)" id="btn_task" class="big_orange_btn">SAVE</a>
+              <!-- <a href="javascript:void(0)" class="big_blue_btn">PRINT</a> -->
+              <a href="javascript:void(0)" id="task_btn_remove" class="big_blue_btn">REMOVE</a>
+              <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@task ? false : true %>" />
+            </div>
             <div class="spacebar10px"></div>
             <div class="spacebar10px"></div>
             <div class="task_left">

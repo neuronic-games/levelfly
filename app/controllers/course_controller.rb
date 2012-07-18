@@ -242,49 +242,52 @@ class CourseController < ApplicationController
     search_participants()
    end
    
-   def add_participant
+  def add_participant
     status = false
     already_added = false
     if params[:email] && params[:email]
+      if params[:section_type] == 'G'
+           section_type = 'Group'
+      end   
+      if params[:section_type] == 'C'
+         section_type = 'Course'
+      end 
       @user = User.find_by_email(params[:email])
       if @user 
         @profile = Profile.find_by_user_id(@user.id)
-        if params[:section_type] == 'G'
-           section_type = 'Group'
-        end   
-        if params[:section_type] == 'C'
-           section_type = 'Course'
-        end 
-        if @profile
-          participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type= ? AND profile_id = ?", params[:course_id], section_type, @profile.id])
-          if !participant_exist
-            @participant = Participant.new
-            @participant.object_id = params[:course_id]
-            @participant.object_type = section_type
-            @participant.profile_id = @profile.id
-            @participant.profile_type = "P"
-            if @participant.save
-              wall_id = Wall.get_wall_id(params[:course_id],"Course")
-              Feed.create(
-                :profile_id => @profile.id,
-                :wall_id =>wall_id
-              )
-              
-              # Send a message. It may also send an email.
-              @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type)
-              status = true
-             
-            end
-          else 
-              already_added = true
+      else
+        @user, @profile = User.new_user(params[:email])
+        send_email(params[:email],params[:course_id])
+        #render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user}.to_json
+      end
+      if @profile
+        participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type= ? AND profile_id = ?", params[:course_id], section_type, @profile.id])
+        if !participant_exist
+          @participant = Participant.new
+          @participant.object_id = params[:course_id]
+          @participant.object_type = section_type
+          @participant.profile_id = @profile.id
+          @participant.profile_type = "P"
+          if @participant.save
+            wall_id = Wall.get_wall_id(params[:course_id],"Course")
+            Feed.create(
+              :profile_id => @profile.id,
+              :wall_id =>wall_id
+            )
+            # Send a message. It may also send an email.
+            @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type)
+            status = true           
           end
+        else 
+            already_added = true
         end
-        render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user}.to_json
-     else
-      send_email(params[:email],params[:course_id])
-      render :text => {"status"=>status, "already_added" => already_added}.to_json
-    end
+      end
+      render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user}.to_json
    end
+  end
+  
+  def new_partivipants(course_id, profile_id)
+    
   end
   
   def send_email(email,course)

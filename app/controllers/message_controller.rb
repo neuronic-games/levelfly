@@ -261,6 +261,25 @@ class MessageController < ApplicationController
         render :json => {:status => true}
       end
     end
-    
   end
+  
+    
+  def confirm
+    if params[:id] && !params[:id].nil?
+      @message = Message.find(params[:id])
+      render :partial => "message/warning_box",:locals =>{:@message_id =>@message.id}
+    end
+  end  
+  
+  def delete_message
+    if params[:id] && !params[:id].nil?
+      @message = Message.find(params[:id])
+      if @message
+        Message.delete_all(["parent_id = ?", @message.id])
+        @message.delete
+        render :json => {:status => true}
+      end
+    end  
+  end
+  
 end

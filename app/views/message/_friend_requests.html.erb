@@ -8,7 +8,7 @@
       <h3 class="name"><%=friend_request.profile.full_name%></h3>
       <p><%=friend_request.content%></p>
       <div class="msg_bottom_links">
-        <div class="time"><%= time_ago_in_words(friend_request.created_at) %> ago</div>
+       <div class="time" rel ="<%=friend_request.id%>"><span id ="word_<%=friend_request.id%>"><%= time_ago_in_words(friend_request.created_at) %> ago</span><span class="hide" id ="date_<%=friend_request.id%>"><%=gdt(friend_request.created_at)%></span></div>
         <div class="like_cmt">
           <span>
             <a href="javascript:void(0)" class="blue_bt19px friend-request" rel="add" id="<%=friend_request.id%>" data="<%=friend_request.message_type%>">Accept</a>

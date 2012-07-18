@@ -151,7 +151,7 @@ $('.message_list').click(function(){
   });
   
   
-   $(".message_del").click(function(){
+   $(".notification_del").click(function(){
         showSpinner(true);
         id=$(this).attr("rel");
         var dataString = 'id='+id;
@@ -166,5 +166,32 @@ $('.message_list').click(function(){
              }
         });
      });
+     
+    $(".msg_content_left").delegate('.message_del', 'click', function(){
+      showSpinner(true);
+      id = $(this).attr("rel");
+      var dataString = 'id='+id;
+      $.ajax({
+           type: "POST",  
+           url: "/message/confirm",  
+           data: dataString,
+           success: function(data) {
+             $("#div_message_delete").html(data);
+             $("#div_message_delete").show();
+             showSpinner(false);
+             }
+        });
+    }); 
+   $(".time").click(function(){
+    var id = $(this).attr("rel");
+    if($("#word_"+id).hasClass("hide")){
+      $("#word_"+id).removeClass("hide");
+      $("#date_"+id).addClass("hide");
+      }
+    else{
+      $("#date_"+id).removeClass("hide");
+      $("#word_"+id).addClass("hide");
+      }
+   }); 
   
 </script>

@@ -2,7 +2,13 @@ Oncapus::Application.routes.draw do
 
   devise_for :users
   
+  resources :users
+  
   get "system/alert"
+  
+  get "system/new_user"
+  
+  post "system/edit"
 
   post "task/view_task"#for get task related to course
   
@@ -235,6 +241,10 @@ Oncapus::Application.routes.draw do
   post "message/check_request"
   
   post "message/unfriend"
+  
+  post "message/delete_message"
+  
+  post "message/confirm"
   
   post "badge/give_badges"
   
