@@ -286,7 +286,7 @@ class CourseController < ApplicationController
          send_email(params[:email],params[:course_id],@message.id)
         
       end
-      render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user}.to_json
+      render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user,"new_user"=>new_user}.to_json
    end
   end
   

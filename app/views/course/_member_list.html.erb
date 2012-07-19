@@ -49,8 +49,11 @@
               participant_node.className = node_class;
               participant_node.id = data.profile.full_name;
               partcipant_html = '<div class="avatar_white_bdrC2"><img src='+data.profile.image_file_name+'></div>';
+              if(data.new_user)
+              partcipant_html += '<div class="people_name">' + email_id + '<br />';
+              else
               partcipant_html += '<div class="people_name">' + data.profile.full_name + '<br />';
-               partcipant_html += '<span style="font-size:10px; font-weight:normal;">Pending</span></div>';
+              partcipant_html += '<span style="font-size:10px; font-weight:normal;">Pending</span></div>';
               partcipant_html += '<div class="clear"></div>';
               participant_node.append(partcipant_html);
               $("#course_people ul").prepend(participant_node);
