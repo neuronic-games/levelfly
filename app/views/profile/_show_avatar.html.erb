@@ -234,7 +234,7 @@ $(document).ready(function(){
       $(".indi").animate({top: parseInt($this.position().top) + 50 +'px'},250);
     }
     
-    //check the clicked item typed with array for showing color pallete
+    //check the clicked item typed with array for showing color palette
     $.each(_itemForColor, function(key, value) {
       if(parseInt(model.depth) > 1 && model.item_type == value) {
         show_colorpalette = true;
