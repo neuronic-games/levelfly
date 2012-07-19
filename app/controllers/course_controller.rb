@@ -1,7 +1,7 @@
 class CourseController < ApplicationController
   layout 'main'
   before_filter :authenticate_user!
-
+        require 'digest/sha1'
   def index
     section_type = params[:section_type]
     
@@ -245,6 +245,7 @@ class CourseController < ApplicationController
   def add_participant
     status = false
     already_added = false
+    new_user = false
     if params[:email] && params[:email]
       if params[:section_type] == 'G'
            section_type = 'Group'
@@ -257,8 +258,7 @@ class CourseController < ApplicationController
         @profile = Profile.find_by_user_id(@user.id)
       else
         @user, @profile = User.new_user(params[:email])
-        send_email(params[:email],params[:course_id])
-        #render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user}.to_json
+        new_user = true
       end
       if @profile
         participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type= ? AND profile_id = ?", params[:course_id], section_type, @profile.id])
@@ -282,19 +282,19 @@ class CourseController < ApplicationController
             already_added = true
         end
       end
+      if new_user==true
+         send_email(params[:email],params[:course_id],@message.id)
+        
+      end
       render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user}.to_json
    end
   end
   
-  def new_partivipants(course_id, profile_id)
-    
-  end
-  
-  def send_email(email,course)
+  def send_email(email,course,message_id)
      @course = Course.find(course)
      @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
      @school = School.find(@current_user.school_id)
-     UserMailer.registration_confirmation(email,@current_user,@course,@school).deliver
+     UserMailer.registration_confirmation(email,@current_user,@course,@school,message_id).deliver
   end
   
   def delete_participant

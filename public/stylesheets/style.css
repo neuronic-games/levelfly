@@ -302,6 +302,7 @@ a.icon_stats_active {
 }
 .msg_box_txt .like_cmt {
   float:right;
+  margin-top:-5px;
 }
 .msg_box_txt .time {
   float:left;
@@ -906,7 +907,9 @@ margin-top:-20px;
   text-align:center;
 }
 .smaller_text {
-  font-size:10px;
+  font-size:10px  !important;
+  padding:13px 0 0 0  !important;
+  height:24px !important;
 }
 .big_blue_btn:hover {
   background:#6aa5bd;

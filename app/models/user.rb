@@ -23,16 +23,14 @@ class User < ActiveRecord::Base
   end
   
   def self.new_user(email)
-    # @user = User.new(:email => email, :password => 'password', :password_confirmation => 'password')
-    # @user.save
     @user = User.create do |u|
       u.email = email
-      u.password=User.reset_password_token
-      u.reset_password_token= User.reset_password_token 
+      #u.password=User.reset_password_token
+      #u.reset_password_token= User.reset_password_token 
     end
     @user.save(:validate => false)
    if @user
-      @profile = Profile.create(:user_id =>@user.id, :full_name =>email)
+      @profile = Profile.create_for_user(@user.id)
     end
     return @user, @profile
     

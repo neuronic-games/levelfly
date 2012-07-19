@@ -4,15 +4,43 @@
     <%#= devise_error_messages! %>
 
     <div><%= f.label :email %><br />
-    <%= f.email_field :email, :value=>@user.email %></div>
+    <%= f.email_field :email, :value=>@user.email, :disabled=>true%></div>
 
     <div><%= f.label :password %><br />
     <%= f.password_field :password %></div>
 
     <div><%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation %></div>
-
-    <div><%= f.submit "Sign up" %></div>
+    <%= f.hidden_field :message_id ,:value=> @message %>	
+    <div><%= f.submit "Sign up" ,:onclick=>"return validateForm()";%></div>
   <% end %>
 
 </div>
+<script type="text/javascript">
+jQuery.noConflict();
+
+function validateForm(){
+  if(user_password.value==""){
+    alert("Please enter Password");
+    user_password.focus();
+    return false;
+  }
+  else if(user_password.value.length < 6 ){
+    alert("Password have minimum 6 character");
+    user_password_confirmation.focus();
+    return false;
+  }
+  else if(user_password_confirmation.value == "" ){
+    alert("Please enter confirm Password");
+    user_password_confirmation.focus();
+    return false;
+  }
+
+  if(user_password.value!= user_password_confirmation.value){
+    alert("Password not match");
+    user_password_confirmation.focus();
+    return false;
+  }
+  return true;
+}
+</script>
