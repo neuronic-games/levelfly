@@ -67,8 +67,12 @@ class CourseGrade < ActiveRecord::Base
   
   def self.save_notes(profile_id, course_id,school_id,notes)
      course_notes = CourseGrade.where("school_id = ? and profile_id = ? and course_id = ? and outcome_id IS NULL",school_id, profile_id, course_id).first
-     course_notes.notes = notes
-     course_notes.save
+     if !course_notes.nil?
+       course_notes.notes = notes
+       course_notes.save
+     else
+       CourseGrade.create(:profile_id=>profile_id ,:school_id=>school_id,:course_id=>course_id,:notes=>notes)
+     end
   end
   
   def self.get_outcomes(course_id,outcomes,school_id,profile_id)

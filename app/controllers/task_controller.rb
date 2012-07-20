@@ -93,7 +93,7 @@ class TaskController < ApplicationController
     @task = Task.find_by_id(params[:id])
     @course = @task.course
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    puts"#{@task.id}"
+    @task_owner =  TaskParticipant.find(:first, :conditions=>["profile_id = ? and task_id = ? and profile_type = ?",@profile.id, @task.id, Task.profile_type_owner])
     @outcomes = @course.outcomes
     @courses = Course.find(
       :all, 
@@ -276,6 +276,13 @@ class TaskController < ApplicationController
     status = nil
     if params[:task_id] && !params[:task_id].empty?
       status = Task.complete_task(params[:task_id], params[:check_val]=="true", user_session[:profile_id])
+    end
+    render :text => {:status => status}.to_json
+  end
+  
+  def points_credit
+    if params[:task_id] && !params[:task_id].nil?
+      status = Task.points_to_student(params[:task_id], params[:check_val]=="true", params[:member_id])
     end
     render :text => {:status => status}.to_json
   end

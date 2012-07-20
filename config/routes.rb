@@ -86,6 +86,8 @@ Oncapus::Application.routes.draw do
   
   get "task/duplicate"
   
+  post "task/points_credit"
+  
   get "friend/index"
   
   get "course/index"

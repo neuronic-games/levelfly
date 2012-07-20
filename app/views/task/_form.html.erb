@@ -332,16 +332,26 @@ function addNode(element) {
                   <% if @people and !@people.empty? %>
                    <% @people.each do |p| %>
                         <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
-                          <input type="checkbox" <%= @task && member_associate(p.profile_id, @task.id) ? "checked='checked'" : "" %> name="chk_task_people[]" id="<%=p.profile.id%>" style="float:left; margin-top:35px;" />
-                          <div class="avatar_white_bdr" style="float:left; margin-left:10px;">
-                            <img src="<%=p.profile.image_file_name%>" profile_id="<%=p.profile_id%>" class="profile"/>
+                          <div style="">
+                            <input type="checkbox" <%= @task && member_associate(p.profile_id, @task.id) ? "checked='checked'" : "" %> name="chk_task_people[]" id="<%=p.profile.id%>" style="float:left; margin-top:35px;" />
+                            <div class="avatar_white_bdr" style="float:left; margin-left:10px;">
+                              <img src="<%=p.profile.image_file_name%>" profile_id="<%=p.profile_id%>" class="profile"/>
+                            </div>
+                            <div style="float:left; margin:35px 0 0 10px;">
+                              <%= p.profile.full_name %> <br />
+                              <%= p.profile.major_school %>
+                            </div>
+                          </div>  
+                          <div id="credited_<%=p.profile.id%>" class="tbc">
+                           CREDITED
+                           <div class="margin_top"><input type="checkbox" <%= @task && member_points(p.profile_id, @task.id) ? "checked='checked'" : "" %>name="task_credited[]" class ="check_box_credired"<%if @task_owner && !@task_owner.nil?%><%else%>disabled="disabled"<%end%>id="c_<%=p.profile.id%>" rel ="<%=p.profile.id%>"/></div>
                           </div>
-                          <div style="float:left; margin:35px 0 0 10px;">
-                            <%= p.profile.full_name %> <br />
-                            <%= p.profile.major_school %>
-                          </div>
+                          <div id="completed_div_<%=p.profile.id%>" class="tbc">
+                          COMPLETED
+                          <div class="margin_top"><%=complete_date(p.profile_id,@task.id)%></div>
                         </div>
                         
+                        </div>                        
                         <div class="clear"></div>
                         
                    <% end %>
@@ -491,6 +501,25 @@ $(document).ready(function(){
        setStorage("task_outcomes_"+$(this).attr('id'), $(this).val());
     }
   });
+  
+  $('#load_task_participant_wall').delegate('input[name="task_credited[]"]', 'change', function(){
+    check_val = $(this).is(':checked');
+    task_id = $("#task_id_hdn").val();
+    member_id = $(this).attr('rel');
+      showSpinner(true);
+      $.ajax({
+         type:"POST",
+         dataType: "json",
+         url:"/task/points_credit",
+         data:{task_id:task_id,member_id:member_id,check_val:check_val},
+         success:function(data){
+           showSpinner(false);
+         }
+      });
+  });
+  
+  
+  
   
   $('#load_task_participant_wall').delegate('input[name="chk_task_people[]"]', 'change', function(){
     check_val = $(this).is(':checked');

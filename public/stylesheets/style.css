@@ -2916,9 +2916,10 @@ filter:alpha(opacity="0");
 }
 .task_member {
   margin: 10px 0 0 0;
-  padding: 4px 0px 4px 12px;
+  /*padding: 4px 0px 4px 12px;*/
   border-bottom: 1px solid #ccc;
 }
+.margin_top{margin-top:10px;}
 
 /********************************group page************************************/
 
@@ -3677,5 +3678,7 @@ border:solid 0px #000000;
   margin: -27px 14px;
 }
 .list_messages {display: none;}
+.completed_task {float:right; margin-top:-100px; width:200px;}
 .comments_lists {display: none;}
 .confirm_box_width{width:301px; left:60%;}
+.tbc{float:right; width:100px; text-align:center;}
