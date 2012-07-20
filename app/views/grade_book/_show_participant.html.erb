@@ -36,6 +36,18 @@
           </tr>
           <%end%>
         <%end%>
+        <%if @count<10%>
+          <%for i in (@count..9)%>
+            <tr class="<%= cycle("GB_odd","")%>">
+            <td width="63%" class="Name_box td_align"></td><!-- td_align-->
+            
+            <td class="td_align"> 
+              <div class="b_box"><input type="text" name="grade" id="" class="task_grade" value="" maxlength="1" readonly="readonly" size="5"/></div>
+            </td>
+         
+          </tr>
+          <%end%>
+        <%end%>
       </table>
       
     </div><!--Grade_left_panel-->
@@ -58,6 +70,22 @@
           </tr>
           <%end%>
         <%end%>  
+        <%if @count<10%>
+          <%for i in (@count..9)%>
+          <tr class="<%= cycle("Dark_no","light_row")%>">
+            <%if !@outcomes.nil?%>
+               <% @outcomes.each do |o|%>
+                <td>
+                  <div class="GB_outcomment rotate_text"></div>
+                </td>
+                
+                <td class="td_align"><input type="text" name="grade" id="" class="grades" value="" maxlength="1" readonly="readonly" size="1"/></td>
+              <%end%>
+            <%end%>
+          </tr>
+          
+          <%end%>
+        <%end%> 
       </table>
       
     </div><!--Grade_right_panel-->
@@ -133,6 +161,41 @@
        </tr>
       <% end %>
      <% end %> 
+    <%if @count<10%>
+      <%for i in (@count..9)%>
+        <tr class="GB_row" id =r_<%=i%>>
+        <% unless @tasks.nil? %>
+          <% @tasks.each do |t| %> 
+          <td class="red_border"> 
+            <table border="0" class="GB_table GB_editable task_grades_hieg">
+              <tr <%if i%2 == 0%>class="GB_odd"<%end%>>
+              <% @task_outcomes = t.outcomes%>
+               <td <%if (i==0)%>class=""<%else%>class="td_align"<%end%>>
+                 <input type="text" name="task_grade" value="" id="" rel = "" class="task_grade " readonly="readonly" maxlength="4" size="1"/>
+               </td>
+               
+                <% if !@task_outcomes.nil?%>
+                  <% @task_outcomes.each_with_index do |o,j|%>
+                   
+                  <td class="<%if i%2==0%>Dark_no<%else%>light_row<%end%> width_30 <%if i == 0%>hover<%end%>">
+                    <div class="GB_outcomment2 rotate_text" id =""></div>
+                  </td>
+                 
+                  <td class="<%if i%2==0%>Dark_no<%else%>light_row<%end%> width_30 td_align">
+                    <input type="text" name="task_point" value="" id="" rel= ""class="task_grade" readonly="readonly" maxlength="1" size="2"/>
+                  </td>
+                  <%end%>
+                <%end%>
+              </tr>
+            </table>
+          </td>
+        <% end %>
+       <% end %>
+       </tr>
+      <% end %>
+    <% end %> 
+     
+     
     </table>
 
   </div><!--task_left_heading-->

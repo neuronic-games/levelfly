@@ -27,7 +27,7 @@ class GradeBookController < ApplicationController
         @outcomes = @latest_course.outcomes
         @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
         #@participant = @courses.first.participants
-        
+        @count = @participant.count
         @tasks = Task.find(:all,:conditions=>["course_id = ?",@course_id], :select => "name,id")
       end
       
@@ -110,6 +110,7 @@ class GradeBookController < ApplicationController
             t["task_outcomes"] = t.outcomes
           end
         end
+       @count = @participant.count  
     end
 
     respond_to do |format|
@@ -119,7 +120,8 @@ class GradeBookController < ApplicationController
         :tasks => @tasks,
         :participant => @participant,
         :outcomes => @outcomes,
-        :profile => @profile}}
+        :profile => @profile,
+        :count => @count}}
     end
 
   end
@@ -221,7 +223,8 @@ class GradeBookController < ApplicationController
           end
         end
       end
-      render :json => {:participant => @participant}
+      @count = @participant.count  
+      render :json => {:participant => @participant,:count => @count}
     end  
   end
   
@@ -268,7 +271,8 @@ class GradeBookController < ApplicationController
           end
         end 
       end
-      render :json => {:outcomes => @outcomes, :participants=>@participant}
+       @count = @participant.count  
+      render :json => {:outcomes => @outcomes, :participants=>@participant, :count=>@count}
     end
   end
 

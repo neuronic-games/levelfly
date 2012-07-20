@@ -143,17 +143,18 @@ class Task < ActiveRecord::Base
         a_participant.save
       end
       status = true
+      Task.task_grade_points(task_id)
     elsif participant.profile_type == Task.profile_type_member
       # Give points to members who completed the task
       participant.complete_date = complete ? Time.now : nil
-      participant.status = complete ? Task.status_complete : Task.status_assigned
-      profile.xp += complete ? task.points : -task.points
+      if  participant.status ==  Task.status_complete
+        profile.xp += complete ? task.points : -task.points
+      end
+      participant.status = Task.status_assigned#complete ? Task.status_complete : Task.status_assigned
       participant.save
       profile.save
       status = complete
-    end
-    Task.task_grade_points(task_id)
-    
+    end   
     return status
   end  
   
@@ -167,4 +168,23 @@ class Task < ActiveRecord::Base
     end
   end
   
+  def self.points_to_student(task_id, complete, profile_id)
+    status = nil
+    participant = TaskParticipant.find(:first,
+      :include => [:profile, :task],
+      :conditions => ["task_id = ? and profile_id = ?", task_id, profile_id])
+    profile = participant.profile
+    task = participant.task
+    if participant
+      if participant.profile_type == Task.profile_type_member
+      # Give points to members who completed the task
+      participant.status = complete ? Task.status_complete : Task.status_assigned
+      profile.xp += complete ? task.points : -task.points
+      profile.save
+      participant.save
+      status = complete
+      end
+    end
+    return status
+  end
 end
