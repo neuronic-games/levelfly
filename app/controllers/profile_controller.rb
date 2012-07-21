@@ -144,8 +144,9 @@ class ProfileController < ApplicationController
       @profile = Profile.find(params[:profile_id])
       @badge = Badge.badge_count(@profile.id)
     end
-    @friends = @profile.friends
+    @current_friends = @profile.friends
     @groups = Course.all_group(@profile,"M")
+    @courses = Course.course_filter(@profile.id,"")
     render :partial => "/profile/user_profile", :locals => {:profile => @profile}
   end
 

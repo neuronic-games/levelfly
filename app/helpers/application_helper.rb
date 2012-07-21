@@ -17,5 +17,13 @@ module ApplicationHelper
     return @user.email
   end
  end
+ 
+ def change_date_format(date)
+    if not date.blank?
+      date.strftime ("%m/%d/%Y")
+    else
+      ''
+    end
+  end 
   
 end

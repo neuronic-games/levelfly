@@ -18,9 +18,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-  <%= yield %>
   
+  <% flash.each do |name, msg| %>
+		   <div class="error_message"><h2><%= msg %></h2></div>
+  <% end %> 
+  <%= yield %>
+
   <div id="dialog" class="dialog"></div>
   <div id="waiting" class="waiting"><img src="/images/ajax-loader.gif"></div>
 

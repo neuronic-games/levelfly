@@ -11,9 +11,9 @@
     <div class="profile_item">
       <div id="full_name" class="full_name">
         <input type="text" name="full_name" id="full_name_input" class="full_name" value="<%= profile.full_name %>" placeholder="Enter Name" />
-      </div>
-       
-      <% if (@profile.id != profile.id)%>
+      </div>    
+      <span class="profile_header" style="font-size:16px;"><%=h profile.major.code + ", " if profile.major %><%=profile.school.code if profile.school%></span>
+      <% if (user_session[:profile_id] != profile.id)%>
         <span id="input_un_bl">
           <% if is_friend(user_session[:profile_id], profile.id) %>
           <a href="javascript:void(0)" id="unfriend" class="btn">UNFRIEND</a>
@@ -31,14 +31,12 @@
            <a href="javascript:void(0)" name="message" id="message" class="btn menu_btn" rel="/message/friends_only/<%=profile.id %>">Message</a>
         </span>
       <% end %>
-      
-      <span class="profile_header" style="font-size:16px;"><%=h profile.major.code + ", " if profile.major %><%=profile.school.code if profile.school%></span>
     </div>
-
+    <% if (user_session[:profile_id] == profile.id)%>
     <div class="profile_item gap">
       <a href="javascript:void(0)" class="big_blue_btn" name="change_my_look" id="change_my_look" onClick="loadPage('/profile/edit_wardrobe');">Wardrobe</a>
     </div>
-    
+    <% end %>
   </div>
   
   <div class="profile_row">
@@ -104,6 +102,36 @@
    
   </div>
 
+  <!--Courses-->
+   <div class="profile_row">
+    <div class="profile_item profile_share">
+      <input type="checkbox" name="share" class="share" value="friends" />
+    </div>
+    <div class="profile_item full_width">
+      <div class="caption">Courses</div>
+      <div class="profile_row_border full_width">
+      <% if @courses.empty? %>
+        <div class="profile_item_empty">No Courses</div>
+      <% else %>
+        <span>
+        <% @courses.each do |c|%>
+          <ul class="stat_icons_box2">
+          <li class="width12">
+          <div class="group_profile_icon" id="group_image">
+          <img id="course_thumb" <%if c.image_file %> src="<%= c.image_file %>" <%else%> src="/images/course_img_drop.png" <%end%> width="53" height="53" alt="Course image" />
+          </div>
+          <span><%=c.name%></span></li>
+        </ul>
+        <%end%>
+      </span>  
+       <div class="clear"></div>
+      <% end %>
+      </div>
+    </div>
+  </div>
+
+  
+  
   <!-- Groups -->
   <div class="profile_row">
     <div class="profile_item profile_share">
@@ -140,11 +168,11 @@
     <div class="profile_item full_width">
       <div class="caption">Friends</div>
       <div class="profile_row_border full_width">
-      <% if @friends.empty? %>
+      <% if @current_friends.nil? %>
         <div class="profile_item_empty">No Friends</div>
       <% else %>
         <span>
-        <% @friends.each do |f|%>
+        <% @current_friends.each do |f|%>
           <ul class="stat_icons_box2">
           <li class="width12">
           <div class="avatar_white_bdr01"><img src="<%=f.profile.image_file_name%>" profile_id="<%= f.profile.id %>" width="54" height="53" class ="profile"/></div>
