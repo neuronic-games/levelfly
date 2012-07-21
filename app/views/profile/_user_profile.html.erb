@@ -14,7 +14,7 @@
       </div>    
       <span class="profile_header" style="font-size:16px;"><%=h profile.major.code + ", " if profile.major %><%=profile.school.code if profile.school%></span>
       <% if (user_session[:profile_id] != profile.id)%>
-        <span id="input_un_bl">
+        <span><span id="input_un_bl">
           <% if is_friend(user_session[:profile_id], profile.id) %>
           <a href="javascript:void(0)" id="unfriend" class="btn">UNFRIEND</a>
           <% else %>
@@ -24,12 +24,11 @@
             <a href="javascript:void(0)" class="btn" id="Friend" rel="save">Friend</a>
             <% end %>
           <% end %>
-          <a href="javascript:void(0)" class="btn" name="block" id="block">Block</a>
         </span>
         <span id="input_no_me">
            <a href="javascript:void(0)" name="notes" id="notes" class="btn menu_btn" rel="/message/notes/<%=profile.id %>">Notes</a>
            <a href="javascript:void(0)" name="message" id="message" class="btn menu_btn" rel="/message/friends_only/<%=profile.id %>">Message</a>
-        </span>
+        </span></span>
       <% end %>
     </div>
     <% if (user_session[:profile_id] == profile.id)%>
