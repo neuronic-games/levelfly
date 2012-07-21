@@ -3682,3 +3682,14 @@ border:solid 0px #000000;
 .comments_lists {display: none;}
 .confirm_box_width{width:301px; left:60%;}
 .tbc{float:right; width:100px; text-align:center;}
+.GB_outcomment3 {
+    color: #000000;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0;
+    text-transform: uppercase;
+    top: 34px;
+    white-space: nowrap;
+    width: 16px;
+}
