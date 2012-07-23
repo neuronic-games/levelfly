@@ -260,6 +260,8 @@ Oncapus::Application.routes.draw do
   
   post "badge/warning_box"
   
+  post "badge/badge_detail"
+  
   match 'task' => 'task#index'
   
   match 'grade_book' => 'grade_book#index'

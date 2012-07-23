@@ -40,9 +40,11 @@ class TaskController < ApplicationController
   
   def new
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    @courses = Course.find(:all, 
+    @courses = Course.find(
+      :all, 
       :include => [:participants], 
-      :conditions => ["participants.profile_id = ? and participants.profile_type = ?", @profile.id, 'M'])
+      :conditions => ["participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and Courses.archived = ?", @profile.id, 'M',Course.parent_type_course,false]
+    )   
     @task = Task.new
     respond_to do |wants|
       wants.html do
@@ -98,8 +100,9 @@ class TaskController < ApplicationController
     @courses = Course.find(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.profile_id = ? and participants.profile_type = ?", @profile.id, 'M']
-    )
+      :conditions => ["participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and Courses.archived = ?", @profile.id, 'M',Course.parent_type_course,false]
+    )    
+    
     @groups = Group.find(:all, :conditions =>["task_id = ?", @task.id])
     
     @people = Participant.find(

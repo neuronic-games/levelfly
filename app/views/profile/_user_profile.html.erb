@@ -88,7 +88,7 @@
           <ul class="stat_icons_box">    
               <% @badge.each do |b|%>  
               <li>
-                <div class="SI_icon"><img src="images/badges/<%=b.badge_image.image_file_name%>"class="icon_style_badge"/></div>
+                <div class="SI_icon"><img src="images/badges/<%=b.badge_image.image_file_name%>"class="icon_style_badge hover badge_details" id="<%=b.id%>"/></div>
                 <span class="text_style_badge"><%=b.name%></span></li>
               <%end%>  
             <li>
@@ -116,8 +116,8 @@
         <% @courses.each do |c|%>
           <ul class="stat_icons_box2">
           <li class="width12">
-          <div class="group_profile_icon" id="group_image">
-          <img id="course_thumb" <%if c.image_file %> src="<%= c.image_file %>" <%else%> src="/images/course_img_drop.png" <%end%> width="53" height="53" alt="Course image" />
+          <div class="group_profile_icon hover" id="group_image">
+          <img id="<%=c.id%>" class ="cg_wall"<%if c.image_file %> src="<%= c.image_file %>" <%else%> src="/images/course_img_drop.png" <%end%> width="53" height="53" alt="Course image" rel="C"/>
           </div>
           <span><%=c.name%></span></li>
         </ul>
@@ -146,8 +146,8 @@
         <% @groups.each do |g|%>
           <ul class="stat_icons_box2">
           <li class="width12">
-          <div class="group_profile_icon" id="group_image">
-          <img id="course_thumb" <%if g.image_file %> src="<%= g.image_file %>" <%else%> src="/images/course_img_drop.png" <%end%> width="53" height="53" alt="Course image" />
+          <div class="group_profile_icon hover" id="group_image">
+          <img id="<%=g.id%>" class ="cg_wall"<%if g.image_file %> src="<%= g.image_file %>" <%else%> src="/images/course_img_drop.png" <%end%> width="53" height="53" alt="Course image" rel="G"/>
           </div>
           <span><%=g.name%></span></li>
         </ul>
@@ -185,6 +185,9 @@
     </div>
   </div>
 </div>
+</div>
+<div class = "badge_detail hide" id="badge_detail">
+  <%= render :partial => "/badge/badge_detail" %>
 </div>
 <%#
   <div id="box">
@@ -314,6 +317,37 @@ $(document).ready(function(){
     saveProfile();
     setAlert("Saving interests " + _profile.tag_list);
   });
+  
+  $(".cg_wall").click(function(){
+    id = $(this).attr("id");
+    section_type = $(this).attr("rel")
+    showSpinner(true);
+      $.ajax({
+        type: "GET",
+        url: "/course/show",
+        data:{id:id,section_type:section_type},
+        success: function(data) {
+          $("#container").html(data);  
+          showSpinner(false);
+        }
+      });  
+  });
+  
+  $(".badge_details").click(function(){
+    id = $(this).attr("id");
+    showSpinner(true);
+      $.ajax({
+        type: "POST",
+        url: "/badge/badge_detail",
+        data:{id:id},
+        success: function(data) {
+          $("#badge_detail").html(data); 
+          $("#badge_detail").show();
+          showSpinner(false);
+        }
+      });  
+  });
+
 
   function saveProfile() {
     $.ajax({
