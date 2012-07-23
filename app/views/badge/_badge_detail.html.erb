@@ -1,0 +1,31 @@
+<%if @badge_detail and !@badge_detail.nil?%>
+<div class="badge_popup"> 
+<div class="heading">Badge Detail</div>
+  </br>
+   <div class="heading02">Name
+     &nbsp;&nbsp;<span><%=@badge_detail.name%></span>
+   </div> 
+   <div class="heading02">Description
+     &nbsp;&nbsp;<div class="badge_descr"><%=@badge_detail.descr%></div>
+   </div>
+   <div class="SI_icon icon"><img src="images/badges/<%=@badge_detail.badge_image.image_file_name%>"class="icon_style_badge  badge_details" id=""/>
+   </div>
+</div>
+<%end%>
+
+
+<script type="text/javascript">
+
+// Hide the card if clicked outside
+$(document).click(function (e)
+{
+    var container = $("#badge_detail");
+
+    if (container.has(e.target).length === 0)
+    {
+        container.hide();
+        $(document).unbind('click');
+    }
+});
+
+</script>

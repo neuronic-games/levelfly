@@ -173,9 +173,9 @@ class Task < ActiveRecord::Base
     participant = TaskParticipant.find(:first,
       :include => [:profile, :task],
       :conditions => ["task_id = ? and profile_id = ?", task_id, profile_id])
-    profile = participant.profile
-    task = participant.task
     if participant
+      profile = participant.profile
+      task = participant.task
       if participant.profile_type == Task.profile_type_member
       # Give points to members who completed the task
       participant.status = complete ? Task.status_complete : Task.status_assigned

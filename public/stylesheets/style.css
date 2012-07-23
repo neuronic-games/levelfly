@@ -3693,3 +3693,33 @@ border:solid 0px #000000;
     white-space: nowrap;
     width: 16px;
 }
+.font_12px{font-size:12px;}
+.badge_popup{
+ background: url("../images/add_newtask_bg.jpg") repeat scroll 0 0 #FFFFFF;
+    border: 0 solid #000000;
+    border-radius: 16px 16px 16px 16px;
+    box-shadow: 0 0 12px #333333;
+    height: 20%;
+    left: 35%;
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    width: 29%;
+    z-index: 9993;
+}
+.badge_popup .heading{
+  color: #3C68A3;
+	font-family: 'CollegeRegular';
+	font-size: 21px;
+	padding: 4px 15px 0 0;
+	border-bottom:#dba29c solid 1px;
+	padding:0 0 5px 0;
+}
+.badge_popup .icon{float:right; margin-top:-40px;}
+.badge_popup .heading02 {
+  color: #5B5757;
+  font-weight: bold;
+	font-size: 14px;
+	padding:5px 15px 0 0;
+}
+.badge_popup .badge_descr{margin:-16px 0 0 90px; width:190px;}

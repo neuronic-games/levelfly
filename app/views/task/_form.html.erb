@@ -96,7 +96,7 @@ function addNode(element) {
               <div class="task_detailbox">
                 <!--<div class="round_num" >2</div>-->
                 <div class="field_box2">
-                  <p>Name</p>
+                  <p class="font_12px">Name</p>
                   <div class="dd_bg">
                     <input type="text" name="task" id="task" class="dd_input" <%if @task %> value="<%=@task.name %>" readonly="readonly" <%end%> onblur='javascript:setStorage("task_name", $(this).val())'/>
                 </div>
@@ -108,13 +108,13 @@ function addNode(element) {
               <div class="task_detailbox">
                <!-- <div class="round_num" >3</div>-->
                 <div class="field_box2">
-                  <div class="date_viewfield">Due Date
+                  <div class="date_viewfield font_12px">Due Date
                     <div class="dd_bg">
                       <input type="text" class="dd_input" id="task_date"  <%if @task %> value="<%=@task.due_date%>" readonly="readonly" <%end%>/>
                     </div>
                   </div>
-                  <div class="rating_viewfield">
-                   Rating
+                  <div class="rating_viewfield font_12px">
+                   Task Challenge Rating
                     <img src="<%=@task.rating_icon_file if @task%>" class="task_rating_icon task_raiting" task_id="<%=@task.id if @task%>">
                   </div>
                 </div>
@@ -126,7 +126,7 @@ function addNode(element) {
               <div class="task_detailbox">
                 <div class="empty_num_space" ></div>
 
-                <div class="field_box2"> Description
+                <div class="field_box2 font_12px"> Description
                   <fieldset>
                     <div class="dd_bg ">
                       <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea" readonly="<%= @task ? true : false %>"><%=@task.descr if @task%></textarea>
@@ -142,7 +142,7 @@ function addNode(element) {
                 <div class="empty_num_space" ></div>
                  
                 <% if @task and !@task.outcomes.empty? %>
-                  <div class="field_box2">Outcomes
+                  <div class="field_box2"><span class="font_12px">Outcomes</span>
                     <div id="load_outcomes">
 
                     <% @task.outcomes.each do |outcomes| %>
@@ -191,7 +191,7 @@ function addNode(element) {
                 </div>
                 <div class="clip_img"></div>
                 <div class="task_info_meta">
-                  <div class="title">TASK FOR</div>
+                  <div class="title">Course Task is For</div>
                 </div>
                 <div align="center">
                    <div class="course_select_viewfield">
@@ -252,7 +252,7 @@ function addNode(element) {
               <div class="task_detailbox">
                 <!--<div class="round_num" >2</div>-->
                 <div class="field_box2">
-                  <p>Name</p>
+                  <p class="font_12px" >Name</p>
                   <div class="dd_bg">
                     <input type="text" name="task" id="task" class="dd_input" value="<%=@task.name if @task %>" onblur='javascript:setStorage("task_name", $(this).val())'/>
                   </p>
@@ -265,7 +265,7 @@ function addNode(element) {
               <div class="task_detailbox">
                <!-- <div class="round_num" >3</div>-->
                 <div class="field_box_setup">
-                  <div class="date_viewfield">Due Date
+                  <div class="date_viewfield font_12px">Due Date
                     <div class="dd_bg">
                       <input type="text" name="due_date" id="due_date" class="dd_input" value="<%=@task.due_date if @task %>"/>
                     </div>
@@ -278,8 +278,8 @@ function addNode(element) {
                     <option value="confirm__by_creator">Confirm by Creator</option>
                   </select>
                 </div>
-                <div class="rating_viewfield">
-                   Rating<br />
+                <div class="rating_viewfield font_12px">
+                   Task Challenge Rating<br />
                    <select id="level" name="level" class="clipboard_select" style="width:80px;">
                      <option <%if @task.level==2 %>selected="selected"<%end%> value="2">High</option>
                      <option <%if @task.level==1 %>selected="selected"<%end%> value="1">Medium</option>
@@ -293,7 +293,7 @@ function addNode(element) {
               <!--list box-->
               <div class="task_detailbox">
                 <div class="empty_num_space" ></div>
-                <div class="field_box2"> Description
+                <div class="field_box2 font_12px"> Description
                   <fieldset>
                     <div class="dd_bg">
                       <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea"><%=@task.descr if @task %></textarea>
@@ -309,7 +309,7 @@ function addNode(element) {
                 <div class="empty_num_space" ></div>
                 
                 
-                <div class="field_box2">Outcomes
+                <div class="field_box2 "><span class="font_12px">Outcomes</span>
                   <div id="load_outcomes_wall">
                     <% if !@outcomes.nil? %>
                       <% @outcomes.each do |outcomes| %>
@@ -327,7 +327,7 @@ function addNode(element) {
                 
                 
                 <br /><br />
-                <div class="field_box2">Members
+                <div class="field_box2"><span class="font_12px">Members</span>
                   <div id="load_task_participant_wall">
                   <% if @people and !@people.empty? %>
                    <% @people.each do |p| %>
@@ -342,6 +342,10 @@ function addNode(element) {
                               <%= p.profile.major_school %>
                             </div>
                           </div>  
+                          <div id="" class="tbc">
+                           EXTRA CREDIT
+                           <div class="margin_top"><input type="checkbox" "checked=checked" name="task_extra_credited[]" class ="check_box_credired" rel =""/></div>
+                          </div>
                           <div id="credited_<%=p.profile.id%>" class="tbc">
                            CREDITED
                            <div class="margin_top"><input type="checkbox" <%= @task && member_points(p.profile_id, @task.id) ? "checked='checked'" : "" %>name="task_credited[]" class ="check_box_credired"<%if @task_owner && !@task_owner.nil?%><%else%>disabled="disabled"<%end%>id="c_<%=p.profile.id%>" rel ="<%=p.profile.id%>"/></div>
@@ -349,8 +353,8 @@ function addNode(element) {
                           <div id="completed_div_<%=p.profile.id%>" class="tbc">
                           COMPLETED
                           <div class="margin_top"><%=complete_date(p.profile_id,@task.id)%></div>
-                        </div>
-                        
+                          </div>
+                                                  
                         </div>                        
                         <div class="clear"></div>
                         

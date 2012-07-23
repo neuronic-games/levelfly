@@ -81,4 +81,14 @@ before_filter :authenticate_user!
     render :text=> "DELETED"
   end
 
+  def badge_detail
+    if params[:id] and !params[:id].nil?
+      @badge_detail = Badge.find(params[:id])
+      if @badge_detail
+        render :partial => "badge/badge_detail"
+      else
+        render
+      end
+    end   
+  end
 end
