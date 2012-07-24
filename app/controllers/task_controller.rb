@@ -290,6 +290,18 @@ class TaskController < ApplicationController
     render :text => {:status => status}.to_json
   end
   
+  def extra_credit
+    if params[:task_id] && !params[:task_id].nil?
+      status = nil;
+      @tp = TaskParticipant.find(:first, :conditions=>["profile_id = ? and task_id = ?",params[:member_id],params[:task_id]])
+      if @tp and !@tp.nil?
+        @tp.update_attribute("extra_credit",params[:check_val])
+        status = params[:check_val]
+      end
+    end
+    render :text => {:status => status}.to_json
+  end
+  
   def edit
   end
   

@@ -2919,6 +2919,9 @@ filter:alpha(opacity="0");
   /*padding: 4px 0px 4px 12px;*/
   border-bottom: 1px solid #ccc;
 }
+.task_member .check_box{float:left; margin-top:35px;}
+.task_member .member_name {float:left; margin:35px 0 0 10px;}
+.task_member .avtar{float:left; margin-left:10px;}
 .margin_top{margin-top:10px;}
 
 /********************************group page************************************/
@@ -3715,7 +3718,10 @@ border:solid 0px #000000;
 	border-bottom:#dba29c solid 1px;
 	padding:0 0 5px 0;
 }
-.badge_popup .icon{float:right; margin-top:-40px;}
+.badge_popup .icon{float:right; margin-top:-15px;}
+.selected_column{background-color:#DFD4B6 !important;}
+.sign_out_btn{float:right; margin-right:10px;}
+
 .badge_popup .heading02 {
   color: #5B5757;
   font-weight: bold;

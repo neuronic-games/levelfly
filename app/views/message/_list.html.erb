@@ -1,11 +1,3 @@
-<div style="width:50%;">
-  <div style="margin-left: 90px; text-align:right;">
-    <textarea id="msg_content" name="msg_content" class="msg_content2" placeholder="Enter your message to share..."></textarea> <br />
-
-    <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
-    <a href="javascript:void(0)" id="" class="sbmt_msg blue_bt19px" title="msg_content" rel="C" onclick="javascript:void(0);">Post</a>
-  </div>
-</div>
 
 <div class="messages_content load_messages">
   <div class="msg_content_left">
@@ -22,7 +14,6 @@
       
 
      <!-- Respond -->
-    <div id="message_wrapper" class="message_wrapper">
        <% if @respont_to_course and not @respont_to_course.empty? %>
          <h2>NOTIFICATIONS</h2>
         <div id="course_requset_respond">
@@ -32,8 +23,18 @@
         </div>
       <% end %>
      <!-- Message -->
+
+  <div id="" class="message_wrapper">
+    <div style="margin-left: 90px; text-align:right;">
+      <textarea id="msg_content" name="msg_content" class="msg_content2" placeholder="Enter your message to share..."></textarea> <br />
+      <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
+      <a href="javascript:void(0)" <%if friend_id && !friend_id.nil? %>id="<%=friend_id%>" rel="Profile"<%else%>id="<%=user_session[:profile_id]%>" rel=""<%end%> class="sbmt_msg blue_bt19px" title="msg_content" onclick="javascript:void(0);">Post</a>
+    </div>
+  </div>
+   <h2>MESSAGES</h2>
+   <div id="message_wrapper" class="message_wrapper">
        <% if @messages %>
-       <h2>MESSAGES</h2>
+      
         <% @messages.each do |message| %>
           <%= render :partial => "/message/messages", :locals => {:message=>message} %>
         <% end %>
@@ -127,7 +128,7 @@ $('.message_list').click(function(){
           $("#post_comment_"+parent_id).hide();
           $("#messsage_box_"+parent_id).append(data);
         } else {
-          $("#message_wrapper").append(data);
+          $("#message_wrapper").prepend(data);
           $("#msg_input").fadeOut();
         }
         showSpinner(false);

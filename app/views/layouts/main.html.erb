@@ -46,6 +46,8 @@
           <a href="javascript:void(0);" rel="/profile/user_profile" class="page_switcher"><img id="my_avatar_image" src="<%= @profile.image_file_name %>" /></a>
         </div>
         <div class="avatar_detail">
+          <div class="sign_out_btn"><a href="/users/sign_out" data-method="delete" rel="nofollow"><img src="/images//signout_btn.png" /></a>
+          </div>
           <div id="tool_bar_full_name" class="full_name">
             <% if @profile.full_name.blank? %>
             <a href="javascript:void(0);" rel="/profile/user_profile" class="page_switcher full_name">EDIT MY PROFILE</a>
@@ -56,13 +58,16 @@
           
           <h2><%= @profile.major_school %></h2>
         </div>
+         <div class="" style="margin-left:90px;">
+           <a href="javascript:void(0);"><img src="/images//back_btn.png" /></a>
+         </div>
         <div class="clear"></div>
       </div>
       <div class="header_mid_box">
         <div id="alert" class="alert"></div>
       </div>
       <div class="header_search_box">
-        <div class="setting_box"><a href="/users/sign_out" data-method="delete" rel="nofollow"><img src="/images//setting_icon.png" /></a></div>
+        <div class="setting_box"><a href="javascript:void(0);" data-method="delete" rel="nofollow"><img src="/images//setting_icon.png" /></a></div>
         <div class="search_bg">
           <form id="frm_search">
             <div id="clear_search" class="menu_btn hide" style="right:172px;margin-top:0px;">
@@ -151,6 +156,9 @@
 
 <!--popup start-->
 <div id="avatar_card" class="popup_box1 hide"></div>
+<div id="account_setup" class="hide">
+   <%= render :partial => "/profile/account_setup"%>
+</div>
 <!--popup end-->
 
 <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=user_session[:profile_id] %>"/>
@@ -278,6 +286,10 @@ var h = new Object(); // or just {}
         }
       });
       return false;
+    });
+    
+    $(".setting_box").click(function(){
+      $("#account_setup").show();
     });
   
   }); //document.ready

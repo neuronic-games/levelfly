@@ -1,5 +1,5 @@
 <div class="signin">
-  <h2>Sign up</h2>
+  <h2>Register</h2>
   <%= form_for(@user, :as => @user, :url => {:controller=>:system, :action=>:edit, :id => @user.id}, :html => {:name=>"events_form",:multipart => true, :method=>"post", :class=>"form-horizontal"}) do |f| %>
     <%#= devise_error_messages! %>
 
@@ -12,7 +12,7 @@
     <div><%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation %></div>
     <%= f.hidden_field :message_id ,:value=> @message %>	
-    <div><%= f.submit "Sign up" ,:onclick=>"return validateForm()";%></div>
+    <div><%= f.submit "Register" ,:onclick=>"return validateForm()";%></div>
   <% end %>
 
 </div>
