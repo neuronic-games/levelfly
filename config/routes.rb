@@ -88,6 +88,8 @@ Oncapus::Application.routes.draw do
   
   post "task/points_credit"
   
+  post "task/extra_credit"
+  
   get "friend/index"
   
   get "course/index"
@@ -193,6 +195,8 @@ Oncapus::Application.routes.draw do
   post "grade_book/grade_calculate"
   
   post "grade_book/outcomes_points"
+  
+  post "grade_book/grading_complete"
   
   get "wardrobe/index"
   

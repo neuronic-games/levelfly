@@ -1,0 +1,41 @@
+<div class="confirm_box_width warningbox ">
+  <div class="heading">Finalize Grading</div>
+    <div class="clear"></div>
+    <div class="spacebar10px"></div>
+    <div class="spacebar10px"></div>
+     <div >Have you finished grading all tasks for the semester in your Gradebook. This will assign your students any remaining experience points (XP).</div>
+    
+    <div class="spacebar10px"></div>
+  <div align="right">
+  <a class="big_blue_btn inlineblock" id = "btn_not_done" href="javascript:void(0)">Not Done</a>
+  <a class="smaller_text big_blue_btn inlineblock clr_reds" id = "btn_done_grading" href="javascript:void(0)">Done Grading</a> 
+  </div>
+</div>
+
+<script type="text/javascript">
+ $(function(){
+    $("#btn_not_done").click(function(){
+      $("#finalize_div").hide();
+    });
+    
+    $("#btn_done_grading").click(function(){
+      var course_id = $("#course_id").val();
+      showSpinner(true);
+     $.ajax({  
+          type: "POST",  
+          url: "/grade_book/grading_complete",
+          dataType: "json",
+          data:{id:course_id},
+          success: function(data) {
+            showSpinner(false);
+            $("#finalize_div").hide();
+          },
+          error: function()
+          {
+            alert("An Error has occured");
+            showSpinner(false);
+          },
+        }); 
+      });
+    });  
+</script>

@@ -1,0 +1,34 @@
+<%#if @my_detail and !@my_detail.nil?%>
+<div class="badge_popup"> 
+<div class="heading">Account Setup</div>
+  </br>
+   <div class="heading02">Email
+     &nbsp;&nbsp;<input type ="text" class = "dd_input brown_bg02" style="margin-left: 30px;" id ="email" value="">
+   </div> 
+   <div class="heading02">Password
+     &nbsp;&nbsp;<input type ="text" class = "dd_input brown_bg02" id ="password" value="">
+   </div>
+   </br>
+   <div align="right">
+  <a class="smaller_text big_blue_btn inlineblock" id = "dont_change_btn" href="javascript:void(0)">Don't Change</a> <a class="big_blue_btn inlineblock" id = "change" href="javascript:void(0)">Chanage</a></div>
+</div>
+<%#end%>
+
+
+<script type="text/javascript">
+  $("#dont_change_btn").click(function(){
+    $("#account_setup").hide();
+  });
+// Hide the card if clicked outside
+/*$(document).click(function (e)
+{
+    var container = $("#account_setup");
+
+    if (container.has(e.target).length === 0)
+    {
+        container.hide();
+        $(document).unbind('click');
+    }
+});*/
+
+</script>

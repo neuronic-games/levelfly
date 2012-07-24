@@ -57,8 +57,16 @@ class MessageController < ApplicationController
             @msg = Message.find(params[:parent_id])
             render :partial => "comments", :locals => {:comment => @message,:course_id=>@msg.parent_id}
           when "Profile"
-            message = (params[:message_type]=="Friend") ? "Friend request sent" : "Message sent"
-            render :text => {"status"=>"save", "message"=>message}.to_json
+            if params[:message_type] && !params[:message_type].nil?
+              message = (params[:message_type]=="Friend") ? "Friend request sent" : "Message sent"
+              render :text => {"status"=>"save", "message"=>message}.to_json
+            else
+            @feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",user_session[:profile_id],wall_id])
+              if @feed.nil?
+                Feed.create(:profile_id => user_session[:profile_id],:wall_id =>wall_id)
+              end
+              render :partial => "messages", :locals => {:message => @message}
+            end
           else
            @feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",user_session[:profile_id],wall_id])
             if @feed.nil?
@@ -235,7 +243,7 @@ class MessageController < ApplicationController
   
    def friends_only
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
-    @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND (profile_id=? or profile_id=?) AND message_type ='Message' AND parent_type!='Message'", wall_ids, false,params[:friend_id],user_session[:profile_id]])  
+    @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND (profile_id=? or profile_id=?) AND message_type ='Message' AND parent_type!='Message'", wall_ids, false,params[:friend_id],user_session[:profile_id]], :order => 'created_at DESC')  
     render :partial => "list",:locals => {:friend_id =>params[:friend_id]}
   end 
   

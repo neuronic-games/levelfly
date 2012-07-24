@@ -333,18 +333,18 @@ function addNode(element) {
                    <% @people.each do |p| %>
                         <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
                           <div style="">
-                            <input type="checkbox" <%= @task && member_associate(p.profile_id, @task.id) ? "checked='checked'" : "" %> name="chk_task_people[]" id="<%=p.profile.id%>" style="float:left; margin-top:35px;" />
-                            <div class="avatar_white_bdr" style="float:left; margin-left:10px;">
+                            <input type="checkbox" <%= @task && member_associate(p.profile_id, @task.id) ? "checked='checked'" : "" %> name="chk_task_people[]" id="<%=p.profile.id%>" class="check_box" />
+                            <div class=" avtar avatar_white_bdr">
                               <img src="<%=p.profile.image_file_name%>" profile_id="<%=p.profile_id%>" class="profile"/>
                             </div>
-                            <div style="float:left; margin:35px 0 0 10px;">
+                            <div class="member_name">
                               <%= p.profile.full_name %> <br />
                               <%= p.profile.major_school %>
                             </div>
                           </div>  
                           <div id="" class="tbc">
                            EXTRA CREDIT
-                           <div class="margin_top"><input type="checkbox" "checked=checked" name="task_extra_credited[]" class ="check_box_credired" rel =""/></div>
+                           <div class="margin_top"><input type="checkbox" <%= @task && task_extra_credit(p.profile_id, @task.id) ? "checked='checked'" : "" %>  name="task_extra_credited" class ="check_box_credired" rel ="<%=p.profile.id%>"/></div>
                           </div>
                           <div id="credited_<%=p.profile.id%>" class="tbc">
                            CREDITED
@@ -515,6 +515,22 @@ $(document).ready(function(){
          type:"POST",
          dataType: "json",
          url:"/task/points_credit",
+         data:{task_id:task_id,member_id:member_id,check_val:check_val},
+         success:function(data){
+           showSpinner(false);
+         }
+      });
+  });
+  
+   $('#load_task_participant_wall').delegate('input[name="task_extra_credited"]', 'change', function(){
+    check_val = $(this).is(':checked');
+    task_id = $("#task_id_hdn").val();
+    member_id = $(this).attr('rel');
+      showSpinner(true);
+      $.ajax({
+         type:"POST",
+         dataType: "json",
+         url:"/task/extra_credit",
          data:{task_id:task_id,member_id:member_id,check_val:check_val},
          success:function(data){
            showSpinner(false);

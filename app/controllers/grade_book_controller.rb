@@ -275,5 +275,19 @@ class GradeBookController < ApplicationController
       render :json => {:outcomes => @outcomes, :participants=>@participant, :count=>@count}
     end
   end
+  
+  def grading_complete
+    if params[:id] and !params[:id].nil?
+      @course = Course.find(params[:id])
+      if @course
+        @course.grading_completed_at = Time.now
+        @course.save
+        render :json =>{:status=> true, :text =>"Grading complete"}
+      else
+        render :json =>{:status=> false, :text =>"course not found"}
+      end
+    end
+    
+  end
 
 end
