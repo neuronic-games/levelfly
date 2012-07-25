@@ -51,5 +51,5 @@ Oncapus::Application.configure do
   }
 
   ActionMailer::Base.default :content_type => "text/html"
-
+  config.log_level = :warn
 end

@@ -53,7 +53,7 @@ class MessageController < ApplicationController
       @message.post_date = DateTime.now
      
       if @message.save
-        @message_viewer = MessageViewer.add(@message.id,params[:parent_type],params[:parent_id])
+        @message_viewer = MessageViewer.add(user_session[:profile_id],@message.id,params[:parent_type],params[:parent_id])
         case params[:parent_type]
           when "Message"
             @msg = Message.find(params[:parent_id])

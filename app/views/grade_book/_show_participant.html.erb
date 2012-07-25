@@ -36,7 +36,7 @@
           </tr>
           <%end%>
         <%end%>
-        <%if @count<10%>
+        <%if @count && @count<10%>
           <%for i in (@count..9)%>
             <tr class="<%= cycle("GB_odd","")%>">
             <td width="63%" class="Name_box td_align"></td><!-- td_align-->
@@ -79,7 +79,7 @@
           <%end%>
         <%end%>
         
-        <%if @count<10%>
+        <%if @count && @count<10%>
           <%for i in (@count..9)%>
           <tr class="<%= cycle("Dark_no","light_row")%>">
             <%if @outcomes.length>0%>
@@ -183,7 +183,7 @@
        </tr>
       <% end %>
      <% end %> 
-    <%if @count<10%>
+    <%if @count && @count<10%>
       <%for i in (@count..9)%>
         <tr class="GB_row" id =r_<%=i%>>
         <% unless @tasks.nil? %>
