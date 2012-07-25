@@ -748,6 +748,7 @@ function load_outcomes(){
             var grade_col =$("<td></td>");
             var outcomes_col =$("<td></td>");
             var outcome_name =$("<div></div>"); 
+            outcomes_col.addClass("red_border1");
             if(p==0){
               outcome_name.html(outcomes.name);
             }
@@ -765,6 +766,7 @@ function load_outcomes(){
           var grade_col =$("<td></td>");
           var outcomes_col =$("<td></td>");
           var outcome_name =$("<div></div>"); 
+          outcome_col.addClass("red_border1");
           if(p==0){
             outcome_name.html(outcomes.name);
           }
@@ -797,7 +799,7 @@ function load_outcomes(){
           var task_div = $("<div></div>"); 
           var main_col=$("<td></td>");
           main_col.addClass("red_border");
-          column.addClass("red_border selected_t_"+task.id+"");
+          column.addClass("selected_t_"+task.id+"");
           var table_task = $("<table></table>");
           var len = task.task_outcomes.length;
           var  text_grade = $("<input type ='text' value = '"+value.task_grade[i]+"' id = 'g_"+value.profile_id+"_"+task.id +"' maxlength='4' size='2' rel = '"+ value.profile_id +"'/>");
@@ -920,6 +922,7 @@ function load_outcomes(){
             var grade_col =$("<td></td>");
             var outcomes_col =$("<td></td>");
             var outcome_name =$("<div></div>"); 
+            outcomes_col.addClass("red_border1");
             if(p==0){
               outcome_name.html(outcomes.name);
             }
@@ -936,7 +939,8 @@ function load_outcomes(){
         else{
           var grade_col =$("<td></td>");
           var outcomes_col =$("<td></td>");
-          var outcome_name =$("<div></div>"); 
+          var outcome_name =$("<div></div>");
+          outcomes_col.addClass("red_border1");            
           if(p==0){
             outcome_name.html(outcomes.name);
           }
@@ -969,7 +973,7 @@ function load_outcomes(){
           var column =$("<td></td>");
           var main_col=$("<td></td>");
           main_col.addClass("red_border");
-          column.addClass("red_border selected_t_"+task.id+"");
+          column.addClass("selected_t_"+task.id+"");
           var table_task = $("<table></table>");
           var len = task.task_outcomes.length;
           var  text_grade = $("<input type ='text' value = '' id = '' readonly='readonly' maxlength='4' size='2' rel = ''/>");
@@ -1095,6 +1099,7 @@ function load_outcomes(){
                 var grade_col =$("<td></td>");
                 var outcomes_col =$("<td></td>");
                 var outcome_name =$("<div></div>"); 
+                outcomes_col.addClass("red_border1");
                 if(p==0){
                   outcome_name.html(outcomes.name);
                 }
@@ -1112,6 +1117,7 @@ function load_outcomes(){
               var grade_col =$("<td></td>");
               var outcomes_col =$("<td></td>");
               var outcome_name =$("<div></div>"); 
+              outcomes_col.addClass("red_border1");
               if(p==0){
                 outcome_name.html("");
               }

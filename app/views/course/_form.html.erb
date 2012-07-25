@@ -359,7 +359,7 @@ $(document).ready(function(){
    $('.right_form_containerr').delegate('.message_del', 'click', function(){
       showSpinner(true);
       id = $(this).attr("rel");
-      console.log(id)
+      var position = $(this).position();
       var dataString = 'id='+id;
       $.ajax({
            type: "POST",  
@@ -368,6 +368,9 @@ $(document).ready(function(){
            success: function(data) {
              $("#div_message_delete").html(data);
              $("#div_message_delete").show();
+             $('#div_message_delete').css("top",position.top-30);
+             $('#div_message_delete').css("left","450px");
+             $('#div_message_delete').css("position","absolute");
              showSpinner(false);
              }
         });

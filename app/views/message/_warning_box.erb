@@ -1,5 +1,5 @@
 <%if @message_id && !@message_id.nil?%>
-<div class="warningbox "style="position:fixed">
+<div class="message_warning_box ">
   <div class="heading">Warning</div>
     <div class="clear"></div>
     <div class="spacebar10px"></div>
@@ -29,9 +29,10 @@
            dataType:"json",
            data: dataString,
            success: function(data) {
-             $("#div_message_delete").html("");
-             $("#div_message_delete").hide();
+             $("#div_message_delete").html('');
+             //$("#div_message_delete").hide();
              $("#messsage_box_"+id).fadeOut(1000);
+               $("#border_"+id).fadeOut(1000);
              showSpinner(false);
              }
         });

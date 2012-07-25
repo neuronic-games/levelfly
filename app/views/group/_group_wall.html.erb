@@ -73,7 +73,7 @@
       
       <div id="message_wrapper_group" class="message_wrapper_group">
       &nbsp;
-      <% if @course_messages = Message.find(:all,:conditions=>["profile_id = ? AND parent_id = ? AND parent_type = 'G'",user_session[:profile_id],@course.id],:order => "created_at DESC" )%>
+      <% if @course_messages && !@course_messages.nil?%>
         <% @course_messages.each do |message| %>
           <%= render :partial => "/message/messages", :locals => {:message=>message} %>
         <% end %>

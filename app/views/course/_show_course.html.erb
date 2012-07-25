@@ -79,13 +79,15 @@
       <div id="message_wrapper" class="message_wrapper resize_message_box" >
       
       &nbsp;
-      <% if @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C'",@course.id],:order => "created_at DESC" )%>
+        <%if @course_messages  && !@course_messages.nil?%>
         <% @course_messages.each do |message| %>
           <%= render :partial => "/message/messages", :locals => {:message=>message} %>
         <% end %>
       <% end %>
       </div>
-
+    <div class ="hide" id ="div_message_delete">
+    
+    </div>
       <div class="end_of_page"></div>
 
     </div>

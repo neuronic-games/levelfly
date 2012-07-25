@@ -23,10 +23,10 @@
         </div>
       <% end %>
      <!-- Message -->
-
+   <h2>Post Message</h2>
   <div id="" class="message_wrapper">
     <div style="margin-left: 90px; text-align:right;">
-      <textarea id="msg_content" name="msg_content" class="msg_content2" placeholder="Enter your message to share..."></textarea> <br />
+      <textarea id="msg_content" name="msg_content" class="msg_content2" style ="width:99%" placeholder="Enter your message to share..."></textarea> <br />
       <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
       <a href="javascript:void(0)" <%if friend_id && !friend_id.nil? %>id="<%=friend_id%>" rel="Profile"<%else%>id="<%=user_session[:profile_id]%>" rel=""<%end%> class="sbmt_msg blue_bt19px" title="msg_content" onclick="javascript:void(0);">Post</a>
     </div>
@@ -62,6 +62,9 @@
         <%= render :partial => "/message/friend_list", :locals => {:friend=>friend} %>
       <% end %>
     <% end %>
+  </div>
+  <div class ="hide" id ="div_message_delete">
+      
   </div>
 </div>
 
@@ -180,6 +183,7 @@ $('.message_list').click(function(){
     $(".msg_content_left").delegate('.message_del', 'click', function(){
       showSpinner(true);
       id = $(this).attr("rel");
+      var position = $(this).position();
       var dataString = 'id='+id;
       $.ajax({
            type: "POST",  
@@ -188,6 +192,9 @@ $('.message_list').click(function(){
            success: function(data) {
              $("#div_message_delete").html(data);
              $("#div_message_delete").show();
+             $('#div_message_delete').css("top",position.top-30);
+             $('#div_message_delete').css("left","450px");
+             $('#div_message_delete').css("position","absolute");
              showSpinner(false);
              }
         });

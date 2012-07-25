@@ -135,7 +135,11 @@ class CourseController < ApplicationController
     @course_owner = Participant.find(:first, :conditions=>["object_id = ? AND profile_type = 'M' AND object_type='Course'",params[:id]])   
     @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
-    
+    if params[:section_type]=="C"
+    @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C'",@course.id],:order => "created_at DESC" )
+    elsif params[:section_type]=="G"
+    @course_messages = Message.find(:all,:conditions=>["profile_id = ? AND parent_id = ? AND parent_type = 'G'",user_session[:profile_id],@course.id],:order => "created_at DESC" )
+    end
     @profile.record_action('course', @course.id)
     @profile.record_action('last', 'course')
     session[:controller]="course"
@@ -423,6 +427,11 @@ class CourseController < ApplicationController
       )
     @groups = Group.find(:all, :conditions=>["course_id = ?",params[:id]])
     @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
+    if params[:section_type]=="C"
+    @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C'",@course.id],:order => "created_at DESC" )
+    elsif params[:section_type]=="G"
+    @course_messages = Message.find(:all,:conditions=>["profile_id = ? AND parent_id = ? AND parent_type = 'G'",user_session[:profile_id],@course.id],:order => "created_at DESC" )
+    end
     #@totaltask = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
     if params[:value] && !params[:value].nil?  
       if (params[:section_type] == "G" && params[:value] == "1")

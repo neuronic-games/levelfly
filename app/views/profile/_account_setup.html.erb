@@ -1,18 +1,32 @@
-<%#if @my_detail and !@my_detail.nil?%>
-<div class="badge_popup"> 
+
+<div class="account_detail" id="account_dialog"> 
+<%if @current_user and !@current_user.nil?%>
 <div class="heading">Account Setup</div>
   </br>
    <div class="heading02">Email
-     &nbsp;&nbsp;<input type ="text" class = "dd_input brown_bg02" style="margin-left: 30px;" id ="email" value="">
+     &nbsp;&nbsp;
    </div> 
+   <div>
+    <input type ="text" class = "dd_input brown_bg02" id ="email" value="<%=@current_user.user.email%>" readonly="readonly">
+   </div>
    <div class="heading02">Password
-     &nbsp;&nbsp;<input type ="text" class = "dd_input brown_bg02" id ="password" value="">
+     &nbsp;&nbsp;
+   </div>
+   <div>
+    <input type ="password" class = "dd_input brown_bg02" id ="user_password" value="" >
+   </div>
+   <div class="heading02">Confirm Password
+     &nbsp;&nbsp;
+   </div>
+   <div>
+    <input type ="password" class = "dd_input brown_bg02" id ="user_confirm_password" value="">
    </div>
    </br>
    <div align="right">
-  <a class="smaller_text big_blue_btn inlineblock" id = "dont_change_btn" href="javascript:void(0)">Don't Change</a> <a class="big_blue_btn inlineblock" id = "change" href="javascript:void(0)">Chanage</a></div>
+  <a class="smaller_text big_blue_btn inlineblock" id = "dont_change_btn" href="javascript:void(0)">Don't Change</a> <a class="big_blue_btn inlineblock" id = "change_btn" href="javascript:void(0)">Chanage</a></div>
+  <input type="hidden" name="hdn_user_id" id="hdn_user_id" value="<%=@current_user.user_id %>"/>
+<%end%>  
 </div>
-<%#end%>
 
 
 <script type="text/javascript">
@@ -20,7 +34,7 @@
     $("#account_setup").hide();
   });
 // Hide the card if clicked outside
-/*$(document).click(function (e)
+$(document).click(function (e)
 {
     var container = $("#account_setup");
 
@@ -29,6 +43,54 @@
         container.hide();
         $(document).unbind('click');
     }
-});*/
+});
+ $("#change_btn").click(function(){
+    var valid = validateForm();
+    if (valid == true){
+       id = $("#hdn_user_id").val();
+       password = $("#user_password").val();
+       showSpinner(true);
+       showSpinner(true);
+      $.ajax({
+        type: "POST",
+        url: "/profile/change_password",
+        dataType:"json",
+        data:{id:id,password:password},
+        success: function(resp){
+          if (resp){
+             showSpinner(false);
+             $("#account_dialog").html(resp.text)
+             //$("#account_setup").fadeOut(5000);
+          }
+        }
+      }); 
+    }   
+ });
+function validateForm(){
+  var user_password =document.getElementById("user_password");
+  var user_confirm_password =document.getElementById("user_confirm_password");
+  if(user_password.value==""){
+    alert("Please enter Password");
+    user_password.focus();
+    return false;
+  }
+  else if(user_password.value.length < 6 ){
+    alert("Password have minimum 6 character");
+    user_confirm_password.focus();
+    return false;
+  }
+  else if(user_confirm_password.value == "" ){
+    alert("Please enter confirm Password");
+    user_confirm_password.focus();
+    return false;
+  }
+
+  if(user_password.value!= user_confirm_password.value){
+    alert("Password not match");
+    user_confirm_password.focus();
+    return false;
+  }
+  return true;
+}
 
 </script>

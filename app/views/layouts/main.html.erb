@@ -58,7 +58,7 @@
           
           <h2><%= @profile.major_school %></h2>
         </div>
-         <div class="" style="margin-left:90px;">
+         <div class="hide" style="margin-left:90px;">
            <a href="javascript:void(0);"><img src="/images//back_btn.png" /></a>
          </div>
         <div class="clear"></div>
@@ -157,7 +157,7 @@
 <!--popup start-->
 <div id="avatar_card" class="popup_box1 hide"></div>
 <div id="account_setup" class="hide">
-   <%= render :partial => "/profile/account_setup"%>
+  
 </div>
 <!--popup end-->
 
@@ -289,7 +289,20 @@ var h = new Object(); // or just {}
     });
     
     $(".setting_box").click(function(){
-      $("#account_setup").show();
+      var id = $("#hdn_profile_id").val();
+      showSpinner(true);
+      $.ajax({  
+        type: "POST",  
+        url: "/profile/account_setup",
+        data: {id:id},
+        success: function(data) {
+          if (data) {
+            $('#account_setup').html(data);
+            $('#account_setup').show();
+          }
+          showSpinner(false);
+        }
+      });
     });
   
   }); //document.ready

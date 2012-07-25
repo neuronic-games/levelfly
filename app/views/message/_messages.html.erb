@@ -21,18 +21,16 @@
           <span>
             <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#post_comment_<%=message.id%>').show()">COMMENT</a>
           </span>
-          <%if message.profile_id == user_session[:profile_id]%>
+          <%#if message.profile_id == user_session[:profile_id]%>
            <span id="delete_<%=message.id%>">
            <a href="javascript:void(0);" class="message_del blue_bt19px" rel="<%=message.id %>">DELETE</a>
            </span>
-           <% end %>
+           <%# end %>
         </span>
        </div>
       </div>
     </div>
-    <div class ="hide" id ="div_message_delete">
-      <%= render :partial => "/message/warning_box" %>
-    </div>
+    
     <div class="clear"></div>
   </div>
  
@@ -62,11 +60,11 @@
  <div class="hide comment_input" align="right" id="post_comment_<%=message.id%>">
   <textarea name="cmnt_content" id="cmnt_content_<%=message.id%>" rows="2"></textarea>
   <div class="msg_btn">
-    <a href="javascript:void(0)" onclick="javascript:$('#post_comment_<%=message.id%>').fadeOut()" class="blue_bt19px">Don't Send</a>
-    <a href="javascript:void(0)" id="<%=message.id%>" rel="Message" title="cmnt_content_<%=message.id%>" class="blue_bt19px sbmt_msg">Send</a>
+    <a href="javascript:void(0)" onclick="javascript:$('#post_comment_<%=message.id%>').fadeOut()" class="blue_bt19px">Don't Post</a>
+    <a href="javascript:void(0)" id="<%=message.id%>" rel="Message" title="cmnt_content_<%=message.id%>" class="blue_bt19px sbmt_msg">Post</a>
   </div>
 </div>
-<div class="bdr_dotted"></div>
+<div class="bdr_dotted" id="border_<%=message.id%>"></div>
 
 <!-- comments ends -->
 <script type="text/javascript">

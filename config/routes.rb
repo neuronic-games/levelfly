@@ -46,6 +46,10 @@ Oncapus::Application.routes.draw do
 
   get "profile/list_major"
   
+  post "profile/change_password"
+  
+  post "profile/account_setup"
+  
   get "task/index"
 
   get "task/show"

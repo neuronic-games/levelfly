@@ -159,4 +159,24 @@ class ProfileController < ApplicationController
     render :partial => "/profile/edit_wardrobe", :locals => {:profile => @profile}
   end
   
+  def account_setup
+    if params[:id] && !params[:id].nil?
+      @current_user = Profile.find(params[:id])
+      render :partial => "profile/account_setup"
+    end
+  end
+  
+  def change_password
+    if params[:id] and not params[:id].nil?
+      @user = User.find(params[:id])
+      @user.password=params[:password]
+      if @user.save
+        sign_in(@user, :bypass => true)
+        render :json =>{:text =>"Password changed successfully"}
+      else
+        render :json =>{:text =>"ERROR"}
+      end
+    end
+  end
+
 end
