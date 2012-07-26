@@ -42,7 +42,7 @@
   <div class="page_block_left">
     <span class="field_title">Estimated Task Totals</span>
     <span class="field_notes">
-      Based on the number and rating of tasks, each will be given a default XP value.
+      Provide your best guess of how many low, medium, and high level tasks you will have for the course. This helps us figure out how much XP to award a student for finishing a task. You can change these numbers during the semester
     </span>
   </div>
 
@@ -63,7 +63,7 @@
     <div class="page_block_left">
       <span class="field_title">Outcomes</span>
       <span class="field_notes">
-         Description of what the feature is
+         Click the Add Outcome button to add learning outcomes to your course. Later you can assign these to your tasks.
       </span>
       </br>
       <div class="add_outcome_bt "><!--course_setup_button-->
@@ -94,7 +94,7 @@
     <div class="page_block_left">
       <span class="field_title">Grading Categories</span>
       <span style = "" class="field_notes">
-        Description of what the feature is
+        Click the Add Category button to let us know what your syllabus grading categories are. This helps us set up your grade book and your tasks.
       </span>
       </br>
       <div class="add_outcome_bt "><!--course_setup_button-->
@@ -340,7 +340,7 @@ $(document).ready(function(){
       _counterPeople++;
     } else if(element=="outcome"){
       var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counterOutcome);
-      newNode.html('<div style="margin-top:5px; height:48px; width:500px;" class="outcome_div"><div style="float:left; height:45px;" > <input type="checkbox" id="outcomes_'+_counterOutcome+'" class="dd_select brown_bg" name="outcomes_share[]" /> <input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="dd_select brown_bg medium" placeholder="Enter name" />  <div><span class="share_with" >SHARE</span><div style="margin-top:-6px"> <span class="share_with"style="margin-left:-27px" >WITH OTHERS</span></div></div> </div><div style="float:left; margin-left:10px;height:68px;margin-left:25px"><textarea class="small dd_input brown_bg" style="width:260px; height:41px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '" placeholder="Enter description" "></textarea></div></div>');
+      newNode.html('<div style="margin-top:5px; height:48px; width:500px;" class="outcome_div"><div style="float:left; height:45px;" > <input type="checkbox" id="outcomes_'+_counterOutcome+'" class="dd_select brown_bg" name="outcomes_share[]" /> <input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="dd_select brown_bg medium" placeholder="Enter name" />  <div><span class="share_with" >SHARE</span><div style="margin-top:-6px"> <span class="share_with" style="margin-left:-27px;" >WITH OTHERS</span></div></div> </div><div style="float:left; margin-left:10px;height:68px;margin-left:25px"><textarea class="small dd_input brown_bg" style="width:260px; height:41px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '" placeholder="Enter description" "></textarea></div></div>');
       newNode.appendTo("#add_outcome_container");
       _counterOutcome++;
     } else if(element=="category"){
