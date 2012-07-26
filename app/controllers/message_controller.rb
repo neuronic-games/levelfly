@@ -16,13 +16,13 @@ class MessageController < ApplicationController
         :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend' AND (content LIKE ? OR id in (?) ) and id in (?)", wall_ids, false, search_text, @comment_ids, message_ids])
       
     elsif params[:friend_id]
-      @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND profile_id=? AND message_type ='Message' AND parent_type='Profile' and id in (?)", wall_ids, false, params[:friend_id], message_ids])  
+      @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND profile_id = ? AND message_type ='Message' AND parent_type='Profile' and id in (?)", false, params[:friend_id], message_ids])  
     else 
-      @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type in ('Message') and id in (?)", wall_ids, false,message_ids], :order => 'created_at DESC')
+      @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type in('C','')",false,message_ids], :order => 'created_at DESC')
       
-      @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite') AND parent_id = ? AND (archived is NULL or archived = ?)", @profile.id, false])
+      @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite') AND parent_id = ? AND (archived is NULL or archived = ?) and id in(?)", @profile.id, false, message_ids])
       
-      @respont_to_course = Message.find(:all,:conditions=>["target_type = 'Course' AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived =?", @profile.id,false], :order => 'created_at DESC')
+      @respont_to_course = Message.find(:all,:conditions=>["target_type = 'Course' AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived = ? and id in(?)", @profile.id,false,message_ids], :order => 'created_at DESC')
     end
     @friend = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", @profile.id])
 
@@ -246,7 +246,7 @@ class MessageController < ApplicationController
    def friends_only
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
      message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", user_session[:profile_id]]).collect(&:message_id)
-    @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND (profile_id=? or profile_id=?) AND message_type ='Message' AND parent_type!='Message' and id in(?)", wall_ids, false,params[:friend_id],user_session[:profile_id],message_ids], :order => 'created_at DESC')  
+    @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND (profile_id=? or profile_id=?) AND message_type ='Message' AND parent_type!='Message' and id in(?)",false,params[:friend_id],user_session[:profile_id],message_ids], :order => 'created_at DESC')  
     render :partial => "list",:locals => {:friend_id =>params[:friend_id]}
   end 
   
@@ -266,7 +266,7 @@ class MessageController < ApplicationController
   
   def remove_request_message
     if params[:id] && !params[:id].nil?
-      @message = Message.find(params[:id])
+    @message = MessageViewer.find(:first, :conditions=>["viewer_profile_id = ? and message_id = ?", user_session[:profile_id], params[:id]])
       if @message
         @message.delete
         render :json => {:status => true}
@@ -277,18 +277,19 @@ class MessageController < ApplicationController
     
   def confirm
     if params[:id] && !params[:id].nil?
+      puts"#{params[:message_type]}===="
       @message = Message.find(params[:id])
-      render :partial => "message/warning_box",:locals =>{:@message_id =>@message.id}
+      render :partial => "message/warning_box",:locals =>{:@message_id =>@message.id, :@type=>params[:message_type]}
     end
   end  
   
   def delete_message
     if params[:id] && !params[:id].nil?
-      #@message = Message.find(params[:id])
-      @message = MessageViewer.find(:first, :conditions=>["viewer_profile_id = ? and message_id = ?", user_session[:profile_id], params[:id]])
-      if @message
-        #Message.delete_all(["parent_id = ?", @message.id])
-        @message.delete
+      comments_ids = Message.find(:all, :select => "id", :conditions=>["parent_id = ?",params[:id]]).collect(&:id)
+      @message_viewer = MessageViewer.find(:first, :conditions=>["viewer_profile_id = ? and message_id = ?", user_session[:profile_id], params[:id]])
+      if @message_viewer
+        MessageViewer.delete_all(["message_id in(?) and viewer_profile_id = ?",comments_ids, user_session[:profile_id]])
+        @message_viewer.delete
         render :json => {:status => true}
       end
     end  

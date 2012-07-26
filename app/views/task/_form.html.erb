@@ -272,6 +272,10 @@ function addNode(element) {
                   
                   
                 </div>
+                 <div class="date_viewfield font_12px" style="margin-top:20px">
+                  <input type="checkbox" name = "extra_credit"  <%= @task && @task.extra_credit ? "checked='checked'" : "" %> value="" id="extra_credit" />
+                  &nbsp;&nbsp;&nbsp;<span class="font_12px">Extra Credit</span>
+                </div>   	
                 <div class="date_viewfield hide">Task Completion<br />
                   <select name="task_completion" class="clipboard_select">
                     <option value="">SELECT</option>
@@ -341,11 +345,13 @@ function addNode(element) {
                               <%= p.profile.full_name %> <br />
                               <%= p.profile.major_school %>
                             </div>
-                          </div>  
-                          <div id="" class="tbc">
-                           EXTRA CREDIT
-                           <div class="margin_top"><input type="checkbox" <%= @task && task_extra_credit(p.profile_id, @task.id) ? "checked='checked'" : "" %>  name="task_extra_credited" class ="check_box_credired" rel ="<%=p.profile.id%>"/></div>
-                          </div>
+                          </div> 
+                          <%if @task.extra_credit==true%>
+                            <div id="" class="tbc">
+                             EXTRA CREDIT
+                             <div class="margin_top"><input type="checkbox" <%= @task && task_extra_credit(p.profile_id, @task.id) ? "checked='checked'" : "" %>  <%if @task_owner && !@task_owner.nil?%><%else%>disabled="disabled"<%end%>name="task_extra_credited" class ="check_box_credired" rel ="<%=p.profile.id%>"/></div>
+                            </div>
+                          <%end%>
                           <div id="credited_<%=p.profile.id%>" class="tbc">
                            CREDITED
                            <div class="margin_top"><input type="checkbox" <%= @task && member_points(p.profile_id, @task.id) ? "checked='checked'" : "" %>name="task_credited[]" class ="check_box_credired"<%if @task_owner && !@task_owner.nil?%><%else%>disabled="disabled"<%end%>id="c_<%=p.profile.id%>" rel ="<%=p.profile.id%>"/></div>
@@ -390,7 +396,7 @@ var _outComeTags = [];
 var _participantsTags = [];
 var i = 0;
 var j = 0;
-
+var extra_credit = document.getElementById('extra_credit');
 var _taskPeopleObject = [];
 var _addTaskPeopleEmailObject = [];
 var _outcomeValueObject = [];
@@ -410,7 +416,8 @@ $("#level").change(function(){
   
  
 $(document).ready(function(){
-
+ 
+   
   
   //For new Task
   task_new = $("#task_new").attr("value");
@@ -816,7 +823,7 @@ function save_task(channel) {
     });*/
     
     
-    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id;  
+    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id +'&extra_credit='+extra_credit.checked;  
 
     //alert(dataString); return false;
     $.ajax({  

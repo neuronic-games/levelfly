@@ -4,7 +4,7 @@
     <div class="clear"></div>
     <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
-     <div >You are about to remove this message along with<br />any comments on this message. Are you sure?</div>
+     <div ><%if @type=="message"%>You are about to remove this message along with<br />any comments on this message. Are you sure?<%else%>You are about to remove this message Are you sure?<%end%></div>
     
     <div class="spacebar10px"></div>
   <div align="right">

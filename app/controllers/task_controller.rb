@@ -96,7 +96,7 @@ class TaskController < ApplicationController
     @course = @task.course
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @task_owner =  TaskParticipant.find(:first, :conditions=>["profile_id = ? and task_id = ? and profile_type = ?",@profile.id, @task.id, Task.profile_type_owner])
-    @outcomes = @course.outcomes
+    @outcomes = @course.outcomes if @course
     @courses = Course.find(
       :all, 
       :include => [:participants], 
@@ -177,6 +177,7 @@ class TaskController < ApplicationController
     @task.course_id = params[:course_id] if params[:course_id]
     @task.archived = false
     @task.category_id = params[:category_id] if params[:category_id]
+    @task.extra_credit = params[:extra_credit] if params[:extra_credit]
     
     # Has something changed on the task that could change it's points value?
     # FIXME: We may want to recalculate points if the task raiting or course settings change
@@ -293,10 +294,14 @@ class TaskController < ApplicationController
   def extra_credit
     if params[:task_id] && !params[:task_id].nil?
       status = nil;
+      @profile = Profile.find(params[:member_id])
+      @task = Task.find(params[:task_id])
       @tp = TaskParticipant.find(:first, :conditions=>["profile_id = ? and task_id = ?",params[:member_id],params[:task_id]])
       if @tp and !@tp.nil?
         @tp.update_attribute("extra_credit",params[:check_val])
         status = params[:check_val]
+        @profile.xp += status ? @task.points/10 : -@task.points/10
+        @profile.save
       end
     end
     render :text => {:status => status}.to_json
