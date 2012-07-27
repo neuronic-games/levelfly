@@ -113,7 +113,7 @@ class CourseController < ApplicationController
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @wall = Wall.find(:first,:conditions=>["parent_id = ? AND parent_type='Course'", @course.id])
     if !@profile.nil?
-    @badges = AvatarBadge.select("count(*) as total").where("profile_id = ? and course_id = ?",@profile.id,@course.id)
+    @badges = AvatarBadge.where("profile_id = ? and course_id = ?",@profile.id,@course.id).count
     end
     xp = TaskGrade.select("sum(points) as total").where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course.id,@profile.id)
     @course_xp = xp.first.total
@@ -405,7 +405,7 @@ class CourseController < ApplicationController
     @course = Course.find_by_id(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if !@profile.nil?
-    @badges = AvatarBadge.select("count(*) as total").where("profile_id = ? and course_id = ?",@profile.id,@course.id)
+    @badges = AvatarBadge.where("profile_id = ? and course_id = ?",@profile.id,@course.id).count
     end
     xp = TaskGrade.select("sum(points) as total").where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course.id,@profile.id)
     @course_xp = xp.first.total
@@ -489,7 +489,7 @@ class CourseController < ApplicationController
       @points = []
       @course = Course.find(params[:id])
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-      @likes = Like.where("course_id = ?",@course.id)
+      @likes = Like.where("course_id = ?",@course.id).count
       #@participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
       @course_grade, oc = CourseGrade.load_grade(@profile.id, @course.id,@profile.school_id)
       if !@course_grade.nil?

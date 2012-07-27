@@ -11,7 +11,7 @@
       <div>
         <span class="pop_fav_icon"><img src="/images//fav.png" align="absbottom" /> <%= profile.like_received %></span>
     <span class="pop_win_icon"><img src="/images//cup_icon.png" align="absbottom" /> <%= profile.xp %></span>
-    <span class="pop_win_icon"><img src="/images//badge_icon.png" align="absbottom" />   <%if @badges && !@badges.first.total.nil?%><%=@badges.first.total%><%else%>0<%end%></span>
+    <span class="pop_win_icon"><img src="/images//badge_icon.png" align="absbottom" />   <%=profile.badge_count%></span>
     </div>
     <div class="spacebar10px"></div>
     </div>

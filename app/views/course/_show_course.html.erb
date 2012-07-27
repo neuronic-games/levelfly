@@ -40,7 +40,7 @@
              
             <% if @courseMaster %>
               <% if (@courseMaster.id != user_session[:profile_id]) %>
-              <div class="CAL_01"> <span class="field_label">You have <%if !@course_xp.nil?%><%=@course_xp%><%else%>0<%end%> XP and <%if @badges && !@badges.first.total.nil?%><%=@badges.first.total%><%else%>0<%end%> BADGES</span> 
+              <div class="CAL_01"> <span class="field_label">You have <%if !@course_xp.nil?%><%=@course_xp%><%else%>0<%end%> XP and <%if @badges && !@badges.nil?%><%=@badges%><%else%>0<%end%> BADGES</span> 
               <a href="javascript:void(0)" id="btn_xp_badges"  class="green_bt19px">VIEW STATS</a></div>
               <% end %>
             <% end %>

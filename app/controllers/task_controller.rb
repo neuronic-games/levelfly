@@ -225,16 +225,17 @@ class TaskController < ApplicationController
           )
         end
       end
+      peoples_array=[]
       if params[:people_id] && !params[:people_id].empty?
-              
-        if params[:people_id]=="all_people"
-          peoples_array = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",params[:course_id]],:select => ["participants.profile_id"])
-          puts"alll"
+        if params[:people_id] == "all_people"
+          course_members = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",params[:course_id]],:select => ["participants.profile_id"])
+          course_members.each do |p|
+            peoples_array.push(p.profile_id)
+          end
         else
           peoples_array = params[:people_id].split(",")
         end
         peoples_array.each do |p_id|
-          
           task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='M' AND profile_id = ?", @task.id, p_id])
           if !task_participant
             @task_participant = TaskParticipant.new

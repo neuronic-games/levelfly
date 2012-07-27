@@ -108,7 +108,7 @@ class MessageController < ApplicationController
           @participant = Participant.find(:first, :conditions => ["object_id = ? and profile_id = ? and object_type = 'Course' and profile_type='S'",params[:course_id],@profile.id])
         end  
       end
-      @badges = AvatarBadge.select("count(*) as total").where("profile_id = ? ",@profile.id)
+      #@badges = AvatarBadge.select("count(*) as total").where("profile_id = ? ",@profile.id)
       render :partial => "add_friend_card", :locals => {:profile => @profile}
     end
   end
@@ -277,7 +277,6 @@ class MessageController < ApplicationController
     
   def confirm
     if params[:id] && !params[:id].nil?
-      puts"#{params[:message_type]}===="
       @message = Message.find(params[:id])
       render :partial => "message/warning_box",:locals =>{:@message_id =>@message.id, :@type=>params[:message_type]}
     end

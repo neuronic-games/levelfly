@@ -11,24 +11,7 @@
     <div class="profile_item">
       <div id="full_name" class="full_name">
         <input type="text" name="full_name" id="full_name_input" class="full_name" value="<%= profile.full_name %>" placeholder="Enter Name" />
-         <% if (user_session[:profile_id] != profile.id)%>
-        <div style="float:right;"><span id="input_un_bl">
-          <% if is_friend(user_session[:profile_id], profile.id) %>
-          <a href="javascript:void(0)" id="unfriend" class="big_blue_btn menu_btn">UNFRIEND</a>
-          <% else %>
-            <% if is_request_pending(profile.id, user_session[:profile_id]) %>
-            <a href="javascript:void(0)" class="big_blue_btn menu_btn" id="pending">PENDING</a>
-            <% else %>
-            <a href="javascript:void(0)" class="big_blue_btn menu_btn" id="Friend" rel="save">Friend</a>
-            <% end %>
-          <% end %>
-        </span>
-        <span id="input_no_me">
-           <a href="javascript:void(0)" name="message" id="message" class="big_blue_btn menu_btn" rel="/message/friends_only/<%=profile.id %>">Message</a>
-        </span>
-        <div class="clear"></div>
-        </div>
-      <% end %>
+        
       </div>    
       <span class="profile_header" style="font-size:16px;"><%=h profile.major.code + ", " if profile.major %><%=profile.school.code if profile.school%></span>
      
@@ -39,7 +22,24 @@
     </div>
     <% end %>
   </div>
-  
+   <% if (user_session[:profile_id] != profile.id)%>
+        <div class="profile_top_btn"><span id="input_un_bl">
+          <% if is_friend(user_session[:profile_id], profile.id) %>
+          <a href="javascript:void(0);" id="unfriend" rel ="<%= profile.id%>" class="big_blue_btn menu_btn">UNFRIEND</a>
+          <% else %>
+            <% if is_request_pending(profile.id, user_session[:profile_id]) %>
+            <a href="javascript:void(0);" id="unfriend" rel ="<%= profile.id%>" class="big_blue_btn menu_btn" id="pending">PENDING</a>
+            <% else %>
+            <a href="javascript:void(0);" class="big_blue_btn menu_btn" id="Friend" rel="save">Friend</a>
+            <% end %>
+          <% end %>
+        </span>
+        <span id="input_no_me">
+           <a href="javascript:void(0)" name="message" id="message" class="big_blue_btn menu_btn" rel="/message/friends_only/<%=profile.id %>">Message</a>
+        </span>
+        <div class="clear"></div>
+        </div>
+      <% end %>
   <div class="profile_row">
     <div class="profile_item profile_share">
       <input type="checkbox" name="share" class="share" value="metrics" />
@@ -54,16 +54,20 @@
       <div class="caption" style="margin-top:20px; text-align:center; width:100%;">Accumulated in Total</div>
     </div>
 
-    <div class="profile_item gap">
+    <div class="profile_item dif gap">
       <div class="big_number"><%=h profile.level %></div>
       <div class="caption">Level</div>
     </div>
 
-    <div class="profile_item gap">
+    <div class="profile_item dif gap">
       <div class="big_number"><%= profile.like_received %></div>
       <div class="caption">Likes</div>
     </div>
       
+    <div class="profile_item dif gap">
+      <div class="big_number"><%= profile.badge_count %></div>
+      <div class="caption">Badges</div>
+    </div>
   </div>
   <% if (user_session[:profile_id] != profile.id)%>
   <div class="profile_row">
@@ -290,7 +294,7 @@ $(document).ready(function(){
   });
 
   //Unfriend 
-  $('#unfriend').live('click',function(){
+ /* $('#unfriend').live('click',function(){
       showSpinner(true);
       profile_id = $('#hdn_profile_id').val();
       if(profile_id) {
@@ -311,7 +315,33 @@ $(document).ready(function(){
         }
       });
     }
-  });
+  });*/
+  
+  $('#unfriend').click(function(){
+  showSpinner(true);
+  profile_id = $(this).attr("rel");
+  if(profile_id) {
+    var dataString = {profile_id:profile_id}
+    $.ajax({
+      type: "POST",
+      url: "/message/unfriend",
+      dataType: "json",
+      data: dataString,
+      error: function(){alert("ERROR!!")},
+      success: function(data) {
+        if (data.status) {
+         $('#unfriend').text("Friend");
+         $('#unfriend').attr("rel","save");
+         $('#unfriend').attr("id","Friend");
+        }
+        showSpinner(false);
+      }
+    });
+  }
+});
+  
+  
+  
 
   // Save full name after entry by user
   $("#full_name_input").change(function () {

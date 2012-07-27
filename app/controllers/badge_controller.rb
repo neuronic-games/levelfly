@@ -40,7 +40,7 @@ before_filter :authenticate_user!
       status = false
       text = ""
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-      #@profile = Profile.find(params[:profile_id])
+      @student = Profile.find(params[:profile_id])
       if !@profile.nil?
         status = Badge.check_badge(params[:profile_id],params[:badge_id],params[:course_id])
         if status == true
@@ -50,6 +50,8 @@ before_filter :authenticate_user!
           @avatar_badge.course_id = params[:course_id]
           @avatar_badge.giver_profile_id = @profile.id
           @avatar_badge.save
+          @student.badge_count+=1
+          @student.save
         end
       else
         text="Profile not found" 
@@ -61,7 +63,7 @@ before_filter :authenticate_user!
   def warning_box
     if params[:badge_id] && !params[:badge_id].nil?
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-      @count_students = AvatarBadge.select("count(*) as total").where("badge_id = ? and giver_profile_id = ?",params[:badge_id],@profile.id)
+      @count_students = AvatarBadge.where("badge_id = ? and giver_profile_id = ?",params[:badge_id],@profile.id).count
       render :partial =>"/badge/warning_box"
     end
   end
@@ -71,10 +73,17 @@ before_filter :authenticate_user!
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
       @badge = Badge.find(params[:badge_id]) 
       if @badge
-        #@badge_people = AvatarBadge.find(:all, :select=>"id",:conditions=>["giver_profile_id = ? and badge_id = ?",@profile.id,@badge.id]).collect(&:id)
+        profile_ids = AvatarBadge.find(:all, :select=>"profile_id",:conditions=>["giver_profile_id = ? and badge_id = ?",@profile.id,@badge.id]).collect(&:profile_id)
         #if !@badge_people.nil?
         AvatarBadge.delete_all(["giver_profile_id = ? and badge_id = ?",@profile.id,@badge.id])
         @badge.delete
+        if profile_ids and !profile_ids.nil?
+          @badge_peoples =Profile.find(:all, :conditions=>["id in(?)",profile_ids])
+          @badge_peoples.each do |p|
+            p.badge_count-=1
+            p.save
+          end  
+        end
         #end
       end
     end
