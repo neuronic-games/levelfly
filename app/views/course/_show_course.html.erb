@@ -36,19 +36,20 @@
           <div class="course_activity_list">
           
           
-            <div class="CAL_01"><span class="field_label"> <% if @totaltask %> <% total_task = @totaltask.count %><%=total_task%><% else %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW</a></div>
+            <div class="CAL_01"><span class="field_label"> <% if @totaltask %>You have <% total_task = @totaltask.count %><%=total_task%><% else %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW TASKS</a></div>
              
-            <div class="menu_container1">
-            <div class="CAL_01"><span class="field_label"> <%=@member_count%> MEMBERS <% "(#{@pending_count} PENDING)" if @pending_count > 0 %></span> 
-            <a href="javascript:void(0)" id="btn_member"  class="green_bt19px">VIEW</a></div>
-           
-            </div>
             <% if @courseMaster %>
               <% if (@courseMaster.id != user_session[:profile_id]) %>
-              <div class="CAL_01"><span class="field_label"><%if !@course_xp.nil?%><%=@course_xp%><%else%>0<%end%> XP and <%if @badges && !@badges.first.total.nil?%><%=@badges.first.total%><%else%>0<%end%> BADGES</span> 
-              <a href="javascript:void(0)" id="btn_xp_badges"  class="green_bt19px">VIEW</a></div>
+              <div class="CAL_01"> <span class="field_label">You have <%if !@course_xp.nil?%><%=@course_xp%><%else%>0<%end%> XP and <%if @badges && !@badges.first.total.nil?%><%=@badges.first.total%><%else%>0<%end%> BADGES</span> 
+              <a href="javascript:void(0)" id="btn_xp_badges"  class="green_bt19px">VIEW STATS</a></div>
               <% end %>
             <% end %>
+
+            <div class="menu_container1">
+            <div class="CAL_01"><span class="field_label">Your course has <%=@member_count%> members <% "(#{@pending_count} PENDING)" if @pending_count > 0 %></span> 
+            <a href="javascript:void(0)" id="btn_member"  class="green_bt19px">VIEW MEMBERS</a></div>
+            </div>
+
             </div>
           </div>
           <div class="course_teacher_name">
