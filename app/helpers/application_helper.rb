@@ -20,7 +20,7 @@ module ApplicationHelper
  
  def change_date_format(date)
     if not date.blank?
-      date.strftime ("%m/%d/%Y")
+      date.strftime("%m/%d/%Y")
     else
       ''
     end
