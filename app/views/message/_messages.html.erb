@@ -9,7 +9,7 @@
       <h3 class="name"><%=h message.profile.full_name%></h3>
       <div><%= message.formatted_content%></div>
       <div class="msg_bottom_links">
-        <div class="time" rel ="<%=message.id%>"><span id ="word_<%=message.id%>"><%= time_ago_in_words(message.created_at) %> ago</span><span class="hide" id ="date_<%=message.id%>"><%=gdt(message.created_at)%></span></div>
+        <div class="time" rel ="<%=message.id%>"><span class ="words"><%= time_ago_in_words(message.created_at) %> ago</span><span class="hide dates"><%=gdt(message.created_at)%></span></div>
         <div class="like_cmt">
           <span class="fav_icon"><img src="/images//fav.png" align="absbottom" /><span id="count_<%=message.id%>"><%=message.like%></span> </span>
           <span class="list_messages" id="m_<%=message.id%>">
@@ -23,7 +23,7 @@
           </span>
           <%#if message.profile_id == user_session[:profile_id]%>
            <span id="delete_<%=message.id%>">
-           <a href="javascript:void(0);" class="message_del blue_bt19px" rel="<%=message.id %>">DELETE</a>
+           <a href="javascript:void(0);" class="message_del blue_bt19px" rev ="message"rel="<%=message.id %>">DELETE</a>
            </span>
            <%# end %>
         </span>

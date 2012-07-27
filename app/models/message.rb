@@ -33,6 +33,7 @@ class Message < ActiveRecord::Base
     @message.archived = false
     @message.post_date = DateTime.now
     @message.save
+    MessageViewer.invites(profile_id, @message.id,parent_id)
     return @message
   end
   
@@ -50,6 +51,7 @@ class Message < ActiveRecord::Base
     @message.archived = false
     @message.post_date = DateTime.now
     @message.save
+    MessageViewer.invites(parent_id, @message.id,profile_id)
     return @message
   end
   

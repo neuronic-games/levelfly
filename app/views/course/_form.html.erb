@@ -360,8 +360,9 @@ $(document).ready(function(){
    $('.right_form_containerr').delegate('.message_del', 'click', function(){
       showSpinner(true);
       id = $(this).attr("rel");
+      message_type = $(this).attr("rev");
       var position = $(this).position();
-      var dataString = 'id='+id;
+      var dataString = 'id='+id+'&message_type='+message_type;
       $.ajax({
            type: "POST",  
            url: "/message/confirm",  
@@ -406,6 +407,7 @@ function save_course(channel) {
     name = getStorage("group_name");
     descr = getStorage("group_descr");
     section_type = "G";
+    changed=true
   }
   else
   {

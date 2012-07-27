@@ -135,10 +135,11 @@ class CourseController < ApplicationController
     @course_owner = Participant.find(:first, :conditions=>["object_id = ? AND profile_type = 'M' AND object_type='Course'",params[:id]])   
     @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
+     message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
     if params[:section_type]=="C"
-    @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C'",@course.id],:order => "created_at DESC" )
+      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C' and id in(?)",@course.id,message_ids],:order => "created_at DESC" )
     elsif params[:section_type]=="G"
-    @course_messages = Message.find(:all,:conditions=>["profile_id = ? AND parent_id = ? AND parent_type = 'G'",user_session[:profile_id],@course.id],:order => "created_at DESC" )
+      @course_messages = Message.find(:all,:conditions=>["profile_id = ? AND parent_id = ? AND parent_type = 'G' and id in (?)",user_session[:profile_id],@course.id,message_ids],:order => "created_at DESC" )
     end
     @profile.record_action('course', @course.id)
     @profile.record_action('last', 'course')
@@ -287,8 +288,7 @@ class CourseController < ApplicationController
         end
       end
       if new_user==true
-         send_email(params[:email],params[:course_id],@message.id)
-        
+         send_email(params[:email],params[:course_id],@message.id)     
       end
       render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user,"new_user"=>new_user}.to_json
    end
@@ -427,10 +427,11 @@ class CourseController < ApplicationController
       )
     @groups = Group.find(:all, :conditions=>["course_id = ?",params[:id]])
     @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
+    message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
     if params[:section_type]=="C"
-    @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C'",@course.id],:order => "created_at DESC" )
+      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C' and id in(?)",@course.id,message_ids],:order => "created_at DESC" )
     elsif params[:section_type]=="G"
-    @course_messages = Message.find(:all,:conditions=>["profile_id = ? AND parent_id = ? AND parent_type = 'G'",user_session[:profile_id],@course.id],:order => "created_at DESC" )
+      @course_messages = Message.find(:all,:conditions=>["profile_id = ? AND parent_id = ? AND parent_type = 'G' and id in (?)",user_session[:profile_id],@course.id,message_ids],:order => "created_at DESC" )
     end
     #@totaltask = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
     if params[:value] && !params[:value].nil?  
@@ -543,7 +544,7 @@ class CourseController < ApplicationController
        render :partial => "/course/content_list",:locals=>{:section_type=> params[:section_type]}
     end
   end
-    
+  
   def set_archive
     if params[:id] && !params[:id].nil?
       @course = Course.find(params[:id])
@@ -553,4 +554,6 @@ class CourseController < ApplicationController
       end
     end
   end
+
+  
 end
