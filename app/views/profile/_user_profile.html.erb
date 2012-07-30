@@ -22,15 +22,16 @@
     </div>
     <% end %>
   </div>
+  <div class="friend_unfriend_btn">
    <% if (user_session[:profile_id] != profile.id)%>
         <div class="profile_top_btn"><span id="input_un_bl">
           <% if is_friend(user_session[:profile_id], profile.id) %>
-          <a href="javascript:void(0);" id="unfriend" rel ="<%= profile.id%>" class="big_blue_btn menu_btn">UNFRIEND</a>
+          <a href="javascript:void(0)" id="unfriend" rel ="<%= profile.id%>" class="big_blue_btn">UNFRIEND</a>
           <% else %>
             <% if is_request_pending(profile.id, user_session[:profile_id]) %>
-            <a href="javascript:void(0);" id="unfriend" rel ="<%= profile.id%>" class="big_blue_btn menu_btn" id="pending">PENDING</a>
+            <a href="javascript:void(0)" id="pending" rel ="<%= profile.id%>" class="big_blue_btn" id="pending">PENDING</a>
             <% else %>
-            <a href="javascript:void(0);" class="big_blue_btn menu_btn" id="Friend" rel="save">Friend</a>
+            <a href="javascript:void(0)" class="big_blue_btn" id="Friend" rel="save">Friend</a>
             <% end %>
           <% end %>
         </span>
@@ -40,6 +41,7 @@
         <div class="clear"></div>
         </div>
       <% end %>
+  </div>
   <div class="profile_row">
     <div class="profile_item profile_share">
       <input type="checkbox" name="share" class="share" value="metrics" />
@@ -261,7 +263,8 @@ $(document).ready(function(){
     $("#full_name_input").attr('readonly', 'readonly');
   <% end %>
   
-  $('#Friend').live('click',function(){
+  //$('#Friend').live('click',function(){
+  $(".friend_unfriend_btn").delegate('a', 'click', function(){
     m_text = $('#Friend').text();
     if(m_text == 'Friend'){
     showSpinner(true);
@@ -285,6 +288,7 @@ $(document).ready(function(){
         success: function(data) {
           if (data.status == "save"){
             $('#Friend').text("PENDING");
+            $('#Friend').attr("id","pending");
           }
           showSpinner(false);
         }
@@ -293,35 +297,12 @@ $(document).ready(function(){
     }
   });
 
-  //Unfriend 
- /* $('#unfriend').live('click',function(){
-      showSpinner(true);
-      profile_id = $('#hdn_profile_id').val();
-      if(profile_id) {
-      var dataString = {profile_id:profile_id}
-      $.ajax({
-        type: "POST",
-        url: "/message/unfriend",
-        dataType: "json",
-        data: dataString,
-        error: function(){alert("ERROR!!")},
-        success: function(data) {
-          if (data.status) {
-            $('#unfriend').text("Friend");
-            $('#unfriend').attr("rel","save");
-            $('#unfriend').attr("id","Friend");
-          }
-          showSpinner(false);
-        }
-      });
-    }
-  });*/
-  
-  $('#unfriend').click(function(){
-  showSpinner(true);
+  $(".friend_unfriend_btn").delegate('a', 'click', function(){
   profile_id = $(this).attr("rel");
-  if(profile_id) {
+  id= $(this).attr("id");
+  if(id=="unfriend") {
     var dataString = {profile_id:profile_id}
+    showSpinner(true);
     $.ajax({
       type: "POST",
       url: "/message/unfriend",
@@ -338,11 +319,13 @@ $(document).ready(function(){
       }
     });
   }
+  else if (id=="pending"){
+    /* $('#pending').text("Friend");
+     $('#pending').attr("rel","save");
+     $('#pending').attr("id","Friend");*/
+  }
 });
   
-  
-  
-
   // Save full name after entry by user
   $("#full_name_input").change(function () {
     var new_data = $("#full_name_input").val();
