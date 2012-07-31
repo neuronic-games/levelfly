@@ -44,4 +44,8 @@ class User < ActiveRecord::Base
     
   end
   
+  def full_name
+  end
+  
+  
 end

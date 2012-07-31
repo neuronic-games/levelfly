@@ -15,7 +15,7 @@ class GradeBookController < ApplicationController
         :order => 'courses.created_at DESC'
       )
       @course.each do |c|
-        if c.participants.count>1
+        if c.participants.find(:all, :conditions=>["profile_type in ('M','S')"]).count>1
           @courses.push(c)
         end
       end

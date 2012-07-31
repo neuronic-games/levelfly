@@ -9,6 +9,14 @@
    <div>
     <input type ="text" class = "dd_input brown_bg02" id ="email" value="<%=@current_user.user.email%>" readonly="readonly">
    </div>
+   
+    <div class="heading02">Full Name
+     &nbsp;&nbsp;
+   </div> 
+   <div>
+    <input type ="text" class = "dd_input brown_bg02" id ="user_full_name" value="<%=@current_user.full_name%>">
+   </div>
+   
    <div class="heading02">Password
      &nbsp;&nbsp;
    </div>
@@ -49,17 +57,20 @@ $(document).click(function (e)
     if (valid == true){
        id = $("#hdn_user_id").val();
        password = $("#user_password").val();
-       showSpinner(true);
+       full_name = $("#user_full_name").val();
        showSpinner(true);
       $.ajax({
         type: "POST",
         url: "/profile/change_password",
         dataType:"json",
-        data:{id:id,password:password},
+        data:{id:id,password:password,full_name:full_name},
         success: function(resp){
           if (resp){
              showSpinner(false);
              $("#account_dialog").html(resp.text)
+             if(resp.status ==true){
+              $("#tool_bar_full_name").html(full_name);
+             }
              //$("#account_setup").fadeOut(5000);
           }
         }

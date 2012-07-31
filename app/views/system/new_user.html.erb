@@ -5,6 +5,9 @@
 
     <div><%= f.label :email %><br />
     <%= f.email_field :email, :value=>@user.email, :disabled=>true%></div>
+    
+    <div><%= f.label :full_name %><br />
+    <%= f.text_field :full_name %></div>
 
     <div><%= f.label :password %><br />
     <%= f.password_field :password %></div>

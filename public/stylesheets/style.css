@@ -3726,7 +3726,7 @@ border:solid 0px #000000;
 .badge_popup .icon{float:right; margin-top:-15px;}
 .selected_column{background-color:#DFD4B6 !important;}
 .sign_out_btn{float:right; margin-right:10px;}
-
+.sign_out_btn:hover{background-color:#716B52 !important;}
 .badge_popup .heading02 {
   color: #5B5757;
   font-weight: bold;

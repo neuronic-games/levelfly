@@ -183,7 +183,7 @@ $('.message_list').click(function(){
     $(".msg_content_left").delegate('.message_del', 'click', function(){
       showSpinner(true);
       id = $(this).attr("rel");
-      comment = $(this).attr("rev");
+      message_type = $(this).attr("rev");
       var position = $(this).position();
       var dataString = 'id='+id+'&message_type='+message_type;
       $.ajax({

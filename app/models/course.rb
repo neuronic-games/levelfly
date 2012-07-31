@@ -145,4 +145,14 @@ class Course < ActiveRecord::Base
     return @courses      
   end
   
+  def self.hexdigest_to_string(string)
+    string.unpack('U'*string.length).collect {|x| x.to_s 16}.join
+  end
+  
+   def self.hexdigest_to_digest(hex)
+    hex.unpack('a2'*(hex.size/2)).collect {|i| i.hex.chr }.join
+  end
+  
+  
+  
 end

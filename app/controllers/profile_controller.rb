@@ -47,7 +47,7 @@ class ProfileController < ApplicationController
     profile = params[:profile]
     @profile = Profile.find(id)
 
-    @profile.full_name = profile["full_name"]
+    #@profile.full_name = profile["full_name"]
     @profile.major_id = profile["major_id"]
     @profile.school_id = profile["school_id"]
     @profile.tag_list = profile["tag_list"]
@@ -71,7 +71,7 @@ class ProfileController < ApplicationController
       @avatar = @profile.avatar
     end
 
-    @profile.full_name = profile["full_name"]
+    #@profile.full_name = profile["full_name"]
     @profile.major_id = profile["major_id"]
     @profile.school_id = profile["school_id"]
     @profile.user_id = current_user.id if current_user
@@ -171,10 +171,13 @@ class ProfileController < ApplicationController
       @user = User.find(params[:id])
       @user.password=params[:password]
       if @user.save
+        profile = Profile.find(user_session[:profile_id])
+        profile.full_name = params[:full_name]
+        profile.save
         sign_in(@user, :bypass => true)
-        render :json =>{:text =>"Password changed successfully"}
+        render :json =>{:text =>"Account detail changed successfully",:status =>true}
       else
-        render :json =>{:text =>"ERROR"}
+        render :json =>{:text =>"ERROR",:status =>false}
       end
     end
   end

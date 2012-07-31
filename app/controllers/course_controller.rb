@@ -298,9 +298,12 @@ class CourseController < ApplicationController
      @course = Course.find(course)
      @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
      @school = School.find(@current_user.school_id)
-     UserMailer.registration_confirmation(email,@current_user,@course,@school,message_id).deliver
+     link = "#{email}&#{message_id}"
+     @link = Course.hexdigest_to_string(link)
+     #@link = OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('md5'), "123456", link)
+     UserMailer.registration_confirmation(email,@current_user,@course,@school,message_id,@link).deliver
   end
-  
+    
   def delete_participant
     status = false
     if params[:profile_id] && params[:course_id]

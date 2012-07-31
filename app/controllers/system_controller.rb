@@ -14,14 +14,26 @@ class SystemController < ApplicationController
   end
   
   def new_user
-   @user = User.find(:first, :conditions=>["email = ?",params[:email]])
-   @message = params[:message_id]
+  if params[:link] and !params[:link].nil?
+     invitation_link = Course.hexdigest_to_digest(params[:link])
+     links = invitation_link.split("&")
+     @user = User.find(:first, :conditions=>["email = ?",links[0]])
+     @message = links[1]
+     if @user.nil?
+      redirect_to root_path     
+     end
+   else
+      redirect_to root_path
+   end
   end
   
   def edit
     @user = User.find(:first, :conditions=>["id = ?",params[:id]])
     @user.password=params[:user][:password]
       if @user.save
+        profile = Profile.find(:first, :conditions=>["user_id = ?",@user.id])
+        profile.full_name = params[:user][:full_name]
+        profile.save
         message_id = params[:user][:message_id]
         @message = Message.find(message_id)
         if @message
