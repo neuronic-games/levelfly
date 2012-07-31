@@ -1383,7 +1383,7 @@ background-color:#FFFFFF;
 .profile_row > .gap {
   margin-left:100px;
 }
-.profile_row> .dif{ margin-left: 66px;}
+.profile_row > .dif{ margin-left: 66px;}
 .profile_top_btn{float: right; margin-top: -67px;}
 .profile_row input, .profile_row textarea {
   color: #ffffff;
@@ -3739,11 +3739,11 @@ border:solid 0px #000000;
     border: 0 solid #000000;
     border-radius: 16px 16px 16px 16px;
     box-shadow: 0 0 12px #333333;
-    height: 35%;
+    height: 300px;
     left: 35%;
     padding: 20px;
     position: absolute;
-    top: 50%;
+    top: 200px;
     width: 30%;
     z-index: 9993;
 }

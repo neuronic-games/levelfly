@@ -1,25 +1,2 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-<<<<<<< HEAD
-one:
-  message_id: 1
-  poster_profile_id: 1
-  viewer_profile_id: 1
-  archived: false
-
-two:
-  message_id: 1
-  poster_profile_id: 1
-  viewer_profile_id: 1
-  archived: false
-=======
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-#  column: value
->>>>>>> 107d6028f97121d34c17f3ceed16ae53c21faffb

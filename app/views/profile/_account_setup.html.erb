@@ -3,19 +3,21 @@
 <%if @current_user and !@current_user.nil?%>
 <div class="heading">Account Setup</div>
   </br>
+   <div class="heading02">Full Name
+    &nbsp;&nbsp;
+  </div> 
+  <div>
+   <input type ="text" class = "dd_input brown_bg02" id ="user_full_name" value="<%=@current_user.full_name%>">
+  </div>
+</br>
+  
    <div class="heading02">Email
      &nbsp;&nbsp;
    </div> 
    <div>
     <input type ="text" class = "dd_input brown_bg02" id ="email" value="<%=@current_user.user.email%>" readonly="readonly">
    </div>
-   
-    <div class="heading02">Full Name
-     &nbsp;&nbsp;
-   </div> 
-   <div>
-    <input type ="text" class = "dd_input brown_bg02" id ="user_full_name" value="<%=@current_user.full_name%>">
-   </div>
+ </br>
    
    <div class="heading02">Password
      &nbsp;&nbsp;
@@ -31,7 +33,7 @@
    </div>
    </br>
    <div align="right">
-  <a class="smaller_text big_blue_btn inlineblock" id = "dont_change_btn" href="javascript:void(0)">Don't Change</a> <a class="big_blue_btn inlineblock" id = "change_btn" href="javascript:void(0)">Change</a></div>
+  <a class="smaller_text big_blue_btn inlineblock" id = "dont_change_btn" href="javascript:void(0)">Don't Change</a> <a class="big_orange_btn inlineblock" id = "change_btn" href="javascript:void(0)">Change</a></div>
   <input type="hidden" name="hdn_user_id" id="hdn_user_id" value="<%=@current_user.user_id %>"/>
 <%end%>  
 </div>
