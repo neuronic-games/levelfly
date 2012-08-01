@@ -29,7 +29,7 @@
       <div class="msg_bottom_links">
         <div class="time" rel ="<%=message.id%>"><span class ="words"><%= time_ago_in_words(message.created_at) %> ago</span><span class="hide dates"><%=gdt(message.created_at)%></span></div>
         <div class="like_cmt">
-          <span class="fav_icon"><img src="/images//fav.png" align="absbottom" /><span id="count_<%=message.id%>"><%=message.like%></span> </span>
+          <span class="fav_icon"><img src="/images/fav.png" align="absbottom" /><span id="count_<%=message.id%>"><%=message.like%></span> </span>
           <span class="list_messages" id="m_<%=message.id%>">
           <span id="link_<%=message.id%>">
             <a href="javascript:void(0)" id="<%=message.id%>" rel="<%=user_like(user_session[:profile_id], message.id) ? "unlike" : "like" %>" rev = "<%=message.parent_id%>" class="blue_bt19px like">
