@@ -46,7 +46,7 @@
           <a href="javascript:void(0);" rel="/profile/user_profile" class="page_switcher"><img id="my_avatar_image" src="<%= @profile.image_file_name %>" /></a>
         </div>
         <div class="avatar_detail">
-          <div class="sign_out_btn"><a href="/users/sign_out" data-method="delete" rel="nofollow"><img src="/images//signout_btn.png" /></a>
+          <div class="sign_out_btn"><a href="/users/sign_out" data-method="delete" rel="nofollow"><img class="sign_out_img" src="/images//signout_btn.png" /></a>
           </div>
           <div id="tool_bar_full_name" class="full_name">
             <% if @profile.full_name.blank? %>
@@ -249,7 +249,7 @@ var h = new Object(); // or just {}
           success: function(data) {
             if (data) {
               $("#container").html(data);
-              $("#container p").highlight(search_text);
+              $("#container").highlight(search_text);
               $("#clear_search").show();
               $("#clear_search").attr("rel", search_url);
             } else {
@@ -304,6 +304,72 @@ var h = new Object(); // or just {}
         }
       });
     });
+    
+// New topic    
+ $('#container').delegate('.topic_div', 'click', function(){   
+  // $('.topic_div').click(function(){  
+    var rel = $(this).attr("rel");
+    if($("#et_"+rel).hasClass("show")){
+      $("#et_"+rel).removeClass("show")
+     } 
+    else{
+      $("#et_"+rel).addClass("show")  
+    }
+  });
+$('#container').delegate('.edit_topic', 'click', function(){     
+  //$(".edit_topic").click(function(){
+    var rel = $(this).attr("rel");
+    $("#topic_content_"+rel).show();
+    $("#topic_content_"+rel).removeAttr("readonly");
+    $("#topic_content_"+rel).addClass("topic_field_bg");
+    id = $(this).attr("id");
+    show_btn(id)
+  });
+  
+  function show_btn(id)
+  {
+     if($("#"+id).hasClass("show")){
+      $("#"+id).removeClass("show")
+     } 
+    else{
+      $("#"+id).addClass("show")  
+    }
+  };
+$('#container').delegate('.add_topic', 'click', function(){    
+  //$(".add_topic").click(function(){
+    var rel = $(this).attr("rel");
+    $("#topic_content_"+rel).show();
+    $("#topic_content_"+rel).removeAttr("readonly");
+    $("#topic_content_"+rel).addClass("topic_field_bg");
+    $(this).hide();
+  });
+  
+  $("#container").delegate('.topic_input','change', function(){
+    var message_id = $(this).attr("rel");
+    id = $(this).attr("id");
+    var content = $(this).val();
+    showSpinner(true);
+    $.ajax({
+      type:"POST",
+      url:"/message/save_topic",
+      dataType:"json",
+      data:{id:message_id,content:content},
+      success: function(data){
+        if(data.status){
+          showSpinner(false);
+         $("#topic_content_"+message_id).attr("readonly","readonly");
+         $("#topic_content_"+message_id).removeClass("topic_field_bg");
+         $("#et_"+message_id).removeClass("hide");
+         $("#et_"+message_id).addClass("edit_topic_btn");
+         show_btn(id)
+        }
+      },
+      error: function(){alert("ERROR")}
+    });
+  });
+    
+    
+    
   
   }); //document.ready
   

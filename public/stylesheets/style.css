@@ -3726,7 +3726,8 @@ border:solid 0px #000000;
 .badge_popup .icon{float:right; margin-top:-15px;}
 .selected_column{background-color:#DFD4B6 !important;}
 .sign_out_btn{float:right; margin-right:10px;}
-.sign_out_btn:hover{background-color:#716B52 !important;}
+/*.sign_out_img{background: url("../images/signout_btn.png") repeat scroll 0 0 #FFFFFF !important;}*/
+.sign_out_img:hover{background: url("../images/signout_btn.png") !important;}
 .badge_popup .heading02 {
   color: #5B5757;
   font-weight: bold;
@@ -3790,3 +3791,16 @@ border:solid 0px #000000;
   margin: -11px 0 0 32px;
   position: absolute;
 }
+.FloatL {float:left}
+.FloatR {float:right}
+.msg_head_content { height:50px;}
+.topic_input{
+  width:100%; 
+  height:100%;
+  color:#AD4A51;
+  font-weight: bold;
+	font-size: 12px;
+  /*padding :4px;*/
+  }
+.topic_field_bg{background:#9FD5EA !important;}
+.edit_topic_btn{display:none;}

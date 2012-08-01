@@ -13,7 +13,7 @@ class MessageController < ApplicationController
         :select => "parent_id", 
         :conditions => ["(archived is NULL or archived = ?) AND parent_type = 'Message' AND content LIKE ? ", false, search_text]).collect(&:parent_id)
       @messages = Message.find(:all, 
-        :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend' AND (content LIKE ? OR id in (?) ) and id in (?)", wall_ids, false, search_text, @comment_ids, message_ids])
+        :conditions => ["id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend' AND (content LIKE ? OR id in (?) or topic LIKE ? )", message_ids, false, search_text, @comment_ids,search_text])
       
     elsif params[:friend_id]
       @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND profile_id = ? AND message_type ='Message' AND parent_type='Profile' and id in (?)", false, params[:friend_id], message_ids])  
@@ -292,6 +292,17 @@ class MessageController < ApplicationController
         render :json => {:status => true}
       end
     end  
+  end
+  
+  def save_topic
+    if params[:id] and !params[:id].nil?
+      @message = Message.find(params[:id])
+      if @message
+        @message.topic = params[:content]
+        @message.save
+        render :json => {:status => true}
+      end
+    end
   end
   
 end

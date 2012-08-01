@@ -258,6 +258,8 @@ Oncapus::Application.routes.draw do
   
   post "message/confirm"
   
+  post "message/save_topic"
+  
   post "badge/give_badges"
   
   post "badge/save"

@@ -66,7 +66,7 @@
       <div class="caption">Likes</div>
     </div>
       
-    <div class="profile_item dif gap">
+    <div class="profile_item dif gap" style="float:right; margin:0px;">
       <div class="big_number"><%= profile.badge_count %></div>
       <div class="caption">Badges</div>
     </div>
@@ -78,10 +78,11 @@
     </div>
     <div class="profile_item full_width">
       <div class="caption">Notes</div>
-      <textarea name="interests" id="interests" class="full_width" style="height:100px;" placeholder="Enter Notes"></textarea> 
+      <textarea name="Notes" id="Notes" class="full_width" style="height:100px;" placeholder="Enter Notes"></textarea> 
     </div>
   </div>
   <% end %>
+  
   <div class="profile_row">
     <div class="profile_item profile_share">
       <input type="checkbox" name="share" class="share" value="interests" />
@@ -261,6 +262,8 @@ $(document).ready(function(){
   <% if user_session[:profile_id] != profile.id %>
     // If viewing another user, some fields are readonly. We also need to protect in the controller
     $("#full_name_input").attr('readonly', 'readonly');
+    $("#interests").attr('readonly', 'readonly'); 
+    $("#interests").css('background-color', '#214C69');
   <% end %>
   
   //$('#Friend').live('click',function(){

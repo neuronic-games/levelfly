@@ -3,12 +3,12 @@
   <%= form_for(@user, :as => @user, :url => {:controller=>:system, :action=>:edit, :id => @user.id}, :html => {:name=>"events_form",:multipart => true, :method=>"post", :class=>"form-horizontal"}) do |f| %>
     <%#= devise_error_messages! %>
 
+    <div><%= f.label :full_name %><br />
+    <%= f.text_field :full_name %></div>
+    
     <div><%= f.label :email %><br />
     <%= f.email_field :email, :value=>@user.email, :disabled=>true%></div>
     
-    <div><%= f.label :full_name %><br />
-    <%= f.text_field :full_name %></div>
-
     <div><%= f.label :password %><br />
     <%= f.password_field :password %></div>
 
