@@ -3799,7 +3799,8 @@ border:solid 0px #000000;
   height:100%;
   color:#AD4A51;
   font-weight: bold;
-	font-size: 12px;
+  font-style: italic;
+	font-size: 11px;
   /*padding :4px;*/
   }
 .topic_field_bg{background:#9FD5EA !important;}
