@@ -10,14 +10,7 @@ module ApplicationHelper
     return false
   end
  end
- 
- def default_name(id)
-  @user = User.find(id)
-  if @user
-    return @user.email
-  end
- end
- 
+  
  def change_date_format(date)
     if not date.blank?
       date.strftime("%m/%d/%Y")

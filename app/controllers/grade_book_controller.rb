@@ -129,44 +129,57 @@ class GradeBookController < ApplicationController
    #used for caclulation for grade
   def grade_calculate
     if params[:characters] && !params[:characters].nil?
-      characters = params[:characters]
+      characters = params[:characters].split(",") if params[:characters]
       school_id = params[:school_id]
       course_id = params[:course_id]
       task_id = params[:task_id]
-      profile_id = params[:profile_id]
+      profile_id = params[:profile_id].split(",") if params[:profile_id]
       task_grade = params[:task_grade]
-      arr_grade = [];
-      #participant = Participant.find(participant_id)
-      num = GradeType.is_num(task_grade)
-      previous_grade=""
-      if num == false     
-        points = GradeType.letter_to_value(task_grade, school_id)
-        task_grade = points
+      p=profile_id.length
+      arr_grade = []
+      arr_task_grade = []
+      undo = params[:undo]
+      previous_values = params[:last_changes].split(",") if params[:last_changes]
+      if undo == "true" and !previous_values.blank?
+        previous_values.each do |pg|
+          num = GradeType.is_num(pg)
+          previous_grade=""
+          if num == false     
+            arr_task_grade.push(GradeType.letter_to_value(pg, school_id))
+          end
+        end  
+      else
+        num = GradeType.is_num(task_grade)
+        previous_grade=""
+        if num == false     
+          task_grade = GradeType.letter_to_value(task_grade, school_id)
+        end
       end
-      
+    
       # Save the grade
       if !profile_id.nil?      
         # Calculate the GPA
-        #percent = -1
-        characters.each_with_index do |grades,i|
+        sub_arrays = characters.in_groups(p, false)
+        profile_id.each_with_index do |p,j|
           sum = 0
           count = 0
           average = 0 
-          grades[1].each do |c|
-            percent = -1
-            if !c.blank?
-              num = GradeType.is_num(c)
-              if num == true
-                percent = c.to_f
-              else
-                percent = GradeType.letter_to_value(c, school_id)
-              end    
-              if (!percent.nil? and percent > -1)
-                sum = sum + percent
-                count = count + 1
-              end
+          sub_arrays[j].each_with_index do |grades,i|         
+            #grades[1].each do |c|
+              percent = -1            
+              if !grades.blank?
+                num = GradeType.is_num(grades)
+                if num == true
+                  percent = grades.to_f
+                else
+                  percent = GradeType.letter_to_value(grades, school_id)
+                end    
+                if (!percent.nil? and percent > -1)
+                  sum = sum + percent
+                  count = count + 1
+                end
+              end 
             end 
-          end 
           if (sum >0 and count >0)
             average = sum/count
           else
@@ -174,9 +187,16 @@ class GradeBookController < ApplicationController
           end
           @grade = GradeType.value_to_letter(average, school_id)
           arr_grade.push(@grade)
-          @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, profile_id[i],task_grade,average)
-          if !@grade_task.blank?
-            previous_grade = GradeType.value_to_letter(@grade_task, school_id)
+          if undo == "true" and !previous_values.blank?
+            @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, profile_id[j],arr_task_grade[j],average)
+            if !@grade_task.blank?
+              previous_grade = GradeType.value_to_letter(@grade_task, school_id)
+            end
+          else
+            @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, profile_id[j],task_grade,average)
+            if !@grade_task.blank?
+              previous_grade = GradeType.value_to_letter(@grade_task, school_id)
+            end
           end
         end  
       end  
@@ -188,19 +208,23 @@ class GradeBookController < ApplicationController
   #save outcome points 
   def outcomes_points
     if params[:course_id] && !params[:course_id].nil?
-      average = params[:average]
+      average = params[:average].split(",") if params[:average]
       school_id = params[:school_id]
       course_id = params[:course_id]
       outcome_id = params[:outcome_id]
-      profile_ids = params[:profile_id]#.split(",")
+      profile_ids = params[:profile_id].split(",") if params[:profile_id]
       task_id = params[:task_id]
-      outcome_val = params[:outcome_val]
-      #participant = Participant.find(participant_id)
+      outcome_val = params[:outcome_val].split(",") if params[:outcome_val]
+      undo = params[:undo]
+      previous_values = params[:last_changes].split(",") if params[:last_changes]
+     
       previous_grade = ""
       if !profile_ids.nil?
-        #profile_ids.each do |p|
+        if undo == "true" and !previous_values.blank?
+           previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, profile_ids,average,task_id,previous_values)
+        else
           previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, profile_ids,average,task_id,outcome_val)
-       # end
+        end    
         render :json => {:average => average,:previous_grade=>previous_grade}
       end  
     end   

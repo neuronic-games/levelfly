@@ -4,7 +4,9 @@
     <span><input type="text" name="add_people_email[]" class="dd_select brown_bg" style="width:300px; padding:2px;" id="add_course_people" placeholder="Enter email..."  /></span>
     <span style="float:right; margin-right:89px;""><a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="blue_bt19px btn_add">Invite</a></span>
   </div> 
-  
+  <%if @courseMaster and !@courseMaster.nil?%>
+    <div class="task_pos"><span class="field_label"> <% if @totaltask %>This course have <%=@totaltask %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW TASKS</a></div>
+  <%end%>  
   <div class="frm_input">
     <div class="frm_input" id="add_people_container"></div>
   </div>
@@ -49,10 +51,14 @@
               participant_node.className = node_class;
               participant_node.id = data.profile.full_name;
               partcipant_html = '<div class="avatar_white_bdrC2"><img src='+data.profile.image_file_name+'></div>';
-              if(data.new_user)
+              if(data.new_user){
               partcipant_html += '<div class="people_name">' + email_id + '<br />';
-              else
+              //partcipant_html += '<div style="font-size:10px; font-weight:normal;">' + email_id + '</div>';
+              }
+              else{
               partcipant_html += '<div class="people_name">' + data.profile.full_name + '<br />';
+             // partcipant_html += '<div style="font-size:10px; font-weight:normal;">' + email_id + '</div>';
+              }
               partcipant_html += '<span style="font-size:10px; font-weight:normal;">Pending</span></div>';
               partcipant_html += '<div class="clear"></div>';
               participant_node.append(partcipant_html);
@@ -99,4 +105,24 @@
       });
     }
   });
+  
+   $("#btn_task").click(function(data){
+   var course_id=$("#course_id_hdn").val();
+   var dataString = {course_id:course_id};
+   showSpinner(true);
+   $.ajax({  
+        type: "GET",  
+        url: "/task/view_task",  
+        data: dataString,
+        success: function(data) {
+		      $("#container").html(data);
+			    showSpinner(false);
+        },
+        error: function()
+        {
+          alert("An Error has occured");
+          showSpinner(false);
+        },
+      }); 
+    });
 </script>

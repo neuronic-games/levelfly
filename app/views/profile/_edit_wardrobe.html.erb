@@ -56,7 +56,7 @@
   </div>  
 </div>
 
-<div class="profile_right">
+<div class="profile_right" onClick="saveAvatar(); loadPage('/profile/user_profile');">
 <%= render :partial => "/profile/full_avatar", :locals=>{:profile_user_id=>profile.id} %>
 </div>
 

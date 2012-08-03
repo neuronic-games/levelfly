@@ -307,13 +307,18 @@ var h = new Object(); // or just {}
     
 // New topic    
  $('#container').delegate('.topic_div', 'click', function(){   
-  // $('.topic_div').click(function(){  
     var rel = $(this).attr("rel");
     if($("#et_"+rel).hasClass("show")){
       $("#et_"+rel).removeClass("show")
      } 
     else{
       $("#et_"+rel).addClass("show")  
+    }
+    if($("#at_"+rel).hasClass("show")){
+      $("#at_"+rel).removeClass("show")
+     } 
+    else{
+      $("#at_"+rel).addClass("show")  
     }
   });
 $('#container').delegate('.edit_topic', 'click', function(){     

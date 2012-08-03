@@ -89,7 +89,7 @@
     </div>
     <div class="profile_item full_width">
       <div class="caption">Interests</div>
-      <textarea name="interests" id="interests" class="full_width" style="height:100px;" placeholder="Enter your interests, seperated by commas (e.g. apples, bananas, oranges)"><%=h profile.tag_list %></textarea> 
+      <textarea name="interests" id="interests" class="full_width" style="height:100px;" <% if (user_session[:profile_id] == profile.id)%>placeholder="Enter your interests, seperated by commas (e.g. apples, bananas, oranges)" <% end %>><%=h profile.tag_list %></textarea> 
     </div>
   </div>
 
@@ -234,7 +234,7 @@
  %>
 </div>
 
-<div class="profile_right">
+<div class="profile_right"  <% if (user_session[:profile_id] == profile.id)%>onClick="loadPage('/profile/edit_wardrobe');"<%end%> >
 <%= render :partial => "/profile/full_avatar", :locals=>{:profile_user_id=>profile.id} %>
 </div>
   

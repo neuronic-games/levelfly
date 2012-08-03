@@ -6,9 +6,14 @@
         <div class="avatar_white_bdrC2">
           <img src='<%=p.image_file_name%>'>
         </div>
-        <div class="people_name"><%if p.full_name == nil %><%=default_name(p.user_id)%><%else%><%=p.full_name%><%end%><br />
+        <div class="people_name"><%if p.full_name == nil %><%=p.user.email%><%else%><%=p.full_name%><%end%><br />
+          <%if @courseMaster and !@courseMaster.nil?%>
+            <div style="font-size:10px; font-weight:normal;">
+              <%= p.user.email %>
+            </div>
+          <%end%>
           <span style="font-size:10px; font-weight:normal;">
-            <%= p.participants[0].profile_type == 'P' ? 'Pending' : 'Member' %>
+            <%= p.participants[0].profile_type == "P" ? "Pending" : "Member" %>
           </span>
         </div>
         

@@ -133,7 +133,8 @@ class CourseController < ApplicationController
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", @course.id]
       )
     @course_owner = Participant.find(:first, :conditions=>["object_id = ? AND profile_type = 'M' AND object_type='Course'",params[:id]])   
-    @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
+    #@totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
+    @totaltask = @tasks = Task.filter_by(user_session[:profile_id], @course.id, "current")
     @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
      message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
     if params[:section_type]=="C"
@@ -429,7 +430,8 @@ class CourseController < ApplicationController
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", params[:id]]
       )
     @groups = Group.find(:all, :conditions=>["course_id = ?",params[:id]])
-    @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
+    #@totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
+    @totaltask = @tasks = Task.filter_by(user_session[:profile_id], @course.id, "current")
     message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
     if params[:section_type]=="C"
       @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C' and id in(?)",@course.id,message_ids],:order => "created_at DESC" )
@@ -465,6 +467,12 @@ class CourseController < ApplicationController
        :include => [:participants], 
        :conditions => ["participants.object_id = ? AND participants.object_type= ? AND participants.profile_type IN ('P', 'S')", @course.id,section_type]
      )
+     @courseMaster = Profile.find(
+      :first, 
+      :include => [:participants], 
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", user_session[:profile_id]]
+      )
+     @totaltask = @tasks = Task.filter_by(user_session[:profile_id], @course.id, "current").count
      render :partial => "/course/member_list",:locals=>{:course=>@course}         
    end
 

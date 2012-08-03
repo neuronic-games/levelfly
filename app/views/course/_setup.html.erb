@@ -1,7 +1,7 @@
 <div id="div_2" class="tab_content form_contents">
   <div class="course_left">
     <div class="course_profile_image" id="course_image">
-      <img id="course_thumb" <%if @course.image_file %>src='<%= @course.image_file %>'<%else%>src="/images/course_img_drop.png" <%end%> width="156" height="156" alt="Course image" />
+      <img id="course_thumb" <%if @course.image_file == "/images/course_img_default.jpg" %>src='/images/course_img_drop.png'<%else%>src="<%= @course.image_file %>" <%end%> width="156" height="156" alt="Course image" />
     </div>
   </div>
   <div class="course_right" >
