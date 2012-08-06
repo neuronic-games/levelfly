@@ -16,7 +16,7 @@
     <div class="spacebar10px"></div>
     </div>
     <div class="clear"></div>
-    <div class="spacebar10px"></div> 
+    <div class="spacebar30px"></div> 
     <div id="msg_input" class="hide">
       <textarea name="message" id="message" class="msg_txt" placeholder="Enter your message..."></textarea>
     </div>
@@ -32,9 +32,9 @@
       <!-- <a href="javascript:void(0)" rel="switch" id="note_root" class="blue_bt19px">Note</a>  -->
       
       <% if user_session[:profile_id] == profile.id %>
-        <!-- Actions for me -->
+        <!-- Actions for me 
         <a href="javascript:void(0)" rel="/system/alert/" id ="my_stats" class="blue_bt19px menu_btn">Stats</a> 
-      
+        -->  <div class="spacebar30px"></div> 
       <% else %>
         <!-- Actions for other -->
         <% if @participant && !@participant.nil?%>

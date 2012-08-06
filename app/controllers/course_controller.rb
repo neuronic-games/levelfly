@@ -470,9 +470,9 @@ class CourseController < ApplicationController
      @courseMaster = Profile.find(
       :first, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", user_session[:profile_id]]
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M' and profile_id = ? ", @course.id,user_session[:profile_id]]
       )
-     @totaltask = @tasks = Task.filter_by(user_session[:profile_id], @course.id, "current").count
+  
      render :partial => "/course/member_list",:locals=>{:course=>@course}         
    end
 
@@ -498,6 +498,7 @@ class CourseController < ApplicationController
     if params[:id] && !params[:id].nil?
       @grade = []
       @points = []
+      @badge = []
       @course = Course.find(params[:id])
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
       @likes = Like.where("course_id = ?",@course.id).count
@@ -515,8 +516,13 @@ class CourseController < ApplicationController
          @points , @course_xp = CourseGrade.get_outcomes(@course.id,@outcomes,@profile.school_id,@profile.id) 
       end
       if !@profile.nil?
-        badge_ids = AvatarBadge.find(:all, :select => "badge_id", :conditions =>["profile_id = ? and course_id = ?",@profile.id,@course.id]).collect(&:badge_id)
-        @badge = Badge.where("id in (?)",badge_ids).order("created_at desc")
+        @badge_ids = AvatarBadge.find(:all, :select => "badge_id", :conditions =>["profile_id = ? and course_id = ?",@profile.id,@course.id])
+        if @badge_ids and !@badge_ids.nil?
+          @badge_ids.each do |b|
+            badge = Badge.find(:first, :conditions=>["id = ? ",b.badge_id],:order => "created_at DESC")
+            @badge.push(badge)           
+          end
+        end
       end
       render :partial =>"/course/course_stats"
     end  

@@ -2,23 +2,24 @@
 <% if !peoples.empty? %>
   <% if mode == "list" %>
     <% peoples.each do |p| %>
-      <li class="blackboard_list" id="<%=p.id%>" style="width:88%; height:50px;">
-        <div class="avatar_white_bdrC2">
-          <img src='<%=p.image_file_name%>'>
-        </div>
-        <div class="people_name"><%if p.full_name == nil %><%=p.user.email%><%else%><%=p.full_name%><%end%><br />
+      <li class="blackboard_list" id="<%=p.id%>" style="width:88%; height:88px;">
+      <div >
+        <div class="avatar_white_bdr floatL">
+          <img src="<%=p.image_file_name%>" profile_id="<%=p.id%>" class="profile"/>
+        </div> 
+        <div class="people_name" style="width:87%; margin:7px 3px;">
+        <div class="floatL" style="width:30%;"><%if p.full_name == nil %><%=p.user.email%><%else%><%=p.full_name%><%end%></div>
           <%if @courseMaster and !@courseMaster.nil?%>
-            <div style="font-size:10px; font-weight:normal;">
-              <%= p.user.email %>
-            </div>
+          <div class="field_label3" style="width:40%"> <%= p.user.email %></div>
+          <div class="field_label2" style="width:20%"> <%= active_task(p.id,@course.id) %> ACTIVE TASKS<!--<a href="#" id="btn_task" class="green_bt19px">VIEW TASKS</a>--></div>
           <%end%>
-          <span style="font-size:10px; font-weight:normal;">
-            <%= p.participants[0].profile_type == "P" ? "Pending" : "Member" %>
-          </span>
+         <div class="FloatR" style="width:10%"><a href="javascript:void(0)" class="people_delete blue_bt19px floatL" rel="<%=p.id%>"  >Remove</a></div>
         </div>
-        
-        <a href="javascript:void(0)" class="people_delete blue_bt19px" rel="<%=p.id%>" style="float:right;" >Remove</a>
-
+          </div>
+          <div class="participant_type">
+            <%= p.participants[0].profile_type == "P" ? "Pending" : "Member" %>
+          </div>
+       
         <div class="clear"></div>
       </li>
       <div class="clear"></div>

@@ -21,7 +21,7 @@
       <div class="group_field_box group_input">
         <div class="group_viewfield field_label">NAME
           <div>
-            <input type="text" name="group_name" id="group_name" class="dd_select brown_bg group_name" <%if @course %> value="<%=@course.name if @course%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+            <input type="text" name="group_name" id="group_name" style="width:100%" class="dd_select brown_bg group_name" <%if @course %> value="<%=@course.name if @course%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
           </div>
         </div>
       </div>  
@@ -64,7 +64,7 @@
       </div> -->
 
       <div class="show_group_messages">
-        <textarea id="msg_content" name="msg_content" style ="width:496px;"class="msg_content" placeholder="Enter your message to share..."></textarea> <br />
+        <textarea id="msg_content" name="msg_content" style ="width:84%;"class="msg_content" placeholder="Enter your message to share..."></textarea> <br />
         <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
         <a href="javascript:void(0)" id="<%=@course.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="G" onclick="javascript:void(0);">Post</a>
       </div>

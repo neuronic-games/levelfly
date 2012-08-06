@@ -42,8 +42,9 @@ before_filter :authenticate_user!
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
       @student = Profile.find(params[:profile_id])
       if !@profile.nil?
-        status = Badge.check_badge(params[:profile_id],params[:badge_id],params[:course_id])
-        if status == true
+        #status = Badge.check_badge(params[:profile_id],params[:badge_id],params[:course_id])
+        #if status == true
+          status = true
           @avatar_badge = AvatarBadge.new
           @avatar_badge.profile_id = params[:profile_id]
           @avatar_badge.badge_id  = params[:badge_id]
@@ -52,7 +53,7 @@ before_filter :authenticate_user!
           @avatar_badge.save
           @student.badge_count+=1
           @student.save
-        end
+        #end
       else
         text="Profile not found" 
       end

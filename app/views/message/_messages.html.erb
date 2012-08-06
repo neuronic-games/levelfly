@@ -9,12 +9,12 @@
     <div class ="topic_div" id ="topic_<%=message.id%>" rel ="<%=message.id%>">
       <div class="FloatL"><h3 class="name"><%=h message.profile.full_name%></h3></div>
         <!--message topic-->
-        <%if message.profile_id == user_session[:profile_id] and message.topic.blank?%>
-          <div class="FloatL edit_topic_btn <%if !message.topic.blank?%>hide<%end%>" id ="at_<%=message.id%>" style="padding:0 0 0 10px;">
+        <%if message.profile_id == user_session[:profile_id]%>
+          <div class="FloatL <%if message.topic and message.topic.length>0 %>hide<%else%>edit_topic_btn<%end%>" id ="at_<%=message.id%>" style="padding:0 0 0 10px;">
             <a href="javascript:void(0);" class="blue_bt19px add_topic" id="add_topic_<%=message.id%>" rel="<%=message.id%>">ADD TOPIC</a>
           </div>
           <%end%>  
-          <div class="FloatL" style="padding:0 0 0 10px; width:70%">
+          <div class="FloatL" style="padding:0 0 0 10px; width:50%">
             <input type="text" name="topic_content" id="topic_content_<%=message.id%>" class="topic_input <%if message.topic.blank?%>hide<%end%>" value="<%=message.topic%>" readonly="readonly" rel="<%=message.id%>"/>
           </div>
          <%if message.profile_id == user_session[:profile_id]%>
@@ -105,6 +105,15 @@ $(".message_list").hover(
     }, 
     function () {
       $(".edit_topic_btn", this).hide();
+    }
+  );
+  
+   $(".topic_div").hover(
+    function () {
+      $(".add_topic_btn", this).show();
+    }, 
+    function () {
+      $(".add_topic_btn", this).hide();
     }
   );
 

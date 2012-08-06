@@ -234,7 +234,7 @@
  %>
 </div>
 
-<div class="profile_right"  <% if (user_session[:profile_id] == profile.id)%>onClick="loadPage('/profile/edit_wardrobe');"<%end%> >
+<div class="profile_right hover"  <% if (user_session[:profile_id] == profile.id)%>onClick="loadPage('/profile/edit_wardrobe');"<%end%> >
 <%= render :partial => "/profile/full_avatar", :locals=>{:profile_user_id=>profile.id} %>
 </div>
   

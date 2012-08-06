@@ -17,8 +17,15 @@ belongs_to :badge_image
   end
   
   def self.badge_count(profile_id)
-    badge_ids = AvatarBadge.find(:all, :select => "badge_id", :conditions =>["profile_id = ? ",profile_id]).collect(&:badge_id)
-    @badge = Badge.where("id in (?)",badge_ids).order("created_at desc")
+    @badge = []
+    @badge_ids = AvatarBadge.find(:all, :select => "badge_id", :conditions =>["profile_id = ? ",profile_id])
+    if @badge_ids and !@badge_ids.nil?
+      @badge_ids.each do |b|
+        badge = Badge.find(:first, :conditions=>["id = ? ",b.badge_id],:order => "created_at DESC")
+        @badge.push(badge)           
+      end
+    end
+    
     return @badge
   end
 

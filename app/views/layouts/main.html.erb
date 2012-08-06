@@ -327,8 +327,10 @@ $('#container').delegate('.edit_topic', 'click', function(){
     $("#topic_content_"+rel).show();
     $("#topic_content_"+rel).removeAttr("readonly");
     $("#topic_content_"+rel).addClass("topic_field_bg");
-    id = $(this).attr("id");
-    show_btn(id)
+    $("#et_"+rel).addClass("hide");
+    $("#et_"+rel).removeClass("edit_topic_btn");
+    document.getElementById("topic_content_"+rel).focus();
+    $("#et_"+rel).hide();
   });
   
   function show_btn(id)
@@ -341,12 +343,36 @@ $('#container').delegate('.edit_topic', 'click', function(){
     }
   };
 $('#container').delegate('.add_topic', 'click', function(){    
-  //$(".add_topic").click(function(){
     var rel = $(this).attr("rel");
     $("#topic_content_"+rel).show();
+    document.getElementById("topic_content_"+rel).focus();
     $("#topic_content_"+rel).removeAttr("readonly");
     $("#topic_content_"+rel).addClass("topic_field_bg");
-    $(this).hide();
+    $("#at_"+rel).hide();
+    $("#at_"+rel).addClass("hide");
+    $("#at_"+rel).removeClass("edit_topic_btn");
+  
+  });
+  
+  $('#container').delegate('.topic_input', 'blur', function(){ 
+     var message_id = $(this).attr("rel");
+     var content = $(this).val();
+     if(content==""){
+        $("#topic_content_"+message_id).removeClass("topic_field_bg");
+        $("#at_"+message_id).removeClass("hide");
+        $("#at_"+message_id).addClass("edit_topic_btn");
+        $("#et_"+message_id).addClass("hide");
+        $("#et_"+message_id).removeClass("edit_topic_btn");
+        $("#at_"+message_id).show();
+     }
+     else{
+        $("#topic_content_"+message_id).removeClass("topic_field_bg");
+        $("#et_"+message_id).removeClass("hide");
+        $("#et_"+message_id).addClass("edit_topic_btn");
+        $("#at_"+message_id).addClass("hide");
+        $("#at_"+message_id).removeClass("edit_topic_btn");
+        $("#et_"+message_id).show();
+     }
   });
   
   $("#container").delegate('.topic_input','change', function(){
@@ -364,9 +390,24 @@ $('#container').delegate('.add_topic', 'click', function(){
           showSpinner(false);
          $("#topic_content_"+message_id).attr("readonly","readonly");
          $("#topic_content_"+message_id).removeClass("topic_field_bg");
-         $("#et_"+message_id).removeClass("hide");
-         $("#et_"+message_id).addClass("edit_topic_btn");
-         show_btn(id)
+        // $("#topic_content_"+message_id).addClass("hide");
+         if(content==""){
+            $("#at_"+message_id).removeClass("hide");
+            $("#at_"+message_id).addClass("edit_topic_btn");
+            $("#et_"+message_id).addClass("hide");
+            $("#et_"+message_id).removeClass("edit_topic_btn");
+            $("#at_"+message_id).show();
+            $("#et_"+message_id).hide();
+         }
+         else
+         {
+            $("#et_"+message_id).removeClass("hide");
+            $("#et_"+message_id).addClass("edit_topic_btn");
+            $("#at_"+message_id).addClass("hide");
+            $("#at_"+message_id).removeClass("edit_topic_btn");
+            $("#et_"+message_id).show();
+         }
+         //show_btn(id)
         }
       },
       error: function(){alert("ERROR")}

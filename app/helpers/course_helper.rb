@@ -5,4 +5,10 @@ module CourseHelper
   def show_kilo_byte(the_byte)
      return (the_byte/1024)
   end
+  
+  def active_task(profile_id,course_id)
+    totaltask = Task.filter_by(profile_id,course_id, "current").count
+    return totaltask
+  end
+  
 end

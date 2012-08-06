@@ -15,20 +15,21 @@
   <div class="group_right" >
     <div class="group_detailbox">
 
-    <div class="group_field_box group_input">
+      <div class="group_field_box group_input">
         <div class="group_viewfield field_label">NAME
           <div>
-            <input type="text" name="group_name" id="group_name" class="group_name" class="dd_select brown_bg" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+            <input type="text" name="group_name" id="group_name" class="group_name dd_select brown_bg" style="width:100%" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
           </div>
         </div>
-        
-         <div class="group_viewfield field_label">Description
+      </div>   
+      <div class="group_field_box group_input">
+         <div class="desc_width field_label">Description
           <div>
-            <textarea name="group_descr" id="group_descr" class="group_descr" rows="4"  onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
+            <textarea name="group_descr" id="group_descr" style="width:100%" class="group_descr" rows="4"  onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
           </div>
          </div>
-        
-          <div style="margin-top:-21px "class="group_image_name">
+       </div>  
+          <div class="group_image_name">
             <% if @courseMaster %>
             <div class="avatar_white_bdr"><img  src="<%=@courseMaster.image_file_name %>" /></div>
             <div class="avatar_name"><%=@courseMaster.full_name%></div> 

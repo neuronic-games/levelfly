@@ -6,8 +6,8 @@
           <div id = "badge_content" class="badge_contenttt">
             <div id="sidebar_right">
               <div class="course_side_buttons">
-                <a href="javascript:void(0)" name="btn_give" id="btn_give_badge" class="big_blue_btn">GIVE</a>
-                <a href="javascript:void(0)" name="btn_dont_give" id="btn_dont_give" class="big_blue_btn">DON'T GIVE</a>
+                <!--<a href="javascript:void(0)" name="btn_give" id="btn_give_badge" class="big_blue_btn">GIVE</a>
+                <a href="javascript:void(0)" name="btn_dont_give" id="btn_dont_give" class="big_blue_btn">DON'T GIVE</a>-->
                 <a href="javascript:void(0)" name="btn_create_new" id="btn_create_new" class="big_blue_btn">CREATE NEW</a>
                 <input type="hidden" name="hdn_field_profile_id" id="hdn_field_profile_id" value="<%=profile_id if profile_id%>" />
                 <input type="hidden" name="hdn_field_course_id" id="hdn_field_course_id" value="<%=course_id if course_id%>" />
@@ -27,7 +27,8 @@
                   <div class="clear"></div>
                 </div>
                  <div class="like_cmt notedefault hide" id="supernote-note-demo1">
-                 <a class="blue_bt19px" id = "<%=b.id%>" href="javascript:void(0)">DELETE</a>
+                   <div class="margin15px"><a class="blue_bt19px give_btn" style="padding:2px 17px;" rel ="<%=b.id%>" id ="give_<%=b.id%>" href="javascript:void(0)">GIVE</a></div>
+                   <div class="margin8px"><a class="blue_bt19px del_btn" id = "<%=b.id%>" href="javascript:void(0)">DELETE</a></div>
                  </div>
               </div>
               <% end %>
@@ -51,8 +52,11 @@
                       <div class="badge_cont"><%=b.name%></div> 
                     <div class="clear"></div>
                   </div>
+                
                    <div class="like_cmt notedefault hide" id="supernote-note-demo1">
-                   <a class="blue_bt19px" id = "<%=b.id%>" href="javascript:void(0)">DELETE</a>
+                       <div class="margin15px"><a class="blue_bt19px give_btn" style="padding:2px 17px;" rel ="<%=b.id%>" id ="give_<%=b.id%>" href="javascript:void(0)">GIVE</a></div>
+                      <div class="margin8px"><a class="blue_bt19px del_btn" id = "<%=b.id%>" href="javascript:void(0)">DELETE</a>
+                      </div>
                    </div>
                 </div>
                 <% end %>
@@ -113,12 +117,12 @@ $(document).ready(function() {
 
   });
     
-  $("#btn_give_badge").click(function(){ 
-    if (id==""){
+  $(".give_btn").click(function(){ 
+    /*if (id==""){
     }
-    else{
-      var ids = id.split("_");
-      var badge_id = ids[1];  
+    else{*/
+      //var ids = id.split("_");
+      var badge_id = $(this).attr("rel");
       var student_id =$("#hdn_field_profile_id").val();
       var course_id =$("#hdn_field_course_id").val();
       showSpinner(true);
@@ -131,7 +135,7 @@ $(document).ready(function() {
           //$("#container").html(data);  
           if(data.status==false)
           {
-            alert("This badge already given to this student for this course");
+            //alert("This badge already given to this student for this course");
             showSpinner(false);
           }
           else{
@@ -170,8 +174,9 @@ $(document).ready(function() {
           showSpinner(false);
         },
       });
-      }  
+      //}  
     });
+    
     $("#btn_dont_give").click(function(){ 
       $("#"+previous_click).removeClass("selected_badge");
       $("#"+id).removeClass("selected_badge");
@@ -185,7 +190,7 @@ $(document).ready(function() {
       $(".notedefault", this).hide();
     }
   );  
-  $(".blue_bt19px").click(function(){
+  $(".del_btn").click(function(){
     delete_badge_id = $(this).attr("id");
       showSpinner(true);
       $.ajax({
