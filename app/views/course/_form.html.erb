@@ -1,6 +1,8 @@
 <div id="sidebar_right">
   <div class="course_side_buttons">
-    <a href="javascript:void(0)" name="btn_course" id="btn_course" class="big_orange_btn">Save</a>
+    <%if Role.check_permission(@profile.id,section_type)== true%>
+      <a href="javascript:void(0)" name="btn_course" id="btn_course" class="big_orange_btn">Save</a>
+    <%end%>
     <% if @course%>
       <a href="javascript:void(0)" name="menu_btn_addfile" id="menu_btn_addfile" class="big_blue_btn hide">ADD FILE</a>
       <a href="javascript:void(0)" name="btn_category_remove" id="btn_category_remove" class="big_blue_btn hide">REMOVE</a>

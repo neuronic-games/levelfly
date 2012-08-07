@@ -3564,11 +3564,11 @@ div .frm_input2 {
 	float:right
 }
 .avatar_white_bdr01 {
-	border:#eaebeb 4px solid;
+	border:#eaebeb 2px solid;
 	/*width:14%;*/
   width:54px;
 	margin:0 auto;
-	height:53px;
+	height:54px;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
@@ -3729,7 +3729,7 @@ border:solid 0px #000000;
 	border-bottom:#dba29c solid 1px;
 	padding:0 0 5px 0;
 }
-.badge_popup .icon{float:right; margin-top:-15px;}
+.badge_popup .icon{float:right;}
 .selected_column{background-color:#DFD4B6 !important;}
 .sign_out_btn{float:right; margin-right:10px;}
 /*.sign_out_img{background: url("../images/signout_btn.png") repeat scroll 0 0 #FFFFFF !important;}*/

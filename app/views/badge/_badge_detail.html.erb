@@ -2,11 +2,14 @@
 <div class="badge_popup"> 
 <div class="heading"><%=@badge_detail.name%></div>
   </br>
-   <div class="heading02">Description:
-     &nbsp;&nbsp;<div class="badge_descr"><%=@badge_detail.descr%></div>
-   </div>
-   <div class="SI_icon icon"><img src="images/badges/<%=@badge_detail.badge_image.image_file_name%>"class="icon_style_badge  badge_details" id=""/>
-   </div>
+  <div>
+     <div class="heading02" style="float:left;">Description:
+       &nbsp;&nbsp;<div class="badge_descr"><%=@badge_detail.descr%></div>
+     </div>
+     <div class="SI_icon icon"><img src="images/badges/<%=@badge_detail.badge_image.image_file_name%>"class="icon_style_badge  badge_details" id=""/>
+     </div>
+  </div> 
+   <div  style="margin-top:50px;">Given by <%=profile_name(@avatar_badge.giver_profile_id)%> on <%=change_date_format(@avatar_badge.created_at)%> for <%=course_detail(@avatar_badge.course_id)%></div>
 </div>
 <%end%>
 

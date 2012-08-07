@@ -173,14 +173,15 @@ function addNode(element) {
         </div>
 
 		    <div id="div_3" class="tab_content hide">
-          
-            <div class="task_side_buttons"> 
-              <!-- <a href="javascript:void(0)" class="big_blue_btn">ATTACH</a> -->
-              <a href="javascript:void(0)" id="btn_task" class="big_orange_btn">SAVE</a>
-              <!-- <a href="javascript:void(0)" class="big_blue_btn">PRINT</a> -->
-              <a href="javascript:void(0)" id="task_btn_remove" class="big_blue_btn">REMOVE</a>
-              <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@task ? false : true %>" />
-            </div>
+            <%if Role.check_permission(@profile.id,"T") == true%> 
+              <div class="task_side_buttons"> 
+                <!-- <a href="javascript:void(0)" class="big_blue_btn">ATTACH</a> -->
+                <a href="javascript:void(0)" id="btn_task" class="big_orange_btn">SAVE</a>
+                <!-- <a href="javascript:void(0)" class="big_blue_btn">PRINT</a> -->
+                <a href="javascript:void(0)" id="task_btn_remove" class="big_blue_btn">REMOVE</a>
+                <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@task ? false : true %>" />
+              </div>
+           <%end%> 
             <div class="spacebar10px"></div>
             <div class="spacebar10px"></div>
             <div class="task_left">

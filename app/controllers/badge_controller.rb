@@ -93,12 +93,16 @@ before_filter :authenticate_user!
 
   def badge_detail
     if params[:id] and !params[:id].nil?
-      @badge_detail = Badge.find(params[:id])
-      if @badge_detail
-        render :partial => "badge/badge_detail"
-      else
-        render
+      @avatar_badge = AvatarBadge.find(params[:id])
+      if @avatar_badge
+        @badge_detail = Badge.find(@avatar_badge.badge_id)
+        if @badge_detail
+          render :partial => "badge/badge_detail"
+        else
+          render
+        end
       end
+      
     end   
   end
 end

@@ -99,16 +99,17 @@
       <input type="checkbox" name="share" class="share" value="friends" />
     </div>
     <div class="profile_item full_width">
-      <div class="caption">Badges</div>
+      <div class="caption">Badges &nbsp; &nbsp;<%= profile.badge_count %>&nbsp; RECEIVED</div>
         <div class="profile_row_border full_width">
          <%if @badge && @badge.length==0%>
             <div class="profile_item_empty">No Badges</div>
           <% else %>
           <ul class="stat_icons_box">    
-              <% @badge.each do |b|%>  
+              <% @badge.each do |b|%>
+              <%badge = Badge.badge_detail(b.badge_id)%>
               <li>
-                <div class="SI_icon"><img src="images/badges/<%=b.badge_image.image_file_name%>"class="icon_style_badge hover badge_details" id="<%=b.id%>"/></div>
-                <span class="text_style_badge"><%=b.name%></span></li>
+                <div class="SI_icon"><img src="images/badges/<%=badge.badge_image.image_file_name%>"class="icon_style_badge hover badge_details" id="<%=b.id%>"/></div>
+                <span class="text_style_badge"><%=badge.name%></span></li>
               <%end%>  
             <li>
           </ul> 
@@ -193,7 +194,7 @@
         <% @current_friends.each do |f|%>
           <ul class="stat_icons_box2">
           <li class="width12">
-          <div class="avatar_white_bdr01"><img src="<%=f.profile.image_file_name%>" profile_id="<%= f.profile.id %>" width="54" height="53" class ="profile"/></div>
+          <div class="avatar_white_bdr01"><img src="<%=f.profile.image_file_name%>" profile_id="<%= f.profile.id %>" width="54" height="54" class ="profile"/></div>
           <span><%=f.profile.full_name%></span></li>
         </ul>
         <%end%>

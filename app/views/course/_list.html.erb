@@ -34,7 +34,9 @@
 
 <div id="sidebar_right">
   <div class="course_side_buttons">
-    <a class="big_blue_btn menu_btn" <% if defined?(section_type) %> data="<%=section_type%>" <%end%> name="menu_btn_add" id="menu_btn_add" rel="/course/new"href="javascript:void(0)">ADD</a>
+    <%if Role.check_permission(@profile.id,section_type) == true%> 
+      <a class="big_blue_btn menu_btn" <% if defined?(section_type) %> data="<%=section_type%>" <%end%> name="menu_btn_add" id="menu_btn_add" rel="/course/new"href="javascript:void(0)">ADD</a>
+    <%end%>
   </div><!-- crud_level -->
 </div>
 

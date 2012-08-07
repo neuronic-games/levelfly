@@ -2,6 +2,8 @@ class CourseController < ApplicationController
   layout 'main'
   before_filter :authenticate_user!
         require 'digest/sha1'
+  before_filter :check_role,:only=>[:new, :save]
+      
   def index
     section_type = params[:section_type]
     
@@ -502,7 +504,6 @@ class CourseController < ApplicationController
       @course = Course.find(params[:id])
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
       @likes = Like.where("course_id = ?",@course.id).count
-      #@participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
       @course_grade, oc = CourseGrade.load_grade(@profile.id, @course.id,@profile.school_id)
       if !@course_grade.nil?
         @course_grade.each do |key , val|
@@ -516,13 +517,13 @@ class CourseController < ApplicationController
          @points , @course_xp = CourseGrade.get_outcomes(@course.id,@outcomes,@profile.school_id,@profile.id) 
       end
       if !@profile.nil?
-        @badge_ids = AvatarBadge.find(:all, :select => "badge_id", :conditions =>["profile_id = ? and course_id = ?",@profile.id,@course.id])
-        if @badge_ids and !@badge_ids.nil?
-          @badge_ids.each do |b|
-            badge = Badge.find(:first, :conditions=>["id = ? ",b.badge_id],:order => "created_at DESC")
-            @badge.push(badge)           
-          end
-        end
+        @badge = AvatarBadge.find(:all, :select => "id, badge_id", :conditions =>["profile_id = ? and course_id = ?",@profile.id,@course.id])
+        # if @badge_ids and !@badge_ids.nil?
+          # @badge_ids.each do |b|
+            # badge = Badge.find(:first, :conditions=>["id = ? ",b.badge_id],:order => "created_at DESC")
+            # @badge.push(badge)           
+          # end
+        # end
       end
       render :partial =>"/course/course_stats"
     end  
@@ -572,5 +573,10 @@ class CourseController < ApplicationController
     end
   end
 
+  def check_role
+    if Role.check_permission(user_session[:profile_id],params[:section_type])==false
+      render :text=>"You are not authorized for this request"
+    end
+  end
   
 end

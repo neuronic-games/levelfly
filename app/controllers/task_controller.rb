@@ -1,7 +1,7 @@
 class TaskController < ApplicationController
   layout 'main'
   before_filter :authenticate_user!
-  
+  before_filter :check_role,:only=>[:new, :save]
   def index
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if @profile
@@ -412,6 +412,12 @@ class TaskController < ApplicationController
       )
     @tasks = Task.filter_by(@profile.id, params[:course_id], "current")
     render :partial => "/task/list", :locals=>{:tasks=>@tasks,:course_id=>params[:course_id]}
+  end
+  
+  def check_role
+    if Role.check_permission(user_session[:profile_id],params[:section_type])==false
+       render :text=>"You are not authorized for this request"
+    end
   end
 
 end

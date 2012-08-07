@@ -23,6 +23,7 @@ class Profile < ActiveRecord::Base
       avatar = new_profile.avatar.dup
       avatar.profile_id = profile.id
       avatar.save
+      Role.set_user_role(profile.id)
     end
     return profile
   end
