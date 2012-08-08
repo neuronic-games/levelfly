@@ -574,8 +574,14 @@ class CourseController < ApplicationController
   end
 
   def check_role
-    if Role.check_permission(user_session[:profile_id],params[:section_type])==false
-      render :text=>"You are not authorized for this request"
+    section_type=""
+    if params[:section_type] and !params[:section_type].nil?
+      section_type = params[:section_type]
+    elsif params[:parent_type] and !params[:parent_type].nil?
+      section_type = params[:parent_type]
+    end
+    if Role.check_permission(user_session[:profile_id],section_type)==false
+      render :text=>""
     end
   end
   

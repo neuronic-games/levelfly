@@ -1,7 +1,7 @@
 <div id="div_2" class="tab_content">
   <div class="group_left">
     <div class="group_profile_image" id="group_image">
-      <img id="task_image" class="task_image" src="<%= @course.image_file %>" width="156" height="156" alt="Course image" />
+      <img id="g_image" class="g_image" src="<%= @course.image_file %>" width="156" height="156" alt="Course image" />
       <img class="image_icon_drop_target" src="/images/course_img_drop.png" />
     </div>
 
@@ -95,7 +95,8 @@
     });
     
     group_uploader.bind('UploadProgress', function(up, file) {
-      $('#group_image').html('<center>Uploading..</center>');
+      //$('#group_image').html('<center>Uploading..</center>');
+      $(".image_icon_drop_target").fadeOut();
     });
     
     group_uploader.bind('FileUploaded', function(up, file, info) {
@@ -103,7 +104,10 @@
       groupImg = $('<img width="156" height="156">').attr('src',obj.image_url);
       group_uploader.settings.multipart_params.id = obj.course.id;
       $("#course_id_hdn").val(obj.course.id);
-      $('#group_image').html(groupImg);
+      $(".g_image").attr('src',obj.image_url);
+      $(".image_icon_drop_target").fadeIn();
+      //$('#group_image').html(groupImg);
+      //$("#group_image").append("<img class='image_icon_drop_target' src='/images/course_img_drop.png' />")
       showSpinner(false);
     });
     

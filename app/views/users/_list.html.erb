@@ -1,0 +1,49 @@
+<div class="course_content">
+  <div class="course_board_left">
+    <div class="course_board_right">
+      <div class="course_board_center">
+        <div class="texture_board">
+          <div class="course_pad_top"> </div>
+          <div class="course_pad">
+           
+          <%if @users and !@users.nil?%>
+            <% @users.each do |p|%>
+            <div>
+              <a href="/users/show/<%=p.id%>" class="view">
+                 <div class="LB_tablecontent <%= cycle("even", "odd") %>" style=" float:left; padding: 0 17px;"  >
+                  <div class="LBT_ava"  style="margin: 0 auto; width:62px;">
+                    <div class="avatarWbdr"><img src="<%= p.image_file_name%>" class="" profile_id="<%= p.id %>" /></div>
+                  </div>
+                  <div class="LBT_name"> <span class="name_txt"><%= p.full_name %> </span></div>                  
+                </div>
+              </a>
+            </div>
+            <%end%>
+          <%end%>
+          </div>  
+
+          <div class="end_of_page"></div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+  $('a.view').click(function() {
+    showSpinner(true);
+    url = this.href
+    $("#container").load(url, function(){
+      showSpinner(false);
+    }); 
+    return false; 
+  });
+});
+  
+
+
+</script>

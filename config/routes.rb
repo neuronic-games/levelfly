@@ -274,6 +274,12 @@ Oncapus::Application.routes.draw do
   
   post "badge/badge_detail"
   
+  get "users/index"
+  
+  get "users/show"
+  
+  post "users/save"
+  
   match 'task' => 'task#index'
   
   match 'grade_book' => 'grade_book#index'
@@ -306,6 +312,8 @@ Oncapus::Application.routes.draw do
   match 'course/show/:id' => 'course#show'
   
   match 'task/show/:id' => 'task#show'
+  
+  match 'users/show/:id' => 'users#show'
   
   match 'group/show/:id' => 'group#show'
   

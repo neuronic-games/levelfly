@@ -415,8 +415,8 @@ class TaskController < ApplicationController
   end
   
   def check_role
-    if Role.check_permission(user_session[:profile_id],params[:section_type])==false
-       render :text=>"You are not authorized for this request"
+    if Role.check_permission(user_session[:profile_id],"T")==false
+       render :text=>""
     end
   end
 

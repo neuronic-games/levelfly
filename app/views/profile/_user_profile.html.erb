@@ -58,17 +58,17 @@
 
     <div class="profile_item dif gap">
       <div class="big_number"><%=h profile.level %></div>
-      <div class="caption">Level</div>
+      <div class="caption align_center">Level</div>
     </div>
 
     <div class="profile_item dif gap">
       <div class="big_number"><%= profile.like_received %></div>
-      <div class="caption">Likes</div>
+      <div class="caption align_center">Likes</div>
     </div>
       
     <div class="profile_item dif gap" style="float:right; margin:0px;">
       <div class="big_number"><%= profile.badge_count %></div>
-      <div class="caption">Badges</div>
+      <div class="caption align_center">Badges</div>
     </div>
   </div>
   <% if (user_session[:profile_id] != profile.id)%>
@@ -187,7 +187,7 @@
     <div class="profile_item full_width">
       <div class="caption">Friends</div>
       <div class="profile_row_border full_width">
-      <% if @current_friends.nil? %>
+      <% if @current_friends.empty? %>
         <div class="profile_item_empty">No Friends</div>
       <% else %>
         <span>

@@ -1,0 +1,82 @@
+<div class="course_content">
+  <div class="course_board_left">
+    <div class="course_board_right">
+      <div class="course_board_center">
+        <div class="texture_board">
+          <div class="course_pad_top"> </div>
+          <div class="course_pad">
+            <div id="form">
+              <div class="course_viewfield field_label">Full name
+                <div class="dd_bg brown_bg">
+                  <input type="text" name="user_name" id="user_name" value="<%=@profile.full_name if @profile%>" class="dd_input brown_bg prompted" style="width:100%;"/>
+                </div>
+              </div>
+               
+              <div class="course_viewfield field_label">Email
+                <div class="dd_bg brown_bg">
+                  <input type="text" name="user_email" id="user_email" value="<%=@profile.user.email if @profile%>" class="dd_input brown_bg prompted" style="width:100%;"/>
+                </div>
+              </div>
+              <div class="course_viewfield field_label">Roles
+                <div class=""></br>
+                  <input type="checkbox" name ="user_role[]" class="check_box" id="create_course" <%=Role.check_permission(@profile.id, "C") ? "checked='checked'" : "" %>value=""/>Create course</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="create_group" <%=Role.check_permission(@profile.id, "G") ? "checked='checked'" : "" %>value=""/>Create group</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="create_task" <%=Role.check_permission(@profile.id, "T") ? "checked='checked'" : "" %>value=""/>Create task</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="edit_grade" <%=Role.check_permission(@profile.id, Role.edit_grade) ? "checked='checked'" : "" %>value=""/>edit grade</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="edit_user" <%=Role.check_permission(@profile.id, Role.edit_user) ? "checked='checked'" : "" %>value=""/>edit user</br></br>
+                </div>
+              </div>
+            </div>          
+          </div>  
+          <div class="end_of_page"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="sidebar_right">
+  <div class="course_side_buttons">
+      <a class="big_blue_btn" name="save_user_btn" id="save_user_btn" href="javascript:void(0)">SAVE</a>
+  </div><!-- crud_level -->
+</div>
+<input type="hidden" name="user_id" id="user_id_hdn" value="<%=@profile.id if @profile%>" />
+<script type="text/javascript">
+var roles_asign = [];
+var roles_name = [];
+$(document).ready(function(){
+  $("#save_user_btn").click(function(){
+    var id = $("#user_id_hdn").val();
+    var email = $("#user_email").val();
+    var name = $("#user_name").val();
+     j = 0;
+    $.each($('input[name="user_role[]"]'), function() {
+       roles_asign[j] = this.checked;
+       roles_name[j] = this.id;
+       j++;   
+    });
+    var datastring = "id="+id+"&name="+name+"&email="+email+"&roles_asign="+roles_asign+"&roles_name="+roles_name
+    showSpinner(true);
+    $.ajax({
+    type:"POST",
+    url:"/users/save/",
+    data:datastring,
+    success: function(data){
+      if (data){
+        $("#container").load('/users/', function(){
+          showSpinner(false);
+        });
+      }
+    },
+    error : function(){
+      alert("ERROR");
+      showSpinner(false);
+    }
+    });
+    
+  })
+  
+  
+});
+  
+
+</script>

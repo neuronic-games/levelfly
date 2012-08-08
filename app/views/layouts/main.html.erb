@@ -127,8 +127,15 @@
               <div class="space_btwn_icon"></div>
                <div class="space_btwn_icon"></div>
               <!--icon-->
+              <%if Role.check_permission(@profile.id,Role.edit_grade) == true%>
               <div class="icon_box"> <a href="javascript:void(0);" id="grade" rel="/grade_book/" rev = "/grade_book/" class="icon_grade menu_btn">Grade book</a> </div>
               <div class="space_btwn_icon"></div> 
+              <%end%>
+               <!--icon-->
+              <%if Role.check_permission(@profile.id,Role.edit_user) == true%> 
+              <div class="icon_box"> <a href="javascript:void(0);" id="users" rel="/users/" rev = "/users/" class="icon_leader menu_btn">Users</a> </div>
+              <div class="space_btwn_icon"></div>
+              <%end%>
             </div>
           </div>
           <div class="downarrow jTscrollerNextButton"></div>

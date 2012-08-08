@@ -675,6 +675,7 @@ $(document).ready(function(){
       task_uploader.settings.multipart_params.id = obj.task.id;
       $('#task_id_hdn').val(obj.task.id);
       $('.task_image').attr("src", obj.image_url);
+      $(".image_icon_drop_target").fadeIn();
       showSpinner(false);
     });
     
