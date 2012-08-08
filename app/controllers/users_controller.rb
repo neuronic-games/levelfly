@@ -3,7 +3,7 @@ class UsersController < ApplicationController
  before_filter :check_role
  def index
    @profile = Profile.find(user_session[:profile_id])
-   @users = Profile.where("school_id = ?",@profile.school_id)
+   @users = Profile.where("school_id = ? and user_id is not null", @profile.school_id)
    respond_to do |wants|
       wants.html do
         if request.xhr?
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
     if params[:id] and !params[:id].nil?
       @profile = Profile.find(params[:id])
       if @profile
-        @role = Role.where("profile_id = ?",@profile.id)
+        @role = Role.where("profile_id = ?", @profile.id)
         respond_to do |wants|
           wants.html do
             if request.xhr?
