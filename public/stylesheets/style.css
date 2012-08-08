@@ -160,6 +160,20 @@ a.icon_stats_active {
   font-weight:bold;
   z-index:9999;
 }
+/****icon people****/
+a.icon_users {
+  background:url(../images/groups_icon.png) no-repeat 19px 5px;
+  padding:61px 0 0;
+}
+a.icon_users:hover {
+  background:url(../images/groups_icon_hover.png) no-repeat 19px 5px;
+  padding:61px 0 0;
+}
+a.icon_users_active {
+  background:url(../images/groups_icon_hover.png) no-repeat 19px 5px;
+  padding:61px 0 0;
+  color:#6a7c28;
+}
 /**********************right box****************/
 .right_box {
   display:table-cell;

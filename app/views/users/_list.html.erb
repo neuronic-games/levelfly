@@ -1,10 +1,9 @@
-<div class="course_content">
-  <div class="course_board_left">
-    <div class="course_board_right">
-      <div class="course_board_center">
-        <div class="texture_board">
-          <div class="course_pad_top"> </div>
-          <div class="course_pad">
+<div class="leader_content">
+  <div class="leader_board_left">
+    <div class="leader_board_right">
+      <div class="leader_board_center">
+        <div class="leader_pad_top"></div>
+        <div class="leader_pad">
            
           <%if @users and !@users.nil?%>
             <% @users.each do |p|%>
@@ -34,6 +33,8 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
+  setPageTitle("People");
+
   $('a.view').click(function() {
     showSpinner(true);
     url = this.href

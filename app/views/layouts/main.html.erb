@@ -46,7 +46,7 @@
           <a href="javascript:void(0);" rel="/profile/user_profile" class="page_switcher"><img id="my_avatar_image" src="<%= @profile.image_file_name %>" /></a>
         </div>
         <div class="avatar_detail">
-          <div class="sign_out_btn"><a href="/users/sign_out" data-method="delete" rel="nofollow"><img class="sign_out_img" src="/images//signout_btn.png" /></a>
+          <div class="sign_out_btn"><a href="/users/sign_out" data-method="delete" rel="nofollow"><img class="sign_out_img" src="/images/signout_btn.png" /></a>
           </div>
           <div id="tool_bar_full_name" class="full_name">
             <% if @profile.full_name.blank? %>
@@ -89,7 +89,7 @@
               Find Group
             </li>
             <li rel="/friend/">
-              Find Friend
+              Find People
             </li>
           </div>
         </div>
@@ -133,7 +133,7 @@
               <%end%>
                <!--icon-->
               <%if Role.check_permission(@profile.id,Role.edit_user) == true%> 
-              <div class="icon_box"> <a href="javascript:void(0);" id="users" rel="/users/" rev = "/users/" class="icon_leader menu_btn">Users</a> </div>
+              <div class="icon_box"> <a href="javascript:void(0);" id="users" rel="/users/" rev = "/users/" class="icon_users menu_btn">People</a> </div>
               <div class="space_btwn_icon"></div>
               <%end%>
             </div>
@@ -197,8 +197,8 @@
 var h = new Object(); // or just {}
   var token = $("meta[name='csrf-token']").attr("content");
   var search_arr = {
-    "/profile/user_profile" : "Find Friend",
-    "/friend/" : "Find Friend",
+    "/profile/user_profile" : "Find People",
+    "/friend/" : "Find People",
     "/course/" : "Find Course", 
     "/task/" : "Find Task", 
     "/message/" : "Find Message", 
