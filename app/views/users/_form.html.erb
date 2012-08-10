@@ -5,7 +5,8 @@
         <div class="texture_board">
           <div class="course_pad_top"> </div>
           <div class="course_pad">
-            <div id="form">
+          <div style="height:50px;"></div>
+           <div id="" style="margin-left: 20%; position: absolute; width: 50%;">
               <div class="course_viewfield field_label">Full name
                 <div class="dd_bg brown_bg">
                   <input type="text" name="user_name" id="user_name" value="<%=@profile.full_name if @profile%>" class="dd_input brown_bg prompted" style="width:100%;"/>
@@ -17,6 +18,7 @@
                   <input type="text" name="user_email" id="user_email" value="<%=@profile.user.email if @profile%>" class="dd_input brown_bg prompted" style="width:100%;"/>
                 </div>
               </div>
+              <div style="height:20px;"></div>
               <div class="course_viewfield field_label">Roles
                 <div class=""></br>
                   <input type="checkbox" name ="user_role[]" class="check_box" id="create_course" <%=Role.check_permission(@profile.id, "C") ? "checked='checked'" : "" %>value=""/>Create course</br></br>

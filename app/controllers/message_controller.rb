@@ -278,19 +278,24 @@ class MessageController < ApplicationController
   def confirm
     if params[:id] && !params[:id].nil?
       @message = Message.find(params[:id])
-      render :partial => "message/warning_box",:locals =>{:@message_id =>@message.id, :@type=>params[:message_type]}
+      render :partial => "message/warning_box",:locals =>{:@message_id =>@message.id, :@type=>params[:message_type], :@delete_all=>params[:delete_all]}
     end
   end  
   
   def delete_message
     if params[:id] && !params[:id].nil?
       comments_ids = Message.find(:all, :select => "id", :conditions=>["parent_id = ?",params[:id]]).collect(&:id)
-      @message_viewer = MessageViewer.find(:first, :conditions=>["viewer_profile_id = ? and message_id = ?", user_session[:profile_id], params[:id]])
-      if @message_viewer
-        MessageViewer.delete_all(["message_id in(?) and viewer_profile_id = ?",comments_ids, user_session[:profile_id]])
-        @message_viewer.delete
-        render :json => {:status => true}
+      if params[:delete_all] and params[:delete_all]=="delete_all"
+        MessageViewer.delete_all(["message_id = ?", params[:id]])
+        MessageViewer.delete_all(["message_id in(?)",comments_ids])
+      else
+        @message_viewer = MessageViewer.find(:first, :conditions=>["viewer_profile_id = ? and message_id = ?", user_session[:profile_id], params[:id]])
+        if @message_viewer
+          MessageViewer.delete_all(["message_id in(?) and viewer_profile_id = ?",comments_ids, user_session[:profile_id]])
+          @message_viewer.delete    
+        end
       end
+      render :json => {:status => true}
     end  
   end
   

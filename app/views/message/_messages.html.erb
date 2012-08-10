@@ -9,7 +9,18 @@
     <div class ="topic_div" id ="topic_<%=message.id%>" rel ="<%=message.id%>">
       <div class="FloatL"><h3 class="name"><%=h message.profile.full_name%></h3></div>
         <!--message topic-->
-        <%if message.profile_id == user_session[:profile_id]%>
+        <% @message_page=false%>
+        <%if @courseMaster%>
+          <%if @courseMaster.id  == user_session[:profile_id]%>
+            <% @course_owner=true%>
+          <%else%>
+            <% @course_owner=false%>
+          <%end%>
+        <%else%>  
+           <% @course_owner=false%>
+           <% @message_page=true%>
+        <%end%>
+        <%if (message.profile_id == user_session[:profile_id]) %>
           <div class="FloatL <%if message.topic and message.topic.length>0 %>hide<%else%>edit_topic_btn<%end%>" id ="at_<%=message.id%>" style="padding:0 0 0 10px;">
             <a href="javascript:void(0);" class="blue_bt19px add_topic" id="add_topic_<%=message.id%>" rel="<%=message.id%>">ADD TOPIC</a>
           </div>
@@ -39,11 +50,12 @@
           <span>
             <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#post_comment_<%=message.id%>').show()">COMMENT</a>
           </span>
-          <%#if message.profile_id == user_session[:profile_id]%>
-           <span id="delete_<%=message.id%>">
-           <a href="javascript:void(0);" class="message_del blue_bt19px" rev ="message" rel="<%=message.id %>">DELETE</a>
-           </span>
-           <%# end %>
+          <%if message.profile_id == user_session[:profile_id] or @course_owner==true or @message_page==true%>
+             <span id="delete_<%=message.id%>">
+             <a href="javascript:void(0);" class="message_del blue_bt19px" rev ="message" rel="<%=message.id %>">DELETE</a>
+             </span>
+             
+           <% end %>
         </span>
        </div>
       </div>
@@ -64,11 +76,11 @@
   <% comment_list(message.id).each_with_index do |comment,i|%>
       <%if i < total %>
           <div class="hide msg_small_box" id="comment_box_<%=message.id%>"> 
-             <%= render :partial => "/message/comments", :locals => {:comment=>comment,:course_id=>message.parent_id} %>
+             <%= render :partial => "/message/comments", :locals => {:comment=>comment,:course_id=>message.parent_id,:course_owner=>@course_owner, :message_page=>@message_page} %>
           </div> 
       <% else %>
         <% if i >= total %>
-         <%= render :partial => "/message/comments", :locals => {:comment=>comment,:course_id=>message.parent_id} %>
+         <%= render :partial => "/message/comments", :locals => {:comment=>comment,:course_id=>message.parent_id,:course_owner=>@course_owner, :message_page=>@message_page} %>
         <% end %>           
       <% end %> 
   <% end %> 

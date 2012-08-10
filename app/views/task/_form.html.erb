@@ -29,7 +29,9 @@ function addNode(element) {
         <div class="task_pad">
           <!-- tabs-->
             
-          
+          <div class="task_side_buttons"> 
+            <a href="javascript:void(0)" id="task_completes" class="smaller_text big_blue_btn task_completes" style="padding: 8px 0 8px !important;" rel="<%=@task.id if @task%>">Mark</br>Complete</a>
+          </div>
           <div class="tabs menu_container" align="right">
             <a href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><span class="task_tab">Task</span></a>
             <a href="javascript:void(0)"  id="menu2" value="2" class="tab_close" ><span class="task_tab">Files</span></a>
@@ -37,9 +39,7 @@ function addNode(element) {
           
           <!--tab content-->
           <div class="tab_content" id="div_1">
-             <div class="task_side_buttons"> 
-                <a href="javascript:void(0)" id="task_completes" class="smaller_text big_blue_btn task_completes" style="padding: 8px 0 5px !important;" rel="<%=@task.id if @task%>">Mark</br>Complete</a>
-              </div>
+             
            <div class="clickable menu_container"  style="position:absolute; right:250px;top:175px;">
             <a href="javascript:void(0)" class="setup_page_link" id="menu3" value="3">
               <img src="/images/setting_icon_gray.png">
@@ -172,7 +172,8 @@ function addNode(element) {
         </div>
         
         <div id="div_2" class="tab_content hide">
-          <%= render :partial => "/course/files" %>                
+          <%= render :partial => "/course/files" %>    
+                       
         </div>
 
 		    <div id="div_3" class="tab_content hide">
@@ -182,7 +183,7 @@ function addNode(element) {
                 <a href="javascript:void(0)" id="btn_task" class="big_orange_btn">SAVE</a>
                 <!-- <a href="javascript:void(0)" class="big_blue_btn">PRINT</a> -->
                 <a href="javascript:void(0)" id="task_btn_remove" class="big_blue_btn">REMOVE</a>
-                 <a href="javascript:void(0)" id="task_completes" class="smaller_text big_blue_btn task_completes" style="padding: 8px 0 5px !important;" rel="<%=@task.id if @task%>">Mark</br>Complete</a>
+                 <a href="javascript:void(0)" id="task_completes_setup" class="smaller_text big_blue_btn task_completes" style="padding: 8px 0 8px !important;" rel="<%=@task.id if @task%>">Mark</br>Complete</a>
                 <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@task ? false : true %>" />
               </div>
            <%end%> 
@@ -338,7 +339,7 @@ function addNode(element) {
                 <br /><br />
                 <div class="field_box2"><span class="font_12px">Members</span>
                   <div id="load_task_participant_wall">
-                  <% if @people and !@people.empty? %>
+                  <% if @people and !@people.nil? %>
                    <% @people.each do |p| %>
                         <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
                           <div style="">
@@ -877,7 +878,8 @@ function save_task(channel) {
           $("#descr").val(data.task.descr);
           $("#level").val(data.task.level);
           if(channel == "btn_task") {
-            $("#container").load('/task/index', function(){
+            //$("#container").load('/task/index', function(){
+            $("#container").load('/task/show/'+data.task.id, function(){
               showSpinner(false);
             });
           } else {

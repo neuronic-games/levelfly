@@ -134,22 +134,22 @@ class Task < ActiveRecord::Base
       participant.complete_date = Time.now
       participant.status = Task.status_complete
       participant.save
-      participants = TaskParticipant.find(:all,
-        :include => [:profile, :task],
-        :conditions => ["task_id = ? and profile_type = ? and status <> ?", task_id, Task.profile_type_member, Task.status_complete])
+      #participants = TaskParticipant.find(:all,
+       # :include => [:profile, :task],
+        #:conditions => ["task_id = ? and profile_type = ? and status <> ?", task_id, Task.profile_type_member, Task.status_complete])
       # participants.each do |a_participant|
         # a_participant.complete_date = Time.now
         # a_participant.status = Task.status_incomplete
         # a_participant.save
       # end
+      #Task.task_grade_points(task_id,profile_id,complete)
       status = true
-      Task.task_grade_points(task_id)
     elsif participant.profile_type == Task.profile_type_member
       participant.complete_date = complete ? Time.now : nil
       # if  participant.status ==  Task.status_complete
         # profile.xp += complete ? task.points : -task.points
       # end
-      participant.status = Task.status_assigned#complete ? Task.status_complete : Task.status_assigned
+      participant.status = complete ? Task.status_complete : Task.status_assigned
       participant.save
       #profile.save
       status = complete
@@ -157,12 +157,13 @@ class Task < ActiveRecord::Base
     return status
   end  
   
-  def self.task_grade_points(task_id)
+  def self.task_grade_points(task_id,profile_id,complete)
     @task = Task.find(task_id)
-    @task_grade = TaskGrade.where("task_id = ? ", task_id)
+    @task_grade = TaskGrade.where("task_id = ? and profile_id = ?", task_id ,profile_id)
     if !@task_grade.nil?
       @task_grade.each do |t|
-         t.update_attribute('points',@task.points)
+        t.points = complete ? @task.points : nil
+        t.save
       end
     end
   end
@@ -177,11 +178,12 @@ class Task < ActiveRecord::Base
       task = participant.task
       if participant.profile_type == Task.profile_type_member
       # Give points to members who completed the task
-      participant.status = complete ? Task.status_complete : Task.status_assigned
+      participant.xp_award_date = complete ? Time.now : nil
       profile.xp += complete ? task.points : -task.points
       profile.save
       participant.save
       status = complete
+      Task.task_grade_points(task_id,profile_id,complete)
       end
     end
     return status

@@ -1,7 +1,11 @@
 module MessageHelper
 
   def comment_list(message_id)
-    @comment = Message.find(:all, :conditions=>["parent_id = ? AND parent_type='Message'", message_id], :order => 'created_at ASC')
+    comment_ids = Message.find(:all, :select => "id" ,:conditions=>["parent_id = ? AND parent_type='Message'", message_id]).collect(&:id)
+   
+    message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ? and message_id in(?)", user_session[:profile_id],comment_ids]).collect(&:message_id)
+    
+    @comment = Message.find(:all, :conditions=>["id in(?)", message_ids], :order => 'created_at ASC')
     @comments = @comment.reverse.reverse
     return @comments
   end

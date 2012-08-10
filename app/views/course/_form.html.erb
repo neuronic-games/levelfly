@@ -311,7 +311,7 @@ $(document).ready(function(){
       id = $(this).attr("rel");
       message_type = $(this).attr("rev");
       var position = $(this).position();
-      var dataString = 'id='+id+'&message_type='+message_type;
+      var dataString = 'id='+id+'&message_type='+message_type+"&delete_all=delete_all";
       $.ajax({
            type: "POST",  
            url: "/message/confirm",  
@@ -443,13 +443,14 @@ function save_course(channel) {
         }
          showSpinner(false);
          changed=false;
-        /*if(channel=="btn_course") {
-          $("#container").load('/course/index?section_type='+section_type, function(){
+        if(channel=="btn_course") {
+          //$("#container").load('/course/index?section_type='+section_type, function(){
+          $("#container").load('/course/show/'+id+'?section_type='+section_type, function(){
             showSpinner(false);
           });
         } else {
           showSpinner(false);
-        }*/
+        }
         $("#hdn_is_page_change").val(false);
       } else {
         alert("ERROR");

@@ -9,7 +9,7 @@
     <div class="spacebar10px"></div>
   <div align="right">
   <a class="smaller_text big_blue_btn  inlineblock" id = "dont_delete_btn" href="javascript:void(0)">DON'T DELETE</a>
-  <a class="big_orange_btn  inlineblock clr_red" id = "delete_btn" href="javascript:void(0)" rel ="<%=@message_id%>">DELETE</a> 
+  <a class="big_orange_btn  inlineblock clr_red" id = "delete_btn" href="javascript:void(0)" rel ="<%=@message_id%>"  rev ="<%=@delete_all%>">DELETE</a> 
   </div>
 </div>
 <% end %>
@@ -22,7 +22,8 @@
  $("#delete_btn").click(function(){
     showSpinner(true);
       id = $(this).attr("rel");
-      var dataString = 'id='+id;
+      delete_all = $(this).attr("rev");
+      var dataString = 'id='+id+"&delete_all="+delete_all;
       $.ajax({
            type: "POST",  
            url: "/message/delete_message",  
