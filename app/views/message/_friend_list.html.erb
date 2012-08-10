@@ -7,7 +7,7 @@
     <div class="txt">
       <p><b><%=friend.profile.full_name%></b></p>
       <p><%=h "#{friend.profile.major.name}, " if friend.profile.major%><%=h friend.profile.school.code%></p>
-      <p>Messaged 3 hours ago</p>
+      <p style="font-weight: bold;"><%=time_ago_in_words(last_message(friend.profile_id))%> ago  </p>
       <div class="spacebar10px"></div>
       <div align="right" id="frnd_root_btn">
       <a href="javascript:void(0)" class="blue_bt19px menu_btn" rel="/message/friends_only/<%=friend.profile_id%>">messages</a>

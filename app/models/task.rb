@@ -137,22 +137,21 @@ class Task < ActiveRecord::Base
       participants = TaskParticipant.find(:all,
         :include => [:profile, :task],
         :conditions => ["task_id = ? and profile_type = ? and status <> ?", task_id, Task.profile_type_member, Task.status_complete])
-      participants.each do |a_participant|
-        a_participant.complete_date = Time.now
-        a_participant.status = Task.status_incomplete
-        a_participant.save
-      end
+      # participants.each do |a_participant|
+        # a_participant.complete_date = Time.now
+        # a_participant.status = Task.status_incomplete
+        # a_participant.save
+      # end
       status = true
       Task.task_grade_points(task_id)
     elsif participant.profile_type == Task.profile_type_member
-      # Give points to members who completed the task
       participant.complete_date = complete ? Time.now : nil
-      if  participant.status ==  Task.status_complete
-        profile.xp += complete ? task.points : -task.points
-      end
+      # if  participant.status ==  Task.status_complete
+        # profile.xp += complete ? task.points : -task.points
+      # end
       participant.status = Task.status_assigned#complete ? Task.status_complete : Task.status_assigned
       participant.save
-      profile.save
+      #profile.save
       status = complete
     end   
     return status

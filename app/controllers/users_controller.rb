@@ -1,10 +1,17 @@
 class UsersController < ApplicationController
+ layout 'main'
  before_filter :authenticate_user!
  before_filter :check_role
+ 
  def index
-   @profile = Profile.find(user_session[:profile_id])
-   @users = Profile.where("school_id = ? and user_id is not null", @profile.school_id)
-   respond_to do |wants|
+    @profile = Profile.find(user_session[:profile_id])
+    if params[:search_text]
+      search_text =  "#{params[:search_text]}%"
+      @users = Profile.find(:all, :conditions=>["school_id = ? and full_name LIKE ? and user_id is not null",@profile.school_id, search_text])      
+    else   
+      @users = Profile.where("school_id = ? and user_id is not null", @profile.school_id)
+    end
+    respond_to do |wants|
       wants.html do
         if request.xhr?
           render :partial => "/users/list"

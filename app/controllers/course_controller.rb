@@ -200,15 +200,29 @@ class CourseController < ApplicationController
           )
         end
       end
-      
-      # @same_code_courses = Course.find(:all, :conditions=>["code = ? AND id != ?",@course.code, @course.id])
-      # if @same_code_courses
-      #   @same_code_courses.each do |same_course|
-      #     same_course.outcomes.each do |same_outcome|
-      #       @course.outcomes << same_outcome
-      #     end
-      #   end
-      # end
+      #for add shared outcomes to new course have same course code
+      if @course.outcomes.count==0
+        @same_code_courses = Course.find(:all, :conditions=>["code = ? AND id != ?",@course.code, @course.id])
+        if @same_code_courses
+          @same_code_courses.each do |same_course|
+            same_course.outcomes.where(["shared = ?", true]).each do |same_outcome|
+              shared = true
+              if @course.outcomes.count>0
+                @course.outcomes.each do |o|
+                  if o.id == same_outcome.id
+                    shared = false
+                    break
+                  end
+                end
+              end
+              if shared==true
+                @course.outcomes << same_outcome
+              end
+            end
+          end
+        end
+
+      end
 
       #Save outcomes
       if params[:outcomes] && !params[:outcomes].empty?
@@ -365,7 +379,7 @@ class CourseController < ApplicationController
       render :text => {"status"=>"true"}.to_json
     end
   end
-  
+  # load shared outcomes
   def check_outcomes
     @outcomes = []
     @course = nil
@@ -375,7 +389,18 @@ class CourseController < ApplicationController
           @courses.each do |course|
             @course = course if @course.nil?
             course.outcomes.where(["shared = ?", true]).each do |value|
-              @outcomes << value
+             shared = true
+              if @outcomes.count>0
+                 @outcomes.each do |o|
+                  if o.id == value.id
+                    shared = false
+                    break
+                  end
+                end
+              end
+              if shared==true
+                @outcomes << value
+              end
             end 
           end
           render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes}

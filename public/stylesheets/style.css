@@ -3270,6 +3270,7 @@ background-color:#FF4D4D
 }
 .select_btn{background-color:#AFDCB6 !important;}
 .hover{cursor: hand;cursor: pointer;}
+.view_user{cursor: hand;cursor: pointer;}
 .cursor_none{cursor:none !important;}
 .gradebook_tab_content2{min-width: 100%; width: 500px;}
 .GB_odd2 { background:#c4c8d2;}
@@ -3859,3 +3860,4 @@ margin: 24px 84px;
 position: absolute;
 }
 .align_center{text-align: center;}
+.font12px{font-size: 12px;}

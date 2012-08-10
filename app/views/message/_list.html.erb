@@ -5,7 +5,7 @@
     <!-- Invites -->
     <% if @friend_requests and not @friend_requests.empty? %>
     <div id="course_requests">
-     <h2>INVITES</h2>
+      <div id="invites_title"><h2>INVITES</h2></div>
       <% @friend_requests.each do |friend_request| %>
         <%= render :partial => "/message/friend_requests", :locals => {:friend_request=>friend_request} %>
       <% end %>
@@ -15,7 +15,7 @@
 
      <!-- Respond -->
        <% if @respont_to_course and not @respont_to_course.empty? %>
-         <h2>NOTIFICATIONS</h2>
+         <div id="notification_title"><h2>NOTIFICATIONS</h2></div>
         <div id="course_requset_respond">
           <% @respont_to_course.each do |respond_course| %>
             <%= render :partial => "/message/respond_to_course", :locals => {:respond_course=>respond_course} %>
@@ -64,10 +64,10 @@
     <% end %>
   </div>
   <div class ="hide" id ="div_message_delete">
-      
   </div>
 </div>
-
+ <input type="hidden" name="notification_count" id="notification_count" value="<%=@respont_to_course.count if @respont_to_course%>"> 
+  <input type="hidden" name="invitation_count" id="invitation_count" value="<%=@friend_requests.count if @friend_requests%>"> 
 <script type="text/javascript">
 $(document).ready(function() {
     $.ajaxSetup({ cache: false }); 
@@ -175,6 +175,11 @@ $('.message_list').click(function(){
            dataType:"json",
            success: function(data) {
              $("#request_box_"+id).fadeOut(1000);
+             var notification = $("#notification_count").val();
+             $("#notification_count").attr("value",notification-1);
+             if($("#notification_count").val()==0){
+                $("#notification_title").html("<h2>There are no more notification</h2>")
+             }
              showSpinner(false);
              }
         });
@@ -200,16 +205,6 @@ $('.message_list').click(function(){
              }
         });
     }); 
-   $(".time").click(function(){
-    var id = $(this).attr("rel");
-    if($(".words").hasClass("hide")){
-      $(".words").removeClass("hide");
-      $(".dates").addClass("hide");
-      }
-    else{
-      $(".dates").removeClass("hide");
-      $(".words").addClass("hide");
-      }
-   }); 
+  
   
 </script>

@@ -44,6 +44,11 @@ $('.friend-request').unbind("click").bind("click", function(){
           setAlert(data);
           $("#request_box_"+message_id).fadeOut(1500);
           showSpinner(false);
+          var invites = $("#invitation_count").val();
+           $("#invitation_count").attr("value",invites-1);
+           if($("#invitation_count").val()==0){
+              $("#invites_title").html("<h2>There are no more invitaions</h2>")
+           }
         }
       });
     }
@@ -58,6 +63,11 @@ $('.friend-request').unbind("click").bind("click", function(){
             $('#request_box_'+message_id).fadeOut();
             if(action == "add") {
               $('#friend_list').append(data);
+            }
+            var invites = $("#invitation_count").val();
+            $("#invitation_count").attr("value",invites-1);
+            if($("#invitation_count").val()==0){
+              $("#invites_title").html("<h2>There are no more invitaions</h2>")
             }
           }
           showSpinner(false);

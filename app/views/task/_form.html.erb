@@ -28,7 +28,7 @@ function addNode(element) {
         <div class="task_pad_top"><!--Remove task_pad_top_inner--></div>
         <div class="task_pad">
           <!-- tabs-->
-         
+            
           
           <div class="tabs menu_container" align="right">
             <a href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><span class="task_tab">Task</span></a>
@@ -37,6 +37,9 @@ function addNode(element) {
           
           <!--tab content-->
           <div class="tab_content" id="div_1">
+             <div class="task_side_buttons"> 
+                <a href="javascript:void(0)" id="task_completes" class="smaller_text big_blue_btn task_completes" style="padding: 8px 0 5px !important;" rel="<%=@task.id if @task%>">Mark</br>Complete</a>
+              </div>
            <div class="clickable menu_container"  style="position:absolute; right:250px;top:175px;">
             <a href="javascript:void(0)" class="setup_page_link" id="menu3" value="3">
               <img src="/images/setting_icon_gray.png">
@@ -110,7 +113,7 @@ function addNode(element) {
                 <div class="field_box2">
                   <div class="date_viewfield font_12px">Due Date
                     <div class="dd_bg">
-                      <input type="text" class="dd_input" id="task_date"  <%if @task %> value="<%=@task.due_date%>" readonly="readonly" <%end%>/>
+                      <input type="text" class="dd_input" id="task_date"  <%if @task %> value="<%=change_date_format(@task.due_date)%>" readonly="readonly" <%end%>/>
                     </div>
                   </div>
                   <div class="rating_viewfield font_12px">
@@ -179,6 +182,7 @@ function addNode(element) {
                 <a href="javascript:void(0)" id="btn_task" class="big_orange_btn">SAVE</a>
                 <!-- <a href="javascript:void(0)" class="big_blue_btn">PRINT</a> -->
                 <a href="javascript:void(0)" id="task_btn_remove" class="big_blue_btn">REMOVE</a>
+                 <a href="javascript:void(0)" id="task_completes" class="smaller_text big_blue_btn task_completes" style="padding: 8px 0 5px !important;" rel="<%=@task.id if @task%>">Mark</br>Complete</a>
                 <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@task ? false : true %>" />
               </div>
            <%end%> 
@@ -768,6 +772,29 @@ $(document).ready(function(){
         showSpinner(false);
       }
     });  
+  });
+  
+  $('.task_completes').click(function() {
+    check_val = "true";
+    showSpinner(true);
+    task_id = $(this).attr("rel");
+    $.ajax({
+       type:"POST",
+       url:"/task/task_complete",
+       data:{task_id:task_id,check_val:check_val},
+       dataType:"json",
+       success:function(data){
+         showSpinner(false);
+         if (data.status) {
+           setAlert("Task completed")
+          
+         } else {
+           setAlert("Task not completed")
+
+         }
+       }
+    });
+  
   });
   
   //Like/Unlike a message or comment

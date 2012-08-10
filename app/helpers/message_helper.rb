@@ -55,4 +55,12 @@ module MessageHelper
     end
   end 
   
+  def last_message(profile_id)
+    message = Message.find(:first, :conditions=>["profile_id = ?",profile_id],:order => "created_at DESC")
+    if message
+      return message.created_at
+    end
+    return nil
+  end
+  
 end

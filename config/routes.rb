@@ -18,7 +18,7 @@ Oncapus::Application.routes.draw do
   
   get "task/list"
   
-   get "task/view_setup"
+  get "task/view_setup"
    
   get "profile/index"
 
@@ -297,6 +297,8 @@ Oncapus::Application.routes.draw do
   match 'message' => 'message#index'
   
   match 'friend' => 'friend#index'
+  
+  match 'users' => 'users#index'
   
   # start added for new message funtionalites >>>  lmit>>> frinds messages
   match 'message/friends_only/:friend_id' => 'message#friends_only'

@@ -88,9 +88,14 @@
             <li rel="/group/">
               Find Group
             </li>
-            <li rel="/friend/">
+            <!--<li rel="/friend/">
+              Find People
+            </li>-->
+           <%if Role.check_permission(@profile.id,Role.edit_user) == true%> 
+            <li rel="/users/">
               Find People
             </li>
+            <%end%>
           </div>
         </div>
         <div class="search_icon">
@@ -126,21 +131,22 @@
               <div class="icon_box"> <a href="javascript:void(0);" id="leader_board" rel="/leader_board/" rev = "/leader_board/" class="icon_leader menu_btn">Leader board</a> </div>
               <div class="space_btwn_icon"></div>
                <div class="space_btwn_icon"></div>
-              <!--icon-->
+              <!--icon--><%count=0%>
               <%if Role.check_permission(@profile.id,Role.edit_grade) == true%>
-              <div class="icon_box"> <a href="javascript:void(0);" id="grade" rel="/grade_book/" rev = "/grade_book/" class="icon_grade menu_btn">Grade book</a> </div>
-              <div class="space_btwn_icon"></div> 
+                <div class="icon_box"> <a href="javascript:void(0);" id="grade" rel="/grade_book/" rev = "/grade_book/" class="icon_grade menu_btn">Grade book</a> </div><%count=count+1%>
+                <div class="space_btwn_icon"></div> 
               <%end%>
                <!--icon-->
               <%if Role.check_permission(@profile.id,Role.edit_user) == true%> 
-              <div class="icon_box"> <a href="javascript:void(0);" id="users" rel="/users/" rev = "/users/" class="icon_users menu_btn">People</a> </div>
-              <div class="space_btwn_icon"></div>
+                <div class="icon_box"> <a href="javascript:void(0);" id="users" rel="/users/" rev = "/users/" class="icon_users menu_btn">People</a> </div><%count=count+1%>
+                <div class="space_btwn_icon"></div>
               <%end%>
             </div>
           </div>
-          <div class="downarrow jTscrollerNextButton"></div>
-          <div class="uparrow jTscrollerPrevButton"></div>
-          
+          <%if count>0%>
+            <div class="downarrow jTscrollerNextButton"></div>
+            <div class="uparrow jTscrollerPrevButton"></div>
+          <%end%>
           <!-- icon end -->
           
         </div>
@@ -202,7 +208,8 @@ var h = new Object(); // or just {}
     "/course/" : "Find Course", 
     "/task/" : "Find Task", 
     "/message/" : "Find Message", 
-    "/group/" : "Find Group"
+    "/group/" : "Find Group",
+    "/users/" : "Find People"
   };
   var search_url = "/course/";
   var section_type = "C"
@@ -250,7 +257,7 @@ var h = new Object(); // or just {}
         showSpinner(true);
         dataString = {search_text:search_text,section_type:section_type}
         $.ajax({
-          type: "POST",  
+          type: "GET",  
           url: search_url,
           data: dataString,
           success: function(data) {
@@ -381,6 +388,18 @@ $('#container').delegate('.add_topic', 'click', function(){
         $("#et_"+message_id).show();
      }
   });
+  //For toggle date time of messages
+ $('#container').delegate('.time', 'click', function(){ 
+    var id = $(this).attr("rel");
+    if($(".words").hasClass("hide")){
+      $(".words").removeClass("hide");
+      $(".dates").addClass("hide");
+      }
+    else{
+      $(".dates").removeClass("hide");
+      $(".words").addClass("hide");
+      }
+   }); 
   
   $("#container").delegate('.topic_input','change', function(){
     var message_id = $(this).attr("rel");

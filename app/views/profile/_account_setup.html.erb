@@ -69,6 +69,7 @@ $(document).click(function (e)
         success: function(resp){
           if (resp){
              showSpinner(false);
+             $("#account_setup").hide();
              $("#account_dialog").html(resp.text)
              if(resp.status ==true){
               $("#tool_bar_full_name").html(full_name);

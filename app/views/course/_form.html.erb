@@ -242,59 +242,6 @@ $(document).ready(function(){
     }
     
   });
-    
-
-  //For updating outcomes (in course view screen)
-  $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
-    var outcome_id = $(this).attr('rel');
-    var outcome = $(this).val();
-    var dataString = 'outcome_id=' + outcome_id + '&outcome=' + outcome;
-    if(outcome_id) {
-      showSpinner(true);
-      //alert (dataString);return false;
-      $.ajax({
-        type: "POST",
-        url: "/course/update_course_outcomes",
-        data: dataString,
-        error: function(){alert("Error");showSpinner(false);},
-        success: function(data) {
-          if (data) {
-            // TO DO
-          } else {
-            alert("ERROR");
-          }
-          showSpinner(false);
-        }
-      });
-      return false;
-    }
-  });
-
-  //For updating categories (in course view screen)
-  $('input[name="loaded_categories[]"]').unbind('blur').bind('blur', function(){
-    var category_id = $(this).attr('rel');
-    var category = $(this).val();
-    var dataString = 'category_id=' + category_id + '&category=' + category
-    if(category_id) {
-      showSpinner(true);
-      //alert (dataString);return false;
-      $.ajax({
-        type: "POST",
-        url: "/course/update_course_categories",
-        data: dataString,
-        success: function(data) {
-          if (data) {
-           // TO DO
-          } else {
-            alert("ERROR");
-          }
-          showSpinner(false);
-        }
-      });
-      return false;
-    }
-  });
-
   
   //Post Message
   $('.right_form_containerr').delegate('.sbmt_msg', 'click', function(){
@@ -438,6 +385,12 @@ function save_course(channel) {
     _outcomesObject[k] = $(this).val().replace(',', '');
     k++;
   });
+  
+   /*$.each($('input[name="loaded_outcomes[]"]'), function() {
+    _outcomesObject[k] = $(this).val().replace(',', '');
+    k++;
+  });*/
+  
 
   //get outcomes description from offline storage
   i = 0;
@@ -490,7 +443,7 @@ function save_course(channel) {
         }
          showSpinner(false);
          changed=false;
-       /* if(channel=="btn_course") {
+        /*if(channel=="btn_course") {
           $("#container").load('/course/index?section_type='+section_type, function(){
             showSpinner(false);
           });

@@ -261,6 +261,7 @@ $(document).ready(function(){
       dataType:"json",
       success: function(data) {
         showSpinner(false);
+        changed=true;
       }
     });  
   });
@@ -277,10 +278,59 @@ $(document).ready(function(){
        dataType:"json",
        success: function(data) {
          showSpinner(false);
+         changed=true;
        }
     });
   });
 
+  //For updating outcomes (in course view screen) 
+  $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
+    var outcome_id = $(this).attr('rel');
+    var outcome = $(this).val();
+    var dataString = 'outcome_id=' + outcome_id + '&outcome=' + outcome;
+    if(outcome_id) {
+      showSpinner(true);
+      $.ajax({
+        type: "POST",
+        url: "/course/update_course_outcomes",
+        data: dataString,
+        error: function(){alert("Error");showSpinner(false);},
+        success: function(data) {
+          if (data) {
+            // TO DO
+          } else {
+            alert("ERROR");
+          }
+          showSpinner(false);
+        }
+      });
+      return false;
+    }
+  });
+
+  //For updating categories (in course view screen)
+  $('input[name="loaded_categories[]"]').unbind('blur').bind('blur', function(){
+    var category_id = $(this).attr('rel');
+    var category = $(this).val();
+    var dataString = 'category_id=' + category_id + '&category=' + category
+    if(category_id) {
+      showSpinner(true);
+      $.ajax({
+        type: "POST",
+        url: "/course/update_course_categories",
+        data: dataString,
+        success: function(data) {
+          if (data) {
+          } else {
+            alert("ERROR");
+          }
+          showSpinner(false);
+        }
+      });
+      return false;
+    }
+  });
+  
     $("#course_code").blur(function(){
       var code = $(this).val();
       if(code)
