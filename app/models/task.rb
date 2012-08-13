@@ -180,10 +180,13 @@ class Task < ActiveRecord::Base
       # Give points to members who completed the task
       participant.xp_award_date = complete ? Time.now : nil
       profile.xp += complete ? task.points : -task.points
-      profile.save
       participant.save
       status = complete
       Task.task_grade_points(task_id,profile_id,complete)
+      @level = Reward.find(:first, :conditions=>["xp <= ?",  profile.xp], :order=>"xp DESC")  
+      puts"#{@level.inspect}"
+      profile.level = @level.object_id
+      profile.save
       end
     end
     return status

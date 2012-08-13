@@ -89,7 +89,9 @@
 </div>
 
 <script type="text/javascript">
-   
+  $(document).ready(function(){
+    $("#btn_course").addClass("hide");
+  });
    // Send request to group owner for join group
    $("#member_join").click(function(){
       course_id = $("#course_id_hdn").val(); 

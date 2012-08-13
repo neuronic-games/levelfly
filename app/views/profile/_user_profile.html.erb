@@ -242,8 +242,11 @@
 <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value=" <%=profile.id%>"/>
 
 <script type="text/javascript">
-var _level_meter =  new Array(0, 0, 200, 350, 400, 500, 550, 700, 750, 900);
-
+var _level_meter =  new Array//(0, 0, 200, 350, 400, 500, 550, 700, 750, 900);
+_level_meter.push(0)
+<% @levels.each do |l|%>
+  _level_meter.push(<%=l%>)
+<% end %>
 $(document).ready(function(){
 
   setPageTitle('My Profile');

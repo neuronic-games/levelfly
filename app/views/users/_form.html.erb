@@ -1,25 +1,52 @@
-<div class="course_content">
-  <div class="course_board_left">
-    <div class="course_board_right">
-      <div class="course_board_center">
-        <div class="texture_board">
-          <div class="course_pad_top"> </div>
-          <div class="course_pad">
+<div class="leader_content">
+  <div class="leader_board_left">
+    <div class="leader_board_right">
+      <div class="leader_board_center">
+        <div class="leader_pad_top"></div>
+        <div class="leader_pad">
+          <div class="smaller_avatar">
+            <div>
+              <div id="modify" class="avat">
+                <img id="background" class="smaller_full_avatar">
+                <img id="avatar_body" class="smaller_full_avatar">
+                <img id="hair_back" class="smaller_full_avatar">
+                <img id="shoes" class="smaller_full_avatar">
+                <img id="bottom" class="smaller_full_avatar">
+                <img id="necklace" class="smaller_full_avatar">
+                <img id="top" class="smaller_full_avatar">
+                <img id="head" class="smaller_full_avatar">
+                <img id="earrings" class="smaller_full_avatar">
+                <img id="facial_marks" class="smaller_full_avatar">
+                <img id="facial_hair" class="smaller_full_avatar">
+                <img id="face" class="smaller_full_avatar">
+                <img id="glasses" class="smaller_full_avatar">
+                <img id="hair" class="smaller_full_avatar">
+                <img id="hat" class="smaller_full_avatar">
+                <img id="prop" class="smaller_full_avatar">
+              </div>
+            </div>
+          </div>
           <div style="height:50px;"></div>
-           <div id="" style="margin-left: 20%; position: absolute; width: 50%;">
-              <div class="course_viewfield field_label">Full name
+           <div id="" class="color_b" style="margin-left: 20%; position: absolute; width: 50%;">
+              <div class="course_viewfield color_b field_label">Full name
                 <div class="dd_bg brown_bg">
                   <input type="text" name="user_name" id="user_name" value="<%=@profile.full_name if @profile%>" class="dd_input brown_bg prompted" style="width:100%;"/>
                 </div>
               </div>
                
-              <div class="course_viewfield field_label">Email
+              <div class="course_viewfield color_b field_label">Email
                 <div class="dd_bg brown_bg">
                   <input type="text" name="user_email" id="user_email" value="<%=@profile.user.email if @profile%>" class="dd_input brown_bg prompted" style="width:100%;"/>
                 </div>
               </div>
+              
+              <div class="course_viewfield color_b field_label">Reset Password
+                <div class="dd_bg brown_bg">
+                  <input  name="user_password" id="user_password" value="" class="dd_input brown_bg prompted" type="password" style="width:100%;"/>
+                </div>
+              </div>
               <div style="height:20px;"></div>
-              <div class="course_viewfield field_label">Roles
+              <div class="course_viewfield color_b field_label">Roles
                 <div class=""></br>
                   <input type="checkbox" name ="user_role[]" class="check_box" id="create_course" <%=Role.check_permission(@profile.id, "C") ? "checked='checked'" : "" %>value=""/>Create course</br></br>
                   <input type="checkbox" class="check_box" name ="user_role[]" id="create_group" <%=Role.check_permission(@profile.id, "G") ? "checked='checked'" : "" %>value=""/>Create group</br></br>
@@ -30,55 +57,132 @@
               </div>
             </div>          
           </div>  
+         
           <div class="end_of_page"></div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div id="sidebar_right">
-  <div class="course_side_buttons">
-      <a class="big_blue_btn" name="save_user_btn" id="save_user_btn" href="javascript:void(0)">SAVE</a>
-  </div><!-- crud_level -->
-</div>
+
+  <div id="sidebar_right">
+    <div class="course_side_buttons">
+        <a class="big_blue_btn" name="save_user_btn" id="save_user_btn" href="javascript:void(0)">SAVE</a>
+    </div><!-- crud_level -->
+  </div>
 <input type="hidden" name="user_id" id="user_id_hdn" value="<%=@profile.id if @profile%>" />
+<input type="hidden" name="avtr" id="avtr" value="<%=@avatar if @avatar%>" />
 <script type="text/javascript">
-var roles_asign = [];
-var roles_name = [];
-$(document).ready(function(){
-  $("#save_user_btn").click(function(){
-    var id = $("#user_id_hdn").val();
-    var email = $("#user_email").val();
-    var name = $("#user_name").val();
-     j = 0;
-    $.each($('input[name="user_role[]"]'), function() {
-       roles_asign[j] = this.checked;
-       roles_name[j] = this.id;
-       j++;   
-    });
-    var datastring = "id="+id+"&name="+name+"&email="+email+"&roles_asign="+roles_asign+"&roles_name="+roles_name
-    showSpinner(true);
-    $.ajax({
-    type:"POST",
-    url:"/users/save/",
-    data:datastring,
-    success: function(data){
-      if (data){
-        $("#container").load('/users/', function(){
+  var roles_assign = [];
+  var roles_name = [];
+  var _avatar;
+  $(document).ready(function(){
+    $("#save_user_btn").click(function(){
+      var valid = false
+      valid = validate_password()
+      if(valid==true){
+        var id = $("#user_id_hdn").val();
+        var email = $("#user_email").val();
+        var name = $("#user_name").val();
+        var user_password = $("#user_password").val();
+         j = 0;
+        $.each($('input[name="user_role[]"]'), function() {
+           roles_assign[j] = this.checked;
+           roles_name[j] = this.id;
+           j++;   
+        });
+        if (user_password =="")
+          var datastring = "id="+id+"&name="+name+"&email="+email+"&roles_assign="+roles_assign+"&roles_name="+roles_name
+        else
+          var datastring = "id="+id+"&name="+name+"&email="+email+"&user_password="+user_password+"&roles_assign="+roles_assign+"&roles_name="+roles_name
+        showSpinner(true);
+        $.ajax({
+        type:"POST",
+        url:"/users/save/",
+        data:datastring,
+        success: function(data){
+          if (data){
+            $("#container").load('/users/', function(){
+              showSpinner(false);
+            });
+          }
+        },
+        error : function(){
+          alert("ERROR");
           showSpinner(false);
+        }
         });
       }
-    },
-    error : function(){
-      alert("ERROR");
-      showSpinner(false);
-    }
-    });
-    
-  })
+  });
   
-  
+  // console.log(JSON.stringify(_avatar))
+   loadWardrobe();
 });
-  
 
+function loadWardrobe() {
+   var profile_user_id = $("#user_id_hdn").val();
+   if (profile_user_id) {
+     data = {id:profile_user_id}
+   } else {
+     data = {}
+   }
+
+  $.getJSON("/profile/show", data,
+      function(data){
+        _profile = data.profile;
+        _avatar = data.avatar;
+        _major = data.major;
+        _school = data.school;
+        h[profile_user_id]=data.avatar;
+        if (data.new_profile == true) {
+          acceptCode();
+        }
+        jStorage.flush()
+        jStorage.set("j_profile",data.profile);
+        jStorage.set("j_avatar",data.avatar);
+        jStorage.set("j_major",data.major);
+        //jStorage.set("j_school",data.school);
+        showFullAvatar();
+      }
+   ).error(function() { 
+     alert("Showing from stograge");
+     _profile = jStorage.get("j_profile");
+     _avatar = jStorage.get("j_avatar");
+     _major = jStorage.get("j_major");
+     //_school = jStorage.get("j_school");
+   });
+}
+
+function showFullAvatar() {
+  $("#background").attr("src", "/images/wardrobe/"+_avatar.background+".png");
+  $("#avatar_body").attr("src", "/images/wardrobe/"+_avatar.body+".png"); //Id changed by vaibhav because having id "body" is creating problem with jQuery.position()
+  // $("#hat_back").attr("src", "/images/wardrobe/"+_avatar.hat_back+".png");
+  $("#hair_back").attr("src", "/images/wardrobe/"+_avatar.hair_back+".png");
+  $("#shoes").attr("src", "/images/wardrobe/"+_avatar.shoes+".png");
+  $("#bottom").attr("src", "/images/wardrobe/"+_avatar.bottom+".png");
+  $("#necklace").attr("src", "/images/wardrobe/"+_avatar.necklace+".png");
+  $("#top").attr("src", "/images/wardrobe/"+_avatar.top+".png");
+  $("#head").attr("src", "/images/wardrobe/"+_avatar.head+".png");
+  $("#earrings").attr("src", "/images/wardrobe/"+_avatar.earrings+".png");
+  $("#facial_marks").attr("src", "/images/wardrobe/"+_avatar.facial_marks+".png");
+  $("#facial_hair").attr("src", "/images/wardrobe/"+_avatar.facial_hair+".png");
+  $("#face").attr("src", "/images/wardrobe/"+_avatar.face+".png");
+  $("#glasses").attr("src", "/images/wardrobe/"+_avatar.glasses+".png");
+  $("#hair").attr("src", "/images/wardrobe/"+_avatar.hair+".png");
+  $("#hat").attr("src", "/images/wardrobe/"+_avatar.hat+".png");
+  $("#prop").attr("src", "/images/wardrobe/"+_avatar.prop+".png");
+  
+}
+
+function validate_password(){
+  var user_password =document.getElementById("user_password");
+  if(user_password.value==""){
+    return true;
+  }
+  else if(user_password.value.length < 6 ){
+    alert("Password have minimum 6 character");
+    user_password.focus();
+    return false;
+  }
+  return true;
+}
 </script>

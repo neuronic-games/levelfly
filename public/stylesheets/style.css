@@ -1963,6 +1963,19 @@ div .taskmsg_bgc2 {
   width: 251px;
   height: 688px;
 }
+.smaller_full_avatar{
+  height: 500px;
+  position: absolute;
+  width: 215px;
+}
+.smaller_avatar{
+  display: block;
+    float: left;
+    margin-top: -20px;
+    position: relative;
+    right: 0;
+    width: 288px;
+}
 .avatar_controls {
   position:absolute; 
   right:15px;
@@ -3861,3 +3874,4 @@ position: absolute;
 }
 .align_center{text-align: center;}
 .font12px{font-size: 12px;}
+.color_b{color:#000 !important;}

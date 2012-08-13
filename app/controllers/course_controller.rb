@@ -358,6 +358,7 @@ class CourseController < ApplicationController
     if params[:outcome_id] && !params[:outcome_id].empty?
       outcome = Outcome.find(params[:outcome_id])
       outcome.name = params[:outcome] if params[:outcome] && !params[:outcome].empty?
+      outcome.descr = params[:outcome_descr] if params[:outcome_descr] && !params[:outcome_descr].empty?
       outcome.save
     end
     render :nothing =>true
@@ -367,6 +368,7 @@ class CourseController < ApplicationController
     if params[:category_id] && !params[:category_id].empty?
       category = Category.find(params[:category_id])
       category.name = params[:category] if params[:category] && !params[:category].empty?
+      category.percent_value = params[:category_value] if params[:category_value] && !params[:category_value].empty?
       category.save
     end
     render :nothing =>true

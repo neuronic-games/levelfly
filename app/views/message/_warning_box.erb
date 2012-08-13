@@ -4,12 +4,22 @@
     <div class="clear"></div>
     <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
-     <div ><%if @type=="message"%>You are about to remove this message along with<br />any comments on this message. Are you sure?<%else%>You are about to remove this message Are you sure?<%end%></div>
-    
+     <div >
+     <%if @del == true%>
+        You are not able to delete this message <br/>because it have others users comments.
+     <%else%>
+        <%if @type=="message"%>You are about to remove this message along with<br />any comments on this message. Are you sure?<%else%>You are about to remove this message Are you sure?<%end%>
+    <%end%>
+    </div>
     <div class="spacebar10px"></div>
   <div align="right">
-  <a class="smaller_text big_blue_btn  inlineblock" id = "dont_delete_btn" href="javascript:void(0)">DON'T DELETE</a>
-  <a class="big_orange_btn  inlineblock clr_red" id = "delete_btn" href="javascript:void(0)" rel ="<%=@message_id%>"  rev ="<%=@delete_all%>">DELETE</a> 
+  <%if @del == true%>
+      <a class="big_blue_btn  inlineblock" id = "dont_delete_btn" href="javascript:void(0)">OK</a>
+  <% else %> 
+     <a class="smaller_text big_blue_btn  inlineblock" id = "dont_delete_btn" href="javascript:void(0)">DON'T DELETE</a>
+    <a class="big_orange_btn  inlineblock clr_red" id = "delete_btn" href="javascript:void(0)" rel ="<%=@message_id%>"  rev ="<%=@delete_all%>">DELETE</a> 
+  <% end %>
+  
   </div>
 </div>
 <% end %>

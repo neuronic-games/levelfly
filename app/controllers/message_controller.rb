@@ -277,8 +277,22 @@ class MessageController < ApplicationController
     
   def confirm
     if params[:id] && !params[:id].nil?
+      course_master = params[:course_master_id] if params[:course_master_id]
+      @del = false
       @message = Message.find(params[:id])
-      render :partial => "message/warning_box",:locals =>{:@message_id =>@message.id, :@type=>params[:message_type], :@delete_all=>params[:delete_all]}
+      if course_master and !course_master.nil?
+        if course_master.to_i != user_session[:profile_id]
+          comments_ids = Message.find(:all, :select => "distinct profile_id", :conditions=>["parent_id = ?",params[:id]]).collect(&:profile_id)
+          comments_ids.each do |c|
+            if c != user_session[:profile_id]
+              @del = true
+              break
+            end
+          end
+      
+        end 
+      end        
+      render :partial => "message/warning_box",:locals =>{:@message_id =>@message.id, :@type=>params[:message_type], :@delete_all=>params[:delete_all],:@del=>@del}
     end
   end  
   

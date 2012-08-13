@@ -25,6 +25,7 @@ class UsersController < ApplicationController
  def show
     if params[:id] and !params[:id].nil?
       @profile = Profile.find(params[:id])
+      @avatar = @profile.avatar.to_json
       if @profile
         @role = Role.where("profile_id = ?", @profile.id)
         respond_to do |wants|
@@ -46,8 +47,8 @@ class UsersController < ApplicationController
     @profile = Profile.find(params[:id])
     if @profile
       @user = User.find(@profile.user_id) 
-      if params[:roles_asign] and !params[:roles_asign].nil?
-        asign_role = params[:roles_asign].split(",")
+      if params[:roles_assign] and !params[:roles_assign].nil?
+        asign_role = params[:roles_assign].split(",")
         role_names = params[:roles_name].split(",")
         asign_role.each_with_index do |role,i|
           if role == "false"
@@ -64,7 +65,10 @@ class UsersController < ApplicationController
         end
       end
       @profile.full_name = params[:name] if params[:name]
-      @user.update_attribute("email",params[:email])
+      #@user.update_attribute("email",params[:email])
+      @user.email = params[:email] if params[:email]
+      @user.password = params[:user_password] if params[:user_password]
+      @user.save
       if @profile.save
         render :text=>"save"
       end

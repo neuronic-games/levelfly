@@ -284,11 +284,15 @@ $(document).ready(function(){
   });
 
   //For updating outcomes (in course view screen) 
-  $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
+  $('textarea[name="loaded_outcomes_descr[]"]').unbind('blur').bind('blur', function(){
     var outcome_id = $(this).attr('rel');
     var outcome = $(this).val();
-    var dataString = 'outcome_id=' + outcome_id + '&outcome=' + outcome;
-    if(outcome_id) {
+    var dataString = 'outcome_id=' + outcome_id + '&outcome_descr=' + outcome;
+    update_outcomes(dataString,outcome_id)
+  });
+  
+   function update_outcomes(dataString,outcome_id){
+     if(outcome_id) {
       showSpinner(true);
       $.ajax({
         type: "POST",
@@ -306,6 +310,13 @@ $(document).ready(function(){
       });
       return false;
     }
+   }
+   
+  $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
+    var outcome_id = $(this).attr('rel');
+    var outcome = $(this).val();
+    var dataString = 'outcome_id=' + outcome_id + '&outcome=' + outcome;
+    update_outcomes(dataString,outcome_id)
   });
 
   //For updating categories (in course view screen)
@@ -313,6 +324,10 @@ $(document).ready(function(){
     var category_id = $(this).attr('rel');
     var category = $(this).val();
     var dataString = 'category_id=' + category_id + '&category=' + category
+    update_categries(dataString,category_id)
+    
+  });
+  function update_categries(dataString,category_id){
     if(category_id) {
       showSpinner(true);
       $.ajax({
@@ -329,7 +344,16 @@ $(document).ready(function(){
       });
       return false;
     }
+  
+  }
+  
+   $('input[name="loaded_category_val[]"]').unbind('blur').bind('blur', function(){
+    var category_id = $(this).attr('rel');
+    var category = $(this).val();
+    var dataString = 'category_id=' + category_id + '&category_value=' + category
+      update_categries(dataString,category_id)
   });
+  
   
     $("#course_code").blur(function(){
       var code = $(this).val();

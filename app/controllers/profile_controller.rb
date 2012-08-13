@@ -147,6 +147,7 @@ class ProfileController < ApplicationController
     @current_friends = @profile.friends
     @groups = Course.all_group(@profile,"M")
     @courses = Course.course_filter(@profile.id,"")
+    @levels = Reward.find(:all, :select => "xp", :conditions=>["object_type = 'level'"]).collect(&:xp)
     render :partial => "/profile/user_profile", :locals => {:profile => @profile}
   end
 

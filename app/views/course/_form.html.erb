@@ -97,6 +97,7 @@ if($("#group_descr").val()!="") {setStorage("group_descr", $("#group_descr").val
 else {setStorage("group_descr", "New Group Description");}
 
 $(document).ready(function(){
+  
   var changed = false;
   <% if defined?(course_new) && course_new == true %>
     $("#menu1").addClass("side_tab_close").removeClass("side_tab_open");
@@ -309,9 +310,10 @@ $(document).ready(function(){
    $('.right_form_containerr').delegate('.message_del', 'click', function(){
       showSpinner(true);
       id = $(this).attr("rel");
+      course_master_id = $("#course_master_id").val();
       message_type = $(this).attr("rev");
       var position = $(this).position();
-      var dataString = 'id='+id+'&message_type='+message_type+"&delete_all=delete_all";
+      var dataString = 'id='+id+'&message_type='+message_type+"&course_master_id="+course_master_id+"&delete_all=delete_all";
       $.ajax({
            type: "POST",  
            url: "/message/confirm",  
@@ -445,7 +447,7 @@ function save_course(channel) {
          changed=false;
         if(channel=="btn_course") {
           //$("#container").load('/course/index?section_type='+section_type, function(){
-          $("#container").load('/course/show/'+id+'?section_type='+section_type, function(){
+          $("#container").load('/course/show/'+data.course.id+'?section_type='+section_type, function(){
             showSpinner(false);
           });
         } else {

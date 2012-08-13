@@ -63,6 +63,7 @@
     </div>
     <!--list box-->
   </div>
+    <input type="hidden" name="course_master_id" id="course_master_id" value="<%= @courseMaster.id if @courseMaster && !@courseMaster.nil? %>" />
   <div class="clear"></div>
   <% if @course %>
   <!-- Message -->
@@ -99,8 +100,10 @@
  </div>
  
  <script type="text/javascript">
- 
-
+  $(document).ready(function(){
+    $("#btn_course").addClass("hide");
+  });
+  
   //For Active Task
    $("#btn_task").click(function(data){
    var course_id=$("#course_id_hdn").val();
