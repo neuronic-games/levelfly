@@ -3875,3 +3875,11 @@ position: absolute;
 .align_center{text-align: center;}
 .font12px{font-size: 12px;}
 .color_b{color:#000 !important;}
+.major_dd{
+ display: block;
+ float: left;
+ float: left;
+ margin: 42px 119px;
+ position: absolute;
+ background:#fff;
+}

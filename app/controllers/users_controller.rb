@@ -43,10 +43,20 @@ class UsersController < ApplicationController
  end
  
  def save
-  if params[:id] and !params[:id].nil?
+  status = false
+  email_exist = false
+  if params[:id] and !params[:id].blank?
     @profile = Profile.find(params[:id])
-    if @profile
-      @user = User.find(@profile.user_id) 
+  else
+     @email = User.find(:all, :conditions => ["email = ? ",params[:email]])
+     if @email.count>0
+       email_exist = true
+     else
+      @user, @profile = User.new_user(params[:email])
+     end
+  end
+  if @profile
+     @user = User.find(@profile.user_id) 
       if params[:roles_assign] and !params[:roles_assign].nil?
         asign_role = params[:roles_assign].split(",")
         role_names = params[:roles_name].split(",")
@@ -69,11 +79,10 @@ class UsersController < ApplicationController
       @user.email = params[:email] if params[:email]
       @user.password = params[:user_password] if params[:user_password]
       @user.save
-      if @profile.save
-        render :text=>"save"
-      end
+      @profile.save
+      status = true
     end
-  end
+    render :text => {:status=>status, :email_exist =>email_exist}.to_json  
  end
  
  def check_role
@@ -81,5 +90,9 @@ class UsersController < ApplicationController
       render :text=>""
     end
   end
+  
+ def new 
+   render :partial => "/users/form"
+ end
 
 end

@@ -20,7 +20,16 @@
     <div class="profile_item gap">
       <a href="javascript:void(0)" class="big_blue_btn" name="change_my_look" id="change_my_look" onClick="loadPage('/profile/edit_wardrobe');">Wardrobe</a>
     </div>
+    <select name="major" id="major" class="major_dd" style="">
+      <%if @major and !@major.nil?%>
+        <option value="">Select Major</option>
+        <% @major.each do |m| %>
+           <option value="<%= m.id %>" <%#=profile.major.id == m.id ? "Selected" : ""  if profile.major.id %>><%= m.name %></option>
+        <% end %>
+      <% end %>  
+      </select>
     <% end %>
+     
   </div>
   <div class="friend_unfriend_btn">
    <% if (user_session[:profile_id] != profile.id)%>
@@ -83,13 +92,17 @@
   </div>
   <% end %>
   
-  <div class="profile_row">
+   <div class="profile_row">
     <div class="profile_item profile_share">
       <input type="checkbox" name="share" class="share" value="interests" />
     </div>
-    <div class="profile_item full_width">
-      <div class="caption">Interests</div>
-      <textarea name="interests" id="interests" class="full_width" style="height:100px;" <% if (user_session[:profile_id] == profile.id)%>placeholder="Enter your interests, seperated by commas (e.g. apples, bananas, oranges)" <% end %>><%=h profile.tag_list %></textarea> 
+    <div class="profile_item ">
+      <div class="caption">Contact info</div>
+      <textarea name="contact_info" id="contact_info" class="" style="height:100px; width:256px;" <% if (user_session[:profile_id] == profile.id)%>placeholder="Enter your contact_info" <% end %>><%=profile.contact_info %></textarea> 
+    </div>
+     <div class="profile_item ">
+      <div class="caption" style="margin-left:12px;">Interests</div>
+      <textarea name="interests" id="interests" class="" style="height:100px; width:300px; margin-left:12px;" <% if (user_session[:profile_id] == profile.id)%>placeholder="Enter your interests, seperated by commas (e.g. apples, bananas, oranges)" <% end %>><%=h profile.tag_list %></textarea> 
     </div>
   </div>
 
@@ -267,7 +280,9 @@ $(document).ready(function(){
     // If viewing another user, some fields are readonly. We also need to protect in the controller
     $("#full_name_input").attr('readonly', 'readonly');
     $("#interests").attr('readonly', 'readonly'); 
+    $("#contact_info").attr('readonly', 'readonly'); 
     $("#interests").css('background-color', '#214C69');
+    $("#contact_info").css('background-color', '#214C69');
   <% end %>
   
   //$('#Friend').live('click',function(){
@@ -342,12 +357,28 @@ $(document).ready(function(){
     setAlert("Saving name " + _profile.full_name);
   });
 
-  // Save full name after entry by user
+
   $("#interests").change(function () {
     var new_data = $("#interests").val();
     _profile.tag_list = new_data;
     saveProfile();
     setAlert("Saving interests " + _profile.tag_list);
+  });
+  
+  $("#contact_info").change(function () {
+    var new_data = $("#contact_info").val();
+    _profile.contact_info = new_data;
+    saveProfile();
+    setAlert("Saving interests " + _profile.tag_list);
+  });
+  
+   $("#major").change(function () {
+    var new_data = $(this).val();
+    if(new_data != ""){
+    _profile.major_id = new_data;
+    saveProfile();
+    setAlert("Saving Major " +$("#major :selected").text());
+    }
   });
   
   $(".cg_wall").click(function(){

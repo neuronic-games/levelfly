@@ -515,12 +515,22 @@ class CourseController < ApplicationController
     course_id = params[:id]
     @vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
     if @vault
-      @attachment = Attachment.new(:resource=>params[:file], :object_type=>"Course", :object_id=>course_id, :school_id=>school_id, :owner_id=>user_session[:profile_id])
+      @attachment = Attachment.new(:resource=>params[:file], :object_type=>params[:object_type], :object_id=>course_id, :school_id=>school_id, :owner_id=>user_session[:profile_id])
       if @attachment.save
         @url = @attachment.resource.url
+        puts"#{@url}--#{params[:object_type]}"
       end
     end
     render :partial => "/course/file_list" ,:locals=>{:a => @attachment}
+  end
+  
+  def download
+   # upload = Attachment.find(params[:id])
+    # send_file upload.resource.url,
+    # :filename => upload.resource_file_name,
+    # :type => upload.resource_content_type,
+    # :disposition => 'attachment'
+
   end
   
   def course_stats

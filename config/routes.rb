@@ -158,6 +158,8 @@ Oncapus::Application.routes.draw do
   
   post "course/filter" 
   
+  post "course/download"
+  
   get "group/index"
   
   get "group/new"
@@ -279,6 +281,8 @@ Oncapus::Application.routes.draw do
   get "users/show"
   
   post "users/save"
+  
+  get "users/new"
   
   match 'task' => 'task#index'
   

@@ -67,7 +67,12 @@ $(document).ready(function(){
     }); 
     return false; 
   });*/
-  
+  $("#create_new_user").click(function(){
+    showSpinner(true);
+    $("#container").load("users/new", function(){
+      showSpinner(false);
+    }); 
+  });
   $(".view_user").click(function(){
     showSpinner(true);
     url = $(this).attr("rel");

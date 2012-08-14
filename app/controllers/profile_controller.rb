@@ -51,6 +51,7 @@ class ProfileController < ApplicationController
     @profile.major_id = profile["major_id"]
     @profile.school_id = profile["school_id"]
     @profile.tag_list = profile["tag_list"]
+    @profile.contact_info = profile["contact_info"]
     @profile.save
     
     publish_profile(@profile)
@@ -137,6 +138,7 @@ class ProfileController < ApplicationController
   end
   
   def user_profile
+    previous_level = nil
     if params[:profile_id].blank?
       @profile = Profile.find(user_session[:profile_id])
       @badge = Badge.badge_count(@profile.id)
@@ -144,10 +146,19 @@ class ProfileController < ApplicationController
       @profile = Profile.find(params[:profile_id])
       @badge = Badge.badge_count(@profile.id)
     end
+    previous_level = @profile.level
     @current_friends = @profile.friends
     @groups = Course.all_group(@profile,"M")
     @courses = Course.course_filter(@profile.id,"")
+    @major = Major.find(:all, :conditions =>["school_id = ? ",@profile.school_id])
+    @level = Reward.find(:first, :conditions=>["xp <= ?",  @profile.xp], :order=>"xp DESC")  
+    puts"#{@level.inspect}"
+    @profile.level = @level.object_id
+    @profile.save
     @levels = Reward.find(:all, :select => "xp", :conditions=>["object_type = 'level'"]).collect(&:xp)
+    if(previous_level != @profile.level)
+      Message.change_level(@profile.id,@profile.level,@profile.id)
+    end  
     render :partial => "/profile/user_profile", :locals => {:profile => @profile}
   end
 

@@ -58,11 +58,11 @@
               
               <div class="course_viewfield color_b field_label">This user may:
                 <div class=""></br>
-                  <input type="checkbox" name ="user_role[]" class="check_box" id="create_course" <%=Role.check_permission(@profile.id, "C") ? "checked='checked'" : "" %>value=""/> Modify courses</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="create_group" <%=Role.check_permission(@profile.id, "G") ? "checked='checked'" : "" %>value=""/> Modify groups</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="create_task" <%=Role.check_permission(@profile.id, "T") ? "checked='checked'" : "" %>value=""/> Modify tasks</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="edit_grade" <%=Role.check_permission(@profile.id, Role.edit_grade) ? "checked='checked'" : "" %>value=""/> Modify grades</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="edit_user" <%=Role.check_permission(@profile.id, Role.edit_user) ? "checked='checked'" : "" %>value=""/> Modify users</br></br>
+                  <input type="checkbox" name ="user_role[]" class="check_box" id="create_course" <%= @profile && Role.check_permission(@profile.id, "C") ? "checked='checked'" : "" %>value=""/> Modify courses</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="create_group" <%=@profile && Role.check_permission(@profile.id, "G") ? "checked='checked'" : "" %>value=""/> Modify groups</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="create_task" <%=@profile && Role.check_permission(@profile.id, "T") ? "checked='checked'" : "" %>value=""/> Modify tasks</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="edit_grade" <%=@profile && Role.check_permission(@profile.id, Role.edit_grade) ? "checked='checked'" : "" %>value=""/> Modify grades</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="edit_user" <%=@profile && Role.check_permission(@profile.id, Role.edit_user) ? "checked='checked'" : "" %>value=""/> Modify users</br></br>
                 </div>
               </div>
 
@@ -89,7 +89,7 @@
   $(document).ready(function(){
     $("#save_user_btn").click(function(){
       var valid = false
-      valid = validate_password()
+      valid = validate_form()
       if(valid==true){
         var id = $("#user_id_hdn").val();
         var email = $("#user_email").val();
@@ -108,14 +108,20 @@
         showSpinner(true);
         $.ajax({
         type:"POST",
+        dataType :"json",
         url:"/users/save/",
         data:datastring,
         success: function(data){
-          if (data){
+          if (data.status==true){
             $("#container").load('/users/', function(){
               showSpinner(false);
             });
           }
+          else if(data.email_exist==true){
+             showSpinner(false);
+             alert("emial already exist");
+          }
+            showSpinner(false);
         },
         error : function(){
           alert("ERROR");
@@ -124,12 +130,12 @@
         });
       }
   });
-  
-  // console.log(JSON.stringify(_avatar))
+   if($("#user_id_hdn").val()!="")
    loadWardrobe();
 });
 
 function loadWardrobe() {
+   jStorage.flush();
    var profile_user_id = $("#user_id_hdn").val();
    if (profile_user_id) {
      data = {id:profile_user_id}
@@ -184,9 +190,29 @@ function showFullAvatar() {
   
 }
 
-function validate_password(){
-  var user_password =document.getElementById("user_password");
+function validate_form(){
+  var user_password = document.getElementById("user_password");
+  var email=document.getElementById("user_email").value;
+  var atpos=email.indexOf("@");
+  var dotpos=email.lastIndexOf(".");
+ 
+  if (email==""){
+      alert('Enter Email Address');
+      return false;
+  }
+  else if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length)
+  {
+  alert("Not a valid e-mail address");
+  return false;
+  }
+
   if(user_password.value==""){
+    if ($("#user_id_hdn").val()==""){
+      alert("Enter password")
+      user_password.focus();
+     return false;
+     }
+    else
     return true;
   }
   else if(user_password.value.length < 6 ){

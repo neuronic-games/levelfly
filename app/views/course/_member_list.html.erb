@@ -30,6 +30,13 @@
 </div> 
 <script type="text/javascript">
 //List people (participants)
+
+  $('#add_course_people').bind('keyup', function(e) {
+      if ( e.keyCode === 13 ){
+          $("#btn_add_people").click();
+      }
+  });
+
   $("#btn_add_people").click(function() {
     course_id = $("#course_id_hdn").val();
     section_type = $("#section_type").val(); 

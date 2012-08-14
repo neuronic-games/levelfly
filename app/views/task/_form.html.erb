@@ -62,22 +62,7 @@ function addNode(element) {
               <div class="task_pdf" align="center">
                 <ul id="filelist">
                   <!-- file list here -->
-                  <% if @task %>
-                    <% @task.attachments.each do |a| %>
-                      <li id="item_<%=a.id%>">
-                        <div class="file_name" id="filename_<%= a.id %>">
-                          <a href="<%=a.resource.url%>" target="_blank">
-                            <%=a.resource_file_name%>
-                          </a>
-                        </div>
-                        <div class="file_remove" id="fileremove_<%=a.id%>">
-                          <a href="javascript:void(0)" class="remove_resource" id="<%= a.id %>">
-                            Remove
-                          </a>
-                        </div>
-                      </li>
-                    <% end %>
-                  <% end %>
+                  
                 </ul>
               </div>
               <div class="drop_a_file_box" align="center" id="upload_container" style="display: none;">DROP A FILE HERE<br />
@@ -183,7 +168,7 @@ function addNode(element) {
                 <a href="javascript:void(0)" id="btn_task" class="big_orange_btn">SAVE</a>
                 <!-- <a href="javascript:void(0)" class="big_blue_btn">PRINT</a> -->
                 <a href="javascript:void(0)" id="task_btn_remove" class="big_blue_btn">REMOVE</a>
-                 <a href="javascript:void(0)" id="task_completes_setup" class="smaller_text big_blue_btn task_completes" style="padding: 8px 0 8px !important;" rel="<%=@task.id if @task%>">Mark</br>Complete</a>
+                 
                 <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@task ? false : true %>" />
               </div>
            <%end%> 
@@ -220,23 +205,23 @@ function addNode(element) {
               </div>
               <div class="task_pdf" align="center">
                 <ul id="filelist">
-                  <!-- file list here -->
-                  <% if @task %>
-                    <% @task.attachments.each do |a| %>
-                      <li id="item_<%=a.id%>">
-                        <div class="file_name" id="filename_<%= a.id %>">
-                          <a href="<%=a.resource.url%>" target="_blank">
-                            <%=a.resource_file_name%>
+                  <!-- file list here 
+                  <%# if @task %>
+                    <%# @task.attachments.each do |a| %>
+                      <li id="item_<%#=a.id%>">
+                        <div class="file_name" id="filename_<%#= a.id %>">
+                          <a href="<%#=a.resource.url%>" target="_blank">
+                            <%#=a.resource_file_name%>
                           </a>
                         </div>
-                        <div class="file_remove" id="fileremove_<%=a.id%>">
-                          <a href="javascript:void(0)" class="remove_resource" id="<%= a.id %>">
+                        <div class="file_remove" id="fileremove_<%#=a.id%>">
+                          <a href="javascript:void(0)" class="remove_resource" id="<%#= a.id %>">
                             Remove
                           </a>
                         </div>
                       </li>
-                    <% end %>
-                  <% end %>
+                    <%# end %>
+                  <%# end %>-->
                 </ul>
               </div>
               <div class="drop_a_file_box" align="center" id="upload_container" style="display:none;">DROP A FILE HERE<br />
@@ -589,7 +574,7 @@ $(document).ready(function(){
   $(function() {
     //Due date datepicker
     $("#due_date").datepicker({
-      dateFormat: 'yy-mm-dd',
+      dateFormat: 'mm-dd-yy',
       onSelect: function(dateText, inst) {setStorage("task_due_date", dateText);}
     });
     

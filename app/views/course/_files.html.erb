@@ -32,12 +32,18 @@
    <div class="titleTextKind">Size</div>
    <div class="titleTextUpdated">Updated</div><br/><br/>
    <div id="all_files">
-    <div id="show_file" class="btn_drop_file">DROP FILE HERE</div>
+    <div id="show_file" class="btn_drop_file" style="<%if @task %> color:#000;<%end%>">DROP FILE HERE</div>
     <div id="load_files">
-    <% if @course %>
-    <% @course.attachments.reverse.each do |a| %>
-      <%= render :partial => "/course/file_list", :locals => {:a=>a} %>               
-    <% end %>
+     <% if @task %>
+      <% @task.attachments.reverse.each do |a| %>
+        <%= render :partial => "/course/file_list", :locals => {:a=>a} %>               
+      <% end %>
+    <%else%>
+      <% if @course %>
+        <% @course.attachments.reverse.each do |a| %>
+          <%= render :partial => "/course/file_list", :locals => {:a=>a} %>               
+        <% end %>
+      <% end %>
     <% end %>
    </div>
   </div>
@@ -47,11 +53,20 @@
 </div>
 <script type="text/javascript">
   $(function(){
+    var object_id;
+    var object_type;
+    <%if @task%>
+     object_id = $("#task_id_hdn").val();
+     object_type = 'Task';
+    <% else %>
+     object_id = $("#course_id_hdn").val();
+     object_type = 'Course';
+    <% end %>
   
        <% if @courseMaster %>
-       <% if @courseMaster.id != user_session[:profile_id] %>
-       $("#show_file").css("display","none");
-       <%end%>
+         <% if @courseMaster.id != user_session[:profile_id] %>
+         $("#show_file").css("display","none");
+         <%end%>
        <%end%>
        //Remove files
       $(".files_del").click(function(){
@@ -96,12 +111,20 @@
 
   });  
       
-      
-      
-      
-      $(".files_download").click(function(){
-        $("#file_download").show();
-      });
+  $(".files_download").click(function(){
+    var id = $(this).attr("rel");
+       showSpinner(false);
+    if (id){
+     $.ajax({
+      type: "POST",  
+      url: "/course/download",  
+      data: {id:id},
+      success: function(data){
+       showSpinner(false);
+      }
+     });   
+    }
+    });
       
      //For files hover div
       $(".file_content").hover(
@@ -126,7 +149,8 @@
       multipart_params: {
         'authenticity_token' : token,  //For csrf-authentication
         'school_id' : $("#course_school_id_hdn").val(),
-        'id' : $("#course_id_hdn").val()
+        'id' : object_id,
+        'object_type': object_type
       }
     });
     
@@ -152,7 +176,6 @@
       showSpinner(false);
     });
     
-    
     var file_uploader = new plupload.Uploader({
         runtimes : 'html5',
         browse_button : 'pickfiles',
@@ -162,7 +185,8 @@
         multipart_params: {
           'authenticity_token' : token,  //For csrf-authentication
           'school_id' : $("#course_school_id_hdn").val(),
-          'id' : $("#course_id_hdn").val()
+          'id' : object_id,
+          'object_type': object_type
         }
       });
 
