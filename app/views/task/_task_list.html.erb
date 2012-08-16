@@ -29,9 +29,9 @@
       <div class="titleTDue"><%=change_date_format(t.due_date) if t.due_date%></div>
       
       <!-- This column does not expand well. Do we need to control max-width via JavaScript? -->
-      <div class="titleTTAsk" style="min-width:200px; max-width:200px;">
-        <div class="title"><%=t.name %></div>
-        <div class="description"><%=t.descr%></div>
+      <div class="titleTTAsk" style="min-width:270px; max-width:200px;">
+        <div class="title"><%=long_title(t.name)%></div>
+        <div class="description"><%=long_desc(t.descr)%></div>
       </div>
       
       <!-- From the right -->

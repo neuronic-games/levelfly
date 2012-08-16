@@ -76,6 +76,7 @@ var _categoriesObject = [];
 var _outcomes_descrObject = [];
 var _categories_persentObject = [];
 var _outcomes_shareObject = [];
+
 //set outcomes to offline storage
 $.each($('input[name="outcomes[]"], input[name="people_id[]"], input[name="categories[]"]'), function() {
   setStorage($(this).attr('id'), $(this).val());

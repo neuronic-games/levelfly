@@ -345,6 +345,23 @@ a.blue_bt19px:hover {
   background:#6ba6be;
   text-decoration: none;
 }
+a.blue_bt19px2 {
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:9px;
+  text-transform:uppercase;
+  font-weight:bold;
+  color:#e2e4eb;
+  display:inline-block;
+  background:#5a95ad;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  padding-top:2px;
+  padding-bottom:2px;
+  padding-left:10px;
+  padding-right:10px;
+  text-decoration:none;
+}
 .msg_box_txt .fav_icon {
   padding:0 10px 0 0;
 }
@@ -1737,7 +1754,6 @@ margin-left:33px;
 }
 .on_hover{  
   float:left;
-  margin: -37px 0 1px 362px;
   z-index:2;  
 }
 
@@ -2355,13 +2371,17 @@ div .taskmsg_bgc2 {
   text-shadow: 3px 3px #FFBA00;
 }
 .outcome_data{
-margin-top:5px; height:70px; width:500px;
+margin-top:5px; height:70px; width:567px;
 }
-.outcome_data .outcomes_share_name{
-float:left; height:45px;
+.outcome_data .outcomes_share_name {
+    float: left;
+    height: 45px;
+    margin-right: 20px;
 }
-.outcome_data .outcome_textarea{
-float:right; margin:0 45px 2px 0;height:68px;
+.outcome_data .outcome_textarea {
+    float: left;
+    height: 68px;
+    margin-right: 20px;
 }
 .user_profile_left{
 float:left; height:800px;

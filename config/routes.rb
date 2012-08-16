@@ -158,6 +158,8 @@ Oncapus::Application.routes.draw do
   
   post "course/filter" 
   
+  post "course/share_outcome"
+  
   post "course/download"
   
   get "group/index"

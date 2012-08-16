@@ -137,6 +137,7 @@
         data:{id:course_id},
         success: function(data) {
 		      $("#load_data").html(data);
+          _outcomes_shareObject =[];
 			    showSpinner(false);
           $("#btn_course").removeClass("hide");
           $("#btn_archive").removeClass("hide");

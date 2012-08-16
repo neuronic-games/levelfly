@@ -135,7 +135,11 @@
  </div>
  <div id="confirm_box" class="hide">
    <%= render :partial => "/course/confirm_box" %>
- <div>
+ </div>
+ <div id="outcome_share_box" class="hide">
+   <%= render :partial => "/course/shared_outcome" %>
+ </div>
+  <input type="hidden" value="" id="outcome_index">
 </div>
 
 <script type="text/javascript">
@@ -148,7 +152,8 @@ $(document).ready(function(){
   });
 });
   $("#course_code").mask("aaa999", {placeholder:" "});
-  
+  var _shared = -1;
+  var _share_outcomes = false;
   // For setup Page 
   /* $("#btn_member").click(function(data){
    showSpinner(true);
@@ -354,6 +359,36 @@ $(document).ready(function(){
       update_categries(dataString,category_id)
   });
   
+  //check outcome as share
+  $('#load_outcomes').delegate('input[name="loaded_share[]"]', 'change', function(){
+    //check_val = $(this).is(':checked');
+    outcome_id = $(this).attr('rel');
+    course_id = $("#course_id_hdn").val();
+      showSpinner(true);
+      $.ajax({
+         type:"POST",
+         dataType: "json",
+         url:"/course/share_outcome",
+         data:{outcome_id:outcome_id,course_id:course_id},
+         success:function(data){
+           showSpinner(false);
+         }
+      });
+  });
+  
+   $('#add_outcome_container').delegate('.outcomes_share_btn', 'click', function(){
+      $("#outcome_share_box").show();
+      index = $(this).attr("rel");
+      $("#outcome_index").attr("value",index);
+   });
+   
+   $('#load_outcomes').delegate('.outcomes_share_btn', 'click', function(){
+      $("#outcome_share_box").show();
+      outcome_id = $(this).attr("rel");
+      $("#outcome_index").attr("value",outcome_id);
+      _share_outcomes = true;
+   });
+  
   
     $("#course_code").blur(function(){
       var code = $(this).val();
@@ -398,9 +433,11 @@ $(document).ready(function(){
 
   //Add an outcome
   function addOutcome() {
+     _shared++;
      addNode('outcome');
      $("#hdn_is_page_change").val(true);
      changed=true;
+    _outcomes_shareObject[_shared] = false;
   }
 
   //Add a category
@@ -420,7 +457,7 @@ $(document).ready(function(){
       _counterPeople++;
     } else if(element=="outcome"){
       var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counterOutcome);
-      newNode.html('<div style="margin-top:5px; height:48px; width:500px;" class="outcome_div"><div style="float:left; height:45px;" > <input type="checkbox" id="outcomes_'+_counterOutcome+'" class="dd_select brown_bg" name="outcomes_share[]" /> <input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="dd_select brown_bg medium" placeholder="Enter name" />  <div><span class="share_with" >SHARE</span><div style="margin-top:-6px"> <span class="share_with" style="margin-left:-27px;" >WITH OTHERS</span></div></div> </div><div style="float:left; margin-left:10px;height:68px;margin-left:25px"><textarea class="small dd_input brown_bg" style="width:260px; height:41px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '" placeholder="Enter description" "></textarea></div></div>');
+      newNode.html('<div style="margin-top:5px; height:48px; width:567px;" class="outcome_div"><div style="float:left; height:45px; margin-right: 20px;" > <input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="brown_bg medium" placeholder="Enter name" />  </div><div style="float:left;height:68px;margin-right:20px"><textarea class="small dd_input brown_bg" style="width:260px; height:41px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '" placeholder="Enter description" "></textarea></div> <div style=" margin-top: 20px;"><a href="javascript:void(0);" class="blue_bt19px outcomes_share_btn" id="outcomes_share_' + _shared + '" rel='+ _shared + '>Mark as Shared </a></div></div>');
       newNode.appendTo("#add_outcome_container");
       _counterOutcome++;
     } else if(element=="category"){

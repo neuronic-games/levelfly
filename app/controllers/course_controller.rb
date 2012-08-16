@@ -354,6 +354,17 @@ class CourseController < ApplicationController
     end
   end
   
+  def share_outcome
+    if params[:course_id] and !params[:course_id].nil?
+      @outcome = Outcome.find(params[:outcome_id])
+      if @outcome
+        @outcome.shared = true
+        @outcome.save
+        render :text => {"status"=>"true"}.to_json
+      end
+    end
+  end
+  
   def update_course_outcomes
     if params[:outcome_id] && !params[:outcome_id].empty?
       outcome = Outcome.find(params[:outcome_id])
