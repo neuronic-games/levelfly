@@ -3903,3 +3903,8 @@ position: absolute;
  position: absolute;
  background:#fff;
 }
+.msg_pos{
+  font-size: 24px;
+  margin: 220px;
+  position: absolute;
+}

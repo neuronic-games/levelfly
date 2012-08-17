@@ -112,19 +112,19 @@
   });  
       
   $(".files_download").click(function(){
-   //$("#file_download").show();
+   $("#file_download").show();
     var id = $(this).attr("rel");
-       showSpinner(false);
+      /* showSpinner(true);
     if (id){
-     $.ajax({
-      type: "POST",  
-      url: "/course/download",  
-      data: {id:id},
-      success: function(data){
-       showSpinner(false);
-      }
-     });   
-    }
+       $.ajax({
+        type: "POST",  
+        url: "/course/download",  
+        data: {id:id},
+        success: function(data){
+         showSpinner(false);
+        }
+       }); 
+    }  */
     });
       
      //For files hover div

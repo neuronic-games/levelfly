@@ -10,6 +10,7 @@
     <div class="gradebook_board_left">
       <div class="gradebook_board_right">
         <div class="gradebook_board_center">
+        <% unless @latest_course.nil? %>
           <div class="gradebook_partribbon">
            <%if Rails.application.config.grade_palette == true%>
             <div class="GDingbox" >
@@ -108,6 +109,9 @@
               <div class="clear"></div>
             </div>
           </div>
+          <%else%>
+          <div class="msg_pos">You are currently not in any courses.</div>
+          <%end%>
         </div>
       </div>
     </div>
@@ -160,6 +164,7 @@ $(document).ready(function(){
   var last_fills = new Array();
   var pg = new Array();
   var undo_select = false;
+  var last_id="";
 
   //Toggle Tabs
   $(".menu_container").delegate('a', 'click', function(){
@@ -456,6 +461,7 @@ $(document).ready(function(){
   }
   //Save grades/points
   function save_grade(val,id,rel,arrOfProfile,array_of_values){ 
+  //console.log(val+"---"+id+"---"+rel+"---"+arrOfProfile+"---"+array_of_values)
     var valid = false;
     var _undo = undo_select
     if(id[0]=="g"){
@@ -610,6 +616,7 @@ $(document).ready(function(){
    if(final_value != "" || reset == true)
    {
     var id = $(this).attr("id");
+    last_id = id;
     if($(this).attr("rel")=="grade_column"){
       $("."+id).each(function(index,item) {
         previous_values.push($(this).val())
@@ -641,6 +648,7 @@ $(document).ready(function(){
   //Save grade on change event
   $(".task_right_wp").delegate("input","change",function(){
       id = $(this).attr("id");
+      last_id = id;
       if ($(this).attr("id")!=arr_ids[0])
       previous_values.push($(this).val())
       var val = $(this).val();
@@ -660,6 +668,7 @@ $(document).ready(function(){
   $(".task_right_wp").delegate("input","click",function(){
     previous_values.push($(this).val())
     id = $(this).attr("id");
+    last_id = id;
     arr_ids.push(id);
     document.getElementById(id).focus();
     document.getElementById(id).select();
