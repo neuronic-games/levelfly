@@ -1,9 +1,10 @@
 class Badge < ActiveRecord::Base
 belongs_to :badge_image
+has_many :avatar_badges
 
   def self.load_all_badges(profile)
     @badges = Badge.where("school_id = ? and (creator_profile_id = ? or creator_profile_id IS NULL)",profile.school_id,profile.id)
-    @last_used = Badge.select("distinct badges.id, badges.name, badges.badge_image_id").joins("inner join avatar_badges on badge_id = badges.id").where("avatar_badges.giver_profile_id = ?",profile.id).order("avatar_badges.created_at desc").limit("4")
+    @last_used = Badge.find(:all, :include => [:avatar_badges], :conditions => ["giver_profile_id = ?",profile.id],  :order => "avatar_badges.created_at desc", :group =>"badges.id",:limit =>"4")
     return @badges,@last_used
   end
 

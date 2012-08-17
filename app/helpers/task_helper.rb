@@ -63,8 +63,8 @@ module TaskHelper
   
   def long_desc(descr)
     if !descr.nil?
-      if descr.length>110
-        str = descr.slice(0,110) +"..."
+      if descr.length>100
+        str = descr.slice(0,100) +"..."
         return str
       end
     end
