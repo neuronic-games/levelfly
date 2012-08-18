@@ -214,16 +214,19 @@ class GradeBookController < ApplicationController
       outcome_id = params[:outcome_id]
       profile_ids = params[:profile_id].split(",") if params[:profile_id]
       task_id = params[:task_id]
-      outcome_val = params[:outcome_val].split(",") if params[:outcome_val]
+      outcome_val = params[:outcome_val]#.split(",") if params[:outcome_val]
       undo = params[:undo]
+      outcome_values = []
       previous_values = params[:last_changes].split(",") if params[:last_changes]
-     
+      profile_ids.each do |d|
+        outcome_values.push(outcome_val)
+      end
       previous_grade = ""
       if !profile_ids.nil?
         if undo == "true" and !previous_values.blank?
            previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, profile_ids,average,task_id,previous_values)
         else
-          previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, profile_ids,average,task_id,outcome_val)
+          previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, profile_ids,average,task_id,outcome_values)
         end    
         render :json => {:average => average,:previous_grade=>previous_grade}
       end  
