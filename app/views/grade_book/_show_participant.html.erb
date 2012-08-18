@@ -130,7 +130,32 @@
 
     <table width="100%" border="0" cellpadding="0" cellspacing="0" id="heading_task" class="heading_task">
       <tr class="task_right_heading" id = "table_heading">
-      
+      <% unless @tasks.nil? %>
+          <% @tasks.each do |t| %> 
+       <td class="red_border">
+         <table border="0" class="">
+          <tr>
+             <td class="hover task_name_background" id="t_<%=t.id%>" style="width:12px;"rel="grade_column">
+                <div class="rotate_text GB_outcomment3 white_font"><%=t.name%></div>
+              </td>
+              <td class="hover" id="t_<%=t.id%>" rel="grade_column" style="width:60px;">
+              
+              </td>
+               <% @task_outcomes = t.outcomes%>
+                <%if @task_outcomes.length>0%>
+                  <% if !@task_outcomes.nil?%>
+                    <% @task_outcomes.each_with_index do |o,j|%>
+                    <td  class="hover" style="width: 60px;" id="<%=t.id%>_<%=o.id%>" rel="grade_column">
+                      <div class="GB_outcomment2 rotate_text" </div>
+                    </td>
+                  <%end%>
+                <%end%>
+              <%end%>
+         </tr> 
+         </table>
+       </td>
+       <%end%>
+      <%end%> 
       </tr>
      <%if !@participant.nil?%>
        <% @participant.each_with_index do |p,i|%>
@@ -147,7 +172,7 @@
                 <% grade = GradeType.value_to_letter(task_grade, @school_id)%>
               <%end%>
                 <td class=" width_30 hover task_name_background " id="t_<%=t.id%>" rel="grade_column" >
-                  <div class="rotate_text GB_outcomment3 white_font"><%if i==0%><%=t.name%><%end%></div>
+                  <div class="rotate_text GB_outcomment3 white_font"><%if i==0%>&nbsp;<%end%></div>
                 </td>
                 <td class="" id="" rel="">
                   <div  class="rotate_text GB_outcomment3"><%if (i==0)%>Task Grade<%end%></div>
