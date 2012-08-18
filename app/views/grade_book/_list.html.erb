@@ -580,7 +580,7 @@ $(document).ready(function(){
   });*/
   
   
-  //Undo last changes
+  //Undo last change
   $(".undo").click(function(){
     var first = true; 
     select_points = false
@@ -598,36 +598,37 @@ $(document).ready(function(){
      if (change_id!=""){
        if (entire_column == false){
          $("#"+change_id).attr("value",$("#previous_grade").val())
-          save_grade($("#previous_grade").val(),$("#last_id").val(),arr_rel2,arr_profile2,"")
-         
+          previous_grade = $("#previous_grade").val();
+          idd = $("#last_id").val();
+          save_grade(previous_grade,idd,arr_rel2,arr_profile2,"")
           $("#last_id").attr("value","");
+          //console.log(previous_grade+"---"+idd+"---"+arr_rel2+"---"+arr_profile2)
        }
        else{
-        $("."+change_id).each(function(index,item) {
-          previous_values.push($(this).val())
-          if(last_fills!="" && undo_select == true){
-            $(this).attr("value",last_fills[index]);
-          }
-          else{
-            $(this).attr("value",final_value);
-          }
-          click_id = $(this).attr("id")
-          given_val = $(this).val();
-          var rel = $(this).attr("rel");
-          grades = [];
-          var ids= click_id.split("_");
-          var profile_id = ids[1];
-          arr_profile.push(profile_id)
-          arr_rel.push(rel);
-          arr_ids.push(click_id);
-
-          //save_grade(val,idx,rel);
-      });
-      pg = last_fills;
-      last_fills = previous_values;
-      save_grade(given_val,click_id,arr_rel2,arr_profile2,pg);
-          $("#last_id").attr("value","");
-       }
+          $("."+change_id).each(function(index,item) {
+            previous_values.push($(this).val())
+            if(last_fills!="" && undo_select == true){
+              $(this).attr("value",last_fills[index]);
+            }
+            else{
+              $(this).attr("value",final_value);
+            }
+            click_id = $(this).attr("id")
+            given_val = $(this).val();
+            var rel = $(this).attr("rel");
+            grades = [];
+            var ids= click_id.split("_");
+            var profile_id = ids[1];
+            arr_profile.push(profile_id)
+            arr_rel.push(rel);
+            arr_ids.push(click_id);
+        });
+        pg = last_fills;
+        last_fills = previous_values;
+        save_grade(given_val,click_id,arr_rel2,arr_profile2,pg);
+        //console.log(given_val+"---"+click_id+"---"+arr_rel2+"---"+arr_profile2)
+        $("#last_id").attr("value","");
+      }
      } 
      
   });
@@ -725,6 +726,7 @@ $('#course_id').change(function(){
   $("#add_task").hide();
   var singleValues = $("#course_id :selected").text();
   $(this).parent().find('.fakebox').html(singleValues );
+  $("#last_id").attr("value","");
   load_outcomes();
   
 });
@@ -867,6 +869,8 @@ function load_outcomes(){
           var column =$("<td></td>");
           var task_name_column = $("<td></td>");
           var task_div = $("<div></div>"); 
+          var task_grade = $("<td></td>");
+          var task_grade_div = $("<div></div>"); 
           var main_col=$("<td></td>");
           main_col.addClass("red_border");
           column.addClass("selected_t_"+task.id+"");
@@ -875,10 +879,11 @@ function load_outcomes(){
           var  text_grade = $("<input type ='text' value = '"+value.task_grade[i]+"' id = 'g_"+value.profile_id+"_"+task.id +"' maxlength='4' size='2' rel = '"+ value.profile_id +"'/>");
           text_grade.addClass("editable_field task_grade t_"+task.id +"");
           column.html(text_grade); 
-          task_name_column.addClass("width_30 hover ");
+          task_name_column.addClass("width_30 hover task_name_background");
           task_name_column.attr("id","t_"+task.id);
           task_name_column.attr("rel","grade_column");
-          task_div.addClass("GB_outcomment3 rotate_text");
+          task_div.addClass("GB_outcomment3 rotate_text white_font");
+          task_grade_div.addClass("GB_outcomment3 rotate_text");
           
           if (p!=0){
             column.addClass("td_align")
@@ -886,9 +891,12 @@ function load_outcomes(){
           else{
             task_div.attr("id","t_"+task.id);  
             task_div.html(task.name);
+            task_grade_div.html("Task Grade");
           }
           task_name_column.html(task_div);
+          task_grade.html(task_grade_div);
           rows.append(task_name_column);
+          rows.append(task_grade);
           rows.append(column);
           if(len>0){
             for (i=0; i<len; i++)
@@ -1019,7 +1027,7 @@ function load_outcomes(){
           var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
           text.addClass("")
           grade_col.html(text);
-          grade_col.addClass("td_align red_border")
+          grade_col.addClass("td_align red_border");
           rows2.append(outcomes_col);
           rows2.append(grade_col);
         
@@ -1040,6 +1048,8 @@ function load_outcomes(){
           var rows =$("<tr></tr>");
           var task_name_column = $("<td></td>");
           var task_div = $("<div></div>"); 
+          var task_grade = $("<td></td>");
+          var task_grade_div = $("<div></div>"); 
           var column =$("<td></td>");
           var main_col=$("<td></td>");
           main_col.addClass("red_border");
@@ -1049,8 +1059,9 @@ function load_outcomes(){
           var  text_grade = $("<input type ='text' value = '' id = '' readonly='readonly' maxlength='4' size='2' rel = ''/>");
           text_grade.addClass("task_grade");
           column.html(text_grade); 
-          task_name_column.addClass("width_30 hover ");
-          task_div.addClass("GB_outcomment3 rotate_text");
+          task_name_column.addClass("width_30 hover task_name_background");
+          task_div.addClass("GB_outcomment3 rotate_text white_font");
+          task_grade_div.addClass("GB_outcomment3 rotate_text");
           task_name_column.attr("id","t_"+task.id);
           task_name_column.attr("rel","grade_column");
           if (p!=0){
@@ -1062,7 +1073,9 @@ function load_outcomes(){
             task_name_column.addClass("hover");
           }
           task_name_column.html(task_div);
+          task_grade.html(task_grade_div);
           rows.append(task_name_column);
+          rows.append(task_grade);
           rows.append(column);
           if(len>0){
             for (i=0; i<len; i++)
@@ -1430,6 +1443,8 @@ function load_outcomes(){
           var column =$("<td></td>");
           var task_div = $("<div></div>"); 
           var task_name_column = $("<td></td>");
+          var task_grade = $("<td></td>");
+          var task_grade_div = $("<div></div>"); 
           var main_col=$("<td></td>");
           main_col.addClass("red_border")
           column.addClass("selected_t_"+task.id+"");
@@ -1438,19 +1453,23 @@ function load_outcomes(){
           var  text_grade = $("<input type ='text' value = '' id = 'g_"+value+"_"+resp.task.id +"' maxlength='4' size='2' rel = '"+ value +"'/>");
           text_grade.addClass("editable_field task_grade t_"+task.id);
           column.html(text_grade); 
-          task_name_column.addClass("width_30 hover ");
+          task_name_column.addClass("width_30 hover task_name_background");
           task_name_column.attr("id","t_"+task.id);
           task_name_column.attr("rel","grade_column");
-          task_div.addClass("GB_outcomment3 rotate_text");
+          task_div.addClass("GB_outcomment3 rotate_text white_font");
+          task_grade_div.addClass("GB_outcomment3 rotate_text");
           if (p!=0){
             column.addClass("td_align")
           }
           else{
             task_div.attr("id","t_"+task.id);  
             task_div.html(task.name);
+            task_grade_div.html("Task Grade");
           }
           task_name_column.html(task_div);
+          task_grade.html(task_grade_div);
           rows.append(task_name_column);
+          rows.append(task_grade);
           rows.append(column);
             if(len>0){ 
              $(resp.outcomes).each(function(o, task_outcome){ 
@@ -1519,6 +1538,8 @@ function load_outcomes(){
           var column =$("<td></td>");
           var task_div = $("<div></div>"); 
           var task_name_column = $("<td></td>");
+          var task_grade = $("<td></td>");
+          var task_grade_div = $("<div></div>"); 
           var main_col=$("<td></td>");
           main_col.addClass("red_border")
           column.addClass("selected_t_"+task.id+"");
@@ -1527,10 +1548,11 @@ function load_outcomes(){
           var  text_grade = $("<input type ='text' value = '' id = '' maxlength='4' size='2' rel = ''/>");
           text_grade.addClass("task_grade");
           column.html(text_grade); 
-          task_name_column.addClass("width_30 hover ");
+          task_name_column.addClass("width_30 hover task_name_background");
           task_name_column.attr("id","t_"+task.id);
           task_name_column.attr("rel","grade_column");
-          task_div.addClass("GB_outcomment3 rotate_text");
+          task_div.addClass("GB_outcomment3 rotate_text white_font");
+          task_grade_div.addClass("GB_outcomment3 rotate_text");
           if (p!=0){
             column.addClass("td_align")
           }
@@ -1539,8 +1561,10 @@ function load_outcomes(){
             task_div.html(task.name);
           }
           task_name_column.html(task_div);
+          task_grade.html(task_grade_div);
           rows.append(task_name_column);
-          rows.append(column);
+          rows.append(task_grade);
+          rows.append(column); 
             if(len>0){ 
              $(resp.outcomes).each(function(o, task_outcome){ 
               var point_column =$("<td></td>");

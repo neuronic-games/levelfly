@@ -3745,7 +3745,7 @@ border:solid 0px #000000;
 .confirm_box_width{width:301px; left:60%;}
 .tbc{float:right; width:100px; text-align:center;}
 .GB_outcomment3 {
-    color: #000000;
+    color: #6989B5;
     font-family: Arial,Helvetica,sans-serif;
     font-size: 12px;
     font-weight: bold;
@@ -3908,3 +3908,5 @@ position: absolute;
   margin: 220px;
   position: absolute;
 }
+.task_name_background{background:#7794AC;}
+.white_font{color:#FFF;}
