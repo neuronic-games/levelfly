@@ -2885,7 +2885,7 @@ filter:alpha(opacity="0");
 .task_right_wp td{
 	text-align:center;
 	/*height:47px;/*/
-  line-height:47px;
+  line-height:37px;
 }
 
 .task_right_heading{
@@ -3309,6 +3309,7 @@ background-color:#FF4D4D
 .GB_odd2 { background:#c4c8d2;}
 .notes_margin{margin-top: -10px; height: 57px;}
 .red_border{border-right: 1px solid #C06A70;}
+.white_border{border-left: 1px solid #CBCFDA;}
 .red_border1{border-left: 1px solid #C06A70;}
 .task_input
 {

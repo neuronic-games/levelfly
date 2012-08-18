@@ -589,6 +589,7 @@ $(document).ready(function(){
     reset = false
     alphabet = "" ;
     sign = "";
+    final_value = "";
     undo_select = true;
     $.each(arr_id, function(index, id) { 
        $("#"+id).removeClass("select_btn");
@@ -626,7 +627,7 @@ $(document).ready(function(){
         pg = last_fills;
         last_fills = previous_values;
         save_grade(given_val,click_id,arr_rel2,arr_profile2,pg);
-        //console.log(given_val+"---"+click_id+"---"+arr_rel2+"---"+arr_profile2)
+       // console.log(given_val+"---"+click_id+"---"+arr_rel2+"---"+arr_profile2+"entire column")
         $("#last_id").attr("value","");
       }
      } 
@@ -908,11 +909,11 @@ function load_outcomes(){
               count = count + 1 ;
               text_point.addClass("editable_field task_grade "+task.id+"_"+task.task_outcomes[i].id+"");
               if(p%2==0){
-                outcome.addClass("Dark_no width_30 hover ");
+                outcome.addClass("Dark_no width_30 hover white_border");
                 point_column.addClass("Dark_no width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
               }
               else{
-                outcome.addClass("light_row width_30 hover ");
+                outcome.addClass("light_row width_30 hover white_border");
                 point_column.addClass("light_row width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
               }             
               if(p==0){
@@ -1087,11 +1088,11 @@ function load_outcomes(){
   
               text_point.addClass("task_grade");
               if(p%2==0){
-                outcome.addClass("Dark_no width_30 hover ");
+                outcome.addClass("Dark_no width_30 hover white_border");
                 point_column.addClass("Dark_no width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
               }
               else{
-                outcome.addClass("light_row width_30 hover ");
+                outcome.addClass("light_row width_30 hover white_border");
                 point_column.addClass("light_row width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
               }             
               if(p==0){
@@ -1479,11 +1480,11 @@ function load_outcomes(){
               var  text_point = $("<input type ='text' value = '' id = 'p_"+value+"_"+task_outcome.id+"_"+task.id +"' rel = 'p_"+value+"_"+task_outcome.id+"' maxlength='1' size='2'/>");
               text_point.addClass("editable_field task_grade "+task.id+"_"+task_outcome.id+"");
               if(p%2==0){
-                outcome.addClass("Dark_no width_30 hover");
+                outcome.addClass("Dark_no width_30 hover white_border");
                 point_column.addClass("Dark_no width_30 o_"+task.id+"_"+task_outcome.id+"");
               }
               else{
-                outcome.addClass("light_row width_30");
+                outcome.addClass("light_row width_30 white_border");
                 point_column.addClass("light_row width_30 o_"+task.id+"_"+task_outcome.id+"");
               }             
               if(p==0){
@@ -1508,11 +1509,11 @@ function load_outcomes(){
             var  text_point = $("<input type ='text' value = '' maxlength='1' size='2'/>");
             text_point.addClass("editable_field task_grade ");
             if(p%2==0){
-              outcome.addClass("Dark_no width_30 hover");
+              outcome.addClass("Dark_no width_30 hover white_border");
               point_column.addClass("Dark_no width_30");
             }
             else{
-              outcome.addClass("light_row width_30 hover");
+              outcome.addClass("light_row width_30 hover white_border");
               point_column.addClass("light_row width_30");
             }             
             if(p==0){
