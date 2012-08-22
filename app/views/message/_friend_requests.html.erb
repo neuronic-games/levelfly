@@ -47,7 +47,7 @@ $('.friend-request').unbind("click").bind("click", function(){
           var invites = $("#invitation_count").val();
            $("#invitation_count").attr("value",invites-1);
            if($("#invitation_count").val()==0){
-              $("#invites_title").html("<h2>There are no more invitaions</h2>")
+              $("#invites_title").html("")
            }
         }
       });
@@ -67,7 +67,7 @@ $('.friend-request').unbind("click").bind("click", function(){
             var invites = $("#invitation_count").val();
             $("#invitation_count").attr("value",invites-1);
             if($("#invitation_count").val()==0){
-              $("#invites_title").html("<h2>There are no more invitaions</h2>")
+              $("#invites_title").html("")
             }
           }
           showSpinner(false);

@@ -3906,7 +3906,9 @@ position: absolute;
  background:#fff;
 }
 .msg_pos{
-  font-size: 24px;
+  color: #3B67A2;
+  font-family: 'CollegeRegular';
+  font-size:24px;
   margin: 220px;
   position: absolute;
 }

@@ -261,7 +261,7 @@ Reward.create(:xp => "800", :object_type => 'level', :object_id => "5")
 Reward.create(:xp => "1000", :object_type => 'level', :object_id => "6")
 
 #majors
-Major.create(:school_id => school, :name =>"English", :code => "001")
-Major.create(:school_id => school, :name =>"Maths", :code => "002")
-Major.create(:school_id => school, :name =>"Science", :code => "003")
-Major.create(:school_id => school, :name =>"History", :code => "004")
+Major.create(:school_id => school, :name =>"English", :code => "ENG")
+Major.create(:school_id => school, :name =>"Maths", :code => "MTH")
+Major.create(:school_id => school, :name =>"Science", :code => "SCI")
+Major.create(:school_id => school, :name =>"History", :code => "HST")

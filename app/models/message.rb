@@ -69,7 +69,7 @@ class Message < ActiveRecord::Base
     @message.target_type = "Notification"
     @message.parent_type = "Profile"
     @message.message_type = "Message"
-    @message.content = "Congrtulation! You are move to level #{level}"
+    @message.content = "Congratulation! You have achieved level #{level}"
     @message.archived = false
     @message.post_date = DateTime.now
     @message.save
