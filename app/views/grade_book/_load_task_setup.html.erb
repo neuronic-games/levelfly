@@ -1,0 +1,91 @@
+
+<div class="add_task_popup" style="width:25%; left:60%; height:30%;">
+  <div class="heading">Task Setup</div>
+  <div class="boxadnt"> <span class="heading02">Task Name</span>
+    <div class="heading02_field">
+      <div class="dd_bg brown_bg02">
+        <input type ="text" class ="dd_input brown_bg02" id="task_name" readonly="readonly" value="<%=@task.name%>">
+      </div>
+    </div>
+    <div class="clear"></div>
+    <div class="spacebar10px"></div>
+    <div>
+    <div >Options</div>
+      <div class="spacebar10px"></div>
+      <div class="hide">
+        <span class="custom-checkbox">
+        <input type="checkbox" id="include_task_grade" <%= @task && @task.include_task_grade ? "checked='checked'" : "" %>/>
+        <span class="box"><span class="tick"></span></span> </span><span class="rfw">Include task grade in final grades</span>
+        <div class="spacebar10px"></div>
+      </div>
+      
+       <div>
+        <span class="custom-checkbox">
+        <input type="checkbox" id="show_outcomes"<%= @task && @task.show_outcomes ? "checked='checked'" : "" %>/>
+        <span class="box"><span class="tick"></span></span> </span><span class="rfw">Show outsomes</span>
+        <div class="spacebar10px"></div>
+      </div>
+      
+       <div>
+        <span class="custom-checkbox">
+        <input type="checkbox" id="grading_complete_date" <%= @task && @task.grading_complete_date.blank? ? "" : "checked='checked'" %> />
+        <span class="box"><span class="tick"></span></span> </span><span class="rfw">All grades have been entered for this task</span>
+        <div class="spacebar10px"></div>
+      </div>
+      
+    </div>  
+    <div class="spacebar10px"></div>
+    <div class="spacebar10px"></div>
+  </div>
+   <input type="hidden" name="setup_task_id" id="setup_task_id" value="<%=@task.id if @task%>"/>
+  <div align="right">
+  <a class="big_blue_btn inlineblock smaller_text" id ="dont_change_btn" href="javascript:void(0)">Don't Change</a> <a class="big_orange_btn inlineblock clr_red" id ="change_btn" href="javascript:void(0)">Change</a></div>
+</div>
+
+
+<script type="text/javascript">
+<!--
+  $("#dont_change_btn").click(function(){
+    $("#load_task_setup").hide();
+  });
+// Hide the card if clicked outside
+$(document).click(function (e){
+    var container = $("#load_task_setup");
+
+    if (container.has(e.target).length === 0)
+    {
+        container.hide();
+        $(document).unbind('click');
+    }
+});
+ $("#grading_complete_date").click(function(){
+   //console.log($(this).is(':checked'))
+    //check_val = $(this).is(':checked');
+ });
+ 
+ $("#change_btn").click(function(){
+    task_id = $("#setup_task_id").val();
+    grading_complete_date = $("#grading_complete_date").is(':checked');
+    show_outcomes = $("#show_outcomes").is(':checked');
+    include_task_grade = $("#include_task_grade").is(':checked');
+    showSpinner(true);
+    $.ajax({
+      type:"POST",
+      url:"/grade_book/task_setup",
+      dataType:"json",
+      data:{task_id:task_id,grading_complete_date:grading_complete_date,show_outcomes:show_outcomes,include_task_grade:include_task_grade},
+      error:  function(e){alert("error");},
+      success: function(resp){
+         showSpinner(false);
+         $("#load_task_setup").html("");
+         $("#load_task_setup").hide();
+         load_outcomes();
+      }      
+   
+    });
+    
+ });
+
+
+-->
+</script>

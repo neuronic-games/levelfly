@@ -103,6 +103,8 @@
                 <div id="finalize_div" class="finalize_box hide" >
                   <%= render :partial=>"/grade_book/finalize_box"%>
                 </div>
+                <div id="load_task_setup" class="load_task_setup hide" >
+                </div>
                 <div class="clear"></div>
                 <div class="extra_height_gradepage"></div>
               </div>
@@ -454,11 +456,14 @@ $(document).ready(function(){
           var average = 0;
           var count = 0;
           $("input[rel="+rel[i]+"]").each(function(index,item){
-            var points = parseInt(item.value);
-            if (isNaN(points)==false){
-              sum = sum + points
-              count = count + 1
-            }
+          var data_include = $("#"+item.id).attr("data");
+            if (data_include == "true"){
+              var points = parseInt(item.value);
+              if (isNaN(points)==false){
+                sum = sum + points;
+                count = count + 1;
+              }
+            }  
           });
           average = sum/count;
           if (isNaN(average)==true)
@@ -499,9 +504,15 @@ $(document).ready(function(){
        for(i = 0; i<rel.length;i++)
       {
         $("input[rel="+rel[i]+"]").each(function(index,item){
-        myString = String(item.value.replace(/\+/g, "%2B"));
-        grades.push(myString);
-        count =index+1
+          var data_include = $("#"+item.id).attr("data");
+          if (data_include == "true"){
+            myString = String(item.value.replace(/\+/g, "%2B"));
+            grades.push(myString);
+            count =index+1
+          }
+          else{
+            grades.push("");
+          }
        });
        arrOfgrades.push(grades)
        grades=[];
@@ -629,7 +640,7 @@ $(document).ready(function(){
             arr_rel.push(rel);
             arr_ids.push(click_id);
         });
-        pg = last_fills
+        pg = last_fills;
         save_grade(given_val,click_id,arr_rel2,arr_profile2,pg);
        // console.log(given_val+"---"+click_id+"---"+arr_rel2+"---"+arr_profile2+"entire column")
         $("#last_id").attr("value","");
@@ -694,9 +705,9 @@ $(document).ready(function(){
       arr_profile.push(profile_id)
       arr_rel.push(rel);
       arr_ids.push(id);
-      arr_rel2 = arr_rel
-      arr_profile2 = arr_profile
-      save_grade(val,id,arr_rel,arr_profile,"")
+      arr_rel2 = arr_rel;
+      arr_profile2 = arr_profile;
+      save_grade(val,id,arr_rel,arr_profile,"");
   });
   
   //Save grade on click
@@ -739,468 +750,7 @@ $('#course_id').change(function(){
   
 });
 
-function load_outcomes(){
 
-  var participant;
-  var tasks;
-  var outcomes
-  course_id = $("#course_id").val();
-  showSpinner(true);
-  $.ajax({
-    type :"POST",
-    url: "/grade_book/get_task", 
-    dataType: "json",
-    data: {course_id:course_id},
-    success: function(data){
-      showSpinner(false);
-      //$('.GB_right_table').replaceWith($("<table></table>"));
-      $('#outcome_note').val(1);
-      $('#outcome_note').parent().find('.fakebox').html("OUTCOMES" );
-      participant = data.participant;
-      outcomes = data.outcomes;
-      tasks = data.tasks;
-      var option ='';
-      var row =$("<tr></tr>");
-      row.attr("id","table_heading");
-      var  table3 = $("<table></table>") 
-      $(tasks).each(function(i, item) {
-        var col =$("<th></th>");
-        var heading_td =$("<td></td>");
-        var table_heading = $("<table></table>");
-        var table_row = $("<tr></tr>");
-        var row_td = $("<td></td>");
-        var row_td2 = $("<td></td>");
-        var name_div = $("<div></div>");
-        var outcomes_length = item.task_outcomes.length;
-        option = option + "<option value = t_"+ item.id +">" + item.name +"</option>"
-        heading_td.addClass("red_border");
-        table_heading.attr("border","0");
-        row_td.addClass("hover task_name_background width12px");
-        row_td.attr("rel","grade_column");
-        name_div.addClass("rotate_text GB_outcomment3 white_font");
-        name_div.html(item.name);
-        row_td2.addClass("hover width60px");
-        row_td2.attr("id","t_"+item.id);
-        row_td2.attr("rel","grade_column");
-        row_td.html(name_div);
-        table_row.append(row_td);
-        table_row.append(row_td2);
-        
-        if(outcomes_length>0){
-            for (j=0; j<outcomes_length; j++){
-             var outcome_div = $("<div></div>");
-             var outcome_td = $("<td></td>");
-             outcome_td.addClass("hover width60px");
-             outcome_td.attr("rel","grade_column")
-             outcome_td.attr("id",item.id+"_"+item.task_outcomes[j].id)
-             outcome_div.addClass("GB_outcomment2 rotate_text");
-             outcome_td.html(outcome_div);
-             table_row.append(outcome_td);
-            }
-          }
-          
-        table_heading.html(table_row);
-        heading_td.html(table_heading);
-        row.append(heading_td)
-        /*col.html(value.name);
-        col.addClass("red_border");
-        col.addClass("hover");
-        col.attr("id","t_"+value.id)
-        row.append(col);*/
-        if(i==0)
-        $("#task_id").parent().find('.fakebox').html(item.name);
-      });
-      if(tasks=="")
-       $("#task_id").parent().find('.fakebox').html('');
-      $('#task_id').html(option);
-      
-      row.addClass("task_right_heading");
-      table3.append(row);
-      var  table = $("<table></table>");
-      var  table_note = $("<table></table>");
-      var  table2 = $("<table></table>");
-      table.addClass("GB_left_table GB_table");//table for participant name and grade
-      table.attr("id","GB_left_table")
-      table.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
-      table2.addClass("GB_right_table");//table outcome  average grade 
-      table2.attr("id","GB_right_table");
-      table2.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
-      table3.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
-      table3.attr("id","heading_task");
-      table3.addClass("heading_task");
-      $(participant).each(function(p, value){
-        var zero_outcome = false;
-        if(outcomes.length==0){
-          zero_outcome = true;
-        }
-        var count =0;
-        var rows =$("<tr></tr>");
-        var cols =$("<td></td>");
-        var col2 =$("<td></td>");
-        var div = $("<div></div>");
-        var cols_note =$("<td></td>");
-        var rows_note =$("<tr></tr>");
-        var div_note = $("<div></div>");
-        var col2_note =$("<td></td>");
-        var div2 = $("<div></div>");
-        var rows2 =$("<tr></tr>");
-        var cols2 =$("<td></td>");
-        cols.attr('width','63%');
-        var text = '';
-        div2.addClass("GB_outcomment rotate_text");
-        div2.html("WRITING USING A QUILL");
-        div.addClass("b_box");
-        col2.addClass("td_align");
-        cols.addClass("Name_box td_align");
-        cols.html(value.full_name);
-        cols2.addClass("");
-        var  text = $("<input type ='text' value = '"+value.grade+"' id = '"+ value.profile_id +"' maxlength='1' readonly='readonly' size='5'/>")         
-        text.addClass("task_grade")         
-        div.html(text);        
-        col2.html(div);        
-        rows.html(cols);
-        rows.append(col2);
-        if(outcomes.length>0){
-          $(outcomes).each(function(i, outcomes){
-            var grade_col =$("<td></td>");
-            var outcomes_col =$("<td></td>");
-            var outcome_name =$("<div></div>"); 
-            outcomes_col.addClass("red_border1");
-            if(p==0){
-              outcome_name.html(outcomes.name);
-            }
-            outcome_name.addClass("GB_outcomment rotate_text");
-            outcomes_col.html(outcome_name);
-            var  text = $("<input type ='text' value = '"+value.course_outcomes[i]+"' id = 'p_"+value.profile_id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
-            text.addClass("")
-            grade_col.html(text);
-            grade_col.addClass("td_align red_border")
-            rows2.append(outcomes_col);
-            rows2.append(grade_col);
-          });
-        }
-        else{
-          var grade_col =$("<td></td>");
-          var outcomes_col =$("<td></td>");
-          var outcome_name =$("<div></div>"); 
-          outcome_col.addClass("red_border1");
-          if(p==0){
-            outcome_name.html(outcomes.name);
-          }
-          outcome_name.addClass("GB_outcomment rotate_text");
-          outcomes_col.html(outcome_name);
-          var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
-          text.addClass("")
-          grade_col.html(text);
-          grade_col.addClass("td_align red_border")
-          rows2.append(outcomes_col);
-          rows2.append(grade_col);
-        
-        }
-        if (p%2==0){
-          rows.addClass("GB_odd");
-          rows2.addClass("Dark_no");
-        }
-        else{
-          rows2.addClass("light_row");
-        }
-        table2.append(rows2);
-        table.append(rows);
-        var row_item = $("<tr></tr>");
-        var all_col='';
-
-        $(tasks).each(function(i, task){
-          var rows =$("<tr></tr>");
-          var column =$("<td></td>");
-          var task_name_column = $("<td></td>");
-          var task_div = $("<div></div>"); 
-          var task_grade = $("<td></td>");
-          var task_grade_div = $("<div></div>"); 
-          var main_col=$("<td></td>");
-          main_col.addClass("red_border");
-          column.addClass("selected_t_"+task.id+"");
-          var table_task = $("<table></table>");
-          var len = task.task_outcomes.length;
-          var  text_grade = $("<input type ='text' value = '"+value.task_grade[i]+"' id = 'g_"+value.profile_id+"_"+task.id +"' maxlength='2' size='2' rel = '"+ value.profile_id +"'/>");
-          text_grade.addClass("editable_field task_grade t_"+task.id +"");
-          column.html(text_grade); 
-          task_name_column.addClass("width_30 hover task_name_background");
-          //task_name_column.attr("id","t_"+task.id);
-          //task_name_column.attr("rel","grade_column");
-          task_div.addClass("GB_outcomment3 rotate_text white_font");
-          task_grade_div.addClass("GB_outcomment3 rotate_text");
-          
-          if (p!=0){
-            column.addClass("td_align")
-          }
-          else{
-            task_div.attr("id","t_"+task.id);  
-            task_div.html(" ");
-            task_grade_div.html("Task Grade");
-          }
-          task_name_column.html(task_div);
-          task_grade.html(task_grade_div);
-          rows.append(task_name_column);
-          rows.append(task_grade);
-          rows.append(column);
-          if(len>0){
-            for (i=0; i<len; i++)
-            {
-              var point_column =$("<td></td>");
-              var outcome =$("<td></td>");
-              var outcome_div =$("<div></div>");             
-              var  text_point = $("<input type ='text' value = '"+value.task_outcome_grade[count]+"' id = 'p_"+value.profile_id+"_"+task.task_outcomes[i].id+"_"+task.id +"' rel = 'p_"+value.profile_id+"_"+task.task_outcomes[i].id+"' maxlength='1' size='2'/>");
-              count = count + 1 ;
-              text_point.addClass("editable_field task_grade "+task.id+"_"+task.task_outcomes[i].id+"");
-              if(p%2==0){
-                outcome.addClass("Dark_no width_30 hover white_border");
-                point_column.addClass("Dark_no width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
-              }
-              else{
-                outcome.addClass("light_row width_30 hover white_border");
-                point_column.addClass("light_row width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
-              }             
-              if(p==0){
-                outcome_div.html(task.task_outcomes[i].name);
-                //outcome.addClass("hover")
-              }
-             // outcome.attr("rel","grade_column");
-             // outcome.attr("id",task.id+"_"+task.task_outcomes[i].id)
-              outcome_div.addClass("GB_outcomment2 rotate_text");
-              //outcome_div.attr("id",task.id+"_"+task.task_outcomes[i].id)
-              outcome.html(outcome_div);
-              point_column.html(text_point);
-              point_column.addClass("td_align")
-              rows.append(outcome);
-              rows.append(point_column);
-            }
-          }
-          else{
-            var point_column =$("<td></td>");
-            var outcome =$("<td></td>");
-            var outcome_div =$("<div></div>");             
-            var  text_point = $("<input type ='text' value = '' maxlength='1' size='2'/>");
-            text_point.addClass("editable_field task_grade ");
-            if(p%2==0){
-              outcome.addClass("Dark_no width_30 hover");
-              point_column.addClass("Dark_no width_30");
-            }
-            else{
-              outcome.addClass("light_row width_30 hover");
-              point_column.addClass("light_row width_30");
-            }             
-            if(p==0){
-              outcome_div.html("");
-              //outcome.addClass("hover")
-            }
-            outcome_div.addClass("GB_outcomment2 rotate_text");
-            outcome.html(outcome_div);
-            point_column.html(text_point);
-            point_column.addClass("td_align")
-            rows.append(outcome);
-            rows.append(point_column);
-          }
-          if (p%2==0){
-              rows.addClass("GB_odd");
-            }
-          table_task.html(rows);
-          main_col.html(table_task);
-          row_item.append(main_col);
-        });     
-        row_item.addClass("GB_row");
-        row_item.attr("id","r_"+p)
-        table3.append(row_item);        
-     });
-     if(data.count<10){
-       for (p=data.count; p<10; p++){
-        var rows =$("<tr></tr>");
-        var cols =$("<td></td>");
-        var col2 =$("<td></td>");
-        var div = $("<div></div>");
-        var cols_note =$("<td></td>");
-        var rows_note =$("<tr></tr>");
-        var div_note = $("<div></div>");
-        var col2_note =$("<td></td>");
-        var div2 = $("<div></div>");
-        var rows2 =$("<tr></tr>");
-        var cols2 =$("<td></td>");
-        cols.attr('width','63%');
-        var text = '';
-        div2.addClass("GB_outcomment rotate_text");
-        div2.html("WRITING USING A QUILL");
-        div.addClass("b_box");
-        col2.addClass("td_align");
-        cols.addClass("Name_box td_align");
-        cols.html('');
-        cols2.addClass("");
-        var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='5'/>")         
-        text.addClass("task_grade")         
-        div.html(text);        
-        col2.html(div);        
-        rows.html(cols);
-        rows.append(col2);
-        if(outcomes.length>0){
-          $(outcomes).each(function(i, outcomes){
-
-            var grade_col =$("<td></td>");
-            var outcomes_col =$("<td></td>");
-            var outcome_name =$("<div></div>"); 
-            outcomes_col.addClass("red_border1");
-            if(p==0){
-              outcome_name.html(outcomes.name);
-            }
-            outcome_name.addClass("GB_outcomment rotate_text");
-            outcomes_col.html(outcome_name);
-            var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
-            text.addClass("")
-            grade_col.html(text);
-            grade_col.addClass("td_align red_border")
-            rows2.append(outcomes_col);
-            rows2.append(grade_col);
-          });
-        }
-        else{
-          var grade_col =$("<td></td>");
-          var outcomes_col =$("<td></td>");
-          var outcome_name =$("<div></div>");
-          outcomes_col.addClass("red_border1");            
-          if(p==0){
-            outcome_name.html(outcomes.name);
-          }
-          outcome_name.addClass("GB_outcomment rotate_text");
-          outcomes_col.html(outcome_name);
-          var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
-          text.addClass("")
-          grade_col.html(text);
-          grade_col.addClass("td_align red_border");
-          rows2.append(outcomes_col);
-          rows2.append(grade_col);
-        
-        }
-        if (p%2==0){
-          rows.addClass("GB_odd");
-          rows2.addClass("Dark_no");
-        }
-        else{
-          rows2.addClass("light_row");
-        }
-        table2.append(rows2);
-        table.append(rows);
-        var row_item = $("<tr></tr>");
-        var all_col='';
-
-        $(tasks).each(function(i, task){
-          var rows =$("<tr></tr>");
-          var task_name_column = $("<td></td>");
-          var task_div = $("<div></div>"); 
-          var task_grade = $("<td></td>");
-          var task_grade_div = $("<div></div>"); 
-          var column =$("<td></td>");
-          var main_col=$("<td></td>");
-          main_col.addClass("red_border");
-          column.addClass("selected_t_"+task.id+"");
-          var table_task = $("<table></table>");
-          var len = task.task_outcomes.length;
-          var  text_grade = $("<input type ='text' value = '' id = '' readonly='readonly' maxlength='2' size='2' rel = ''/>");
-          text_grade.addClass("task_grade");
-          column.html(text_grade); 
-          task_name_column.addClass("width_30 hover task_name_background");
-          task_div.addClass("GB_outcomment3 rotate_text white_font");
-          task_grade_div.addClass("GB_outcomment3 rotate_text");
-          task_name_column.attr("id","t_"+task.id);
-          //task_name_column.attr("rel","grade_column");
-          if (p!=0){
-            column.addClass("td_align")
-          }
-          else{
-            task_div.attr("id","t_"+task.id);  
-            task_div.html(task.name);
-            task_name_column.addClass("hover");
-          }
-          task_name_column.html(task_div);
-          task_grade.html(task_grade_div);
-          rows.append(task_name_column);
-          rows.append(task_grade);
-          rows.append(column);
-          if(len>0){
-            for (i=0; i<len; i++)
-            {
-              var point_column =$("<td></td>");
-              var outcome =$("<td></td>");
-              var outcome_div =$("<div></div>");             
-              var  text_point = $("<input type ='text' value = '' id = '' rel = '' readonly='readonly' maxlength='1' size='2'/>");
-  
-              text_point.addClass("task_grade");
-              if(p%2==0){
-                outcome.addClass("Dark_no width_30 hover white_border");
-                point_column.addClass("Dark_no width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
-              }
-              else{
-                outcome.addClass("light_row width_30 hover white_border");
-                point_column.addClass("light_row width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
-              }             
-              if(p==0){
-                outcome_div.html('');
-                //outcome.addClass("hover")
-              }
-              outcome_div.addClass("GB_outcomment2 rotate_text");
-              //outcome_div.attr("id",task.id+"_"+task.task_outcomes[i].id)
-              //outcome.attr("rel","grade_column");
-              //outcome.attr("id",task.id+"_"+task.task_outcomes[i].id)
-              outcome.html(outcome_div);
-              point_column.html(text_point);
-              point_column.addClass("td_align")
-              rows.append(outcome);
-              rows.append(point_column);
-            }
-          }
-          else{
-            var point_column =$("<td></td>");
-            var outcome =$("<td></td>");
-            var outcome_div =$("<div></div>");             
-            var  text_point = $("<input type ='text' value = '' maxlength='1' size='2'/>");
-            text_point.addClass("editable_field task_grade ");
-            if(p%2==0){
-              outcome.addClass("Dark_no width_30");
-              point_column.addClass("Dark_no width_30");
-            }
-            else{
-              outcome.addClass("light_row width_30");
-              point_column.addClass("light_row width_30");
-            }             
-            if(p==0){
-              outcome_div.html("");
-              //outcome.addClass("hover")
-            }
-            outcome_div.addClass("GB_outcomment2 rotate_text");
-            
-            outcome.html(outcome_div);
-            point_column.html(text_point);
-            point_column.addClass("td_align")
-            rows.append(outcome);
-            rows.append(point_column);
-          }
-          if (p%2==0){
-              rows.addClass("GB_odd");
-            }
-          table_task.html(rows);
-          main_col.html(table_task);
-          row_item.append(main_col);
-        });     
-        row_item.addClass("GB_row");
-        row_item.attr("id","r_"+p)
-        table3.append(row_item);
-       }
-     }
-     $('.GB_left_table').replaceWith(table);
-     $('.GB_right_table').replaceWith(table2);
-     $('.heading_task').replaceWith(table3);
-     $(".task_right_wp").scrollLeft(0);
-     /*scroll_div(last_task);
-     last_task = 0;*/
-    }
-  });
-}
   //Load data on change of outcome/notes drop down
   $('#outcome_note').change(function(){
     var singleValues = $("#outcome_note :selected").text();
@@ -1474,18 +1024,26 @@ function load_outcomes(){
         var row_td = $("<td></td>");
         var row_td2 = $("<td></td>");
         var name_div = $("<div></div>");
+        var setup_div = $("<div></div>");
+        var fill_icon_div = $("<div></div>");
         var outcomes_length = resp.outcomes.length;
         option = option + "<option value = t_"+resp.task.id +">" + resp.task.name +"</option>"
         heading_td.addClass("red_border");
         table_heading.attr("border","0");
-        row_td.addClass("hover task_name_background width12px");
-        row_td.attr("rel","grade_column");
+        row_td.addClass("hover task_name_background width12px line_height24px");
+        //row_td.attr("rel","grade_column");
         name_div.addClass("rotate_text GB_outcomment3 white_font");
         name_div.html(resp.task.name);
-        row_td2.addClass("hover width60px");
+        row_td2.addClass("hover width60px line_height24px");
         row_td2.attr("id","t_"+resp.task.id);
         row_td2.attr("rel","grade_column");
-        row_td.html(name_div);
+        setup_div.html("<img id='' class='task_setup_icon' rel='"+resp.task.id+"' src='images/btn_task_setup.png'/>");
+        fill_icon_div.attr("id","img_t_"+resp.task.id);
+        fill_icon_div.addClass("hide");
+        fill_icon_div.html("<img id='' src='images/btn_fill_column.png'/>");
+        row_td2.html(fill_icon_div) ;
+        row_td.append(setup_div);
+        row_td.append(name_div);
         table_row.append(row_td);
         table_row.append(row_td2);
         
@@ -1493,11 +1051,16 @@ function load_outcomes(){
             $(resp.outcomes).each(function(o, task_outcome){ 
              var outcome_div = $("<div></div>");
              var outcome_td = $("<td></td>");
-             outcome_td.addClass("hover width60px");
+             var fill_icon_div2 = $("<div></div>");
+             outcome_td.addClass("hover width60px line_height24px");
              outcome_td.attr("rel","grade_column")
              outcome_td.attr("id",resp.task.id+"_"+task_outcome.id)
              outcome_div.addClass("GB_outcomment2 rotate_text");
-             outcome_td.html(outcome_div);
+             fill_icon_div2.attr("id","img_"+resp.task.id+"_"+task_outcome.id);
+             fill_icon_div2.addClass("hide");
+             fill_icon_div2.html("<img id='' src='images/btn_fill_column.png'/>")
+             outcome_td.append(fill_icon_div2) ;
+             outcome_td.append(outcome_div);
              table_row.append(outcome_td);
             });
           }
@@ -1525,7 +1088,7 @@ function load_outcomes(){
           column.addClass("selected_t_"+task.id+"");
           rows.addClass("red_border")
           var table_task = $("<table></table>");
-          var  text_grade = $("<input type ='text' value = '' id = 'g_"+value+"_"+resp.task.id +"' maxlength='2' size='2' rel = '"+ value +"'/>");
+          var  text_grade = $("<input type ='text' value = '' id = 'g_"+value+"_"+resp.task.id +"' maxlength='2' size='2' rel = '"+ value +"' data='"+resp.task.include_task_grade+"'/>");
           text_grade.addClass("editable_field task_grade t_"+task.id);
           column.html(text_grade); 
           task_name_column.addClass("width_30 hover task_name_background");
@@ -1551,7 +1114,7 @@ function load_outcomes(){
               var point_column =$("<td></td>");
               var outcome =$("<td></td>");
               var outcome_div =$("<div></div>");             
-              var  text_point = $("<input type ='text' value = '' id = 'p_"+value+"_"+task_outcome.id+"_"+task.id +"' rel = 'p_"+value+"_"+task_outcome.id+"' maxlength='1' size='2'/>");
+              var  text_point = $("<input type ='text' value = '' id = 'p_"+value+"_"+task_outcome.id+"_"+task.id +"' rel = 'p_"+value+"_"+task_outcome.id+"' data='"+resp.task.include_task_grade+"' maxlength='1' size='2'/>");
               text_point.addClass("editable_field task_grade "+task.id+"_"+task_outcome.id+"");
               if(p%2==0){
                 outcome.addClass("Dark_no width_30 hover white_border");
@@ -1708,6 +1271,24 @@ function load_outcomes(){
     }
   });
 
+  $(".task_right_wp").delegate(".task_setup_icon","click",function(){
+    task_id = $(this).attr("rel");
+    showSpinner(true);
+    $.ajax({
+      type:"POST",
+      url:"/grade_book/load_task_setup",
+      data:{task_id:task_id},
+      error:  function(e){alert("error");},
+      success: function(resp){
+         $("#load_task_setup").show();
+         $("#load_task_setup").html(resp);
+         showSpinner(false);
+      }      
+   
+    });
+  });
+  
+  
 });
 //function for scroll scrollbar 
  function scroll_div(val){
@@ -1723,7 +1304,8 @@ function load_outcomes(){
       if($(this).attr("rel")=="grade_column"){
         $("td[id="+id+"]").each(function(index,item){
           $(".selected_"+item.id).addClass("selected_column"); 
-          $(".o_"+item.id).addClass("selected_column");                   
+          $(".o_"+item.id).addClass("selected_column");
+          $("#img_"+id).removeClass("hide");
         });
       
       }
@@ -1733,10 +1315,496 @@ function load_outcomes(){
       if($(this).attr("rel")=="grade_column"){
        $("td[id="+id+"]").each(function(index,item){
           $(".selected_"+item.id).removeClass("selected_column");
-          $(".o_"+item.id).removeClass("selected_column");          
+          $(".o_"+item.id).removeClass("selected_column");  
+          $("#img_"+id).addClass("hide");
         });
       }
      }); 
+  
+  function load_outcomes(){
+
+  var participant;
+  var tasks;
+  var outcomes
+  course_id = $("#course_id").val();
+  showSpinner(true);
+  $.ajax({
+    type :"POST",
+    url: "/grade_book/get_task", 
+    dataType: "json",
+    data: {course_id:course_id},
+    success: function(data){
+      showSpinner(false);
+      //$('.GB_right_table').replaceWith($("<table></table>"));
+      $('#outcome_note').val(1);
+      $('#outcome_note').parent().find('.fakebox').html("OUTCOMES" );
+      participant = data.participant;
+      outcomes = data.outcomes;
+      tasks = data.tasks;
+      var option ='';
+      var row =$("<tr></tr>");
+      row.attr("id","table_heading");
+      var  table3 = $("<table></table>") 
+      $(tasks).each(function(i, item) {
+        var col =$("<th></th>");
+        var heading_td =$("<td></td>");
+        var table_heading = $("<table></table>");
+        var table_row = $("<tr></tr>");
+        var row_td = $("<td></td>");
+        var row_td2 = $("<td></td>");
+        var name_div = $("<div></div>");
+        var setup_div = $("<div></div>");
+        var fill_icon_div = $("<div></div>");
+        var outcomes_length = item.task_outcomes.length;
+        option = option + "<option value = t_"+ item.id +">" + item.name +"</option>"
+        heading_td.addClass("red_border");
+        table_heading.attr("border","0");
+        row_td.addClass("hover task_name_background width12px line_height24px");
+        //row_td.attr("rel","grade_column");
+        name_div.addClass("rotate_text GB_outcomment3 white_font");
+        name_div.html(item.name);
+        row_td2.addClass("hover width60px line_height24px");
+        row_td2.attr("id","t_"+item.id);
+        row_td2.attr("rel","grade_column");
+        setup_div.html("<img id='' class='task_setup_icon' rel='"+item.id+"' src='images/btn_task_setup.png'/>");
+        fill_icon_div.attr("id","img_t_"+item.id);
+        fill_icon_div.addClass("hide");
+        fill_icon_div.html("<img id='' src='images/btn_fill_column.png'/>");
+        row_td2.html(fill_icon_div) ;
+        row_td.append(setup_div);
+        row_td.append(name_div);
+        table_row.append(row_td);
+        table_row.append(row_td2);
+        if (item.show_outcomes==true){
+          if(outcomes_length>0){
+              for (j=0; j<outcomes_length; j++){
+               var outcome_div = $("<div></div>");
+               var outcome_td = $("<td></td>");
+               var fill_icon_div2 = $("<div></div>");
+               outcome_td.addClass("hover width60px line_height24px");
+               outcome_td.attr("rel","grade_column")
+               outcome_td.attr("id",item.id+"_"+item.task_outcomes[j].id)
+               outcome_div.addClass("GB_outcomment2 rotate_text");
+               fill_icon_div2.attr("id","img_"+item.id+"_"+item.task_outcomes[j].id);
+               fill_icon_div2.addClass("hide");
+               fill_icon_div2.html("<img id='' src='images/btn_fill_column.png'/>")
+               outcome_td.append(fill_icon_div2) ;
+               outcome_td.append(outcome_div);
+               table_row.append(outcome_td);
+              }
+          }
+        }
+        table_heading.html(table_row);
+        heading_td.html(table_heading);
+        row.append(heading_td)
+        /*col.html(value.name);
+        col.addClass("red_border");
+        col.addClass("hover");
+        col.attr("id","t_"+value.id)
+        row.append(col);*/
+        if(i==0)
+        $("#task_id").parent().find('.fakebox').html(item.name);
+      });
+      if(tasks=="")
+       $("#task_id").parent().find('.fakebox').html('');
+      $('#task_id').html(option);
+      
+      row.addClass("task_right_heading");
+      table3.append(row);
+      var  table = $("<table></table>");
+      var  table_note = $("<table></table>");
+      var  table2 = $("<table></table>");
+      table.addClass("GB_left_table GB_table");//table for participant name and grade
+      table.attr("id","GB_left_table")
+      table.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
+      table2.addClass("GB_right_table");//table outcome  average grade 
+      table2.attr("id","GB_right_table");
+      table2.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
+      table3.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
+      table3.attr("id","heading_task");
+      table3.addClass("heading_task");
+      $(participant).each(function(p, value){
+        var zero_outcome = false;
+        if(outcomes.length==0){
+          zero_outcome = true;
+        }
+        var count =0;
+        var rows =$("<tr></tr>");
+        var cols =$("<td></td>");
+        var col2 =$("<td></td>");
+        var div = $("<div></div>");
+        var cols_note =$("<td></td>");
+        var rows_note =$("<tr></tr>");
+        var div_note = $("<div></div>");
+        var col2_note =$("<td></td>");
+        var div2 = $("<div></div>");
+        var rows2 =$("<tr></tr>");
+        var cols2 =$("<td></td>");
+        cols.attr('width','63%');
+        var text = '';
+        div2.addClass("GB_outcomment rotate_text");
+        div2.html("WRITING USING A QUILL");
+        div.addClass("b_box");
+        col2.addClass("td_align");
+        cols.addClass("Name_box td_align");
+        cols.html(value.full_name);
+        cols2.addClass("");
+        var  text = $("<input type ='text' value = '"+value.grade+"' id = '"+ value.profile_id +"' maxlength='1' readonly='readonly' size='5'/>")         
+        text.addClass("task_grade")         
+        div.html(text);        
+        col2.html(div);        
+        rows.html(cols);
+        rows.append(col2);
+        if(outcomes.length>0){
+          $(outcomes).each(function(i, outcomes){
+            var grade_col =$("<td></td>");
+            var outcomes_col =$("<td></td>");
+            var outcome_name =$("<div></div>"); 
+            outcomes_col.addClass("red_border1");
+            if(p==0){
+              outcome_name.html(outcomes.name);
+            }
+            outcome_name.addClass("GB_outcomment rotate_text");
+            outcomes_col.html(outcome_name);
+            var  text = $("<input type ='text' value = '"+value.course_outcomes[i]+"' id = 'p_"+value.profile_id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
+            text.addClass("")
+            grade_col.html(text);
+            grade_col.addClass("td_align red_border")
+            rows2.append(outcomes_col);
+            rows2.append(grade_col);
+          });
+        }
+        else{
+          var grade_col =$("<td></td>");
+          var outcomes_col =$("<td></td>");
+          var outcome_name =$("<div></div>"); 
+          outcome_col.addClass("red_border1");
+          if(p==0){
+            outcome_name.html(outcomes.name);
+          }
+          outcome_name.addClass("GB_outcomment rotate_text");
+          outcomes_col.html(outcome_name);
+          var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
+          text.addClass("")
+          grade_col.html(text);
+          grade_col.addClass("td_align red_border")
+          rows2.append(outcomes_col);
+          rows2.append(grade_col);
+        
+        }
+        if (p%2==0){
+          rows.addClass("GB_odd");
+          rows2.addClass("Dark_no");
+        }
+        else{
+          rows2.addClass("light_row");
+        }
+        table2.append(rows2);
+        table.append(rows);
+        var row_item = $("<tr></tr>");
+        var all_col='';
+
+        $(tasks).each(function(i, task){
+          var rows =$("<tr></tr>");
+          var column =$("<td></td>");
+          var task_name_column = $("<td></td>");
+          var task_div = $("<div></div>"); 
+          var task_grade = $("<td></td>");
+          var task_grade_div = $("<div></div>"); 
+          var main_col=$("<td></td>");
+          main_col.addClass("red_border");
+          column.addClass("selected_t_"+task.id+"");
+          var table_task = $("<table></table>");
+          var len = task.task_outcomes.length;
+          var  text_grade = $("<input type ='text' value = '"+value.task_grade[i]+"' id = 'g_"+value.profile_id+"_"+task.id +"' maxlength='2' size='2' rel ='"+ value.profile_id +"' data='"+task.include_task_grade+"'/>");
+          text_grade.addClass("editable_field task_grade t_"+task.id +"");
+          column.html(text_grade); 
+          task_name_column.addClass("width_30 hover task_name_background");
+          //task_name_column.attr("id","t_"+task.id);
+          //task_name_column.attr("rel","grade_column");
+          task_div.addClass("GB_outcomment3 rotate_text white_font");
+          task_grade_div.addClass("GB_outcomment3 rotate_text");
+          
+          if (p!=0){
+            column.addClass("td_align")
+          }
+          else{
+            task_div.attr("id","t_"+task.id);  
+            task_div.html(" ");
+            task_grade_div.html("Task Grade");
+          }
+          task_name_column.html(task_div);
+          task_grade.html(task_grade_div);
+          rows.append(task_name_column);
+          rows.append(task_grade);
+          rows.append(column);
+          if (task.show_outcomes==true){
+            if(len>0){
+              for (i=0; i<len; i++)
+              {
+                var point_column =$("<td></td>");
+                var outcome =$("<td></td>");
+                var outcome_div =$("<div></div>");             
+                var  text_point = $("<input type ='text' value = '"+value.task_outcome_grade[count]+"' id = 'p_"+value.profile_id+"_"+task.task_outcomes[i].id+"_"+task.id +"' data='"+task.include_task_grade+"' rel='p_"+value.profile_id+"_"+task.task_outcomes[i].id+"' maxlength='1' size='2'/>");
+                count = count + 1 ;
+                text_point.addClass("editable_field task_grade "+task.id+"_"+task.task_outcomes[i].id+"");
+                if(p%2==0){
+                  outcome.addClass("Dark_no width_30 hover white_border");
+                  point_column.addClass("Dark_no width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
+                }
+                else{
+                  outcome.addClass("light_row width_30 hover white_border");
+                  point_column.addClass("light_row width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
+                }             
+                if(p==0){
+                  outcome_div.html(task.task_outcomes[i].name);
+                  //outcome.addClass("hover")
+                }
+               // outcome.attr("rel","grade_column");
+               // outcome.attr("id",task.id+"_"+task.task_outcomes[i].id)
+                outcome_div.addClass("GB_outcomment2 rotate_text");
+                //outcome_div.attr("id",task.id+"_"+task.task_outcomes[i].id)
+                outcome.html(outcome_div);
+                point_column.html(text_point);
+                point_column.addClass("td_align")
+                rows.append(outcome);
+                rows.append(point_column);
+              }
+            }
+            else{
+              var point_column =$("<td></td>");
+              var outcome =$("<td></td>");
+              var outcome_div =$("<div></div>");             
+              var  text_point = $("<input type ='text' value = '' maxlength='1' size='2'/>");
+              text_point.addClass("editable_field task_grade ");
+              if(p%2==0){
+                outcome.addClass("Dark_no width_30 hover");
+                point_column.addClass("Dark_no width_30");
+              }
+              else{
+                outcome.addClass("light_row width_30 hover");
+                point_column.addClass("light_row width_30");
+              }             
+              if(p==0){
+                outcome_div.html("");
+                //outcome.addClass("hover")
+              }
+              outcome_div.addClass("GB_outcomment2 rotate_text");
+              outcome.html(outcome_div);
+              point_column.html(text_point);
+              point_column.addClass("td_align")
+              rows.append(outcome);
+              rows.append(point_column);
+            }
+         }  
+          if (p%2==0){
+              rows.addClass("GB_odd");
+            }
+          table_task.html(rows);
+          main_col.html(table_task);
+          row_item.append(main_col);
+        });     
+        row_item.addClass("GB_row");
+        row_item.attr("id","r_"+p)
+        table3.append(row_item);        
+     });
+     if(data.count<10){
+       for (p=data.count; p<10; p++){
+        var rows =$("<tr></tr>");
+        var cols =$("<td></td>");
+        var col2 =$("<td></td>");
+        var div = $("<div></div>");
+        var cols_note =$("<td></td>");
+        var rows_note =$("<tr></tr>");
+        var div_note = $("<div></div>");
+        var col2_note =$("<td></td>");
+        var div2 = $("<div></div>");
+        var rows2 =$("<tr></tr>");
+        var cols2 =$("<td></td>");
+        cols.attr('width','63%');
+        var text = '';
+        div2.addClass("GB_outcomment rotate_text");
+        div2.html("WRITING USING A QUILL");
+        div.addClass("b_box");
+        col2.addClass("td_align");
+        cols.addClass("Name_box td_align");
+        cols.html('');
+        cols2.addClass("");
+        var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='5'/>")         
+        text.addClass("task_grade")         
+        div.html(text);        
+        col2.html(div);        
+        rows.html(cols);
+        rows.append(col2);
+        if(outcomes.length>0){
+          $(outcomes).each(function(i, outcomes){
+
+            var grade_col =$("<td></td>");
+            var outcomes_col =$("<td></td>");
+            var outcome_name =$("<div></div>"); 
+            outcomes_col.addClass("red_border1");
+            if(p==0){
+              outcome_name.html(outcomes.name);
+            }
+            outcome_name.addClass("GB_outcomment rotate_text");
+            outcomes_col.html(outcome_name);
+            var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
+            text.addClass("")
+            grade_col.html(text);
+            grade_col.addClass("td_align red_border")
+            rows2.append(outcomes_col);
+            rows2.append(grade_col);
+          });
+        }
+        else{
+          var grade_col =$("<td></td>");
+          var outcomes_col =$("<td></td>");
+          var outcome_name =$("<div></div>");
+          outcomes_col.addClass("red_border1");            
+          if(p==0){
+            outcome_name.html(outcomes.name);
+          }
+          outcome_name.addClass("GB_outcomment rotate_text");
+          outcomes_col.html(outcome_name);
+          var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
+          text.addClass("")
+          grade_col.html(text);
+          grade_col.addClass("td_align red_border");
+          rows2.append(outcomes_col);
+          rows2.append(grade_col);
+        
+        }
+        if (p%2==0){
+          rows.addClass("GB_odd");
+          rows2.addClass("Dark_no");
+        }
+        else{
+          rows2.addClass("light_row");
+        }
+        table2.append(rows2);
+        table.append(rows);
+        var row_item = $("<tr></tr>");
+        var all_col='';
+
+        $(tasks).each(function(i, task){
+          var rows =$("<tr></tr>");
+          var task_name_column = $("<td></td>");
+          var task_div = $("<div></div>"); 
+          var task_grade = $("<td></td>");
+          var task_grade_div = $("<div></div>"); 
+          var column =$("<td></td>");
+          var main_col=$("<td></td>");
+          main_col.addClass("red_border");
+          column.addClass("selected_t_"+task.id+"");
+          var table_task = $("<table></table>");
+          var len = task.task_outcomes.length;
+          var  text_grade = $("<input type ='text' value = '' id = '' readonly='readonly' maxlength='2' size='2' rel = ''/>");
+          text_grade.addClass("task_grade");
+          column.html(text_grade); 
+          task_name_column.addClass("width_30 hover task_name_background");
+          task_div.addClass("GB_outcomment3 rotate_text white_font");
+          task_grade_div.addClass("GB_outcomment3 rotate_text");
+          task_name_column.attr("id","t_"+task.id);
+          //task_name_column.attr("rel","grade_column");
+          if (p!=0){
+            column.addClass("td_align")
+          }
+          else{
+            task_div.attr("id","t_"+task.id);  
+            task_div.html(task.name);
+            task_name_column.addClass("hover");
+          }
+          task_name_column.html(task_div);
+          task_grade.html(task_grade_div);
+          rows.append(task_name_column);
+          rows.append(task_grade);
+          rows.append(column);
+          if (task.show_outcomes==true){
+            if(len>0){
+              for (i=0; i<len; i++)
+              {
+                var point_column =$("<td></td>");
+                var outcome =$("<td></td>");
+                var outcome_div =$("<div></div>");             
+                var  text_point = $("<input type ='text' value = '' id = '' rel = '' readonly='readonly' maxlength='1' size='2'/>");
+    
+                text_point.addClass("task_grade");
+                if(p%2==0){
+                  outcome.addClass("Dark_no width_30 hover white_border");
+                  point_column.addClass("Dark_no width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
+                }
+                else{
+                  outcome.addClass("light_row width_30 hover white_border");
+                  point_column.addClass("light_row width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
+                }             
+                if(p==0){
+                  outcome_div.html('');
+                  //outcome.addClass("hover")
+                }
+                outcome_div.addClass("GB_outcomment2 rotate_text");
+                //outcome_div.attr("id",task.id+"_"+task.task_outcomes[i].id)
+                //outcome.attr("rel","grade_column");
+                //outcome.attr("id",task.id+"_"+task.task_outcomes[i].id)
+                outcome.html(outcome_div);
+                point_column.html(text_point);
+                point_column.addClass("td_align")
+                rows.append(outcome);
+                rows.append(point_column);
+              }
+            }
+            else{
+              var point_column =$("<td></td>");
+              var outcome =$("<td></td>");
+              var outcome_div =$("<div></div>");             
+              var  text_point = $("<input type ='text' value = '' maxlength='1' size='2'/>");
+              text_point.addClass("editable_field task_grade ");
+              if(p%2==0){
+                outcome.addClass("Dark_no width_30");
+                point_column.addClass("Dark_no width_30");
+              }
+              else{
+                outcome.addClass("light_row width_30");
+                point_column.addClass("light_row width_30");
+              }             
+              if(p==0){
+                outcome_div.html("");
+                //outcome.addClass("hover")
+              }
+              outcome_div.addClass("GB_outcomment2 rotate_text");
+              
+              outcome.html(outcome_div);
+              point_column.html(text_point);
+              point_column.addClass("td_align")
+              rows.append(outcome);
+              rows.append(point_column);
+            }
+          }
+          if (p%2==0){
+              rows.addClass("GB_odd");
+            }
+          table_task.html(rows);
+          main_col.html(table_task);
+          row_item.append(main_col);
+        });     
+        row_item.addClass("GB_row");
+        row_item.attr("id","r_"+p)
+        table3.append(row_item);
+       }
+     }
+     $('.GB_left_table').replaceWith(table);
+     $('.GB_right_table').replaceWith(table2);
+     $('.heading_task').replaceWith(table3);
+     $(".task_right_wp").scrollLeft(0);
+     /*scroll_div(last_task);
+     last_task = 0;*/
+    }
+  });
+}
+  
+  
+  
+  
+  
   
 </script>
 

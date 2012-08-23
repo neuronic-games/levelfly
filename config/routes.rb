@@ -208,6 +208,10 @@ Oncapus::Application.routes.draw do
   
   post "grade_book/grading_complete"
   
+  post "grade_book/task_setup"
+  
+  post "grade_book/load_task_setup"
+  
   get "wardrobe/index"
   
   get "wardrobe/new"
