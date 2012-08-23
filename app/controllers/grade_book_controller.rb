@@ -28,7 +28,7 @@ class GradeBookController < ApplicationController
         @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
         #@participant = @courses.first.participants
         @count = @participant.count
-        @tasks = Task.find(:all,:conditions=>["course_id = ?",@course_id], :select => "name,id")
+        @tasks = Task.find(:all,:conditions=>["course_id = ?",@course_id], :select => "name,id,show_outcomes,include_task_grade")
       end
       
        
@@ -53,7 +53,7 @@ class GradeBookController < ApplicationController
       @participant = Participant.all( :joins => [:profile], 
         :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
         :select => ["profiles.full_name,participants.id,participants.profile_id"])
-      @tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]], :select => "name,id")
+      @tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]], :select => "name,id,show_outcomes,include_task_grade")
         if not @participant.nil?
           @participant.each do |p|
             outcomes_grade = []
@@ -180,6 +180,7 @@ class GradeBookController < ApplicationController
                 end
               end 
             end 
+          puts"#{count}--count--"  
           if (sum >0 and count >0)
             average = sum/count
           else
@@ -315,6 +316,31 @@ class GradeBookController < ApplicationController
       end
     end
     
+  end
+  
+  def load_task_setup
+    if params[:task_id] and !params[:task_id].nil?
+      @task = Task.find(params[:task_id])
+      render :partial=>"/grade_book/load_task_setup"
+    end
+  end
+  
+  def task_setup
+    if params[:task_id] and !params[:task_id].nil?
+      @task = Task.find(params[:task_id])
+      if @task
+        if params[:grading_complete_date] == "true"
+          @task.grading_complete_date = Time.now
+        else
+          @task.grading_complete_date = nil
+        end
+        @task.show_outcomes = params[:show_outcomes] if params[:show_outcomes]
+        @task.include_task_grade =  params[:include_task_grade] if params[:include_task_grade]
+        if @task.save
+         render :json =>{:status=> true}
+        end
+      end  
+    end
   end
 
 end
