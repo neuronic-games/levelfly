@@ -16,7 +16,7 @@
             </p>
           </div>
           <div class="titleTextRight"> <%= show_kilo_byte(a.resource_file_size) %>KB</div>
-          <div class="titleTextRightC2"><%= show_date_format(a.updated_at) %></div>
+          <div class="titleTextRightC2"><%= change_date_format(a.updated_at) %></div>
           <div class="clear"></div>
           <div id="files_hover" class="msg_bottom_linksC2" style="display:none;">
               <div class="like_cmt"> 
@@ -49,5 +49,15 @@
       </div>                                
   </div>                  
 </div>
-
-<!--tab content-->   
+<script type="text/javascript">
+$(".file_content").hover(
+  function () {
+    id = $(this).attr("id");
+    $("#"+id+" #files_hover").show();
+  }, 
+  function () {
+    id = $(this).attr("id");
+    $("#"+id+" #files_hover").hide();
+  }
+);
+</script>

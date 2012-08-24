@@ -446,7 +446,7 @@ class CourseController < ApplicationController
    
   
   def show_course
-    @course = Course.find_by_id(params[:id])
+    @course = Course.find(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if !@profile.nil?
     @badges = AvatarBadge.where("profile_id = ? and course_id = ?",@profile.id,@course.id).count
@@ -618,6 +618,18 @@ class CourseController < ApplicationController
         @course.update_attribute('archived',true)
         render :json => {:status => "Success"}
       end
+    end
+  end
+  
+  def load_files
+    if params[:id] and !params[:id].nil?
+        id = params[:id]
+        if id == "all"
+          @files = Course.find(params[:course_id])
+        else
+          @files = Task.find(params[:id])
+        end
+    render :partial => "/course/load_files",:locals=>{:files=> @files}
     end
   end
 

@@ -24,8 +24,11 @@ class MessageController < ApplicationController
       
       @respont_to_course = Message.find(:all,:conditions=>["target_type in('Course','Notification') AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived = ? and id in(?)", @profile.id,false,message_ids], :order => 'created_at DESC')
     end
-    @friend = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", @profile.id])
-
+     recently_messaged = Message.find(:all, :select=> "parent_id" ,:conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type = 'Profile' and parent_type = 'Profile' and profile_id = ? ",false,message_ids,user_session[:profile_id]], :group=>"parent_id").collect(&:parent_id)
+     
+     
+    @friend = Participant.find(:all, :select =>"distinct profile_id", :conditions=>[" profile_id in (?) or (object_id = ? AND object_type = 'User' AND profile_type = 'F')", recently_messaged, @profile.id])
+  
     @profile.record_action('last', 'message')
     session[:controller]="message"
     render :partial => "list",:locals => {:friend_id => @friend_id} 
@@ -246,7 +249,8 @@ class MessageController < ApplicationController
    def friends_only
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
      message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", user_session[:profile_id]]).collect(&:message_id)
-    @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND (profile_id=? or profile_id=?) AND message_type ='Message' AND parent_type!='Message' and id in(?)",false,params[:friend_id],user_session[:profile_id],message_ids], :order => 'created_at DESC')  
+     
+    @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND (profile_id=? or profile_id=?) AND message_type ='Message' AND parent_type!='Message' and target_type not in('Notification','Course','Group') and id in(?)",false,params[:friend_id],user_session[:profile_id],message_ids], :order => 'created_at DESC')  
     render :partial => "list",:locals => {:friend_id =>params[:friend_id]}
   end 
   

@@ -24,7 +24,7 @@
       <%if @major and !@major.nil?%>
         <option value="">Select Major</option>
         <% @major.each do |m| %>
-           <option value="<%= m.id %>" <%#=profile.major.id == m.id ? "Selected" : ""  if profile.major.id %>><%= m.name %></option>
+           <option value="<%= m.id %>" <%=profile.major_id == m.id ? "Selected" : ""  if !profile.major_id.blank? %>><%= m.name %></option>
         <% end %>
       <% end %>  
       </select>

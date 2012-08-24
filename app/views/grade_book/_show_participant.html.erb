@@ -181,11 +181,11 @@
               <%if !task_grade.nil?%>
                 <% grade = GradeType.value_to_letter(task_grade, @school_id)%>
               <%end%>
-                <td class=" width_30 hover task_name_background " >
+                <td class="width12px width_30 hover task_name_background " >
                   <div class="rotate_text GB_outcomment3 white_font"><%if i==0%>&nbsp;<%end%></div>
                 </td>
                 <td class="" id="" rel="">
-                  <div  class="rotate_text GB_outcomment3"><%if (i==0)%>Task Grade<%end%></div>
+                  <div  class="rotate_text GB_outcomment3"><%if (i==0)%>Grade<%end%></div>
                 </td>
                 <td class="selected_t_<%=t.id%> <%if (i==0)%><%else%>td_align<%end%>">
                   <input type="text" name="task_grade" value="<%=grade%>" id="g_<%=p.profile_id%>_<%=t.id%>" rel="<%=p.profile_id%>" data="<%=t.include_task_grade%>" class="task_grade editable_field t_<%=t.id%>" maxlength="2" size="2"/>

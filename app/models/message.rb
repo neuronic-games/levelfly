@@ -62,18 +62,18 @@ class Message < ActiveRecord::Base
     return final.html_safe
   end
   
-  def self.change_level(parent_id,level,profile_id)
+  def self.send_notification(current_user,content,profile_id)
     @message = Message.new
-    @message.profile_id = parent_id
+    @message.profile_id = current_user
     @message.parent_id = profile_id
     @message.target_type = "Notification"
     @message.parent_type = "Profile"
     @message.message_type = "Message"
-    @message.content = "Congrtulation! You are move to level #{level}"
+    @message.content = content;
     @message.archived = false
     @message.post_date = DateTime.now
     @message.save
-    MessageViewer.invites(parent_id, @message.id,profile_id)
+    MessageViewer.invites(current_user, @message.id,profile_id)
   
   end
 end

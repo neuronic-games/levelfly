@@ -11,4 +11,15 @@ module CourseHelper
     return totaltask
   end
   
+  def all_task(course_id)
+    task =  Task.find(:all, :conditions=>["course_id = ?", course_id])
+    return task
+  end
+  
+  def sort_files(id,type)
+    course = Course.find(id)
+    att = Attachment.find(:all, :conditions=>["object_type = ? and object_id = ?",type,id], :order=>"starred desc")
+    return att
+  end
+  
 end

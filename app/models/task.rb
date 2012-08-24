@@ -168,9 +168,10 @@ class Task < ActiveRecord::Base
     end
   end
   
-  def self.points_to_student(task_id, complete, profile_id)
+  def self.points_to_student(task_id, complete, profile_id,current_user)
     status = nil
     previous_level=nil
+    previous_points = nil
     participant = TaskParticipant.find(:first,
       :include => [:profile, :task],
       :conditions => ["task_id = ? and profile_id = ?", task_id, profile_id])
@@ -178,6 +179,7 @@ class Task < ActiveRecord::Base
       profile = participant.profile
       task = participant.task
       previous_level = profile.level
+      previous_points =  profile.xp
       if participant.profile_type == Task.profile_type_member
       # Give points to members who completed the task
         participant.xp_award_date = complete ? Time.now : nil
@@ -189,8 +191,13 @@ class Task < ActiveRecord::Base
         puts"#{@level.inspect}"
         profile.level = @level.object_id
         profile.save
+        if( profile.xp > previous_points)
+          content = "Congrtulation! You are Received #{task.points} xp"
+          Message.send_notification(current_user,content,profile_id)
+        end
         if(previous_level != profile.level)
-          Message.change_level(profile_id,profile.level,profile_id)
+          content = "Congrtulation! You are move to level #{profile.level}"
+          Message.send_notification(current_user,content,profile_id)
         end  
       end
     end
