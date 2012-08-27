@@ -5,7 +5,7 @@
       <li class="blackboard_list" id="<%=p.id%>" style="width:88%; height:88px;">
       <div >
         <div class="avatar_white_bdr floatL">
-          <img src="<%=p.image_file_name%>" profile_id="<%=p.id%>" class="profile"/>
+          <img src="<%=p.image_file_name%>" profile_id="<%=p.id%>" rel="<%=@course.id if @course%>" class="profile"/>
         </div> 
         <div class="people_name" style="width:87%; margin:7px 3px;">
         <div class="floatL" style="width:33%;"><%if p.full_name == nil %><%=p.user.email%><%else%><%=p.full_name%><%end%></div>

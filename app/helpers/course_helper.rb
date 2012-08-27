@@ -22,4 +22,15 @@ module CourseHelper
     return att
   end
   
+  def already_join(group_id, profile_id)
+    status = false
+    profile_type = nil
+    participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Group' AND profile_id = ? ", group_id, profile_id])
+    if participant
+      profile_type = participant.profile_type
+      status = true
+    end
+    return status, profile_type
+  end
+  
 end

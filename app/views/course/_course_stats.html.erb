@@ -62,7 +62,7 @@
         <ul class="outcomes_box">
           <li class="odd" id ="li_<%=o.id%>"> <span class="oB_box01"><%=o.name%></span> <span class="oB_box02"> <span class="<%if @points[i].to_f > 2%>oB_box001_gold <%elsif @points[i].to_f > 1%> oB_box001_silver<%elsif @points[i].to_f == 0%><%else%>oB_box001 <%end%>"><%=@points[i]%></span> <span class="oB_box002"><%=o.descr%></span> </span> <span class="oB_box03">
             <a class="blue_bt19px more_btn_stat" href="javascript:void(0);" id ="btn_<%=o.id%>" rel ="<%=o.id%>" >More</a></span> <span class="clear"></span> 
-          <div class="hide" id = "<%=o.id%>">
+          <div class="hide" id ="achivers_<%=o.id%>">
              <%= render :partial=>"/course/top_achivers"%>
           </div>  
           <span class="clear"></span></li>
@@ -95,15 +95,15 @@
           error: function(e){alert("error");},
           success: function(data){
              showSpinner(false);
-             $("#"+outcome_id).html(data);
-             $("#"+outcome_id).slideDown(500);
+             $("#achivers_"+outcome_id).html(data);
+             $("#achivers_"+outcome_id).slideDown(500);
              $("#btn_"+id).text("Less");
           }
         });    
        // $("#li_"+id).addClass("selctd");
       }
       else{
-        $("#"+id).slideUp(500);
+        $("#achivers_"+id).slideUp(500);
         $(this).text("More");
         //$("#li_"+id).removeClass("selctd");
       }      

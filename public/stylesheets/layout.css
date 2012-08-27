@@ -1,10 +1,10 @@
-body{
+/*body{
   font-family:Arial, Helvetica, sans-serif;
   background:url(../images/body_bg.png) repeat;
   height:100%;
   margin:0px;
   padding:0px;
-}
+}*/
 .wrapper {
   width: 640px;
   height: 920px;
@@ -192,7 +192,7 @@ body{
   margin-top: 40px;
 }
 
-.signin {
+/*.signin {
   width: 640px;
   height: 920px;
   padding: 50px;
@@ -207,13 +207,13 @@ body{
   font-size: 60px;
   color: #FFF;
 }
-
+*/
 .majorlist h2 {
   font-family: 'Amatic SC', cursive;
   font-size: 60px;
   color: #FFF;
 }
-
+/*
 .signin input[type="text"], input[type="email"], input[type="password"]{
   width: 520px;
   margin-bottom: 20px;
@@ -241,7 +241,7 @@ body{
 .signin a {
   color: #FFF;
 }
-
+*/
 .uppercase {
   text-transform: uppercase;
 }
@@ -256,4 +256,162 @@ body{
   padding-top: 420px;
   visibility: hidden;
 }
-.error_message{color:white; padding:60px;}
+.error_message{color:red; padding:60px;}
+/*New CSS for new login page layout*/
+body, div, table, tr, td, input, form, ul, li, dl, ol, b, strong, h1, h2, h3, h4, h5, h6, p, th, textarea, select, img, label {
+	margin: 0;
+	padding: 0;
+	border:0px solid;
+}
+
+html{
+	height:100%;
+	 }
+	 
+body{
+	height:100%;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;
+	color:#8690a0;
+}
+
+.txt_box{
+	 border: 1px solid #BFBFBF;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 0 0 #000000, 0 3px 3px #EEEEEE inset;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.clear{
+	clear:both;
+	height:0px;
+	width:100%;
+	font-size:0px;
+	line-height:0px;
+}
+
+.Main_Wp{
+	width:980px;
+	height:auto;
+	margin:0 auto;
+}
+
+
+.Header_Wp{
+	width:100%;
+	height:80px;
+	border-bottom:1px solid #f2f7fb;
+}
+
+.Logo_Wp{
+	float:left;
+	height:auto;
+	width:167px;
+	padding:16px 0 0 0;
+  
+}
+
+.Panel_Left{
+	float:left;
+	width:50%;
+	min-height:400px;
+	background:url(../images/dropbox-graphic.gif) 0px 50px no-repeat
+}
+
+.Panel_Rirght{
+	float:right;
+	width:40%;
+	min-height:400px;
+	padding:100px 5% 0 5%;
+}
+
+.left_content_box{
+	padding:365px 0 0 0;
+	text-align:center;
+}
+.left_content_box h1{
+	font-size:21px;
+	margin:15px 0;
+	color:#000000;
+}
+
+.Let_Go{
+	background:#3799e9;
+	border:1px solid #2667a0;
+	width:100px;
+	border-radius:3px;
+	color:#fff;
+	text-align:center;
+	padding:5px 0px;
+	margin: 0 auto;
+	cursor:pointer;
+}
+
+.Divider_15{
+	height:15px;
+	width:100%;
+}
+
+.Divider_10{
+	height:10px;
+	width:100%;
+}
+
+
+.creat_text{
+	float:right;
+	width:auto;
+  margin-top: -16px;
+}
+
+.sign_in_box{
+	float:left;
+	width:100%;
+	color:#000;
+}
+
+.blue{
+	color:#3080d8;
+	font-weight:bold;
+}
+
+.check_box_wp{
+	float:left;
+	width:20px;
+}
+
+.check_box_text{
+	float:left;
+	width:auto;
+}
+
+.remember_wp{
+	float:left;
+	width:auto;
+}
+
+.sign_in_button_wp{
+	float:right;
+}
+
+.btn_submit{
+	padding:0 20px;
+	border:1px solid #a5d0f4;
+	color:#247ad5;
+	background:none;
+	border-radius:2px;
+	height:28px;
+	cursor:pointer;
+}
+.btn_submit:hover{color:#2555ad;}
+.forgot_your_pass_wp{
+	width:100%;
+	height:auto;
+}
+
+.forgot_your_pass_wp a{
+	color:#3f92df;
+	font-size:11px;
+	text-decoration:none;
+}

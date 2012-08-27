@@ -53,15 +53,25 @@ class CourseController < ApplicationController
     status = false
     if params[:id] && !params[:id].nil?
       @course = Course.find_by_id(params[:id])
+      @profile = Profile.find(user_session[:profile_id])
       @participant =  participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ? ", params[:id], user_session[:profile_id]])
+      @owner = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_type ='M'", params[:id]])
       if !@participant 
         @participant = Participant.new
         @participant.object_id    = params[:id] if params[:id]
         @participant.profile_id   = user_session[:profile_id]
-        @participant.object_type  = "Course"
-        @participant.profile_type = "S"  
+        @participant.object_type  = "Group"
+        @participant.profile_type = "P"  
         if @participant.save
           status = true
+          wall_id = Wall.get_wall_id(params[:id],"Course")
+            Feed.create(
+              :profile_id => user_session[:profile_id],
+              :wall_id =>wall_id
+            )
+            @message = Message.send_course_request(user_session[:profile_id],@owner.profile_id, wall_id, params[:id],"Group")
+            @message.content ="#{@profile.full_name} has requested to become a member of #{@course.name}"
+            @message.save
         end
       end
       render :text => {"status"=>status}.to_json
