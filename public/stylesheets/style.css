@@ -2577,6 +2577,7 @@ filter:alpha(opacity="0");
 	color:#b3b3b3;
 	font-size:16px;
 	color:#000000;
+  overflow :hidden;/*for long text*/
 }
 .gradebook_partribbon { background:url(../images/gradepage_ribbon.png) no-repeat center 20px; height:100% }
 .spacebarGbook { height:55px; overflow:hidden;}

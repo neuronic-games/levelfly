@@ -1,24 +1,66 @@
-<div class="signin">
-  <h2>Register</h2>
-  <%= form_for(@user, :as => @user, :url => {:controller=>:system, :action=>:edit, :id => @user.id}, :html => {:name=>"events_form",:multipart => true, :method=>"post", :class=>"form-horizontal"}) do |f| %>
-    <%#= devise_error_messages! %>
+<div class="Main_Wp">
+<div class="Header_Wp">
+ <div class="Logo_Wp">
+  <img src="images/icon_dropbox.png"/>
+</div><!--Logo_Wp-->
+  </div><!--Header_Wp-->
+  <div class="Content_Wp">
+    <div class="Panel_Left">
+      <div class="left_content_box">	
+        <h1>Game your learning. Game your life.</h1>
+          <div class="clear"></div>
+          College Quest is coming to your web browsers everywhere.
+           <div class="clear"></div>
+            <div class="Divider_15"></div>
+        </div><!--left_content_box-->
+      </div><!--Panel_Left-->
+     <%= form_for(@user, :as => @user, :url => {:controller=>:system, :action=>:edit, :id => @user.id}, :html => {:name=>"events_form",:multipart => true, :method=>"post", :class=>"form-horizontal"}) do |f| %>
+      <%#= devise_error_messages! %>
+      <div class="Panel_Rirght">
+      <div class="Sign_in_wp">
+          <div class="sign_in_box"><h1>Register </h1></div><!--sign_in-box-->
+          <div class="creat_text">
+            <span class="blue">
+            </span></div>
+          </div>
+          <div class="clear"></div>
+          <div class="Divider_15"></div>
+          <div class="clear"></div>
+           <div class="text_box_wp">
+               <%= f.text_field :full_name, :class=>"txt_box",:style=>"width:378px;" , :placeholder=>"Full Name"%>
+          </div><!--text_box_wp-->
+           <div class="Divider_15"></div>
+          <div class="clear"></div>
+          <div class="text_box_wp">
+               <%= f.email_field :email, :value=>@user.email, :disabled=>true, :class=>"txt_box",:style=>"width:378px;" %>
+          </div><!--text_box_wp-->
+          <div class="Divider_15"></div>
+          <div class="clear"></div>
+          <div class="text_box_wp">
+               <%= f.password_field :password, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Password"%>
+          </div><!--text_box_wp-->
+           <div class="Divider_15"></div>
+          <div class="clear"></div>
+           <div class="text_box_wp">
+               <%= f.password_field :password_confirmation, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Confirm password"%>
+          </div><!--text_box_wp-->
+          <div class="Divider_15"></div>
+          <div class="clear"></div>
+          <div class="remember_box_wp">
+               <div class="sign_in_button_wp">
+                    <%= f.submit "Register", :class=>"btn_submit", :onclick=>"return validateForm()";%>
+                  </div><!--sign_in_button-->
+                  <div class="forgot_your_pass_wp">
+                    <%#= render :partial => "devise/shared/links" %>
+                  </div><!--forgot_your_pass_wp-->
+          </div><!--remember_box_wp-->
+      </div><!--Panel_Right-->
+     <% end %>
+  </div><!--Content_Wp-->
+  <div class="clear"></div>
+</div><!--Main_Wp-->
 
-    <div><%= f.label :full_name %><br />
-    <%= f.text_field :full_name %></div>
-    
-    <div><%= f.label :email %><br />
-    <%= f.email_field :email, :value=>@user.email, :disabled=>true%></div>
-    
-    <div><%= f.label :password %><br />
-    <%= f.password_field :password %></div>
 
-    <div><%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation %></div>
-    <%= f.hidden_field :message_id ,:value=> @message %>	
-    <div><%= f.submit "Register" ,:onclick=>"return validateForm()";%></div>
-  <% end %>
-
-</div>
 <script type="text/javascript">
 jQuery.noConflict();
 

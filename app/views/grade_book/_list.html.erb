@@ -1091,7 +1091,7 @@ $('#course_id').change(function(){
           var  text_grade = $("<input type ='text' value = '' id = 'g_"+value+"_"+resp.task.id +"' maxlength='2' size='2' rel = '"+ value +"' data='"+resp.task.include_task_grade+"'/>");
           text_grade.addClass("editable_field task_grade t_"+task.id);
           column.html(text_grade); 
-          task_name_column.addClass("width_30 hover task_name_background");
+          task_name_column.addClass("width12px width_30 hover task_name_background");
           //task_name_column.attr("id","t_"+task.id);
           //task_name_column.attr("rel","grade_column");
           task_div.addClass("GB_outcomment3 rotate_text white_font");
@@ -1102,7 +1102,7 @@ $('#course_id').change(function(){
           else{
             task_div.attr("id","t_"+task.id);  
             task_div.html(" ");
-            task_grade_div.html("Task Grade");
+            task_grade_div.html("Grade");
           }
           task_name_column.html(task_div);
           task_grade.html(task_grade_div);
@@ -1186,7 +1186,7 @@ $('#course_id').change(function(){
           var  text_grade = $("<input type ='text' value = '' id = '' maxlength='2' size='2' rel = ''/>");
           text_grade.addClass("task_grade");
           column.html(text_grade); 
-          task_name_column.addClass("width_30 hover task_name_background");
+          task_name_column.addClass(" width12px width_30 hover task_name_background");
           //task_name_column.attr("id","t_"+task.id);
           //task_name_column.attr("rel","grade_column");
           task_div.addClass("GB_outcomment3 rotate_text white_font");
@@ -1519,7 +1519,7 @@ $('#course_id').change(function(){
           var  text_grade = $("<input type ='text' value = '"+value.task_grade[i]+"' id = 'g_"+value.profile_id+"_"+task.id +"' maxlength='2' size='2' rel ='"+ value.profile_id +"' data='"+task.include_task_grade+"'/>");
           text_grade.addClass("editable_field task_grade t_"+task.id +"");
           column.html(text_grade); 
-          task_name_column.addClass("width_30 hover task_name_background");
+          task_name_column.addClass(" width12px width_30 hover task_name_background");
           //task_name_column.attr("id","t_"+task.id);
           //task_name_column.attr("rel","grade_column");
           task_div.addClass("GB_outcomment3 rotate_text white_font");
@@ -1531,7 +1531,7 @@ $('#course_id').change(function(){
           else{
             task_div.attr("id","t_"+task.id);  
             task_div.html(" ");
-            task_grade_div.html("Task Grade");
+            task_grade_div.html("Grade");
           }
           task_name_column.html(task_div);
           task_grade.html(task_grade_div);
@@ -1701,7 +1701,7 @@ $('#course_id').change(function(){
           var  text_grade = $("<input type ='text' value = '' id = '' readonly='readonly' maxlength='2' size='2' rel = ''/>");
           text_grade.addClass("task_grade");
           column.html(text_grade); 
-          task_name_column.addClass("width_30 hover task_name_background");
+          task_name_column.addClass(" width12px width_30 hover task_name_background");
           task_div.addClass("GB_outcomment3 rotate_text white_font");
           task_grade_div.addClass("GB_outcomment3 rotate_text");
           task_name_column.attr("id","t_"+task.id);

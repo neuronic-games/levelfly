@@ -41,6 +41,7 @@ before_filter :authenticate_user!
       text = ""
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
       @student = Profile.find(params[:profile_id])
+      @badge = Badge.find(params[:badge_id]) 
       if !@profile.nil?
         #status = Badge.check_badge(params[:profile_id],params[:badge_id],params[:course_id])
         #if status == true
@@ -53,6 +54,8 @@ before_filter :authenticate_user!
           @avatar_badge.save
           @student.badge_count+=1
           @student.save
+          content = "Congrtulation! You are received #{@badge.name} badge"
+          Message.send_notification(@profile.id,content,@student.id)
         #end
       else
         text="Profile not found" 

@@ -22,12 +22,26 @@
     </div>                  
   </div>
   <br/>
-   <div class="titleTextShow">Show:&nbsp;&nbsp;<span><select class="dd_input brown_bg">
-   <option>Task</option>
-   <option>Course</option>
-   <option>Notes</option>
-   </select></span></div>
-     
+  <% if @course and !@task %>
+   <div class="titleTextShow">Show:&nbsp;&nbsp;
+   <span>
+   
+     <select class="dd_input brown_bg" id="filter_files">
+       <option value="all">Course Files</option>
+       <optgroup label="By Task">
+        <% unless @course.nil? %>
+          <%task = all_task(@course.id)%>
+          <% if task and !task.nil?%>
+             <% task.each do |t| %>
+              <option value="<%=t.id%>"><%=t.name%></option>
+             <% end %> 
+          <% end %>
+        <% end %>
+       </optgroup>  
+     </select>
+   </span>
+   </div>
+  <% end %>   
   
    <div class="titleTextKind">Size</div>
    <div class="titleTextUpdated">Updated</div><br/><br/>
@@ -35,12 +49,12 @@
     <div id="show_file" class="btn_drop_file" style="<%if @task %> color:#000;<%end%>">DROP FILE HERE</div>
     <div id="load_files">
      <% if @task %>
-      <% @task.attachments.reverse.each do |a| %>
+      <% @task.attachments.order("starred desc").each do |a| %>
         <%= render :partial => "/course/file_list", :locals => {:a=>a} %>               
       <% end %>
     <%else%>
       <% if @course %>
-        <% @course.attachments.reverse.each do |a| %>
+        <% @course.attachments.order("starred desc").each do |a| %>
           <%= render :partial => "/course/file_list", :locals => {:a=>a} %>               
         <% end %>
       <% end %>
@@ -48,7 +62,7 @@
    </div>
   </div>
   
-   
+  <input type="hidden" name="current_course" id="current_course" value="<%=@course.id if @course%>"> 
   <div class="clear"></div>
 </div>
 <script type="text/javascript">
@@ -69,23 +83,23 @@
          <%end%>
        <%end%>
        //Remove files
-      $(".files_del").click(function(){
-        showSpinner(true);
-        file_id=$(this).attr("rel");
-        $("#filename_"+file_id).remove();
-        var dataString = 'files='+file_id;
-        $.ajax({
-           type: "POST",  
-           url: "/course/remove_course_files",  
-           data: dataString,
-           dataType:"json",
-           success: function(data) {
-             showSpinner(false);
-           }
-        });
+    $("#all_files").delegate('.files_del', 'click', function(){       
+      showSpinner(true);
+      file_id=$(this).attr("rel");
+      var dataString = 'files='+file_id;
+      $.ajax({
+         type: "POST",  
+         url: "/course/remove_course_files",  
+         data: dataString,
+         dataType:"json",
+         success: function(data) {
+           showSpinner(false);
+            $("#filename_"+file_id).remove();
+         }
       });
-      
-    $(".file_pri_toggle").click(function(event){
+    });
+    $("#all_files").delegate('.file_pri_toggle', 'click', function(){ 
+    //$(".file_pri_toggle").click(function(event){
     showSpinner(true);
     att_id = $(this).attr("rel");
     $.ajax({
@@ -110,8 +124,7 @@
     });
 
   });  
-      
-  $(".files_download").click(function(){
+   $("#all_files").delegate('.files_download', 'click', function(){     
    $("#file_download").show();
     var id = $(this).attr("rel");
       /* showSpinner(true);
@@ -128,16 +141,7 @@
     });
       
      //For files hover div
-      $(".file_content").hover(
-        function () {
-          id = $(this).attr("id");
-          $("#"+id+" #files_hover").show();
-        }, 
-        function () {
-          id = $(this).attr("id");
-          $("#"+id+" #files_hover").hide();
-        }
-      );
+     
     
     //Uploader task image upload
     var add_file_uploader = new plupload.Uploader({
@@ -210,5 +214,25 @@
         $("#load_files").prepend(info.response);
         showSpinner(false);
     });
+    
+  $("#filter_files").change(function(){
+    var id = $("#filter_files").val();
+    var course_id = $("#current_course").val();
+    if(id){
+      showSpinner(true);
+      $.ajax({
+         type: "POST",  
+         url: "/course/load_files",  
+         data: {id:id,course_id:course_id},
+         success: function(data) {
+           $("#load_files").html(data);
+           showSpinner(false);
+         }
+      });
+    }
+  });
+    
+    
+    
   });
 </script>

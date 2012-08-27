@@ -260,10 +260,9 @@ function addNode(element) {
                     <div class="dd_bg">
                       <input type="text" name="due_date" id="due_date" class="dd_input" value="<%=@task.due_date if @task %>"/>
                     </div>
-                  
-                  
+
                 </div>
-                 <div class="date_viewfield font_12px hide" style="margin-top:20px">
+                 <div class="date_viewfield font_12px " style="margin-top:20px">
                   <input type="checkbox" name = "extra_credit"  <%= @task && @task.extra_credit ? "checked='checked'" : "" %> value="" id="extra_credit" />
                   &nbsp;&nbsp;&nbsp;<span class="font_12px">Extra Credit</span>
                 </div>   	
@@ -549,26 +548,27 @@ $(document).ready(function(){
     course_id = $("#course_id_hdn").val();
     var id = $(this).attr('id');
     var val = $(this).val();
-      showSpinner(true);
-      $.ajax({
-         type:"POST",
-         dataType: "json",
-         url:"/task/member_unchecked",
-         data:{task_id:task_id,member_id:member_id,check_val:check_val},
-         success:function(data){
-           if(data.status)
-           {
-             showSpinner(false);
-             if(check_val==true){
-              setStorage("task_people_"+id, val); 
-            }
-            else{
-             deleteStorage("task_people_"+id);
-            }  
-           } 
-         }
-      });
-   
+      if(task_id){ 
+        showSpinner(true);
+        $.ajax({
+           type:"POST",
+           dataType: "json",
+           url:"/task/member_unchecked",
+           data:{task_id:task_id,member_id:member_id,check_val:check_val},
+           success:function(data){
+             if(data.status)
+             {
+               showSpinner(false);
+               if(check_val==true){
+                setStorage("task_people_"+id, val); 
+              }
+              else{
+               deleteStorage("task_people_"+id);
+              }  
+             } 
+           }
+        });
+      }  
   });
   
   $(function() {

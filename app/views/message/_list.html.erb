@@ -1,7 +1,13 @@
 
 <div class="messages_content load_messages">
   <div class="msg_content_left">
-    
+    <div id="" class="message_wrapper">
+    <div style="margin-left: 90px; text-align:right;">
+      <textarea id="msg_content" name="msg_content" class="msg_content2" style ="width:99%" placeholder="Enter your message to share..."></textarea> <br />
+      <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
+      <a href="javascript:void(0)" <%if friend_id && !friend_id.nil? %>id="<%=friend_id%>" rel="Profile"<%else%>id="<%=user_session[:profile_id]%>" rel=""<%end%> class="sbmt_msg blue_bt19px" title="msg_content" onclick="javascript:void(0);">Post</a>
+    </div>
+  </div>
     <!-- Invites -->
     <% if @friend_requests and not @friend_requests.empty? %>
     <div id="course_requests">
@@ -24,13 +30,6 @@
       <% end %>
      <!-- Message -->
    <h2><!-- Post Message --></h2>
-  <div id="" class="message_wrapper">
-    <div style="margin-left: 90px; text-align:right;">
-      <textarea id="msg_content" name="msg_content" class="msg_content2" style ="width:99%" placeholder="Enter message to share..."></textarea> <br />
-      <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
-      <a href="javascript:void(0)" <%if friend_id && !friend_id.nil? %>id="<%=friend_id%>" rel="Profile"<%else%>id="<%=user_session[:profile_id]%>" rel=""<%end%> class="sbmt_msg blue_bt19px" title="msg_content" onclick="javascript:void(0);">Post</a>
-    </div>
-  </div>
    <h2>MESSAGES</h2>
    <div id="message_wrapper" class="message_wrapper">
        <% if @messages %>

@@ -53,15 +53,25 @@ class CourseController < ApplicationController
     status = false
     if params[:id] && !params[:id].nil?
       @course = Course.find_by_id(params[:id])
+      @profile = Profile.find(user_session[:profile_id])
       @participant =  participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ? ", params[:id], user_session[:profile_id]])
+      @owner = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_type ='M'", params[:id]])
       if !@participant 
         @participant = Participant.new
         @participant.object_id    = params[:id] if params[:id]
         @participant.profile_id   = user_session[:profile_id]
-        @participant.object_type  = "Course"
-        @participant.profile_type = "S"  
+        @participant.object_type  = "Group"
+        @participant.profile_type = "P"  
         if @participant.save
           status = true
+          wall_id = Wall.get_wall_id(params[:id],"Course")
+            Feed.create(
+              :profile_id => user_session[:profile_id],
+              :wall_id =>wall_id
+            )
+            @message = Message.send_course_request(user_session[:profile_id],@owner.profile_id, wall_id, params[:id],"Group")
+            @message.content ="#{@profile.full_name} has requested to become a member of #{@course.name}"
+            @message.save
         end
       end
       render :text => {"status"=>status}.to_json
@@ -446,7 +456,7 @@ class CourseController < ApplicationController
    
   
   def show_course
-    @course = Course.find_by_id(params[:id])
+    @course = Course.find(params[:id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if !@profile.nil?
     @badges = AvatarBadge.where("profile_id = ? and course_id = ?",@profile.id,@course.id).count
@@ -618,6 +628,18 @@ class CourseController < ApplicationController
         @course.update_attribute('archived',true)
         render :json => {:status => "Success"}
       end
+    end
+  end
+  
+  def load_files
+    if params[:id] and !params[:id].nil?
+        id = params[:id]
+        if id == "all"
+          @files = Course.find(params[:course_id])
+        else
+          @files = Task.find(params[:id])
+        end
+    render :partial => "/course/load_files",:locals=>{:files=> @files}
     end
   end
 

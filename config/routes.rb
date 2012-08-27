@@ -162,6 +162,8 @@ Oncapus::Application.routes.draw do
   
   post "course/download"
   
+  post "course/load_files"
+  
   get "group/index"
   
   get "group/new"

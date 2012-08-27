@@ -66,27 +66,30 @@ $(".course_row").hover(
   }
 );
 
-$(".join_btn").click(function(event){
+$("#content_list").delegate('.join_btn', 'click', function(event){       
   showSpinner(true);
   course_id = $(this).attr("course_id");
-  $.ajax({
-     type: "POST",  
-     url: "/course/send_group_invitation",  
-     data: {id:course_id},
-     dataType: "json",
-     success: function(data) {
-       if (data.status) {
-         $(".join_btn[course_id="+course_id+"]").hide();
-         setAlert("The group organizer has been notified of your request to join this group.");
+  if(course_id){
+    $.ajax({
+       type: "POST",  
+       url: "/course/send_group_invitation",  
+       data: {id:course_id},
+       dataType: "json",
+       success: function(data) {
+         if (data.status) {
+           $(".join_btn[course_id="+course_id+"]").html("Pending");
+          $(".join_btn[course_id="+course_id+"]").removeClass("join_btn");
+           setAlert("The group organizer has been notified of your request to join this group.");
+         }
+         showSpinner(false);
+       },
+       error: function()
+       {
+         setAlert("An error occurred while joining this group.");
+         showSpinner(false);
        }
-       showSpinner(false);
-     },
-     error: function()
-     {
-       setAlert("An error occurred while joining this group.");
-       showSpinner(false);
-     }
-  });
+    });
+  }
   event.stopPropagation();
 });
   // Handler for side-tabs

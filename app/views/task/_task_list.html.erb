@@ -39,7 +39,7 @@
         <img src="<%=t.rating_icon_file%>" class="task_rating_icon task_raiting" task_id="<%=t.id%>">
       </div>
       
-      <div class="titleTType"><%=t.course.name if t.course %><br/><%=t.category.name if t.category %></div>
+      <div class="titleTType"><%=t.course.name if t.course %></div>
 
     </div>  <!-- task_list_content -->
     
@@ -61,7 +61,7 @@
   });
   jStorage.flush();
   
- $('input[type="checkbox"]').unbind('click').bind('click',function() {
+ $('input[type="checkbox"]').unbind('click').bind('click',function(event) {
     check_val = $(this).is(':checked');
     showSpinner(true);
     task_id = $(this).attr("rel");

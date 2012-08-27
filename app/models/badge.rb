@@ -4,7 +4,8 @@ has_many :avatar_badges
 
   def self.load_all_badges(profile)
     @badges = Badge.where("school_id = ? and (creator_profile_id = ? or creator_profile_id IS NULL)",profile.school_id,profile.id)
-    @last_used = Badge.find(:all, :include => [:avatar_badges], :conditions => ["giver_profile_id = ?",profile.id],  :order => "avatar_badges.created_at desc", :group =>"badges.id",:limit =>"4")
+    badge_ids = AvatarBadge.find(:all, :select=>"badge_id", :conditions=>["giver_profile_id = ?",profile.id], :order => "created_at desc", :group =>"badge_id",:limit =>"4").collect(&:badge_id)
+    @last_used = Badge.find(:all, :conditions => ["id in (?)",badge_ids])
     return @badges,@last_used
   end
 
