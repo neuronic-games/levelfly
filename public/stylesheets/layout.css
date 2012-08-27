@@ -292,16 +292,26 @@ body{
 }
 
 .Main_Wp{
-	width:980px;
+  background:url(../images/body_bg.png) repeat;
+	width:100%;
 	height:auto;
 	margin:0 auto;
 }
 
+.Content_Wp h1 {
+  font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
+  color: white;
+}
+
+.clear {
+  font-family:'AthleticRegular', Arial, Helvetica, sans-serif;
+  color: white;
+}
 
 .Header_Wp{
 	width:100%;
 	height:80px;
-	border-bottom:1px solid #f2f7fb;
+/*  border-bottom:1px solid #f2f7fb;*/
 }
 
 .Logo_Wp{
@@ -405,6 +415,13 @@ body{
 	cursor:pointer;
 }
 .btn_submit:hover{color:#2555ad;}
+
+.creat_text a{
+	color:#3f92df;
+	font-size:11px;
+	text-decoration:none;  
+}
+
 .forgot_your_pass_wp{
 	width:100%;
 	height:auto;
