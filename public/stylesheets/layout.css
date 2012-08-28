@@ -424,7 +424,7 @@ html{
 
 .creat_text a{
 	color:#3f92df;
-	font-size:11px;
+	font-size:12px;
 	text-decoration:none;  
 }
 
@@ -435,6 +435,26 @@ html{
 
 .forgot_your_pass_wp a{
 	color:#3f92df;
-	font-size:11px;
+	font-size:12px;
 	text-decoration:none;
+}
+
+.big_bluebtn {
+  background:#5a95ad;
+  width:90px;
+  height:36px;
+  display:block;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  color:#e2e4eb;
+  font-size:12px;
+  font-weight:bold;
+  text-decoration:none;
+  text-transform:uppercase;
+  text-align:center;
+}
+.big_bluebtn:hover {
+  background:#6aa5bd;
+  cursor: pointer;
 }

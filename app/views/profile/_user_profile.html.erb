@@ -393,8 +393,13 @@ $(document).ready(function(){
         url: "/course/show",
         data:{id:id,section_type:section_type},
         success: function(data) {
-          $("#container").html(data);  
+          $("#container").html(data);
           showSpinner(false);
+          if(section_type == "C")
+          setAlert("Loading/course/");
+          else if(section_type == "G")
+          setAlert("Loading/group/");
+        
         }
       });  
   });
