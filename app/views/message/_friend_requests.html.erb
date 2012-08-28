@@ -27,14 +27,14 @@
 <script type="text/javascript">
 
 $('.friend-request').unbind("click").bind("click", function(){
-  showSpinner(true);
   message_id = this.id;
   action = $(this).attr('rel');
   section_type = $("#section_type_"+message_id).val();
   message_type = $(this).attr('data'); 
-  var dataString = {message_id:message_id, activity:action,section_type:section_type};
+  var dataString = {message_id:message_id, activity:action,section_type:section_type,message_type:message_type};
   if(message_id) {
-    if(message_type == "course_invite"){ 
+    if(message_type == "course_invite" || message_type == "group_request" ){ 
+     showSpinner(true);
       $.ajax({  
         type: "POST",  
         url: "/message/respond_to_course_request",

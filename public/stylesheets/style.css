@@ -3669,6 +3669,7 @@ div .frm_input2 {
 
 .badges_box1{ width:654px;margin:60px 0px 0px 120px;}
 .badges_heading{font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;font-size: 15px; color:#8ea900;margin:30px 0px 0px 0px;}
+.course_dd_style{font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;font-size: 15px; color:#8ea900;margin:30px 0px 0px 0px;}
 .badgeselctdiv{ width:290px; float:left; margin:10px 20px 0px 0px; padding:0px 8px 0px 3px;height: 65px;}
 .badge_imgdiv{ float:left;}
 .badge_cont{ float:left; color:#a8afb3; font-size:12px; margin:0px 0px 0px 5px; padding-top:27px; vertical-align:middle;}
@@ -3918,3 +3919,7 @@ position: absolute;
 .width60px{width:60px;}
 .width12px{width:12px;}
 .line_height24px{line-height: 24px !important;}
+.course_dd{
+background: none repeat scroll 0 0 #FFFFFF;
+font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
+}

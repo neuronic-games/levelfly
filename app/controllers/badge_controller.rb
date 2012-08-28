@@ -6,7 +6,9 @@ before_filter :authenticate_user!
  def give_badges
     if params[:course_id] && !params[:course_id].nil?
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-     # badge_ids = AvatarBadge.find(:all, :select => "badge_id", :conditions =>["course_id = ?",params[:course_id]]).collect(&:badge_id)
+      course_ids = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.profile_type = 'M' and participants.object_type = 'Course' and parent_type = 'C'", user_session[:profile_id]],:order=>"courses.name")
+      
+      @courses = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.object_id in(?) and participants.profile_type = 'S' and participants.object_type = 'Course' and parent_type = 'C'", params[:profile_id], course_ids],:order=>"courses.name")
       @badges ,@last_used= Badge.load_all_badges(@profile)
       #@last_used = Badge.last_used(@profile.school_id,@profile.id)
       render :partial =>"/badge/give_badges",:locals=>{:course_id=>params[:course_id],:profile_id=>params[:profile_id]}

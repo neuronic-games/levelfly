@@ -25,7 +25,7 @@ module CourseHelper
   def already_join(group_id, profile_id)
     status = false
     profile_type = nil
-    participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Group' AND profile_id = ? ", group_id, profile_id])
+    participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ? ", group_id, profile_id])#replace 'Course' by 'Group' 
     if participant
       profile_type = participant.profile_type
       status = true

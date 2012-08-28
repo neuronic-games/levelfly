@@ -14,8 +14,18 @@
                 <input type="hidden" name="hdn_last_action" id="hdn_last_action" value="<%=session[:controller]%>" />
               </div><!-- crud_level -->
             </div>
-
+             
             <div class="badges_box1">
+             <%if @courses and @courses.length>1%>
+              <div class="course_dd_style">Select Course     
+                <select name="course_select" id="course_select" class="course_dd" style="">
+                  <option value="">Select Course</option>
+                  <% @courses.each do |c| %>
+                     <option value="<%= c.id %>" <%=course_id.to_i == c.id ? "Selected" : ""  if course_id %>><%= c.name %></option>
+                  <% end %>
+              </select>
+              </div>
+           <% end %>  
              <p class="badges_heading">Last Used</p>
              <div>
               <%if @last_used && !@last_used.nil?%>
@@ -124,7 +134,10 @@ $(document).ready(function() {
       //var ids = id.split("_");
       var badge_id = $(this).attr("rel");
       var student_id =$("#hdn_field_profile_id").val();
-      var course_id =$("#hdn_field_course_id").val();
+      if ($("#course_select").val()=="")
+        var course_id = $("#hdn_field_course_id").val();
+      else
+        var course_id = $("#course_select").val();
       showSpinner(true);
       $.ajax({
         type: "POST",

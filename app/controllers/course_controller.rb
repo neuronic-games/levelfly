@@ -60,7 +60,7 @@ class CourseController < ApplicationController
         @participant = Participant.new
         @participant.object_id    = params[:id] if params[:id]
         @participant.profile_id   = user_session[:profile_id]
-        @participant.object_type  = "Group"
+        @participant.object_type  = "Course" # Change 'Group' to 'Course' because of query include `participants`.`object_type` = 'Course' when load group or course! Change by vaibhav
         @participant.profile_type = "P"  
         if @participant.save
           status = true
@@ -69,8 +69,9 @@ class CourseController < ApplicationController
               :profile_id => user_session[:profile_id],
               :wall_id =>wall_id
             )
-            @message = Message.send_course_request(user_session[:profile_id],@owner.profile_id, wall_id, params[:id],"Group")
+            @message = Message.send_course_request(user_session[:profile_id],@owner.profile_id, wall_id, params[:id],"Course")
             @message.content ="#{@profile.full_name} has requested to become a member of #{@course.name}"
+            @message.message_type = "group_request"
             @message.save
         end
       end
@@ -279,12 +280,14 @@ class CourseController < ApplicationController
     already_added = false
     new_user = false
     if params[:email] && params[:email]
-      if params[:section_type] == 'G'
-           section_type = 'Group'
-      end   
-      if params[:section_type] == 'C'
-         section_type = 'Course'
-      end 
+      #if params[:section_type] == 'G'
+       #    section_type = 'Group'
+      #end   
+      #if params[:section_type] == 'C'
+       #  section_type = 'Course'
+      #end 
+      # Change 'Group' to 'Course' because of query include `participants`.`object_type` = 'Course' when load group or course! Change by vaibhav
+      section_type = 'Course'
       @user = User.find_by_email(params[:email])
       if @user 
         @profile = Profile.find_by_user_id(@user.id)
@@ -507,11 +510,13 @@ class CourseController < ApplicationController
 
    def view_member
      @course = Course.find_by_id(params[:id])
-     if params[:section_type] == 'G'
-        section_type = 'Group'
-     else   
-        section_type = 'Course'
-     end   
+     # if params[:section_type] == 'G'
+        # section_type = 'Group'
+     # else   
+        # section_type = 'Course' 
+     # end   
+     # Change 'Group' to 'Course' because of query include `participants`.`object_type` = 'Course' when load groups or courses! Change by vaibhav
+     section_type = 'Course'
      @peoples = Profile.find(
        :all, 
        :include => [:participants], 

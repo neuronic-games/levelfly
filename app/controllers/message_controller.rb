@@ -18,9 +18,9 @@ class MessageController < ApplicationController
     elsif params[:friend_id]
       @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND profile_id = ? AND message_type ='Message' AND parent_type='Profile' and id in (?)", false, params[:friend_id], message_ids])  
     else 
-      @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type in('C','')",false,message_ids], :order => 'created_at DESC')
+      @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type in('C','','G')",false,message_ids], :order => 'created_at DESC')
       
-      @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite') AND parent_id = ? AND (archived is NULL or archived = ?) and id in(?)", @profile.id, false, message_ids])
+      @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite', 'group_request') AND parent_id = ? AND (archived is NULL or archived = ?) and id in(?)", @profile.id, false, message_ids])
       
       @respont_to_course = Message.find(:all,:conditions=>["target_type in('Course','Notification') AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived = ? and id in(?)", @profile.id,false,message_ids], :order => 'created_at DESC')
     end
@@ -121,22 +121,37 @@ class MessageController < ApplicationController
      if params[:message_id] && !params[:message_id].nil?
       @message = Message.find(params[:message_id])
       if @message
+        group_request = false
         if params[:activity] && !params[:activity].nil?
-          @course_participant = Participant.where("object_type = ? AND object_id = ? AND profile_id = ? AND profile_type='P'",params[:section_type],@message.target_id,@message.parent_id).first
+          if params[:message_type] == "group_request"
+            group_request = true
+            profile_id = @message.profile_id
+          else
+            profile_id = @message.parent_id
+          end
+          @course_participant = Participant.where("object_type = ? AND object_id = ? AND profile_id = ? AND profile_type='P'",params[:section_type],@message.target_id,profile_id).first
+          course = Course.find(@message.target_id)
           if params[:activity] == "add"
-            course = Course.find(@message.target_id)
             if @course_participant
               @course_participant.profile_type = 'S'
               @course_participant.save
             end
              # Respond to course messages
             @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,"Accepted",params[:section_type])
+             if group_request == true
+               @respont_to_course.content = "Accepted your request to join Group #{course.name}"
+               @respont_to_course.save
+             end
             render :text=> "Added to #{course.name} (#{course.code_section})"
          else
             if @course_participant
              @course_participant.delete
             end
             @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,"Rejected",params[:section_type])
+             if group_request == true
+               @respont_to_course.content = "Rejected your request to join Group #{course.name}"
+               @respont_to_course.save
+             end
             render :text => "friend_list"
          end
          @message.archived = true

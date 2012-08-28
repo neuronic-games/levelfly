@@ -1,10 +1,10 @@
-/*body{
+body{
   font-family:Arial, Helvetica, sans-serif;
   background:url(../images/body_bg.png) repeat;
   height:100%;
   margin:0px;
   padding:0px;
-}*/
+}
 .wrapper {
   width: 640px;
   height: 920px;
@@ -256,7 +256,11 @@
   padding-top: 420px;
   visibility: hidden;
 }
-.error_message{color:red; padding:60px;}
+.error_message{
+  color:white; 
+  padding:60px;
+  background:url(../images/body_bg.png) repeat;
+  }
 /*New CSS for new login page layout*/
 body, div, table, tr, td, input, form, ul, li, dl, ol, b, strong, h1, h2, h3, h4, h5, h6, p, th, textarea, select, img, label {
 	margin: 0;
@@ -268,12 +272,12 @@ html{
 	height:100%;
 	 }
 	 
-body{
+/*body{
 	height:100%;
 	font-family:Verdana, Geneva, sans-serif;
 	font-size:12px;
 	color:#8690a0;
-}
+}*/
 
 .txt_box{
 	 border: 1px solid #BFBFBF;
@@ -296,6 +300,7 @@ body{
 	width:100%;
 	height:auto;
 	margin:0 auto;
+  color:#FFFFFF;
 }
 
 .Content_Wp h1 {
@@ -372,7 +377,7 @@ body{
 .creat_text{
 	float:right;
 	width:auto;
-  margin-top: -16px;
+  margin: -16px 115px;
 }
 
 .sign_in_box{
@@ -403,6 +408,7 @@ body{
 
 .sign_in_button_wp{
 	float:right;
+  margin-right:115px;
 }
 
 .btn_submit{
