@@ -77,8 +77,11 @@ $("#content_list").delegate('.join_btn', 'click', function(event){
        dataType: "json",
        success: function(data) {
          if (data.status) {
-           $(".join_btn[course_id="+course_id+"]").html("Pending");
-          $(".join_btn[course_id="+course_id+"]").removeClass("join_btn");
+           $(".join_btn[course_id="+course_id+"]").html("Invite Pending");
+           $(".join_btn[course_id="+course_id+"]").addClass("light_blue");
+          $(".join_btn[course_id="+course_id+"]").removeClass("join_btn blue_bt19px");
+          
+          
            setAlert("The group organizer has been notified of your request to join this group.");
          }
          showSpinner(false);

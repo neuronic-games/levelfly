@@ -127,13 +127,14 @@ class Task < ActiveRecord::Base
     
     profile = participant.profile
     task = participant.task
-
-    if participant.profile_type == Task.profile_type_owner
+    # comment all due to changes in task complete functionlity.
+    
+    #if participant.profile_type == Task.profile_type_owner
       # If the owner marks the task as complete, we need to close out the task for all members,
       # and mark it incomplete for them. Owner does not get points. There is no going back on this action.
-      participant.complete_date = Time.now
-      participant.status = Task.status_complete
-      participant.save
+      #participant.complete_date = Time.now
+     # participant.status = Task.status_complete
+     # participant.save
       #participants = TaskParticipant.find(:all,
        # :include => [:profile, :task],
         #:conditions => ["task_id = ? and profile_type = ? and status <> ?", task_id, Task.profile_type_member, Task.status_complete])
@@ -143,8 +144,8 @@ class Task < ActiveRecord::Base
         # a_participant.save
       # end
       #Task.task_grade_points(task_id,profile_id,complete)
-      status = true
-    elsif participant.profile_type == Task.profile_type_member
+      #status = true
+   # elsif participant.profile_type == Task.profile_type_member
       participant.complete_date = complete ? Time.now : nil
       # if  participant.status ==  Task.status_complete
         # profile.xp += complete ? task.points : -task.points
@@ -153,7 +154,7 @@ class Task < ActiveRecord::Base
       participant.save
       #profile.save
       status = complete
-    end   
+    #end   
     return status
   end  
   

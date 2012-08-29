@@ -125,8 +125,10 @@
 
   });  
    $("#all_files").delegate('.files_download', 'click', function(){     
-   $("#file_download").show();
-    var id = $(this).attr("rel");
+   $("#file_dialog_heading").html("Download File");
+    $("#dialog_url").html($(this).attr("rev"));
+    $("#dialog_btn").html("Download");
+    $("#file_download").show();
       /* showSpinner(true);
     if (id){
        $.ajax({
@@ -139,6 +141,13 @@
        }); 
     }  */
     });
+    
+  $("#all_files").delegate('.share_file', 'click', function(){    
+    $("#file_dialog_heading").html("Share File");
+    $("#dialog_url").html($(this).attr("rev"));
+    $("#dialog_btn").html("Share");
+    $("#file_download").show();
+  });
       
      //For files hover div
      

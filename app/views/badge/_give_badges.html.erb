@@ -134,10 +134,12 @@ $(document).ready(function() {
       //var ids = id.split("_");
       var badge_id = $(this).attr("rel");
       var student_id =$("#hdn_field_profile_id").val();
-      if ($("#course_select").val()=="")
+      if ($("#course_select").val()=="" || $("#course_select").val()==undefined ){
         var course_id = $("#hdn_field_course_id").val();
-      else
+        }
+      else{
         var course_id = $("#course_select").val();
+        }
       showSpinner(true);
       $.ajax({
         type: "POST",

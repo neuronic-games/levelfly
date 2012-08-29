@@ -37,7 +37,9 @@
             <% end %>
           </div>
          <div class="clear"></div>
-          
+          <div style="margin:30px 15px;">
+             <span class="field_notes">Allow Members to Post Messages <input type="checkbox" name ="post_messages"  <%= @course && @course.post_messages ? "checked='checked'" : "" %> value="" id="post_messages" style="margin: 0px 17px;"/></span>
+          </div>
          <div class="group_privacy">Privacy
             <div class="privacy_setting">
             <input type="radio" name="joinning_group[]" checked="true" value="I"/><span>Anyone can join

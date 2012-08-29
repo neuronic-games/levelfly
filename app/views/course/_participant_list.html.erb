@@ -10,7 +10,7 @@
         <div class="people_name" style="width:87%; margin:7px 3px;">
         <div class="floatL" style="width:33%;"><%if p.full_name == nil %><%=p.user.email%><%else%><%=p.full_name%><%end%></div>
           <%if @courseMaster and !@courseMaster.nil?%>
-          <div class="field_label3" style="width:38%"> <%= p.user.email %></div>
+          <div class="field_label3" style="width:38%"> <a href="mailto:<%= p.user.email %>"><%= p.user.email %></a></div>
           <div class="field_label2" style="width:19%"> <%= active_task(p.id,@course.id) %> ACTIVE TASKS<!--<a href="#" id="btn_task" class="green_bt19px">VIEW TASKS</a>--></div>
           <%end%>
          <div class="FloatR" style="width:10%"><a href="javascript:void(0)" class="people_delete blue_bt19px floatL" rel="<%=p.id%>"  >Remove</a></div>

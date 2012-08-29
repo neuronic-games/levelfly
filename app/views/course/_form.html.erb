@@ -77,6 +77,7 @@ var _outcomes_descrObject = [];
 var _categories_persentObject = [];
 var _outcomes_shareObject = [];
 
+
 //set outcomes to offline storage
 $.each($('input[name="outcomes[]"], input[name="people_id[]"], input[name="categories[]"]'), function() {
   setStorage($(this).attr('id'), $(this).val());
@@ -380,6 +381,7 @@ function save_course(channel) {
   task_low = getStorage("task_low");
   task_medium = getStorage("task_medium");
   task_high = getStorage("task_high");
+  var post_messages = document.getElementById('post_messages');
 
 
   //get outcomes from offline storage
@@ -421,7 +423,7 @@ function save_course(channel) {
     n++;
   });
 
-  var dataString = 'id='+ id +'&course='+ name + '&descr=' + descr + '&section_type=' + section_type + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id + '&percent_value=' +_categories_persentObject+ '&outcome_share='+_outcomes_shareObject+'&rating_low=' +rating_low + '&rating_medium=' +rating_medium + '&rating_high=' +rating_high + '&task_low=' +task_low + '&task_medium=' +task_medium + '&task_high=' +task_high;
+  var dataString = 'id='+ id +'&course='+ name + '&descr=' + descr + '&section_type=' + section_type + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id + '&percent_value=' +_categories_persentObject+ '&outcome_share='+_outcomes_shareObject+'&rating_low=' +rating_low + '&rating_medium=' +rating_medium + '&rating_high=' +rating_high + '&task_low=' +task_low + '&task_medium=' +task_medium + '&task_high=' +task_high+ '&post_messages='+post_messages.checked;
 
   //alert(dataString);  return false;
   if(changed==true){

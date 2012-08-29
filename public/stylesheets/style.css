@@ -2581,7 +2581,7 @@ filter:alpha(opacity="0");
 }
 .gradebook_partribbon { background:url(../images/gradepage_ribbon.png) no-repeat center 20px; height:100% }
 .spacebarGbook { height:55px; overflow:hidden;}
-.spacebarGbook2 { height:44px; overflow:hidden;}
+.spacebarGbook2 { height:60px; overflow:hidden;}
 .GB_Table { font-size:16px; font-family: 'CollegeRegular'; position:absolute; }
 
 .alignL { text-align:left;}
@@ -2891,7 +2891,7 @@ filter:alpha(opacity="0");
 }
 
 .task_right_heading{
-	height:36px;
+	height:25px;
 	border-bottom: 1px solid #7794AC;
 }
 
@@ -3918,8 +3918,9 @@ position: absolute;
 .white_font{color:#FFF;}
 .width60px{width:60px;}
 .width12px{width:12px;}
-.line_height24px{line-height: 24px !important;}
+.line_height24px{line-height: 14px !important;}
 .course_dd{
 background: none repeat scroll 0 0 #FFFFFF;
 font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
 }
+.light_blue{background:#96EBFF; padding: 0 10px;}

@@ -70,6 +70,7 @@ class CourseController < ApplicationController
               :wall_id =>wall_id
             )
             @message = Message.send_course_request(user_session[:profile_id],@owner.profile_id, wall_id, params[:id],"Course")
+            #@message.content ="Please accept my group invitation (#{@course.code_section})."
             @message.content ="#{@profile.full_name} has requested to become a member of #{@course.name}"
             @message.message_type = "group_request"
             @message.save
@@ -189,6 +190,7 @@ class CourseController < ApplicationController
     @course.tasks_low = params[:task_low] if params[:task_low]
     @course.tasks_medium = params[:task_medium] if params[:task_medium]
     @course.tasks_high = params[:task_high] if params[:task_high]
+    @course.post_messages = params[:post_messages] if params[:post_messages]
            
     if params[:file]
       @course.image.destroy if @course.image
@@ -297,6 +299,7 @@ class CourseController < ApplicationController
       end
       if @profile
         participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type= ? AND profile_id = ?", params[:course_id], section_type, @profile.id])
+        course = Course.find(params[:course_id])
         if !participant_exist
           @participant = Participant.new
           @participant.object_id = params[:course_id]
@@ -311,6 +314,10 @@ class CourseController < ApplicationController
             )
             # Send a message. It may also send an email.
             @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type)
+            if params[:section_type] == 'G'
+               @message.content = "Please accept my group invitation (#{course.code_section})."
+               @message.save
+            end
             status = true           
           end
         else 

@@ -22,7 +22,7 @@
               <div class="like_cmt"> 
                 <a href="javascript:void(0)" class="file_pri_toggle file_pri_toggle_btn blue_bt19px" rel="<%=a.id%>"><%if a.starred == true %>Un-Star<%else%>Star<%end%></a>
                 <a href="javascript:void(0)" class="files_download blue_bt19px" rev="<%=a.resource.url%>" rel="<%= a.id %>">Download</a> 
-                <a href="javascript:void(0)" class="blue_bt19px">Share</a> 
+                <a href="javascript:void(0)" class="blue_bt19px share_file" rev="<%=a.resource.url%>" rel="<%= a.id %>">Share</a> 
                 <a href="javascript:void(0)" class="files_del blue_bt19px" rel="<%= a.id %>">DEL</a>
               </div>
             </div>
@@ -32,22 +32,20 @@
       </div>
     </div>
 </div>
-<div id="file_download" class="add_file" style="display:none;">   
-  <div id="file_download_data">
-      <div class="display_text">
-        <p>You have downloaded an assignment file
-        for review. If you wish to re-upload the file
-        at a later time, the name of the file must not
-        be modified.</p>
-      </div>
-      <div class="display_data">Task:<span id="file_task"><%=a.resource_file_name%></span></div>
-      <div class="display_data">Original Uploaded By:<span id="file_uploaded_by"><%=@courseMaster.full_name if @courseMaster%></span></div>   
-      <div class="display_data">Original Uploaded On:<span id="file_uploaded_on"></span><%= show_date_format(a.updated_at) %></div>
-      <div class="display_data">Revision:<span id="file_revision"></span></div>
-      <div style="float:right">
-        <a class="big_blue_btn" onClick="javascript:$('#file_download').hide();" href="javascript:void(0)">OK</a>
-      </div>                                
-  </div>                  
+<div id="file_download" style="display:none;">   
+  <div class="confirm_box_width warningbox ">
+  <div class="heading" id="file_dialog_heading"></div>
+    <div class="clear"></div>
+    <div class="spacebar10px"></div>
+    <div class="spacebar10px"></div>
+     <div id="dialog_url" style="word-wrap:break-word;"></div>
+    <div class="spacebar10px"></div>
+  <div align="right">
+  <a class=" big_blue_btn inlineblock" id="cancel_btn" href="javascript:void(0)">Cancel</a>
+  <a class="big_orange_btn inlineblock clr_red" id="dialog_btn" href="javascript:void(0)"></a> 
+  </div>
+</div>
+             
 </div>
 <script type="text/javascript">
 $(".file_content").hover(
@@ -60,4 +58,7 @@ $(".file_content").hover(
     $("#"+id+" #files_hover").hide();
   }
 );
+$("#cancel_btn").click(function(){
+    $("#file_download").hide();
+  });
 </script>

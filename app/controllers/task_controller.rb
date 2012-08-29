@@ -80,11 +80,9 @@ class TaskController < ApplicationController
      participant = TaskParticipant.find(:first, 
         :conditions => ["profile_id = ? AND task_id = ? AND profile_type = ? ", params[:member_id], params[:task_id], Task.profile_type_member])
       if participant
-        puts"iff"
         participant.delete
         status = true
       else
-      puts"else"
         @task_participant = TaskParticipant.new
         @task_participant.profile_id = params[:member_id]
         @task_participant.profile_type = "M"
@@ -210,17 +208,20 @@ class TaskController < ApplicationController
       wall_id = Wall.get_wall_id(@task.id,"Task")
       if params[:outcomes] && !params[:outcomes].empty?
         outcome_ids = params[:outcomes].split(",")
-        OutcomeTask.delete_all(["outcome_id NOT IN (?) AND task_id = ?", outcome_ids, @task.id])
+        #OutcomeTask.delete_all(["outcome_id NOT IN (?) AND task_id = ?", outcome_ids, @task.id])
+        OutcomeTask.delete_all(["outcome_id is NULL AND task_id = ?", @task.id])
         outcomes_array = params[:outcomes].split(",")
         outcomes_array.each do |o|
-          outcome_task = OutcomeTask.find(:first, :conditions => ["task_id = ? AND outcome_id = ?", @task.id, o])
-          if !outcome_task
-            #OutcomeTask record
-            @outcome_task = OutcomeTask.new
-            @outcome_task.task_id = @task.id
-            @outcome_task.outcome_id = o
-            #@outcome_task.points_percentage = params[:points]
-            @outcome_task.save
+          if o !=""
+            outcome_task = OutcomeTask.find(:first, :conditions => ["task_id = ? AND outcome_id = ?", @task.id, o])
+            if !outcome_task
+              #OutcomeTask record
+              @outcome_task = OutcomeTask.new
+              @outcome_task.task_id = @task.id
+              @outcome_task.outcome_id = o
+              #@outcome_task.points_percentage = params[:points]
+              @outcome_task.save
+            end
           end
         end
       end
@@ -251,21 +252,23 @@ class TaskController < ApplicationController
           peoples_array = params[:people_id].split(",")
         end
         peoples_array.each do |p_id|
-          task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='M' AND profile_id = ?", @task.id, p_id])
-          if !task_participant
-            @task_participant = TaskParticipant.new
-            @task_participant.profile_id = p_id
-            @task_participant.profile_type = "M"
-            @task_participant.status = "A"
-            @task_participant.priority = "L"
-            @task_participant.task_id = @task.id
-            if @task_participant.save
-              Feed.create(
-                :profile_id => p_id,
-                :wall_id => wall_id
-              )
-            content = "#{@profile.full_name} assigned new task task to you #{@task.name}"   
-            Message.send_notification(@profile.id,content,p_id)    
+          if p_id !=""
+            task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='M' AND profile_id = ?", @task.id, p_id])
+            if !task_participant
+              @task_participant = TaskParticipant.new
+              @task_participant.profile_id = p_id
+              @task_participant.profile_type = "M"
+              @task_participant.status = "A"
+              @task_participant.priority = "L"
+              @task_participant.task_id = @task.id
+              if @task_participant.save
+                Feed.create(
+                  :profile_id => p_id,
+                  :wall_id => wall_id
+                )
+              content = "#{@profile.full_name} assigned new task task to you #{@task.name}"   
+              Message.send_notification(@profile.id,content,p_id)    
+              end
             end
           end
         end

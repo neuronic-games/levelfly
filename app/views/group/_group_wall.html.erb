@@ -62,13 +62,13 @@
       <!-- <div class="send_group_invitation">
        <a href="javascript:void(0)" id="member_join" class="big_blue_btn">JOIN</a>
       </div> -->
-
+     <% if @course.post_messages or @courseMaster.id == user_session[:profile_id]%>
       <div class="show_group_messages">
         <textarea id="msg_content" name="msg_content" style ="width:84%;"class="msg_content" placeholder="Share with all members..."></textarea> <br />
         <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
         <a href="javascript:void(0)" id="<%=@course.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="G" onclick="javascript:void(0);">Post</a>
       </div>
-      
+      <% end %>
       <div class="clear"></div>
       
       <div id="message_wrapper_group" class="message_wrapper_group">
