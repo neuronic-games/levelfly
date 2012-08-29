@@ -94,7 +94,7 @@ class TaskController < ApplicationController
             :profile_id => params[:member_id],
             :wall_id => wall_id
           )
-         content = "#{@profile.full_name} assigned new task task to you #{@task.name}"   
+         content = "Assigned a task: #{@task.name}"
          Message.send_notification(@profile.id,content,params[:member_id])    
         status = true
         end       
