@@ -157,7 +157,7 @@ class ProfileController < ApplicationController
     @profile.save
     @levels = Reward.find(:all, :select => "xp", :conditions=>["object_type = 'level'"]).collect(&:xp)
     if(previous_level != @profile.level)
-      content = "Congrtulation! You are move to level #{@profile.level}"
+      content = "Congratulation! You are move to level #{@profile.level}"
       Message.send_notification(@profile.id,content,@profile.id)
     end  
     render :partial => "/profile/user_profile", :locals => {:profile => @profile}

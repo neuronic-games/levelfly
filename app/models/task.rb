@@ -127,14 +127,13 @@ class Task < ActiveRecord::Base
     
     profile = participant.profile
     task = participant.task
-    # comment all due to changes in task complete functionlity.
-    
-    #if participant.profile_type == Task.profile_type_owner
+
+    if participant.profile_type == Task.profile_type_owner
       # If the owner marks the task as complete, we need to close out the task for all members,
       # and mark it incomplete for them. Owner does not get points. There is no going back on this action.
-      #participant.complete_date = Time.now
-     # participant.status = Task.status_complete
-     # participant.save
+      participant.complete_date = Time.now
+      participant.status = Task.status_complete
+      participant.save
       #participants = TaskParticipant.find(:all,
        # :include => [:profile, :task],
         #:conditions => ["task_id = ? and profile_type = ? and status <> ?", task_id, Task.profile_type_member, Task.status_complete])
@@ -144,8 +143,8 @@ class Task < ActiveRecord::Base
         # a_participant.save
       # end
       #Task.task_grade_points(task_id,profile_id,complete)
-      #status = true
-   # elsif participant.profile_type == Task.profile_type_member
+      status = true
+    elsif participant.profile_type == Task.profile_type_member
       participant.complete_date = complete ? Time.now : nil
       # if  participant.status ==  Task.status_complete
         # profile.xp += complete ? task.points : -task.points
@@ -154,7 +153,7 @@ class Task < ActiveRecord::Base
       participant.save
       #profile.save
       status = complete
-    #end   
+    end   
     return status
   end  
   
@@ -193,11 +192,11 @@ class Task < ActiveRecord::Base
         profile.level = @level.object_id
         profile.save
         if( profile.xp > previous_points)
-          content = "Congrtulation! You are Received #{task.points} xp"
+          content = "Congratulation! You are Received #{task.points} xp"
           Message.send_notification(current_user,content,profile_id)
         end
         if(previous_level != profile.level)
-          content = "Congrtulation! You are move to level #{profile.level}"
+          content = "Congratulation! You are move to level #{profile.level}"
           Message.send_notification(current_user,content,profile_id)
         end  
       end

@@ -56,7 +56,7 @@ before_filter :authenticate_user!
           @avatar_badge.save
           @student.badge_count+=1
           @student.save
-          content = "Congrtulation! You are received #{@badge.name} badge"
+          content = "Congratulation! You are received #{@badge.name} badge"
           Message.send_notification(@profile.id,content,@student.id)
         #end
       else
