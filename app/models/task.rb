@@ -192,11 +192,11 @@ class Task < ActiveRecord::Base
         profile.level = @level.object_id
         profile.save
         if( profile.xp > previous_points)
-          content = "Congratulation! You are Received #{task.points} xp"
+          content = "Congratulations! You have received #{task.points} XP for #{task.name}."
           Message.send_notification(current_user,content,profile_id)
         end
         if(previous_level != profile.level)
-          content = "Congratulation! You are move to level #{profile.level}"
+          content = "Congratulations! You have achieved level #{profile.level}."
           Message.send_notification(current_user,content,profile_id)
         end  
       end
