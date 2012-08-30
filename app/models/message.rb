@@ -19,7 +19,7 @@ class Message < ActiveRecord::Base
     return @message
   end
 
-  def self.send_course_request(profile_id, parent_id, wall_id, target_id,section_type)
+  def self.send_course_request(profile_id, parent_id, wall_id, target_id,section_type,message_type,content)
     course = Course.find(target_id)
     @message = Message.new
     @message.profile_id = profile_id 
@@ -27,8 +27,8 @@ class Message < ActiveRecord::Base
     @message.target_id = target_id
     @message.target_type = section_type
     @message.parent_type = section_type
-    @message.message_type = "course_invite"
-    @message.content = "Please join #{course.name} (#{course.code_section})"
+    @message.message_type = message_type
+    @message.content = content
     @message.wall_id = wall_id#Wall.get_wall_id(parent_id, "Course") 
     @message.archived = false
     @message.post_date = DateTime.now
@@ -47,7 +47,7 @@ class Message < ActiveRecord::Base
     @message.target_type = section_type
     @message.parent_type = "Profile"
     @message.message_type = "Message"
-    @message.content = content+" your invite"
+    @message.content = content
     @message.archived = false
     @message.post_date = DateTime.now
     @message.save

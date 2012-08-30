@@ -47,9 +47,11 @@
               <%=user_like(user_session[:profile_id], message.id) ? "UNLIKE" : "LIKE" %>
             </a>
           </span>
+          <% if !@course or (@course.post_messages or @courseMaster.id == user_session[:profile_id])%>
           <span>
             <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#post_comment_<%=message.id%>').show()">COMMENT</a>
           </span>
+         <%end%> 
           <%if message.profile_id == user_session[:profile_id] or @course_owner==true or @message_page==true%>
              <span id="delete_<%=message.id%>">
              <a href="javascript:void(0);" class="message_del blue_bt19px" rev ="message" rel="<%=message.id %>">DELETE</a>
@@ -86,7 +88,8 @@
   <% end %> 
   
 </div>
-
+ 
+ <% if !@course or (@course.post_messages or @courseMaster.id == user_session[:profile_id])%>
  <div class="hide comment_input" align="right" id="post_comment_<%=message.id%>">
   <textarea name="cmnt_content" id="cmnt_content_<%=message.id%>" rows="2"></textarea>
   <div class="msg_btn">
@@ -94,6 +97,7 @@
     <a href="javascript:void(0)" id="<%=message.id%>" rel="Message" title="cmnt_content_<%=message.id%>" class="blue_bt19px sbmt_msg">Post</a>
   </div>
 </div>
+<% end %>
 <div class="bdr_dotted" id="border_<%=message.id%>"></div>
 
 <!-- comments ends -->

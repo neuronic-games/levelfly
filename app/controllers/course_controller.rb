@@ -69,11 +69,10 @@ class CourseController < ApplicationController
               :profile_id => user_session[:profile_id],
               :wall_id =>wall_id
             )
-            @message = Message.send_course_request(user_session[:profile_id],@owner.profile_id, wall_id, params[:id],"Course")
             #@message.content ="Please accept my group invitation (#{@course.code_section})."
-            @message.content ="#{@profile.full_name} has requested to become a member of #{@course.name}"
-            @message.message_type = "group_request"
-            @message.save
+            content ="#{@profile.full_name} has requested to become a member of #{@course.name}"
+            message_type = "group_request"
+            @message = Message.send_course_request(user_session[:profile_id],@owner.profile_id, wall_id, params[:id],"Course",message_type,content)
         end
       end
       render :text => {"status"=>status}.to_json
@@ -281,6 +280,8 @@ class CourseController < ApplicationController
     status = false
     already_added = false
     new_user = false
+    message_type = nil
+    content = nil
     if params[:email] && params[:email]
       #if params[:section_type] == 'G'
        #    section_type = 'Group'
@@ -313,11 +314,15 @@ class CourseController < ApplicationController
               :wall_id =>wall_id
             )
             # Send a message. It may also send an email.
-            @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type)
-            if params[:section_type] == 'G'
-               @message.content = "Please accept my group invitation (#{course.code_section})."
-               @message.save
-            end
+             if params[:section_type] == 'G'
+               message_type = "group_invite"
+               content = "Please accept my group invitation (#{course.code_section})."
+             elsif params[:section_type] == 'C'
+               message_type = "course_invite"
+               content = "Please join #{course.name} (#{course.code_section})."
+             end
+            @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
+           
             status = true           
           end
         else 
@@ -588,12 +593,8 @@ class CourseController < ApplicationController
       end
       if !@profile.nil?
         @badge = AvatarBadge.find(:all, :select => "id, badge_id", :conditions =>["profile_id = ? and course_id = ?",@profile.id,@course.id])
-        # if @badge_ids and !@badge_ids.nil?
-          # @badge_ids.each do |b|
-            # badge = Badge.find(:first, :conditions=>["id = ? ",b.badge_id],:order => "created_at DESC")
-            # @badge.push(badge)           
-          # end
-        # end
+        #@task_grade = TaskGrade.where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course ,@profile.id)
+        @course_tasks = Task.find(:all, :conditions=>["course_id = ? ",@course.id]) 
       end
       render :partial =>"/course/course_stats"
     end  
