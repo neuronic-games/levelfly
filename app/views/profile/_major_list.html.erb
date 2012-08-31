@@ -1,0 +1,33 @@
+<div id="major_dialog">   
+  <div class="warningbox " style="margin-top:0%;">
+  <div class="heading" id="major_head">CHOOSE YOUR MAJOR</div>
+    <div class="clear"></div>
+    <div class="spacebar10px"></div>
+    Select a major from the list to display it next to your profile.
+    <div class="spacebar10px"></div>
+     <div>
+     <select name="major" id="major" class="" style="background:#fff;">
+      <%if @major and !@major.nil?%>
+        <option value="">Select Major</option>
+        <% @major.each do |m| %>
+           <option value="<%= m.id %>" <%=profile.major_id == m.id ? "Selected" : ""  if !profile.major_id.blank? %>><%= m.name %></option>
+        <% end %>
+      <% end %>  
+      </select>
+    </div> 
+    <div class="spacebar10px"></div>
+  <div align="right">
+  <a class="big_blue_btn inlineblock" id="dontshow_btn" href="javascript:void(0)">Don't Show</a>
+  <a class="big_orange_btn inlineblock clr_red" id="show_btn" href="javascript:void(0)">Show Major</a>
+  </div>
+</div>
+             
+</div>
+
+<script type="text/javascript">
+
+    $("#dontshow_btn").click(function(){
+      $("#major_box").hide();
+    });
+    
+</script>

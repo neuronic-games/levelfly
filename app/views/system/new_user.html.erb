@@ -54,6 +54,10 @@
                     <%#= render :partial => "devise/shared/links" %>
                   </div><!--forgot_your_pass_wp-->
           </div><!--remember_box_wp-->
+           
+           <div class="error_message" style="margin-top:15px;"><h2 id="error_div"></h2></div>
+
+          <%= f.hidden_field :message_id ,:value=> @message %>	
       </div><!--Panel_Right-->
      <% end %>
   </div><!--Content_Wp-->
@@ -66,23 +70,27 @@ jQuery.noConflict();
 
 function validateForm(){
   if(user_password.value==""){
-    alert("Please enter Password");
+    message = "<li>Password can't be blank</li>"
+    $("#error_div").html(message);
     user_password.focus();
     return false;
   }
   else if(user_password.value.length < 6 ){
-    alert("Password have minimum 6 character");
+    message = "<li>Password have minimum 6 characters</li>"
+    $("#error_div").html(message);
     user_password_confirmation.focus();
     return false;
   }
   else if(user_password_confirmation.value == "" ){
-    alert("Please enter confirm Password");
+    message = "<li>Please enter confirm Password</li>"
+    $("#error_div").html(message);
     user_password_confirmation.focus();
     return false;
   }
 
   if(user_password.value!= user_password_confirmation.value){
-    alert("Password not match");
+     message = "<li>Password not match</li>"
+    $("#error_div").html(message);
     user_password_confirmation.focus();
     return false;
   }

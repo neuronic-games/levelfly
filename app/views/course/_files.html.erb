@@ -61,7 +61,7 @@
     <% end %>
    </div>
   </div>
-  
+  <div id="file_download" class="hide"></div> 
   <input type="hidden" name="current_course" id="current_course" value="<%=@course.id if @course%>"> 
   <div class="clear"></div>
 </div>
@@ -71,10 +71,10 @@
     var object_type;
     <%if @task%>
      object_id = $("#task_id_hdn").val();
-     object_type = 'Task';
+     object_type = 'task';
     <% else %>
      object_id = $("#course_id_hdn").val();
-     object_type = 'Course';
+     object_type = 'course';
     <% end %>
   
        <% if @courseMaster %>
@@ -125,23 +125,22 @@
 
   });  
    $("#all_files").delegate('.files_download', 'click', function(){     
-   $("#file_dialog_heading").html("Download File");
-    $("#dialog_url").html($(this).attr("rev"));
-    $("#dialog_btn").html("Download");
-    $("#file_download").show();
-      /* showSpinner(true);
-    if (id){
+     id = $(this).attr("rel");
+     request_type = $(this).attr("rev");
+     if (id){
+      showSpinner(true);
        $.ajax({
         type: "POST",  
         url: "/course/download",  
-        data: {id:id},
+        data: {id:id,request_type:request_type},
         success: function(data){
          showSpinner(false);
+         $("#file_download").show();
+         $("#file_download").html(data);
         }
        }); 
-    }  */
+      }  
     });
-    
   $("#all_files").delegate('.share_file', 'click', function(){    
     $("#file_dialog_heading").html("Share File");
     $("#dialog_url").html($(this).attr("rev"));
@@ -234,7 +233,13 @@
          url: "/course/load_files",  
          data: {id:id,course_id:course_id},
          success: function(data) {
-           $("#load_files").html(data);
+         
+           if(data==""){
+            $("#load_files").html("<div class='badge_message'>No file uploaded for this task</div>");
+           }
+           else{
+             $("#load_files").html(data);
+           }
            showSpinner(false);
          }
       });

@@ -257,9 +257,10 @@ body{
   visibility: hidden;
 }
 .error_message{
-  color:white; 
-  padding:60px;
+  color: #BD6F49; 
   background:url(../images/body_bg.png) repeat;
+  padding: 30px 0;
+  width: 84%;
   }
 /*New CSS for new login page layout*/
 body, div, table, tr, td, input, form, ul, li, dl, ol, b, strong, h1, h2, h3, h4, h5, h6, p, th, textarea, select, img, label {

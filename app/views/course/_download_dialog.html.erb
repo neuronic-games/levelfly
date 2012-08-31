@@ -1,0 +1,31 @@
+ 
+  <div class="confirm_box_width warningbox ">
+  <div class="heading" id="file_dialog_heading"><%if request_type=="download"%> Download File<%elsif request_type=="share"%>Share File<%end%></div>
+    <div class="clear"></div>
+    <div class="spacebar10px"></div>
+    <div class="spacebar10px"></div>
+     <div id="dialog_url" style="word-wrap:break-word;"><%=a.resource.url%></div>
+    <div class="spacebar10px"></div>
+  <div align="right">
+  <a class=" big_blue_btn inlineblock" id="cancel_btn" href="javascript:void(0)">Cancel</a>
+  <a class="big_orange_btn inlineblock clr_red dialog_btn" id="dialog_btn" rel="<%=a.resource.url%>" rev="<%= a.id %>" href="javascript:void(0)"><%if request_type=="download"%>Download<%elsif request_type=="share"%>Share<%end%></a>
+  </div>
+
+             
+</div>
+<script type="text/javascript">
+
+$("#cancel_btn").click(function(){
+    $("#file_download").hide();
+ });
+ 
+ $("#dialog_btn").click(function(){
+     file = $(this).attr("rel");
+     var text = $("#dialog_btn").text();
+     if (text=="Download"){
+     window.open(file,'_blank');
+     $("#file_download").hide();
+     }
+  }); 
+ 
+</script>

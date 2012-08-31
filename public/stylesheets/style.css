@@ -1234,7 +1234,7 @@ margin-top:-20px;
 }
 
 a.green_bt19px {
-	font-size:9px;
+	font-size:10px/*9px;*/
 	text-transform:uppercase;
 	font-weight:bold;
 	color:#e2e4eb;
@@ -1245,7 +1245,7 @@ a.green_bt19px {
 	border-radius: 2px;
 	padding:0 4px;
 	text-decoration:none;
-	line-height:15px;
+	line-height:20px/*15px;*/
 }
 a.green_bt19px:hover {
 	text-decoration:none;
@@ -1256,10 +1256,11 @@ a.green_bt19px:hover {
 	padding:20px 0 0 0;
 }
 .course_activity_list .CAL_01 {
-	height:18px;
+	height:30px;/*18px;*/
 }
 .course_activity_list .CAL_01 span {
 	float:left;
+  margin-top: 3px;
 }
 .course_activity_list .CAL_01 a {
 	float:right;
@@ -3187,6 +3188,13 @@ filter:alpha(opacity="0");
 .LB_table .even {
 	background:#ebf7c2;
 }
+
+.LB_table .odd_tg {
+	background:#EFEFEF;
+}
+.LB_table .even_tg {
+	background:#DEDEDE;
+}
 .LB_tableheader {
 	height:20px;
 	border-bottom:#FF0000 1px solid;
@@ -3902,7 +3910,6 @@ position: absolute;
 .major_dd{
  display: block;
  float: left;
- float: left;
  margin: 42px 119px;
  position: absolute;
  background:#fff;
@@ -3934,3 +3941,4 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
  margin: 6px 0px 0px 2px ;
  position: absolute;
 }
+

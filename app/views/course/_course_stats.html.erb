@@ -50,27 +50,36 @@
         </ul>
         <div class="clear"></div>
       </div>
-      <div>
-      <div class="stat_head01 font18">Task Grade</div>
-        <div class="spacebar10px"></div>
-        <ul class="stat_icons_box">
-        <%if @course_tasks && @course_tasks.length>0%>
+      
+      <div class="stat_head01 font18">Task Grade</div><div class="spacebar10px"></div>
+      <%if @course_tasks && @course_tasks.length>0%>
+        <div id="rows" class="LB_table">
+          <div class="LB_tableheader">
+          <div class="LBT_ava"> &nbsp;</div>
+          <div class="LBT_level">NAME</div>
+          <div class="LBT_level">DUE DATE</div>
+          <div class="LBT_xp">GRADE</div>
+        </div>
+       
           <% @course_tasks.each do |t|%>  
-            <li>
             <%task_grade = nil%>
             <%task_grade = TaskGrade.load_task_grade(t.school_id,t.course_id,t,user_session[:profile_id])%>
-             <div class="SI_icon"><img src="<%=t.image_file%>"class="icon_style_badge hover" id="tg_<%=t.id%>" width="53" height="53" style="border-radius:5px"/></span>
-              <%if !task_grade.nil?%><span class="task_grade_stat" style="margin:0px 0px 0px 6px;"><%=task_grade%></span><span class="task_grade_stat" ><%=GradeType.value_to_letter(task_grade, t.school_id )%></span><%else%><span class="not_graded">Not</br>Graded</span><%end%></div>
-              <span class="text_style_badge"><%=t.name%>
-            </li>
-          <%end%>
-        <%else%>
-          <div class="badge_message">No task for this course</div>
-        <%end%>  
-         
-        </ul>
-        <div class="clear"></div>
+            <div class="LB_tablecontent <%= cycle("even_tg", "odd_tg") %>">
+              <div class="LBT_ava" >
+                <div class=""><img src="<%=t.image_file%>" profile_id="<%#= p.id %>" width="53" height="53" style="border-radius:5px" /></div>
+              </div>
+              <div class="LBT_name"> <span class="name_txt"><%=t.name%></span><br />
+                </div>
+              <div class="LBT_level"><%=t.due_date%></div>
+              <div class="LBT_xp"><%if !task_grade.nil?%><%=task_grade%> <%=GradeType.value_to_letter(task_grade, t.school_id )%><%else%>Not Graded<%end%></div>
+            </div>
+          <% end %>
+       
       </div>
+      <%else%>
+        <div class="badge_message">No task for this course</div>
+      <% end %>   
+      <div class="spacebar10px"></div>
       <!--03 line box-->
       <div class="stat_head01">Outcomes</div>
       <div class="spacebar10px"></div>
