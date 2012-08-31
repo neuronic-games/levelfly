@@ -4,7 +4,7 @@
   <div class="boxadnt"> <span class="heading02">Task Name</span>
     <div class="heading02_field">
       <div class="dd_bg brown_bg02">
-        <input type ="text" class ="dd_input brown_bg02" id="task_name" readonly="readonly" value="<%=@task.name%>">
+        <input type ="text" class ="dd_input brown_bg02" id="task_name" value="<%=@task.name%>">
       </div>
     </div>
     <div class="clear"></div>
@@ -69,12 +69,13 @@ $(document).click(function (e){
     grading_complete_date = $("#grading_complete_date").is(':checked');
     show_outcomes = $("#show_outcomes").is(':checked');
     include_task_grade = $("#include_task_grade").is(':checked');
+    task_name = $("#task_name").val();
     showSpinner(true);
     $.ajax({
       type:"POST",
       url:"/grade_book/task_setup",
       dataType:"json",
-      data:{task_id:task_id,grading_complete_date:grading_complete_date,show_outcomes:show_outcomes,include_task_grade:include_task_grade},
+      data:{task_id:task_id,grading_complete_date:grading_complete_date,show_outcomes:show_outcomes,include_task_grade:include_task_grade,task_name:task_name},
       error:  function(e){alert("error");},
       success: function(resp){
          showSpinner(false);

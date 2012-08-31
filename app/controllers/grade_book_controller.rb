@@ -336,6 +336,7 @@ class GradeBookController < ApplicationController
         end
         @task.show_outcomes = params[:show_outcomes] if params[:show_outcomes]
         @task.include_task_grade =  params[:include_task_grade] if params[:include_task_grade]
+        @task.name = params[:task_name] if params[:task_name]
         if @task.save
          render :json =>{:status=> true}
         end

@@ -11,7 +11,7 @@ Paperclip.interpolates :id do |attachment, style|
 end
 
 Paperclip.interpolates :object do |attachment, style|
-  attachment.instance.object
+  attachment.instance.object_type
 end
 
 Paperclip.interpolates :object_id do |attachment, style|

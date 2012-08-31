@@ -19,9 +19,7 @@
 </head>
 <body>
   
-  <% flash.each do |name, msg| %>
-		   <div class="error_message"><h2><%= msg %></h2></div>
-  <% end %> 
+ 
   <%= yield %>
 
   <div id="dialog" class="dialog"></div>

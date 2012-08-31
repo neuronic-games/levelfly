@@ -63,6 +63,9 @@
           <% end -%>
         </div><!--forgot_your_pass_wp-->
       </div><!--remember_box_wp-->
+       <% flash.each do |name, msg| %>
+		   <div class="error_message"><h2><%= msg %></h2></div>
+      <% end %> 
   </div><!--Panel_Right-->
      <% end %>
   </div><!--Content_Wp-->

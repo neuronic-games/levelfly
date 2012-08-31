@@ -563,6 +563,13 @@ class CourseController < ApplicationController
   end
   
   def download
+    if params[:id] and !params[:id].nil?
+      @attachment = Attachment.find(params[:id])
+      if @attachment
+        render :partial => "/course/download_dialog" ,:locals=>{:a => @attachment, :request_type=>params[:request_type]}
+      end
+      
+    end
    # upload = Attachment.find(params[:id])
     # send_file upload.resource.url,
     # :filename => upload.resource_file_name,
@@ -594,7 +601,7 @@ class CourseController < ApplicationController
       if !@profile.nil?
         @badge = AvatarBadge.find(:all, :select => "id, badge_id", :conditions =>["profile_id = ? and course_id = ?",@profile.id,@course.id])
         #@task_grade = TaskGrade.where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course ,@profile.id)
-        @course_tasks = Task.find(:all, :conditions=>["course_id = ? ",@course.id]) 
+        @course_tasks = Task.find(:all, :conditions=>["course_id = ? ",@course.id],:order=>"created_at asc") 
       end
       render :partial =>"/course/course_stats"
     end  
