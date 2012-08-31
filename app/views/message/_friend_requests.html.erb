@@ -33,7 +33,7 @@ $('.friend-request').unbind("click").bind("click", function(){
   message_type = $(this).attr('data'); 
   var dataString = {message_id:message_id, activity:action,section_type:section_type,message_type:message_type};
   if(message_id) {
-    if(message_type == "course_invite" || message_type == "group_request" ){ 
+    if(message_type == "course_invite" || message_type == "group_request" || message_type == "group_invite"){ 
      showSpinner(true);
       $.ajax({  
         type: "POST",  

@@ -33,7 +33,7 @@
         <div class="stat_head01 font18">Badges</div>
         <div class="spacebar10px"></div>
         <ul class="stat_icons_box">
-        <%if @badge && !@badge.nil?%>
+        <%if @badge && @badge.length>0%>
           <% @badge.each do |b|%>  
           <%badge = Badge.badge_detail(b.badge_id)%>
             <% if badge and !badge.nil?%>
@@ -43,13 +43,31 @@
             </li>
             <%end%>
           <%end%>
+          <%else%>
+          <div class="badge_message" >You have no badges for this course</div>
         <%end%>  
-          <li>
-          <div class="SI_icon" style="width:52px;"></div>
-            <span>&nbsp;</span></li>
-          <li>
-            <div class="SI_icon" style="width:52px;" ></div>
-            <span>&nbsp;</span></li>
+         
+        </ul>
+        <div class="clear"></div>
+      </div>
+      <div>
+      <div class="stat_head01 font18">Task Grade</div>
+        <div class="spacebar10px"></div>
+        <ul class="stat_icons_box">
+        <%if @course_tasks && @course_tasks.length>0%>
+          <% @course_tasks.each do |t|%>  
+            <li>
+            <%task_grade = nil%>
+            <%task_grade = TaskGrade.load_task_grade(t.school_id,t.course_id,t,user_session[:profile_id])%>
+             <div class="SI_icon"><img src="<%=t.image_file%>"class="icon_style_badge hover" id="tg_<%=t.id%>" width="53" height="53" style="border-radius:5px"/></span>
+              <%if !task_grade.nil?%><span class="task_grade_stat" style="margin:0px 0px 0px 6px;"><%=task_grade%></span><span class="task_grade_stat" ><%=GradeType.value_to_letter(task_grade, t.school_id )%></span><%else%><span class="not_graded">Not</br>Graded</span><%end%></div>
+              <span class="text_style_badge"><%=t.name%>
+            </li>
+          <%end%>
+        <%else%>
+          <div class="badge_message">No task for this course</div>
+        <%end%>  
+         
         </ul>
         <div class="clear"></div>
       </div>

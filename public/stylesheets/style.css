@@ -3924,3 +3924,13 @@ background: none repeat scroll 0 0 #FFFFFF;
 font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
 }
 .light_blue{background:#96EBFF; padding: 0 10px;}
+.badge_message{color:#FFF; text-align: center;}
+.task_grade_stat{
+ font-family: 'AthleticRegular';
+ margin: 12px 0px 0px 6px ;
+ position: absolute;
+}
+.not_graded{
+ margin: 6px 0px 0px 2px ;
+ position: absolute;
+}

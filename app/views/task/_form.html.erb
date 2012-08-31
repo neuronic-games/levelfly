@@ -197,7 +197,7 @@ function addNode(element) {
                     </div>
                     
                     <div class="catagory_task_viewfield" >
-                      <div id="categories_container" class='<%= @task && @task.category_id!=0 ? "" : "hide" %>'>
+                      <div id="categories_container" class='<%= @task && (@task.category_id!=0 || !@task.category_id.nil?)? "" : "hide" %>'>
                         <% if @task and @task.category %>
                           <%= render :partial => "course_categories", :locals=>{:categories=>@task.course.categories} %>
                         <% end %>

@@ -20,7 +20,7 @@ class MessageController < ApplicationController
     else 
       @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type in('C','','G')",false,message_ids], :order => 'created_at DESC')
       
-      @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite', 'group_request') AND parent_id = ? AND (archived is NULL or archived = ?) and id in(?)", @profile.id, false, message_ids])
+      @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite', 'group_request','group_invite') AND parent_id = ? AND (archived is NULL or archived = ?) and id in(?)", @profile.id, false, message_ids])
       
       @respont_to_course = Message.find(:all,:conditions=>["target_type in('Course','Notification') AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived = ? and id in(?)", @profile.id,false,message_ids], :order => 'created_at DESC')
     end
@@ -120,9 +120,27 @@ class MessageController < ApplicationController
   def respond_to_course_request
      if params[:message_id] && !params[:message_id].nil?
       @message = Message.find(params[:message_id])
+      p_id = Profile.find(user_session[:profile_id])
       if @message
         group_request = false
+        action = nil
+        content = nil
         if params[:activity] && !params[:activity].nil?
+          if params[:activity] == "add"
+            action = "accepted"
+          else
+            action = "rejected"
+          end
+          course = Course.find(@message.target_id)
+          if params[:message_type] == "course_invite"
+            content = "#{p_id.full_name} has #{action} your invitation to #{course.name}."
+          elsif params[:message_type] == "Friend"
+            content = "#{p_id.full_name} has #{action} your friend request."
+          elsif params[:message_type] == "group_request"
+            content = "#{p_id.full_name} has #{action} your request to join #{course.name}."
+          elsif params[:message_type] == "group_invite"
+            content = "#{p_id.full_name} has #{action} your invitation to #{course.name}."
+          end
           if params[:message_type] == "group_request"
             group_request = true
             profile_id = @message.profile_id
@@ -130,28 +148,20 @@ class MessageController < ApplicationController
             profile_id = @message.parent_id
           end
           @course_participant = Participant.where("object_type = ? AND object_id = ? AND profile_id = ? AND profile_type='P'",params[:section_type],@message.target_id,profile_id).first
-          course = Course.find(@message.target_id)
+         
           if params[:activity] == "add"
             if @course_participant
               @course_participant.profile_type = 'S'
               @course_participant.save
             end
-             # Respond to course messages
-            @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,"Accepted",params[:section_type])
-             if group_request == true
-               @respont_to_course.content = "Accepted your request to join Group #{course.name}"
-               @respont_to_course.save
-             end
+             # Notification according to message type
+            @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,content,params[:section_type])
             render :text=> "Added to #{course.name} (#{course.code_section})"
          else
             if @course_participant
              @course_participant.delete
             end
-            @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,"Rejected",params[:section_type])
-             if group_request == true
-               @respont_to_course.content = "Rejected your request to join Group #{course.name}"
-               @respont_to_course.save
-             end
+            @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,content,params[:section_type])
             render :text => "friend_list"
          end
          @message.archived = true
@@ -169,9 +179,11 @@ class MessageController < ApplicationController
   def respond_to_friend_request
     if params[:message_id] && !params[:message_id].nil?
       @message = Message.find(params[:message_id])
-      if @message
+      profile = Profile.find(user_session[:profile_id])
+      if @message 
         if params[:activity] && !params[:activity].nil?
           if params[:activity] == "add"
+            content = "#{profile.full_name} has accepted your friend request."
             @friend_participant = Participant.new
             @friend_participant.object_id = @message.parent_id
             @friend_participant.object_type = "User"
@@ -197,9 +209,12 @@ class MessageController < ApplicationController
               end
               @message.archived = true
               @message.save
+              Message.send_notification(profile.id,content,@message.profile_id)
               render :partial => "friend_list", :locals=>{:friend=>@friend_participant}
             end
           else
+            content = "#{profile.full_name} has rejected your friend request."
+            Message.send_notification(profile.id,content,@message.profile_id)
             @message.archived = true
             @message.save
             render :nothing=>true
