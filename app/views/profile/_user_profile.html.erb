@@ -13,7 +13,7 @@
         <input type="text" name="full_name" id="full_name_input" class="full_name" value="<%= profile.full_name %>" placeholder="Enter Name" readonly="readonly"/>
         
       </div>    
-      <span class="profile_header" style="font-size:16px;"><%=h profile.major.code + ", " if profile.major %><%=profile.school.code if profile.school%></span>
+      <span class="profile_header" style="font-size:16px;" id="profile_page_major"><%=h profile.major.name + ", " if profile.major %><%=profile.school.code if profile.school%></span>
      
     </div>
     <% if (user_session[:profile_id] == profile.id)%>
@@ -123,14 +123,13 @@
                 </li>
                 <%end%>  
               <%end%>
-            <li>
+
           </ul> 
            <div class="clear"></div>
           <% end %>
        
       </div>       
-      </div>
-   
+    </div>
   </div>
 
   <!--Courses-->
@@ -216,6 +215,7 @@
       </div>
     </div>
   </div>
+  
 </div>
 </div>
 <div class = "badge_detail hide" id="badge_detail">
@@ -386,7 +386,8 @@ $(document).ready(function(){
     saveProfile();
     setAlert("Saving Major " +$("#major :selected").text());
     $("#major_school_name").html($("#major :selected").text()+", "+ $("#school_name").val());
-      $("#major_box").hide();
+    $("#profile_page_major").html($("#major :selected").text()+", "+ $("#school_name").val());
+    $("#major_box").hide();
     }
   });
   

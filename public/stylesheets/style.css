@@ -1243,9 +1243,11 @@ a.green_bt19px {
 	-webkit-border-radius:2px;
 	-moz-border-radius: 2px;
 	border-radius: 2px;
-	padding:0 4px;
+	/*padding:0 4px;*/
 	text-decoration:none;
-	line-height:20px/*15px;*/
+	line-height:20px/*15px;*/;
+  text-align: center;
+  width: 100px;
 }
 a.green_bt19px:hover {
 	text-decoration:none;
@@ -2372,7 +2374,7 @@ div .taskmsg_bgc2 {
   text-shadow: 3px 3px #FFBA00;
 }
 .outcome_data{
-margin-top:5px; height:70px; width:567px;
+margin-top:5px; height:70px; width:560px;
 }
 .outcome_data .outcomes_share_name {
     float: left;

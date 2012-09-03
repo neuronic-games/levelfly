@@ -6,11 +6,12 @@
         <div id = "badge_content" class="badge_contentt">
         <div id="sidebar_right">
           <div class="course_side_buttons">
-            <a href="javascript:void(0)" name="btn_save" id="btn_save" class="big_blue_btn">SAVE</a>
+            <a href="javascript:void(0)" name="btn_save" id="btn_save" class="big_blue_btn btn_save_badge" rel="save">SAVE</a>
+            <a href="javascript:void(0)" name="btn_save_and_give" id="btn_save_and_give" class="big_orange_btn btn_save_badge" rel="give">SAVE & GIVE</a>
             <a href="javascript:void(0)" name="btn_dont_save" id="btn_dont_save" class="big_blue_btn">DON'T SAVE</a>    
             <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=@profile.id if @profile%>" />
-            <input type="hidden" name="hdn_field_profile_id" id="hdn_field_profile_id" value="<%=profile_id if profile_id%>" />
-            <input type="hidden" name="hdn_field_course_id" id="hdn_field_course_id" value="<%=course_id if course_id%>" />
+            <input type="hidden" name="profile_id_hdn_field" id="profile_id_hdn_field" value="<%=profile_id if profile_id%>" />
+            <input type="hidden" name="course_id_hdn_field" id="course_id_hdn_field" value="<%=course_id if course_id%>" />
           </div><!-- crud_level -->
         </div>
         <div class="badges_box1" style="width:550px">
@@ -67,10 +68,11 @@ $(document).ready(function() {
   });
   
   
-  $("#btn_save").click(function(){ 
+  $(".btn_save_badge").click(function(){ 
       var badge_image_id = id;
       var badge_name = $("#new_badge").val();
       var descr = $("#new_badge_descr").val();
+      var submit_type = $(this).attr("rel");
       if (id==""){
         alert("select any image");
       }
@@ -79,13 +81,13 @@ $(document).ready(function() {
       }
       else
       {
-        var student_id =$("#hdn_field_profile_id").val();
-        var course_id =$("#hdn_field_course_id").val();
+        var student_id =$("#profile_id_hdn_field").val();
+        var course_id =$("#course_id_hdn_field").val();
         showSpinner(true);
         $.ajax({
           type: "POST",
           url: "/badge/save",
-          data:{badge_image_id:badge_image_id,badge_name:badge_name,profile_id:student_id,course_id:course_id,descr:descr},
+          data:{badge_image_id:badge_image_id,badge_name:badge_name,profile_id:student_id,course_id:course_id,descr:descr,submit_type:submit_type},
           success: function(data) {
              $("#container").html(data);  
              $("#new_badge").attr("value","");
