@@ -44,7 +44,7 @@
   <div class="page_block_left">
     <span class="field_title">Estimated Task Totals</span>
     <span class="field_notes">
-      Provide your best guess of how many low, medium, and high level tasks you will have for the course. This helps us figure out how much XP to award a student for finishing a task. You can change these numbers during the semester
+      Provide your best guess for how many low, medium, and high level tasks you will have for the course. This helps us figure out how much XP to award a student for finishing a task. You can change these numbers during the semester.
     </span>
   </div>
 
@@ -53,15 +53,13 @@
     <div class="field_label">Medium<br /><input type="text" name="task_medium" id="task_medium" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" value="<%=@course.tasks_medium if @course%>" onBlur='javascript:setStorage("task_medium", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
     <div class="field_label">High<br /><input type="text" name="task_high" value="<%=@course.tasks_high if @course%>" id="task_high" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" onBlur='javascript:setStorage("task_high", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
     
-    <div id="course_tasks_prompt" class="field_prompt">
+    <!--<div id="course_tasks_prompt" class="field_prompt">
       Provide your best guess on how many Low, Medium and High rated tasks you will have for the course
-    </div>
+    </div>-->
     
   </div>
 </div> <!-- End page_block -->
-<div style="margin:0 15px;">
-   <span class="field_title">Allow Members to Post Messages  <input type="checkbox" name ="post_messages"  <%= @course && @course.post_messages ? "checked='checked'" : "" %> value="" id="post_messages" style="margin: 0px 17px;"/></span>
-</div>
+
 <!-- Outcomes -->
   <div class="page_block">
     <div class="page_block_left">
@@ -97,8 +95,8 @@
   <div class="page_block">
     <div class="page_block_left">
       <span class="field_title">Grading Categories</span>
-      <span style = "" class="field_notes">
-        Click the Add Category button to let us know what your syllabus grading categories are. This helps us set up your grade book and your tasks.
+      <span style = "" class="field_notes">       
+        Click the "Add Category" button to set up your syllabus grading categories in your Grade Book. You can modify these later.
       </span>
       </br>
       <div class="add_outcome_bt "><!--course_setup_button-->
@@ -141,6 +139,14 @@
  <div id="outcome_share_box" class="hide">
    <%= render :partial => "/course/shared_outcome" %>
  </div>
+ <div class="page_block">
+   <div class="page_block_left">
+     <span class="field_title">Members Can Post Messages 
+  </div>
+  <div class="page_block_right" style="margin-top:5px;"><input type="checkbox" name ="post_messages"  <%= @course && @course.post_messages ? "checked='checked'" : "" %> value="" id="post_messages"/></span>
+  </div>
+</div>
+<div class="spacebar30px"></div>
   <input type="hidden" value="" id="outcome_index">
 </div>
 
@@ -459,7 +465,7 @@ $(document).ready(function(){
       _counterPeople++;
     } else if(element=="outcome"){
       var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counterOutcome);
-      newNode.html('<div style="margin-top:5px; height:48px; width:567px;" class="outcome_div"><div style="float:left; height:45px; margin-right: 20px;" > <input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="brown_bg medium" placeholder="Enter name" />  </div><div style="float:left;height:68px;margin-right:20px"><textarea class="small dd_input brown_bg" style="width:260px; height:41px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '" placeholder="Enter description" "></textarea></div> <div style=" margin-top: 20px;"><a href="javascript:void(0);" class="blue_bt19px outcomes_share_btn" id="outcomes_share_' + _shared + '" rel='+ _shared + '>Mark as Shared </a></div></div>');
+      newNode.html('<div style="margin-top:5px; height:48px; width:560px;" class="outcome_div"><div style="float:left; height:45px; margin-right: 20px;" > <input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="brown_bg medium" placeholder="Enter name" />  </div><div style="float:left;height:68px;margin-right:20px"><textarea class="small dd_input brown_bg" style="width:260px; height:41px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '" placeholder="Enter description" "></textarea></div> <div style=" margin-top: 20px;"><a href="javascript:void(0);" class="blue_bt19px outcomes_share_btn" id="outcomes_share_' + _shared + '" rel='+ _shared + '>Mark as Shared </a></div></div>');
       newNode.appendTo("#add_outcome_container");
       _counterOutcome++;
     } else if(element=="category"){

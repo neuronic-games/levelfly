@@ -87,6 +87,10 @@ class ApplicationController < ActionController::Base
     return false
   end
   
+  def after_sign_out_path_for(resource_or_scope)
+    new_user_session_path
+  end
+  
   # def set_aws_vault(vault)
   #   ENV['S3_KEY']  = vault.account
   #   ENV['S3_SECR'] = vault.secret

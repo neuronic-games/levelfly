@@ -94,7 +94,12 @@ $(document).ready(function() {
   var delete_badge_id = "";
   $("#btn_create_new").click(function(){ 
     var student_id =$("#hdn_field_profile_id").val();
-    var course_id =$("#hdn_field_course_id").val();
+    if ($("#course_select").val()=="" || $("#course_select").val()==undefined ){
+      var course_id = $("#hdn_field_course_id").val();
+    }
+    else{
+      var course_id = $("#course_select").val();
+    }
     showSpinner(true);
      $.ajax({
           type: "POST",

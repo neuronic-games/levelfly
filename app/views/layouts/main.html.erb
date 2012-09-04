@@ -64,7 +64,11 @@
         <div class="clear"></div>
       </div>
       <div class="header_mid_box">
-        <div id="alert" class="alert"></div>
+        <div id="alert" class="alert">
+           <% flash.each do |name, msg| %>
+             <div class="error_message"><%= msg %></div>
+           <% end %>
+        </div>
       </div>
       <div class="header_search_box">
         <div class="setting_box"><a href="javascript:void(0);" data-method="delete" rel="nofollow"><img src="/images//setting_icon.png" /></a></div>
@@ -295,6 +299,10 @@ var h = new Object(); // or just {}
             $('#avatar_card').css("top",position.top-30);
             $('#avatar_card').css("left",position.left-20);
             $('#avatar_card').show();
+            window_height = $(document).height();
+            card_position = $("#avatar_card").position();
+            if ((window_height - card_position.top)<200)
+             $('#avatar_card').css("top",position.top-80);
           }
           showSpinner(false);
         }

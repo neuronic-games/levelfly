@@ -30,7 +30,15 @@ before_filter :authenticate_user!
       @badge.badge_image_id = params[:badge_image_id]
       @badge.school_id = @profile.school_id
       @badge.creator_profile_id = @profile.id
+      course_ids = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.profile_type = 'M' and participants.object_type = 'Course' and parent_type = 'C'", user_session[:profile_id]],:order=>"courses.name")
+      
+      @courses = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.object_id in(?) and participants.profile_type = 'S' and participants.object_type = 'Course' and parent_type = 'C'", params[:profile_id], course_ids],:order=>"courses.name")
       if @badge.save
+        if params[:submit_type] and !params[:submit_type].nil?
+         if params[:submit_type] == "give"
+          status = AvatarBadge.add_badge(params[:profile_id],@badge.id,params[:course_id],@profile.id)
+          end
+        end
         @badges, @last_used = Badge.load_all_badges(@profile)
         render :partial =>"/badge/give_badges",:locals=>{:course_id=>params[:course_id],:profile_id=>params[:profile_id]}
       end
@@ -42,9 +50,10 @@ before_filter :authenticate_user!
       status = false
       text = ""
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-      @student = Profile.find(params[:profile_id])
-      @badge = Badge.find(params[:badge_id]) 
+      #@student = Profile.find(params[:profile_id])
+      #@badge = Badge.find(params[:badge_id]) 
       if !@profile.nil?
+<<<<<<< HEAD
         #status = Badge.check_badge(params[:profile_id],params[:badge_id],params[:course_id])
         #if status == true
           status = true
@@ -59,6 +68,9 @@ before_filter :authenticate_user!
           content = "Congratulations! You have received a new badge: #{@badge.name}"
           Message.send_notification(@profile.id,content,@student.id)
         #end
+=======
+         status = AvatarBadge.add_badge(params[:profile_id],params[:badge_id],params[:course_id],@profile.id)
+>>>>>>> 248c1f4773b289dcc1236c536f164a6b3123d929
       else
         text="Profile not found" 
       end
