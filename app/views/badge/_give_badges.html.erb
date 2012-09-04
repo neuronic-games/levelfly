@@ -100,11 +100,12 @@ $(document).ready(function() {
     else{
       var course_id = $("#course_select").val();
     }
+      var last_course = $("#hdn_field_course_id").val();
     showSpinner(true);
      $.ajax({
           type: "POST",
           url: "/badge/new_badges",
-          data:{profile_id:student_id,course_id:course_id},
+          data:{profile_id:student_id,course_id:course_id,last_course:last_course},
           success: function(data) {
             $("#container").html(data);  
             //$("#page_title").html("NEW BADGES")

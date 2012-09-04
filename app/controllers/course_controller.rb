@@ -157,6 +157,7 @@ class CourseController < ApplicationController
     end
     @profile.record_action('course', @course.id)
     @profile.record_action('last', 'course')
+    #ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}") 
     session[:controller]="course"
     respond_to do |wants|
       wants.html do
@@ -528,6 +529,7 @@ class CourseController < ApplicationController
         # section_type = 'Course' 
      # end   
      # Change 'Group' to 'Course' because of query include `participants`.`object_type` = 'Course' when load groups or courses! Change by vaibhav
+     @profile = Profile.find(user_session[:profile_id])
      section_type = 'Course'
      @peoples = Profile.find(
        :all, 
@@ -539,7 +541,7 @@ class CourseController < ApplicationController
       :include => [:participants], 
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M' and profile_id = ? ", @course.id,user_session[:profile_id]]
       )
-  
+     #ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}") 
      render :partial => "/course/member_list",:locals=>{:course=>@course}         
    end
 

@@ -12,6 +12,7 @@
             <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=@profile.id if @profile%>" />
             <input type="hidden" name="profile_id_hdn_field" id="profile_id_hdn_field" value="<%=profile_id if profile_id%>" />
             <input type="hidden" name="course_id_hdn_field" id="course_id_hdn_field" value="<%=course_id if course_id%>" />
+            <input type="hidden" name="last_course_hdn" id="last_course_hdn" value="<%=last_course if last_course%>" />
           </div><!-- crud_level -->
         </div>
         <div class="badges_box1" style="width:550px">
@@ -44,6 +45,7 @@
       </div>
     </div>
   </div>
+   <input type="hidden" name="hdn_last_action" id="hdn_last_action" value="<%=session[:controller]%>" />
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -83,15 +85,70 @@ $(document).ready(function() {
       {
         var student_id =$("#profile_id_hdn_field").val();
         var course_id =$("#course_id_hdn_field").val();
+        var last_course =$("#last_course_hdn").val();
         showSpinner(true);
         $.ajax({
           type: "POST",
           url: "/badge/save",
-          data:{badge_image_id:badge_image_id,badge_name:badge_name,profile_id:student_id,course_id:course_id,descr:descr,submit_type:submit_type},
+          dataType: "json",
+          data:{badge_image_id:badge_image_id,badge_name:badge_name,profile_id:student_id,course_id:course_id,descr:descr,submit_type:submit_type, last_course:last_course},
           success: function(data) {
-             $("#container").html(data);  
+            // $("#container").html(data);  
              $("#new_badge").attr("value","");
              $("#"+id).removeClass("selected_badge")
+             if(data.status==false)
+            {
+              //alert("This badge already given to this student for this course");
+              showSpinner(false);
+            }
+            else if (data.save_and_give==true){
+              $("#"+id).removeClass("selected_badge");
+              showSpinner(false);
+              var controller = $("#hdn_last_action").val();
+              if(controller=="message"){
+                var url = "/message/" 
+                var section_type = ""
+              }
+              else if(controller =="course"){
+                var url ="/course/show"
+                var section_type = "C"
+              }
+              else{
+                var section_type=""
+              }
+             if(controller!=""){
+             showSpinner(true);
+             $.ajax({
+              type: "GET",
+              url: url,
+              data:{id:course_id,section_type:section_type},
+              success: function(data) {
+               $("#container").html(data);  
+               showSpinner(false);
+              }
+              });  
+            }      
+            }
+            else{
+             course_id = $("#last_course_hdn").val();
+             profile_id = $("#profile_id_hdn_field").val();
+             $.ajax({
+                  type: "POST",
+                  url: "/badge/give_badges",
+                  data:{course_id:course_id,profile_id:profile_id},
+                  success: function(data) {
+                    $("#container").html(data);
+                    $("#page_title").html("BADGES")
+                    $("#alert").html("Loading /Badges/")                   
+                    showSpinner(false);
+                  },
+                  error: function()
+                  {
+                    alert("An Error has occured");
+                    showSpinner(false);
+                  },
+               });
+            }
             showSpinner(false);
           },
           error: function()
