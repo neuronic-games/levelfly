@@ -63,8 +63,8 @@ module TaskHelper
   
   def long_desc(descr)
     if !descr.nil?
-      if descr.length>80
-        str = descr.slice(0,80) +"..."
+      if descr.length>70
+        str = descr.slice(0,70)+"..."
         return str
       end
     end
@@ -73,8 +73,8 @@ module TaskHelper
   
   def long_title(title)
     if !title.nil?
-      if title.length>60
-        str = title.slice(0,60) +"..."
+      if title.length>45
+        str = title.slice(0,45)+"..."
         return str
       end
     end

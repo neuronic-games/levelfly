@@ -138,8 +138,8 @@ $(document).ready(function() {
                   data:{course_id:course_id,profile_id:profile_id},
                   success: function(data) {
                     $("#container").html(data);
-                    $("#page_title").html("BADGES")
-                    $("#alert").html("Loading /Badges/")                   
+                    $("#page_title").html("BADGES");
+                    setAlert("Loading /Badges/");                   
                     showSpinner(false);
                   },
                   error: function()

@@ -182,7 +182,8 @@ $(document).ready(function() {
               url: url,
               data:{id:course_id,section_type:section_type},
               success: function(data) {
-               $("#container").html(data);  
+               $("#container").html(data);
+               setAlert("Loading/"+controller+"/")        
                showSpinner(false);
               }
               });  
