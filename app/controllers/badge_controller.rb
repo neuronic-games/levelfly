@@ -53,24 +53,7 @@ before_filter :authenticate_user!
       #@student = Profile.find(params[:profile_id])
       #@badge = Badge.find(params[:badge_id]) 
       if !@profile.nil?
-<<<<<<< HEAD
-        #status = Badge.check_badge(params[:profile_id],params[:badge_id],params[:course_id])
-        #if status == true
-          status = true
-          @avatar_badge = AvatarBadge.new
-          @avatar_badge.profile_id = params[:profile_id]
-          @avatar_badge.badge_id  = params[:badge_id]
-          @avatar_badge.course_id = params[:course_id]
-          @avatar_badge.giver_profile_id = @profile.id
-          @avatar_badge.save
-          @student.badge_count+=1
-          @student.save
-          content = "Congratulations! You have received a new badge: #{@badge.name}"
-          Message.send_notification(@profile.id,content,@student.id)
-        #end
-=======
-         status = AvatarBadge.add_badge(params[:profile_id],params[:badge_id],params[:course_id],@profile.id)
->>>>>>> 248c1f4773b289dcc1236c536f164a6b3123d929
+        status = AvatarBadge.add_badge(params[:profile_id],params[:badge_id],params[:course_id],@profile.id)
       else
         text="Profile not found" 
       end
