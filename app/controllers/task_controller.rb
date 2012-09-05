@@ -266,7 +266,7 @@ class TaskController < ApplicationController
                   :profile_id => p_id,
                   :wall_id => wall_id
                 )
-              content = "#{@profile.full_name} assigned new task task to you #{@task.name}"   
+              content = "#{@profile.full_name} assigned you a new task: #{@task.name}"   
               Message.send_notification(@profile.id,content,p_id)    
               end
             end
