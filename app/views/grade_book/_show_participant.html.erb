@@ -173,7 +173,7 @@
         <% unless @tasks.nil? %>
           <% @tasks.each do |t| %> 
           <td class="red_border"> 
-            <table border="0" class="GB_table GB_editable task_grades_hieg">
+            <table border="0" class="GB_table GB_editable task_grades_width"><!--Add task_grades_width for extra width problem 05/09/12-->
               <tr <%if i%2 == 0%>class="GB_odd"<%end%>>
               <% @task_outcomes = t.outcomes%>
               <%task_grade = TaskGrade.load_task_grade(@school_id, @course_id,t.id,p.profile_id)%>
@@ -229,11 +229,11 @@
         <% unless @tasks.nil? %>
           <% @tasks.each do |t| %> 
           <td class="red_border"> 
-            <table border="0" class="GB_table GB_editable task_grades_hieg">
+            <table border="0" class="GB_table GB_editable task_grades_width">
               <tr <%if i%2 == 0%>class="GB_odd"<%end%>>
               <% @task_outcomes = t.outcomes%>
-               <td class="task_name_background">
-                  <div  class="rotate_text GB_outcomment3 "></div>
+               <td class="task_name_background width12px">
+                  <div class="rotate_text GB_outcomment3 "></div>
                 </td>
                 <td class="" id="" rel="">
                   <div class="rotate_text GB_outcomment3" ></div>

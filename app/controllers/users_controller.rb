@@ -11,6 +11,7 @@ class UsersController < ApplicationController
     else   
       @users = Profile.where("school_id = ? and user_id is not null", @profile.school_id)
     end
+    @profile.record_action('last', 'users')
     respond_to do |wants|
       wants.html do
         if request.xhr?

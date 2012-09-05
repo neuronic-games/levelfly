@@ -38,7 +38,7 @@
       <% else %>
         <!-- Actions for other -->
         <% if @participant && !@participant.nil?%>
-          <a href="javascript:void(0)" data ="<%=@participant.id%>"rel="<%=@participant.object_id%>" rev="<%=profile.id%>" id ="give_badges" class="blue_bt19px give_badges">Give Badge</a> 
+          <a href="javascript:void(0)" data ="<%=@participant.id%>" rel="<%=@participant.object_id%>" rev="<%=profile.id%>" id ="give_badges" class="blue_bt19px give_badges">Give Badge</a> 
         <% end %>
           <a href="javascript:void(0)" rel="switch" id ="message_root" class="blue_bt19px">Message</a> 
 
@@ -61,7 +61,7 @@
 <div class="bottom_shadow" ></div>
 
 <script type="text/javascript">
-<!--
+
 //Toggle card screen
 $('a[rel=switch]').click(function(){
   if(this.id=="note_root") {

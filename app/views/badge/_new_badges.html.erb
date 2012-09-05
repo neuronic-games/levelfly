@@ -101,33 +101,20 @@ $(document).ready(function() {
               //alert("This badge already given to this student for this course");
               showSpinner(false);
             }
-            else if (data.save_and_give==true){
-              $("#"+id).removeClass("selected_badge");
-              showSpinner(false);
-              var controller = $("#hdn_last_action").val();
-              if(controller=="message"){
-                var url = "/message/" 
-                var section_type = ""
-              }
-              else if(controller =="course"){
-                var url ="/course/show"
-                var section_type = "C"
-              }
-              else{
-                var section_type=""
-              }
-             if(controller!=""){
+            else if (data.save_and_give==true && data.url !=""){
+              $("#"+id).removeClass("selected_badge");  
+             url = data.url
+             controller = url.split("/");
              showSpinner(true);
              $.ajax({
               type: "GET",
               url: url,
-              data:{id:course_id,section_type:section_type},
               success: function(data) {
+               setAlert("Loading /"+controller[1]+"/")
                $("#container").html(data);  
                showSpinner(false);
               }
-              });  
-            }      
+              });       
             }
             else{
              course_id = $("#last_course_hdn").val();

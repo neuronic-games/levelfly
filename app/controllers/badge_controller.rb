@@ -8,7 +8,7 @@ before_filter :authenticate_user!
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
       course_ids = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.profile_type = 'M' and participants.object_type = 'Course' and parent_type = 'C'", user_session[:profile_id]],:order=>"courses.name")
       
-      @courses = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.object_id in(?) and participants.profile_type = 'S' and participants.object_type = 'Course' and parent_type = 'C'", params[:profile_id], course_ids],:order=>"courses.name")
+      @courses = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.object_id in(?) and participants.profile_type = 'S' and participants.object_type = 'Course' and parent_type = 'C'", params[:profile_id], course_ids],:order=>"courses.id")
       @badges ,@last_used= Badge.load_all_badges(@profile)
       #@last_used = Badge.last_used(@profile.school_id,@profile.id)
       render :partial =>"/badge/give_badges",:locals=>{:course_id=>params[:course_id],:profile_id=>params[:profile_id]}
@@ -24,6 +24,7 @@ before_filter :authenticate_user!
   def save
     if params[:badge_image_id] && !params[:badge_image_id].nil?
       status = false
+      url = nil
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
       @badge = Badge.new
       @badge.name = params[:badge_name]
@@ -38,30 +39,31 @@ before_filter :authenticate_user!
         if params[:submit_type] and !params[:submit_type].nil?
          if params[:submit_type] == "give"
           status = AvatarBadge.add_badge(params[:profile_id],@badge.id,params[:course_id],@profile.id)
+          url= ProfileAction.last_action(@profile.id)
           end
         end
         @badges, @last_used = Badge.load_all_badges(@profile)
         #controller = session[:controller]
         #ProfileAction.last_viewed(@profile, controller, "/#{controller}/show")
         #render :partial =>"/badge/give_badges",:locals=>{:course_id=>params[:course_id],:profile_id=>params[:profile_id]}
-       render :json => {:status => true, :save_and_give=>status, :course_id=>params[:course_id], :last_course_id=>params[:last_course], :profile_id => params[:profile_id]}
+       render :json => {:status => true, :url=>url, :save_and_give => status, :course_id=>params[:course_id], :last_course_id=>params[:last_course], :profile_id => params[:profile_id]}
       end
     end
   end
   
   def give_badge_to_student
-    if (params[:badge_id] && !params[:badge_id].nil?) #&& (params[:course_id] && !params[:course_id].nil?) &&(params[:profile_id] && !params[:profile_id].nil?)
+    if (params[:badge_id] && !params[:badge_id].nil?) #&& (params[:course_id] && !params[:course_id].nil?) 
       status = false
       text = ""
+      url = nil
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-      #@student = Profile.find(params[:profile_id])
-      #@badge = Badge.find(params[:badge_id]) 
       if !@profile.nil?
         status = AvatarBadge.add_badge(params[:profile_id],params[:badge_id],params[:course_id],@profile.id)
+        url = ProfileAction.last_action(@profile.id)
       else
         text="Profile not found" 
       end
-      render :json => {:status => status, :text=>text}
+      render :json => {:status => status, :text=>text, :url=>url}
     end
   end
   

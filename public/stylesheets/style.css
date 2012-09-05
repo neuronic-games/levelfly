@@ -1251,6 +1251,8 @@ a.green_bt19px {
 }
 a.green_bt19px:hover {
 	text-decoration:none;
+  cursor: pointer;
+  background:#9FBC34;
 }
 .course_activity_list {
 	float:left;
@@ -3291,7 +3293,7 @@ filter:alpha(opacity="0");
 	padding: 4px 15px 0 0;
 }
 
-.task_grades_hieg {/*height:60px;*/}
+.task_grades_width {width:100%;/*height:60px;*/}
 
 .nav_box{position:relative; width:800px; height:122px; padding:0; overflow:hidden; -moz-border-radius:5px; -webkit-border-radius:5px; border-radius:5px;}
 .nav_box .jTscrollerContainer{position:absolute; }

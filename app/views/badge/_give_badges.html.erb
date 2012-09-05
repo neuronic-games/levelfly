@@ -152,7 +152,7 @@ $(document).ready(function() {
         url: "/badge/give_badge_to_student",
         dataType: 'json',
         data:{badge_id:badge_id,profile_id:student_id,course_id:course_id},
-        success: function(data) {
+        success: function(data){
           //$("#container").html(data);  
           if(data.status==false)
           {
@@ -162,28 +162,16 @@ $(document).ready(function() {
           else{
             $("#"+id).removeClass("selected_badge");
             showSpinner(false);
-            var controller = $("#hdn_last_action").val();
-            if(controller=="message"){
-              var url = "/message/" 
-              var section_type = ""
-            }
-            else if(controller =="course"){
-              var url ="/course/show"
-              var section_type = "C"
-            }
-            else{
-              var section_type=""
-            }
-             if(controller!="")
-             {
+            if(data.url!=""){
+             url = data.url;
+             controller = url.split("/");
              showSpinner(true);
              $.ajax({
               type: "GET",
               url: url,
-              data:{id:course_id,section_type:section_type},
               success: function(data) {
-               $("#container").html(data);
-               setAlert("Loading/"+controller+"/")        
+               setAlert("Loading /"+controller[1]+"/")
+               $("#container").html(data); 
                showSpinner(false);
               }
               });  

@@ -1089,6 +1089,7 @@ $('#course_id').change(function(){
           column.addClass("selected_t_"+task.id+"");
           rows.addClass("red_border")
           var table_task = $("<table></table>");
+          table_task.addClass("task_grades_width");
           var  text_grade = $("<input type ='text' value = '' id = 'g_"+value+"_"+resp.task.id +"' maxlength='2' size='2' rel = '"+ value +"' data='"+resp.task.include_task_grade+"'/>");
           text_grade.addClass("editable_field task_grade t_"+task.id);
           column.html(text_grade); 
@@ -1184,6 +1185,7 @@ $('#course_id').change(function(){
           column.addClass("selected_t_"+task.id+"");
           rows.addClass("red_border")
           var table_task = $("<table></table>");
+          table_task.addClass("task_grades_width");
           var  text_grade = $("<input type ='text' value = '' id = '' maxlength='2' size='2' rel = ''/>");
           text_grade.addClass("task_grade");
           column.html(text_grade); 
@@ -1515,7 +1517,8 @@ $('#course_id').change(function(){
           var main_col=$("<td></td>");
           main_col.addClass("red_border");
           column.addClass("selected_t_"+task.id+"");
-          var table_task = $("<table></table>");
+          var table_task = $("<table></table>");width12pxclass="GB_table GB_editable task_grades_width"
+          table_task.addClass("task_grades_width");//Add for remove extra column 05/09/12
           var len = task.task_outcomes.length;
           var  text_grade = $("<input type ='text' value = '"+value.task_grade[i]+"' id = 'g_"+value.profile_id+"_"+task.id +"' maxlength='2' size='2' rel ='"+ value.profile_id +"' data='"+task.include_task_grade+"'/>");
           text_grade.addClass("editable_field task_grade t_"+task.id +"");
@@ -1698,6 +1701,7 @@ $('#course_id').change(function(){
           main_col.addClass("red_border");
           column.addClass("selected_t_"+task.id+"");
           var table_task = $("<table></table>");
+          table_task.addClass("task_grades_width");
           var len = task.task_outcomes.length;
           var  text_grade = $("<input type ='text' value = '' id = '' readonly='readonly' maxlength='2' size='2' rel = ''/>");
           text_grade.addClass("task_grade");

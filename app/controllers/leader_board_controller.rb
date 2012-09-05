@@ -4,7 +4,9 @@ class LeaderBoardController < ApplicationController
   before_filter :authenticate_user!
   
   def index
+    @profile = Profile.find(user_session[:profile_id])
     render :partial => "/leader_board/list"
+    @profile.record_action('last', 'leader_board')
   end
 
   def get_rows
