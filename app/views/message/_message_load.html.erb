@@ -1,0 +1,5 @@
+<% if @messages %>
+  <% @messages.each do |message| %>
+    <%= render :partial => "/message/messages", :locals => {:message=>message} %>
+  <% end %>
+<% end %>

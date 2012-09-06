@@ -262,6 +262,8 @@ Oncapus::Application.routes.draw do
   
   post "message/check_request"
   
+  post "message/check_messages"
+  
   post "message/unfriend"
   
   post "message/delete_message"

@@ -9,15 +9,16 @@
     </div>
   </div>
     <!-- Invites -->
+   
     <% if @friend_requests and not @friend_requests.empty? %>
-    <div id="course_requests">
-      <div id="invites_title"><h2>INVITES</h2></div>
+     <div id="invites_title"><h2>INVITES</h2></div>
+     <div id="course_requests">
       <% @friend_requests.each do |friend_request| %>
         <%= render :partial => "/message/friend_requests", :locals => {:friend_request=>friend_request} %>
       <% end %>
-    </div>
+     </div>     
     <% end %>
-      
+  
 
      <!-- Respond -->
        <% if @respont_to_course and not @respont_to_course.empty? %>
@@ -33,7 +34,6 @@
    <h2>MESSAGES</h2>
    <div id="message_wrapper" class="message_wrapper">
        <% if @messages %>
-      
         <% @messages.each do |message| %>
           <%= render :partial => "/message/messages", :locals => {:message=>message} %>
         <% end %>
@@ -55,9 +55,9 @@
   
   <!-- Friend List -->
   <div class="friend_list" id="friend_list">
-    <% if @friend %>
+    <% if @users %>
       <h2>RECENTLY MESSAGED</h2>
-      <% @friend.each do |friend| %>
+      <% @users.each do |friend| %>
         <%= render :partial => "/message/friend_list", :locals => {:friend=>friend} %>
       <% end %>
     <% end %>
@@ -74,8 +74,27 @@ $(document).ready(function() {
       $.ajax({
         type: "POST",  
         url: "/message/check_request",  
-        success: function(data) {
-          $("#course_requests").prepend(data);
+        success: function(data){
+         if(data!=""){
+            if ($("#invites_title").length > 0){
+              $("#course_requests").prepend(data);
+            }else{
+              $("#course_requests").html("<div id='invites_title'><h2>INVITES</h2></div>");
+              $("#course_requests").append(data);
+            }
+            var invites = parseInt($("#invitation_count").val());
+            $("#invitation_count").attr("value",invites+1); 
+              
+         }
+        }
+     });
+     $.ajax({
+        type: "POST",  
+        url: "/message/check_messages",  
+        success: function(data){
+         if(data!=""){
+          $("#message_wrapper").prepend(data);
+         }
         }
       });
     }, 10000*20); 
@@ -177,7 +196,7 @@ $('.message_list').click(function(){
              var notification = $("#notification_count").val();
              $("#notification_count").attr("value",notification-1);
              if($("#notification_count").val()==0){
-                $("#notification_title").html("<h2>There are no more notification</h2>")
+                $("#notification_title").html("")
              }
              showSpinner(false);
              }

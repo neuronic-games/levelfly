@@ -24,19 +24,30 @@ class MessageController < ApplicationController
       
       @respont_to_course = Message.find(:all,:conditions=>["target_type in('Course','Notification') AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived = ? and id in(?)", @profile.id,false,message_ids], :order => 'created_at DESC')
     end
-     recently_messaged = Message.find(:all, :select=> "parent_id" ,:conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type = 'Profile' and parent_type = 'Profile' and profile_id = ? ",false,message_ids,user_session[:profile_id]], :group=>"parent_id").collect(&:parent_id)
+    
+     recently_messaged = Message.find(:all, :select=> "profile_id" ,:conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type = 'Profile' and parent_type = 'Profile' and parent_id = ? ",false,message_ids,user_session[:profile_id]], :group=>"profile_id").collect(&:profile_id)
      
-     
-    @friend = Participant.find(:all, :select =>"distinct profile_id", :conditions=>[" profile_id in (?) or (object_id = ? AND object_type = 'User' AND profile_type = 'F')", recently_messaged, @profile.id])
-  
+    friend_id = Participant.find(:all, :select =>"distinct profile_id", :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", @profile.id]).collect(&:profile_id) 
+    ids = recently_messaged.zip(friend_id).flatten.compact
+    if ids.length>0
+      @users = Profile.find(:all, :conditions=>["id in (?)",ids])
+    end
+    #@friend = Profile.find(:all, :conditions=>["id in (?)",]) 
     @profile.record_action('last', 'message')
     session[:controller]="message"
     render :partial => "list",:locals => {:friend_id => @friend_id} 
   end
   
   def check_request
-    @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite') AND profile_id = ? AND (archived is NULL or archived = ?) AND created_at > ?", user_session[:profile_id], false,user_session[:last_check_time]])
+    @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite') AND parent_id = ? AND (archived is NULL or archived = ?) AND created_at > ?", user_session[:profile_id], false,user_session[:last_check_time]])
     render:partial=>"message/friend_request_show",:locals=>{:friend_request => @friend_requests}
+    user_session[:last_check_time] = DateTime.now
+  end
+  
+  def check_messages
+    message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", user_session[:profile_id]]).collect(&:message_id)
+    @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type in('C','','G') and created_at > ?",false,message_ids,user_session[:last_check_time]], :order => 'created_at DESC')
+    render:partial=>"message/message_load",:locals=>{:friend_request => @friend_requests}
     user_session[:last_check_time] = DateTime.now
   end
   
@@ -105,7 +116,6 @@ class MessageController < ApplicationController
     if params[:profile_id] && !params[:profile_id].nil?
       @profile = Profile.find(params[:profile_id])
       course_id = nil
-      #if params[:course_id] && !params[:course_id].nil?
         @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
         #@owner = Participant.find(:first,:conditions=>["object_id = ? and profile_id = ? and profile_type= 'M' and object_type = 'Course'",params[:course_id],@current_user.id])
         course_ids = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.profile_type = 'M' and participants.object_type = 'Course' and parent_type = 'C'", user_session[:profile_id]])
@@ -118,8 +128,6 @@ class MessageController < ApplicationController
           end
           @participant = Participant.find(:first, :conditions =>["object_id = ? and profile_id = ? and object_type = 'Course' and profile_type='S'",course_id,@profile.id])
         end  
-      #end
-      #@badges = AvatarBadge.select("count(*) as total").where("profile_id = ? ",@profile.id)
       render :partial => "add_friend_card", :locals => {:profile => @profile}
     end
   end

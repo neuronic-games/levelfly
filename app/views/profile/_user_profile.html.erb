@@ -429,6 +429,8 @@ $(document).ready(function(){
 
 
   function saveProfile() {
+     interests = $("#interests").val();
+    _profile.tag_list = interests;
     $.ajax({
       url: "/profile/save_meta",
       data: { id: _profile.id, profile: _profile }, 

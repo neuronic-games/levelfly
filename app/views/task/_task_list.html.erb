@@ -3,7 +3,7 @@
 <% else %>
   <% @tasks.each do |t| %>
     <% participant = t.task_participants[0] %>
-    <div class="task_list_content clipboard_list" task_id="<%=t.id%>" style="height:100px;">
+    <div class="task_list_content clipboard_list" task_id="<%=t.id%>" style="min-height:100px;">
 
       <div class="list_hover" style="margin-top:70px; margin-left:118px;">
         <div class="like_cmt">
@@ -29,7 +29,7 @@
       <div class="titleTDue"><%=change_date_format(t.due_date) if t.due_date%></div>
       
       <!-- This column does not expand well. Do we need to control max-width via JavaScript? -->
-      <div class="titleTTAsk" style="min-width:260px; max-width:260px;">
+      <div class="titleTTAsk" >
         <div class="title"><%=long_title(t.name)%></div>
         <div class="description"><%=long_desc(t.descr)%></div>
       </div>

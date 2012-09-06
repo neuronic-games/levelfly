@@ -71,10 +71,10 @@
     var object_type;
     <%if @task%>
      object_id = $("#task_id_hdn").val();
-     object_type = 'task';
+     object_type = 'Task';
     <% else %>
      object_id = $("#course_id_hdn").val();
-     object_type = 'course';
+     object_type = 'Course';
     <% end %>
   
        <% if @courseMaster %>

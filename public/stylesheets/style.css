@@ -2396,9 +2396,9 @@ float:left; height:800px;
     border: 5px solid #EAEBEB;
     border-radius: 10px 10px 10px 10px;
     float: left;
-    margin-right: 10px;
+    /*margin-right: 10px;*/
     height: 80px;
-    width: 80px;
+    width: 10%;
 }
 .avatar_white_bdrC2task a img {
     height: 80px;
@@ -2417,25 +2417,26 @@ float:left; height:800px;
     float: left;
     font-size: 17px;
     font-weight: bold;
-    margin-right: 0px;
+    /*margin-right: 0px;*/
     padding-top: 20px;
-    width:20px;
+    /*width:10%;*/
 }
 .titleTDue {
     float: left;
     font-size: 17px;
     font-weight: bold;
-    margin-right: 54px;
+    /*margin-right: 54px;*/
     padding-top: 20px;
-    width:100px;
+    width:20%;
 }
 
 .titleTTAsk {
     float: left;
     font-size: 17px;
     font-weight: bold;
-    padding-right: 40px;
+    /*padding-right: 40px;*/
     padding-top: 20px;
+    width :30%;
 }
 
 .titleTType {
@@ -2443,14 +2444,14 @@ float:left; height:800px;
     font-size: 17px;
     font-weight: bold;
     padding-top: 20px;
-    width:180px;
+    width:18%;
 }
 .titleTrating {
   float: right;
   font-size: 17px;
   font-weight: bold;
   padding-top: 20px;
-  width: 70px;
+  width: 10%;
 }
 .staronavatar2  img{
 	position:absolute;
