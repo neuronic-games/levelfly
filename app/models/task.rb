@@ -187,7 +187,7 @@ class Task < ActiveRecord::Base
         participant.save
         status = complete
         Task.task_grade_points(task_id,profile_id,complete)
-        @level = Reward.find(:first, :conditions=>["xp <= ?",  profile.xp], :order=>"xp DESC")  
+        @level = Reward.find(:first, :conditions=>["xp <= ? and object_type = 'level'",  profile.xp], :order=>"xp DESC")
         puts"#{@level.inspect}"
         profile.level = @level.object_id
         profile.save
@@ -198,7 +198,8 @@ class Task < ActiveRecord::Base
         if(previous_level != profile.level)
           content = "Congratulations! You have achieved level #{profile.level}."
           Message.send_notification(current_user,content,profile_id)
-        end  
+        end 
+        Reward.notification_for_reward_sports(profile,previous_points,current_user)        
       end
     end
     return status

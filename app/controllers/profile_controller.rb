@@ -35,8 +35,10 @@ class ProfileController < ApplicationController
   end
 
   def edit
+    profile = Profile.find(user_session[:profile_id])
+    ids = profile.sports_reward   
     wardrobe_items = WardrobeItem.find(:all, 
-      :conditions => ["archived = ?", false],
+      :conditions => ["archived = ? and wardrobe_id in (?)", false, ids],
       :order => "depth, sort_order")
     
     render :text => wardrobe_items.to_json
@@ -151,7 +153,7 @@ class ProfileController < ApplicationController
     @groups = Course.all_group(@profile,"M")
     @courses = Course.course_filter(@profile.id,"")
     @major = Major.find(:all, :conditions =>["school_id = ? ",@profile.school_id])
-    @level = Reward.find(:first, :conditions=>["xp <= ?",  @profile.xp], :order=>"xp DESC")  
+    @level = Reward.find(:first, :conditions=>["xp <= ? and object_type = 'level'",  @profile.xp], :order=>"xp DESC")
     puts"#{@level.inspect}"
     @profile.level = @level.object_id
     @profile.save

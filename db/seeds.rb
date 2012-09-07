@@ -15,6 +15,8 @@ default = Avatar.create(:profile => profile, :skin => 3, :body => 'avatar/body/b
 
 basic = Wardrobe.create(:name => 'Basic', :visible_level => 1, :available_level => 1, :available_date => Date.today, :visible_date => Date.today)
 
+sports = Wardrobe.create(:name => 'Sports', :visible_level => 1, :available_level => 1, :available_date => Date.today, :visible_date => Date.today)
+
 # item_type_list = WardrobeItemType.create([{:name => 'head'}, {:name => 'body'}, {:name => 'legs'}, {:name => 'feet'}, {:name => 'prop'}, {:name => 'head_shape'}, {:name => 'face'}, {:name => 'hair'}, {:name => 'facial_hair'}, {:name => 'hat'}, {:name => 'top'}])
 # item_type = {}
 # item_type_list.each do |i|
@@ -259,6 +261,7 @@ Reward.create(:xp => "400", :object_type => 'level', :object_id => "3")
 Reward.create(:xp => "600", :object_type => 'level', :object_id => "4")
 Reward.create(:xp => "800", :object_type => 'level', :object_id => "5")
 Reward.create(:xp => "1000", :object_type => 'level', :object_id => "6")
+Reward.create(:xp => "400", :object_type => 'wardrobe', :object_id => "2")
 
 #majors
 Major.create(:school_id => school, :name =>"Accounting", :code => "ACC")

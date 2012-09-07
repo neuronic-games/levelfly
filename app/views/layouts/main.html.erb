@@ -145,6 +145,14 @@
                 <div class="icon_box"> <a href="javascript:void(0);" id="users" rel="/users/" rev = "/users/" class="icon_users menu_btn">People</a> </div><%count=count+1%>
                 <div class="space_btwn_icon"></div>
               <%end%>
+             <%if Role.check_permission(@profile.id,Role.modify_wardrobe) == true%> 
+              <div class="icon_box"> <a href="javascript:void(0);" id="wardrobe" rel="/wardrobe/" rev = "/wardrobe/" class="icon_leader menu_btn">Wardrobe</a> </div><%count=count+1%>
+               <div class="space_btwn_icon"></div>
+             <%end%>  
+             <%if Role.check_permission(@profile.id,Role.modify_rewards) == true%> 
+              <div class="icon_box"> <a href="javascript:void(0);" id="reward" rel="/reward/" rev = "/reward/" class="icon_leader menu_btn">Rewards</a> </div><%count=count+1%>
+               <div class="space_btwn_icon"></div>
+             <%end%>  
             </div>
           </div>
           <%if count>0%>

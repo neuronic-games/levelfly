@@ -294,6 +294,9 @@ Oncapus::Application.routes.draw do
   
   get "users/new"
   
+  
+  match 'reward' => 'reward#index'
+  
   match 'task' => 'task#index'
   
   match 'grade_book' => 'grade_book#index'

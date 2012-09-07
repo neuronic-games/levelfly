@@ -25,14 +25,29 @@ class MessageController < ApplicationController
       @respont_to_course = Message.find(:all,:conditions=>["target_type in('Course','Notification') AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived = ? and id in(?)", @profile.id,false,message_ids], :order => 'created_at DESC')
     end
     
-     recently_messaged = Message.find(:all, :select=> "profile_id" ,:conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type = 'Profile' and parent_type = 'Profile' and parent_id = ? ",false,message_ids,user_session[:profile_id]], :group=>"profile_id").collect(&:profile_id)
-     
-    friend_id = Participant.find(:all, :select =>"distinct profile_id", :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", @profile.id]).collect(&:profile_id) 
-    ids = recently_messaged.zip(friend_id).flatten.compact
-    if ids.length>0
-      @users = Profile.find(:all, :conditions=>["id in (?)",ids])
-    end
-    #@friend = Profile.find(:all, :conditions=>["id in (?)",]) 
+     recently_messaged = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type = 'Profile' and parent_type = 'Profile' and (profile_id = ? or parent_id = ?)",false,message_ids,user_session[:profile_id],user_session[:profile_id]],:order=>"created_at desc")
+     profile_ids = []
+     @users = []
+     recently_messaged.each do |r|
+       profile_ids.push(r.profile_id)
+       profile_ids.push(r.parent_id)
+     end
+     profile_ids=profile_ids.uniq
+     if profile_ids.length>0
+        profile_ids.each do |id|
+          if id != user_session[:profile_id]
+            @user = Profile.find(id)
+            @users.push(@user)
+          end  
+        end
+     end
+     #friend_id = Participant.find(:all, :select =>"distinct profile_id", :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", @profile.id]).collect(&:profile_id)
+   
+    # if recently_messaged.empty?
+      # ids = recently_messaged_by_other
+    # else
+      # ids = recently_messaged.zip(recently_messaged_by_other).flatten.compact
+    # end
     @profile.record_action('last', 'message')
     session[:controller]="message"
     render :partial => "list",:locals => {:friend_id => @friend_id} 

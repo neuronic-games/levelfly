@@ -15,6 +15,12 @@ class Role < ActiveRecord::Base
   @@edit_user = 'edit_user'
   cattr_accessor :edit_user
   
+  @@modify_rewards = 'modify_rewards'
+  cattr_accessor :modify_rewards
+  
+  @@modify_wardrobe = 'modify_wardrobe'
+  cattr_accessor :modify_wardrobe
+  
   def self.set_user_role(profile_id)
     user_role = Role.find(:first, :conditions => ["profile_id = ? and (name = ? or name = ?)", profile_id,Role.create_group,Role.create_task])
     if user_role.nil?
@@ -40,7 +46,13 @@ class Role < ActiveRecord::Base
         break
       elsif(type==Role.edit_user and role.name == Role.edit_user)
         return true
-        break  
+        break 
+      elsif(type==Role.modify_rewards and role.name == Role.modify_rewards)
+        return true
+        break 
+      elsif(type==Role.modify_wardrobe and role.name == Role.modify_wardrobe)
+        return true
+        break     
       end
     end
   return false  

@@ -19,7 +19,7 @@
     <% if (user_session[:profile_id] == profile.id)%>
 
     <div class="profile_item FloatR">
-      <a href="javascript:void(0)" class="big_blue_btn" name="change_my_look" id="change_my_look" onClick="loadPage('/profile/edit_wardrobe');">Wardrobe</a>
+      <a href="javascript:void(0)" class="big_blue_btn" name="change_my_look" id="change_my_look" onClick="loadPage('/profile/edit_wardrobe'); setAlert('Loading/wardrobe');">Wardrobe</a>
     </div>
      <div class="profile_item FloatR" style="padding-right:10px;">
       <a href="javascript:void(0)" class="big_blue_btn" name="major_btn" id="major_btn">Major</a>

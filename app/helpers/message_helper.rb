@@ -60,9 +60,10 @@ module MessageHelper
   end 
   
   def last_message(profile_id,current_user)
-    message = Message.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and target_type = 'Profile' and parent_type = 'Profile' and profile_id = ? and parent_id = ?",false,profile_id,current_user],:order => "created_at DESC")
+   message = Message.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and target_type = 'Profile' and parent_type = 'Profile' and (profile_id = ? and parent_id = ?) or (profile_id = ? and parent_id = ?)",false,current_user,profile_id,profile_id,current_user],:order => "created_at DESC")
     if message
       return message.created_at
+    
     end
     return nil
   end
