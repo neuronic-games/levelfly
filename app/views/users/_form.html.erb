@@ -63,17 +63,18 @@
                   <input type="checkbox" class="check_box" name ="user_role[]" id="create_task" <%=@profile && Role.check_permission(@profile.id, "T") ? "checked='checked'" : "" %>value=""/> Modify tasks</br></br>
                   <input type="checkbox" class="check_box" name ="user_role[]" id="edit_grade" <%=@profile && Role.check_permission(@profile.id, Role.edit_grade) ? "checked='checked'" : "" %>value=""/> Modify grades</br></br>
                   <input type="checkbox" class="check_box" name ="user_role[]" id="edit_user" <%=@profile && Role.check_permission(@profile.id, Role.edit_user) ? "checked='checked'" : "" %>value=""/> Modify users</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="modify_rewards" <%=@profile && Role.check_permission(@profile.id, Role.modify_rewards) ? "checked='checked'" : "" %>value=""/>MODIFY REWARDS</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="modify_wardrobe" <%=@profile && Role.check_permission(@profile.id, Role.modify_wardrobe) ? "checked='checked'" : "" %>value=""/>MODIFY WARDROBE</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="modify_rewards" <%=@profile && Role.check_permission(@profile.id, Role.modify_rewards) ? "checked='checked'" : "" %>value=""/> MODIFY REWARDS</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="modify_wardrobe" <%=@profile && Role.check_permission(@profile.id, Role.modify_wardrobe) ? "checked='checked'" : "" %>value=""/> MODIFY WARDROBE</br></br>
                 </div>
-              </div> <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
               </br>
-              <div class=""> Status </br>
-                 <div class="">
-                  <input type="radio" name="user_status[]" checked="true" value="" rel="A" /><span>Active 
-                  </span></div> 
-                  <div class="">
-                  <input type="radio" name="user_status[]" <%if @profile and @profile.user.status=="S" %>checked="true"<%end%>  rel="S" value=""/><span>Suspended</span>
+              <div class="course_viewfield color_b field_label">This user is:
+                 <div class=""></br>
+                  <input type="radio" name="user_status[]" checked="true" value="" rel="A" /><span> Active 
+                  </span>
+                  &nbsp; &nbsp;
+                  <input type="radio" name="user_status[]" <%if @profile and @profile.user.status=="S" %>checked="true"<%end%>  rel="S" value=""/><span> Suspended</span>
                 </div> 
             </div>   
             </div>          
