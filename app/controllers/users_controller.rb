@@ -49,8 +49,8 @@ class UsersController < ApplicationController
   if params[:id] and !params[:id].blank?
     @profile = Profile.find(params[:id])
   else
-     @email = User.find(:all, :conditions => ["email = ? ",params[:email]])
-     if @email.count>0
+     @email = User.find(:first, :conditions => ["email = ? ",params[:email]])
+     if @email and !@email.nil?
        email_exist = true
      else
       @user, @profile = User.new_user(params[:email])
@@ -78,6 +78,7 @@ class UsersController < ApplicationController
       @profile.full_name = params[:name] if params[:name]
       #@user.update_attribute("email",params[:email])
       @user.email = params[:email] if params[:email]
+      @user.status = params[:status] if params[:status]
       @user.password = params[:user_password] if params[:user_password]
       @user.save
       @profile.save

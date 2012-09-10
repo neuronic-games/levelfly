@@ -294,6 +294,14 @@ Oncapus::Application.routes.draw do
   
   get "users/new"
   
+  get "reward/new"
+  
+  get "reward/show"
+  
+  post "reward/save"
+  
+  post "reward/delete/"
+  
   
   match 'reward' => 'reward#index'
   
@@ -335,6 +343,8 @@ Oncapus::Application.routes.draw do
   match 'users/show/:id' => 'users#show'
   
   match 'group/show/:id' => 'group#show'
+  
+  match 'reward/show/:id' => 'reward#show'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

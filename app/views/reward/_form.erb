@@ -1,0 +1,99 @@
+<div class="add_task_popup">
+  <div class="heading">Reward</div>
+  <div class="boxadnt"> <span class="heading02">XP</span>
+    <div class="heading02_field">
+      <div class="dd_bg brown_bg02">
+        <input type ="text" class = "dd_input brown_bg02" id ="xp_points" value="<%=@reward.xp if @reward%>">
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="boxadnt"> <span class="heading02">Object Type</span>
+    <div class="heading02_field">
+      <div class="dd_bg brown_bg02">
+        <input type ="text" class = "dd_input brown_bg02" id ="object_type" value="<%=@reward.object_type if @reward%>">
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="boxadnt"> <span class="heading02">Object ID</span>
+    <div class="heading02_field">
+      <div class="dd_bg brown_bg02">
+        <input type ="text" class = "dd_input brown_bg02" id ="object_id" value="<%=@reward.object_id if @reward%>">
+      </div>
+    </div>
+    <div class="clear"></div>
+
+     
+    <div class="spacebar10px"></div>
+    <div class="spacebar10px"></div>
+  </div>
+  <input type="hidden" id="hdn_reward_id" value="<%=@reward.id if @reward%>">
+  <div align="right" style="margin-right:20px;">
+   <% if @reward and !@reward.nil?%><a class="big_orange_btn inlineblock clr_red" id ="remove_btn" href="javascript:void(0)">Remove</a><%end%>
+  <a class="big_blue_btn inlineblock" id ="dont_save_btn" href="javascript:void(0)">Don't Save</a> <a class="big_blue_btn inlineblock" id ="save_btn" href="javascript:void(0)">Save</a></div>
+ </div>
+</div>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+  $("#dont_save_btn").click(function(){
+    $("#modification").hide();
+    $("#modification").html('');
+  });
+  
+  $("#save_btn").click(function(){
+    id = $("#hdn_reward_id").val();
+    xp = $("#xp_points").val();
+    object_type = $("#object_type").val();
+    object_id = $("#object_id").val();
+    showSpinner(true);
+    $.ajax({
+      type:"POST",
+      dataType :"json",
+      url:"/reward/save/",
+      data:{id:id,xp:xp,object_type:object_type,object_id:object_id},
+      success: function(resp){
+        if (resp.status==true){
+            $("#container").load('/reward/', function(){
+              showSpinner(false);
+            });
+          }
+          else {
+             showSpinner(false);
+             alert("Error");
+          }
+      }
+    });
+    showSpinner(false);
+  });
+  
+  $("#remove_btn").click(function(){
+    id = $("#hdn_reward_id").val();
+    if(id){
+      showSpinner(true);
+      $.ajax({
+        type:"POST",
+        data:{id:id},
+        url:"/reward/delete/",
+        dataType:"json",
+        success:function(resp){
+           if (resp.status==true){
+            $("#container").load('/reward/', function(){
+              showSpinner(false);
+            });
+          }
+          else {
+             showSpinner(false);
+             alert("Error");
+          }
+        }
+      });
+    }
+  
+  });
+});
+</script>

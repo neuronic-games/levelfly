@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :set_current_profile
+
   # before_filter :prepare_for_mobile
    include ApplicationHelper
   def search_participants
@@ -42,6 +43,11 @@ class ApplicationController < ActionController::Base
     if current_user and user_session[:profile_id].blank?
       profile = Profile.create_for_user(current_user.id)
       publish_profile(profile)
+      if current_user.status == "S"
+        flash[:message] = "Your account has been suspended."
+        flash.keep(:message)
+        sign_out
+      end
     end
   end
   
@@ -89,6 +95,10 @@ class ApplicationController < ActionController::Base
   
   def after_sign_out_path_for(resource_or_scope)
     new_user_session_path
+  end
+  
+  private
+  def user_active(status)
   end
   
   # def set_aws_vault(vault)

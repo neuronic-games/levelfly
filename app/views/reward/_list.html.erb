@@ -12,8 +12,30 @@
           </div>
 
           <div id="rows" class="LB_table">
-           
+            <div class="LB_tableheader">
+            <div class="LBT_ava"> &nbsp;</div>
+            <div class="LBT_name">&nbsp;</div>
+            <div class="LBT_level">XP</div>
+            <div class="LBT_xp">Object Type</div>
+            <div class="LBT_badges">Object ID</div>
           </div>
+           <%if @rewards and !@rewards.nil?%>
+            <% @rewards.each do |r|%>
+              <div class="LB_tablecontent <%= cycle("even", "odd") %>">
+                <div class="LBT_ava">
+                  <!--<div class="avatarWbdr"><img src="" class="profile"  /></div>-->
+                </div>
+                <div class="LBT_name view_user" rel="/reward/show/<%=r.id%>" > 
+                  <span class="name_txt "> </span><br />
+                  <span class="course_txt"></span> 
+                </div>
+                <div class="LBT_level view_user" rel="/reward/show/<%=r.id%>" style="font-size:12px;"><%= r.xp %></div>
+                <div class="LBT_xp view_user" rel="/reward/show/<%=r.id%>" style="font-size:12px;"><%= r.object_type %></div>
+                <div class="LBT_badges view_user" rel="/reward/show/<%=r.id%>" style="font-size:12px;"><%= r.object_id %></div>
+                </div>
+            <% end %>
+          <% end %>  
+          </div>    
           
           </div>        
         </div>         
@@ -22,26 +44,31 @@
       </div>
     </div>
   </div>
-
- 
-
+  <div id="modification" class="hide" ></div>
+  <div id="sidebar_right">
+    <div class="course_side_buttons">
+        <a class="big_blue_btn" name="create_new_reward" id="create_new_reward" href="javascript:void(0)">ADD</a>
+    </div><!-- crud_level -->
+  </div>
 <script type="text/javascript">
 
 $(document).ready(function(){
   setPageTitle("Rerward");
-  /*$("#create_new_user").click(function(){
+  $("#create_new_reward").click(function(){
     showSpinner(true);
-    $("#container").load("users/new", function(){
+    $("#modification").load("reward/new", function(){
+      $("#modification").show();
       showSpinner(false);
     }); 
   });
   $(".view_user").click(function(){
     showSpinner(true);
     url = $(this).attr("rel");
-    $("#container").load(url, function(){
+    $("#modification").load(url, function(){
+    $("#modification").show();
       showSpinner(false);
     }); 
-  });*/
+  });
 });
   
 
