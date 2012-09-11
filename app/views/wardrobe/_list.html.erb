@@ -1,48 +1,83 @@
-<div class="pdg78px">
-<div id="wardrobe_list_container">
-  <div class="screen_title">
-    WARDEROBE ITEMS
-  </div>
-  <div class="content_wrapper">
-    <div id="head_items">
-      <div id="head_left">
-        <%=collection_select(:wardrobe, :id, Wardrobe.all, :id, :name) %>
-      </div>
-      <div id="head_right">
-        <input type="button" name="btn_up" id="btn_up" value="Move Up" disabled="true"/> &nbsp;
-        <input type="button" name="btn_down" id="btn_down" value="Move Dn" disabled="true"/>
+<div class="leader_content">
+  <div class="leader_board_left">
+    <div class="leader_board_right">
+      <div class="leader_board_center">
+        <div class="leader_pad_top"></div>
+        <div class="leader_pad">
+           
+          <div class="leader_TabCSS">
+          <div class="steel_pin"><img src="/images/pin_steel.png" /></div>
+          <div class="leader_topselect">
+            <div class="clear"></div>
+          </div>
+            <div class="pdg78px">
+            <div id="wardrobe_list_container">
+              <div class="screen_title">
+                WARDEROBE ITEMS
+              </div>
+              <div class="content_wrapper">
+                <div id="head_items">
+                  <div id="head_left">
+                    <%=collection_select(:wardrobe, :id, Wardrobe.all, :id, :name) %>
+                  </div>
+                  <div id="head_right">
+                    <!--<input type="button" name="btn_up" id="btn_up" value="Move Up" disabled="true"/> &nbsp;
+                    <input type="button" name="btn_down" id="btn_down" value="Move Dn" disabled="true"/>-->
+                     <a class="blue_bt19px hide" name="btn_up" id="btn_up" href="javascript:void(0)">Move Up</a>
+                    <a class="blue_bt19px hide" name="btn_down" id="btn_down" href="javascript:void(0)">Move Dn</a> 
+                  </div>
+                </div>
+                <div class="content_container">
+                  <div class="row_container">
+                    <% @wardrobe_item_lvel_0.each do |lev0| %>
+                      <li  id="<%=lev0.id%>" rel="<%=lev0.depth%>"><%=lev0.name%></li>
+                    <% end %>
+                  </div>
+                  <div class="row_container" id="wi_level_1">
+                    
+                  </div>
+                  <div class="row_container" id="wi_level_2">
+                    
+                  </div>
+                </div>
+                <input type="hidden" name="hdn_edit_id" id="hdn_edit_id" value="" />
+              </div>
+              <div id="sidebar_right">
+                <div id="crud_level">
+                  <!--<input type="button" name="btn_add" id="btn_add" value="Add" rel="/wardrobe/new" disabled="true" /> &nbsp;
+                  <input type="button" name="btn_edit" id="btn_edit" value="Edit" rel="/wardrobe/show" disabled="true" />-->
+                </div>
+              </div>
+              <div id="sidebar_right">
+                <div class="course_side_buttons">
+                    <a class="big_blue_btn hide" name="btn_add" id="btn_add" rel="/wardrobe/new" href="javascript:void(0)">ADD</a>
+                    <a class="big_blue_btn hide" name="btn_edit" id="btn_edit" rel="/wardrobe/show" href="javascript:void(0)">EDIT</a>        
+                </div><!-- crud_level -->
+              </div>
+            </div>
+            </div>
+
+            <div id="wardrobe_form_container" class="hide">
+              <!-- to load wardrobe form -->
+            </div>
+          </div>        
+          </div>         
+          <div class="end_of_page"></div>
+       </div>
       </div>
     </div>
-    <div class="content_container">
-      <div class="row_container">
-        <% @wardrobe_item_lvel_0.each do |lev0| %>
-          <li  id="<%=lev0.id%>" rel="<%=lev0.depth%>"><%=lev0.name%></li>
-        <% end %>
-      </div>
-      <div class="row_container" id="wi_level_1">
-        
-      </div>
-      <div class="row_container" id="wi_level_2">
-        
-      </div>
-    </div>
-    <input type="hidden" name="hdn_edit_id" id="hdn_edit_id" value="" />
   </div>
   <div id="sidebar_right">
-    <div id="crud_level">
-      <input type="button" name="btn_add" id="btn_add" value="Add" rel="/wardrobe/new" disabled="true" /> &nbsp;
-      <input type="button" name="btn_edit" id="btn_edit" value="Edit" rel="/wardrobe/show" disabled="true" />
-    </div>
+    <div class="course_side_buttons">
+        <a class="big_blue_btn hide" name="btn_add" id="btn_add" rel="/wardrobe/new" href="javascript:void(0)">ADD</a>
+        <a class="big_blue_btn hide" name="btn_edit" id="btn_edit" rel="/wardrobe/show" href="javascript:void(0)">EDIT</a>        
+    </div><!-- crud_level -->
   </div>
-</div>
-</div>
-<div id="wardrobe_form_container" class="hide">
-  <!-- to load wardrobe form -->
-</div>
 <script type="text/javascript">
 <!--
 $(document).ready(function(){
   //List item selectable
+  setPageTitle("Wardrobe");
   $('.row_container').delegate('li', 'click', function(){
     showSpinner(true);
     var wardrobe_item_id = $(this).attr('id');
@@ -52,18 +87,22 @@ $(document).ready(function(){
     
     //Enable/Disable add button
     if(level == 1){
-      $("#btn_add").attr("disabled",false);
+      //$("#btn_add").attr("disabled",false);
+      $("#btn_add").removeClass('hide');
     } else {
-      $("#btn_add").attr("disabled",true);
+     // $("#btn_add").attr("disabled",true);
+      $("#btn_add").addClass('hide');
     }
     
     //Enable/Disable edit/up/down buttons
     if(level == 2){
-      $("#btn_edit").attr("disabled",false);
+      //$("#btn_edit").attr("disabled",false);
+      $("#btn_edit").removeClass('hide');
       $("#btn_up").attr("disabled",false);
       $("#btn_down").attr("disabled",false);
     } else {
-      $("#btn_edit").attr("disabled",true);
+     // $("#btn_edit").attr("disabled",true);
+      $("#btn_edit").addClass('hide');
       $("#btn_up").attr("disabled",true);
       $("#btn_down").attr("disabled",true);
     }

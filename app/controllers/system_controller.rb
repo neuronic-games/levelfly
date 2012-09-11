@@ -44,7 +44,7 @@ class SystemController < ApplicationController
             @course_participant.save
           end
              # Respond to course messages
-         content = "#{profile.full_name} has #{action} your invitation to #{course.name}."
+         content = "#{profile.full_name} has accepted your invitation to #{course.name}."
          @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,content,@message.parent_type)
          @message.archived = true
          @message.save

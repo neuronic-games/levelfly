@@ -60,7 +60,7 @@ class TaskController < ApplicationController
   
    def outcome_unchecked
     status = false
-    if params[:task_id] && !params[:task_id].nil?
+    if params[:task_id] && !params[:task_id].blank?
       outcome_task = OutcomeTask.find(:first, :conditions=>["outcome_id = ? AND task_id = ?", params[:outcome_id], params[:task_id]])
       if outcome_task
         outcome_task.delete

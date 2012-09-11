@@ -4,7 +4,7 @@ class RewardController < ApplicationController
   
   def index
     @profile = Profile.find(user_session[:profile_id])
-    @rewards = Reward.all
+    @rewards = Reward.all(:order=>"xp asc")
     render :partial => "/reward/list"
     #@profile.record_action('last', 'leader_board')
   end

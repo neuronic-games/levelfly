@@ -371,7 +371,7 @@ form {margin:0px;padding:0px;}
   border:1px solid #A9A9A9;
   width:100px;
   height:100px;
-  margin:25px 5px;
+  margin:5px;
 }
 #icon_progress{
   margin:5px auto;
@@ -387,13 +387,13 @@ form {margin:0px;padding:0px;}
   float:left;
   border:1px solid #A9A9A9;
   width:241px;
-  height:660px;
-  margin:25px 5px;
+  height:600px;
+  margin-top: -11px;
 }
 #image_progress{
   margin:5px auto;
   width:241px;
-  height:660px;
+  /*height:660px;*/
   text-align:center;
 }
 #image_progress img{
@@ -403,16 +403,18 @@ form {margin:0px;padding:0px;}
 #head_items {
   width:700px;
   float:left;
-  margin-left:25px;
+  /*margin-left:25px;*/
 }
 #head_left {
   width:300px;
   float:left;
+  margin-left: 5px;
 }
 #head_right {
   width:350px;
   float:right;
-  text-align:right
+  text-align:right;
+  margin-right: 15px;
 }
 #upload_header {
   background:#A9A9A9;
@@ -486,7 +488,7 @@ form {margin:0px;padding:0px;}
   width:700px;
   margin:0px auto auto 10px;
   padding-top:0px;
-  border:1px solid #A9A9A9;
+  /*border:1px solid #A9A9A9;*/
   border-bottom:none;
   height:auto;
   background:#fff;
@@ -555,7 +557,7 @@ form {margin:0px;padding:0px;}
 }
 .row_container {
   float:left;
-  width:205px;
+  width:30%;
   margin:5px;
   border:1px solid #A9A9A9;
   padding:5px;

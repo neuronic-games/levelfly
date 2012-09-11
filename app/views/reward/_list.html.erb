@@ -13,28 +13,35 @@
 
           <div id="rows" class="LB_table">
             <div class="LB_tableheader">
-            <div class="LBT_ava"> &nbsp;</div>
-            <div class="LBT_name">&nbsp;</div>
+            <!--<div class="LBT_ava"> &nbsp;</div>
+            <div class="LBT_name">&nbsp;</div>-->
             <div class="LBT_level">XP</div>
             <div class="LBT_xp">Object Type</div>
             <div class="LBT_badges">Object ID</div>
           </div>
+         
            <%if @rewards and !@rewards.nil?%>
             <% @rewards.each do |r|%>
-              <div class="LB_tablecontent <%= cycle("even", "odd") %>">
-                <div class="LBT_ava">
-                  <!--<div class="avatarWbdr"><img src="" class="profile"  /></div>-->
+              <div class="LB_tablecontent <%= cycle("even", "odd") %>" style="height: 35px;" id="r_<%=r.id%>">
+                <!--<div class="LBT_ava">
+                <div class="avatarWbdr"><img src="" class="profile"  /></div>
                 </div>
                 <div class="LBT_name view_user" rel="/reward/show/<%=r.id%>" > 
                   <span class="name_txt "> </span><br />
                   <span class="course_txt"></span> 
+                </div>-->
+                <div class="LBT_level view_user" style="width:33%;" rel="/reward/show/<%=r.id%>"><%= r.xp %></div>
+                <div class="LBT_xp view_user" style="width:34%;" rel="/reward/show/<%=r.id%>"><%= r.object_type %></div>
+                <div class="LBT_badges view_user" style="width:33%;" rel="/reward/show/<%=r.id%>" ><div style=""><%= r.object_id %></div>
+                  <div class="remove_reward hide" id="remove_reward">
+                    <a class="blue_bt19px remove_btn" style="" rel="<%=r.id%>" id="remove_reward_<%=r.id%>" href="javascript:void(0)">REMOVE</a>
+                  </div>
                 </div>
-                <div class="LBT_level view_user" rel="/reward/show/<%=r.id%>" style="font-size:12px;"><%= r.xp %></div>
-                <div class="LBT_xp view_user" rel="/reward/show/<%=r.id%>" style="font-size:12px;"><%= r.object_type %></div>
-                <div class="LBT_badges view_user" rel="/reward/show/<%=r.id%>" style="font-size:12px;"><%= r.object_id %></div>
+                
                 </div>
             <% end %>
           <% end %>  
+          
           </div>    
           
           </div>        
@@ -44,6 +51,7 @@
       </div>
     </div>
   </div>
+  <div id="reward_warning_box" class="hide"> <%= render :partial => "/reward/warning_box" %></div>
   <div id="modification" class="hide" ></div>
   <div id="sidebar_right">
     <div class="course_side_buttons">
@@ -62,12 +70,37 @@ $(document).ready(function(){
     }); 
   });
   $(".view_user").click(function(){
-    showSpinner(true);
     url = $(this).attr("rel");
-    $("#modification").load(url, function(){
-    $("#modification").show();
-      showSpinner(false);
-    }); 
+    if(url){
+      showSpinner(true);
+      $("#modification").load(url, function(){
+      $("#modification").show();
+        showSpinner(false);
+      });
+    }    
+  });
+  
+  $(".LB_tablecontent").hover(
+    function () {
+      $(".remove_reward", this).show();
+    }, 
+    function () {
+      $(".remove_reward", this).hide();
+    }
+  );
+  
+   $(".remove_btn").click(function(event){
+    id = $(this).attr("rel");
+    var position = $(this).position();
+    if(id){
+      $("#reward_delete_btn").attr("rel",id);
+      $('#reward_warning_box').css("top",position.top-30);
+      $('#reward_warning_box').css("left","450px");
+      $('#reward_warning_box').css("position","absolute");
+      $("#reward_warning_box").show();
+      event.stopPropagation();
+    }
+  
   });
 });
   

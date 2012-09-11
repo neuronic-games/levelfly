@@ -5,20 +5,23 @@
   <div class="content_container">
     <div id="wardrobe_fields">
       <div class="frm_input">
-        <input type="text" name="wardrobe_item_name" id="wardrobe_item_name" value='<%= @wardrobe_item ? @wardrobe_item.name : "Name" %>' rel="Name" class="medium" style="width:250px;" onblur='javascript:setStorage("wardrobe_item_name", $(this).val())'/>
+      
+        <input type="text" name="wardrobe_item_name" id="wardrobe_item_name" value='<%= @wardrobe_item ? @wardrobe_item.name : "Name" %>' rel="Name" class="dd_input brown_bg" style="width:250px;" onblur='javascript:setStorage("wardrobe_item_name", $(this).val())'/>
       </div>
+      <br/>
       <div class="frm_input">
         <%=collection_select(:wardrobe, :item_type, WardrobeItemType.all, :name, :name , {:include_blank => "Type", :selected => @wardrobe_item ? @wardrobe_item.item_type : ""} , :onchange => "javascript:setStorage('wardrobe_item_type', $(this).val())") %>
       </div>
+      <br/>
       <div class="frm_input">
         <label>Available At</label> <br />
-        <input type="text" name="wardrobe_item_available_date" id="wardrobe_item_available_date" value='<%= @wardrobe_item && !@wardrobe_item.available_date.nil?  ? @wardrobe_item.available_date : "Date" %>' rel="Date" class="medium" style="width:250px;" />
-        <input type="text" name="wardrobe_item_available_level" id="wardrobe_item_available_level" value='<%= @wardrobe_item && !@wardrobe_item.available_level.nil? ? @wardrobe_item.available_level : "Level" %>' rel="Level" class="medium" style="width:250px;margin-top:15px;" onblur='javascript:setStorage("wardrobe_item_available_level", $(this).val())' />
+        <input type="text" name="wardrobe_item_available_date" id="wardrobe_item_available_date" value='<%= @wardrobe_item && !@wardrobe_item.available_date.nil?  ? @wardrobe_item.available_date : "Date" %>' rel="Date" class="dd_input brown_bg" style="width:250px;" />
+        <input type="text" name="wardrobe_item_available_level" id="wardrobe_item_available_level" value='<%= @wardrobe_item && !@wardrobe_item.available_level.nil? ? @wardrobe_item.available_level : "Level" %>' rel="Level" class="dd_input brown_bg" style="width:250px;margin-top:15px;" onblur='javascript:setStorage("wardrobe_item_available_level", $(this).val())' />
       </div>
       <div class="frm_input">
         <label>Visible At</label> <br />
-        <input type="text" name="wardrobe_item_visible_date" id="wardrobe_item_visible_date" value='<%= @wardrobe_item && !@wardrobe_item.visible_date.nil?  ? @wardrobe_item.visible_date : "Date" %>' rel="Date" class="medium" style="width:250px;" />
-        <input type="text" name="wardrobe_item_visible_level" id="wardrobe_item_visible_level" value='<%= @wardrobe_item && !@wardrobe_item.visible_level.nil? ? @wardrobe_item.visible_level : "Level" %>' rel="Level" class="medium" style="width:250px;margin-top:15px;" onblur='javascript:setStorage("wardrobe_item_visible_level", $(this).val())' />
+        <input type="text" name="wardrobe_item_visible_date" id="wardrobe_item_visible_date" value='<%= @wardrobe_item && !@wardrobe_item.visible_date.nil?  ? @wardrobe_item.visible_date : "Date" %>' rel="Date" class="dd_input brown_bg" style="width:250px;" />
+        <input type="text" name="wardrobe_item_visible_level" id="wardrobe_item_visible_level" value='<%= @wardrobe_item && !@wardrobe_item.visible_level.nil? ? @wardrobe_item.visible_level : "Level" %>' rel="Level" class="dd_input brown_bg" style="width:250px;margin-top:15px;" onblur='javascript:setStorage("wardrobe_item_visible_level", $(this).val())' />
       </div>
     </div>
     <div id="wardrobe_icon">
@@ -30,6 +33,7 @@
         <% end %>
       </div>
     </div>
+    <br/>
     <div id="wardrobe_image">
       <div id="image_progress">
         <% if @wardrobe_item && !@wardrobe_item.image_file.nil? %>
@@ -40,7 +44,12 @@
       </div>
     </div>
   </div>
-  
+  <div id="sidebar_right">
+    <div class="course_side_buttons">
+        <a class="big_blue_btn " name="btn_dont_save" id="btn_dont_save" href="javascript:void(0)">Don't save</a>
+        <a class="big_blue_btn " name="btn_save" id="btn_save" href="javascript:void(0)">save</a>        
+    </div><!-- crud_level -->
+  </div>
   <input type="hidden" name="wardrobe_item_id_hdn" id="wardrobe_item_id_hdn" value="<%=@wardrobe_item.id if @wardrobe_item%>" />
   <input type="hidden" name="wardrobe_id_hdn" id="wardrobe_id_hdn" value="<%=@wardrobe_id if @wardrobe_id%>" />
   <input type="hidden" name="wardrobe_item_parent_id_hdn" id="wardrobe_item_parent_id_hdn" value="<%=@wardrobe_item_parent_id if @wardrobe_item_parent_id%>" />
@@ -49,12 +58,14 @@
   <input type="hidden" name="wardrobe_item_image_hdn" id="wardrobe_item_image_hdn" value="<%=@wardrobe_item.image_file if @wardrobe_item%>" />
   <input type="hidden" name="wardrobe_item_depth_hdn" id="wardrobe_item_depth_hdn" value="<%=@wardrobe_item && !@wardrobe_item.depth.nil? ? @wardrobe_item.depth : 2 %>" />
 </div>
-<div id="sidebar_right">
+<!--<div id="sidebar_right">
   <div id="crud_level">
     <input type="button" name="btn_dont_save" id="btn_dont_save" value="Don't save"/> &nbsp;
     <input type="button" name="btn_save" id="btn_save" value="Save"/>
   </div>
-</div>
+</div>-->
+
+ 
 <script type="text/javascript">
 <!--
 jStorage.flush();

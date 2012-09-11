@@ -2398,7 +2398,7 @@ float:left; height:800px;
     float: left;
     /*margin-right: 10px;*/
     height: 80px;
-    width: 10%;
+    width: 80px;
 }
 .avatar_white_bdrC2task a img {
     height: 80px;
@@ -2411,7 +2411,7 @@ float:left; height:800px;
     font-weight: bold;
     margin-right: 0px;
     padding-top: 0;
-    width:120px;
+    width:150px;
 }
 .titleTcheckboxinner {
     float: left;
@@ -2455,7 +2455,7 @@ float:left; height:800px;
 }
 .staronavatar2  img{
 	position:absolute;
-	margin:-14px 0 0 9px;
+	margin:-14px 0 0 30px;
 }
 .msg_box_fullwidth2_task {
 	padding:0 10px 0 0px;
@@ -3224,6 +3224,15 @@ filter:alpha(opacity="0");
 	width:17%;
 	display:table-cell
 }
+
+.LB_table .remove_reward{
+  float:right;
+  margin-top:-22px
+}
+.LB_table .LBT_remove {
+	width:10%;
+	display:table-cell
+}
 .LB_table .LBT_xp {
 	width:17%;
 	display:table-cell
@@ -3946,4 +3955,90 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
  margin: 6px 0px 0px 2px ;
  position: absolute;
 }
+
+/*NEw check box*/
+.checkbox {
+    background: url("../images/btn_check_bg.png") no-repeat scroll 0 0 transparent;
+    clear: left;
+    cursor: pointer;
+    float: left;
+    height: 40px;
+    margin: 0 0 3px;
+   /* padding: 0 0 0 26px;*/
+    text-align: left;
+    width: 40px;
+}
+.checkbox input, .radio input {
+	display: none;
+}
+
+ .custom-checkbox_new {
+	position: relative;
+	display: inline-block;
+	padding:0px 10px 0 0;
+	
+	
+}
+.ie8 .custom-checkbox_new {
+	zoom: 1;
+	
+}
+.custom-checkbox_new > .box {
+	position: relative;
+	display: block;
+	width: 40px;
+	height: 40px;
+/*	background-color:#bfb496;
+*/	background: url("../images/btn_check_0.png") no-repeat scroll 0 0 transparent;
+}
+.custom-checkbox_new > .box > .tick {
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	background: url("../images/btn_check_1.png") no-repeat scroll 0 0 transparent;
+	display: none;
+}
+.oldie .custom-checkbox_new > .box > .tick {
+	left: 1px;
+	top: -5px;
+	zoom: 1;
+	
+
+
+}
+.ie7 .custom-checkbox_new > .box > .tick {
+ filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.7071067811865476, M12=0.7071067811865475, M21=-0.7071067811865475, M22=0.7071067811865476, sizingMethod='auto expand');
+}
+.ie8 .custom-checkbox_new > .box > .tick {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.7071067811865476, M12=0.7071067811865475, M21=-0.7071067811865475, M22=0.7071067811865476, sizingMethod='auto expand')";
+}
+.custom-checkbox_new > input:checked + .box > .tick {
+	display: block;
+}
+.custom-checkbox_new.checked > .box > .tick {
+	display: block;
+}
+.custom-checkbox_new > input {
+	position: absolute;
+	outline: none;
+	left: 0;
+	top: 0;
+	padding: 0;
+	width: 40px;
+	height: 40px;
+	border: none;
+	margin: 0;
+	opacity: 0;
+	z-index: 1;
+}
+.ie7 .custom-checkbox_new > input {
+ filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+.ie8 .custom-checkbox_new > input {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(opacity=0)";
+}
+.custom-checkbox_new > input:active + .box {
+	border-color: #aaa;
+/*	background-color: #bfb496;
+*/}
 

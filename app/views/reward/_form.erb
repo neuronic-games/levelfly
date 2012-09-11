@@ -1,4 +1,4 @@
-<div class="add_task_popup">
+<div class="add_task_popup" style="height:30%;">
   <div class="heading">Reward</div>
   <div class="boxadnt"> <span class="heading02">XP</span>
     <div class="heading02_field">
@@ -30,7 +30,6 @@
   </div>
   <input type="hidden" id="hdn_reward_id" value="<%=@reward.id if @reward%>">
   <div align="right" style="margin-right:20px;">
-   <% if @reward and !@reward.nil?%><a class="big_orange_btn inlineblock clr_red" id ="remove_btn" href="javascript:void(0)">Remove</a><%end%>
   <a class="big_blue_btn inlineblock" id ="dont_save_btn" href="javascript:void(0)">Don't Save</a> <a class="big_blue_btn inlineblock" id ="save_btn" href="javascript:void(0)">Save</a></div>
  </div>
 </div>

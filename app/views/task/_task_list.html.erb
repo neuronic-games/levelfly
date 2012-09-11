@@ -5,10 +5,10 @@
     <% participant = t.task_participants[0] %>
     <div class="task_list_content clipboard_list" task_id="<%=t.id%>" style="min-height:100px;">
 
-      <div class="list_hover" style="margin-top:70px; margin-left:118px;">
+      <div class="list_hover" style="margin-top:70px; margin-left:150px;">
         <div class="like_cmt">
-          <a href="#" class="tasks_pri_toggle tasks_pri_toggle_btn blue_bt19px" task_id="<%=t.id %>"><% if participant.priority == "H"%>Unstar<%else%>Star<%end%></a>
-          <a href="#" class="tasks_del blue_bt19px" task_id="<%=t.id %>">Remove</a>
+          <a href="javascript:void(0);" class="tasks_pri_toggle tasks_pri_toggle_btn blue_bt19px" task_id="<%=t.id %>"><% if participant.priority == "H"%>Unstar<%else%>Star<%end%></a>
+          <a href="javascript:void(0);" class="tasks_del blue_bt19px" task_id="<%=t.id %>">Remove</a>
         </div>
       </div>
 
@@ -17,8 +17,10 @@
       </div>
 
       <div class="titleTcheckboxinner">
-        <input type="checkbox" <% if participant.status == "C" %> checked="checked" <% end %> name="task_complete" id="task_complete" rel="<%=t.id%>" />
-      </div>
+        <span class="custom-checkbox_new">
+        
+        <input type="checkbox" <% if participant.status == "C" %> checked="checked" <% end %> name="task_complete" id="task_complete" class="checkbox" rel="<%=t.id%>"/><span class="box"><span class="tick"></span></span> </span>
+        </div>
 
       <div class="avatar_white_bdrC2task">
         <a href="/task/show/<%=t.id%>" id="<%=t.id%>" class="view">
