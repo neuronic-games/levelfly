@@ -317,7 +317,7 @@ class CourseController < ApplicationController
             # Send a message. It may also send an email.
              if params[:section_type] == 'G'
                message_type = "group_invite"
-               content = "Please accept my group invitation (#{course.code_section})."
+               content = "You are invited to join the group: #{course.name}."
              elsif params[:section_type] == 'C'
                message_type = "course_invite"
                content = "Please join #{course.name} (#{course.code_section})."

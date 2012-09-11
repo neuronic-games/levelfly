@@ -120,7 +120,7 @@ class Course < ActiveRecord::Base
             :all, 
             :select => "distinct *",
             :include => [:participants], 
-            :conditions => ["participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?", profile.id, Course.parent_type_group, Course.join_type_invite, Course.profile_type_pending, false],
+            :conditions => ["participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?", profile.id, Course.parent_type_group, Course.profile_type_pending, false],
             :order => 'name'
           )
     else

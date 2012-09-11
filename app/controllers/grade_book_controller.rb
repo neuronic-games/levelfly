@@ -108,6 +108,13 @@ class GradeBookController < ApplicationController
         if not @tasks.nil?
           @tasks.each do |t|           
             t["task_outcomes"] = t.outcomes
+             task = Task.find(t.id)
+              if task.category_id != 0 and !task.category_id.nil?
+               t["task_category"] = "(#{task.category.name})"
+              else
+               t["task_category"] = "" 
+              end
+             
           end
         end
        @count = @participant.count  
