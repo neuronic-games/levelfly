@@ -56,10 +56,7 @@ class Message < ActiveRecord::Base
   end
   
   def formatted_content
-    lines = self.content.split("\n")
-    lines[0] = "<span class='subject'>#{lines[0]}</span>" if lines.length > 1
-    final = lines.join("<br />")
-    return final.html_safe
+    return self.content.html_safe
   end
   
   def self.send_notification(current_user,content,profile_id)
