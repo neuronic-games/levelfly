@@ -43,6 +43,7 @@
         <% end %>
       </div>
     </div>
+    
   </div>
   <div id="sidebar_right">
     <div class="course_side_buttons">
@@ -57,7 +58,9 @@
   <input type="hidden" name="wardrobe_item_icon_hdn" id="wardrobe_item_icon_hdn" value="<%=@wardrobe_item.icon_file if @wardrobe_item%>" />
   <input type="hidden" name="wardrobe_item_image_hdn" id="wardrobe_item_image_hdn" value="<%=@wardrobe_item.image_file if @wardrobe_item%>" />
   <input type="hidden" name="wardrobe_item_depth_hdn" id="wardrobe_item_depth_hdn" value="<%=@wardrobe_item && !@wardrobe_item.depth.nil? ? @wardrobe_item.depth : 2 %>" />
+  
 </div>
+ <div class="clear"></div>
 <!--<div id="sidebar_right">
   <div id="crud_level">
     <input type="button" name="btn_dont_save" id="btn_dont_save" value="Don't save"/> &nbsp;

@@ -131,8 +131,8 @@ class Task < ActiveRecord::Base
     if participant.profile_type == Task.profile_type_owner
       # If the owner marks the task as complete, we need to close out the task for all members,
       # and mark it incomplete for them. Owner does not get points. There is no going back on this action.
-      participant.complete_date = Time.now
-      participant.status = Task.status_complete
+      participant.complete_date = complete ? Time.now : nil
+      participant.status = complete ? Task.status_complete : Task.status_assigned
       participant.save
       #participants = TaskParticipant.find(:all,
        # :include => [:profile, :task],

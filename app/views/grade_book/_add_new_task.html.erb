@@ -9,6 +9,16 @@
     <div class="clear"></div>
     <div class="spacebar10px"></div>
     <div>
+    <span class="">Category</span>
+    <select id="categories" class="brown_bg02" style="margin-left: 34px;">
+      <% unless @categories.nil? %>
+        <option value="">SELECT</option>
+        <% @categories.each do |c| %> 
+        <option value="<%= c.id %>"><%= c.name %></option>
+        <% end %>
+      <% end %>
+    </select>
+     <div class="spacebar10px"></div>
     <div >Outcomes</div>
       <div class="spacebar10px"></div>
       <% if !@outcomes_course.nil? %>
@@ -22,6 +32,8 @@
        <% end %>  
       <% end %>
     </div>  
+    
+    
     <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
   </div>

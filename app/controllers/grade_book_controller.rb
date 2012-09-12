@@ -7,6 +7,7 @@ class GradeBookController < ApplicationController
     if @profile
       @courses = [];
       @people =[];
+      @tasks = [];
       @course = Course.find(
         :all, 
         :select => "distinct *",
@@ -28,7 +29,7 @@ class GradeBookController < ApplicationController
         @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
         #@participant = @courses.first.participants
         @count = @participant.count
-        @tasks = Task.find(:all,:conditions=>["course_id = ?",@course_id], :select => "name,id,show_outcomes,include_task_grade")
+        @tasks = Course.sort_course_task(@course_id)
       end
       
        
@@ -53,7 +54,7 @@ class GradeBookController < ApplicationController
       @participant = Participant.all( :joins => [:profile], 
         :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
         :select => ["profiles.full_name,participants.id,participants.profile_id"])
-      @tasks = Task.find(:all,:conditions=>["course_id = ?",params[:course_id]], :select => "name,id,show_outcomes,include_task_grade")
+      @tasks =  Course.sort_course_task(params[:course_id])
         if not @participant.nil?
           @participant.each do |p|
             outcomes_grade = []
@@ -280,6 +281,7 @@ class GradeBookController < ApplicationController
      if !params[:course_id].nil?
       @course = Course.find(params[:course_id])
       @outcomes_course = @course ? @course.outcomes : nil
+      @categories = Category.find(:all, :conditions=>["course_id = ?",@course.id])
       render :partial => "/grade_book/add_new_task"
     end
   end

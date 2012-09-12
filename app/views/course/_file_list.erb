@@ -21,9 +21,9 @@
           <div id="files_hover" class="msg_bottom_linksC2" style="display:none;">
               <div class="like_cmt"> 
                 <a href="javascript:void(0)" class="file_pri_toggle file_pri_toggle_btn blue_bt19px" rel="<%=a.id%>"><%if a.starred == true %>Un-Star<%else%>Star<%end%></a>
-                <a href="javascript:void(0)" class="files_download blue_bt19px" rev="download" rel="<%= a.id %>">Download</a> 
-                <a href="javascript:void(0)" class="blue_bt19px files_download" rev="share" rel="<%= a.id %>">Share</a> 
-                <a href="javascript:void(0)" class="files_del blue_bt19px" rel="<%= a.id %>">DEL</a>
+                <a href="javascript:void(0)" class="files_download blue_bt19px" rev="download" rel="<%= a.resource.url %>">Download</a> 
+                <a href="javascript:void(0)" class="blue_bt19px files_download" rev="share" rel="<%= a.resource.url %>">Share</a> 
+                <a href="javascript:void(0)" class="files_del blue_bt19px" rel="<%= a.id %>">Remove</a>
               </div>
             </div>
             <div class="clear"></div>

@@ -1,31 +1,31 @@
  
-  <div class="confirm_box_width warningbox ">
-  <div class="heading" id="file_dialog_heading"><%if request_type=="download"%> Download File<%elsif request_type=="share"%>Share File<%end%></div>
+  <div class="add_task_popup" style="position:fixed;">
+  <div class="heading" id="file_dialog_heading">Share File</div>
     <div class="clear"></div>
     <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
-     <div id="dialog_url" style="word-wrap:break-word;"><%=a.resource.url%></div>
+    <div style="font-weight: bold;">Use the following URL to share this file with others:</div></br>
+     <div id="dialog_url" style="word-wrap:break-word;"></div>
     <div class="spacebar10px"></div>
   <div align="right">
-  <a class=" big_blue_btn inlineblock" id="cancel_btn" href="javascript:void(0)">Cancel</a>
-  <a class="big_orange_btn inlineblock clr_red dialog_btn" id="dialog_btn" rel="<%=a.resource.url%>" rev="<%= a.id %>" href="javascript:void(0)"><%if request_type=="download"%>Download<%elsif request_type=="share"%>Share<%end%></a>
+  <a class="big_blue_btn inlineblock dialog_btn" id="dialog_btn" rel="" rev="" href="javascript:void(0)">Close</a>
   </div>
 
              
 </div>
 <script type="text/javascript">
 
-$("#cancel_btn").click(function(){
+$("#dialog_btn").click(function(){
     $("#file_download").hide();
  });
  
- $("#dialog_btn").click(function(){
+/* $("#dialog_btn").click(function(){
      file = $(this).attr("rel");
      var text = $("#dialog_btn").text();
      if (text=="Download"){
      window.open(file,'_blank');
      $("#file_download").hide();
      }
-  }); 
+  }); */
  
 </script>

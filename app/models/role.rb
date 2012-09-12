@@ -24,8 +24,7 @@ class Role < ActiveRecord::Base
   def self.set_user_role(profile_id)
     user_role = Role.find(:first, :conditions => ["profile_id = ? and (name = ? or name = ?)", profile_id,Role.create_group,Role.create_task])
     if user_role.nil?
-       Role.create(:profile_id => profile_id, :name =>Role.create_group)
-       Role.create(:profile_id => profile_id, :name =>Role.create_task)       
+       Role.create(:profile_id => profile_id, :name =>Role.create_group)     
     end  
   end
   

@@ -311,7 +311,7 @@ class MessageController < ApplicationController
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
      message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", user_session[:profile_id]]).collect(&:message_id)
      
-    @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND (profile_id=? or profile_id=?) AND message_type ='Message' AND parent_type!='Message' and target_type not in('Notification','Course','Group') and id in(?)",false,params[:friend_id],user_session[:profile_id],message_ids], :order => 'created_at DESC')  
+    @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND ((profile_id= ? and  parent_id = ?) or (profile_id = ? and parent_id = ?)) AND message_type ='Message' AND parent_type!='Message' and target_type not in('Notification','Course','Group') and id in(?)",false,params[:friend_id],user_session[:profile_id],user_session[:profile_id],params[:friend_id],message_ids], :order => 'created_at DESC')  
     render :partial => "list",:locals => {:friend_id =>params[:friend_id]}
   end 
   

@@ -1,9 +1,10 @@
 <div id="div_6" class="tab_content">
-
+  <%if (@courseMaster and !@courseMaster.nil?) || (@course and @course.parent_type=="G")%> 
   <div class="titleTextParticipants">Add:&nbsp;&nbsp;
     <span><input type="text" name="add_people_email[]" class="dd_select brown_bg" style="width:300px; padding:2px;" id="add_course_people" placeholder="Enter email..."  /></span>
     <span style="float:right; margin-right:89px;""><a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="blue_bt19px btn_add">Invite</a></span>
   </div> 
+  <%end%>
   
   <div class="frm_input">
     <div class="frm_input" id="add_people_container"></div>

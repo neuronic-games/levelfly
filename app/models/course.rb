@@ -153,6 +153,38 @@ class Course < ActiveRecord::Base
     hex.unpack('a2'*(hex.size/2)).collect {|i| i.hex.chr }.join
   end
   
+  def self.sort_course_task(course_id)
+    all_task = Task.find(:all,:conditions=>["course_id = ?",course_id], :select => "id,category_id")
+    task_ids = [];
+    @tasks = [];
+    percent_values = [];
+    all_task.each do |t|
+      if t.category!=0 and !t.category.nil?
+        category = Category.find(t.category_id)
+        task_ids.push(t.id)
+        percent_values.push(category.percent_value)
+      else
+        task_ids.push(t.id)
+        percent_values.push(0)
+      end
+    end
+    for i in (0..percent_values.length-1)
+     for j in (0..i-1)
+       if percent_values[i] < percent_values[j]
+        temp = percent_values[i]
+        percent_values[i] = percent_values[j]
+        percent_values[j] = temp
+        temp2 = task_ids[i]
+        task_ids[i] = task_ids[j]
+        task_ids[j] = temp2
+       end
+     end
+   end
+    task_ids.each do |task_id|
+      @tasks.push(Task.find(task_id))
+    end
+   return @tasks
+  end
   
   
 end

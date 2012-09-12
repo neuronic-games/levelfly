@@ -102,9 +102,9 @@
       var valid = false
       valid = validate_form()
       if(valid==true){
-         $.each($('input[name="user_status[]"]'), function() {
-          status = $(this).is(":checked");
-          if (status == true){
+         $.each($('input[name="user_status[]"]'), function(){
+          /*status = $(this).is(":checked");*/
+          if ($(this).is(":checked")){
             user_status = $(this).attr("rel");
           }
         });
@@ -147,8 +147,9 @@
         });
       }
   });
-   if($("#user_id_hdn").val()!="")
-   loadWardrobe();
+  <%if @profile and !@profile.nil?%>
+    loadWardrobe();
+   <% end %>
 });
 
 function loadWardrobe() {

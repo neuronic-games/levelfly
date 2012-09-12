@@ -73,7 +73,7 @@
               <!-- tabs-->
               <div class="gradebook_tabs menu_container" align="right">
                  <a href="javascript:void(0)"  id="menu1" value="1" class="side_tab side_tab_open"><span class="task_tab"> Current</span></a>
-                 <a href="javascript:void(0)"  id="menu2" value="2" class="side_tab side_tab_close"><span class="task_tab"> Past</span></a>
+                 <a href="javascript:void(0)"  id="menu2" value="2" class="side_tab side_tab_close"><span class="task_tab"> Archived</span></a>
               </div>
               <!--tab content-->
               <div class="gradebook_tab_content gradebook_tab_content2">
@@ -1006,8 +1006,9 @@ $('#course_id').change(function(){
     var task = $("#new_task").val();
     var course_id = $("#course_id").val();
     var school_id = $("#school_id").val();  
+    var category_id = $("#categories").val();
     var level = 0;
-    var dataString = 'task='+ task + '&course_id=' + course_id + '&outcomes=' +outcomeObject + '&level=' + level + '&school_id=' + school_id + '&people_id=' + "all_people";  
+    var dataString = 'task='+ task + '&course_id=' + course_id + '&outcomes=' +outcomeObject + '&level=' + level + '&school_id=' + school_id + '&category_id=' + category_id + '&people_id=' + "all_people";  
     showSpinner(true);
     $.ajax({
       type:"POST",
@@ -1034,7 +1035,7 @@ $('#course_id').change(function(){
         row_td.addClass("hover task_name_background width12px line_height24px");
         //row_td.attr("rel","grade_column");
         name_div.addClass("rotate_text GB_outcomment3 white_font");
-        name_div.html(resp.task.name);
+        name_div.html(resp.task.name+" "+"<span style='color:#B5BDD0;'>("+resp.category_name+")</span>");
         row_td2.addClass("hover width60px line_height24px");
         row_td2.attr("id","t_"+resp.task.id);
         row_td2.attr("rel","grade_column");
@@ -1141,7 +1142,7 @@ $('#course_id').change(function(){
               rows.append(point_column);
             });     
           }
-          else{
+         /* else{
             var point_column =$("<td></td>");
             var outcome =$("<td></td>");
             var outcome_div =$("<div></div>");             
@@ -1165,7 +1166,7 @@ $('#course_id').change(function(){
             point_column.addClass("td_align")
             rows.append(outcome);
             rows.append(point_column);
-          }
+          }*/
           if (p%2==0){
               rows.addClass("GB_odd");
             }
@@ -1236,7 +1237,7 @@ $('#course_id').change(function(){
               rows.append(point_column);
             });     
           }
-          else{
+          /*else{
             var point_column =$("<td></td>");
             var outcome =$("<td></td>");
             var outcome_div =$("<div></div>");             
@@ -1260,7 +1261,7 @@ $('#course_id').change(function(){
             point_column.addClass("td_align")
             rows.append(outcome);
             rows.append(point_column);
-          }
+          }*/
           if (p%2==0){
               rows.addClass("GB_odd");
             }
@@ -1365,7 +1366,7 @@ $('#course_id').change(function(){
         row_td.addClass("hover task_name_background width12px line_height24px");
         //row_td.attr("rel","grade_column");
         name_div.addClass("rotate_text GB_outcomment3 white_font");
-        name_div.html(item.name+" "+item.task_category);
+        name_div.html(item.name+" "+"<span style='color:#B5BDD0;'>"+item.task_category+"</span>");
         row_td2.addClass("hover width60px line_height24px");
         row_td2.attr("id","t_"+item.id);
         row_td2.attr("rel","grade_column");
@@ -1575,7 +1576,7 @@ $('#course_id').change(function(){
                 rows.append(point_column);
               }
             }
-            else{
+            /*else{
               var point_column =$("<td></td>");
               var outcome =$("<td></td>");
               var outcome_div =$("<div></div>");             
@@ -1599,7 +1600,7 @@ $('#course_id').change(function(){
               point_column.addClass("td_align")
               rows.append(outcome);
               rows.append(point_column);
-            }
+            }*/
          }  
           if (p%2==0){
               rows.addClass("GB_odd");
@@ -1660,7 +1661,7 @@ $('#course_id').change(function(){
             rows2.append(grade_col);
           });
         }
-        else{
+        /*else{
           var grade_col =$("<td></td>");
           var outcomes_col =$("<td></td>");
           var outcome_name =$("<div></div>");
@@ -1677,7 +1678,7 @@ $('#course_id').change(function(){
           rows2.append(outcomes_col);
           rows2.append(grade_col);
         
-        }
+        }*/
         if (p%2==0){
           rows.addClass("GB_odd");
           rows2.addClass("Dark_no");
@@ -1757,7 +1758,7 @@ $('#course_id').change(function(){
                 rows.append(point_column);
               }
             }
-            else{
+            /*else{
               var point_column =$("<td></td>");
               var outcome =$("<td></td>");
               var outcome_div =$("<div></div>");             
@@ -1782,7 +1783,7 @@ $('#course_id').change(function(){
               point_column.addClass("td_align")
               rows.append(outcome);
               rows.append(point_column);
-            }
+            }*/
           }
           if (p%2==0){
               rows.addClass("GB_odd");

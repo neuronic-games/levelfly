@@ -175,6 +175,7 @@ class TaskController < ApplicationController
  
   def save
     status = false
+    category_name = ""
     if params[:id] && !params[:id].empty?
       @task = Task.find(params[:id])
     else
@@ -276,8 +277,12 @@ class TaskController < ApplicationController
       status = true
       image_url = params[:file] ? @task.image.url : ""
       @task_outcomes = @task.outcomes
+      if params[:category_id] and !params[:category_id].blank? and params[:category_id] !="undefined"
+        c = Category.find(:first, :select=>"name", :conditions=>["id = ?",params[:category_id]])
+        category_name= c.name
+      end
     end
-    render :text => {"status"=>status, "task"=>@task, "image_url"=>image_url, "participants"=>peoples_array, "outcomes"=> @task_outcomes}.to_json
+    render :text => {"status"=>status, "task"=>@task, "image_url"=>image_url, "participants"=>peoples_array, "outcomes"=> @task_outcomes, "category_name"=>category_name}.to_json
   end
   
   def create
@@ -418,9 +423,6 @@ class TaskController < ApplicationController
     end
   end
   
-  
-  
-  
   def view_task
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @courses = Course.find(
@@ -434,10 +436,20 @@ class TaskController < ApplicationController
     render :partial => "/task/list", :locals=>{:tasks=>@tasks,:course_id=>params[:course_id]}
   end
   
+   def remove_task
+    if params[:task_id] && !params[:task_id].empty?
+       @task = Task.find(params[:task_id])
+       @task.archived = true
+       @task.save
+       render :text => {:status=>true}.to_json
+    end
+  end
+  
   def check_role
     if Role.check_permission(user_session[:profile_id],"T")==false
        render :text=>""
     end
   end
+  
 
 end

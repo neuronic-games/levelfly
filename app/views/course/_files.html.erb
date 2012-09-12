@@ -61,12 +61,14 @@
     <% end %>
    </div>
   </div>
-  <div id="file_download" class="hide"></div> 
-  <input type="hidden" name="current_course" id="current_course" value="<%=@course.id if @course%>"> 
+  <div id="file_download" class="hide"><%=render :partial => "/course/download_dialog" %></div> 
+  <input type="hidden" name="current_course" id="current_course" value="<%=@course.id if @course%>">
+  <input type="hidden" name="object_type_hdn" id="object_type_hdn" <% if @task %>value="Task" <%else%>value="Course"<%end%>> 
+  <input type="hidden" name="object_id_hdn" id="object_id_hdn" <%if @task %>value="<%=@task.id%>" <%else%>value="<%=@course.id%>" <%end%> > 
   <div class="clear"></div>
 </div>
 <script type="text/javascript">
-  $(function(){
+$(document).ready(function(){
     var object_id;
     var object_type;
     <%if @task%>
@@ -125,8 +127,19 @@
 
   });  
    $("#all_files").delegate('.files_download', 'click', function(){     
-     id = $(this).attr("rel");
+     url = $(this).attr("rel");
      request_type = $(this).attr("rev");
+     if(request_type=="download"){
+        file = $(this).attr("rel");
+        window.open(url,'_blank');
+        $("#file_download").hide();
+      }
+      else if(request_type=="share"){
+        $("#file_download").show();
+        $("#dialog_url").html(url);
+        
+      }
+     /*
      if (id){
       showSpinner(true);
        $.ajax({
@@ -139,8 +152,9 @@
          $("#file_download").html(data);
         }
        }); 
-      }  
+      }  */
     });
+    
   $("#all_files").delegate('.share_file', 'click', function(){    
     $("#file_dialog_heading").html("Share File");
     $("#dialog_url").html($(this).attr("rev"));
@@ -169,6 +183,11 @@
     
     add_file_uploader.init();
     
+     add_file_uploader.bind("BeforeUpload", function(up,file) {
+      add_file_uploader.settings.multipart_params.id = object_id
+      add_file_uploader.settings.multipart_params.object_type = object_type
+     });
+    
     add_file_uploader.bind('FilesAdded', function(up, files) {
       showSpinner(true);
       add_file_uploader.start();
@@ -178,6 +197,7 @@
       $('#show_file').html('<center>Uploading..</center>');
     });
     
+    
     add_file_uploader.bind('FileUploaded', function(up, file, info) {
       showSpinner(true);
       $("#show_file_list").show();
@@ -186,6 +206,7 @@
       $("#show_file").fadeOut('slow');
       $("#load_files").slideDown(10000);
       $("#show_file").fadeIn('slow');
+      $("#no_files").html('');
       showSpinner(false);
     });
     
@@ -220,6 +241,7 @@
         $('#confirm_upload').hide();
         $("#show_file").text("DROP THE FILE");
         $("#load_files").prepend(info.response);
+        $("#no_files").html('');
         showSpinner(false);
     });
     
@@ -233,9 +255,15 @@
          url: "/course/load_files",  
          data: {id:id,course_id:course_id},
          success: function(data) {
-         
+            if(id == "all"){
+              object_type = "Course";
+              object_id = course_id;
+            }else{
+              object_type = "Task"
+              object_id = id;
+            }
            if(data==""){
-            $("#load_files").html("<div class='badge_message'>No file uploaded for this task</div>");
+            $("#load_files").html("<div id='no_files' class='badge_message'>No file uploaded for this task</div>");
            }
            else{
              $("#load_files").html(data);

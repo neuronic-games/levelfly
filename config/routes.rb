@@ -96,6 +96,8 @@ Oncapus::Application.routes.draw do
   
   post "task/extra_credit"
   
+  post "task/remove_task"
+  
   get "friend/index"
   
   get "course/index"

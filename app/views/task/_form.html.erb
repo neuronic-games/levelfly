@@ -30,7 +30,7 @@ function addNode(element) {
           <!-- tabs-->
             
           <div class="task_side_buttons"> 
-            <a href="javascript:void(0)" id="task_completes" class="smaller_text big_blue_btn task_completes"  rel="<%=@task.id if @task%>">Finish Task</a>
+            <a href="javascript:void(0)" id="task_completes" class="long_text_btn big_blue_btn task_completes"  rel="<%=@task.id if @task%>">Move to Completed</a>
           </div>
           <div class="tabs menu_container" align="right">
             <a href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><span class="task_tab">Task</span></a>
@@ -160,8 +160,7 @@ function addNode(element) {
         </div>
         
         <div id="div_2" class="tab_content hide">
-          <%= render :partial => "/course/files" %>    
-                       
+          <%= render :partial => "/course/files" %>         
         </div>
 
 		    <div id="div_3" class="tab_content hide"> <!--TAsk setup page-->
@@ -170,8 +169,8 @@ function addNode(element) {
                 <!-- <a href="javascript:void(0)" class="big_blue_btn">ATTACH</a> -->
                 <a href="javascript:void(0)" id="btn_task" class="big_orange_btn">SAVE</a>
                 <!-- <a href="javascript:void(0)" class="big_blue_btn">PRINT</a> -->
-                <a href="javascript:void(0)" id="task_btn_remove" class="big_blue_btn">REMOVE</a>
-                 
+                <a href="javascript:void(0)" id="remove_task_btn" class="big_blue_btn">REMOVE</a>
+                 <a href="javascript:void(0)" id="task_completes" class="long_text_btn big_blue_btn task_completes"  rel="<%=@task.id if @task%>">Move to Completed</a>
                 <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@task ? false : true %>" />
               </div>
            <%end%> 
@@ -539,9 +538,25 @@ $(document).ready(function(){
          }
       });
   });
-  
-  
-  
+   
+  $("#remove_task_btn").click(function(){
+    task_id = $("#task_id_hdn").val();
+    showSpinner(true);
+    $.ajax({
+      type:"POST",
+      url:"/task/remove_task",
+      data:{task_id:task_id},
+      dataType:"json",
+      success: function(resp){
+        if(resp.status==true){
+         $("#container").load('/task/', function(){
+          showSpinner(false);
+         });
+        }
+      
+      }
+     });  
+  });
   
   $('#load_task_participant_wall').delegate('input[name="chk_task_people[]"]', 'change', function(){
     check_val = $(this).is(':checked');
