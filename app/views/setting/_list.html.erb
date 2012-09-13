@@ -1,0 +1,112 @@
+<div class="leader_content">
+  <div class="leader_board_left">
+    <div class="leader_board_right">
+      <div class="leader_board_center">
+        <div class="leader_pad_top"></div>
+        <div class="leader_pad">
+           
+          <div class="leader_TabCSS">
+          <div class="steel_pin"><img src="/images/pin_steel.png" /></div>
+          <div class="leader_topselect">
+            <div class="clear"></div>
+          </div>
+
+          <div id="rows" class="LB_table">
+            <div class="LB_tableheader">
+            <!--<div class="LBT_ava"> &nbsp;</div>
+            <div class="LBT_name">&nbsp;</div>-->
+            <div class="LBT_level">Object ID</div>
+            <div class="LBT_level">Object Type</div>
+            <div class="LBT_xp">Name</div>
+            <div class="LBT_badges">value</div>
+          </div>
+         
+           <%if @settings and !@settings.nil?%>
+            <% @settings.each do |s|%>
+              <div class="LB_tablecontent <%= cycle("even", "odd") %>" style="height: 35px;" id="s_<%=s.id%>">
+                <!--<div class="LBT_ava">
+                <div class="avatarWbdr"><img src="" class="profile"  /></div>
+                </div>
+                <div class="LBT_name view_user" rel="/reward/show/<%#=s.id%>" > 
+                  <span class="name_txt "> </span><br />
+                  <span class="course_txt"></span> 
+                </div>-->
+                 <div class="LBT_level view_user" style="width:25%;" rel="/setting/show/<%=s.id%>"><%= s.object_id %></div>
+                <div class="LBT_level view_user" style="width:25%;" rel="/setting/show/<%=s.id%>"><%= s.object_type %></div>
+                <div class="LBT_xp view_user" style="width:25%;" rel="/setting/show/<%=s.id%>"><%= s.name %></div>
+                <div class="LBT_badges view_user" style="width:25%;" rel="/setting/show/<%=s.id%>" ><div style=""><%= s.value %></div>
+                  <div class="remove_reward remove_setting hide" id="remove_setting">
+                    <a class="blue_bt19px remove_btn" style="" rel="<%=s.id%>" id="remove_setting_<%=s.id%>" href="javascript:void(0)">REMOVE</a>
+                  </div>
+                </div>
+                
+                </div>
+            <% end %>
+          <% end %>  
+          
+          </div>    
+          
+          </div>        
+        </div>         
+        <div class="end_of_page"></div>
+       </div>
+      </div>
+    </div>
+  </div>
+  <div id="reward_warning_box" class="hide"> <%= render :partial => "/setting/warning_box" %></div>
+  <div id="modification" class="hide" ></div>
+  <div id="sidebar_right">
+    <div class="course_side_buttons">
+        <a class="big_blue_btn" name="create_new_setting" id="create_new_setting" href="javascript:void(0)">ADD</a>
+    </div><!-- crud_level -->
+  </div>
+<script type="text/javascript">
+
+$(document).ready(function(){
+  setPageTitle("Rerward");
+  $("#create_new_setting").click(function(){
+    showSpinner(true);
+    $("#modification").load("setting/new", function(){
+      $("#modification").show();
+      /*$("#create_new_setting").addClass("hide");*/
+      showSpinner(false);
+    }); 
+  });
+  $(".view_user").click(function(){
+    url = $(this).attr("rel");
+    if(url){
+      showSpinner(true);
+      $("#modification").load(url, function(){
+      $("#modification").show();
+        showSpinner(false);
+      });
+    }    
+  });
+  
+  $(".LB_tablecontent").hover(
+    function () {
+      $(".remove_setting", this).show();
+    }, 
+    function () {
+      $(".remove_setting", this).hide();
+    }
+  );
+  
+   $(".remove_btn").click(function(event){
+    id = $(this).attr("rel");
+    var position = $(this).position();
+    if(id){
+      $("#reward_delete_btn").attr("rel",id);
+      $('#reward_warning_box').css("top",position.top-30);
+      $('#reward_warning_box').css("left","450px");
+      $('#reward_warning_box').css("position","absolute");
+      $("#reward_warning_box").show();
+      event.stopPropagation();
+    }
+  
+  });
+});
+  
+
+
+</script>

@@ -1,6 +1,7 @@
 class WardrobeController < ApplicationController
   layout 'main'
   before_filter :authenticate_user!
+  before_filter :check_role
   
   def index
     @wardrobe_item_lvel_0 = WardrobeItem.find(:all, :conditions=>["depth = 0"] ,:order=>"sort_order")
@@ -107,6 +108,12 @@ class WardrobeController < ApplicationController
     school_id = params[:school_id]
     Attachment.aws_upload(school_id, file_name, tmp.path)
     render :nothing => true
+  end
+  
+  def check_role
+    if Role.check_permission(user_session[:profile_id],Role.modify_wardrobe)==false
+      render :text=>""
+    end
   end
   
 end

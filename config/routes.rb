@@ -166,6 +166,8 @@ Oncapus::Application.routes.draw do
   
   post "course/load_files"
   
+  post "course/removed"
+  
   get "group/index"
   
   get "group/new"
@@ -304,6 +306,19 @@ Oncapus::Application.routes.draw do
   
   post "reward/delete/"
   
+  get "setting/new"
+  
+  get "setting/show"
+  
+  post "setting/save"
+  
+  post "setting/delete/"
+  
+  get "course/show_forum"  
+
+  get "course/new_forum"
+  
+  post "course/save_forum"
   
   match 'reward' => 'reward#index'
   
@@ -327,6 +342,8 @@ Oncapus::Application.routes.draw do
   
   match 'users' => 'users#index'
   
+  match 'setting' => 'setting#index'
+  
   # start added for new message funtionalites >>>  lmit>>> frinds messages
   match 'message/friends_only/:friend_id' => 'message#friends_only'
   
@@ -347,6 +364,10 @@ Oncapus::Application.routes.draw do
   match 'group/show/:id' => 'group#show'
   
   match 'reward/show/:id' => 'reward#show'
+  
+  match 'setting/show/:id' => 'setting#show' 
+  
+  match 'course/show_forum/:id' => 'course#show_forum'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -74,7 +74,7 @@
         <div class="setting_box"><a href="javascript:void(0);" data-method="delete" rel="nofollow"><img src="/images//setting_icon.png" /></a></div>
         <div class="search_bg">
           <form id="frm_search">
-            <div id="clear_search" class="menu_btn hide" style="right:172px;margin-top:0px;">
+            <div id="clear_search" class="clear_search_btn hide" style="right:172px;margin-top:0px;"><!--menu_btn-->
              <img src="/images/clear_icon.png"/>
             </div>
             <input name="search_text" id="search_input" type="text" value="Find Course" />
@@ -152,7 +152,11 @@
              <%if Role.check_permission(@profile.id,Role.modify_rewards) == true%> 
               <div class="icon_box"> <a href="javascript:void(0);" id="reward" rel="/reward/" rev = "/reward/" class="icon_leader menu_btn">Rewards</a> </div><%count=count+1%>
                <div class="space_btwn_icon"></div>
-             <%end%>  
+             <%end%> 
+              <%if Role.check_permission(@profile.id,Role.modify_settings) == true%> 
+              <div class="icon_box"> <a href="javascript:void(0);" id="setting" rel="/setting/" rev = "/setting/" class="icon_leader menu_btn">Setting</a> </div><%count=count+1%>
+               <div class="space_btwn_icon"></div>
+             <%end%> 
             </div>
           </div>
           <%if count>0%>
@@ -212,7 +216,7 @@
   }
 })(jQuery);
 
-var h = new Object(); // or just {}
+var h = new Object(); 
   var token = $("meta[name='csrf-token']").attr("content");
   var search_arr = {
     "/profile/user_profile" : "Find People",
@@ -480,9 +484,16 @@ $('#container').delegate('.add_topic', 'click', function(){
   
   $(document).keyup(function(e) {
     if (e.keyCode == 27) { // Esc button pressed to clear the search
-      load_data(search_url, section_type)
+      //load_data(search_url, section_type)//on cancel load previous page
+      $("#clear_search").hide();
+      $("#search_input").val(search_term);
     }
   });
+  
+  $("#clear_search").click(function(){
+     $("#clear_search").hide();
+     $("#search_input").val(search_term);
+  })
   
   //Load data for different results like Course listing, Task listing, Add course, Add task, Search results etc.
   function load_data(target, data) {

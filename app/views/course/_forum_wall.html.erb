@@ -1,3 +1,4 @@
+<%if @course and !@course.nil?%>
 <div id="div_1" class="tab_content">
   <div class="group_left">
     <div class="group_profile_image" id="group_image">
@@ -43,7 +44,7 @@
           <div class="CAL_01"><span class="field_label" style="margin-top:3px;"> 
           <% if !@member_count.nil? %><%= @member_count %><%else%>0<%end%> MEMBERS <% if !@pending_count.nil? %><% "(#{@pending_count} PENDING)" %><%end%></span>
 
-          <a href="javascript:void(0)" id="btn_member"  class="green_bt19px">VIEW</a></div>
+          <a href="javascript:void(0)" id="btn_member"  class="green_bt19px" rel="<%=@course.id%>">VIEW</a></div>
         </div>
       <div class="spacebar10px"></div><div class="spacebar10px"></div>
 
@@ -64,12 +65,12 @@
       <div class="show_group_messages">
         <textarea id="msg_content" name="msg_content" style ="width:84%;"class="msg_content" placeholder="Share with all members..."></textarea> <br />
         <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
-        <a href="javascript:void(0)" id="<%=@course.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="G" onclick="javascript:void(0);">Post</a>
+        <a href="javascript:void(0)" id="<%=@course.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="F" onclick="javascript:void(0);">Post</a>
       </div>
       <% end %>
       <div class="clear"></div>
       
-      <div id="message_wrapper_group" class="message_wrapper_group">
+      <div id="message_wrapper_forum" class="message_wrapper_group">
       &nbsp;
       <% if @course_messages && !@course_messages.nil?%>
         <% @course_messages.each do |message| %>
@@ -85,39 +86,14 @@
   <% end %>
   <div class="clear"></div>
 </div>
-
+<%end%>
 <script type="text/javascript">
   $(document).ready(function(){
     $("#btn_course").addClass("hide");
     $("#btn_course_remove").addClass("hide");
-  });
-   // Send request to group owner for join group
-   $("#member_join").click(function(){
-      course_id = $("#course_id_hdn").val(); 
-      $.ajax({  
-        type: "POST",  
-        url: "/course/send_group_invitation",  
-        data:{id:course_id},
-        dataType : "JSON",
-        success: function(data) {
-          if(data.status)
-          {
-             setAlert("You have addded to the group sucessfully!");
-          }else{
-             setAlert("You have already added");
-          }
-			    showSpinner(false);
-        },
-        error: function()
-        {
-          alert("An Error has occured");
-          showSpinner(false);
-        },
-      }); 
-   });
-   
+  });   
    // For setup Page 
-   $("#group_setup_icon").click(function(data){
+   /*$("#group_setup_icon").click(function(data){
    showSpinner(true);
    course_id = $("#course_id_hdn").val(); 
    $.ajax({  
@@ -136,6 +112,6 @@
           showSpinner(false);
         },
       }); 
-    });
+    });*/
 
 </script>

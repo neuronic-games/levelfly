@@ -495,8 +495,8 @@ class CourseController < ApplicationController
       :include => [:participants], 
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", params[:id]]
       )
-    @groups = Group.find(:all, :conditions=>["course_id = ?",params[:id]])
-    #@totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
+    @groups = nil# Group.find(:all, :conditions=>["course_id = ?",params[:id]])
+    enable_forum = false
     @totaltask = @tasks = Task.filter_by(user_session[:profile_id], @course.id, "current")
     message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
     if params[:section_type]=="C"
@@ -504,6 +504,13 @@ class CourseController < ApplicationController
     elsif params[:section_type]=="G"
       @course_messages = Message.find(:all,:conditions=>["profile_id = ? AND parent_id = ? AND parent_type = 'G' and id in (?)",user_session[:profile_id],@course.id,message_ids],:order => "created_at DESC" )
     end
+     if params[:value] == "3"
+         setting = Setting.find(:first, :conditions=>["object_id = ? and value = ? and object_type ='school' and name ='enable_course_forums' ",@course.school_id, true])
+       if setting and !setting.nil?
+        @groups = @course.course_forum
+        enable_forum = setting.value
+       end
+     end
     #@totaltask = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
     if params[:value] && !params[:value].nil?  
       if (params[:section_type] == "G" && params[:value] == "1")
@@ -511,7 +518,7 @@ class CourseController < ApplicationController
       elsif params[:value] == "1" 
         render:partial => "/course/show_course"  
       elsif params[:value] == "3" 
-        render :partial => "/course/forum",:locals=>{:@groups=>@groups}
+        render :partial => "/course/forum",:locals=>{:@groups=>@groups, :enable_forum => enable_forum}
       elsif params[:value] == "4"
         render :partial => "/course/files"       
       elsif params[:value] == "5"
@@ -565,7 +572,7 @@ class CourseController < ApplicationController
   end
   
   def download
-    if params[:id] and !params[:id].nil?
+    if params[:id] and !params[:id].blank?
       @attachment = Attachment.find(params[:id])
       if @attachment
         render :partial => "/course/download_dialog" ,:locals=>{:a => @attachment, :request_type=>params[:request_type]}
@@ -581,7 +588,7 @@ class CourseController < ApplicationController
   end
   
   def course_stats
-    if params[:id] && !params[:id].nil?
+    if params[:id] && !params[:id].blank?
       @grade = []
       @points = []
       @badge = []
@@ -610,7 +617,7 @@ class CourseController < ApplicationController
   end
   
   def top_achivers
-    if params[:outcome_id] && !params[:course_id].nil?
+    if params[:outcome_id] && !params[:course_id].blank?
        @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
        @students = Course.get_top_achievers(@profile.school_id,params[:course_id], params[:outcome_id])
        render :partial =>"/course/top_achivers"
@@ -618,7 +625,7 @@ class CourseController < ApplicationController
   end
   
   def toggle_priority_file
-    if params[:id] and !params[:id].nil?
+    if params[:id] and !params[:id].blank?
       @att = Attachment.find(params[:id])
       if !@att.nil?
 
@@ -630,7 +637,7 @@ class CourseController < ApplicationController
 
   
   def filter
-    if params[:filter] && !params[:filter].nil?
+    if params[:filter] && !params[:filter].blank?
        @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
        if params[:section_type] && ! params[:section_type].nil?
          if  params[:section_type] =="C"
@@ -644,7 +651,7 @@ class CourseController < ApplicationController
   end
   
   def set_archive
-    if params[:id] && !params[:id].nil?
+    if params[:id] && !params[:id].blank?
       @course = Course.find(params[:id])
       if @course
         @course.update_attribute('archived',true)
@@ -654,7 +661,7 @@ class CourseController < ApplicationController
   end
   
   def load_files
-    if params[:id] and !params[:id].nil?
+    if params[:id] and !params[:id].blank?
         id = params[:id]
         if id == "all"
           @files = Course.find(params[:course_id])
@@ -663,6 +670,59 @@ class CourseController < ApplicationController
         end
     render :partial => "/course/load_files",:locals=>{:files=> @files}
     end
+  end
+  
+  def removed
+    status = nil
+    if params[:id] and !params[:id].blank?
+      @course = Course.find(params[:id])
+      @owner = @course.owner
+      if @owner and !@owner.nil? and @owner.id == user_session[:profile_id]
+         @course.removed = true
+         @course.save
+         status = true
+      end
+    end
+    render :json=>{:status=>status}
+  end
+  
+  def show_forum
+    if params[:id] and !params[:id].blank?
+      @course = Course.find(params[:id])
+      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      @peoples = Profile.find(
+        :all, 
+        :include => [:participants], 
+        :conditions => ["participants.object_id = ? AND participants.object_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S')", @course.id]
+      )
+      @member_count = @peoples.length
+      @courseMaster = @course.owner
+      message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
+      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'F' and id in(?)",@course.id,message_ids],:order => "created_at DESC" )
+      render :partial => "/course/forum_wall"
+    end
+  end
+  
+  def new_forum
+     @course = Course.create
+    render :partial => "/course/forum_setup"
+  end
+  
+  def save_forum
+     if params[:id] && !params[:id].empty?
+      @course = Course.find(params[:id])
+    else
+      @course = Course.new
+    end
+    @profile = Profile.find(user_session[:profile_id])
+    @course.name = params[:name] if params[:name]
+    @course.descr = params[:descr] if params[:descr]
+    @course.parent_type = "F"
+    @course.code = params[:code].upcase if params[:code]
+    @course.school_id =  @profile.shchool_id
+    @course.course_id = params[:parent_id] if params[:parent_id]
+    @course.save
+    render :json=>{:status=>true,:id=>@course.id}
   end
 
   def check_role

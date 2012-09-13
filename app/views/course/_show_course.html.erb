@@ -102,6 +102,7 @@
  <script type="text/javascript">
   $(document).ready(function(){
     $("#btn_course").addClass("hide");
+    $("#btn_course_remove").addClass("hide");
   });
   
   //For Active Task
@@ -140,6 +141,7 @@
           _outcomes_shareObject =[];
 			    showSpinner(false);
           $("#btn_course").removeClass("hide");
+          $("#btn_course_remove").removeClass("hide");
           $("#btn_archive").removeClass("hide");
         },
         error: function()

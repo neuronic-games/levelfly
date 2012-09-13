@@ -1,7 +1,7 @@
 class RewardController < ApplicationController
   layout 'main'
   before_filter :authenticate_user!
-  
+  before_filter :check_role
   def index
     @profile = Profile.find(user_session[:profile_id])
     @rewards = Reward.all(:order=>"xp asc")
@@ -43,6 +43,12 @@ class RewardController < ApplicationController
         reward.delete
         render :text =>{:status=>true}.to_json
       end
+    end
+  end
+  
+  def check_role
+    if Role.check_permission(user_session[:profile_id],Role.modify_rewards)==false
+      render :text=>""
     end
   end
 

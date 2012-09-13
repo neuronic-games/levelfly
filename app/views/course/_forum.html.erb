@@ -1,14 +1,93 @@
+<%if enable_forum == false%>
 <div class="system_alert">This feature is not enabled</div>
+<%else%>
+<table class="blackboard_list" id ="course_group_content">
+  <tr>
+    <th width="110">
+    </th>
+    <th>
+      Name
+    </th>
+    <th width="100">
+      Formed
+    </th>
+    <th width="60" style="text-align:center;">
+      Organizer
+    </th>
+  </tr>
+  <% @groups.reverse.each do |c| %>
+  <tr class="course_row">
+    <td>
+      <a href="/course/show_forum/<%=c.id%>" class="view" rel="<%=c.id%>">
+        <img src='<%= c.image_file %>' width="100" height="100" alt="<%=c.name%>" />
+      </a>
+    </td>
+    <td>
+      <a href="/course/show_forum/<%=c.id%>" class="view" rel="<%=c.id%>">
+        <div class="title"><%=c.name %></div>
+        <div class="description"><%=c.descr%></div>
+      </a>
+ 
+    </td>
+    <td>
+       <%=change_date_format(c.created_at)%>
+    </td>
+    
+    <td style="text-align:center;">
+      <% if c.owner %>
+      <div class="avatar_white_bdr">
+        <img src="<%=c.owner.image_file_name%>" profile_id="<%=c.owner.id%>" class="profile"/>
+      </div>
+      <%= c.owner.full_name %>
+      <% end %>
+    </td>
+  </tr>
+  <% end %>
+</table>
 
-<div id="div_3" class="tab_content" style="display: none;">
-  <div class="frm_label small_label">
-   Groups
-  </div>
-  <div id="new_group" class="frm_input">
-    <% if @groups.count>0 %>
-      <%= render :partial => "/shared/list", :locals => {:groups=>@groups, :mode=>"list"} %>
-    <%else%>
-      <%= render :partial => "/shared/group_form" %>
-    <% end %>
+<div id="sidebar_right_forum">
+  <div class="course_side_buttons">
+    <%if enable_forum == true and @courseMaster.id == user_session[:profile_id]%>
+      <a href="javascript:void(0)" name="add_new_forum" id="add_new_forum" class="big_blue_btn">ADD</a>
+    <%end%>
   </div>
 </div>
+<%end%>
+<script type="text/javascript">
+
+$(document).ready(function(){            
+$('a.view').click(function() {
+    showSpinner(true);
+    section_type = $("#section_type").val();
+    url = this.href
+    id = $(this).attr("rel");
+    $("#load_data").load(url, function(){
+      $("#menu_btn_dup").show();
+       $("#btn_course").addClass("hide");
+        $("#hdn_forum_id").attr("value",id);
+      showSpinner(false);
+    }); 
+    return false; 
+  });      
+  
+  $("#add_new_forum").click(function(){
+     showSpinner(true);
+     $("#load_data").load("/course/new_forum", function(){
+      //$("#btn_course").removeClass("hide");
+      showSpinner(false);
+    });
+  });
+  
+  $(".course_row").hover(
+  function () {
+    $(".list_hover", this).show();
+  }, 
+  function () {
+    $(".list_hover", this).hide();
+  }
+);
+});
+</script>  
+
+
+

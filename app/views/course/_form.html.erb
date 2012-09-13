@@ -5,8 +5,9 @@
     <%end%>
     <% if @course%>
       <!--<a href="javascript:void(0)" name="menu_btn_addfile" id="menu_btn_addfile" class="big_blue_btn hide">ADD FILE</a>-->
-      <a href="javascript:void(0)" name="btn_category_remove" id="btn_category_remove" class="big_blue_btn hide">REMOVE</a>
+      <a href="javascript:void(0)" name="btn_category_remove" id="btn_category_remove" class="big_blue_btn hide">REMOVE CAT</a>
       <a href="javascript:void(0)" name="btn_archive" id="btn_archive" class="big_blue_btn hide">ARCHIVE</a>
+      <a href="javascript:void(0)" name="btn_course_remove" id="btn_course_remove" class="big_blue_btn">REMOVE</a>
     <% end %>
     <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@course ? false : true %>" />
   </div><!-- crud_level -->
@@ -56,12 +57,28 @@
               <input type="hidden" name="course_id" id="course_id_hdn" value="<%=@course.id if @course%>" />
               <input type="hidden" name="wall_id" id="course_wall_id_hdn" value="<%= @wall.id if @wall && !@wall.nil? %>" />
               <input type="hidden" name="school_id" id="course_school_id_hdn" value="<%= @profile.school_id %>" />
+              <input type="hidden" name="hdn_forum_id" id="hdn_forum_id" value="" />
             </div>
             <div class="clear"></div>
-			  </div>
+            </div>
             </div>
           </div>
         </div>
+    </div>
+    <div id="remove_course_div" class="hide">
+      <div class="add_task_popup" style="position:fixed;">
+        <div class="heading" id="file_dialog_heading">Remove  <% if defined?(section_type) && section_type == "C" %>Course  <% elsif defined?(section_type) && section_type == "G" %>Group<%end%></div>
+          <div class="clear"></div>
+          <div class="spacebar10px"></div>
+          <div class="spacebar10px"></div>
+          <div style="font-weight: bold;"> This <% if defined?(section_type) && section_type == "C" %>Course  <% elsif defined?(section_type) && section_type == "G" %>Group<%end%> will no longer be available once removed. Are you sure you want to remove this <% if defined?(section_type) && section_type == "C" %>Course  <% elsif defined?(section_type) && section_type == "G" %>Group<%end%>?   </div></br>
+           <div id="dialog_url" style="word-wrap:break-word;"></div>
+          <div class="spacebar10px"></div>
+        <div align="right">
+        <a class="smaller_text big_blue_btn inlineblock dialog_btn" id="dont_remove_btn" href="javascript:void(0)">Don't Remove</a>
+        <a class="big_orange_btn inlineblock dialog_btn" id="remove_btn_course" href="javascript:void(0)">Remove</a>
+        </div>        
+      </div>
     </div>
  </div>
 <script type="text/javascript">
@@ -104,6 +121,7 @@ $(document).ready(function(){
   <% if defined?(course_new) && course_new == true %>
     $("#menu1").addClass("side_tab_close").removeClass("side_tab_open");
     $(".course_tabs").addClass("hide");
+    $("#btn_course_remove").addClass("hide");
   <% end %>
 
   // Course name
@@ -112,6 +130,8 @@ $(document).ready(function(){
   //Toggle Tabs
   $(".menu_container").delegate('a', 'click', function(){
     showSpinner(true);
+    $("#remove_course_div").hide();
+    $("#hdn_forum_id").attr("value","");
     idx = $(this).attr("value");
     
     $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
@@ -145,6 +165,7 @@ $(document).ready(function(){
         var msg = "Sorry but there was an error: ";
         alert(msg);
       }
+      
     });
 
     is_page_change = $("#hdn_is_page_change").val();
@@ -227,6 +248,12 @@ $(document).ready(function(){
     else if($(this).attr("id")=="btn_member"){
       showSpinner(true);
       course_id = $("#course_id_hdn").val();
+      if($("#hdn_forum_id").val()!=""){
+        course_id = $("#hdn_forum_id").val();
+      }
+      else{
+         course_id = $("#course_id_hdn").val();
+      }
       section_type = $("#section_type").val();
       $.ajax({
         type: "GET",
@@ -245,6 +272,39 @@ $(document).ready(function(){
     }
     
   });
+  
+  
+   $("#btn_course_remove").click(function(){
+      $("#remove_course_div").show();
+   });
+   $("#dont_remove_btn").click(function(){
+      $("#remove_course_div").hide();
+   });
+  
+  
+  //Remove course/group
+   $("#remove_btn_course").click(function(){
+      id = $("#course_id_hdn").val();
+      if(id){
+        showSpinner(true);
+        $.ajax({
+         type:"POST",
+         url:"/course/removed",
+         data:{id:id},
+         dataType:"json",
+         success : function(resp){
+            if (resp.status){
+            $("#container").load("/course/?section_type=C", function(){
+              showSpinner(false);
+          });
+            }else{
+               showSpinner(false);
+            }
+         }
+        });
+      }
+    
+   });
   
   //Post Message
   $('.right_form_containerr').delegate('.sbmt_msg', 'click', function(){

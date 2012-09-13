@@ -1,0 +1,89 @@
+<div class="add_task_popup">
+  <div class="heading">Reward</div>
+  <div class="boxadnt"> <span class="heading02">object id</span>
+    <div class="heading02_field">
+      <div class="dd_bg brown_bg02">
+        <input type ="text" class = "dd_input brown_bg02" id ="object_id" value="<%=@setting.object_id if @setting%>">
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  
+  <div class="boxadnt"> <span class="heading02">object Type</span>
+    <div class="heading02_field">
+      <div class="dd_bg brown_bg02">
+        <input type ="text" class = "dd_input brown_bg02" id ="object_type" value="<%=@setting.object_type if @setting%>">
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="boxadnt"> <span class="heading02">Name</span>
+    <div class="heading02_field">
+      <div class="dd_bg brown_bg02">
+        <input type ="text" class = "dd_input brown_bg02" id ="name" value="<%=@setting.name if @setting%>">
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  
+  <div class="boxadnt"> <span class="heading02">Enable</span>
+    <div class="heading02_field">
+      <div class="">
+        <input type ="checkbox" class = "dd_input brown_bg02" id ="value" <% if @setting and @setting.value %> checked="checked" <% end %>>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  
+  
+
+     
+    <div class="spacebar10px"></div>
+    <div class="spacebar10px"></div>
+  
+  <input type="hidden" id="hdn_setting_id" value="<%=@setting.id if @setting%>">
+  <div align="right" style="margin-right:20px;">
+  <a class="big_blue_btn inlineblock" id ="dont_save_btn" href="javascript:void(0)">Don't Save</a> <a class="big_blue_btn inlineblock" id ="save_btn" href="javascript:void(0)">Save</a></div>
+ </div>
+</div>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+  var value = document.getElementById('value');
+  $("#dont_save_btn").click(function(){
+    $("#modification").hide();
+    $("#modification").html('');
+  });
+  
+  $("#save_btn").click(function(){
+    id = $("#hdn_setting_id").val();
+    object_type = $("#object_type").val();
+    object_id = $("#object_id").val();
+    name = $("#name").val();
+    value = value.checked
+    showSpinner(true);
+    $.ajax({
+      type:"POST",
+      dataType :"json",
+      url:"/setting/save/",
+      data:{id:id,name:name,object_type:object_type,object_id:object_id,value:value},
+      success: function(resp){
+        if (resp.status==true){
+            $("#container").load('/setting/', function(){
+              showSpinner(false);
+            });
+          }
+          else {
+             showSpinner(false);
+             alert("Error");
+          }
+      }
+    });
+    showSpinner(false);
+  });
+  
+});
+</script>

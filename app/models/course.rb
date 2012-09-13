@@ -120,11 +120,11 @@ class Course < ActiveRecord::Base
             :all, 
             :select => "distinct *",
             :include => [:participants], 
-            :conditions => ["participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?", profile.id, Course.parent_type_group, Course.profile_type_pending, false],
+            :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?",false, profile.id, Course.parent_type_group, Course.profile_type_pending, false],
             :order => 'name'
           )
     else
-     @courses = Course.find(:all, :conditions=>["parent_type = ? and school_id = ?",Course.parent_type_group,profile.school_id])
+     @courses = Course.find(:all, :conditions=>["removed = ? and parent_type = ? and school_id = ?",false, Course.parent_type_group,profile.school_id])
     end    
     return @courses      
   end
@@ -139,7 +139,7 @@ class Course < ActiveRecord::Base
             :all, 
             :select => "distinct *",
             :include => [:participants], 
-            :conditions => ["participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?", profile_id, Course.parent_type_course, Course.join_type_invite, Course.profile_type_pending, archived],
+            :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?",false, profile_id, Course.parent_type_course, Course.join_type_invite, Course.profile_type_pending, archived],
             :order => 'name'
             )
     return @courses      
@@ -184,6 +184,11 @@ class Course < ActiveRecord::Base
       @tasks.push(Task.find(task_id))
     end
    return @tasks
+  end
+  
+  
+  def course_forum
+    return Course.find(:all, :conditions =>["course_id = ? ",self.id])
   end
   
   

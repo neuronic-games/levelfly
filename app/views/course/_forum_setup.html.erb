@@ -1,0 +1,116 @@
+<div id="div_2" class="tab_content">
+  <div class="group_left">
+    <div class="group_profile_image" id="group_image">
+      <img id="g_image" class="g_image" src="<%= @course.image_file %>" width="156" height="156" alt="Course image" />
+      <img class="image_icon_drop_target" src="/images/course_img_drop.png" />
+    </div>
+
+    <div class="clear"></div>
+    
+    
+  </div>
+  <div class="group_right" >
+    <div class="group_detailbox">
+
+      <div class="group_field_box group_input">
+        <div class="group_viewfield field_label">NAME
+          <div>
+            <input type="text" name="group_name" id="group_name" class="group_name dd_select brown_bg" style="width:100%" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("forum_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+          </div>
+        </div>
+      </div>   
+      <div class="group_field_box group_input">
+         <div class="desc_width field_label">Description
+          <div>
+            <textarea name="group_descr" id="group_descr" style="width:100%" class="group_descr" rows="4"  onBlur='javascript:setStorage("forum_desc", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
+          </div>
+         </div>
+       </div>  
+          <div class="group_image_name">
+            <% if @courseMaster %>
+            <div class="avatar_white_bdr"><img  src="<%=@courseMaster.image_file_name %>" /></div>
+            <div class="avatar_name"><%=@courseMaster.full_name%></div> 
+            <% end %>
+          </div>
+         <div class="clear"></div>
+        
+         <div class="clear"></div>  
+        <input type="hidden" name="new_course_id" id="new_course_id" value="<%=@course.id if @course%>">
+      </div>
+      <div class="clear"></div>
+    </div>
+</div>
+<div id="sidebar_right_forum">
+  <div class="course_side_buttons">
+      <a href="javascript:void(0)" name="save_forum_btn" id="save_forum_btn" class="big_orange_btn">Save</a>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+ //For image uploads
+    var base_params = {
+      'authenticity_token' : token,  //For csrf-authentication
+      'school_id' : $("#course_school_id_hdn").val(),
+      'id' : $("#hdn_forum_id").val()
+    }
+    
+    //Uploader task image upload
+    var group_uploader = new plupload.Uploader({
+      runtimes: 'html5',
+      drop_element: 'group_image',
+      container: 'group_image',
+      max_file_size: '5mb',
+      resize : {width : 125, height : 125},
+      url: '/course/save_forum',
+      multipart_params: base_params,
+      filters : [
+        {title : "Image files", extensions : "jpg,gif,png,JPG,PNG,GIF,JPEG"}
+      ]
+    });
+    
+    group_uploader.init();
+    
+    group_uploader.bind('FilesAdded', function(up, files) {
+      showSpinner(true);
+      group_uploader.settings.multipart_params.name = getStorage("group_name");
+      group_uploader.settings.multipart_params.descr = getStorage("group_descr");
+      group_uploader.settings.multipart_params.parent_type = "G";
+      group_uploader.start();
+    });
+    
+    group_uploader.bind('UploadProgress', function(up, file) {
+      //$('#group_image').html('<center>Uploading..</center>');
+      $(".image_icon_drop_target").fadeOut();
+    });
+    
+    group_uploader.bind('FileUploaded', function(up, file, info) {
+      var obj = jQuery.parseJSON( info.response);
+      groupImg = $('<img width="156" height="156">').attr('src',obj.image_url);
+      group_uploader.settings.multipart_params.id = obj.course.id;
+      $(".g_image").attr('src',obj.image_url);
+      $(".image_icon_drop_target").fadeIn();
+      //$('#group_image').html(groupImg);
+      //$("#group_image").append("<img class='image_icon_drop_target' src='/images/course_img_drop.png' />")
+      showSpinner(false);
+    });  
+    
+   $("#save_forum_btn").click(function(){
+      id = $("#new_course_id").val();
+      parent_id = $("#course_id_hdn").val();
+      name = getStorage("forum_name");
+      descr = getStorage("forum_desc");
+      showSpinner(true);
+    $.ajax({
+      type: "POST",
+      url: "/course/save_forum",
+      data: {id:id,parent_id:parent_id,name:name,descr:descr},
+      dataType:"json",
+      success: function(data) {
+        $("#load_data").load("/course/show_forum/"+data.id, function(){
+          showSpinner(false);
+        });
+      }   
+      });
+   }); 
+</script>

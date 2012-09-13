@@ -40,6 +40,12 @@
 
   $("#btn_add_people").click(function() {
     course_id = $("#course_id_hdn").val();
+    if($("#hdn_forum_id").val()!=""){
+        course_id = $("#hdn_forum_id").val();
+      }
+      else{
+         course_id = $("#course_id_hdn").val();
+      }
     section_type = $("#section_type").val(); 
     email_id = $("#add_course_people").val();
     node_class = "even";
