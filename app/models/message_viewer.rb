@@ -8,7 +8,7 @@ class MessageViewer < ActiveRecord::Base
     if parent_type=="Message"
       @type_of_message = Message.find(parent_id)
       if @type_of_message and not@type_of_message.nil?
-        if (@type_of_message.parent_type == "C" || @type_of_message.parent_type == "G")
+        if (@type_of_message.parent_type == "C" || @type_of_message.parent_type == "G" || @type_of_message.parent_type == "F")
           parent_type = @type_of_message.parent_type
           parent_id =  @type_of_message.parent_id
         elsif @type_of_message.parent_type == ""    
@@ -23,7 +23,7 @@ class MessageViewer < ActiveRecord::Base
       object_type ="Group"
     end
     
-    if (parent_type == "C" || parent_type =="G")
+    if (parent_type == "C" || parent_type =="G" || parent_type =="F")
     @viewers = Profile.find(
        :all, 
        :include => [:participants], 

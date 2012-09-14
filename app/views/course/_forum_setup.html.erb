@@ -15,14 +15,14 @@
       <div class="group_field_box group_input">
         <div class="group_viewfield field_label">NAME
           <div>
-            <input type="text" name="group_name" id="group_name" class="group_name dd_select brown_bg" style="width:100%" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("forum_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+            <input type="text" name="forum_name" id="forum_name" class="group_name dd_select brown_bg" style="width:100%" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("forum_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
           </div>
         </div>
       </div>   
       <div class="group_field_box group_input">
          <div class="desc_width field_label">Description
           <div>
-            <textarea name="group_descr" id="group_descr" style="width:100%" class="group_descr" rows="4"  onBlur='javascript:setStorage("forum_desc", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
+            <textarea name="forum_desc" id="forum_desc" style="width:100%" class="group_descr" rows="4"  onBlur='javascript:setStorage("forum_desc", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
           </div>
          </div>
        </div>  
@@ -52,7 +52,7 @@
     var base_params = {
       'authenticity_token' : token,  //For csrf-authentication
       'school_id' : $("#course_school_id_hdn").val(),
-      'id' : $("#hdn_forum_id").val()
+      'id' : $("#new_course_id").val()
     }
     
     //Uploader task image upload
@@ -73,9 +73,9 @@
     
     group_uploader.bind('FilesAdded', function(up, files) {
       showSpinner(true);
-      group_uploader.settings.multipart_params.name = getStorage("group_name");
-      group_uploader.settings.multipart_params.descr = getStorage("group_descr");
-      group_uploader.settings.multipart_params.parent_type = "G";
+      group_uploader.settings.multipart_params.name = getStorage("forum_desc");
+      group_uploader.settings.multipart_params.descr = getStorage("forum_desc");
+      group_uploader.settings.multipart_params.parent_type = "F";
       group_uploader.start();
     });
     
@@ -107,7 +107,7 @@
       data: {id:id,parent_id:parent_id,name:name,descr:descr},
       dataType:"json",
       success: function(data) {
-        $("#load_data").load("/course/show_forum/"+data.id, function(){
+        $("#load_data").load("/course/show_forum/"+data.course.id, function(){
           showSpinner(false);
         });
       }   

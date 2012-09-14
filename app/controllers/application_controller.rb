@@ -45,8 +45,8 @@ class ApplicationController < ActionController::Base
       publish_profile(profile)
       if current_user.status == "S"
         flash[:message] = "Your account has been suspended."
-        flash.keep(:message)
-        sign_out
+        #flash.keep(:message)
+        sign_out current_user
       end
     end
   end

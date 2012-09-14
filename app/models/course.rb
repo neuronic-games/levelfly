@@ -191,5 +191,33 @@ class Course < ActiveRecord::Base
     return Course.find(:all, :conditions =>["course_id = ? ",self.id])
   end
   
+  def join_all(profile)
+     @all_members = Profile.find(
+           :all, 
+           :include => [:participants], 
+           :conditions => ["participants.object_id = ? AND participants.object_type in ('Course','Group') AND participants.profile_type IN ('M', 'P', 'S')", self.course_id]
+         )
+     if @all_members and not@all_members.nil?
+        @all_members.each do |viewer|
+           participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ?",self.id , viewer.id])
+          if !participant_exist
+            @participant = Participant.new
+            @participant.object_id = self.id
+            @participant.object_type = "Course"
+            @participant.profile_id = viewer.id
+            @participant.profile_type = "S"
+            if @participant.save
+              wall_id = Wall.get_wall_id(self.id,"Course")
+              Feed.create(
+                :profile_id => viewer.id,
+                :wall_id =>wall_id
+              )
+              content = "#{profile.full_name} Added you in : #{self.name}"   
+              Message.send_notification(profile.id,content,viewer.id) 
+            end
+          end
+      end     
+    end
+  end
   
 end

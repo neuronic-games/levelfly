@@ -505,10 +505,10 @@ class CourseController < ApplicationController
       @course_messages = Message.find(:all,:conditions=>["profile_id = ? AND parent_id = ? AND parent_type = 'G' and id in (?)",user_session[:profile_id],@course.id,message_ids],:order => "created_at DESC" )
     end
      if params[:value] == "3"
-         setting = Setting.find(:first, :conditions=>["object_id = ? and value = ? and object_type ='school' and name ='enable_course_forums' ",@course.school_id, true])
+         setting = Setting.find(:first, :conditions=>["object_id = ? and value = 'true' and object_type ='school' and name ='enable_course_forums' ",@course.school_id])
        if setting and !setting.nil?
         @groups = @course.course_forum
-        enable_forum = setting.value
+        enable_forum = true
        end
      end
     #@totaltask = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
@@ -705,7 +705,7 @@ class CourseController < ApplicationController
   
   def new_forum
      @course = Course.create
-    render :partial => "/course/forum_setup"
+     render :partial => "/course/forum_setup"
   end
   
   def save_forum
@@ -719,11 +719,38 @@ class CourseController < ApplicationController
     @course.descr = params[:descr] if params[:descr]
     @course.parent_type = "F"
     @course.code = params[:code].upcase if params[:code]
-    @course.school_id =  @profile.shchool_id
+    @course.school_id =  @profile.school_id
     @course.course_id = params[:parent_id] if params[:parent_id]
-    @course.save
-    render :json=>{:status=>true,:id=>@course.id}
+    if params[:file]
+      @course.image.destroy if @course.image
+      @course.image = params[:file]
+    end
+    if @course.save
+      wall_id = Wall.get_wall_id(@course.id,"Course")
+      participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]])
+      if !participant
+        @participant = Participant.new
+        @participant.object_id = @course.id
+        @participant.object_type = "Course"
+        @participant.profile_id = user_session[:profile_id]
+        @participant.profile_type = "M"
+        if @participant.save
+          Feed.create(
+            :profile_id => user_session[:profile_id],
+            :wall_id =>wall_id
+          )
+        end
+      end
+       @course.join_all(@profile)
+      image_url = params[:file] ? @course.image.url : ""
+    end
+    render :json=> {:course=>@course, :image_url=>image_url}
   end
+  
+   def view_forum_setup 
+     @course = Course.find_by_id(params[:id])
+      render :partial => "/course/forum_setup"
+   end
 
   def check_role
     section_type=""

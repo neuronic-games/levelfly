@@ -2,7 +2,7 @@
   <%if (@courseMaster and !@courseMaster.nil?) || (@course and @course.parent_type=="G")%> 
   <div class="titleTextParticipants">Add:&nbsp;&nbsp;
     <span><input type="text" name="add_people_email[]" class="dd_select brown_bg" style="width:300px; padding:2px;" id="add_course_people" placeholder="Enter email..."  /></span>
-    <span style="float:right; margin-right:89px;""><a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="blue_bt19px btn_add">Invite</a></span>
+    <span style="float:right; margin-right:89px;"><a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="blue_bt19px btn_add">Invite</a></span>
   </div> 
   <%end%>
   
@@ -40,13 +40,15 @@
 
   $("#btn_add_people").click(function() {
     course_id = $("#course_id_hdn").val();
-    if($("#hdn_forum_id").val()!=""){
+    section_type = $("#section_type").val(); 
+    if($("#hdn_forum_id").val()!="" && $("#hdn_forum_id").val()!= undefined){
         course_id = $("#hdn_forum_id").val();
+        section_type = "G"
       }
       else{
          course_id = $("#course_id_hdn").val();
       }
-    section_type = $("#section_type").val(); 
+    
     email_id = $("#add_course_people").val();
     node_class = "even";
     dataString = {course_id:course_id, email:email_id,section_type:section_type};
@@ -99,7 +101,13 @@
   $(".people_node").delegate(".people_delete", "click", function(){
     showSpinner(true);
     profile_id = $(this).attr("rel");
-    course_id = $("#course_id_hdn").val(); 
+    course_id = $("#course_id_hdn").val();
+    if($("#hdn_forum_id").val()!="" && $("#hdn_forum_id").val()!= undefined){
+        course_id = $("#hdn_forum_id").val();
+      }
+    else{
+         course_id = $("#course_id_hdn").val();
+    }
     dataString = {course_id:course_id, profile_id:profile_id};
     if(profile_id) {
       $.ajax({  

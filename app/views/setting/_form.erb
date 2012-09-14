@@ -1,9 +1,9 @@
 <div class="add_task_popup">
-  <div class="heading">Reward</div>
+  <div class="heading">Setting</div>
   <div class="boxadnt"> <span class="heading02">object id</span>
     <div class="heading02_field">
       <div class="dd_bg brown_bg02">
-        <input type ="text" class = "dd_input brown_bg02" id ="object_id" value="<%=@setting.object_id if @setting%>">
+        <input type ="text" class = "dd_input brown_bg02" id ="object_id" value="<%=@profile.school_id if @profile%>">
       </div>
     </div>
     <div class="clear"></div>
@@ -26,10 +26,10 @@
     <div class="clear"></div>
   </div>
   
-  <div class="boxadnt"> <span class="heading02">Enable</span>
+  <div class="boxadnt"> <span class="heading02">Value</span>
     <div class="heading02_field">
-      <div class="">
-        <input type ="checkbox" class = "dd_input brown_bg02" id ="value" <% if @setting and @setting.value %> checked="checked" <% end %>>
+      <div class="dd_bg brown_bg02">
+        <input type ="text" class = "dd_input brown_bg02" id ="value" value="<%=@setting.value if @setting%>">
       </div>
     </div>
     <div class="clear"></div>
@@ -63,7 +63,7 @@ $(document).ready(function(){
     object_type = $("#object_type").val();
     object_id = $("#object_id").val();
     name = $("#name").val();
-    value = value.checked
+    value = $("#value").val();
     showSpinner(true);
     $.ajax({
       type:"POST",

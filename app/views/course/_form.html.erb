@@ -80,6 +80,9 @@
         </div>        
       </div>
     </div>
+    <div class ="hide" id ="div_message_delete">
+    
+    </div>
  </div>
 <script type="text/javascript">
 <!--
@@ -334,6 +337,11 @@ $(document).ready(function(){
         else if(parent_type=="G")
         {
           $("#message_wrapper_group").prepend(data);
+          $("#msg_input").fadeOut();
+        }
+        else if(parent_type=="F")
+        {
+          $("#message_wrapper_forum").prepend(data);
           $("#msg_input").fadeOut();
         }
         else if (parent_type=="Message")

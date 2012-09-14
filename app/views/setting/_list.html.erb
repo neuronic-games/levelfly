@@ -15,8 +15,6 @@
             <div class="LB_tableheader">
             <!--<div class="LBT_ava"> &nbsp;</div>
             <div class="LBT_name">&nbsp;</div>-->
-            <div class="LBT_level">Object ID</div>
-            <div class="LBT_level">Object Type</div>
             <div class="LBT_xp">Name</div>
             <div class="LBT_badges">value</div>
           </div>
@@ -31,10 +29,8 @@
                   <span class="name_txt "> </span><br />
                   <span class="course_txt"></span> 
                 </div>-->
-                 <div class="LBT_level view_user" style="width:25%;" rel="/setting/show/<%=s.id%>"><%= s.object_id %></div>
-                <div class="LBT_level view_user" style="width:25%;" rel="/setting/show/<%=s.id%>"><%= s.object_type %></div>
-                <div class="LBT_xp view_user" style="width:25%;" rel="/setting/show/<%=s.id%>"><%= s.name %></div>
-                <div class="LBT_badges view_user" style="width:25%;" rel="/setting/show/<%=s.id%>" ><div style=""><%= s.value %></div>
+                <div class="LBT_xp view_user" style="width:50%;" rel="/setting/show/<%=s.id%>"><%= s.name %></div>
+                <div class="LBT_badges view_user" style="width:50%;" rel="/setting/show/<%=s.id%>" ><div style=""><%= s.value %></div>
                   <div class="remove_reward remove_setting hide" id="remove_setting">
                     <a class="blue_bt19px remove_btn" style="" rel="<%=s.id%>" id="remove_setting_<%=s.id%>" href="javascript:void(0)">REMOVE</a>
                   </div>

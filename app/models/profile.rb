@@ -54,7 +54,11 @@ class Profile < ActiveRecord::Base
   end
   
   def sports_reward
-    ids = [1]
+    basic = Wardrobe.find(:first, :conditions=>["name = 'basic'"])
+    ids = [];
+    if basic
+      ids.push(basic.id)
+    end
     sports_reward = Reward.find(:first, :conditions=>["object_type = 'wardrobe' and object_id = '2'"])
     if sports_reward and !sports_reward.nil?
        if self.xp >= sports_reward.xp

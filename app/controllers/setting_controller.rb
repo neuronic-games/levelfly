@@ -5,7 +5,7 @@ class SettingController < ApplicationController
   
   def index
     @profile = Profile.find(user_session[:profile_id])
-    @settings = Setting.all
+    @settings = Setting.find(:all, :conditions=>["object_id = ?", @profile.school_id])
     render :partial => "/setting/list"
   end
   
@@ -14,7 +14,8 @@ class SettingController < ApplicationController
   end
   
   def show
-    if params[:id] and !params[:id].nil?
+    if params[:id] and !params[:id].blank?
+      @profile = Profile.find(user_session[:profile_id])
       @setting = Setting.find(params[:id])
       if @setting
         render :partial => "/setting/form"
@@ -23,6 +24,7 @@ class SettingController < ApplicationController
   end
  
   def save
+    profile = Profile.find(user_session[:profile_id])
     if params[:id] and !params[:id].blank?
       @setting = Setting.find(params[:id])
     else

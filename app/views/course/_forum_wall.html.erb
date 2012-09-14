@@ -9,7 +9,7 @@
   
     <% if @courseMaster %>
     <% if @courseMaster.id == user_session[:profile_id] %>
-    <div class="clickable" id="group_setup_icon" style="position:absolute; right:250px;">
+    <div class="clickable" id="forum_setup_icon" style="position:absolute; right:250px;">
       <a href="javascript:void(0)" id="menu2"  value="2" >
         <img src="/images/setting_icon_gray.png">
       </a>
@@ -93,17 +93,15 @@
     $("#btn_course_remove").addClass("hide");
   });   
    // For setup Page 
-   /*$("#group_setup_icon").click(function(data){
+   $("#forum_setup_icon").click(function(data){
    showSpinner(true);
-   course_id = $("#course_id_hdn").val(); 
+   course_id = $("#hdn_forum_id").val(); 
    $.ajax({  
-        type: "GET",  
-        url: "/course/view_group_setup",  
+        type: "POST",  
+        url: "/course/view_forum_setup",  
         data:{id:course_id},
         success: function(data) {
 		      $("#load_data").html(data);
-          $("#btn_course").removeClass("hide");
-           $("#btn_course_remove").removeClass("hide");
 			    showSpinner(false);
         },
         error: function()
@@ -112,6 +110,6 @@
           showSpinner(false);
         },
       }); 
-    });*/
+    });
 
 </script>

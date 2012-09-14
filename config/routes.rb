@@ -320,6 +320,9 @@ Oncapus::Application.routes.draw do
   
   post "course/save_forum"
   
+  post "course/view_forum_setup"
+  
+  
   match 'reward' => 'reward#index'
   
   match 'task' => 'task#index'
