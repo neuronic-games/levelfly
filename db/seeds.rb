@@ -267,10 +267,8 @@ Reward.create(:xp => "400", :object_type => 'wardrobe', :object_id => "2")
 Major.create(:school_id => school, :name =>"Accounting", :code => "ACC")
 Major.create(:school_id => school, :name =>"Bilingual Childhood Education", :code => "BCE")
 Major.create(:school_id => school, :name =>"Biotechnology", :code => "BTC")
-Major.create(:school_id => school, :name =>"Business Administration
-", :code => "BAM")
-Major.create(:school_id => school, :name =>"Business Management
-", :code => "BMN")
+Major.create(:school_id => school, :name =>"Business Administration", :code => "BAM")
+Major.create(:school_id => school, :name =>"Business Management", :code => "BMN")
 Major.create(:school_id => school, :name =>"Child Care/Early Childhood Education", :code => "CCE")
 Major.create(:school_id => school, :name =>"Childhood Education", :code => "CED")
 Major.create(:school_id => school, :name =>"Computer Information Systems", :code => "CIS")
