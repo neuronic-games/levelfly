@@ -15,8 +15,6 @@ default = Avatar.create(:profile => profile, :skin => 3, :body => 'avatar/body/b
 
 basic = Wardrobe.create(:name => 'Basic', :visible_level => 1, :available_level => 1, :available_date => Date.today, :visible_date => Date.today)
 
-sports = Wardrobe.create(:name => 'Sports', :visible_level => 1, :available_level => 1, :available_date => Date.today, :visible_date => Date.today)
-
 # item_type_list = WardrobeItemType.create([{:name => 'head'}, {:name => 'body'}, {:name => 'legs'}, {:name => 'feet'}, {:name => 'prop'}, {:name => 'head_shape'}, {:name => 'face'}, {:name => 'hair'}, {:name => 'facial_hair'}, {:name => 'hat'}, {:name => 'top'}])
 # item_type = {}
 # item_type_list.each do |i|
@@ -188,6 +186,18 @@ WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_hobbies'], :
 
 # Misc
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_misc'], :name => 'Pitchfork', :item_type => 'prop', :image_file => 'basic/props/pitchfork', :sort_order => 0, :depth => 2)
+
+# Unlockable Sports wardrobe
+sports = Wardrobe.create(:name => 'Sports', :visible_level => 1, :available_level => 1, :available_date => Date.today, :visible_date => Date.today)
+WardrobeItem.create(:wardrobe => sports, :parent_item => item['body_sporty'], :name => 'Basketball', :item_type => 'top', :image_file => 'sports/tops/basketball_t_shirt', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => sports, :parent_item => item['body_sporty'], :name => 'Golf', :item_type => 'top', :image_file => 'sports/tops/golf_dress', :sort_order => 2, :depth => 2)
+WardrobeItem.create(:wardrobe => sports, :parent_item => item['body_sporty'], :name => 'Hiking', :item_type => 'top', :image_file => 'sports/tops/hiking_dress', :sort_order => 3, :depth => 2)
+WardrobeItem.create(:wardrobe => sports, :parent_item => item['body_sporty'], :name => 'Referee', :item_type => 'top', :image_file => 'sports/tops/Referee_t_shirt', :sort_order => 4, :depth => 2)
+WardrobeItem.create(:wardrobe => sports, :parent_item => item['legs_sporty'], :name => 'Basketball', :item_type => 'bottom', :image_file => 'sports/bottoms/basketball_short', :sort_order => 4, :depth => 2)
+WardrobeItem.create(:wardrobe => sports, :parent_item => item['legs_sporty'], :name => 'Hiking', :item_type => 'bottom', :image_file => 'sports/bottoms/hiking_short', :sort_order => 4, :depth => 2)
+WardrobeItem.create(:wardrobe => sports, :parent_item => item['feet_sporty'], :name => 'Basketball', :item_type => 'shoes', :image_file => 'sports/shoes/basketball_shoe', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => sports, :parent_item => item['feet_sporty'], :name => 'Golf', :item_type => 'shoes', :image_file => 'sports/shoes/golf_shoe', :sort_order => 2, :depth => 2)
+WardrobeItem.create(:wardrobe => sports, :parent_item => item['feet_sporty'], :name => 'Hiking', :item_type => 'shoes', :image_file => 'sports/shoes/hiking_shoe', :sort_order => 3, :depth => 2)
 
 # School Grades
 GradeType.create(:school_id => school, :letter => 'A', :value_min => 93, :value => 95, :gpa=> 4.0)
