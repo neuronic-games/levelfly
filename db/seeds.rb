@@ -14,7 +14,7 @@ profile = Profile.create(:code => 'DEFAULT', :school => school, :image_file_name
 default = Avatar.create(:profile => profile, :skin => 3, :body => 'avatar/body/body_3', :head => 'avatar/head/diamond_3', :face => 'avatar/face/latin_male', :hair => 'avatar/hair/short_wavy_5', :hair_back => 'avatar/hair/short_wavy_5_back', :top => 'basic/tops/polo_short_sleeve_blue', :bottom => 'basic/bottoms/trousers_long_brown', :shoes => 'basic/shoes/sneakers_gray')
 
 admin = User.create(:email => "admin@neuronicgames.com", :encrypted_password => "$2a$10$r6oanIl6wuvMUDoyMeF7NeMfMQBkAPSLMEYseOm0mmiz...", :status => 'A')
-admin_profile = Profile.create(:user => admin, school => school, :full_name => "Neuronic Admin", :image_file_name => "/images/wardrobe/null_profile.png")
+admin_profile = Profile.create(:user => admin, :school => school, :full_name => "Neuronic Admin", :image_file_name => "/images/wardrobe/null_profile.png")
 Role.create(:name => "edit_user", :profile => admin_profile)
 Role.create(:name => "modify_rewards", :profile => admin_profile)
 Role.create(:name => "modify_wardrobe", :profile => admin_profile)
