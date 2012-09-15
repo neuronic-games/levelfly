@@ -1,4 +1,5 @@
 class Role < ActiveRecord::Base
+  belongs_to :profile
   
   @@create_group = 'create_group'
   cattr_accessor :create_group
