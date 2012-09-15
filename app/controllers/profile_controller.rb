@@ -36,7 +36,8 @@ class ProfileController < ApplicationController
 
   def edit
     profile = Profile.find(user_session[:profile_id])
-    ids = profile.sports_reward   
+    ids = profile.sports_reward
+    puts"#{ids}-----"
     wardrobe_items = WardrobeItem.find(:all, 
       :conditions => ["archived = ? and wardrobe_id in (?)", false, ids],
       :order => "depth, sort_order")
