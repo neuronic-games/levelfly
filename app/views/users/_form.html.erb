@@ -58,14 +58,14 @@
               
               <div class="course_viewfield color_b field_label">This user may:
                 <div class=""></br>
-                  <input type="checkbox" name ="user_role[]" class="check_box" id="create_course" <%= @profile && Role.check_permission(@profile.id, "C") ? "checked='checked'" : "" %>value=""/> Modify courses</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="create_group" <%=@profile && Role.check_permission(@profile.id, "G") ? "checked='checked'" : "" %>value=""/> Modify groups</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="create_task" <%=@profile && Role.check_permission(@profile.id, "T") ? "checked='checked'" : "" %>value=""/> Modify tasks</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="edit_grade" <%=@profile && Role.check_permission(@profile.id, Role.edit_grade) ? "checked='checked'" : "" %>value=""/> Modify grades</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="edit_user" <%=@profile && Role.check_permission(@profile.id, Role.edit_user) ? "checked='checked'" : "" %>value=""/> Modify users</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="modify_rewards" <%=@profile && Role.check_permission(@profile.id, Role.modify_rewards) ? "checked='checked'" : "" %>value=""/> MODIFY REWARDS</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="modify_wardrobe" <%=@profile && Role.check_permission(@profile.id, Role.modify_wardrobe) ? "checked='checked'" : "" %>value=""/> MODIFY WARDROBE</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="modify_settings" <%=@profile && Role.check_permission(@profile.id, Role.modify_settings) ? "checked='checked'" : "" %>value=""/> MODIFY SETTING</br></br>
+                  <input type="checkbox" name ="user_role[]" class="check_box" id="create_course" <%= @profile && Role.check_permission(@profile.id, "C") ? "checked='checked'" : "" %>value=""/> Modify Courses</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="create_group" <%=@profile && Role.check_permission(@profile.id, "G") ? "checked='checked'" : "" %>value=""/> Modify Groups</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="create_task" <%=@profile && Role.check_permission(@profile.id, "T") ? "checked='checked'" : "" %>value=""/> Modify Tasks</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="edit_grade" <%=@profile && Role.check_permission(@profile.id, Role.edit_grade) ? "checked='checked'" : "" %>value=""/> Modify Grades</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="edit_user" <%=@profile && Role.check_permission(@profile.id, Role.edit_user) ? "checked='checked'" : "" %>value=""/> Modify Users</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="modify_rewards" <%=@profile && Role.check_permission(@profile.id, Role.modify_rewards) ? "checked='checked'" : "" %>value=""/> Modify Rewards</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="modify_wardrobe" <%=@profile && Role.check_permission(@profile.id, Role.modify_wardrobe) ? "checked='checked'" : "" %>value=""/> Modify Wardrobe</br></br>
+                  <input type="checkbox" class="check_box" name ="user_role[]" id="modify_settings" <%=@profile && Role.check_permission(@profile.id, Role.modify_settings) ? "checked='checked'" : "" %>value=""/> Modify Settings</br></br>
                 </div>
               </div>
               <div class="clear"></div>
