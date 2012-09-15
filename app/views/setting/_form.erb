@@ -1,9 +1,9 @@
 <div class="add_task_popup">
   <div class="heading">Setting</div>
-  <div class="boxadnt"> <span class="heading02">object id</span>
+  <!--<div class="boxadnt"> <span class="heading02">object id</span>
     <div class="heading02_field">
       <div class="dd_bg brown_bg02">
-        <input type ="text" class = "dd_input brown_bg02" id ="object_id" value="<%=@profile.school_id if @profile%>">
+        <input type ="text" class = "dd_input brown_bg02" id ="object_id" value="">
       </div>
     </div>
     <div class="clear"></div>
@@ -12,11 +12,12 @@
   <div class="boxadnt"> <span class="heading02">object Type</span>
     <div class="heading02_field">
       <div class="dd_bg brown_bg02">
-        <input type ="text" class = "dd_input brown_bg02" id ="object_type" value="<%=@setting.object_type if @setting%>">
+        <input type ="text" class = "dd_input brown_bg02" id ="object_type" value="">
       </div>
     </div>
     <div class="clear"></div>
-  </div>
+  </div>-->
+  
   <div class="boxadnt"> <span class="heading02">Name</span>
     <div class="heading02_field">
       <div class="dd_bg brown_bg02">
@@ -41,6 +42,8 @@
     <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
   
+  <input type="hidden" id="object_id" value="<%=@profile.school_id if @profile%>">
+  <input type="hidden" id="object_type" value="school">
   <input type="hidden" id="hdn_setting_id" value="<%=@setting.id if @setting%>">
   <div align="right" style="margin-right:20px;">
   <a class="big_blue_btn inlineblock" id ="dont_save_btn" href="javascript:void(0)">Don't Save</a> <a class="big_blue_btn inlineblock" id ="save_btn" href="javascript:void(0)">Save</a></div>

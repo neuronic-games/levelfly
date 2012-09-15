@@ -10,6 +10,7 @@ class SettingController < ApplicationController
   end
   
   def new 
+   @profile = Profile.find(user_session[:profile_id])
    render :partial => "/setting/form"
   end
   

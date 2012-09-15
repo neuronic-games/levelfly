@@ -3,8 +3,34 @@ class GradeBookController < ApplicationController
   before_filter :authenticate_user!
   
   def index
+    @enable_palette = false
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if @profile
+      setting = Setting.find(:first, :conditions=>["object_id = ? and value = 'true' and object_type ='school' and name ='enable_grade_palette' ",@profile.school_id])
+      if setting and !setting.nil?
+        @enable_palette = true
+      end
+      filter_course("active")
+     end
+     respond_to do |wants|
+      wants.html do
+        if request.xhr?
+          render :partial => "/grade_book/list"
+        else
+          render
+        end
+      end
+    end
+  end
+
+  
+  def filter_course(filter)
+    if filter =="past"
+      archived = true
+    else
+      archived = false
+    end
+      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
       @courses = [];
       @people =[];
       @tasks = [];
@@ -12,7 +38,7 @@ class GradeBookController < ApplicationController
         :all, 
         :select => "distinct *",
         :include => [:participants], 
-        :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND participants.profile_type = ? AND courses.archived = ?",false, @profile.id, Course.parent_type_course, Course.profile_type_master, false],
+        :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND participants.profile_type = ? AND courses.archived = ?",false, @profile.id, Course.parent_type_course, Course.profile_type_master, archived],
         :order => 'courses.created_at DESC'
       )
       @course.each do |c|
@@ -31,23 +57,17 @@ class GradeBookController < ApplicationController
         @count = @participant.count
         @tasks = Course.sort_course_task(@course_id)
       end
-      
-       
-     end
-     respond_to do |wants|
-      wants.html do
-        if request.xhr?
-          render :partial => "/grade_book/list"
-        else
-          render
-        end
-      end
+  end
+  
+  def filter
+    if params[:filter] && !params[:filter].blank?
+      filter_course(params[:filter])
+      render :partial => "/grade_book/load_data"
     end
   end
-
      
   def get_task
-    if params[:course_id] && !params[:course_id].nil?
+    if params[:course_id] && !params[:course_id].blank?
       @profile = Profile.find(user_session[:profile_id])
       @course = Course.find(params[:course_id])
       @outcomes = @course.outcomes
@@ -136,7 +156,7 @@ class GradeBookController < ApplicationController
   
    #used for caclulation for grade
   def grade_calculate
-    if params[:characters] && !params[:characters].nil?
+    if params[:characters] && !params[:characters].blank?
       characters = params[:characters].split(",") if params[:characters]
       school_id = params[:school_id]
       course_id = params[:course_id]
@@ -188,7 +208,6 @@ class GradeBookController < ApplicationController
                 end
               end 
             end 
-          puts"#{count}--count--"  
           if (sum >0 and count >0)
             average = sum/count
           else
@@ -216,7 +235,7 @@ class GradeBookController < ApplicationController
   
   #save outcome points 
   def outcomes_points
-    if params[:course_id] && !params[:course_id].nil?
+    if params[:course_id] && !params[:course_id].blank?
       average = params[:average].split(",") if params[:average]
       school_id = params[:school_id]
       course_id = params[:course_id]
@@ -244,7 +263,7 @@ class GradeBookController < ApplicationController
   
   #load Notes
   def load_notes
-    if params[:course_id] && !params[:course_id].nil?
+    if params[:course_id] && !params[:course_id].blank?
       @profile = Profile.find(user_session[:profile_id])
       @participant = Participant.all( :joins => [:profile], 
       :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
@@ -266,7 +285,7 @@ class GradeBookController < ApplicationController
   
   #Save Notes for praticipants 
   def save_notes
-    if params[:course_id] && !params[:course_id].nil?
+    if params[:course_id] && !params[:course_id].blank?
       school_id = params[:school_id]
       course_id = params[:course_id]
       notes = params[:notes]
@@ -278,7 +297,7 @@ class GradeBookController < ApplicationController
   end
   
   def course_outcomes
-     if !params[:course_id].nil?
+     if !params[:course_id].blank?
       @course = Course.find(params[:course_id])
       @outcomes_course = @course ? @course.outcomes : nil
       @categories = Category.find(:all, :conditions=>["course_id = ?",@course.id])
@@ -288,7 +307,7 @@ class GradeBookController < ApplicationController
   
   
   def load_outcomes
-    if !params[:course_id].nil?
+    if !params[:course_id].blank?
       @course = Course.find(params[:course_id])
       @profile = Profile.find(user_session[:profile_id])
       @outcomes = @course ? @course.outcomes : nil
@@ -314,7 +333,7 @@ class GradeBookController < ApplicationController
   end
   
   def grading_complete
-    if params[:id] and !params[:id].nil?
+    if params[:id] and !params[:id].blank?
       @course = Course.find(params[:id])
       if @course
         @course.grading_completed_at = Time.now
@@ -328,14 +347,14 @@ class GradeBookController < ApplicationController
   end
   
   def load_task_setup
-    if params[:task_id] and !params[:task_id].nil?
+    if params[:task_id] and !params[:task_id].blank?
       @task = Task.find(params[:task_id])
       render :partial=>"/grade_book/load_task_setup"
     end
   end
   
   def task_setup
-    if params[:task_id] and !params[:task_id].nil?
+    if params[:task_id] and !params[:task_id].blank?
       @task = Task.find(params[:task_id])
       if @task
         if params[:grading_complete_date] == "true"

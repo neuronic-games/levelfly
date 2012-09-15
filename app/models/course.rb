@@ -212,12 +212,14 @@ class Course < ActiveRecord::Base
                 :profile_id => viewer.id,
                 :wall_id =>wall_id
               )
-              content = "#{profile.full_name} Added you in : #{self.name}"   
+              course = Course.find(self.course_id)
+              content = "#{profile.full_name} added you to a new forum in #{course.name} #{course.section}: #{self.name}"   
               Message.send_notification(profile.id,content,viewer.id) 
             end
           end
       end     
     end
   end
+  
   
 end

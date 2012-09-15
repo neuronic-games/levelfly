@@ -288,6 +288,7 @@ $(document).ready(function(){
   //Remove course/group
    $("#remove_btn_course").click(function(){
       id = $("#course_id_hdn").val();
+      section_type = $("#section_type").val();
       if(id){
         showSpinner(true);
         $.ajax({
@@ -297,7 +298,7 @@ $(document).ready(function(){
          dataType:"json",
          success : function(resp){
             if (resp.status){
-            $("#container").load("/course/?section_type=C", function(){
+            $("#container").load("/course/?section_type="+section_type, function(){
               showSpinner(false);
           });
             }else{

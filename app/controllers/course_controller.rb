@@ -444,7 +444,7 @@ class CourseController < ApplicationController
           end
           render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes}
       else
-        render :text=>"No outcomes.."         
+          render :text=>""         
       end
     end
   end

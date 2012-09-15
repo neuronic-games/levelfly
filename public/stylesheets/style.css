@@ -1330,6 +1330,55 @@ a.icon_leader_active {
 	padding:58px 0 0;
 	color:#6a7c28;
 }
+/**/
+
+a.icon_people_setting {
+	background:url(../images/btn_people_setup.png) no-repeat 17px 3px;
+	padding:58px 0 0;
+}
+a.icon_people_setting:hover {
+	background:url(../images/btn_people_setup_sel.png) no-repeat 17px 3px;
+	padding:58px 0 0;
+}
+a.icon_people_setting_active {
+	background:url(../images/btn_people_setup_sel.png) no-repeat 17px 3px;
+	padding:58px 0 0;
+	color:#6a7c28;
+}
+
+a.icon_reward{
+	background:url(../images/btn_reward_setup.png) no-repeat 17px 3px;
+	padding:58px 0 0;
+}
+a.icon_reward:hover {
+	background:url(../images/btn_reward_setup_sel.png) no-repeat 17px 3px;
+	padding:58px 0 0;
+}
+a.icon_reward_active {
+	background:url(../images/btn_reward_setup_sel.png) no-repeat 17px 3px;
+	padding:58px 0 0;
+	color:#6a7c28;
+}
+
+a.icon_user_setting{
+	background:url(../images/btn_setting.png) no-repeat 17px 3px;
+	padding:58px 0 0;
+}
+a.icon_user_setting:hover {
+	background:url(../images/btn_setting_sel.png) no-repeat 17px 3px;
+	padding:58px 0 0;
+}
+a.icon_user_setting_active {
+	background:url(../images/btn_setting_sel.png) no-repeat 17px 3px;
+	padding:58px 0 0;
+	color:#6a7c28;
+}
+
+
+
+
+
+
 a.icon_groups {
 	background:url(../images/groups_icon.png) no-repeat 17px 9px;
 	padding:61px 0 0;

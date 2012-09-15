@@ -1,0 +1,33 @@
+ <% unless @latest_course.nil? %>
+ <div class="course_select">
+  <div class="page_heading">COURSE</div>
+  <div class="selectbg"> 
+   <% unless @latest_course.nil? %>
+      <span class="fakebox"><%=@latest_course.name%></span>
+   <% end %>
+   <select id="course_id">
+    <% unless @courses.nil? %>
+      <% @courses.each do |c| %>
+        <option value="<%= c.id %>"><%= c.name %></option>
+      <% end %>
+    <% end %>
+   </select>
+  </div>
+  </div>
+  <div class="clear"></div>
+  <div id="all_participant">
+    <%= render :partial=>"/grade_book/show_participant"%>
+  </div>
+  <div id="add_task" class="add_task hide" >
+    <%= render :partial=>"/grade_book/add_new_task"%>
+  </div>
+  <div id="finalize_div" class="finalize_box hide" >
+    <%= render :partial=>"/grade_book/finalize_box"%>
+  </div>
+  <div id="load_task_setup" class="load_task_setup hide" >
+  </div>
+  <div class="clear"></div>
+  <div class="extra_height_gradepage"></div>
+ <%else%>
+  <div class="msg_pos">You are currently not in any courses</div>
+ <%end%>

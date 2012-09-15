@@ -12,7 +12,7 @@
         <div class="gradebook_board_center">
         <% unless @latest_course.nil? %>
           <div class="gradebook_partribbon">
-           <%if Rails.application.config.grade_palette == true%>
+           <%if @enable_palette == true%>
             <div class="GDingbox" >
               <div class="GDingbox_botright" >
                 <div class="GDingbox_botcenter" >
@@ -72,41 +72,13 @@
             <div class="gradebook_pad">
               <!-- tabs-->
               <div class="gradebook_tabs menu_container" align="right">
-                 <a href="javascript:void(0)"  id="menu1" value="1" class="side_tab side_tab_open"><span class="task_tab"> Current</span></a>
-                 <a href="javascript:void(0)"  id="menu2" value="2" class="side_tab side_tab_close"><span class="task_tab"> Archived</span></a>
+                 <a href="javascript:void(0)"  id="menu1" value="1" filter="active" class="side_tab side_tab_open"><span class="task_tab"> Current</span></a>
+                 <a href="javascript:void(0)"  id="menu2" value="2" filter="past" class="side_tab side_tab_close"><span class="task_tab"> Archived</span></a>
               </div>
               <!--tab content-->
-              <div class="gradebook_tab_content gradebook_tab_content2">
+              <div id="grade_book_content" class="gradebook_tab_content gradebook_tab_content2 grade_book_content">
                <!-- <div class="spacebar10px"></div>  -->
-                <div class="course_select">
-                <div class="page_heading">COURSE</div>
-                <div class="selectbg"> 
-                 <% unless @latest_course.nil? %>
-                    <span class="fakebox"><%=@latest_course.name%></span>
-                 <% end %>
-                 <select id="course_id">
-                  <% unless @courses.nil? %>
-                    <% @courses.each do |c| %>
-                      <option value="<%= c.id %>"><%= c.name %></option>
-                    <% end %>
-                  <% end %>
-                 </select>
-                </div>
-                </div>
-                <div class="clear"></div>
-                <div id="all_participant">
-                  <%= render :partial=>"/grade_book/show_participant"%>
-                </div>
-                <div id="add_task" class="add_task hide" >
-                  <%= render :partial=>"/grade_book/add_new_task"%>
-                </div>
-                <div id="finalize_div" class="finalize_box hide" >
-                  <%= render :partial=>"/grade_book/finalize_box"%>
-                </div>
-                <div id="load_task_setup" class="load_task_setup hide" >
-                </div>
-                <div class="clear"></div>
-                <div class="extra_height_gradepage"></div>
+                 <%= render :partial=>"/grade_book/load_data"%>
               </div>
               <div class="clear"></div>
             </div>
@@ -184,6 +156,7 @@ $(document).ready(function(){
     }
     //---- Selected menu will highlighted
     $('#menu'+idx).addClass("side_tab_open").removeClass("side_tab_close");
+    filter();
    // $("#div_"+idx).fadeIn();
   });
   
@@ -651,7 +624,7 @@ $(document).ready(function(){
   
   
   //Fill grades/ points on click task name or outcome name entire column
-  $(".task_right_wp").delegate("td","click",function(){
+  $(".grade_book_content").delegate("td","click",function(){
    if(final_value != "" || reset == true)
    {
     var id = $(this).attr("id");
@@ -690,7 +663,7 @@ $(document).ready(function(){
   });
   
   //Save grade on change event
-  $(".task_right_wp").delegate("input","change",function(){
+  $(".grade_book_content").delegate("input","change",function(){
       entire_column = false
       id = $(this).attr("id");
       $("#last_id").attr("value", id);
@@ -712,7 +685,7 @@ $(document).ready(function(){
   });
   
   //Save grade on click
-  $(".task_right_wp").delegate("input","click",function(){
+  $(".grade_book_content").delegate("input","click",function(){
     entire_column = false
     previous_values.push($(this).val())
     id = $(this).attr("id");
@@ -742,7 +715,7 @@ $(document).ready(function(){
   
   
 //fill grade book on change of course
-$('#course_id').change(function(){
+ $(".grade_book_content").delegate("#course_id","change",function(){
   $("#add_task").hide();
   var singleValues = $("#course_id :selected").text();
   $(this).parent().find('.fakebox').html(singleValues );
@@ -753,7 +726,8 @@ $('#course_id').change(function(){
 
 
   //Load data on change of outcome/notes drop down
-  $('#outcome_note').change(function(){
+ $(".grade_book_content").delegate("#outcome_note","change",function(){
+  //$('#outcome_note').change(function(){
     var singleValues = $("#outcome_note :selected").text();
     $("#outcome_note").parent().find('.fakebox').html(singleValues);
     course_id = $("#course_id").val();
@@ -935,7 +909,8 @@ $('#course_id').change(function(){
     }    
   });
   //Scroll div to task in table on task change
-  $('#task_id').change(function(){
+ $(".grade_book_content").delegate("#task_id","change",function(){
+  //$('#task_id').change(function(){
     $("#add_task").hide();
     var singleValues = $("#task_id :selected").text();
     $(this).parent().find('.fakebox').html(singleValues);
@@ -945,7 +920,8 @@ $('#course_id').change(function(){
      //$(".task_right_wp").scrollLeft(x.left-div.left,1);    
   });
    //Save nates on change event
-  $(".Grade_right_panel").delegate("textarea","change",function(){
+   //$(".grade_book_content").delegate("#task_id","change",function(){
+  $(".grade_book_content").delegate("textarea","change",function(){
 
     var notes = $(this).val();
     var course_id = $("#course_id").val();
@@ -987,7 +963,7 @@ $('#course_id').change(function(){
     $("#finalize_div").show();
   });
   //Save new task
-  $(".add_task").delegate("a","click",function(){
+  $(".grade_book_content").delegate("a","click",function(){
     id = $(this).attr("id");
     if (id=="dont_add_btn"){
       $("#add_task").hide();
@@ -1275,7 +1251,7 @@ $('#course_id').change(function(){
     }
   });
 
-  $(".task_right_wp").delegate(".task_setup_icon","click",function(){
+  $(".grade_book_content").delegate(".task_setup_icon","click",function(){
     task_id = $(this).attr("rel");
     showSpinner(true);
     $.ajax({
@@ -1806,7 +1782,20 @@ $('#course_id').change(function(){
     }
   });
 }
-  
+
+function filter() {
+  showSpinner(true);
+  var filter = $(".side_tab_open:first").attr("filter");
+  $.ajax({
+     type: "POST",  
+     url: "/grade_book/filter",  
+     data: {filter:filter},
+     success: function(data) {
+       $("#grade_book_content").html(data);
+       showSpinner(false);
+     }
+  });
+}  
   
   
   

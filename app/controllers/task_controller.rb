@@ -313,8 +313,10 @@ class TaskController < ApplicationController
   def points_credit
     if params[:task_id] && !params[:task_id].nil?
       status = Task.points_to_student(params[:task_id], params[:check_val]=="true", params[:member_id],user_session[:profile_id])
+      task = Task.find(params[:task_id])
+      member = Profile.find(params[:member_id])
     end
-    render :text => {:status => status}.to_json
+    render :text => {:status => status, :task=>task, :member=>member}.to_json
   end
   
   def extra_credit

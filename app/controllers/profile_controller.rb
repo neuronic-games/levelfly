@@ -157,7 +157,7 @@ class ProfileController < ApplicationController
     puts"#{@level.inspect}"
     @profile.level = @level.object_id
     @profile.save
-    @levels = Reward.find(:all, :select => "xp", :conditions=>["object_type = 'level'"], :order=>"xp ASC").collect(&:xp)
+    @levels = Reward.find(:all, :select => "distinct xp", :conditions=>["object_type = 'level'"], :order=>"xp ASC").collect(&:xp)
     if(previous_level != @profile.level)
       content = "Congratulations! You have achieved level #{@profile.level}."
       Message.send_notification(@profile.id,content,@profile.id)

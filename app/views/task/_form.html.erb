@@ -518,6 +518,7 @@ $(document).ready(function(){
          data:{task_id:task_id,member_id:member_id,check_val:check_val},
          success:function(data){
            showSpinner(false);
+           setAlert(data.task.points+" xp rewarded to "+data.member.full_name);
          }
       });
      
@@ -790,8 +791,10 @@ $(document).ready(function(){
        success:function(data){
          showSpinner(false);
          if (data.status) {
-           setAlert("Task completed")
-          
+           setAlert("Loading /task/")
+           $("#container").load('/task/', function(){
+              showSpinner(false);
+            });
          } else {
            setAlert("Task not completed")
 
