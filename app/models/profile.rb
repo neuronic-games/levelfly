@@ -54,9 +54,9 @@ class Profile < ActiveRecord::Base
   end
   
   def sports_reward
-    basic = Wardrobe.find(:first, :conditions=>["name = 'basic'"])
+    basic = Wardrobe.find(:first, :conditions=>["name = 'Basic'"])
     ids = [];
-    if basic
+    if basic and !basic.nil?
       ids.push(basic.id)
     end
     sports_reward = Reward.find(:first, :conditions=>["object_type = 'wardrobe' and object_id = '2'"])
