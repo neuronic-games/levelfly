@@ -184,17 +184,19 @@ class ProfileController < ApplicationController
   def change_password
     if params[:id] and not params[:id].nil?
       @user = User.find(params[:id])
-      @user.password = params[:password] if params[:password]
       @user.email = params[:email] if params[:email]
-      @user.save
-      profile = Profile.find(user_session[:profile_id])
-      profile.full_name = params[:full_name]
-      profile.save
-      sign_in(@user, :bypass => true)
-      render :json =>{:text =>"Account detail changed successfully",:status =>true}
-      # else
-        # render :json =>{:text =>"ERROR",:status =>false}
-      # end
+      if params[:password] and !params[:password].blank?
+        @user.password = params[:password]
+      end
+      if @user.save
+        profile = Profile.find(user_session[:profile_id])
+        profile.full_name = params[:full_name]
+        profile.save
+        sign_in(@user, :bypass => true)
+        render :json =>{:text =>"Account detail changed successfully",:status =>true}
+      else
+        render :json =>{:text =>"ERROR",:status =>false}
+      end
     end
   end
 

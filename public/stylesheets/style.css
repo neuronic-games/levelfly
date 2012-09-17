@@ -3367,7 +3367,7 @@ filter:alpha(opacity="0");
 
 .editable_field:hover {
   background: #DFD4B6;
-  cursor: hand;cursor: pointer;
+  cursor: pointer;
 }
 .task_grade{ text-align:center; text-transform:uppercase;}
 .td_align{vertical-align:middle;}
