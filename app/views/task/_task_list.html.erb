@@ -11,7 +11,7 @@
           <a href="javascript:void(0);" class="tasks_del blue_bt19px" task_id="<%=t.id %>">Remove</a>
         </div>
       </div>
-
+      <div style="float:left; width:150px;">
       <div class="staronavatar2">
         <img src="/images/<% if participant.priority == "H" %>star_up<%else%>star_down<%end%>.png" width="36" height="37" task_id="<%=t.id %>" class="tasks_pri_toggle tasks_pri_toggle_img" />
       </div>
@@ -27,7 +27,8 @@
            <img src='<%= t.image_file %>' width="150" height="150" alt="<%=t.name%>" />
         </a>
       </div>
-      
+      </div>
+      <div style="margin-left:150px;">
       <div class="titleTDue"><%=change_date_format(t.due_date) if t.due_date%></div>
       
       <!-- This column does not expand well. Do we need to control max-width via JavaScript? -->
@@ -42,6 +43,7 @@
       </div>
       
       <div class="titleTType"><%=t.course.name if t.course %></div>
+      </div>
 
     </div>  <!-- task_list_content -->
     

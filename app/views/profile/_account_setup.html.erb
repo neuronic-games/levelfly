@@ -15,7 +15,7 @@
      &nbsp;&nbsp;
    </div> 
    <div>
-    <input type ="text" class = "dd_input brown_bg02" id ="email" value="<%=@current_user.user.email%>" readonly="readonly">
+    <input type ="text" class = "dd_input brown_bg02" id ="email" value="<%=@current_user.user.email%>">
    </div>
  </br>
    
@@ -60,12 +60,13 @@ $(document).click(function (e)
        id = $("#hdn_user_id").val();
        password = $("#user_password").val();
        full_name = $("#user_full_name").val();
+       email = $("#email").val();
        showSpinner(true);
       $.ajax({
         type: "POST",
         url: "/profile/change_password",
         dataType:"json",
-        data:{id:id,password:password,full_name:full_name},
+        data:{id:id,password:password,full_name:full_name,email:email},
         success: function(resp){
           if (resp){
              showSpinner(false);
@@ -81,19 +82,29 @@ $(document).click(function (e)
     }   
  });
 function validateForm(){
-  var user_password =document.getElementById("user_password");
+
+  var user_password = document.getElementById("user_password");
+  var email=document.getElementById("email").value;
   var user_confirm_password =document.getElementById("user_confirm_password");
-  if(user_password.value==""){
-    alert("Please enter Password");
-    user_password.focus();
+  var atpos=email.indexOf("@");
+  var dotpos=email.lastIndexOf(".");
+ 
+  if (email==""){
+      alert('Enter Email Address');
+      return false;
+  }
+  else if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length)
+  {
+    alert("Not a valid e-mail address");
     return false;
   }
-  else if(user_password.value.length < 6 ){
+  
+  if(user_password.value.length < 6 && user_password.value!=""){
     alert("Password have minimum 6 character");
     user_confirm_password.focus();
     return false;
   }
-  else if(user_confirm_password.value == "" ){
+  else if(user_confirm_password.value == "" && user_password.value!=""){
     alert("Please enter confirm Password");
     user_confirm_password.focus();
     return false;

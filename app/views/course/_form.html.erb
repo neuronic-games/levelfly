@@ -96,8 +96,8 @@ var _categoriesObject = [];
 var _outcomes_descrObject = [];
 var _categories_persentObject = [];
 var _outcomes_shareObject = [];
-
-
+var changed = false;
+var new_course = false;
 //set outcomes to offline storage
 $.each($('input[name="outcomes[]"], input[name="people_id[]"], input[name="categories[]"]'), function() {
   setStorage($(this).attr('id'), $(this).val());
@@ -120,11 +120,12 @@ else {setStorage("group_descr", "New Group Description");}
 
 $(document).ready(function(){
   
-  var changed = false;
+  
   <% if defined?(course_new) && course_new == true %>
     $("#menu1").addClass("side_tab_close").removeClass("side_tab_open");
     $(".course_tabs").addClass("hide");
     $("#btn_course_remove").addClass("hide");
+    new_course = true;
   <% end %>
 
   // Course name
@@ -422,6 +423,7 @@ $(".download_files").click(function(){
 //Save course
 function save_course(channel) {
   section_type = $("#section_type").val();
+   course_id = $("#course_id_hdn").val();
   //Get data from offline storage
 
   if(section_type == "G")
@@ -429,7 +431,6 @@ function save_course(channel) {
     name = getStorage("group_name");
     descr = getStorage("group_descr");
     section_type = "G";
-    changed=true
   }
   else
   {
@@ -450,6 +451,16 @@ function save_course(channel) {
   task_low = getStorage("task_low");
   task_medium = getStorage("task_medium");
   task_high = getStorage("task_high");
+  if (task_low==null){
+    task_low = $("#task_low").val();
+  }
+  if (task_medium==null){
+    task_medium = $("#task_medium").val();
+  }
+  if (task_high==null){
+    task_high = $("#task_high").val();
+  }
+  
   var post_messages = document.getElementById('post_messages');
 
 
@@ -504,6 +515,7 @@ function save_course(channel) {
     dataType:"json",
     success: function(data) {
       if (data) {
+        
         if(data.course.parent_type == "G")
         {
           $("#group_name").val(data.course.name);
@@ -517,6 +529,7 @@ function save_course(channel) {
         }
          showSpinner(false);
          changed=false;
+         new_course = false;
         if(channel=="btn_course") {
           //$("#container").load('/course/index?section_type='+section_type, function(){
           $("#container").load('/course/show/'+data.course.id+'?section_type='+section_type, function(){
@@ -532,6 +545,11 @@ function save_course(channel) {
       }
     }
   });
+  }
+  else if(changed==false && new_course==false){
+     $("#container").load('/course/show/'+course_id+'?section_type='+section_type, function(){
+        showSpinner(false);
+      });
   }
   return false;
 }

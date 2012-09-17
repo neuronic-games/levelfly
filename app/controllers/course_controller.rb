@@ -473,6 +473,7 @@ class CourseController < ApplicationController
   
   def show_course
     @course = Course.find(params[:id])
+    
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if !@profile.nil?
     @badges = AvatarBadge.where("profile_id = ? and course_id = ?",@profile.id,@course.id).count

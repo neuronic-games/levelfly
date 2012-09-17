@@ -34,7 +34,7 @@ function addNode(element) {
           </div>
           <div class="tabs menu_container" align="right">
             <a href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><span class="task_tab">Task</span></a>
-            <a href="javascript:void(0)"  id="menu2" value="2" class="tab_close" ><span class="task_tab">Files</span></a>
+            <a href="javascript:void(0)"  id="menu2" value="2" class="tab_close<% if defined?(task_new) && task_new == true %> hide <%end%>" ><span class="task_tab">Files</span></a>
            </div>
           
           <!--tab content-->
@@ -161,9 +161,9 @@ function addNode(element) {
         
         <div id="div_2" class="tab_content hide">
           <%= render :partial => "/course/files" %>         
-        </div>
+        </div> 
 
-		    <div id="div_3" class="tab_content hide"> <!--TAsk setup page-->
+		    <div id="div_3" class="tab_content hide task_form_main"> <!--TAsk setup page-->
             <%if Role.check_permission(@profile.id,"T") == true%> 
               <div class="task_side_buttons"> 
                 <!-- <a href="javascript:void(0)" class="big_blue_btn">ATTACH</a> -->
@@ -392,6 +392,8 @@ var extra_credit = document.getElementById('extra_credit');
 var _taskPeopleObject = [];
 var _addTaskPeopleEmailObject = [];
 var _outcomeValueObject = [];
+var changed = false;
+var new_task = false;
 //set storage on load while view of task
 
 if($("#task").val()!="") {setStorage("task_name", $("#task").val());}
@@ -408,9 +410,23 @@ $("#level").change(function(){
   
  
 $(document).ready(function(){
- 
-   
+
+    <% if defined?(task_new) && task_new == true %>
+      new_task = true;
+    <% end %>
   
+  $(".task_form_main").delegate("input","change",function(){
+    changed=true;
+  });
+  $("#due_date").click(function(){
+    changed=true;
+  });
+  $(".task_form_main").delegate("select","change",function(){
+    changed=true;
+  });
+  $(".task_form_main").delegate("textarea","change",function(){
+    changed=true;
+  });
   //For new Task
   task_new = $("#task_new").attr("value");
   if(task_new)
@@ -455,6 +471,7 @@ $(document).ready(function(){
     $("#add_outcome_task").click(function(){
        addNode('outcome');
        $("#hdn_is_page_change").val(true);
+       changed = true;
     });
  
   
@@ -477,6 +494,7 @@ $(document).ready(function(){
         });
       });
       showSpinner(false);
+      changed = true;
     });
   });
   
@@ -497,6 +515,7 @@ $(document).ready(function(){
          data:{task_id:task_id,outcome_id:outcome_id},
          success:function(data){
            showSpinner(false);
+            changed=true;
          }
       });
     }else
@@ -519,6 +538,7 @@ $(document).ready(function(){
          success:function(data){
            showSpinner(false);
            setAlert(data.task.points+" xp rewarded to "+data.member.full_name);
+            changed=true;
          }
       });
      
@@ -536,6 +556,7 @@ $(document).ready(function(){
          data:{task_id:task_id,member_id:member_id,check_val:check_val},
          success:function(data){
            showSpinner(false);
+            changed=true;
          }
       });
   });
@@ -578,6 +599,7 @@ $(document).ready(function(){
              if(data.status)
              {
                showSpinner(false);
+                changed=true;
                if(check_val==true){
                 setStorage("task_people_"+id, val); 
               }
@@ -686,6 +708,7 @@ $(document).ready(function(){
       $('.task_image').attr("src", obj.image_url);
       $(".image_icon_drop_target").fadeIn();
       showSpinner(false);
+      changed = true;
     });
     
     //Uploader file (Attachments) upload
@@ -740,6 +763,7 @@ $(document).ready(function(){
       $('#fileremove_'+file.id).html('<a href="javascript:void(0)" class="remove_resource" id="' + obj.attachment.id + '"> Remove </a>');
       $('#item_'+file.id).attr('id', 'item_'+obj.attachment.id);
       showSpinner(false);
+      changed = true;
     });
     
   }); // $(function) ends
@@ -749,6 +773,7 @@ $(document).ready(function(){
     $.getJSON('/task/remove_attachment/', {attachment_id:attachment_id}, function(data) {
       //alert("removed");
       $('#item_'+attachment_id).remove();
+       changed = true;
     });
   });
   
@@ -830,7 +855,7 @@ $(document).ready(function(){
 }); //document.ready ends
 
 function save_task(channel) {
-    showSpinner(true);
+
     //Get data from offline storage
     task_id = $("#task_id_hdn").val();
     task = getStorage("task_name");
@@ -871,6 +896,8 @@ function save_task(channel) {
     var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id +'&extra_credit='+extra_credit.checked;  
 
     //alert(dataString); return false;
+    if( changed == true){
+    showSpinner(true);
     $.ajax({  
       type: "POST",  
       url: "/task/save",  
@@ -897,7 +924,14 @@ function save_task(channel) {
           showSpinner(false);
         }
       }
-    });  
+    }); 
+    }
+    else if(changed==false && new_task==false){
+       showSpinner(true);
+      $("#container").load('/task/show/'+task_id, function(){
+        showSpinner(false);
+      });
+    }
     return false;  
   }
 

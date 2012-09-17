@@ -78,9 +78,9 @@ class Course < ActiveRecord::Base
     self.rating_medium = Course.default_rating_medium
     self.rating_high = Course.default_rating_high
 
-    self.tasks_low = Course.default_tasks_low
-    self.tasks_medium = Course.default_tasks_medium
-    self.tasks_high = Course.default_tasks_high
+    self.tasks_low = self.tasks_low.blank? ? Course.default_tasks_low : self.tasks_low
+    self.tasks_medium = self.tasks_medium.blank? ? Course.default_tasks_medium : self.tasks_medium
+    self.tasks_high = self.tasks_high.blank? ? Course.default_tasks_high : self.tasks_high
   end
   
   def code_section

@@ -234,6 +234,7 @@ $(document).ready(function(){
       //$('#course_image').html(courseImg);
       //$("#course_image").append("<img class='image_icon_drop_target' src='/images/course_img_drop.png' />")
       showSpinner(false);
+       changed=true;
     });
     
     //For outcomes hover div
@@ -349,6 +350,7 @@ $(document).ready(function(){
         data: dataString,
         success: function(data) {
           if (data) {
+             changed=true;
           } else {
             alert("ERROR");
           }
@@ -379,6 +381,7 @@ $(document).ready(function(){
          url:"/course/share_outcome",
          data:{outcome_id:outcome_id,course_id:course_id},
          success:function(data){
+           changed=true;
            showSpinner(false);
          }
       });
@@ -411,6 +414,7 @@ $(document).ready(function(){
               success: function(data) {
                  $("#load_outcomes").html(data);
                  showSpinner(false);
+                  changed=true;
               },
               error: function()
               {
@@ -457,6 +461,7 @@ $(document).ready(function(){
   
   //Adding text field nodes for peoples, outcomes, categories
   function addNode(element) {
+     changed=true;
     if(element=="people") {
       var newNode = $(document.createElement('div')).attr("id", 'people_node_div' + _counterPeople);
       newNode.css("marginTop" , "20px");
