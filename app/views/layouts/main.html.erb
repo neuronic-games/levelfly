@@ -481,6 +481,7 @@ $('#container').delegate('.add_topic', 'click', function(){
     if (title != undefined) {
       setPageTitle(title);
     }
+    show_selected($(this).attr("id"));
   }
   
   $(document).keyup(function(e) {
@@ -538,9 +539,58 @@ $('#container').delegate('.add_topic', 'click', function(){
     if(document.getElementById("networks")!=null){
       document.getElementById("networks").className = "icon_networks menu_btn";
     }
-    if(document.getElementById("stats")!=null){
-      document.getElementById("stats").className = "icon_stats menu_btn";
+    if(document.getElementById("leader_board")!=null){
+      document.getElementById("leader_board").className = "icon_leader menu_btn";
     }
+    if(document.getElementById("grade")!=null){
+      document.getElementById("grade").className = "icon_grade menu_btn";
+    }
+    if(document.getElementById("wardrobe")!=null){
+      document.getElementById("wardrobe").className = "icon_leader menu_btn";
+    }
+    if(document.getElementById("users")!=null){
+      document.getElementById("users").className = "icon_people_setting menu_btn";
+    }
+    if(document.getElementById("reward")!=null){
+      document.getElementById("reward").className = "icon_reward menu_btn";
+    }
+    if(document.getElementById("setting")!=null){
+      document.getElementById("setting").className = "icon_user_setting menu_btn";
+    }
+    
+  }
+  
+  function show_selected(selectted_menu){
+    if(selectted_menu=="courses"){
+      $("#courses").addClass("icon_courses_active");
+    } else if(selectted_menu=="msg"){
+      $("#msg").addClass("icon_msg_active");
+    } 
+    else if(selectted_menu=="tasks"){
+      $("#tasks").addClass("icon_tasks_active");
+    } 
+    else if(selectted_menu=="networks"){
+      $("#networks").addClass("icon_networks_active");
+    } 
+    else if(selectted_menu=="leader_board"){
+      $("#leader_board").addClass("icon_leader_active");
+    } 
+    else if(selectted_menu=="grade"){
+      $("#grade").addClass("icon_grade_active");
+    } 
+    else if(selectted_menu=="wardrobe"){
+      $("#wardrobe").addClass("icon_leader_active");
+    } 
+    else if(selectted_menu=="users"){
+      $("#users").addClass("icon_people_setting_active");
+    } 
+    else if(selectted_menu=="reward"){
+      $("#reward").addClass("icon_reward_active");
+    } 
+    else if(selectted_menu=="setting"){
+      $("#setting").addClass("icon_user_setting_active");
+    } 
+    
   }
   
   function setPageTitle(title) {
