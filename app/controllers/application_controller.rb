@@ -47,8 +47,11 @@ class ApplicationController < ActionController::Base
         flash[:message] = "Your account has been suspended."
         sign_out current_user
       end
-    else
-      user_session[:profile_id] = nil
+    # elsif current_user
+    #   puts "=== user_session[:profile_id] = #{user_session[:profile_id]}"
+    #   puts "=== current_user.id = #{current_user.id}"
+    #   profile = Profile.create_for_user(current_user.id)
+    #   puts "=== profile.id = #{profile.id}"
     end
   end
   

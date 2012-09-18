@@ -96,5 +96,5 @@ class UsersController < ApplicationController
  def new 
    render :partial => "/users/form"
  end
-
+ 
 end
