@@ -241,7 +241,8 @@ class MessageController < ApplicationController
               @message.archived = true
               @message.save
               Message.send_notification(profile.id,content,@message.profile_id)
-              render :partial => "friend_list", :locals=>{:friend=>@friend_participant}
+              @friend_profile = Profile.find(@message.parent_id)
+              render :partial => "friend_list", :locals=>{:friend=>@friend_profile}
             end
           else
             content = "#{profile.full_name} has rejected your friend request."
