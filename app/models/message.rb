@@ -56,7 +56,7 @@ class Message < ActiveRecord::Base
   end
   
   def formatted_content
-    return self.content.html_safe
+     return self.content.gsub(/\n/, '<br/>').html_safe
   end
   
   def self.send_notification(current_user,content,profile_id)

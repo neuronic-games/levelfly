@@ -4096,6 +4096,7 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
   height: 20px !important;
   padding: 9px 0 10px !important;
 }
-
+.message_content_link a {
+    color:#0000EE;
 }
 
