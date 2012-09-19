@@ -29,7 +29,7 @@
   </div>
   <div class="friend_unfriend_btn">
    <% if (user_session[:profile_id] != profile.id)%>
-        <div class="profile_top_btn"><span id="input_un_bl">
+        <div class="profile_top_btn"><span class="pending_friend" id="input_un_bl">
           <% if is_friend(user_session[:profile_id], profile.id) %>
           <a href="javascript:void(0)" id="unfriend" rel ="<%= profile.id%>" class="big_blue_btn">UNFRIEND</a>
           <% else %>
@@ -289,7 +289,7 @@ $(document).ready(function(){
   <% end %>
   
   //$('#Friend').live('click',function(){
-  $(".friend_unfriend_btn").delegate('a', 'click', function(){
+  $(".pending_friend").delegate('a', 'click', function(){
     m_text = $('#Friend').text();
     if(m_text == 'Friend'){
     showSpinner(true);
