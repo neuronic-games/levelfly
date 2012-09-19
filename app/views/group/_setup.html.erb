@@ -1,4 +1,4 @@
-<div id="div_2" class="tab_content">
+<div id="div_2" class="tab_content group_setup_edit">
   <div class="group_left">
     <div class="group_profile_image" id="group_image">
       <img id="g_image" class="g_image" src="<%= @course.image_file %>" width="156" height="156" alt="Course image" />
@@ -67,6 +67,15 @@
 </div>
 
 <script type="text/javascript">
+
+$(document).ready(function(){
+  $(".group_setup_edit").delegate("input","change",function(){
+    changed=true;
+  });
+  $(".group_setup_edit").delegate("textarea","change",function(){
+    changed=true;
+  });
+});
 
  //For image uploads
     var base_params = {

@@ -31,6 +31,7 @@ Oncapus::Application.configure do
   # Used for password reminder emails
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   
+  config.logger = Logger.new(STDOUT)
   config.log_level = :debug #:warn
   
   #Expands the lines which load the assets

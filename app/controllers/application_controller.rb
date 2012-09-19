@@ -45,9 +45,13 @@ class ApplicationController < ActionController::Base
       publish_profile(profile)
       if current_user.status == "S"
         flash[:message] = "Your account has been suspended."
-        #flash.keep(:message)
         sign_out current_user
       end
+    # elsif current_user
+    #   puts "=== user_session[:profile_id] = #{user_session[:profile_id]}"
+    #   puts "=== current_user.id = #{current_user.id}"
+    #   profile = Profile.create_for_user(current_user.id)
+    #   puts "=== profile.id = #{profile.id}"
     end
   end
   
@@ -97,8 +101,8 @@ class ApplicationController < ActionController::Base
     new_user_session_path
   end
   
-  private
-  def user_active(status)
+  def after_sign_in_path_for(resource)
+    root_path
   end
   
   # def set_aws_vault(vault)

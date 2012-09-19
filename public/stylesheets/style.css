@@ -11,7 +11,7 @@ a.icon_msg:hover {
 }
 a.icon_msg_active {
   background:url(../images/messages_icon_hover.png) no-repeat 20px 8px;
-  color:#6a7c28;
+  color:#6a7c28 !important;
   padding:61px 0 0;
 }
 .msg_count {
@@ -43,7 +43,8 @@ a.icon_courses:hover {
 a.icon_courses_active {
   background:url(../images/courses_icon_hover.png) no-repeat 18px 7px;
   padding:63px 0 0;
-  color:#6a7c28;
+  color:#6a7c28 !important;
+ 
 }
 .courses_count {
   display:block;
@@ -74,7 +75,7 @@ a.icon_tasks:hover {
 a.icon_tasks_active {
   background:url(../images/tasks_icon_hover.png) no-repeat 19px 5px;
   padding:61px 0 0;
-  color:#6a7c28;
+  color:#6a7c28 !important;
 }
 .tasks_count {
   display:block;
@@ -110,7 +111,7 @@ a.icon_networks:hover {
 a.icon_networks_active {
   background:url(../images/groups_icon_hover.png) no-repeat 19px 5px;
   padding:61px 0 0;
-  color:#6a7c28;
+  color:#6a7c28 !important;
 }
 .networks_count {
   display:block;
@@ -141,7 +142,7 @@ a.icon_stats:hover {
 a.icon_stats_active {
   background:url(../images/stats_icon_hover.png) no-repeat 19px 5px;
   padding:58px 0 0;
-  color:#6a7c28;
+  color:#6a7c28 !important;
 }
 .stats_count {
   display:block;
@@ -172,7 +173,7 @@ a.icon_users:hover {
 a.icon_users_active {
   background:url(../images/groups_icon_hover.png) no-repeat 19px 5px;
   padding:61px 0 0;
-  color:#6a7c28;
+  color:#6a7c28 !important;
 }
 /**********************right box****************/
 .right_box {
@@ -1314,7 +1315,7 @@ a.icon_grade:hover {
 a.icon_grade_active {
 	background:url(../images/grade_book_icon_hover.png) no-repeat 17px 3px;
 	padding:58px 0 0;
-	color:#6a7c28;
+	color:#6a7c28 !important;
 }
 /* For Leader icon */
 a.icon_leader {
@@ -1328,7 +1329,7 @@ a.icon_leader:hover {
 a.icon_leader_active {
 	background:url(../images/stats_icon_hover.png) no-repeat 17px 3px;
 	padding:58px 0 0;
-	color:#6a7c28;
+	color:#6a7c28 !important;
 }
 /**/
 
@@ -1343,7 +1344,7 @@ a.icon_people_setting:hover {
 a.icon_people_setting_active {
 	background:url(../images/btn_people_setup_sel.png) no-repeat 17px 3px;
 	padding:58px 0 0;
-	color:#6a7c28;
+	color:#6a7c28 !important;
 }
 
 a.icon_reward{
@@ -1357,7 +1358,7 @@ a.icon_reward:hover {
 a.icon_reward_active {
 	background:url(../images/btn_reward_setup_sel.png) no-repeat 17px 3px;
 	padding:58px 0 0;
-	color:#6a7c28;
+	color:#6a7c28 !important;
 }
 
 a.icon_user_setting{
@@ -1371,7 +1372,7 @@ a.icon_user_setting:hover {
 a.icon_user_setting_active {
 	background:url(../images/btn_setting_sel.png) no-repeat 17px 3px;
 	padding:58px 0 0;
-	color:#6a7c28;
+	color:#6a7c28 !important;
 }
 
 
@@ -1390,7 +1391,7 @@ a.icon_groups:hover {
 a.icon_groups_active {
 	background:url(../images/groups_icon_hover.png) no-repeat 17px 9px;
 	padding:61px 0 0;
-	color:#6a7c28;
+	color:#6a7c28 !important;
 }
 /****icon courses****/
 a.icon_courses {
@@ -1404,7 +1405,7 @@ a.icon_courses:hover {
 a.icon_courses_active {
 	background:url(../images/courses_icon_hover.png) no-repeat 14px 11px;
 	padding:63px 0 0;
-	color:#6a7c28;
+	color:#6a7c28 !important;
 }
 /************user profile *****************/
 .main_div{
@@ -3370,7 +3371,7 @@ filter:alpha(opacity="0");
   cursor: hand;cursor: pointer;
  
 }
-.task_grade{ text-align:center; text-transform:uppercase;}
+.task_grade{ text-align:center; text-transform:uppercase; height:44px;}
 .td_align{vertical-align:middle;}
 .warning{
 background-color:#FF4D4D
@@ -4096,6 +4097,11 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
   height: 20px !important;
   padding: 9px 0 10px !important;
 }
-
+.message_content_link a {
+    color:#0000EE;
+}
+.first_row_layout{ 
+    position: relative;
+    z-index: 2;
 }
 

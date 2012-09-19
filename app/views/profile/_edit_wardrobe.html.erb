@@ -72,6 +72,7 @@ $(document).ajaxSend(function(e, xhr, options) {
 $(document).ready(function(){
 
   var _editing = true;
+  var previous_color =""; 
   showProfile();
   modifyAvatar();
   
@@ -102,15 +103,27 @@ $(document).ready(function(){
     } else {
       $(".color_palette").fadeOut();
     }
-
+    
     if (model.image_file) {
       // Clicked on an option that can be applied
-      if (model.image_file == _avatar[model.item_type]) {
+       m_image =  model.image_file.substr(0, model.image_file.length-1)
+       if (_avatar[model.item_type] != undefined){
+          av_image =  _avatar[model.item_type].substr(0, _avatar[model.item_type].length-1)
+        }else{
+          av_image="";
+        }
+      if ( m_image == av_image) {
         // Already applied? Remove this item, unless it is a required item
         if (_itemRequired.indexOf(model.item_type) == -1) {
+           if(model.item_type == "hair"){
+           previous_color = _avatar["hair"].substr(_avatar["hair"].length-1);
+           }else if(model.item_type == 'facial_hair'){
+             previous_color = _avatar["facial_hair"].substr(_avatar["facial_hair"].length-1);
+             }
           _avatar[model.item_type] = undefined;
         }
-      } else {
+      } 
+      else {
         // Display the item on the avatar
         var image_file = model.image_file;
         var depth = parseInt(model.depth);
@@ -122,19 +135,30 @@ $(document).ready(function(){
             image_file = image_file.substr(0, image_file.length-1)+skin;
           }
           // If the hair is changed, make sure that the color is the same for all hair
-          if (model.item_type == 'hair' || model.item_type == 'facial_hair') {
-            var current_image_file = _avatar["hair"];
+          if ((model.item_type == 'hair' && _avatar[model.item_type] !=undefined) || (model.item_type == 'facial_hair'  && _avatar[model.item_type] !=undefined))  {
+            if (_avatar["hair"]==undefined){
+              var current_image_file = model.image_file
+              }
+            else{
+              var current_image_file = _avatar["hair"];
+              }
             if (parseInt(current_image_file.charAt(current_image_file.length-1)).toString() != "NaN") {
               // Make sure that there is a color number at the end of the file name
               var skin = current_image_file.substr(current_image_file.length-1);
-              image_file = image_file.substr(0, image_file.length-1)+skin;
+              if (current_image_file ==  model.image_file){
+                  skin = previous_color;
+               }
+               image_file = image_file.substr(0, image_file.length-1)+skin;
             }
+          }else if ((model.item_type == "hair" && _avatar[model.item_type] == undefined) || (model.item_type == 'facial_hair' && _avatar[model.item_type] == undefined)) {
+             image_file = image_file.substr(0, image_file.length-1)+previous_color;
           }
         }
-        _avatar[model.item_type] = image_file;        
+        _avatar[model.item_type] = image_file; 
+        previous_color = image_file.substr(image_file.length-1);
       }
+      //if (_avatar[model.item_type] != undefined)
       $("#" + model.item_type).attr("src", "/images/wardrobe/" + _avatar[model.item_type] + ".png");
-
       // Check if there is a back layer
       if (model.item_type == "hair") {
         item_type_back = model.item_type + "_back";

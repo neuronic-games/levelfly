@@ -36,7 +36,8 @@
         
         <div class="clear"></div>
     </div> 
-      <div><%= message.formatted_content%></div>
+      <div class="message_content_link"><%=auto_link(message.formatted_content, :html => { :target => "_blank" })
+      %></div>
       <div class="msg_bottom_links">
         <div class="time" rel ="<%=message.id%>"><span class ="words"><%= time_ago_in_words(message.created_at) %> ago</span><span class="hide dates"><%=gdt(message.created_at)%></span></div>
         <div class="like_cmt">

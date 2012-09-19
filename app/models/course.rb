@@ -188,7 +188,7 @@ class Course < ActiveRecord::Base
   
   
   def course_forum
-    return Course.find(:all, :conditions =>["course_id = ? ",self.id])
+    return Course.find(:all, :conditions =>["course_id = ? ",self.id],:order => 'name')
   end
   
   def join_all(profile)
