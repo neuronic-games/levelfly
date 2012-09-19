@@ -4,7 +4,7 @@
     <div id="" class="message_wrapper">
     <div style="margin-left: 90px; text-align:right;">
       <textarea id="msg_content" name="msg_content" class="msg_content2" style ="width:99%" placeholder="Enter your message to share..."></textarea> <br />
-      <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
+      <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');$('#msg_content').css('height','');">Clear</a>
       <a href="javascript:void(0)" <%if friend_id && !friend_id.nil? %>id="<%=friend_id%>" rel="Profile"<%else%>id="<%=user_session[:profile_id]%>" rel=""<%end%> class="sbmt_msg blue_bt19px" title="msg_content" onclick="javascript:void(0);">Post</a>
     </div>
   </div>
@@ -98,6 +98,7 @@ $(document).ready(function() {
         }
       });
     }, 10000*20); 
+	 $('textarea#msg_content').autosize();
 });
 
    var request = "";
@@ -152,6 +153,7 @@ $('.message_list').click(function(){
           $("#message_wrapper").prepend(data);
           $("#msg_input").fadeOut();
         }
+        $('#msg_content').css('height','');
         showSpinner(false);
       }
     });  
