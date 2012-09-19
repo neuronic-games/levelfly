@@ -187,7 +187,7 @@
                 <td class="" id="" rel="">
                   <div  class="rotate_text GB_outcomment3"><%if (i==0)%>Grade<%end%></div>
                 </td>
-                <td class="selected_t_<%=t.id%> <%if (i==0)%><%else%>td_align<%end%>">
+                <td class="first_row_layout selected_t_<%=t.id%> <%if (i==0)%><%else%>td_align<%end%>">
                   <input type="text" name="task_grade" value="<%=grade%>" id="g_<%=p.profile_id%>_<%=t.id%>" rel="<%=p.profile_id%>" data="<%=t.include_task_grade%>" class="task_grade editable_field t_<%=t.id%>" maxlength="2" size="2"/>
                 </td>
                <%if t.show_outcomes%>
@@ -199,8 +199,8 @@
                       <div class="GB_outcomment2 rotate_text" id ="<%=t.id%>_<%=o.id%>"><%if i == 0%><%=o.name%><%end%></div>
                     </td>
                     <%outcome_grade = OutcomeGrade.load_task_outcomes(@school_id, @course_id,t.id,p.profile_id,o.id)%>
-                    <td class=" o_<%=t.id%>_<%=o.id%> <%if i%2==0%>Dark_no<%else%>light_row<%end%> width_30 td_align">
-                      <input type="text" name="task_point" value="<%=outcome_grade%>" id="p_<%=p.profile_id%>_<%=o.id%>_<%=t.id%>" rel="p_<%=p.profile_id%>_<%=o.id%>" data="<%=t.include_task_grade%>" class="task_grade editable_field <%=t.id%>_<%=o.id%>" maxlength="1" size="2"/>
+                    <td class="first_row_layout o_<%=t.id%>_<%=o.id%> <%if i%2==0%>Dark_no<%else%>light_row<%end%> width_30 td_align">
+                      <input type="text" name="task_grade" value="<%=outcome_grade%>" id="p_<%=p.profile_id%>_<%=o.id%>_<%=t.id%>" rel="p_<%=p.profile_id%>_<%=o.id%>" data="<%=t.include_task_grade%>" class="task_grade editable_field <%=t.id%>_<%=o.id%>" maxlength="1" size="2"/>
                     </td>
                     <%end%>
                   <%end%>
