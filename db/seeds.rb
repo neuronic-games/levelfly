@@ -125,7 +125,6 @@ WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_dressy'], :na
 # Sporty Bottoms
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_sporty'], :name => 'Football', :item_type => 'bottom', :image_file => 'basic/bottoms/american_football_pant', :sort_order => 0, :depth => 2)
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_sporty'], :name => 'Baseball', :item_type => 'bottom', :image_file => 'basic/bottoms/baseball_pant', :sort_order => 1, :depth => 2)
-WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_sporty'], :name => 'Basketball', :item_type => 'bottom', :image_file => 'basic/bottoms/basketball_short', :sort_order => 2, :depth => 2)
 
 # Career Bottoms
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['legs_career'], :name => 'Army', :item_type => 'bottom', :image_file => 'basic/bottoms/trouser_army', :sort_order => 0, :depth => 2)
@@ -158,9 +157,8 @@ WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_dressy'], :na
 
 # Sporty Shoes
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_sporty'], :name => 'Football', :item_type => 'shoes', :image_file => 'basic/shoes/american_football_shoe', :sort_order => 0, :depth => 2)
-WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_sporty'], :name => 'Basketball', :item_type => 'shoes', :image_file => 'basic/shoes/basketball_shoe', :sort_order => 1, :depth => 2)
-WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_sporty'], :name => 'Baseball', :item_type => 'shoes', :image_file => 'basic/shoes/baseball_shoe', :sort_order => 2, :depth => 2)
-WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_sporty'], :name => 'Golf', :item_type => 'shoes', :image_file => 'basic/shoes/golf_shoe', :sort_order => 3, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_sporty'], :name => 'Baseball', :item_type => 'shoes', :image_file => 'basic/shoes/baseball_shoe', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_sporty'], :name => 'Golf', :item_type => 'shoes', :image_file => 'basic/shoes/golf_shoe', :sort_order => 2, :depth => 2)
 
 # Career Shoes
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_career'], :name => 'Army', :item_type => 'shoes', :image_file => 'basic/shoes/army_boot', :sort_order => 0, :depth => 2)
