@@ -279,7 +279,9 @@ class TaskController < ApplicationController
       @task_outcomes = @task.outcomes
       if params[:category_id] and !params[:category_id].blank? and params[:category_id] !="undefined"
         c = Category.find(:first, :select=>"name", :conditions=>["id = ?",params[:category_id]])
-        category_name= c.name
+        if c and !c.nil?
+          category_name= c.name
+        end
       end
     end
     render :text => {"status"=>status, "task"=>@task, "image_url"=>image_url, "participants"=>peoples_array, "outcomes"=> @task_outcomes, "category_name"=>category_name}.to_json

@@ -219,6 +219,7 @@
 })(jQuery);
 
 var h = new Object(); 
+  var main_menu_id = ["msg","courses","tasks","networks","leader_board","grade","wardrobe","reward","setting","users"]
   var token = $("meta[name='csrf-token']").attr("content");
   var search_arr = {
     "/profile/user_profile" : "Find People",
@@ -468,8 +469,12 @@ $('#container').delegate('.add_topic', 'click', function(){
   }); //document.ready
   
   function loadPage(dest, title) {
-    setTab();
-    var id = $(this).attr("id");
+     var id = $(this).attr("id");
+    $(main_menu_id).each(function(index, item){
+       if(id==item){
+         setTab();
+       }
+    });
     var target = $(this).attr("rel");
     if (target == undefined) {
       target = dest;
