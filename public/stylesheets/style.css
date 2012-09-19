@@ -95,8 +95,8 @@ a.icon_tasks_active {
   z-index:9999;
 }
 .task_rating_icon {
-  width: 50px;
-  height: 30px;
+  /*width: 50px;*/
+  /*height: 30px;*/
   display:block;
 }
 /****icon networks****/
