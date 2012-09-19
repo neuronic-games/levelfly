@@ -95,7 +95,7 @@
   <div class="page_block">
     <div class="page_block_left">
       <span class="field_title">Grading Categories</span>
-      <span style = "" class="field_notes">       
+      <span class="field_notes">       
         Click the "Add Category" button to set up your syllabus grading categories in your Grade Book. You can modify these later.
       </span>
       </br>
@@ -141,9 +141,9 @@
  </div>
  <div class="page_block">
    <div class="page_block_left">
-     <span class="field_title">Members Can Post Messages 
+     <span class="field_title">Privacy</span>
   </div>
-  <div class="page_block_right" style="margin-top:5px;"><input type="checkbox" name ="post_messages"  <%= @course && @course.post_messages ? "checked='checked'" : "" %> value="" id="post_messages"/></span>
+  <div class="page_block_right" style="margin-top:5px;"><span class="field_notes"><input type="checkbox" name ="post_messages"  <%= @course && @course.post_messages ? "checked='checked'" : "" %> value="" id="post_messages"/> Members can post messages</span>
   </div>
 </div>
 <div class="spacebar30px"></div>
