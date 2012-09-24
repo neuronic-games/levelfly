@@ -516,6 +516,7 @@ $('#container').delegate('.add_topic', 'click', function(){
         success: function(data) {
           if (data) {
             $("#container").html(data);
+            set_min_height();
           } else {
             alert("ERROR");
           }
@@ -614,7 +615,23 @@ $('#container').delegate('.add_topic', 'click', function(){
     $("#alert").html(text);
     // $("#alert").fadeIn("fast").delay(1000).fadeOut(1000);
   }
-  
+   function set_min_height(){
+    /* window_height = window.innerHeight;  
+     height = window_height - 135;
+     $('.main_div_height').css("min-height",height);*/
+  }
+   $("#container").delegate('a','click', function(){
+    /* window_height = window.innerHeight;   
+     height = window_height - 135;
+     $('.main_div_height').css("min-height",height);*/
+     
+   });
+   $('#container').ajaxComplete(function() {
+      window_height = window.innerHeight;   
+     height = window_height - 135;
+     $('.main_div_height').css("min-height",height);
+     console.log("hiiii")
+   });
 -->
 </script>
 </html>

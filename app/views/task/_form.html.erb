@@ -24,7 +24,7 @@ function addNode(element) {
 <div class="task_content">
   <div class="board_left">
     <div class="board_right">
-      <div class="board_center">
+      <div class="board_center main_div_height">
         <div class="task_pad_top"><!--Remove task_pad_top_inner--></div>
         <div class="task_pad">
           <!-- tabs-->
@@ -576,6 +576,7 @@ $(document).ready(function(){
       success: function(resp){
         if(resp.status==true){
          $("#container").load('/task/', function(){
+
           showSpinner(false);
          });
         }
@@ -822,6 +823,7 @@ $(document).ready(function(){
          if (data.status) {
            setAlert("Loading /task/")
            $("#container").load('/task/', function(){
+
               showSpinner(false);
             });
          } else {
@@ -917,6 +919,7 @@ function save_task(channel) {
           if(channel == "btn_task") {
             //$("#container").load('/task/index', function(){
             $("#container").load('/task/show/'+data.task.id, function(){
+
               showSpinner(false);
             });
           } else {
@@ -933,6 +936,7 @@ function save_task(channel) {
     else if(changed==false && new_task==false){
        showSpinner(true);
       $("#container").load('/task/show/'+task_id, function(){
+
         showSpinner(false);
       });
     }

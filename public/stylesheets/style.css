@@ -3383,7 +3383,7 @@ background-color:#FF4D4D
 .gradebook_tab_content2{min-width: 100%; width: 500px;}
 .GB_odd2 { background:#c4c8d2;}
 .notes_margin{margin-top: -10px; height: 57px;}
-.red_border{border-right: 1px solid #C06A70;}
+.red_border{border-right: 1px solid #C06A70; height:20px; }
 .white_border{border-left: 1px solid #CBCFDA;}
 .red_border1{border-left: 1px solid #C06A70;}
 .task_input
