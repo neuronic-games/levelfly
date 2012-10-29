@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   def self.new_user(email)
     @user = User.create do |u|
       u.email = email
-      #u.password=User.reset_password_token
+      u.password="defaultpassword"
       #u.reset_password_token= User.reset_password_token 
     end
     @user.save(:validate => false)

@@ -393,7 +393,7 @@ $(document).ready(function(){
       $("#outcome_index").attr("value",index);
    });
    
-   $('#load_outcomes').delegate('.outcomes_share_btn', 'click', function(){
+   $('#load_outcomes').delegate('.outcomes_share_btn', 'click', function(){ 
       $("#outcome_share_box").show();
       outcome_id = $(this).attr("rel");
       $("#outcome_index").attr("value",outcome_id);

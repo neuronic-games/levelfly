@@ -9,7 +9,7 @@
   <div class="gradebook_content">
     <div class="gradebook_board_left">
       <div class="gradebook_board_right">
-        <div class="gradebook_board_center">
+        <div class="gradebook_board_center main_div_height">
         <% unless @latest_course.nil? %>
           <div class="gradebook_partribbon">
            <%if @enable_palette == true%>
@@ -72,7 +72,7 @@
             <div class="gradebook_pad">
               <!-- tabs-->
               <div class="gradebook_tabs menu_container" align="right">
-                 <a href="javascript:void(0)"  id="menu1" value="1" filter="active" class="side_tab side_tab_open"><span class="task_tab"> Current</span></a>
+                 <a href="javascript:void(0)"  id="menu1" value="1" filter="active" class="side_tab side_tab_open"><span class="task_tab" style="-ms-transform: rotate(90deg);"> Current</span></a>
                  <a href="javascript:void(0)"  id="menu2" value="2" filter="past" class="side_tab side_tab_close"><span class="task_tab"> Archived</span></a>
               </div>
               <!--tab content-->
