@@ -160,10 +160,16 @@ $(document).ready(function(){
       //if (_avatar[model.item_type] != undefined)
       $("#" + model.item_type).attr("src", "/images/wardrobe/" + _avatar[model.item_type] + ".png");
       // Check if there is a back layer
-      if (model.item_type == "hair") {
+      if (model.item_type == "hair") {//Changes for hair showing problem:vaibahv
         item_type_back = model.item_type + "_back";
-        _avatar[item_type_back] = _avatar[model.item_type] + "_back";
-        $("#"+item_type_back).attr("src", "/images/wardrobe/" + _avatar[item_type_back] + ".png");
+        if(_avatar[model.item_type] == undefined){
+          _avatar[item_type_back] = _avatar[model.item_type];
+          $("#"+item_type_back).attr("src", "/images/wardrobe/" + _avatar[model.item_type] + ".png");
+        }
+        else{
+         _avatar[item_type_back] = _avatar[model.item_type] + "_back";
+          $("#"+item_type_back).attr("src", "/images/wardrobe/" + _avatar[item_type_back] + ".png");
+        }
       }
       
       // Refresh the current list of options in case option stat has changed
