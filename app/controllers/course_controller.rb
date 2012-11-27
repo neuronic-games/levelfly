@@ -153,7 +153,7 @@ class CourseController < ApplicationController
     if params[:section_type]=="C"
       @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C' and id in(?)",@course.id,message_ids],:order => "created_at DESC" )
     elsif params[:section_type]=="G"
-      @course_messages = Message.find(:all,:conditions=>["profile_id = ? AND parent_id = ? AND parent_type = 'G' and id in (?)",user_session[:profile_id],@course.id,message_ids],:order => "created_at DESC" )
+      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'G' and id in (?)",@course.id,message_ids],:order => "created_at DESC" )
     end
     @profile.record_action('course', @course.id)
     @profile.record_action('last', 'course')
@@ -503,7 +503,7 @@ class CourseController < ApplicationController
     if params[:section_type]=="C"
       @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C' and id in(?)",@course.id,message_ids],:order => "created_at DESC" )
     elsif params[:section_type]=="G"
-      @course_messages = Message.find(:all,:conditions=>["profile_id = ? AND parent_id = ? AND parent_type = 'G' and id in (?)",user_session[:profile_id],@course.id,message_ids],:order => "created_at DESC" )
+      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'G' and id in (?)",@course.id,message_ids],:order => "created_at DESC" )
     end
      if params[:value] == "3"
          setting = Setting.find(:first, :conditions=>["object_id = ? and value = 'true' and object_type ='school' and name ='enable_course_forums' ",@course.school_id])
