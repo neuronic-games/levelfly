@@ -160,6 +160,7 @@ class Task < ActiveRecord::Base
   def self.task_grade_points(task_id,profile_id,complete)
     @task = Task.find(task_id)
     @task_grade = TaskGrade.where("task_id = ? and profile_id = ?", task_id ,profile_id)
+    @task_grade << TaskGrade.new({:school_id => @task.school_id, :course_id => @task.course_id, :task_id => task_id, :profile_id => profile_id}) if @task_grade.blank?
     if !@task_grade.nil?
       @task_grade.each do |t|
         t.points = complete ? @task.points : nil
