@@ -64,7 +64,8 @@
   <div id="file_download" class="hide"><%=render :partial => "/course/download_dialog" %></div> 
   <input type="hidden" name="current_course" id="current_course" value="<%=@course.id if @course%>">
   <input type="hidden" name="object_type_hdn" id="object_type_hdn" <% if @task %>value="Task" <%else%>value="Course"<%end%>> 
-  <input type="hidden" name="object_id_hdn" id="object_id_hdn" <%if @task %>value="<%=@task.id%>" <%else%>value="<%=@course.id%>" <%end%> > 
+  <input type="hidden" name="object_id_hdn" id="object_id_hdn" <%if @task %>value="<%=@task.id%>" <%else%>value="<%=@course.id%>" <%end%> >
+  <input type="hidden" name="current_profile" id="current_profile" value="<%=@profile.id%>">
   <div class="clear"></div>
 </div>
 <script type="text/javascript">
@@ -177,7 +178,8 @@ $(document).ready(function(){
         'authenticity_token' : token,  //For csrf-authentication
         'school_id' : $("#course_school_id_hdn").val(),
         'id' : object_id,
-        'object_type': object_type
+        'object_type': object_type,
+		'profile_id' : $("#current_profile").val()
       }
     });
     
@@ -248,12 +250,13 @@ $(document).ready(function(){
   $("#filter_files").change(function(){
     var id = $("#filter_files").val();
     var course_id = $("#current_course").val();
+	var profile_id = $("#current_profile").val();
     if(id){
       showSpinner(true);
       $.ajax({
          type: "POST",  
          url: "/course/load_files",  
-         data: {id:id,course_id:course_id},
+         data: {id:id,course_id:course_id,profile_id:profile_id},
          success: function(data) {
             if(id == "all"){
               object_type = "Course";

@@ -564,6 +564,7 @@ class CourseController < ApplicationController
   def add_file
     school_id = params[:school_id]
     course_id = params[:id]
+    @profile = Profile.find(params[:profile_id])
     @vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
     if @vault
       @attachment = Attachment.new(:resource=>params[:file], :object_type=>params[:object_type], :object_id=>course_id, :school_id=>school_id, :owner_id=>user_session[:profile_id])
@@ -667,6 +668,7 @@ class CourseController < ApplicationController
   def load_files
     if params[:id] and !params[:id].blank?
         id = params[:id]
+        @profile = Profile.find(params[:profile_id])
         if id == "all"
           @files = Course.find(params[:course_id])
         else
