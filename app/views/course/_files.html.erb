@@ -54,7 +54,7 @@
       <% end %>
     <%else%>
       <% if @course %>
-        <% @course.attachments.order("starred desc").each do |a| %>
+        <% @course.attachments.order("starred desc,resource_file_name asc").each do |a| %>
           <%= render :partial => "/course/file_list", :locals => {:a=>a} %>               
         <% end %>
       <% end %>

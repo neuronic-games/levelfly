@@ -1,5 +1,5 @@
 <% if files %>
-  <% files.attachments.order("starred desc").each do |a| %>
+  <% files.attachments.order("starred desc,resource_file_name asc").each do |a| %>
     <%= render :partial => "/course/file_list", :locals => {:a=>a} %>               
   <% end %>
 <% end %>
