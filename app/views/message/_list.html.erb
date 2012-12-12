@@ -22,7 +22,12 @@
 
      <!-- Respond -->
        <% if @respont_to_course and not @respont_to_course.empty? %>
-         <div id="notification_title"><h2>NOTIFICATIONS</h2></div>
+         <div id="notification_title"><h2>NOTIFICATIONS
+           <span style="float: right;" class="like_cmt">
+             <% message_ids = @respont_to_course.map(&:id)%>
+             <a href="javascript:void(0);" class="all_notification_del blue_bt19px">Clear All Notifications</a>
+           </span>
+        </h2></div>
         <div id="course_requset_respond">
           <% @respont_to_course.each do |respond_course| %>
             <%= render :partial => "/message/respond_to_course", :locals => {:respond_course=>respond_course} %>
@@ -67,6 +72,7 @@
 </div>
  <input type="hidden" name="notification_count" id="notification_count" value="<%=@respont_to_course.count if @respont_to_course%>"> 
   <input type="hidden" name="invitation_count" id="invitation_count" value="<%=@friend_requests.count if @friend_requests%>"> 
+  <input type="hidden" name="all_notifications" id="all_notifications" value="<%=message_ids%>">
 <script type="text/javascript">
 $(document).ready(function() {
     $.ajaxSetup({ cache: false }); 
@@ -200,6 +206,25 @@ $('.message_list').click(function(){
              if($("#notification_count").val()==0){
                 $("#notification_title").html("")
              }
+             showSpinner(false);
+             }
+        });
+     });
+	 
+	 $(".all_notification_del").click(function(){
+        showSpinner(true);
+        id=$("#all_notifications").val();
+        var dataString
+		dataString = {id: id};
+        $.ajax({
+           type: "POST",  
+           url: "/message/remove_request_message",  
+           data: dataString,
+           dataType:"json",
+           success: function(data) {
+             $("#request_box_"+id).fadeOut(1000);
+                $("#notification_title").hide();
+				$("#course_requset_respond").hide();
              showSpinner(false);
              }
         });

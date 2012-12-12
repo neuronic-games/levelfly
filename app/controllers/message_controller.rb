@@ -332,11 +332,9 @@ class MessageController < ApplicationController
   
   def remove_request_message
     if params[:id] && !params[:id].nil?
-    @message = MessageViewer.find(:first, :conditions=>["viewer_profile_id = ? and message_id = ?", user_session[:profile_id], params[:id]])
-      if @message
-        @message.delete
-        render :json => {:status => true}
-      end
+      delete_notification(params[:id]) unless eval(params[:id]).kind_of?(Array)
+      eval(params[:id]).each {|id| delete_notification(id)} if eval(params[:id]).kind_of?(Array)
+      render :json => {:status => true}
     end
   end
   
@@ -388,6 +386,13 @@ class MessageController < ApplicationController
         render :json => {:status => true}
       end
     end
+  end
+  
+  private
+  
+  def delete_notification(message_id)
+    @message = MessageViewer.find(:first, :conditions=>["viewer_profile_id = ? and message_id = ?", user_session[:profile_id], message_id])
+    @message.delete if @message
   end
   
 end
