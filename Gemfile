@@ -15,7 +15,7 @@ group :production do
 end
 
 group :development, :test do
-  gem 'mysql'
+  gem 'mysql2', '0.2.7'
 end
 
 gem 'rake' , '>= 0.9.2'
