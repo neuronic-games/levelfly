@@ -640,6 +640,15 @@ class CourseController < ApplicationController
     end
   end
 
+  def toggle_priority_message
+    if params[:id] and !params[:id].blank?
+      @msg = Message.find(params[:id])
+      if !@msg.nil?
+        @msg.update_attribute('starred',(@msg.starred == true ? false : true))
+      end
+      render :text => {:starred => @msg.starred }.to_json
+    end
+  end
   
   def filter
     if params[:filter] && !params[:filter].blank?

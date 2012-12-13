@@ -91,6 +91,30 @@
     $("#btn_course").addClass("hide");
     $("#btn_course_remove").addClass("hide");
 	 $("textarea#msg_content").autosize();
+	$("#message_wrapper_group").delegate('.msg_pri_toggle', 'click', function(){
+    showSpinner(true);
+    msg_id = $(this).attr("rel");
+    $.ajax({
+       type: "POST",  
+       url: "/course/toggle_priority_message",  
+       data: {id:msg_id},
+       dataType: "json",
+       success: function(data) {
+           if (data.starred) {
+             $(".msg_pri_toggle_btn[rel="+msg_id+"]").html("Unstar");
+             $(".msg_pri_toggle_img[rel="+msg_id+"]").attr("src", "/images/star_up.png");
+           } else {
+             $(".msg_pri_toggle_btn[rel="+msg_id+"]").html("Star");
+             $(".msg_pri_toggle_img[rel="+msg_id+"]").attr("src", "/images/star_down.png");
+           }
+        showSpinner(false);
+       },
+       error: function(){
+          alert("An Error has occured");
+          showSpinner(false);
+        }
+    });
+    }); 
   });
    // Send request to group owner for join group
    $("#member_join").click(function(){

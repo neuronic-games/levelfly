@@ -116,6 +116,8 @@ Oncapus::Application.routes.draw do
    
   post "course/toggle_priority_file"
   
+  post "course/toggle_priority_message"
+
   get "course/view_member"
   
   post "course/course_stats"

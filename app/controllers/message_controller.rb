@@ -82,6 +82,13 @@ class MessageController < ApplicationController
       @message.post_date = DateTime.now
      
       if @message.save
+        if params[:parent_id] && !params[:parent_id].nil?
+          @courseMaster = Profile.find(
+            :first, 
+            :include => [:participants], 
+            :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", params[:parent_id]]
+            )
+        end
         @message_viewer = MessageViewer.add(user_session[:profile_id],@message.id,params[:parent_type],params[:parent_id])
         case params[:parent_type]
           when "Message"
