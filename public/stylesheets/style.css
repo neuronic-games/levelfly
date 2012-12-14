@@ -347,6 +347,11 @@ a.blue_bt19px:hover {
   background:#6ba6be;
   text-decoration: none;
 }
+.staronavatar:hover{
+  cursor: pointer;
+  background:#6ba6be;
+  text-decoration: none;
+}
 a.blue_bt19px2 {
   font-family:Arial, Helvetica, sans-serif;
   font-size:9px;
