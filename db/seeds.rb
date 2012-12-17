@@ -271,11 +271,11 @@ BadgeImage.create(:image_file_name => 'university.png', :image_content_type =>"i
 
 #reward 
 Reward.create(:xp => "0", :object_type => 'level', :object_id => "1")
-Reward.create(:xp => "200", :object_type => 'level', :object_id => "2")
-Reward.create(:xp => "400", :object_type => 'level', :object_id => "3")
-Reward.create(:xp => "600", :object_type => 'level', :object_id => "4")
-Reward.create(:xp => "800", :object_type => 'level', :object_id => "5")
-Reward.create(:xp => "1000", :object_type => 'level', :object_id => "6")
+Reward.create(:xp => "250", :object_type => 'level', :object_id => "2")
+Reward.create(:xp => "500", :object_type => 'level', :object_id => "3")
+Reward.create(:xp => "1000", :object_type => 'level', :object_id => "4")
+Reward.create(:xp => "2000", :object_type => 'level', :object_id => "5")
+Reward.create(:xp => "3000", :object_type => 'level', :object_id => "6")
 Reward.create(:xp => "400", :object_type => 'wardrobe', :object_id => "2")
 
 #majors
