@@ -334,13 +334,44 @@ class GradeBookController < ApplicationController
   
   def grading_complete
     if params[:id] and !params[:id].blank?
+      status = false
+      url =nil
       @course = Course.find(params[:id])
       if @course
         @course.grading_completed_at = Time.now
         @course.save
-        render :json =>{:status=> true, :text =>"Grading complete"}
+        @profile = Profile.find(user_session[:profile_id])
+        @badge = Badge.find_by_name("Gold Outcome")
+        @outcomes = @course.outcomes
+        @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
+        @participant.each do |p|
+          outcomes_grade = []
+          profile_ids = AvatarBadge.find(:all, :select=>"profile_id",:conditions=>["profile_id = ? and badge_id = ? and course_id = ?",p.profile_id,@badge.id,params[:id]]).collect(&:profile_id)
+          AvatarBadge.delete_all(["profile_id = ? and badge_id = ? and course_id = ?",p.profile_id,@badge.id,params[:id]])
+          if profile_ids and !profile_ids.nil?
+            profile_ids.each do
+              p.profile.badge_count-=1
+              p.profile.save
+            end
+          end
+          if !@outcomes.nil?
+            @outcomes.each do |o|
+              outcome_grade = CourseGrade.load_outcomes(p.profile_id, params[:id],o.id,@profile.school_id)
+              if !outcome_grade.blank?
+                outcomes_grade.push(outcome_grade)                  
+              end
+            end
+            outcomes_grade.each do |og|
+              if og >= 2.5
+                status = AvatarBadge.add_badge(p.profile_id,@badge.id,params[:id],@profile.id)
+                url = ProfileAction.last_action(p.profile_id)
+              end
+            end
+          end
+        end 
+        render :json =>{:status => status, :text =>"Grading complete", :url=>url}
       else
-        render :json =>{:status=> false, :text =>"course not found"}
+        render :json =>{:status => status, :text =>"course not found", :url=>url}
       end
     end
     
