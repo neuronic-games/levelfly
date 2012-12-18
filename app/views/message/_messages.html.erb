@@ -4,9 +4,13 @@
   </div>
   
   <div class="msg_box_fullwidth">
-  <%if @courseMaster && @courseMaster.id == message.profile_id %>
-    <div class="staronavatar"><img src="/images/<%if message.starred == true %>star_up<%else%>star_down<%end%>.png" width="36" height="37" rel="<%=message.id%>" class="msg_pri_toggle msg_pri_toggle_img" /></div>
+  <div class="staronavatar">
+  <%if (@courseMaster and @courseMaster.id == user_session[:profile_id]) %>
+    <img src="/images/<%if message.starred == true %>star_up<%else%>star_down<%end%>.png" width="36" height="37" rel="<%=message.id%>" class="msg_pri_toggle msg_pri_toggle_img" />
+  <%elsif message.starred%>
+    <img src="/images/star_up.png" width="36" height="37" />
   <%end%> 
+  </div>
   <div class="positn_rtlv"><div class="msg_big_box_arrow"><img src="/images/blue_arrow.png" width="15px" height="21px" /></div></div>
     <div class="msg_box_txt blue_bg_msg_txt">
     <div class ="topic_div" id ="topic_<%=message.id%>" rel ="<%=message.id%>">
@@ -51,7 +55,7 @@
               <%=user_like(user_session[:profile_id], message.id) ? "UNLIKE" : "LIKE" %>
             </a>
           </span>
-        <% if @courseMaster && @courseMaster.id == message.profile_id %>
+        <%if (@courseMaster and @courseMaster.id == user_session[:profile_id]) %>
           <a href="javascript:void(0)" class="msg_pri_toggle msg_pri_toggle_btn blue_bt19px" rel="<%=message.id%>"><%if message.starred == true %>Un-Star<%else%>Star<%end%></a>
         <%end%>
           <% if !@course or (@course.post_messages or @courseMaster.id == user_session[:profile_id])%>
