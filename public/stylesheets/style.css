@@ -2833,9 +2833,9 @@ input[type="button"].grading_Btn4 {
 .Grade_right_panel{
 	float:left;
 	height:auto;
-	width:47%;/*40*/
+	max-width:47%;/*40*/
 	position:relative;
-	overflow-y: scroll; 
+	overflow-x: scroll; 
 	overflow: -moz-scrollbars-horizontal;
 }
 
@@ -2965,9 +2965,9 @@ filter:alpha(opacity="0");
 .task_right_wp{
 	float:left;
 	height:auto;
-	width:90%;
+	max-width:90%;
 	font-family: 'CollegeRegular';
-	overflow-y: scroll; 
+	overflow-x: scroll; 
 	overflow: -moz-scrollbars-horizontal;
 }
 
