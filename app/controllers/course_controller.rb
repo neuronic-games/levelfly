@@ -152,9 +152,9 @@ class CourseController < ApplicationController
     @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
      message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
     if params[:section_type]=="C"
-      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C' and id in(?)",@course.id,message_ids],:order => "created_at DESC" )
+      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C' and id in(?)",@course.id,message_ids],:order => "starred DESC,created_at DESC" )
     elsif params[:section_type]=="G"
-      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'G' and id in (?)",@course.id,message_ids],:order => "created_at DESC" )
+      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'G' and id in (?)",@course.id,message_ids],:order => "starred DESC,created_at DESC" )
     end
     @profile.record_action('course', @course.id)
     @profile.record_action('last', 'course')
@@ -504,9 +504,9 @@ class CourseController < ApplicationController
     @totaltask = @tasks = Task.filter_by(user_session[:profile_id], @course.id, "current")
     message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
     if params[:section_type]=="C"
-      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C' and id in(?)",@course.id,message_ids],:order => "created_at DESC" )
+      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C' and id in(?)",@course.id,message_ids],:order => "starred DESC,created_at DESC" )
     elsif params[:section_type]=="G"
-      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'G' and id in (?)",@course.id,message_ids],:order => "created_at DESC" )
+      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'G' and id in (?)",@course.id,message_ids],:order => "starred DESC,created_at DESC" )
     end
      if params[:value] == "3"
          setting = Setting.find(:first, :conditions=>["object_id = ? and value = 'true' and object_type ='school' and name ='enable_course_forums' ",@course.school_id])
@@ -713,7 +713,7 @@ class CourseController < ApplicationController
       @member_count = @peoples.length
       @courseMaster = @course.owner
       message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
-      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'F' and id in(?)",@course.id,message_ids],:order => "created_at DESC" )
+      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'F' and id in(?)",@course.id,message_ids],:order => "starred DESC,created_at DESC" )
       render :partial => "/course/forum_wall"
     end
   end
