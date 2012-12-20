@@ -2397,7 +2397,7 @@ div .taskmsg_bgc2 {
 .load_messages h2{
   color:#FFFFFF;
   font-weight:bold;
-  margin:12px;
+  margin:12px 0px;
 }
 
 .alert {
