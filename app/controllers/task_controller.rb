@@ -43,7 +43,7 @@ class TaskController < ApplicationController
     @courses = Course.find(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and Courses.archived = ?", @profile.id, 'M',Course.parent_type_course,false]
+      :conditions => ["participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and courses.archived = ?", @profile.id, 'M',Course.parent_type_course,false]
     )   
     @task = Task.new
     respond_to do |wants|
@@ -113,7 +113,7 @@ class TaskController < ApplicationController
     @courses = Course.find(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and Courses.archived = ?", @profile.id, 'M',Course.parent_type_course,false]
+      :conditions => ["participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and courses.archived = ?", @profile.id, 'M',Course.parent_type_course,false]
     )    
     
     @groups = Group.find(:all, :conditions =>["task_id = ?", @task.id])
@@ -195,9 +195,7 @@ class TaskController < ApplicationController
     
     # Has something changed on the task that could change it's points value?
     # FIXME: We may want to recalculate points if the task raiting or course settings change
-    if @task.points == 0
-      @task.calc_point_value
-    end
+    @task.calc_point_value
     
     if params[:file]
       @task.image.destroy if @task.image
@@ -298,7 +296,12 @@ class TaskController < ApplicationController
   def remove_tasks
     if params[:task_id] && !params[:task_id].empty?
        @task = Task.find(params[:task_id])
-       @task.archived = true
+       task_participant=TaskParticipant.find(:first,:conditions => ["task_id = ? and profile_id = ?",@task.id,user_session[:profile_id]])
+       if task_participant.profile_type == "O"
+         @task.archived = true
+       else
+         task_participant.delete
+       end
        @task.save
        render :text => {:status=>true}.to_json
     end
