@@ -1,5 +1,5 @@
 <div id="div_6" class="tab_content">
-  <%if (@courseMaster and !@courseMaster.nil?) || (@course and @course.parent_type=="G")%> 
+  <%if (@courseMaster and !@courseMaster.nil? and @course.parent_type=="C") || (@course and @course.parent_type=="G")%> 
   <div class="titleTextParticipants">Add:&nbsp;&nbsp;
     <span><input type="text" name="add_people_email[]" class="dd_select brown_bg" style="width:300px; padding:2px;" id="add_course_people" placeholder="Enter email..."  /></span>
     <span style="float:right; margin-right:89px;"><a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="blue_bt19px btn_add">Invite</a></span>
@@ -15,8 +15,10 @@
   </div>
   <div class="clear"></div>
   <div id="course_people" class="frm_input" style="width:100%;">
-    <% if @peoples %>
+    <% if @peoples and (@course.parent_type != "F" or @courseMaster.nil?)  %>
       <%= render :partial => "/course/participant_list", :locals => {:peoples=>@peoples, :mode=>"list"} %>
+	<%else%>
+	  <%= render :partial => "/course/forum_participant_list", :locals => {:peoples=>@peoples, :mode=>"list"} %>
     <% end %>
   </div>
   <div id="course_participant_list" class="hide">
@@ -27,10 +29,63 @@
          Loading...
       </div>
   </div>
+  <input type="hidden" name="new_course_id" id="new_course_id" value="<%=@course.id if @course%>">
   <div class="clear"></div>
 </div> 
 <script type="text/javascript">
 //List people (participants)
+
+  	  $('#course_people').delegate('input[name="chk_forum_people[]"]', 'change', function(){
+    check_val = $(this).is(':checked');
+    member_id = $(this).attr('id');
+    course_id = $("#new_course_id").val();
+    var id = $(this).attr('id');
+    var val = $(this).val();
+      if(course_id){ 
+        showSpinner(true);
+        $.ajax({
+           type:"POST",
+           dataType: "json",
+           url:"/course/forum_member_unchecked",
+           data:{course_id:course_id,member_id:member_id,check_val:check_val},
+           success:function(data){
+             if(data.status)
+             {
+               showSpinner(false);
+                changed=true;
+				if (!check_val){
+					$("#include_all").prop("checked", check_val);
+				}
+				else
+				{
+					if ($('.forum_people').length == $('.forum_people:checked').length){
+					  $("#include_all").prop("checked", check_val);
+					}
+				}
+             } 
+			 
+           }
+        });
+      }  
+  });
+  
+  $('#course_people').delegate('input[name="chk_include_all"]', 'change', function(){
+  	check_val = $(this).is(':checked');
+    course_id = $("#new_course_id").val();
+	
+	showSpinner(true);
+      $.ajax({
+         type:"POST",
+         dataType: "json",
+         url:"/course/forum_member_unchecked",
+         data:{course_id:course_id,check_val:check_val},
+         success:function(data){
+           showSpinner(false);
+            changed=true;
+			$('.forum_people').prop("checked",check_val);
+         }
+      });
+  });
 
   $('#add_course_people').bind('keyup', function(e) {
       if ( e.keyCode === 13 ){

@@ -1,0 +1,26 @@
+<ul class="forum_people_node">
+  <% if !peoples.empty? %>
+    <% if mode == "list" %>
+      <div class="people_name" style="width:33%;margin-left:27px;"><h3><input type="checkbox" <%= @course && member_forum(nil, @course.id) ? "checked='checked'" : "" %> name="chk_include_all" id="include_all" class="all_include"  value="Include All"/> INCLUDE ALL</h3></div>
+      <br/><br/>
+	  <% peoples.each do |p| %>
+        <li class="forum_blackboard_list" id="<%=p.id%>" style="width:88%; height:88px;">
+        <div >
+      	     <input type="checkbox" style="float:left;margin-top:35px;"<%= @course && member_forum(p.id, @course.id) ? "checked='checked'" : "" %> name="chk_forum_people[]" id="<%=p.id%>" class="forum_people"  value="<%=p.id%>"/>
+          <div class="forum_avatar_white_bdr floatL" style="margin-left:10px;">
+            <img src="<%=p.image_file_name%>" profile_id="<%=p.id%>" rel="<%=@course.id if @course%>" class="profile"/>
+          </div> 
+          <div class="people_name" style="width:84%; margin:7px 3px;">
+            <div class="floatL" style="width:33%;margin-left:5px;"><%if p.full_name == nil %><%=p.user.email%><%else%><%=p.full_name%><%end%></div>
+            <div class="field_label3" style="width:38%"> <a href="mailto:<%= p.user.email %>"><%= p.user.email %></a></div>
+          </div>
+        </div>
+        <div class="forum_participant_type"> Member</div>
+       
+        <div class="clear"></div>
+        </li>
+        <div class="clear"></div>
+      <% end %>
+    <% end %>
+  <% end %>
+</ul>

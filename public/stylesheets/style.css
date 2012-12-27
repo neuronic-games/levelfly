@@ -266,6 +266,19 @@ a.icon_users_active {
   box-shadow:inset 0px 0px 2px 1px #000000;
 }
 
+.forum_avatar_white_bdr {
+  border:#eaebeb 5px solid;
+  width:72px;
+  height:72px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background:url(../images/avatar_bg.jpg) no-repeat center;
+  -moz-box-shadow:inset 0px 0px 2px 1px #000000;
+  -webkit-box-shadow:inset 0px 0px 2px 1px #000000;
+  box-shadow:inset 0px 0px 2px 1px #000000;
+}
+
 /*.message_wrapper_group{
     float:right;
     width:404px;
@@ -279,6 +292,12 @@ a.icon_users_active {
   float: left;
 }
 .avatar_white_bdr  img{
+  margin-top: -9px;
+  margin-left: -10px;
+  width:80px;
+  height:80px;
+}
+.forum_avatar_white_bdr  img{
   margin-top: -9px;
   margin-left: -10px;
   width:80px;
@@ -1885,6 +1904,12 @@ margin-left:33px;
   width:100%;
   background:url(../images/border_dashed.png) repeat-x bottom !important;
 }
+.forum_blackboard_list {
+  margin:0px 0px 0px 0px;
+  padding:0px 0px 4px 0px;
+  width:100%;
+  background:url(../images/border_dashed.png) repeat-x bottom !important;
+}
 .blackboard_list .title {
   font-size: 17px;
   font-weight: bold;
@@ -2385,7 +2410,12 @@ div .taskmsg_bgc2 {
 }
 .people_node li {
     font-weight: bold;
-    margin: 30px 0 0 43px;
+    margin: 10px 0 0 43px;
+    width: 307px;
+}
+.forum_people_node li {
+    font-weight: bold;
+    margin: 10px 0 0 43px;
     width: 307px;
 }
 .participant_list_email {
@@ -3985,6 +4015,13 @@ border:solid 0px #000000;
   color:#CAC6C6;
   float:left;
 }
+.forum_field_label3 {
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight:bold;
+  font-size:12px;
+  color:#CAC6C6;
+  float:left;
+}
 .member_lits_width
 {
   float:left;
@@ -3997,7 +4034,16 @@ font-family:Arial, Helvetica, sans-serif;
 font-size:10px; 
 font-weight:normal;
 color:#CAC6C6;
-margin: 24px 84px;
+margin: 24px 90px;
+position: absolute;
+}
+.forum_participant_type
+{
+font-family:Arial, Helvetica, sans-serif;
+font-size:10px; 
+font-weight:normal;
+color:#CAC6C6;
+margin: 24px 114px;
 position: absolute;
 }
 .align_center{text-align: center;}

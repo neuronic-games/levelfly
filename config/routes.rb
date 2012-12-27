@@ -174,6 +174,8 @@ Oncapus::Application.routes.draw do
   
   post "course/removed"
   
+  post "course/forum_member_unchecked"
+  
   get "group/index"
   
   get "group/new"

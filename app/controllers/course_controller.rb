@@ -351,7 +351,7 @@ class CourseController < ApplicationController
   def delete_participant
     status = false
     if params[:profile_id] && params[:course_id]
-      participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ? ", params[:course_id], params[:profile_id]]) 
+      participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ? ", params[:course_id], params[:profile_id]])
       if participant
         participant.delete
         @wall_id = Wall.find(:first, :conditions=>["parent_id = ? and parent_type = 'C'",params[:course_id]])
@@ -359,6 +359,22 @@ class CourseController < ApplicationController
           @feed = Feed.find(:first, :conditions=>["profile_id = ? and wall_id = ? ",params[:profile_id],@wall_id.id])
           if !@feed.nil?
             @feed.delete
+          end
+        end
+        forum = Course.find(:all, :conditions => ["course_id = ?",params[:course_id]])
+        if forum
+          forum.each do |forum|
+            forum_participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ? ", forum.id, params[:profile_id]])
+            if forum_participant
+              forum_participant.delete
+              wall_id = Wall.find(:first, :conditions=>["parent_id = ? and parent_type = 'C'",forum.id])
+              if !wall_id.nil?
+                feed = Feed.find(:first, :conditions=>["profile_id = ? and wall_id = ? ",params[:profile_id],wall_id.id])
+                if !feed.nil?
+                  feed.delete
+                end
+              end
+            end
           end
         end
         status = true
@@ -542,16 +558,24 @@ class CourseController < ApplicationController
      # Change 'Group' to 'Course' because of query include `participants`.`object_type` = 'Course' when load groups or courses! Change by vaibhav
      @profile = Profile.find(user_session[:profile_id])
      section_type = 'Course'
-     @peoples = Profile.find(
-       :all, 
-       :include => [:participants], 
-       :conditions => ["participants.object_id = ? AND participants.object_type= ? AND participants.profile_type IN ('P', 'S')", @course.id,section_type]
-     )
      @courseMaster = Profile.find(
       :first, 
       :include => [:participants], 
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M' and profile_id = ? ", @course.id,user_session[:profile_id]]
       )
+     if @courseMaster and @course.course_id != 0
+       @peoples = Profile.find(
+         :all, 
+         :include => [:participants], 
+         :conditions => ["participants.object_id = ? AND participants.object_type= ? AND participants.profile_type IN ('P', 'S')", @course.course_id,section_type]
+       )
+     else
+       @peoples = Profile.find(
+       :all, 
+       :include => [:participants], 
+       :conditions => ["participants.object_id = ? AND participants.object_type= ? AND participants.profile_type IN ('P', 'S')", @course.id,section_type]
+     )
+     end
      #ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}") 
      render :partial => "/course/member_list",:locals=>{:course=>@course}         
    end
@@ -765,6 +789,56 @@ class CourseController < ApplicationController
    def view_forum_setup 
      @course = Course.find_by_id(params[:id])
       render :partial => "/course/forum_setup"
+   end
+   
+   def forum_member_unchecked
+     status = false
+     if params[:course_id] && !params[:course_id].nil?
+       @course = Course.find(params[:course_id])
+       wall_id = Wall.get_wall_id(@course.id,"Course")
+       if params[:member_id] && !params[:member_id].nil?
+         participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", @course.id, params[:member_id]])
+         if participant
+           participant.delete
+           status = true
+         else
+           @participant = Participant.new
+           @participant.object_id = @course.id
+           @participant.object_type = "Course"
+           @participant.profile_id = params[:member_id]
+           @participant.profile_type = "S"
+           if @participant.save
+             Feed.create(
+               :profile_id => params[:member_id],
+               :wall_id =>wall_id
+             )
+           end
+           status = true
+         end
+       else
+         course_participants = Participant.find(:all, :conditions => ["object_id = ? AND object_type='Course' AND profile_type = 'S'", @course.course_id])
+         course_participants.each do |participant|
+           forum_participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", @course.id, participant.profile_id])
+           if forum_participant and params[:check_val] == "false"
+             forum_participant.delete
+           elsif forum_participant.nil? and params[:check_val] == "true" 
+             @participant = Participant.new
+             @participant.object_id = @course.id
+             @participant.object_type = "Course"
+             @participant.profile_id = participant.profile_id
+             @participant.profile_type = "S"
+             if @participant.save
+               Feed.create(
+                 :profile_id => participant.profile_id,
+                 :wall_id =>wall_id
+               )
+             end
+           end
+         end
+         status = true
+       end  
+     end
+     render :text => {"status"=>status}.to_json
    end
 
   def check_role
