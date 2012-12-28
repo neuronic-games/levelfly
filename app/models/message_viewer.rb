@@ -4,7 +4,6 @@ class MessageViewer < ActiveRecord::Base
   belongs_to :viewer_profile, :class_name => "Profile"
   
   def self.add(profile_id, message_id,parent_type,parent_id)
-
     if parent_type=="Message"
       @type_of_message = Message.find(parent_id)
       if @type_of_message and not@type_of_message.nil?
@@ -13,6 +12,8 @@ class MessageViewer < ActiveRecord::Base
           parent_id =  @type_of_message.parent_id
         elsif @type_of_message.parent_type == ""    
           parent_type = @type_of_message.parent_type
+        elsif @type_of_message.parent_type == "Profile"
+          @viewers = Profile.find(:all, :conditions => ["id in (?)",[@type_of_message.profile_id,@type_of_message.parent_id]])
         end
       end
     end
