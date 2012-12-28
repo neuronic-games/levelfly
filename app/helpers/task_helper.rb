@@ -41,12 +41,20 @@ module TaskHelper
   end
   
   def member_points(member_id, task_id)
-    if member_id
+    if member_id && !member_id.nil?
       participant = TaskParticipant.find(:first, 
         :conditions => ["profile_id = ? AND task_id = ? AND xp_award_date is not null ", member_id, task_id])
       if participant
         return true
       end
+    else
+      participants = TaskParticipant.find(:all, 
+        :conditions => ["task_id = ? AND xp_award_date is not null ", task_id])
+      task_participants = TaskParticipant.find(:all, 
+        :conditions => ["task_id = ? and profile_type = 'M'", task_id]) 
+      if (participants == task_participants)
+        return true
+      end  
     end
     return false
   end

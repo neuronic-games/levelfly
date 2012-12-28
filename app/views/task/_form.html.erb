@@ -150,12 +150,13 @@ function addNode(element) {
 		      <br /><br />
 		      <%if @task_owner and !@task_owner.nil?%>
 				<div class="field_box2"><span class="font_12px">Members</span>
+				<div class="tbc"><h3><input type="checkbox" <%= @task && member_points(nil, @task.id) ? "checked='checked'" : "" %> disabled="disabled" name="chk_all_completed" class="check_box_all"  value="All Completed"/> All Completed</h3></div>
                   <div id="load_task_participant">
                   <% if @people and !@people.nil? %>
                     <% @people.each do |p| %>
                         <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
                           <div style="">
-                            <input type="checkbox" <%= @task && member_associate(p.profile_id, @task.id) ? "checked='checked'" : "" %> disabled="disabled" name="chk_task_people[]" id="<%=p.profile.id%>" class="check_box"  value="<%=p.profile.id%>"/>
+                            <input type="checkbox" <%= @task && member_associate(p.profile_id, @task.id) ? "checked='checked'" : "" %> disabled="disabled" name="chk_task_people[]" class="view_members"  value="<%=p.profile.id%>"/>
                             <div class=" avtar avatar_white_bdr">
                               <img src="<%=p.profile.image_file_name%>" profile_id="<%=p.profile_id%>" class="profile"/>
                             </div>
@@ -166,7 +167,7 @@ function addNode(element) {
                           </div> 
                           <div id="credited_<%=p.profile.id%>" class="tbc">
                            COMPLETED
-                           <div class="margin_top"><input type="checkbox" <%= @task && member_points(p.profile_id, @task.id) ? "checked='checked'" : "" %>name="task_credited[]" class ="check_box_credired" disabled="disabled" id="c_<%=p.profile.id%>" rel ="<%=p.profile.id%>"/></div>
+                           <div class="margin_top"><input type="checkbox" <%= @task && member_points(p.profile_id, @task.id) ? "checked='checked'" : "" %>name="task_credited[]" class ="view_check_box_credired" disabled="disabled" rel ="<%=p.profile.id%>"/></div>
                           </div>
                         </div>                        
                         <div class="clear"></div>
@@ -357,7 +358,10 @@ function addNode(element) {
                 
                 
                 <br /><br />
-                <div class="field_box2"><span class="font_12px">Members</span>
+                <div class="field_box2" id="all_members"><span class="font_12px">Members</span>
+				<% if @people and !@people.nil? %>
+				<div class="tbc"><h3><input type="checkbox" <%= @task && member_points(nil, @task.id) ? "checked='checked'" : "" %> name="chk_all_completed" id="all_completed" class="check_box_all"  value="All Completed"/> All Completed</h3></div>
+				<% end %>
                   <div id="load_task_participant_wall">
                   <% if @people and !@people.nil? %>
                    <% @people.each do |p| %>
@@ -380,7 +384,7 @@ function addNode(element) {
                           <%end%>
                           <div id="credited_<%=p.profile.id%>" class="tbc">
                            COMPLETED
-                           <div class="margin_top"><input type="checkbox" <%= @task && member_points(p.profile_id, @task.id) ? "checked='checked'" : "" %>name="task_credited[]" class ="check_box_credired"<%if @task_owner && !@task_owner.nil?%><%else%>disabled="disabled"<%end%>id="c_<%=p.profile.id%>" rel ="<%=p.profile.id%>"/></div>
+                           <div class="margin_top"><input type="checkbox" <%= @task && member_points(p.profile_id, @task.id) ? "checked='checked'" : "" %>name="task_credited[]" class ="check_box_credired" <%= @task && member_associate(p.profile_id, @task.id) ? "" : "disabled='disabled'" %>id="c_<%=p.profile.id%>" rel ="<%=p.profile.id%>"/></div>
                           </div>
                           <div id="completed_div_<%=p.profile.id%>" class="tbc hide">
                           COMPLETED
@@ -573,9 +577,35 @@ $(document).ready(function(){
            showSpinner(false);
            setAlert(data.task.points+" xp rewarded to "+data.member.full_name);
             changed=true;
+			if (!check_val){
+					$("#all_completed").prop("checked", check_val);
+			}
+			else{
+				if ($('.check_box_credired:checked').length == $('.check_box_credired:enabled').length){
+					  $("#all_completed").prop("checked", check_val);
+					}
+			}
+				
          }
       });
      
+  });
+  
+  $('#all_members').delegate('input[name="chk_all_completed"]', 'change', function(){
+  	check_val = $(this).is(':checked');
+    task_id = $("#task_id_hdn").val();
+	showSpinner(true);
+      $.ajax({
+         type:"POST",
+         dataType: "json",
+         url:"/task/points_credit",
+         data:{task_id:task_id,check_val:check_val},
+         success:function(data){
+           showSpinner(false);
+            changed=true;
+			$('.check_box_credired:enabled').prop("checked",check_val);
+         }
+      });
   });
   
    $('#load_task_participant_wall').delegate('input[name="task_extra_credited"]', 'change', function(){
@@ -635,11 +665,26 @@ $(document).ready(function(){
              {
                showSpinner(false);
                 changed=true;
+				var id1="#c_"+id+".check_box_credired";
                if(check_val==true){
-                setStorage("task_people_"+id, val); 
+                 setStorage("task_people_"+id, val);
+				 $(id1).prop("disabled",false); 
+				 $("#all_completed").prop("disabled", false);
+			     if ($('.check_box_credired:checked').length != $('.check_box_credired:enabled').length){
+				   $("#all_completed").prop("checked", false);
+			     }
               }
               else{
-               deleteStorage("task_people_"+id);
+                deleteStorage("task_people_"+id);
+			    $(id1).prop("disabled",true);
+			    $(id1).prop("checked",false);
+				if ($('.check_box_credired:disabled').length == $('.check_box').length){
+			      $("#all_completed").prop("checked", false);
+				  $("#all_completed").prop("disabled", true);
+				}
+			    else if ($('.check_box_credired:checked').length == $('.check_box_credired:enabled').length){
+				  $("#all_completed").prop("checked", true);
+				}
               }  
              } 
            }

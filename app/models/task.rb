@@ -181,10 +181,15 @@ class Task < ActiveRecord::Base
       task = participant.task
       previous_level = profile.level
       previous_points =  profile.xp
+      task_grade = TaskGrade.find(:first,:conditions=>["task_id = ? and profile_id = ?",task_id,profile_id])
       if participant.profile_type == Task.profile_type_member
       # Give points to members who completed the task
         participant.xp_award_date = complete ? Time.now : nil
-        profile.xp += complete ? task.points : -task.points
+        if complete
+          profile.xp += task.points
+        else
+          profile.xp -= task_grade.points
+        end
         participant.save
         status = complete
         Task.task_grade_points(task_id,profile_id,complete)

@@ -3096,6 +3096,7 @@ filter:alpha(opacity="0");
   border-bottom: 1px solid #ccc;
 }
 .task_member .check_box{float:left; margin-top:35px;}
+.task_member .view_members{float:left; margin-top:35px;}
 .task_member .member_name {float:left; margin:35px 0 0 10px;}
 .task_member .avtar{float:left; margin-left:10px;}
 .margin_top{margin-top:10px;}
