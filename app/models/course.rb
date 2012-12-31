@@ -154,7 +154,7 @@ class Course < ActiveRecord::Base
   end
   
   def self.sort_course_task(course_id)
-    all_task = Task.find(:all,:conditions=>["course_id = ?",course_id], :select => "id,category_id")
+    all_task = Task.find(:all,:conditions=>["course_id = ? and archived = ?",course_id,false], :select => "id,category_id")
     task_ids = [];
     @tasks = [];
     percent_values = [];
