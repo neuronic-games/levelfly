@@ -185,7 +185,7 @@ class TaskController < ApplicationController
     @profile = Profile.find(user_session[:profile_id])
     @task.name = params[:task] if params[:task]
     @task.descr = params[:descr] if params[:descr]
-    @task.due_date = params[:due_date] if params[:due_date]
+    @task.due_date = Date.strptime(params[:due_date], '%m-%d-%Y') if params[:due_date]
     @task.level = params[:level] if params[:level]
     @task.school_id = params[:school_id] if params[:school_id]
     @task.course_id = params[:course_id] if params[:course_id]

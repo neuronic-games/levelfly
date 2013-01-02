@@ -295,7 +295,7 @@ function addNode(element) {
                 <div class="field_box_setup">
                   <div class="date_viewfield font_12px">Due Date
                     <div class="dd_bg">
-                      <input type="text" name="due_date" id="due_date" class="dd_input" value="<%=@task.due_date if @task %>"/>
+                      <input type="text" name="due_date" id="due_date" class="dd_input" value="<%=change_date_format(@task.due_date) if @task %>"/>
                     </div>
 
                 </div>
@@ -379,7 +379,7 @@ function addNode(element) {
                           <%if @task.extra_credit==true%>
                             <div id="" class="tbc hide">
                              EXTRA CREDIT
-                             <div class="margin_top"><input type="checkbox" <%= @task && task_extra_credit(p.profile_id, @task.id) ? "checked='checked'" : "" %>  <%if @task_owner && !@task_owner.nil?%><%else%>disabled="disabled"<%end%>name="task_extra_credited" class ="check_box_credired" rel ="<%=p.profile.id%>"/></div>
+                             <div class="margin_top"><input type="checkbox" <%= @task && task_extra_credit(p.profile_id, @task.id) ? "checked='checked'" : "" %>  <%if @task_owner && !@task_owner.nil?%><%else%>disabled="disabled"<%end%>name="task_extra_credited" class ="check_box_credired1" rel ="<%=p.profile.id%>"/></div>
                             </div>
                           <%end%>
                           <div id="credited_<%=p.profile.id%>" class="tbc">
@@ -695,7 +695,7 @@ $(document).ready(function(){
   $(function() {
     //Due date datepicker
     $("#due_date").datepicker({
-      dateFormat: 'dd-mm-yy',
+      dateFormat: 'mm-dd-yy',
       onSelect: function(dateText, inst) {setStorage("task_due_date", dateText);}
     });
     
