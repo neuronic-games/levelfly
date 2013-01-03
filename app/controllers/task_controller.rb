@@ -185,14 +185,14 @@ class TaskController < ApplicationController
     @profile = Profile.find(user_session[:profile_id])
     @task.name = params[:task] if params[:task]
     @task.descr = params[:descr] if params[:descr]
-    @task.due_date = Date.strptime(params[:due_date], '%m-%d-%Y') if params[:due_date]
+    @task.due_date = Date.strptime(params[:due_date], '%m-%d-%Y') if params[:due_date] && params[:due_date] != "null"
     @task.level = params[:level] if params[:level]
     @task.school_id = params[:school_id] if params[:school_id]
     @task.course_id = params[:course_id] if params[:course_id]
     @task.archived = false
     @task.category_id = params[:category_id] if params[:category_id]
     @task.extra_credit = params[:extra_credit] if params[:extra_credit]
-    
+    @task.all_members = true if (params[:all_members] == "All Members")
     # Has something changed on the task that could change it's points value?
     # FIXME: We may want to recalculate points if the task raiting or course settings change
     @task.calc_point_value
@@ -243,6 +243,8 @@ class TaskController < ApplicationController
       peoples_array=[]
       if params[:people_id] && !params[:people_id].empty?
         if params[:people_id] == "all_people"
+          @task.all_members = true
+          @task.save
           course_members = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",params[:course_id]],:select => ["participants.profile_id"])
           course_members.each do |p|
             peoples_array.push(p.profile_id)

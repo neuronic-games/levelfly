@@ -946,7 +946,7 @@ function save_task(channel) {
     course_id = getStorage("task_course");
     school_id = $("#task_school_id_hdn").val();
     category_id = getStorage("task_category");
-    
+    all_members = getStorage("all_members");
     //For outcome data object (gather values from dynamic created nodes)
     var outcomeObject = [];
     i = 0;
@@ -974,7 +974,7 @@ function save_task(channel) {
     });*/
     
     
-    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id +'&extra_credit='+extra_credit.checked;  
+    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id +'&extra_credit='+extra_credit.checked + '&all_members='+all_members;  
 
     //alert(dataString); return false;
     if( changed == true){

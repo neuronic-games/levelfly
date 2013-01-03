@@ -1,8 +1,9 @@
 <%if @people and !@people.nil?%>
+<div class="tbc" style="margin-top: -23px;"><h3><input type="checkbox" checked="checked" name="chk_all_members" id="all_members" class="check_box_all"  value="All Members"/> All Members</h3></div>
   <% @people.each do |p| %>
   <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
     <div style="">
-    <input type="checkbox" name="chk_task_people[]" checked="true" value="<%=p.profile.id%>" id="<%=p.profile.id%>" class="check_box"/>
+    <input type="checkbox" name="chk_task_people[]" checked="true" disabled="true" value="<%=p.profile.id%>" id="<%=p.profile.id%>" class="check_box"/>
       <div class=" avtar avatar_white_bdr">
         <img src="<%=p.profile.image_file_name%>" profile_id="<%=p.profile_id%>" class="profile"/>
       </div>
@@ -17,6 +18,24 @@
 
 <script type="text/javascript">
 <!--
+$(document).ready(function(){
+	setStorage("all_members",$($("input[name=''chk_all_members]")).val());
+});
+  $('#all_members').delegate('input[name="chk_all_members"]', 'change', function(){
+  	check_val = $(this).is(':checked');
+    if (check_val){
+		$($('input[name="chk_task_people[]"]')).prop("disabled",check_val)
+		$($('input[name="chk_task_people[]"]')).prop("checked",check_val)
+		setStorage("all_members", $(this).val());
+		$($('input[name="chk_task_people[]"]')).each(function(){
+			setStorage("task_people_"+$(this).attr('value'), $(this).val());
+	    });
+	}
+	else {
+		$($('input[name="chk_task_people[]"]')).prop("disabled",check_val)
+		deleteStorage("all_members");
+	}
+  });
   $($('input[name="chk_task_people[]"]')).each(function(){
     if(this.checked) {
       setStorage("task_people_"+$(this).attr('value'), $(this).val());
@@ -24,6 +43,12 @@
       deleteStorage("task_people_"+$(this).attr('value'));
     }
   });
-
+  $('#all_members').delegate('input[name="chk_task_people[]"]', 'change', function(){
+  	if(this.checked) {
+      setStorage("task_people_"+$(this).attr('value'), $(this).val());
+    } else {
+      deleteStorage("task_people_"+$(this).attr('value'));
+    }
+  });
 //-->
 </script>

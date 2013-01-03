@@ -186,7 +186,30 @@ class MessageController < ApplicationController
             profile_id = @message.parent_id
           end
           @course_participant = Participant.where("object_type = ? AND object_id = ? AND profile_id = ? AND profile_type='P'",params[:section_type],@message.target_id,profile_id).first
-         
+          tasks = Task.find(:all, :conditions => ["course_id = ? and archived = ? and all_members = ?", @message.target_id, false, true])
+          if tasks and !tasks.blank?
+            tasks.each do |t|
+              wall_id = Wall.get_wall_id(t.id,"Task")
+              task_owner = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='O' and complete_date is null", t.id])
+              if task_owner
+                @profile = Profile.find(task_owner.profile_id)
+                @task_participant = TaskParticipant.new
+                @task_participant.profile_id = user_session[:profile_id]
+                @task_participant.profile_type = "M"
+                @task_participant.status = "A"
+                @task_participant.priority = "L"
+                @task_participant.task_id = t.id
+                if @task_participant.save
+                  Feed.create(
+                    :profile_id => user_session[:profile_id],
+                    :wall_id => wall_id
+                  )
+                participant_content = "#{@profile.full_name} assigned you a new task: #{t.name}"   
+                Message.send_notification(@profile.id,participant_content,user_session[:profile_id])    
+                end
+              end
+            end
+          end
           if params[:activity] == "add"
             if @course_participant
               @course_participant.profile_type = 'S'
