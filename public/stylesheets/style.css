@@ -672,20 +672,20 @@ a.blue_bt19px2 {
   padding-right:90px;
 }
 .board_left {
-  background:url(../images/board_left.png) 0 0px no-repeat;
+  background:url(../images/board_left.png) no-repeat scroll left 0px, url("../images/board_left_bottom.png") repeat-y scroll left 100px;
   padding-left:48px;
   height:100%;
   
   
 }
 .board_right {
-  background:url(../images/board_right.png) right 0px no-repeat;
+  background:url("../images/board_right.png") no-repeat scroll right 0px, url("../images/board_right_bottom.png") repeat-y scroll right 100px;
   padding-right:48px;
   height:100%;
   
 }
 .board_center {
-  background:url(../images/board_center.png) 0 0px repeat-x;
+  background:url(../images/board_center.png) 0 0px repeat-x, url("../images/board_center_bottom.png") repeat scroll right 100px;
   /*height:732px;*/
   height:100%;
   
@@ -1107,17 +1107,17 @@ margin-top:-20px;
 	padding-right:120px;/*margin: -62px 0 0;*/
 }
 .course_board_left {
-	background:url(../images/course_left_bar.jpg) 0 0px no-repeat;
+	background:url(../images/course_left_bar.jpg) no-repeat scroll left 0px, url("../images/course_left_bar_bottom.jpg") repeat-y scroll left 100px;
 	padding-left:57px;
 	height:100%;
 }
 .course_board_right {
-	background:url(../images/course_right_bar.jpg) right 0px no-repeat;
+	background:url("../images/course_right_bar.jpg") no-repeat scroll right 0px, url("../images/course_right_bar_bottom.jpg") repeat-y scroll right 100px;
 	padding-right:57px;
 	height:100%;
 }
 .course_board_center {
-	background:url(../images/course_middle_bar.jpg) 0 0px repeat-x;
+	background:url(../images/course_middle_bar.jpg) 0 0px repeat-x, url("../images/course_middle_bar_bottom.jpg") repeat scroll right 100px;
 	/*height:732px;*/
   height:100%;
 }
