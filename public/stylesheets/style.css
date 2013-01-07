@@ -3424,8 +3424,8 @@ filter:alpha(opacity="0");
 .nav_box#root_level{position:fixed; width:110px; height:482px; margin:0; bottom:18px;}
 .nav_box#root_level .jTscroller a:hover{opacity:1;}
 .nav_box#root_level .jTscroller a:first-child{margin-top:9px;}
-.jTscrollerNextButton{margin:0px 0px -14px 20px; bottom:0;  background:url(../images/down_arrow.png) no-repeat center; padding:0px 0 0 0; z-index:9999;}
-.jTscrollerPrevButton{margin:-9px 0px 0px 20px; top:0; background:url(../images/up_arrow.png) no-repeat center;}
+.jTscrollerNextButton{margin:0px 0px -14px 12px; bottom:0; width:45%; background:url(../images/down_arrow.png) no-repeat center, url("../images/left_navigation_mask.png") repeat center; padding:0px 0 0 0; z-index:9999;}
+.jTscrollerPrevButton{margin:-9px 0px 0px 12px; top:0; width:45%; background:url("../images/up_arrow.png") no-repeat scroll center, url("../images/left_navigation_mask.png") repeat scroll center;}
 
 
 .editable_field:hover {
