@@ -1,5 +1,6 @@
 <% unless @latest_course.nil? %>
   <div class="task_side_buttons"> 
+    <%= link_to 'Export CSV', csv_path, :class =>"big_orange_btn"%>
     <a href="javascript:void(0)" class="big_blue_btn new_task">ADD TASK</a> 
     <a href="javascript:void(0)" class="big_orange_btn finalize" id ="finalize">Finalize</a> 
   </div>

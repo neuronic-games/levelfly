@@ -334,6 +334,8 @@ Oncapus::Application.routes.draw do
   
   
   match 'reward' => 'reward#index'
+
+  match 'csv' => 'grade_book#export_csv', :as => 'csv'
   
   match 'task' => 'task#index'
   
