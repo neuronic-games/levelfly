@@ -50,6 +50,8 @@
 
     $(document).ready(function(){
       $('textarea#forum_desc').autosize();
+	  setStorage("forum_name",$($("input[name='forum_name']")).val());
+	  setStorage("forum_desc",$($("input[name='forum_desc']")).val());
     });
  //For image uploads
     var base_params = {
