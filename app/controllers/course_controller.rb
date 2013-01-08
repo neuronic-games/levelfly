@@ -567,7 +567,7 @@ class CourseController < ApplicationController
        @peoples = Profile.find(
          :all, 
          :include => [:participants], 
-         :conditions => ["participants.object_id = ? AND participants.object_type= ? AND participants.profile_type IN ('P', 'S')", @course.course_id,section_type]
+         :conditions => ["participants.object_id = ? AND participants.object_type= ? AND participants.profile_type = 'S'", @course.course_id,section_type]
        )
      else
        @peoples = Profile.find(

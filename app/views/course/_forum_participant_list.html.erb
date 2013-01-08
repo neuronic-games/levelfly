@@ -1,7 +1,7 @@
 <ul class="forum_people_node">
   <% if !peoples.empty? %>
     <% if mode == "list" %>
-      <div class="people_name" style="width:33%;margin-left:27px;"><h3><input type="checkbox" <%= @course && member_forum(nil, @course.id) ? "checked='checked'" : "" %> name="chk_include_all" id="include_all" class="all_include"  value="Include All"/> INCLUDE ALL</h3></div>
+      <div class="people_name" style="width:33%;margin-left:44px;"><h3><input type="checkbox" <%= @course && member_forum(nil, @course.id) ? "checked='checked'" : "" %> name="chk_include_all" id="include_all" class="all_include"  value="Include All"/> Include All</h3></div>
       <br/><br/>
 	  <% peoples.each do |p| %>
         <li class="forum_blackboard_list" id="<%=p.id%>" style="width:88%; height:88px;">

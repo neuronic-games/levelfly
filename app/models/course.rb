@@ -195,7 +195,7 @@ class Course < ActiveRecord::Base
      @all_members = Profile.find(
            :all, 
            :include => [:participants], 
-           :conditions => ["participants.object_id = ? AND participants.object_type in ('Course','Group') AND participants.profile_type IN ('M', 'P', 'S')", self.course_id]
+           :conditions => ["participants.object_id = ? AND participants.object_type in ('Course','Group') AND participants.profile_type IN ('M', 'S')", self.course_id]
          )
      if @all_members and not@all_members.nil?
         @all_members.each do |viewer|
