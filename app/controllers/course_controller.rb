@@ -150,7 +150,7 @@ class CourseController < ApplicationController
     #@totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @totaltask = @tasks = Task.filter_by(user_session[:profile_id], @course.id, "current")
     @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
-     message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
+     message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @courseMaster.id]).collect(&:message_id)
     if params[:section_type]=="C"
       @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C' and id in(?)",@course.id,message_ids],:order => "starred DESC,created_at DESC" )
     elsif params[:section_type]=="G"
@@ -518,7 +518,7 @@ class CourseController < ApplicationController
     @groups = nil# Group.find(:all, :conditions=>["course_id = ?",params[:id]])
     enable_forum = false
     @totaltask = @tasks = Task.filter_by(user_session[:profile_id], @course.id, "current")
-    message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
+    message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @courseMaster.id]).collect(&:message_id)
     if params[:section_type]=="C"
       @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C' and id in(?)",@course.id,message_ids],:order => "starred DESC,created_at DESC" )
     elsif params[:section_type]=="G"
@@ -736,7 +736,7 @@ class CourseController < ApplicationController
       )
       @member_count = @peoples.length
       @courseMaster = @course.owner
-      message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
+      message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @courseMaster.id]).collect(&:message_id)
       @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'F' and id in(?)",@course.id,message_ids],:order => "starred DESC,created_at DESC" )
       render :partial => "/course/forum_wall"
     end
