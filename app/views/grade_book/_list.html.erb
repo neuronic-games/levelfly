@@ -1,8 +1,8 @@
 <% unless @latest_course.nil? %>
   <div class="task_side_buttons"> 
-    <%= link_to 'Export CSV', csv_path, :class =>"big_orange_btn"%>
-    <a href="javascript:void(0)" class="big_blue_btn new_task">ADD TASK</a> 
-    <a href="javascript:void(0)" class="big_orange_btn finalize" id ="finalize">Finalize</a> 
+    <a href="javascript:void(0)" class="big_orange_btn new_task">ADD TASK</a> 
+    <%= link_to 'Export CSV', csv_path, :class =>"big_blue_btn"%>
+    <a href="javascript:void(0)" class="big_blue_btn finalize" id ="finalize">Finalize</a> 
   </div>
   
 <%end%>
@@ -1451,7 +1451,7 @@ $(document).ready(function(){
             outcome_name.addClass("GB_outcomment rotate_text");
             outcomes_col.html(outcome_name);
             var  text = $("<input type ='text' name='task_grade' value = '"+value.course_outcomes[i]+"' id = 'p_"+value.profile_id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
-            text.addClass("")
+            text.addClass("col_width")
             grade_col.html(text);
             grade_col.addClass("td_align red_border")
             rows2.append(outcomes_col);
@@ -1469,7 +1469,7 @@ $(document).ready(function(){
           outcome_name.addClass("GB_outcomment rotate_text");
           outcomes_col.html(outcome_name);
           var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
-          text.addClass("")
+          text.addClass("col_width")
           grade_col.html(text);
           grade_col.addClass("td_align red_border")
           rows2.append(outcomes_col);
@@ -1502,7 +1502,7 @@ $(document).ready(function(){
           table_task.addClass("task_grades_width");//Add for remove extra column 05/09/12
           var len = task.task_outcomes.length;
           var  text_grade = $("<input type ='text' name='task_grade' value = '"+value.task_grade[i]+"' id = 'g_"+value.profile_id+"_"+task.id +"' maxlength='2' size='2' rel ='"+ value.profile_id +"' data='"+task.include_task_grade+"'/>");
-          text_grade.addClass("editable_field task_grade t_"+task.id +"");
+          text_grade.addClass("editable_field task_grade t_"+task.id +" col_width");
           column.html(text_grade); 
           task_name_column.addClass(" width12px width_30 hover task_name_background");
           //task_name_column.attr("id","t_"+task.id);
@@ -1532,14 +1532,14 @@ $(document).ready(function(){
                 var outcome_div =$("<div></div>");             
                 var  text_point = $("<input type ='text' name='task_grade' value = '"+value.task_outcome_grade[count]+"' id = 'p_"+value.profile_id+"_"+task.task_outcomes[i].id+"_"+task.id +"' data='"+task.include_task_grade+"' rel='p_"+value.profile_id+"_"+task.task_outcomes[i].id+"' maxlength='1' size='2'/>");
                 count = count + 1 ;
-                text_point.addClass("editable_field task_grade "+task.id+"_"+task.task_outcomes[i].id+"");
+                text_point.addClass("editable_field task_grade "+task.id+"_"+task.task_outcomes[i].id+" col_width");
                 if(p%2==0){
                   outcome.addClass("Dark_no width_30 hover white_border");
-                  point_column.addClass("first_row_layout Dark_no width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
+                  point_column.addClass("first_row_layout Dark_no width_30 o_"+task.id+"_"+task.task_outcomes[i].id+" col_width");
                 }
                 else{
                   outcome.addClass("light_row width_30 hover white_border");
-                  point_column.addClass("first_row_layout light_row width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
+                  point_column.addClass("first_row_layout light_row width_30 o_"+task.id+"_"+task.task_outcomes[i].id+" col_width");
                 }             
                 if(p==0){
                   outcome_div.html(task.task_outcomes[i].name);
@@ -1634,7 +1634,7 @@ $(document).ready(function(){
             outcome_name.addClass("GB_outcomment rotate_text");
             outcomes_col.html(outcome_name);
             var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
-            text.addClass("")
+            text.addClass("col_width")
             grade_col.html(text);
             grade_col.addClass("td_align red_border")
             rows2.append(outcomes_col);
@@ -1685,7 +1685,7 @@ $(document).ready(function(){
           table_task.addClass("task_grades_width");
           var len = task.task_outcomes.length;
           var  text_grade = $("<input type ='text' value = '' id = '' readonly='readonly' maxlength='2' size='2' rel = ''/>");
-          text_grade.addClass("task_grade");
+          text_grade.addClass("task_grade col_width");
           column.html(text_grade); 
           task_name_column.addClass(" width12px width_30 hover task_name_background");
           task_div.addClass("GB_outcomment3 rotate_text white_font");
@@ -1714,14 +1714,14 @@ $(document).ready(function(){
                 var outcome_div =$("<div></div>");             
                 var  text_point = $("<input type ='text' value = '' id = '' rel = '' readonly='readonly' maxlength='1' size='2'/>");
     
-                text_point.addClass("task_grade");
+                text_point.addClass("task_grade col_width");
                 if(p%2==0){
                   outcome.addClass("Dark_no width_30 hover white_border");
-                  point_column.addClass("first_row_layout Dark_no width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
+                  point_column.addClass("first_row_layout Dark_no width_30 o_"+task.id+"_"+task.task_outcomes[i].id+" col_width");
                 }
                 else{
                   outcome.addClass("light_row width_30 hover white_border");
-                  point_column.addClass("first_row_layout light_row width_30 o_"+task.id+"_"+task.task_outcomes[i].id+"");
+                  point_column.addClass("first_row_layout light_row width_30 o_"+task.id+"_"+task.task_outcomes[i].id+" col_width");
                 }             
                 if(p==0){
                   outcome_div.html('');

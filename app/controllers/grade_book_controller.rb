@@ -89,7 +89,7 @@ class GradeBookController < ApplicationController
               p["grade"] = ""
             else   
               participant_grade.each do |key, val|
-                grade = GradeType.value_to_letter(val, @profile.school_id)
+                grade = val.to_s + " " + GradeType.value_to_letter(val, @profile.school_id)
                 p["grade"] = grade
               end  
             end
@@ -122,7 +122,7 @@ class GradeBookController < ApplicationController
 
                 end
                
-              end
+             end
               p["task_grade"] = array_task_grade
             end  
             
@@ -217,7 +217,7 @@ class GradeBookController < ApplicationController
           else
             average = 0 
           end
-          @grade = GradeType.value_to_letter(average, school_id)
+          @grade = average.round(2).to_s + " " + GradeType.value_to_letter(average, school_id)
           arr_grade.push(@grade)
           if undo == "true" and !previous_values.blank?
             @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, profile_id[j],arr_task_grade[j],average)
@@ -417,12 +417,11 @@ class GradeBookController < ApplicationController
       @participant = Participant.all( :joins => [:profile], 
         :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", session[:course_id]],
         :select => ["profiles.full_name,participants.id,participants.profile_id"])
-      y << "Course Name:"  
-      y << @course.name
-      y << "\m"
-      y << "\m"
-      y << "Participant Name"
+      y << "User ID"
+      y << "Name"
+      y << "Course Code"
       y << "Course Grade"
+      y << "Notes"
       if @outcomes.length > 0
         if !@outcomes.nil?
           @outcomes.each do|o|
@@ -434,12 +433,11 @@ class GradeBookController < ApplicationController
         if !@tasks.nil?
           @tasks.each do|t|
             y << t.name
-            y << "Task Grade"
             @task_outcomes = t.outcomes
             if @task_outcomes.length > 0
               if !@task_outcomes.nil?
                 @task_outcomes.each do|o|
-                  y << o.name
+                  y << t.name+"("+o.name+")"
                 end
               end
             end
@@ -449,14 +447,22 @@ class GradeBookController < ApplicationController
     end
     if !@participant.nil?
       @participant.each do |p|
+        x << p.profile.user_id
         x << p.full_name
+        x << @course.code+" - "+@course.section
         participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, @course.id,@course.school_id)
         val = participant_grade[@course.id]
         grade = ""
         if !val.nil?
-          grade = GradeType.value_to_letter(val, @course.school_id)
+          grade = val.to_s+" "+GradeType.value_to_letter(val, @course.school_id)
         end
         x << grade
+        participant_note = CourseGrade.load_notes(p.profile_id, @course.id, @course.school_id)
+        if participant_note.blank?
+          x << ""
+        else
+          x << participant_note
+        end
         if @outcomes.length>0
           if !@outcomes.nil?
             @outcomes.each do |o|
@@ -468,7 +474,6 @@ class GradeBookController < ApplicationController
         if @tasks.count > 0
           if !@tasks.nil?
             @tasks.each do|t|
-              x << ""
               task_grade = TaskGrade.load_task_grade(t.school_id,t.course_id,t,p.profile_id)
               grade = ""
               if !task_grade.nil?
@@ -500,7 +505,8 @@ class GradeBookController < ApplicationController
           csv << i
         end
     end
-    send_data(user_csv, :type => 'test/csv', :filename => 'user_record.csv')
+    filename = @course.section + "?_" + Date.today.strftime("%Y%m%d") + ".csv"
+    send_data(user_csv, :type => 'test/csv', :filename => filename)
   end
 
 end

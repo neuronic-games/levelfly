@@ -3435,6 +3435,7 @@ filter:alpha(opacity="0");
 }
 .task_grade{ text-align:center; text-transform:uppercase; height:44px;}
 .td_align{vertical-align:middle;}
+.col_width{ min-width: 40px;}
 .warning{
 background-color:#FF4D4D
 }
