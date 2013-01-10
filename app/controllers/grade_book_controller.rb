@@ -437,7 +437,7 @@ class GradeBookController < ApplicationController
             if @task_outcomes.length > 0
               if !@task_outcomes.nil?
                 @task_outcomes.each do|o|
-                  y << t.name+"("+o.name+")"
+                  y << t.name+": "+o.name
                 end
               end
             end
@@ -505,7 +505,7 @@ class GradeBookController < ApplicationController
           csv << i
         end
     end
-    filename = @course.section + "?_" + Date.today.strftime("%Y%m%d") + ".csv"
+    filename = @course.code + "-" + @course.section + "-" + Date.today.strftime("%Y%m%d") + ".csv"
     send_data(user_csv, :type => 'test/csv', :filename => filename)
   end
 
