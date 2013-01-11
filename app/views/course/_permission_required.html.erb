@@ -1,0 +1,26 @@
+<div class="badge_popup"> 
+<div class="heading">PERMISSION REQUIRED</div>
+  </br>
+  <div>
+     <div class="heading02" style="float:left;">You may not view this because you are not a member of "<%=@course.name%>". Please message to "<%= @courseMaster.full_name%>" if you would like to be a member of "<%=@course.name%>". <strong></strong>
+     </div>
+  </div> 
+  
+</div>
+
+
+<script type="text/javascript">
+
+// Hide the card if clicked outside
+$(document).click(function (e)
+{
+    var container = $("#permission_required");
+
+    if (container.has(e.target).length === 0)
+    {
+        container.hide();
+        $(document).unbind('click');
+    }
+});
+
+</script>
