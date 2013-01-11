@@ -61,6 +61,21 @@ class ProfileController < ApplicationController
     render :text => {"profile"=>@profile}.to_json
   end
   
+  def save_notes
+    id = params[:id]
+    @profile = Profile.find(id)
+    Note.delete_all(["profile_id = ? and about_object_id = ? and about_object_type = 'Profile'",user_session[:profile_id],@profile.id])
+    if !params[:notes].blank?
+      new_note = Note.new
+      new_note.profile_id = user_session[:profile_id]
+      new_note.about_object_id = @profile.id
+      new_note.about_object_type = "Profile"
+      new_note.content = params[:notes]
+      new_note.save
+    end
+    render :text => {"profile"=>@profile}.to_json
+  end
+  
   def save
     id = params[:id]
     profile = params[:profile]
@@ -147,6 +162,10 @@ class ProfileController < ApplicationController
     else
       @profile = Profile.find(params[:profile_id])
       @badge = Badge.badge_count(@profile.id)
+      notes = Note.find(:first, :conditions =>["profile_id = ? and about_object_id = ? and about_object_type = 'Profile'",user_session[:profile_id], @profile.id])
+      if !notes.nil?
+        @notes = notes.content
+      end
     end
     previous_level = @profile.level
     @current_friends = @profile.friends

@@ -83,7 +83,7 @@
     </div>
     <div class="profile_item full_width">
       <div class="caption">Notes</div>
-      <textarea name="Notes" id="Notes" class="full_width" style="height:100px;" placeholder="Enter Notes"></textarea> 
+      <textarea name="Notes" id="Notes" class="full_width" style="height:100px;" placeholder="Enter private notes on <%= profile.full_name%> (only I will see this)"><%=h @notes%></textarea> 
     </div>
   </div>
   <% end %>
@@ -377,6 +377,20 @@ $(document).ready(function(){
     _profile.contact_info = new_data;
     saveProfile();
     setAlert("Saving interests " + _profile.tag_list);
+  });
+  
+   $("#Notes").change(function () {
+    var notes = $("#Notes").val();
+	$.ajax({
+      url: "/profile/save_notes",
+      data: { id: _profile.id, profile: _profile, notes:notes }, 
+      type: 'post',
+      dataType: 'json',
+      error: function(){alert("Error");},
+      success: function(data){
+        _profile = data.profile;
+      }
+    });
   });
   
    $("#show_btn").click(function () {

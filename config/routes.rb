@@ -38,6 +38,8 @@ Oncapus::Application.routes.draw do
 
   post "profile/save_meta"
   
+  post "profile/save_notes"
+  
   get "profile/accept_code"
   
   get "profile/user_profile"
