@@ -5,7 +5,7 @@
 # below each fixture, per the syntax in the comments below
 #
 bmcc:
-  name: Burough of Manhattan Community College
+  name: Borough of Manhattan Community College
   code: BMCC
   
 ccny:
