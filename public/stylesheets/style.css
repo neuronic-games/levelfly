@@ -315,7 +315,7 @@ a.icon_users_active {
     position: absolute;
     width: 15px;
 }
-.msg_box_fullwidth {padding:0 0 0 93px;}
+.msg_box_fullwidth {padding:0 0 0 93px; word-wrap:break-word; max-width:583px;}
 .msg_big_box .blue_bg_msg_txt {
   float:right;
   -webkit-border-radius: 10px;
@@ -435,7 +435,7 @@ a.blue_bt19px2 {
     right: 0;
     width: 15px
 }
-.msg_small_box_fullwidth {padding: 0 76px 0 93px;}
+.msg_small_box_fullwidth {padding: 0 76px 0 93px; word-wrap:break-word; max-width:583px;}
 .msg_small_box .green_bg_msg_txt {
   float:right;
   -webkit-border-radius: 10px;
