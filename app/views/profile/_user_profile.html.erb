@@ -276,7 +276,7 @@ $(document).ready(function(){
   var widthLevel = (_xp-_level_meter[_level-1]) / targetXp * maxWidthLevel;
   
   $("#progress_stats_1").html(_xp + " XP");
-  $("#progress_stats_2").html(_level_meter[_level] - _xp + " for level " + _level);
+  $("#progress_stats_2").html(_level_meter[_level] - _xp + " more for level " + _level);
   $("#progressbar").animate({width :  widthLevel+"px"}, 1000);
   
   <% if user_session[:profile_id] != profile.id %>
