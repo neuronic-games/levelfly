@@ -1,0 +1,56 @@
+<div class="confirm_box_width warningbox " style"margin-top:0%">
+  <div class="heading">Warning</div>
+    <div class="clear"></div>
+    <div class="spacebar10px"></div>
+    <div class="spacebar10px"></div>
+     <div class="heading02">You are about to archive this forum. Once archived, you will no longer see this forum in your Active list. Are you sure you want to archive this forum? </div>
+    
+    <div class="spacebar10px"></div>
+  <div align="right">
+  <a class="smaller_text big_blue_btn inlineblock" id = "dont_archive_btn" href="javascript:void(0)">Don't Archive</a>
+  <a class="big_orange_btn inlineblock clr_red" id = "save_archive_btn" href="javascript:void(0)">Archive</a> 
+  </div>
+</div>
+
+<script type="text/javascript">
+ $(function(){
+    $("#dont_archive_btn").click(function(){
+      $("#confirm_box").hide();
+    });
+    
+    $("#save_archive_btn").click(function(){
+      course_id = $("#new_course_id").val();
+      showSpinner(true);
+     $.ajax({  
+          type: "POST",  
+          url: "/course/set_archive",
+          dataType: "json",
+          data:{id:course_id},
+          success: function(data) {
+			course_id = $("#course_id_hdn").val();
+            section_type = $("#section_type").val();
+			idx = "3";
+			var data = {value:idx,id:course_id,section_type:section_type};
+            $("#load_data").load("/course/show_course",data, function(response, status, xhr) {
+              if(response)
+              {
+                $("#load_data").html(response);
+                showSpinner(false);
+              }
+              if (status == "error")
+              {
+                var msg = "Sorry but there was an error: ";
+                alert(msg);
+              }
+      
+            });
+          },
+          error: function()
+          {
+            alert("An Error has occured");
+            showSpinner(false);
+          },
+        }); 
+      });
+    });
+</script>

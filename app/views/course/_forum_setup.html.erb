@@ -38,11 +38,15 @@
         <input type="hidden" name="new_course_id" id="new_course_id" value="<%=@course.id if @course%>">
       </div>
       <div class="clear"></div>
+	  <div id="confirm_box" class="hide">
+        <%= render :partial => "/course/forum_archive_box" %>
+      </div>
     </div>
 </div>
 <div id="sidebar_right_forum">
   <div class="course_side_buttons">
       <a href="javascript:void(0)" name="save_forum_btn" id="save_forum_btn" class="big_orange_btn">Save</a>
+	  <a href="javascript:void(0)" name="forum_btn_archive" id="forum_btn_archive" class="big_blue_btn">ARCHIVE</a>
   </div>
 </div>
 
@@ -99,6 +103,9 @@
       //$("#group_image").append("<img class='image_icon_drop_target' src='/images/course_img_drop.png' />")
       showSpinner(false);
     });  
+   $("#forum_btn_archive").click(function(){
+     $("#confirm_box").show();
+   });
     
    $("#save_forum_btn").click(function(){
       id = $("#new_course_id").val();

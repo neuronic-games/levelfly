@@ -3868,6 +3868,12 @@ border:solid 0px #000000;
 	border-bottom:#dba29c solid 1px;
 	padding:0 0 5px 0;
 }
+.warningbox .heading02 {
+  color: #5B5757;
+  font-weight: bold;
+	font-size: 14px;
+	padding:5px 15px 0 0;
+}
 .group_profile_icon {
 	border-radius: 10px 10px 10px 10px;
 }
