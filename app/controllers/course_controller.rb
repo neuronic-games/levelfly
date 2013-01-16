@@ -377,6 +377,22 @@ class CourseController < ApplicationController
             end
           end
         end
+        task = Task.find(:all, :conditions => ["course_id = ?",params[:course_id]])
+        if task
+          task.each do |task|
+            task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_id = ? AND profile_type = 'M'",task.id, params[:profile_id]])
+            if task_participant
+              task_participant.delete
+              wall_id = Wall.find(:first, :conditions=>["parent_id = ? and parent_type = 'Task'",task.id])
+              if !wall_id.nil?
+                feed = Feed.find(:first, :conditions => ["profile_id = ? and wall_id = ? ",params[:profile_id], wall_id.id])
+                if !feed.nil?
+                  feed.delete
+                end
+              end
+            end
+          end
+        end
         status = true
       end
     end

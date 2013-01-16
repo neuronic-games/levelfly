@@ -70,6 +70,45 @@ class TaskController < ApplicationController
     render :text => {"status"=>status}.to_json
   end
   
+  def all_members_checked
+    status = false
+    if params[:task_id] && !params[:task_id].nil?
+      wall_id = Wall.get_wall_id(params[:task_id],"Task")
+      @task = Task.find(params[:task_id])
+      @profile = Profile.find(user_session[:profile_id])
+      if params[:check_val] == "false"
+        @task.all_members = false
+        @task.save
+        status = true
+      else
+        @task.all_members = true
+        @task.save
+        course_participants = Participant.find(:all,:conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @task.course_id])
+        course_participants.each do |course_participant|
+          participant = TaskParticipant.find(:first, :conditions => ["profile_id = ? AND task_id = ? and profile_type = 'M'",course_participant.profile_id, @task.id])
+          if !participant
+            @task_participant = TaskParticipant.new
+            @task_participant.profile_id = course_participant.profile_id
+            @task_participant.profile_type = "M"
+            @task_participant.status = "A"
+            @task_participant.priority = "L"
+            @task_participant.task_id = @task.id
+            if @task_participant.save
+              Feed.create(
+               :profile_id => course_participant.profile_id,
+               :wall_id => wall_id
+              )
+            content = "Assigned a task: #{@task.name}"
+            Message.send_notification(@profile.id,content,course_participant.profile_id)    
+            status = true
+            end
+          end
+        end
+      end
+    end
+    render :text => {"status"=>status}.to_json
+  end
+  
   def member_unchecked
     status = false
     if params[:task_id] && !params[:task_id].nil?
@@ -122,6 +161,11 @@ class TaskController < ApplicationController
       :all, 
       :include => [:profile], 
       :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @task.course_id]
+    )
+    @task_members = TaskParticipant.find(
+      :all, 
+      :include => [:profile], 
+      :conditions => ["task_participants.task_id = ? AND task_participants.profile_type = 'M'", @task.id]
     )
      
     @profile.record_action('last', 'task')

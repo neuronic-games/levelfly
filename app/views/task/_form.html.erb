@@ -152,12 +152,11 @@ function addNode(element) {
 				<div class="field_box2"><span class="font_12px">Members</span>
 				<div class="tbc"><h3><input type="checkbox" <%= @task && member_points(nil, @task.id) ? "checked='checked'" : "" %> disabled="disabled" name="chk_all_completed" class="check_box_all"  value="All Completed"/> All Completed</h3></div>
                   <div id="load_task_participant">
-                  <% if @people and !@people.nil? %>
-                    <% @people.each do |p| %>
+                  <% if @task_members and !@task_members.nil? %>
+                    <% @task_members.each do |p| %>
                         <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
                           <div style="">
-                            <input type="checkbox" <%= @task && member_associate(p.profile_id, @task.id) ? "checked='checked'" : "" %> disabled="disabled" name="chk_task_people[]" class="view_members"  value="<%=p.profile.id%>"/>
-                            <div class=" avtar avatar_white_bdr">
+                            <div class=" avtar avatar_white_bdr" style="margin-left:0px;">
                               <img src="<%=p.profile.image_file_name%>" profile_id="<%=p.profile_id%>" class="profile"/>
                             </div>
                             <div class="member_name">
@@ -358,7 +357,9 @@ function addNode(element) {
                 
                 
                 <br /><br />
-                <div class="field_box2" id="all_members"><span class="font_12px">Members</span>
+				<% if not defined?(task_new)%>
+                <div class="field_box2" id="all_members"><span class="font_12px"><input type="checkbox" <%= @task.all_members ? "checked='checked'" : "" %> name="chk_all_members" id="all_members" class="check_all_members"  value="All Members"/> All Members</h3></span>
+				<% end %>
 				<% if @people and !@people.nil? %>
 				<div class="tbc"><h3><input type="checkbox" <%= @task && member_points(nil, @task.id) ? "checked='checked'" : "" %> name="chk_all_completed" id="all_completed" class="check_box_all"  value="All Completed"/> All Completed</h3></div>
 				<% end %>
@@ -367,7 +368,7 @@ function addNode(element) {
                    <% @people.each do |p| %>
                         <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
                           <div style="">
-                            <input type="checkbox" <%= @task && member_associate(p.profile_id, @task.id) ? "checked='checked'" : "" %> name="chk_task_people[]" id="<%=p.profile.id%>" class="check_box"  value="<%=p.profile.id%>"/>
+                            <input type="checkbox" <%= @task && member_associate(p.profile_id, @task.id) ? "checked='checked'" : "" %> <%= @task.all_members ? "disabled='disabled'" : ""%> name="chk_task_people[]" id="<%=p.profile.id%>" class="check_box"  value="<%=p.profile.id%>"/>
                             <div class=" avtar avatar_white_bdr">
                               <img src="<%=p.profile.image_file_name%>" profile_id="<%=p.profile_id%>" class="profile"/>
                             </div>
@@ -589,6 +590,33 @@ $(document).ready(function(){
          }
       });
      
+  });
+  
+  $('#all_members').delegate('input[name="chk_all_members"]', 'change', function(){
+  	check_val = $(this).is(':checked');
+    task_id = $("#task_id_hdn").val();
+	showSpinner(true);
+      $.ajax({
+         type:"POST",
+         dataType: "json",
+         url:"/task/all_members_checked",
+         data:{task_id:task_id,check_val:check_val},
+         success:function(data){
+           showSpinner(false);
+            changed=true;
+			if(check_val==true){
+				$('.check_box').prop("checked",check_val);
+				$('.check_box').prop("disabled",check_val);
+			    $('.check_box_credired').prop("disabled",!check_val);
+				if ($('.check_box_credired:checked').length != $('.check_box:checked').length) {
+					$("#all_completed").prop("checked", false);
+				}
+			}
+			else{
+				$('.check_box').prop("disabled",check_val);
+			}
+         }
+      });
   });
   
   $('#all_members').delegate('input[name="chk_all_completed"]', 'change', function(){
