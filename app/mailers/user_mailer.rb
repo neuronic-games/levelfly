@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default :from => "OnCampus Admin <admin@oncampus.com>"
+  default :from => "Do Not Reply <donotreply@<%= Oncapus::Application.config.action_mailer.default_url_options[:host] %>>"
   
   def registration_confirmation(user,sender,course,school,message_id,link,new_user)
     @user = user
