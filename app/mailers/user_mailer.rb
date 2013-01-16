@@ -1,13 +1,14 @@
 class UserMailer < ActionMailer::Base
   default :from => "OnCampus Admin <admin@oncampus.com>"
   
-  def registration_confirmation(user,sender,course,school,message_id,link)
+  def registration_confirmation(user,sender,course,school,message_id,link,new_user)
     @user = user
     @sender = sender
     @course = course
     @school = school
     @message = message_id
     @link = link
+    @new_user = new_user
     subject     "You have been invited to join #{@course.name} by #{@sender.full_name} at #{@school.code}"
     recipients  user
     sent_on     Time.now

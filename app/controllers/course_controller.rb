@@ -331,21 +331,19 @@ class CourseController < ApplicationController
             already_added = true
         end
       end
-      if new_user==true
-         send_email(params[:email],params[:course_id],@message.id)     
-      end
+      send_email(params[:email],params[:course_id],@message.id,new_user)     
       render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user,"new_user"=>new_user}.to_json
    end
   end
   
-  def send_email(email,course,message_id)
+  def send_email(email,course,message_id,new_user)
      @course = Course.find(course)
      @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
      @school = School.find(@current_user.school_id)
      link = "#{email}&#{message_id}"
      @link = Course.hexdigest_to_string(link)
      #@link = OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('md5'), "123456", link)
-     UserMailer.registration_confirmation(email,@current_user,@course,@school,message_id,@link).deliver
+     UserMailer.registration_confirmation(email,@current_user,@course,@school,message_id,@link,new_user).deliver
   end
     
   def delete_participant
