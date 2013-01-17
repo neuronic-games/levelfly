@@ -121,11 +121,11 @@
               participant_node.id = data.profile.full_name;
               partcipant_html = '<div class="avatar_white_bdr floatL"><img src='+data.profile.image_file_name+'></div>';
               if(data.new_user){
-              partcipant_html += '<div class="people_name" style="width:87%; margin:7px 3px;">' + email_id + '<br />';
+              partcipant_html += '<div class="people_name" style="width:60%; margin:7px 8px;">' + data.user.email + '<br />';
               //partcipant_html += '<div style="font-size:10px; font-weight:normal;">' + email_id + '</div>';
               }
               else{
-              partcipant_html += '<div class="people_name">' + data.profile.full_name + '<br />';
+              partcipant_html += '<div class="people_name" style="margin:7px 8px;">' + data.profile.full_name + '<br />';
              // partcipant_html += '<div style="font-size:10px; font-weight:normal;">' + email_id + '</div>';
               }
               partcipant_html += '<span style="font-size:10px; font-weight:normal;">Pending</span></div>';

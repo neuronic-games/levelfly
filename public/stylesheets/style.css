@@ -1932,7 +1932,7 @@ margin-left:33px;
 	cursor:pointer;
 }
 .tab_content div .coursemsg_bgc2 {color:#000 !important;}
-.tab_content div .msg_big_boxC2 {background:none !important; border-bottom: 1px solid #DBA29C !important;}
+.tab_content div .msg_big_boxC2 {background: url("../images/border_dashed.png") repeat-x scroll center bottom transparent !important;}
 
 /*.course_tab_content div.msg_box_fullwidth2:hover {
   background:#F9EDBE !important;
