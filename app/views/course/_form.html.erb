@@ -1,4 +1,4 @@
-<%if @member and !@member.nil?%>
+<%if (@member and !@member.nil?) or course_new%>
 <div id="sidebar_right">
   <div class="course_side_buttons">
     <%if Role.check_permission(@profile.id,section_type)== true%>
@@ -21,7 +21,7 @@
           <div class="texture_board main_div_height">
             <div class="course_pad_top"> </div>
             <div class="course_pad">
-              <%if (!@member and @member.nil?) and (section_type == 'C' or (section_type == 'G' and @course.visibility_type == 'M')) %>
+              <%if (!@member and @member.nil? and !course_new) and (section_type == 'C' or (section_type == 'G' and @course.visibility_type == 'M')) %>
 				<div id="permission">
 			   	  <%= render :partial => "/course/permission_required",:locals=>{:course_new =>false,:section_type =>params[:section_type]} %>
 			    </div>
