@@ -321,7 +321,7 @@ class TaskController < ApplicationController
       status = true
       image_url = params[:file] ? @task.image.url : ""
       @task_outcomes = @task.outcomes
-      if params[:category_id] and !params[:category_id].blank? and params[:category_id] !="undefined"
+      if params[:category_id] and !params[:category_id].blank? and params[:category_id] !="null" and params[:category_id] !="undefined"
         c = Category.find(:first, :select=>"name", :conditions=>["id = ?",params[:category_id]])
         if c and !c.nil?
           category_name= c.name

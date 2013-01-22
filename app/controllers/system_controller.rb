@@ -43,6 +43,30 @@ class SystemController < ApplicationController
             @course_participant.profile_type = 'S'
             @course_participant.save
           end
+          tasks = Task.find(:all, :conditions => ["course_id = ? and archived = ? and all_members = ?", @message.target_id, false, true])
+          if tasks and !tasks.blank?
+            tasks.each do |t|
+              wall_id = Wall.get_wall_id(t.id,"Task")
+              task_owner = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='O' and complete_date is null", t.id])
+              if task_owner
+                @profile = Profile.find(task_owner.profile_id)
+                @task_participant = TaskParticipant.new
+                @task_participant.profile_id = profile.id
+                @task_participant.profile_type = "M"
+                @task_participant.status = "A"
+                @task_participant.priority = "L"
+                @task_participant.task_id = t.id
+                if @task_participant.save
+                  Feed.create(
+                    :profile_id => profile.id,
+                    :wall_id => wall_id
+                  )
+                participant_content = "#{@profile.full_name} assigned you a new task: #{t.name}"   
+                Message.send_notification(@profile.id,participant_content,profile.id)    
+                end
+              end
+            end
+          end
              # Respond to course messages
          content = "#{profile.full_name} has accepted your invitation to #{course.name}."
          @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,content,@message.parent_type)
