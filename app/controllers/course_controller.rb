@@ -716,10 +716,20 @@ class CourseController < ApplicationController
     if params[:id] and !params[:id].blank?
         id = params[:id]
         @profile = Profile.find(params[:profile_id])
+				@course = Course.find(params[:course_id])
+				
         if id == "all"
-          @files = Course.find(params[:course_id])
+					@files = @course.attachments.order("starred desc,resource_file_name asc")
         else
-          @files = Task.find(params[:id])
+					@task = Task.find(params[:id])
+					# Course owner can see all the files related to the course and their tasks
+					# even if the files are uploaded by other participents
+					if @profile.id == @course.owner.id
+						@files = @task.attachments.order("starred desc,resource_file_name asc")
+					# but other users can see only those files which are uploaded by them via tasks
+					else
+						@files = @task.attachments.where("owner_id = ?", @profile.id).order("starred desc,resource_file_name asc")
+					end
         end
     render :partial => "/course/load_files",:locals=>{:files=> @files}
     end
