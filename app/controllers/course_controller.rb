@@ -758,6 +758,7 @@ class CourseController < ApplicationController
         :include => [:participants], 
         :conditions => ["participants.object_id = ? AND participants.object_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S')", @course.id]
       )
+      @member = Participant.find( :first, :conditions => ["participants.object_id = ? AND participants.profile_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id])
       @member_count = @peoples.length
       @courseMaster = @course.owner
       message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @courseMaster.id]).collect(&:message_id)
@@ -784,6 +785,7 @@ class CourseController < ApplicationController
     @course.code = params[:code].upcase if params[:code]
     @course.school_id =  @profile.school_id
     @course.course_id = params[:parent_id] if params[:parent_id]
+    @course.post_messages = params[:post_messages] if params[:post_messages]
     if params[:file]
       @course.image.destroy if @course.image
       @course.image = params[:file]
