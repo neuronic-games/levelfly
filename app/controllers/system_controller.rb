@@ -67,6 +67,23 @@ class SystemController < ApplicationController
               end
             end
           end
+          forums = Course.find(:all, :conditions => ["course_id = ? and archived = ? and all_members = ?", @message.target_id, false, true])
+          if forums and !forums.blank?
+            forums.each do |forum|
+              wall_id = Wall.get_wall_id(forum.id,"Course")
+              @forum_participant = Participant.new
+              @forum_participant.object_id = forum.id
+              @forum_participant.object_type = "Course"
+              @forum_participant.profile_id = profile.id
+              @forum_participant.profile_type = "S"
+              if @forum_participant.save
+                Feed.create(
+                  :profile_id => profile.id,
+                  :wall_id => wall_id
+                )
+              end
+            end
+          end
              # Respond to course messages
          content = "#{profile.full_name} has accepted your invitation to #{course.name}."
          @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,content,@message.parent_type)

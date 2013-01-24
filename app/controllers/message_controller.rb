@@ -210,6 +210,23 @@ class MessageController < ApplicationController
               end
             end
           end
+          forums = Course.find(:all, :conditions => ["course_id = ? and archived = ? and all_members = ?", @message.target_id, false, true])
+          if forums and !forums.blank?
+            forums.each do |forum|
+              wall_id = Wall.get_wall_id(forum.id,"Course")
+              @forum_participant = Participant.new
+              @forum_participant.object_id = forum.id
+              @forum_participant.object_type = "Course"
+              @forum_participant.profile_id = user_session[:profile_id]
+              @forum_participant.profile_type = "S"
+              if @forum_participant.save
+                Feed.create(
+                  :profile_id => user_session[:profile_id],
+                  :wall_id => wall_id
+                )
+              end
+            end
+          end
           if params[:activity] == "add"
             if @course_participant
               @course_participant.profile_type = 'S'

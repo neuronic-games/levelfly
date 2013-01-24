@@ -541,7 +541,7 @@ class CourseController < ApplicationController
      if params[:value] == "3"
          setting = Setting.find(:first, :conditions=>["object_id = ? and value = 'true' and object_type ='school' and name ='enable_course_forums' ",@course.school_id])
        if setting and !setting.nil?
-        @groups = @course.course_forum
+        @groups = @course.course_forum(@profile.id)
         enable_forum = true
        end
      end
@@ -842,25 +842,29 @@ class CourseController < ApplicationController
            status = true
          end
        else
-         course_participants = Participant.find(:all, :conditions => ["object_id = ? AND object_type='Course' AND profile_type = 'S'", @course.course_id])
-         course_participants.each do |participant|
-           forum_participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", @course.id, participant.profile_id])
-           if forum_participant and params[:check_val] == "false"
-             forum_participant.delete
-           elsif forum_participant.nil? and params[:check_val] == "true" 
-             @participant = Participant.new
-             @participant.object_id = @course.id
-             @participant.object_type = "Course"
-             @participant.profile_id = participant.profile_id
-             @participant.profile_type = "S"
-             if @participant.save
-               Feed.create(
-                 :profile_id => participant.profile_id,
-                 :wall_id =>wall_id
-               )
+         if params[:check_val] == "false"
+           @course.all_members = false
+         else
+           @course.all_members = true
+           course_participants = Participant.find(:all, :conditions => ["object_id = ? AND object_type='Course' AND profile_type = 'S'", @course.course_id])
+           course_participants.each do |participant|
+             forum_participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", @course.id, participant.profile_id])
+             if forum_participant.nil? and params[:check_val] == "true" 
+               @participant = Participant.new
+               @participant.object_id = @course.id
+               @participant.object_type = "Course"
+               @participant.profile_id = participant.profile_id
+               @participant.profile_type = "S"
+               if @participant.save
+                 Feed.create(
+                   :profile_id => participant.profile_id,
+                   :wall_id =>wall_id
+                 )
+               end
              end
            end
          end
+         @course.save
          status = true
        end  
      end

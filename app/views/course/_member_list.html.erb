@@ -53,15 +53,6 @@
              {
                showSpinner(false);
                 changed=true;
-				if (!check_val){
-					$("#include_all").prop("checked", check_val);
-				}
-				else
-				{
-					if ($('.forum_people').length == $('.forum_people:checked').length){
-					  $("#include_all").prop("checked", check_val);
-					}
-				}
              } 
 			 
            }
@@ -82,7 +73,8 @@
          success:function(data){
            showSpinner(false);
             changed=true;
-			$('.forum_people').prop("checked",check_val);
+			$('.forum_people').prop("checked",true);
+			$('.forum_people').prop("disabled",check_val);
          }
       });
   });
