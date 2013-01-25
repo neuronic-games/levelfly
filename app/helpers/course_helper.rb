@@ -12,7 +12,7 @@ module CourseHelper
   end
   
   def all_task(course_id)
-    task =  Task.find(:all, :conditions=>["course_id = ?", course_id])
+    task =  Task.find(:all, :conditions=>["course_id = ? AND archived = ?", course_id, false])
     return task
   end
   
