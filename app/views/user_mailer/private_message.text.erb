@@ -1,0 +1,7 @@
+<p><%=@sender.full_name%> has sent you a private message.</p>
+"<%= @message%>"
+
+<a><%= Oncapus::Application.config.action_mailer.default_url_options[:host] %></a>
+
+Prof. <%=@sender.full_name%>
+<%=@school.name%>

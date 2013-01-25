@@ -18,7 +18,7 @@ class MessageController < ApplicationController
     elsif params[:friend_id]
       @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND profile_id = ? AND message_type ='Message' AND parent_type='Profile' and id in (?)", false, params[:friend_id], message_ids])  
     else 
-      @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type in('C','','G','F','Profile')",false,message_ids], :order => 'starred DESC,created_at DESC')
+      @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type in('C','','G','F')",false,message_ids], :order => 'starred DESC,created_at DESC')
       
       @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite', 'group_request','group_invite') AND parent_id = ? AND (archived is NULL or archived = ?) and id in(?)", @profile.id, false, message_ids],:order => 'created_at DESC')
       
@@ -97,6 +97,12 @@ class MessageController < ApplicationController
           when "Profile"
             if params[:message_type] && !params[:message_type].nil?
               message = (params[:message_type]=="Friend") ? "Friend request sent" : "Message sent"
+              if message == "Message sent"
+                email = Profile.find(params[:parent_id]).user.email if params[:parent_id]
+                @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+                @school = School.find(@current_user.school_id)
+                UserMailer.private_message(email,@current_user,@school,@message.content).deliver
+              end
               render :text => {"status"=>"save", "message"=>message}.to_json
             else
             @feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",user_session[:profile_id],wall_id])
@@ -359,7 +365,16 @@ class MessageController < ApplicationController
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
      message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", user_session[:profile_id]]).collect(&:message_id)
      
-    @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND ((profile_id= ? and  parent_id = ?) or (profile_id = ? and parent_id = ?)) AND message_type ='Message' AND parent_type!='Message' and target_type not in('Notification','Course','Group') and id in(?)",false,params[:friend_id],user_session[:profile_id],user_session[:profile_id],params[:friend_id],message_ids], :order => 'created_at DESC')  
+    @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND ((profile_id= ? and  parent_id = ?) or (profile_id = ? and parent_id = ?)) AND message_type ='Message' AND parent_type!='Message' and target_type not in('Notification','Course','Group') and id in(?)",false,params[:friend_id],user_session[:profile_id],user_session[:profile_id],params[:friend_id],message_ids], :order => 'created_at DESC')
+    if @messages and !@messages.blank?
+      @messages.each do |message|
+        message_viewer =MessageViewer.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?",false,message.id,params[:friend_id],user_session[:profile_id]], :order => "created_at DESC")
+        if message_viewer
+          message_viewer.viewed = true
+          message_viewer.save
+        end
+      end
+    end
     render :partial => "list",:locals => {:friend_id =>params[:friend_id]}
   end 
   

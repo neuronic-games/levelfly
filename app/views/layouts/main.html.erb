@@ -121,8 +121,9 @@
           <div class="jTscrollerContainer">
             <div class="jTscroller">
               <div class="space_btwn_icon"></div>
-              <div class="icon_box"><span class="msg_count" style="display:none;">1</span><a href="javascript:void(0);" id="msg" rel="/message/" rev = "/message/" class="icon_msg menu_btn">messages</a> </div>
-              <div class="space_btwn_icon"></div>
+			  <%viewed = notification_badge(@profile)%>
+              <div class="icon_box"><span class="msg_count" style="display:none;">1</span><a href="javascript:void(0);" id="msg" rel="/message/" rev = "/message/" <%= viewed ? "class='icon_msg menu_btn'" : "class='notification_badge menu_btn'" %> <%= viewed ? "value='true'" : "value='false'" %> >messages</a> </div>
+			  <div class="space_btwn_icon"></div>
               <!--icon-->
               <div class="icon_box"><a href="javascript:void(0);" id="courses" rel="/course/" rev = "/course/" class="icon_courses menu_btn" data="C">courses</a> </div>
               <div class="space_btwn_icon"></div>
@@ -543,7 +544,12 @@ $('#container').delegate('.add_topic', 'click', function(){
 
   function setTab(){
     if(document.getElementById("msg")!=null){
-      document.getElementById("msg").className = "icon_msg menu_btn";
+		if ($("#msg").attr("value") == "true"){
+            document.getElementById("msg").className = "icon_msg menu_btn";
+		}
+		else{
+			document.getElementById("msg").className = "notification_badge menu_btn";
+		}
     }
     if(document.getElementById("courses")!=null){
       document.getElementById("courses").className = "icon_courses menu_btn";
@@ -579,7 +585,12 @@ $('#container').delegate('.add_topic', 'click', function(){
     if(selectted_menu=="courses"){
       $("#courses").addClass("icon_courses_active ");
     } else if(selectted_menu=="msg"){
-      $("#msg").addClass("icon_msg_active");
+		if ($("#msg").attr("value") == "true") {
+			$("#msg").addClass("icon_msg_active");
+		}
+		else{
+			$("#msg").addClass("notification_badge_active");
+		}
     } 
     else if(selectted_menu=="tasks"){
       $("#tasks").addClass("icon_tasks_active");
