@@ -68,6 +68,17 @@ module MessageHelper
     return nil
   end
   
+  def messages_viewed(profile_id,current_user)
+    message = Message.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and target_type = 'Profile' and parent_type = 'Profile' and profile_id = ? and parent_id = ?",false,profile_id,current_user],:order => "created_at DESC")
+    if message
+      message_viewer =MessageViewer.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?",false,message.id,profile_id,current_user], :order => "created_at DESC")
+      if message_viewer
+        return message_viewer.viewed
+      end
+    end
+    return nil
+  end
+  
   def message_content(text) 
     r = Regexp.new(/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/)
      link = text.scan(/(https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w\/_\.]*(\?\S+)?)?)?)/)

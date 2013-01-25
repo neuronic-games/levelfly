@@ -14,6 +14,19 @@ a.icon_msg_active {
   color:#6a7c28 !important;
   padding:61px 0 0;
 }
+a.notification_badge {
+  background:url("../images/alert.png") no-repeat 47px 2px, url(../images/messages_icon.png) no-repeat 20px 8px;
+  padding:61px 0 0;
+}
+a.notification_badge:hover {
+  background:url("../images/alert.png") no-repeat 47px 2px, url(../images/messages_icon_hover.png) no-repeat 20px 8px;
+  padding:61px 0 0;
+}
+a.notification_badge_active {
+  background:url("../images/alert.png") no-repeat 47px 2px, url(../images/messages_icon_hover.png) no-repeat 20px 8px;
+  color:#6a7c28 !important;
+  padding:61px 0 0;
+}
 .msg_count {
   display:block;
   position:absolute;
