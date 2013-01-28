@@ -12,7 +12,6 @@
             <h4 class="name"><%=a.resource_file_name%></h4>
             <p>
               Uploaded by <%=h a.owner.full_name%><br />
-             
             </p>
           </div>
           <div class="titleTextRight"> <%= show_kilo_byte(a.resource_file_size) %>KB</div>
@@ -23,7 +22,7 @@
                 <a href="javascript:void(0)" class="file_pri_toggle file_pri_toggle_btn blue_bt19px" rel="<%=a.id%>"><%if a.starred == true %>Un-Star<%else%>Star<%end%></a>
                 <a href="javascript:void(0)" class="files_download blue_bt19px" rev="download" rel="<%= a.resource.url %>">Download</a> 
                 <a href="javascript:void(0)" class="blue_bt19px files_download" rev="share" rel="<%= a.resource.url %>">Share</a> 
-                <% if ( a.owner_id == @profile.id or a.object_type != "Course" ) %>
+                <% if ( a.owner_id == @profile.id or ( @course and @course.owner.id == user_session[:profile_id]) ) %>
                   <a href="javascript:void(0)" class="files_del blue_bt19px" rel="<%= a.id %>">Remove</a>
                 <% end %>
               </div>

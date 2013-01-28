@@ -707,6 +707,7 @@ class CourseController < ApplicationController
       @course = Course.find(params[:id])
       if @course
         @course.update_attribute('archived',true)
+        @course.update_attribute('removed',true) if @course.parent_type == 'F'
         render :json => {:status => "Success"}
       end
     end
