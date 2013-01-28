@@ -49,7 +49,7 @@
     <div id="show_file" class="btn_drop_file" style="<%if @task %> color:#000;<%end%>">DROP FILE HERE</div>
     <div id="load_files">
      <% if @task %>
-      <% @task.attachments.order("starred desc").each do |a| %>
+      <% @task.attachments.where("owner_id = ?", @profile.id).order("starred desc").each do |a| %>
         <%= render :partial => "/course/file_list", :locals => {:a=>a} %>               
       <% end %>
     <%else%>
