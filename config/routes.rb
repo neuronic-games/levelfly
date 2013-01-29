@@ -268,6 +268,8 @@ Oncapus::Application.routes.draw do
   
   post "message/unlike"
   
+  post "message/alert_badge"
+  
   post "message/add_friend_card"
   
   post "message/respond_to_friend_request"

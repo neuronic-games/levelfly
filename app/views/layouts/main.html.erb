@@ -482,7 +482,7 @@ $('#container').delegate('.add_topic', 'click', function(){
      var id = $(this).attr("id");
     $(main_menu_id).each(function(index, item){
        if(id==item){
-         setTab();
+         setTab(item);
        }
     });
     var target = $(this).attr("rel");
@@ -542,14 +542,38 @@ $('#container').delegate('.add_topic', 'click', function(){
     }
   }
 
-  function setTab(){
+  function setTab(item){
     if(document.getElementById("msg")!=null){
-		if ($("#msg").attr("value") == "true"){
-            document.getElementById("msg").className = "icon_msg menu_btn";
-		}
-		else{
-			document.getElementById("msg").className = "notification_badge menu_btn";
-		}
+		profile_id = $("#hdn_profile_id").val();
+		$.ajax({  
+          type: "POST",  
+          url: "/message/alert_badge",
+          dataType: "json",
+          data:{id:profile_id},
+          success: function(data) {
+		  	if (data.alert_badge == false){
+				if (item == "msg") {
+				    document.getElementById("msg").className = "notification_badge_active menu_btn";
+				}
+				else {
+					document.getElementById("msg").className = "notification_badge menu_btn";
+				}
+			}
+			else{
+				if (item == "msg") {
+					document.getElementById("msg").className = "icon_msg_active menu_btn";
+				}
+				else {
+					document.getElementById("msg").className = "icon_msg menu_btn";
+				}
+			}
+				
+		  },
+		  error: function()
+          {
+            alert("An Error has occured");
+          },
+		});
     }
     if(document.getElementById("courses")!=null){
       document.getElementById("courses").className = "icon_courses menu_btn";
@@ -585,12 +609,7 @@ $('#container').delegate('.add_topic', 'click', function(){
     if(selectted_menu=="courses"){
       $("#courses").addClass("icon_courses_active ");
     } else if(selectted_menu=="msg"){
-		if ($("#msg").attr("value") == "true") {
-			$("#msg").addClass("icon_msg_active");
-		}
-		else{
-			$("#msg").addClass("notification_badge_active");
-		}
+	    $("#msg").addClass("icon_msg_active");
     } 
     else if(selectted_menu=="tasks"){
       $("#tasks").addClass("icon_tasks_active");

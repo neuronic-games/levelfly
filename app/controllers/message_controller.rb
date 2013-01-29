@@ -53,6 +53,14 @@ class MessageController < ApplicationController
     render :partial => "list",:locals => {:friend_id => @friend_id} 
   end
   
+  def alert_badge
+    if params[:id] and !params[:id].nil?
+      profile = Profile.find(params[:id])
+      viewed = notification_badge(profile)
+    end
+    render :json => {:alert_badge => viewed}
+  end
+  
   def check_request
     @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite') AND parent_id = ? AND (archived is NULL or archived = ?) AND created_at > ?", user_session[:profile_id], false,user_session[:last_check_time]])
     render:partial=>"message/friend_request_show",:locals=>{:friend_request => @friend_requests}

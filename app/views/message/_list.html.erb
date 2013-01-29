@@ -75,6 +75,25 @@
   <input type="hidden" name="all_notifications" id="all_notifications" value="<%=message_ids%>">
 <script type="text/javascript">
 $(document).ready(function() {
+	profile_id = $("#hdn_profile_id").val();
+	$.ajax({ 
+	  type: "POST",  
+      url: "/message/alert_badge",
+      dataType: "json",
+      data:{id:profile_id},
+      success: function(data) {
+		if (data.alert_badge == false){
+			document.getElementById("msg").className = "notification_badge_active menu_btn";
+		}
+		else{
+			document.getElementById("msg").className = "icon_msg_active menu_btn";
+		}
+   	  },
+	  error: function()
+      {
+        alert("An Error has occured");
+      },
+	});
     $.ajaxSetup({ cache: false }); 
     setInterval(function() {
       $.ajax({
