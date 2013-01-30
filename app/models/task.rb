@@ -40,6 +40,8 @@ class Task < ActiveRecord::Base
 
   @@status_pending = 'P'
   cattr_accessor :status_pending
+	
+	@owner = nil
 
   def init_defaults
     #self.level = 0
@@ -209,5 +211,16 @@ class Task < ActiveRecord::Base
       end
     end
     return status
+  end
+	
+	def task_owner
+    if @owner == nil
+      @owner = Profile.find(
+				:first, 
+				:include => [:task_participants], 
+				:conditions => ["task_participants.task_id = ? AND task_participants.profile_type = ?", self.id, Task.profile_type_owner]
+      )
+    end
+    return @owner
   end
 end
