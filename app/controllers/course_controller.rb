@@ -504,7 +504,7 @@ class CourseController < ApplicationController
   
   def show_course
     @course = Course.find(params[:id])
-    
+    @files = @course.attachments.order("starred desc,resource_file_name asc")
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if !@profile.nil?
     @badges = AvatarBadge.where("profile_id = ? and course_id = ?",@profile.id,@course.id).count
@@ -723,13 +723,14 @@ class CourseController < ApplicationController
 					@files = @course.attachments.order("starred desc,resource_file_name asc")
         else
 					@task = Task.find(params[:id])
+					@task_owner = @task.task_owner
 					# Course owner can see all the files related to the course and their tasks
 					# even if the files are uploaded by other participents
-					if @profile.id == @course.owner.id
+					if @profile.id == @task_owner.id
 						@files = @task.attachments.order("starred desc,resource_file_name asc")
 					# but other users can see only those files which are uploaded by them via tasks
 					else
-						@files = @task.attachments.where("owner_id = ?", @profile.id).order("starred desc,resource_file_name asc")
+						@files = @task.attachments.where("owner_id IN (?)", [@profile.id, @task_owner.id]).order("starred desc,resource_file_name asc")
 					end
         end
     render :partial => "/course/load_files",:locals=>{:files=> @files}

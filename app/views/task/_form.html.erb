@@ -39,7 +39,7 @@ function addNode(element) {
           
           <!--tab content-->
           <div class="tab_content" id="div_1">
-           <%if @task_owner and !@task_owner.nil?%> 
+           <%if @is_task_owner %> 
              <div class="clickable menu_container"  style="position:absolute; right:250px;top:175px;">
               <a href="javascript:void(0)" class="setup_page_link" id="menu3" value="3">
                 <img src="/images/setting_icon_gray.png">
@@ -148,7 +148,7 @@ function addNode(element) {
                   <% end %>
 				
 		      <br /><br />
-		      <%if @task_owner and !@task_owner.nil?%>
+		      <%if @is_task_owner %>
 				<div class="field_box2"><span class="font_12px">Members</span>
                 <% if @task_members and !@task_members.blank? %>
 				  <div class="tbc" id="view_page"><h3><input type="checkbox" <%= @task && member_points(nil, @task.id) ? "checked='checked'" : "" %> name="chk_all_completed" id="all_completed" class="check_box_all"  value="All Completed"/> All Completed</h3></div>
@@ -379,7 +379,7 @@ function addNode(element) {
                           <%if @task.extra_credit==true%>
                             <div id="" class="tbc hide">
                              EXTRA CREDIT
-                             <div class="margin_top"><input type="checkbox" <%= @task && task_extra_credit(p.profile_id, @task.id) ? "checked='checked'" : "" %>  <%if @task_owner && !@task_owner.nil?%><%else%>disabled="disabled"<%end%>name="task_extra_credited" class ="check_box_credired1" rel ="<%=p.profile.id%>"/></div>
+                             <div class="margin_top"><input type="checkbox" <%= @task && task_extra_credit(p.profile_id, @task.id) ? "checked='checked'" : "" %>  <%if @is_task_owner %><%else%>disabled="disabled"<%end%>name="task_extra_credited" class ="check_box_credired1" rel ="<%=p.profile.id%>"/></div>
                             </div>
                           <%end%>
                           <div id="completed_div_<%=p.profile.id%>" class="tbc hide">

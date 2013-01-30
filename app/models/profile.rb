@@ -4,6 +4,7 @@ class Profile < ActiveRecord::Base
   belongs_to :school
   belongs_to :user
   has_many :participants
+	has_many :task_participants
   has_many :profile_actions
   acts_as_taggable
 
