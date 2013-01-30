@@ -146,8 +146,22 @@ class TaskController < ApplicationController
   def show
     @task = Task.find_by_id(params[:id])
     @course = @task.course
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    @task_owner =  TaskParticipant.find(:first, :conditions=>["profile_id = ? and task_id = ? and profile_type = ?",@profile.id, @task.id, Task.profile_type_owner])
+		@profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+		## Below query seems wrong as it is taking profile_id as a check but if we take current users profile_id then it
+		## will always return current users record only (if the current user is a task owner) It may be written to check if the
+		## current user is the task owner or not. I am (Vaibhav) now commenting this and will impose a new boolean  check to see
+		## if the current user is task owner or not
+		#@task_owner =  TaskParticipant.find(:first, :conditions=>["profile_id = ? and task_id = ? and profile_type = ?",@profile.id, @task.id, Task.profile_type_owner])
+		@is_task_owner = false
+		@task_owner = @task.task_owner
+		if @task_owner.id == @profile.id
+			@is_task_owner = true
+			@files = @task.attachments.order("starred desc")
+		else
+			@files = @task.attachments.where("owner_id IN (?)", [@profile.id, @task_owner.id]).order("starred desc")
+		end
+		
+		
     @outcomes = @course.outcomes if @course
     @courses = Course.find(
       :all, 

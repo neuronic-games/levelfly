@@ -46,20 +46,10 @@
    <div class="titleTextKind">Size</div>
    <div class="titleTextUpdated">Updated</div><br/><br/>
    <div id="all_files">
-    <div id="show_file" class="btn_drop_file" style="<%if @task %> color:#000;<%end%>">DROP FILE HERE</div>
-    <div id="load_files">
-     <% if @task %>
-      <% @task.attachments.where("owner_id = ?", @profile.id).order("starred desc").each do |a| %>
-        <%= render :partial => "/course/file_list", :locals => {:a=>a} %>               
-      <% end %>
-    <%else%>
-      <% if @course %>
-        <% @course.attachments.order("starred desc,resource_file_name asc").each do |a| %>
-          <%= render :partial => "/course/file_list", :locals => {:a=>a} %>               
-        <% end %>
-      <% end %>
-    <% end %>
-   </div>
+		<div id="show_file" class="btn_drop_file" style="<%if @task %> color:#000;<%end%>">DROP FILE HERE</div>
+		<div id="load_files">
+			<%= render :partial => "/course/load_files", :locals => {:files=>@files} %>
+		</div>
   </div>
   <div id="file_download" class="hide"><%=render :partial => "/course/download_dialog" %></div> 
   <input type="hidden" name="current_course" id="current_course" value="<%=@course.id if @course%>">
