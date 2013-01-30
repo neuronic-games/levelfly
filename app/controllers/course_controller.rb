@@ -637,7 +637,10 @@ class CourseController < ApplicationController
       @badge = []
       @course = Course.find(params[:id])
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-      @likes = Like.where("course_id = ?",@course.id).count
+      course_ids = Course.find(:all,:conditions => ["course_id = ?",@course.id]).collect(&:id).push(@course.id)
+      message_ids = Like.find(:all,:select => "message_id",:conditions => ["course_id in (?)",course_ids]).collect(&:message_id)
+      message_ids = message_ids.uniq
+      @likes = Message.find(:all,:select => "messages.like",:conditions => ["id IN (?) and profile_id = ? and archived = ?",message_ids,@profile.id,false]).collect(&:like).sum
       @course_grade, oc = CourseGrade.load_grade(@profile.id, @course.id,@profile.school_id)
       if !@course_grade.nil?
         @course_grade.each do |key , val|
