@@ -122,7 +122,7 @@
             <div class="jTscroller">
               <div class="space_btwn_icon"></div>
 			  <%viewed = notification_badge(@profile)%>
-              <div class="icon_box"><span class="msg_count" style="display:none;">1</span><a href="javascript:void(0);" id="msg" rel="/message/" rev = "/message/" <%= viewed ? "class='icon_msg menu_btn'" : "class='notification_badge menu_btn'" %> <%= viewed ? "value='true'" : "value='false'" %> >messages</a> </div>
+              <div class="icon_box"><span class="msg_count" style="display:none;">1</span><a href="javascript:void(0);" id="msg" rel="/message/" rev = "/message/" class = "<%= viewed ? "icon_msg menu_btn" : "notification_badge menu_btn" %>" value = "<%= viewed ? "true" : "false" %>" >messages</a> </div>
 			  <div class="space_btwn_icon"></div>
               <!--icon-->
               <div class="icon_box"><a href="javascript:void(0);" id="courses" rel="/course/" rev = "/course/" class="icon_courses menu_btn" data="C">courses</a> </div>
