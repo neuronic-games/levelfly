@@ -164,8 +164,8 @@ class Course < ActiveRecord::Base
         task_ids.push(t.id)
         percent_values.push(category.percent_value)
       else
-        task_ids.push(t.id)
-        percent_values.push(0)
+        task_ids.insert(0,t.id)
+        percent_values.insert(0,0)
       end
     end
     for i in (0..percent_values.length-1)

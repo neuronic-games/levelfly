@@ -5,7 +5,7 @@ module GradeBookHelper
     if task.category_id != 0 and !task.category_id.nil?
       return "  (#{task.category.name}) "
     end
-   return nil 
+   return "  (Uncategorized)"
   end
   
 end
