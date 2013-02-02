@@ -3229,20 +3229,46 @@ filter:alpha(opacity="0");
 	height:100%;
 	padding-right:120px;/*margin: -62px 0 0;*/
 }
-.leader_board_left {
+/*-------- old css --------*/
+/*.leader_board_left {
 	background:url(../images/leaderbg_left.png) 0 0px no-repeat;
 	padding-left:83px;
 	height:100%;
+}*/
+
+.leader_board_left {
+	background:url(../images/leaderbg_left.png) left 0 repeat-y;
+	padding-left:83px;
+	height:100%;
 }
+
+/*-------- old css --------*/
+/*
 .leader_board_right {
 	background:url(../images/leaderbg_right.png) right 0px no-repeat;
 	padding-right:83px;
 	height:100%;
+}*/
+
+.leader_board_right {
+	background:url(../images/leaderbg_right.png) right 0 repeat-y;
+	padding-right:83px;
+	height:100%;
 }
-.leader_board_center {
+
+/*-------- old css --------*/
+/*.leader_board_center {
 	background:url(../images/leaderbg_middle.png) 0 0px repeat-x;
+	height:732px;
+  height:100%;
+}*/
+
+
+.leader_board_center {
+	background:url(../images/leaderbg_middle.png) 0 125px repeat-x;
 	/*height:732px;*/
   height:100%;
+  background:#ffffff;
 }
 .leader_pad_top {
 	width:100%;
@@ -3412,10 +3438,18 @@ filter:alpha(opacity="0");
 .LBT_name .course_txt {
 	font-size:11px;
 }
+/* old css
 .steel_pin {
 	text-align:center;
 	height:50px;
 	margin:-20px 0 0 0
+}
+*/
+.steel_pin {
+	text-align:center;
+	height:50px;
+	margin:-17px 0 0 0;
+	position:relative;
 }
 .leader_topselect {
 	height:30px;
@@ -4203,3 +4237,11 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
     z-index: 2;
 }
 
+/* ----------------------------------- add style for leader board border repeat ----------------------------*/
+.leftimg{ background:url(../images/top-left-repeat.png) no-repeat; width:83px; height:43px;}
+.rightimg{ background:url(../images/top-right-repeat.png) no-repeat; width:83px; height:43px;}
+.centerimg{ background:url(../images/repeat-center.png) repeat-x; height:43px; float:left; width:100%;}
+.container_tipshelp { display: table; }
+.container_tipshelp .tops_row { display: table-row;  }
+.container_tipshelp .tops_row .panel { display: table-cell;color:#fff;vertical-align:top;}
+.pr120{ padding-right:120px !important;}
