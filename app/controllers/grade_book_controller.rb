@@ -131,10 +131,10 @@ class GradeBookController < ApplicationController
         end
       @task_outcomes = []
         if not @tasks.nil?
-          @tasks.each do |t|           
+          @tasks.each do |t|      
             t["task_outcomes"] = t.outcomes
              task = Task.find(t.id)
-              if task.category_id != 0 and !task.category_id.nil?
+              if task.category
                t["task_category"] = "(#{task.category.name})"
               else
                t["task_category"] = "(Uncategorized)" 
@@ -492,6 +492,7 @@ class GradeBookController < ApplicationController
     average = 0
     category_count = []
     category_percent_value = []
+    category_used = 0
     tasks = Task.find(:all,:conditions => ["course_id = ? and archived = false",course_id])
     categories = Category.find(:all,:conditions => ["course_id = ?",course_id]).collect(&:percent_value)
     categories.each_with_index do |category,i|
@@ -500,10 +501,11 @@ class GradeBookController < ApplicationController
     tasks.each do |task|
       if task.category
         category_count[categories.find_index(task.category.percent_value)] += 1
+        category_used += task.category.percent_value if category_count[categories.find_index(task.category.percent_value)] == 1
       end
     end
     category_count.each_with_index do |count,j|
-      category_percent_value[j] = categories[j]/count.to_f
+      category_percent_value[j] = categories[j]/count.to_f unless count == 0
     end
     previous_task_grade = TaskGrade.where("school_id = ? and course_id = ? and task_id =? and profile_id = ? ",school_id,course_id,task_id,profile_id).first
     if !previous_task_grade.nil?
@@ -515,7 +517,7 @@ class GradeBookController < ApplicationController
       if task.category
         tg = TaskGrade.find(:first,:conditions => ["school_id = ? and course_id = ? and task_id =? and profile_id = ?",school_id,course_id,task.id,profile_id])
         if tg
-          average += tg.grade*category_percent_value[categories.find_index(task.category.percent_value)]/100
+          average += tg.grade*category_percent_value[categories.find_index(task.category.percent_value)]/category_used unless category_used == 0
         end
       end
     end
