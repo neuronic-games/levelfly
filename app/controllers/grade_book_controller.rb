@@ -89,8 +89,9 @@ class GradeBookController < ApplicationController
               p["grade"] = ""
             else   
               participant_grade.each do |key, val|
-                grade = val.to_s + " " + GradeType.value_to_letter(val, @profile.school_id)
-                p["grade"] = grade
+                grade = val.to_s + " " + GradeType.value_to_letter(val, @profile.school_id) if val
+                p["grade"] = grade if val
+                p["grade"] = "" unless val
               end  
             end
             if !@outcomes.nil?
@@ -184,7 +185,8 @@ class GradeBookController < ApplicationController
         num = GradeType.is_num(task_grade)
         previous_grade=""
         if num == false     
-          task_grade = GradeType.letter_to_value(task_grade, school_id).to_i
+          task_grade = GradeType.letter_to_value(task_grade, school_id)
+          task_grade = task_grade.to_i unless task_grade.nil?
         end
       end
     
@@ -194,7 +196,7 @@ class GradeBookController < ApplicationController
         sub_arrays = characters.in_groups(p, false)
         profile_id.each_with_index do |p,j|
           average = grade_average(school_id,course_id,p,task_id,task_grade)
-          @grade = average.round(2).to_s + " " + GradeType.value_to_letter(average, school_id)
+          @grade = average.round(2).to_s + " " + GradeType.value_to_letter(average, school_id) if average
           arr_grade.push(@grade)
           if undo == "true" and !previous_values.blank?
             @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, profile_id[j],arr_task_grade[j],average)
@@ -490,6 +492,7 @@ class GradeBookController < ApplicationController
 
   def grade_average(school_id,course_id,profile_id,task_id,task_grade)
     average = 0
+    flag = false
     category_count = []
     category_percent_value = []
     category_used = 0
@@ -497,15 +500,6 @@ class GradeBookController < ApplicationController
     categories = Category.find(:all,:conditions => ["course_id = ?",course_id]).collect(&:percent_value)
     categories.each_with_index do |category,i|
       category_count[i] = 0
-    end
-    tasks.each do |task|
-      if task.category
-        category_count[categories.find_index(task.category.percent_value)] += 1
-        category_used += task.category.percent_value if category_count[categories.find_index(task.category.percent_value)] == 1
-      end
-    end
-    category_count.each_with_index do |count,j|
-      category_percent_value[j] = categories[j]/count.to_f unless count == 0
     end
     previous_task_grade = TaskGrade.where("school_id = ? and course_id = ? and task_id =? and profile_id = ? ",school_id,course_id,task_id,profile_id).first
     if !previous_task_grade.nil?
@@ -516,12 +510,27 @@ class GradeBookController < ApplicationController
     tasks.each do |task|
       if task.category
         tg = TaskGrade.find(:first,:conditions => ["school_id = ? and course_id = ? and task_id =? and profile_id = ?",school_id,course_id,task.id,profile_id])
-        if tg
-          average += tg.grade*category_percent_value[categories.find_index(task.category.percent_value)]/category_used unless category_used == 0
+        if tg and tg.grade
+          category_count[categories.find_index(task.category.percent_value)] += 1
+          category_used += task.category.percent_value if category_count[categories.find_index(task.category.percent_value)] == 1
         end
       end
     end
-    return average
+    category_count.each_with_index do |count,j|
+      category_percent_value[j] = categories[j]/count.to_f unless count == 0
+      category_percent_value[j] = 0 if count == 0
+    end
+    tasks.each do |task|
+      if task.category
+        tg = TaskGrade.find(:first,:conditions => ["school_id = ? and course_id = ? and task_id =? and profile_id = ?",school_id,course_id,task.id,profile_id])
+        if tg and tg.grade
+          average += tg.grade*category_percent_value[categories.find_index(task.category.percent_value)]/category_used unless category_used == 0
+          flag = true
+        end
+      end
+    end
+    return average if flag
+    return nil
   end
 
 end
