@@ -645,7 +645,7 @@ class CourseController < ApplicationController
       if !@course_grade.nil?
         @course_grade.each do |key , val|
           @grade.push(val)
-          letter = GradeType.value_to_letter(val, @profile.school_id)
+          letter = GradeType.value_to_letter(val, @profile.school_id) if val
           @grade.push(letter)
         end
       end
