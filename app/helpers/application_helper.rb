@@ -51,5 +51,9 @@ module ApplicationHelper
     end
     return true
   end
+	
+	def formatted_html_content(content)
+		return auto_link(content.gsub(/\n/, '<br/>').html_safe)
+	end
   
 end

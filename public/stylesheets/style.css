@@ -1532,7 +1532,7 @@ background-color:#FFFFFF;
 }
 .profile_row > .dif{ margin-left: 66px;}
 .profile_top_btn{float: right; margin-top: -67px;}
-.profile_row input, .profile_row textarea {
+.profile_row input, .profile_row textarea, .profile_row .readonly_text {
   color: #ffffff;
   background-color: #214C69;
   border-style: none; 
@@ -1541,7 +1541,6 @@ background-color:#FFFFFF;
   overflow:auto;
   border:none;
 }
-
 .profile_row input[readonly], textarea[readonly] {
   background-color: transparent;
 }
@@ -3152,7 +3151,9 @@ filter:alpha(opacity="0");
   /*width: 112px;*/
 }
 .group_descr {
+	background: #898888;
   width: 168px;
+	padding: 5px;
   color:#FFFFFF !important;
 }
 .privacy_setting {

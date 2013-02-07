@@ -73,10 +73,10 @@ module TaskHelper
     if !descr.nil?
       if descr.length>70
         str = descr.slice(0,70)+"..."
-        return str
+        return auto_link(str)
       end
     end
-    return descr
+    return auto_link(descr)
   end
   
   def long_title(title)
