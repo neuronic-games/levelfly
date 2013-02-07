@@ -9,7 +9,7 @@ class TaskController < ApplicationController
         :all, 
         :select => "distinct *",
         :include => [:participants], 
-        :conditions => ["participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?", @profile.id, Course.parent_type_course, Course.profile_type_pending, false],
+        :conditions => ["participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ? AND courses.removed = ?", @profile.id, Course.parent_type_course, Course.profile_type_pending, false, false],
         :order => 'name'
       )
     
@@ -166,7 +166,7 @@ class TaskController < ApplicationController
     @courses = Course.find(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and courses.archived = ?", @profile.id, 'M',Course.parent_type_course,false]
+      :conditions => ["participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and courses.archived = ? AND courses.removed = ?", @profile.id, 'M',Course.parent_type_course,false, false]
     )    
     
     @groups = Group.find(:all, :conditions =>["task_id = ?", @task.id])
