@@ -121,10 +121,10 @@ class Course < ActiveRecord::Base
             :select => "distinct *",
             :include => [:participants], 
             :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?", false, profile.id, Course.parent_type_group, Course.profile_type_pending, false],
-            :order => 'name'
+            :order => 'courses.name'
           )
     else
-     @courses = Course.find(:all, :conditions=>["removed = ? AND parent_type = ? AND school_id = ?",false, Course.parent_type_group,profile.school_id], :order => 'name')
+     @courses = Course.find(:all, :conditions=>["removed = ? AND parent_type = ? AND school_id = ?",false, Course.parent_type_group,profile.school_id], :order => 'courses.name')
     end    
     return @courses      
   end
