@@ -15,10 +15,10 @@ class CourseController < ApplicationController
         @courses = Course.find(
           :all,
           :include => [:participants], 
-          :conditions => ["(upper(courses.name) LIKE ? OR upper(courses.code) LIKE ?) and parent_type = ?",search_text.upcase,  search_text.upcase, Course.parent_type_course])
+          :conditions => ["(upper(courses.name) LIKE ? OR upper(courses.code) LIKE ?) and parent_type = ? ORDER BY courses.name",search_text.upcase,  search_text.upcase, Course.parent_type_course])
       
       elsif params[:section_type]=="G"
-        @courses = Course.find(:all, :conditions=>["(upper(courses.name) LIKE ? OR upper(courses.code) LIKE ?) and parent_type = ? and school_id = ?",search_text.upcase,search_text.upcase, Course.parent_type_group,@profile.school_id])
+        @courses = Course.find(:all, :conditions=>["(upper(courses.name) LIKE ? OR upper(courses.code) LIKE ?) and parent_type = ? and school_id = ? ORDER BY courses.name",search_text.upcase,search_text.upcase, Course.parent_type_group,@profile.school_id])
       end
      
     else
