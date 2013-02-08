@@ -139,8 +139,8 @@ class Course < ActiveRecord::Base
             :all, 
             :select => "distinct *",
             :include => [:participants], 
-            :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ? ORDER BY courses.name",false, profile_id, Course.parent_type_course, Course.join_type_invite, Course.profile_type_pending, archived],
-            :order => 'name'
+            :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?",false, profile_id, Course.parent_type_course, Course.join_type_invite, Course.profile_type_pending, archived],
+            :order => 'courses.name'
             )
     return @courses      
   end
