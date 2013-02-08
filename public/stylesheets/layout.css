@@ -342,7 +342,7 @@ html{
 	float:right;
 	width:40%;
 	min-height:400px;
-	padding:100px 5% 0 5%;
+	padding:0px 5% 0 5%;
 }
 
 .left_content_box {
@@ -371,6 +371,16 @@ html{
 
 .Divider_15{
 	height:15px;
+	width:100%;
+}
+
+.Divider_70{
+	height:70px;
+	width:100%;
+}
+
+.Divider_90{
+	height:90px;
 	width:100%;
 }
 

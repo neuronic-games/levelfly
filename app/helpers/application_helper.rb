@@ -56,4 +56,8 @@ module ApplicationHelper
 		return auto_link(content.gsub(/\n/, '<br/>').html_safe)
 	end
   
+  def school
+    School.find(session[:school_id])
+  end
+  
 end
