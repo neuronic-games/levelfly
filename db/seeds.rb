@@ -7,7 +7,7 @@
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
 
 # School setting
-school = School.create(:name => 'Borough of Manhattan Community College', :code => 'BMCC')
+school = School.create(:name => 'Borough of Manhattan Community College', :code => 'BMCC', :handle => 'bmcc')
 vault = Vault.create(:vault_type => 'AWS S3', :object_id => school.id, :object_type => 'School', :account => 'AKIAJMV6IAIXZQJJ2GHQ', :secret => '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', :folder => 'com.neuronicgames.oncampus.test/test')
 
 profile = Profile.create(:code => 'DEFAULT', :school => school, :image_file_name => Profile.default_avatar_image, :level => 1)
@@ -271,6 +271,9 @@ BadgeImage.create(:image_file_name => 'trophy3.png', :image_content_type =>"imag
 BadgeImage.create(:image_file_name => 'trophy4.png', :image_content_type =>"image/png")
 BadgeImage.create(:image_file_name => 'trophy5.png', :image_content_type =>"image/png")
 BadgeImage.create(:image_file_name => 'university.png', :image_content_type =>"image/png")
+
+#Gold_Outcome_Badge
+Badge.create(:name => 'Gold Outcome', :descr => 'For Each Gold Outcome', :school_id => "1", :badge_image_id => "42")
 
 #reward 
 Reward.create(:xp => "0", :object_type => 'level', :object_id => "1")
