@@ -7,7 +7,7 @@
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
 
 # School setting
-school = School.create(:name => 'Burough of Manhattan Community College', :code => 'BMCC')
+school = School.create(:name => 'Borough of Manhattan Community College', :code => 'BMCC')
 vault = Vault.create(:vault_type => 'AWS S3', :object_id => school.id, :object_type => 'School', :account => 'AKIAJMV6IAIXZQJJ2GHQ', :secret => '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', :folder => 'com.neuronicgames.oncampus.test/test')
 
 profile = Profile.create(:code => 'DEFAULT', :school => school, :image_file_name => Profile.default_avatar_image, :level => 1)
