@@ -120,11 +120,11 @@ class Course < ActiveRecord::Base
             :all, 
             :select => "distinct *",
             :include => [:participants], 
-            :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?",false, profile.id, Course.parent_type_group, Course.profile_type_pending, false],
+            :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?", false, profile.id, Course.parent_type_group, Course.profile_type_pending, false],
             :order => 'name'
           )
     else
-     @courses = Course.find(:all, :conditions=>["removed = ? and parent_type = ? and school_id = ?",false, Course.parent_type_group,profile.school_id])
+     @courses = Course.find(:all, :conditions=>["removed = ? AND parent_type = ? AND school_id = ?",false, Course.parent_type_group,profile.school_id], :order => 'name')
     end    
     return @courses      
   end
@@ -139,7 +139,7 @@ class Course < ActiveRecord::Base
             :all, 
             :select => "distinct *",
             :include => [:participants], 
-            :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?",false, profile_id, Course.parent_type_course, Course.join_type_invite, Course.profile_type_pending, archived],
+            :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ? ORDER BY courses.name",false, profile_id, Course.parent_type_course, Course.join_type_invite, Course.profile_type_pending, archived],
             :order => 'name'
             )
     return @courses      
@@ -188,7 +188,7 @@ class Course < ActiveRecord::Base
   
   
   def course_forum(profile_id = nil)
-    return Course.find(:all,:include => [:participants],:conditions => ["participants.profile_id = ? and course_id = ? and archived = ?",profile_id,self.id,false],:order => 'name')
+    return Course.find(:all,:include => [:participants],:conditions => ["participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?",profile_id,self.id,false, false], :order => 'name')
   end
   
   def join_all(profile)
