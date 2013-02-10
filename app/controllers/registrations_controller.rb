@@ -7,8 +7,7 @@ class RegistrationsController < Devise::RegistrationsController
   def create
     @user = User.new(params[:user])
     if @user.save
-      school_code = school.default_school? ? "DEFAULT" : school.code
-      profile = Profile.create_for_user(@user.id,school_code)
+      profile = Profile.create_for_user(@user.id,school.id)
       profile.full_name = params[:user][:full_name]
       profile.save
       #set_current_profile()
