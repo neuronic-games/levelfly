@@ -9,7 +9,7 @@ class TaskController < ApplicationController
         :all, 
         :select => "distinct *",
         :include => [:participants], 
-        :conditions => ["participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ? AND courses.removed = ?", @profile.id, Course.parent_type_course, Course.profile_type_pending, false, false],
+        :conditions => ["participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ? AND courses.removed = ? AND school_id = ?", @profile.id, Course.parent_type_course, Course.profile_type_pending, false, false, @profile.school_id],
         :order => 'name'
       )
     
@@ -18,7 +18,7 @@ class TaskController < ApplicationController
         @tasks = Task.find(
           :all, 
           :include => [:task_participants], 
-          :conditions => ["task_participants.profile_id = ? AND (tasks.name LIKE ? OR tasks.descr LIKE ?)", @profile.id, search_text, search_text]
+          :conditions => ["task_participants.profile_id = ? AND (tasks.name LIKE ? OR tasks.descr LIKE ?) AND school_id = ?", @profile.id, search_text, search_text, @profile.school_id]
         )
       else 
 

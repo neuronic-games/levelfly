@@ -71,7 +71,6 @@ WardrobeItem.create(:wardrobe => basic, :parent_item => item['facial_hair'], :na
 
 # Hat
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['hat'], :name => 'Cowboy', :item_type => 'hat', :image_file => 'basic/hats/cowboy_hat', :sort_order => 0, :depth => 2)
-WardrobeItem.create(:wardrobe => basic, :parent_item => item['hat'], :name => 'Pirate', :item_type => 'hat', :image_file => 'basic/hats/pirate_hat', :sort_order => 0, :depth => 2)
 
 # Body
 item['body'] = WardrobeItem.create(:wardrobe => basic, :name => 'Body', :item_type => 'body', :sort_order => 1, :depth => 0)
@@ -194,6 +193,19 @@ WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_hobbies'], :
 
 # Misc
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_misc'], :name => 'Pitchfork', :item_type => 'prop', :image_file => 'basic/props/pitchfork', :sort_order => 0, :depth => 2)
+
+# Unlockable Pirate wardrobe
+pirate = Wardrobe.create(:name => 'Pirate', :visible_level => 1, :available_level => 1, :available_date => Date.today, :visible_date => Date.today)
+WardrobeItem.create(:wardrobe => pirate, :parent_item => item['hat'], :name => 'Pirate', :item_type => 'hat', :image_file => 'basic/hats/pirate_hat', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => pirate, :parent_item => item['body_sporty'], :name => 'Basketball', :item_type => 'top', :image_file => 'sports/tops/basketball_t_shirt', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => pirate, :parent_item => item['body_sporty'], :name => 'Golf', :item_type => 'top', :image_file => 'sports/tops/golf_dress', :sort_order => 2, :depth => 2)
+WardrobeItem.create(:wardrobe => pirate, :parent_item => item['body_sporty'], :name => 'Hiking', :item_type => 'top', :image_file => 'sports/tops/hiking_dress', :sort_order => 3, :depth => 2)
+WardrobeItem.create(:wardrobe => pirate, :parent_item => item['body_sporty'], :name => 'Referee', :item_type => 'top', :image_file => 'sports/tops/Referee_t_shirt', :sort_order => 4, :depth => 2)
+WardrobeItem.create(:wardrobe => pirate, :parent_item => item['legs_sporty'], :name => 'Basketball', :item_type => 'bottom', :image_file => 'sports/bottoms/basketball_short', :sort_order => 4, :depth => 2)
+WardrobeItem.create(:wardrobe => pirate, :parent_item => item['legs_sporty'], :name => 'Hiking', :item_type => 'bottom', :image_file => 'sports/bottoms/hiking_short', :sort_order => 4, :depth => 2)
+WardrobeItem.create(:wardrobe => pirate, :parent_item => item['feet_sporty'], :name => 'Basketball', :item_type => 'shoes', :image_file => 'sports/shoes/basketball_shoe', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => pirate, :parent_item => item['feet_sporty'], :name => 'Golf', :item_type => 'shoes', :image_file => 'sports/shoes/golf_shoe', :sort_order => 2, :depth => 2)
+WardrobeItem.create(:wardrobe => pirate, :parent_item => item['feet_sporty'], :name => 'Hiking', :item_type => 'shoes', :image_file => 'sports/shoes/hiking_shoe', :sort_order => 3, :depth => 2)
 
 # Unlockable Sports wardrobe
 sports = Wardrobe.create(:name => 'Sports', :visible_level => 1, :available_level => 1, :available_date => Date.today, :visible_date => Date.today)
