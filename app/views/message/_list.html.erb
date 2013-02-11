@@ -1,4 +1,3 @@
-
 <div class="messages_content load_messages">
   <div class="msg_content_left">
     <div id="" class="message_wrapper">
@@ -37,10 +36,16 @@
      <!-- Message -->
    <h2><!-- Post Message --></h2>
    <h2>MESSAGES</h2>
+	 <div id="show_all_cmnts_div">
+		<a href="javascript:void(0)" id="all_cmnts">Show All Comments</a>
+	 </div>
+	 <div id="show_only_cmnts_div" class="hide">
+		<a href="javascript:void(0)" id="only_cmnts">Show Only Last 2 Comments</a>
+	 </div>
    <div id="message_wrapper" class="message_wrapper">
        <% if @messages %>
         <% @messages.each do |message| %>
-          <%= render :partial => "/message/messages", :locals => {:message=>message} %>
+					<%= render :partial => "/message/messages", :locals => {:message=>message} %>
         <% end %>
       <% end %>
       <div class="end_of_page"></div>
@@ -74,6 +79,13 @@
   <input type="hidden" name="invitation_count" id="invitation_count" value="<%=@friend_requests.count if @friend_requests%>"> 
   <input type="hidden" name="all_notifications" id="all_notifications" value="<%=message_ids%>">
 <script type="text/javascript">
+var message_show_array = [];
+<% if @messages %>
+  <% @messages.each do |message| %>
+		message_show_array.push(<%=message.id%>);
+	<% end %>
+<% end %>
+				
 $(document).ready(function() {
 	profile_id = $("#hdn_profile_id").val();
 	$.ajax({ 
@@ -124,7 +136,17 @@ $(document).ready(function() {
       });
     }, 10000*20); 
 	 $('textarea#msg_content').autosize();
+	 
+	 $('#all_cmnts').click(function(){
+		arrange_comments(message_show_array,true);
+	 });
+	 
+	 $('#only_cmnts').click(function(){
+		arrange_comments(message_show_array,false);
+	 });
+	 
 });
+
 
    var request = "";
    var message = "";

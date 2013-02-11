@@ -33,3 +33,28 @@ function getStorage(key) {
 function deleteStorage(key) {
   jStorage.deleteKey(key);
 }
+
+//show / hide comment divs
+function toggle_comments(all) {
+	if (all) {
+		$('#show_all_cmnts_div').show();
+		$('#show_only_cmnts_div').hide();
+	} else {
+		$('#show_all_cmnts_div').hide();
+		$('#show_only_cmnts_div').show();
+	}
+}
+
+function arrange_comments(msg_id_array,show) {
+	if(show==true) {
+		$(msg_id_array).each(function(index,item){
+			view_all_comment(item);
+		});
+		toggle_comments(false);
+	} else {
+		$(msg_id_array).each(function(index,item){
+			hide_all_comment(item);
+		});
+		toggle_comments(true);
+	}
+}

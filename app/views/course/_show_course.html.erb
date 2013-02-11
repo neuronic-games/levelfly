@@ -77,7 +77,12 @@
           <a href="javascript:void(0)" id="<%=@course.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="C" onclick="javascript:void(0);">Post</a>
         </div>
       <%end%>
-
+			<div id="show_all_cmnts_div">
+				<a href="javascript:void(0)" id="all_cmnts">Show All Comments</a>
+			</div>
+			<div id="show_only_cmnts_div" class="hide">
+				<a href="javascript:void(0)" id="only_cmnts">Show Only Last 2 Comments</a>
+			</div>
       <div id="message_wrapper" class="message_wrapper resize_message_box" >
       
       &nbsp;
@@ -97,9 +102,16 @@
 
  </div>
  
- <script type="text/javascript">
+<script type="text/javascript">
+	var message_show_array = [];
+	<% if @course_messages %>
+		<% @course_messages.each do |message| %>
+			message_show_array.push(<%=message.id%>);
+		<% end %>
+	<% end %>
+	
   $(document).ready(function(){
-    $("#btn_course").addClass("hide");
+		$("#btn_course").addClass("hide");
     $("#btn_course_remove").addClass("hide");
     $("textarea#msg_content").autosize();
     $("#message_wrapper").delegate('.msg_pri_toggle', 'click', function(){
@@ -124,9 +136,18 @@
           alert("An Error has occured");
           showSpinner(false);
         }
-    });
-	}); 
-  });
+			});
+		}); 
+	
+		$('#all_cmnts').click(function(){
+			arrange_comments(message_show_array,true);
+		});
+
+		$('#only_cmnts').click(function(){
+			arrange_comments(message_show_array,false);
+		});
+		
+	});
   
   //For Active Task
    $("#btn_task").click(function(data){

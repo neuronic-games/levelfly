@@ -116,6 +116,12 @@
 function view_all_comment(message_id){
    $("#comment_box_"+message_id+".msg_small_box").show();
    $("#show_all_coments_"+message_id).css("display","none");
+	 show_all_comments = true;
+}
+function hide_all_comment(message_id){
+   $("#comment_box_"+message_id+".msg_small_box").hide();
+   $("#show_all_coments_"+message_id).css("display","block");
+	 show_all_comments = false;
 }
 $(".message_list").hover(
     function () {
