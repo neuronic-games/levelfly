@@ -9,7 +9,7 @@ class SessionsController < Devise::SessionsController
     
     school = School.find_by_handle(params[:slug])
     if school
-      School.default_vault = school.vault
+      # School.default_vault = school.vault  # TODO: I don't think this line works
       session[:school_id] = school.id
     end
     
