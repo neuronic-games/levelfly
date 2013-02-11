@@ -13,7 +13,7 @@ class School < ActiveRecord::Base
 
   def self.vault
     if default_vault.nil?
-      default_vault = Vault.last
+      default_vault = Vault.new(:vault_type => 'AWS S3', :object_id => nil, :object_type => 'School', :account => ENV['S3_KEY'], :secret => ENV['S3_SECRET'], :folder => ENV['S3_PATH'])
     end
     return default_vault
   end
