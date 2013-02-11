@@ -53,7 +53,7 @@ class UsersController < ApplicationController
      if @email and !@email.nil?
        email_exist = true
      else
-      @user, @profile = User.new_user(params[:email])
+      @user, @profile = User.new_user(params[:email],school.id)
      end
   end
   if @profile

@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
     end
   end
   
-  def self.new_user(email)
+  def self.new_user(email,school_id)
     @user = User.create do |u|
       u.email = email
       u.password="defaultpassword"
@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
     end
     @user.save(:validate => false)
    if @user
-      @profile = Profile.create_for_user(@user.id)
+      @profile = Profile.create_for_user(@user.id,school_id)
     end
     return @user, @profile
     

@@ -12,10 +12,10 @@ class Profile < ActiveRecord::Base
     return '/images/wardrobe/null_profile.png'
   end
   
-  def self.create_for_user(user_id, default = nil)
+  def self.create_for_user(user_id, school_id, default = "DEFAULT")
     profile = Profile.find(:first, :conditions => ["user_id = ?", user_id])
     if profile.nil?
-      new_profile = Profile.find_by_school_id(default, :include => [:avatar])
+      new_profile = Profile.find(:first, :conditions => ["code = ? and school_id = ?", default, school_id], :include => [:avatar])
 
       profile = new_profile.dup
       profile.user_id = user_id

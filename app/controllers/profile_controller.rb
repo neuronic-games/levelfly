@@ -16,18 +16,19 @@ class ProfileController < ApplicationController
     new_profile = nil
     
     if @profile.nil?
+      school_id = school.id
       if user_session[:profile_id].blank?
-        new_profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
+        new_profile = Profile.find(:first, :conditions => ["code = ? and school_id = ?", "DEFAULT", school_id], :include => [:avatar])
       else
         @profile = Profile.find_by_id(user_session[:profile_id])
         if @profile.nil?
-          new_profile = Profile.find_by_code("DEFAULT", :include => [:avatar])
+          new_profile = Profile.find(:first, :conditions => ["code = ? and school_id = ?", "DEFAULT", school_id], :include => [:avatar])
         end
       end
     end
     
     if new_profile
-      @profile = Profile.create_for_user(current_user.id)
+      @profile = Profile.create_for_user(current_user.id,school.id)
       publish_profile(@profile)
     end
     

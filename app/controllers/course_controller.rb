@@ -297,7 +297,7 @@ class CourseController < ApplicationController
       if @user 
         @profile = Profile.find_by_user_id(@user.id)
       else
-        @user, @profile = User.new_user(params[:email])
+        @user, @profile = User.new_user(params[:email],school.id)
         new_user = true
       end
       if @profile
