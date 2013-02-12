@@ -11,9 +11,9 @@ class MessageController < ApplicationController
       search_text =  "%#{params[:search_text]}%"
       @comment_ids = Message.find(:all,
         :select => "parent_id", 
-        :conditions => ["(archived is NULL or archived = ?) AND parent_type = 'Message' AND content LIKE ? ", false, search_text]).collect(&:parent_id)
+        :conditions => ["(archived is NULL or archived = ?) AND parent_type = 'Message' AND lower(content) LIKE ? ", false, search_text.downcase]).collect(&:parent_id)
       @messages = Message.find(:all, 
-        :conditions => ["id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend' AND (content LIKE ? OR id in (?) or topic LIKE ? )", message_ids, false, search_text, @comment_ids,search_text])
+        :conditions => ["id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend' AND (lower(content) LIKE ? OR id in (?) or lower(topic) LIKE ? )", message_ids, false, search_text.downcase, @comment_ids,search_text.downcase])
       
     elsif params[:friend_id]
       @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND profile_id = ? AND message_type ='Message' AND parent_type='Profile' and id in (?)", false, params[:friend_id], message_ids])  

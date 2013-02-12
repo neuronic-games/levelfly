@@ -346,6 +346,8 @@ Oncapus::Application.routes.draw do
 
   match 'csv' => 'grade_book#export_csv', :as => 'csv'
   
+  match 'profile' => 'profile#index'
+  
   match 'task' => 'task#index'
   
   match 'grade_book' => 'grade_book#index'

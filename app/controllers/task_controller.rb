@@ -18,7 +18,7 @@ class TaskController < ApplicationController
         @tasks = Task.find(
           :all, 
           :include => [:task_participants], 
-          :conditions => ["task_participants.profile_id = ? AND (tasks.name LIKE ? OR tasks.descr LIKE ?) AND school_id = ?", @profile.id, search_text, search_text, @profile.school_id]
+          :conditions => ["task_participants.profile_id = ? AND (lower(tasks.name) LIKE ? OR lower(tasks.descr) LIKE ?) AND school_id = ?", @profile.id, search_text.downcase, search_text.downcase, @profile.school_id]
         )
       else 
 

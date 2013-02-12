@@ -53,7 +53,7 @@ module ApplicationHelper
   end
 	
 	def formatted_html_content(content)
-		return auto_link(content.gsub(/\n/, '<br/>').html_safe)
+		return auto_link(content.gsub(/\n/, '<br/>').html_safe) unless content.nil?
 	end
   
   def school

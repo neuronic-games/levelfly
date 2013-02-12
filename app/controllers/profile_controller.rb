@@ -3,6 +3,20 @@ class ProfileController < ApplicationController
   before_filter :authenticate_user!
   
   def index
+    @profile = Profile.find(user_session[:profile_id])
+    if params[:search_text]
+      search_text =  "#{params[:search_text]}%"
+      @profiles = Profile.find(:all, :conditions=>["school_id = ? and lower(full_name) LIKE ? and user_id is not null",@profile.school_id, search_text.downcase])
+    end
+    respond_to do |wants|
+      wants.html do
+        if request.xhr?
+          render :partial => "/profile/people"
+        else
+          render
+        end
+      end
+    end
   end
 
   def show

@@ -1,0 +1,77 @@
+<div style="position:relative;">
+	<div style="position:absolute; width:100%;">
+		<div class="pr120">
+			<div class="leader_pad_top container_tipshelp"> 
+				<div class="tops_row">
+					<div class="leftimg panel"></div>
+					<div class="centerimg panel"></div>
+					<div class="rightimg panel"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+                  
+<div class="leader_content">
+  <div class="leader_board_left">
+    <div class="leader_board_right">
+      <div class="leader_board_center main_div_height">
+        <div class="leader_pad_top"></div>
+        <div class="leader_pad">
+          
+          <!-- NEW BOX START HERE -->
+          <div class="leader_TabCSS">
+            <div class="steel_pin"><img src="/images/pin_steel.png" /></div>
+            <div class="leader_topselect">
+              <div class="clear"></div>
+            </div>
+
+            <div id="rows" class="LB_table">
+              <!-- Data rows goes here -->
+			  <div class="LB_tableheader">
+				<div class="LBT_ava"> &nbsp;</div>
+				<div class="LBT_name">&nbsp;</div>
+				<div class="LBT_level">LEVEL</div>
+				<div class="LBT_xp">XP</div>
+				<div class="LBT_badges">BADGES</div>
+				<div class="LBT_Likes">LIKES</div>
+			  </div>
+			  <% unless @profiles.nil? %>
+			    <% @profiles.each do |p| %> 
+				  <div class="LB_tablecontent <%= cycle("even", "odd") %>">
+				    <div class="LBT_ava">
+					  <div class="avatarWbdr"><img src="<%= p.image_file_name%>" class="profile" profile_id="<%= p.id %>" /></div>
+				    </div>
+				    <div class="LBT_name view_user" rel="/profile/user_profile?profile_id=<%=p.id%>"> <span class="name_txt"><%= p.full_name %> </span><br />
+					  <span class="course_txt"><%= p.major_school %></span> </div>
+					<div class="LBT_level view_user" rel="/profile/user_profile?profile_id=<%=p.id%>"><%= p.level %></div>
+					<div class="LBT_xp view_user" rel="/profile/user_profile?profile_id=<%=p.id%>"><%= p.xp %></div>
+					<div class="LBT_badges view_user" rel="/profile/user_profile?profile_id=<%=p.id%>"><%= p.badge_count %></div>
+					<div class="LBT_Likes view_user" rel="/profile/user_profile?profile_id=<%=p.id%>"><%= p.like_received %></div>
+				  </div>
+  				<% end %>
+			  <% end %>
+            </div>
+            
+          </div>
+
+          <div class="end_of_page"></div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	
+$(document).ready(function(){
+  setPageTitle("People");
+  $(".view_user").click(function(){
+    showSpinner(true);
+    url = $(this).attr("rel");
+    $("#container").load(url, function(){
+      showSpinner(false);
+    }); 
+  });
+});

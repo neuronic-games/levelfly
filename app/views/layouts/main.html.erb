@@ -96,11 +96,9 @@
             <!--<li rel="/friend/">
               Find People
             </li>-->
-           <%if Role.check_permission(@profile.id,Role.edit_user) == true%> 
-            <li rel="/users/">
+            <li rel="/profile/">
               Find People
             </li>
-            <%end%>
           </div>
         </div>
         <div class="search_icon">
@@ -238,7 +236,7 @@ var h = new Object();
     "/task/" : "Find Task", 
     "/message/" : "Find Message", 
     "/group/" : "Find Group",
-    "/users/" : "Find People"
+    "/profile/" : "Find People"
   };
   var search_url = "/course/";
   var section_type = "C"
