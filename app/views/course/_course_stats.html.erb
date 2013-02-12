@@ -7,7 +7,21 @@
         <!--box-->
         <div class="stat_box01 stat_width01 floatL">
           <div class="stat_head01 floatL">Grade</div>
-          <div class="stat_value01 floatL"><span class="red_txtbig"><%if !@grade.nil?%><%= @grade[0]%></span> <span class="red_txtsmall"><%= @grade[1]%><%end%></span>
+          <div class="stat_value01 floatL">
+						<% if @course.show_grade %>
+							<%if !@grade.nil?%>
+								<span class="red_txtbig">
+									<%= @grade[0]%>
+								</span> 
+								<span class="red_txtsmall">
+									<%= @grade[1]%>
+								</span>
+							<%end%>
+						<%else%>
+							<span class="red_txtsmall">
+								--
+							</span>
+						<%end%>
             <div class="stat_value02"></div>
           </div>
         </div>
@@ -71,7 +85,17 @@
               <div class="LBT_name"> <span class="name_txt"><%=t.name%></span><br />
                 </div>
               <div class="LBT_level"><%=change_date_format(t.due_date)%></div>
-              <div class="LBT_xp"><%if !task_grade.nil?%><%=task_grade%> <%=GradeType.value_to_letter(task_grade, t.school_id )%><%else%>Not Graded<%end%></div>
+              <div class="LBT_xp">
+								<%if !task_grade.nil?%>
+									<% if @course.show_grade %>
+										<%=task_grade%> <%=GradeType.value_to_letter(task_grade, t.school_id )%>
+									<% else %>
+										--
+									<% end %>
+								<%else%>
+									Not Graded
+								<%end%>
+							</div>
             </div>
           <% end %>
        

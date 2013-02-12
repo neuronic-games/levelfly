@@ -471,6 +471,7 @@ function save_course(channel) {
   }
   
   var post_messages = document.getElementById('post_messages');
+	var show_grade = document.getElementById('show_grade');
 
 
   //get outcomes from offline storage
@@ -512,7 +513,7 @@ function save_course(channel) {
     n++;
   });
 
-  var dataString = 'id='+ id +'&course='+ name + '&descr=' + descr + '&section_type=' + section_type + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id + '&percent_value=' +_categories_persentObject+ '&outcome_share='+_outcomes_shareObject+'&rating_low=' +rating_low + '&rating_medium=' +rating_medium + '&rating_high=' +rating_high + '&task_low=' +task_low + '&task_medium=' +task_medium + '&task_high=' +task_high+ '&post_messages='+post_messages.checked;
+  var dataString = 'id='+ id +'&course='+ name + '&descr=' + descr + '&section_type=' + section_type + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id + '&percent_value=' +_categories_persentObject+ '&outcome_share='+_outcomes_shareObject+'&rating_low=' +rating_low + '&rating_medium=' +rating_medium + '&rating_high=' +rating_high + '&task_low=' +task_low + '&task_medium=' +task_medium + '&task_high=' +task_high+ '&post_messages='+post_messages.checked+ '&show_grade=' +show_grade.checked;
 
   //alert(dataString);  return false;
   if(changed==true){

@@ -192,6 +192,7 @@ class CourseController < ApplicationController
     @course.tasks_medium = params[:task_medium] if params[:task_medium]
     @course.tasks_high = params[:task_high] if params[:task_high]
     @course.post_messages = params[:post_messages] if params[:post_messages]
+		@course.show_grade = params[:show_grade] if params[:show_grade]
            
     if params[:file]
       @course.image.destroy if @course.image
