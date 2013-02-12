@@ -69,7 +69,13 @@
       </div>
       <% end %>
       <div class="clear"></div>
-      
+			
+      <div id="show_all_cmnts_div" class="linkcolour">
+				<a href="javascript:void(0)" id="all_cmnts">Show All Comments</a>
+			</div>
+			<div id="show_only_cmnts_div" class="hide linkcolour">
+				<a href="javascript:void(0)" id="only_cmnts">Show Only Last 2 Comments</a>
+			</div>
       <div id="message_wrapper_group" class="message_wrapper_group">
       &nbsp;
       <% if @course_messages && !@course_messages.nil?%>
@@ -88,10 +94,17 @@
 </div>
 
 <script type="text/javascript">
+	var message_show_array = [];
+	<% if @course_messages %>
+		<% @course_messages.each do |message| %>
+			message_show_array.push(<%=message.id%>);
+		<% end %>
+	<% end %>
+	
   $(document).ready(function(){
     $("#btn_course").addClass("hide");
     $("#btn_course_remove").addClass("hide");
-	 $("textarea#msg_content").autosize();
+		$("textarea#msg_content").autosize();
 	$("#message_wrapper_group").delegate('.msg_pri_toggle', 'click', function(){
     showSpinner(true);
     msg_id = $(this).attr("rel");
@@ -116,6 +129,26 @@
         }
     });
     }); 
+		
+		// When user clicks on Show All Comments
+		$('#all_cmnts').click(function(){
+			arrange_comments(message_show_array,true);
+			all_group_comments = true;
+		});
+
+		// When user clicks on Show only 2 Comments
+		$('#only_cmnts').click(function(){
+			arrange_comments(message_show_array,false);
+			all_group_comments = false;
+		});
+		
+	// See the last setting of user or the default setting in main.html
+	 if(all_group_comments) {
+		arrange_comments(message_show_array,true);
+	 } else {
+		arrange_comments(message_show_array,false);
+	 }
+	 
   });
    // Send request to group owner for join group
    $("#member_join").click(function(){

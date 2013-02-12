@@ -36,10 +36,10 @@
      <!-- Message -->
    <h2><!-- Post Message --></h2>
    <h2>MESSAGES</h2>
-	 <div id="show_all_cmnts_div">
+	 <div id="show_all_cmnts_div" class="linkcolour">
 		<a href="javascript:void(0)" id="all_cmnts">Show All Comments</a>
 	 </div>
-	 <div id="show_only_cmnts_div" class="hide">
+	 <div id="show_only_cmnts_div" class="hide linkcolour">
 		<a href="javascript:void(0)" id="only_cmnts">Show Only Last 2 Comments</a>
 	 </div>
    <div id="message_wrapper" class="message_wrapper">
@@ -139,11 +139,20 @@ $(document).ready(function() {
 	 
 	 $('#all_cmnts').click(function(){
 		arrange_comments(message_show_array,true);
+		all_msg_comments = true;
 	 });
 	 
 	 $('#only_cmnts').click(function(){
 		arrange_comments(message_show_array,false);
+		all_msg_comments = false;
 	 });
+	 
+	 // See the last setting of user or the default setting in main.html
+	 if(all_msg_comments) {
+		arrange_comments(message_show_array,true);
+	 } else {
+		arrange_comments(message_show_array,false);
+	 }
 	 
 });
 

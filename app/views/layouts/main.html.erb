@@ -243,6 +243,11 @@ var h = new Object();
   var search_url = "/course/";
   var section_type = "C"
   var search_term = $("#search_input").val();
+	// These booleans are set for show / hide all comments on walls & messages
+	var all_msg_comments = false;
+	var all_course_comments = false;
+	var all_group_comments = false;
+	
   //Set CSRF Token (Required for ajax request (post))
   $(document).ajaxSend(function(e, xhr, options) {
     xhr.setRequestHeader("X-CSRF-Token", token);
