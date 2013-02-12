@@ -133,7 +133,7 @@ class CourseController < ApplicationController
     @member_count = Profile.count(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id]
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @course.id]
     )
     @member = Participant.find( :first, :conditions => ["participants.object_id = ? AND participants.profile_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id])
     @pending_count = Profile.count(
@@ -515,7 +515,7 @@ class CourseController < ApplicationController
     @peoples = Profile.find(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S')", @course.id]
+      :conditions => ["participants.object_id = ? AND participants.object_type IN ('Course','Group') AND participants.profile_type = 'S'", @course.id]
     )
     @member_count = @peoples.length
     @member = Participant.find(:first, :conditions => ["participants.object_id = ? AND participants.profile_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id]
