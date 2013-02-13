@@ -24,6 +24,7 @@ class RegistrationsController < Devise::RegistrationsController
   def identify_school
     default_school = School.find_by_handle("bmcc")
     school = School.find_by_handle(params[:slug])
+    session[:slug] = params[:slug] ? params[:slug] : ""
     session[:school_id] = school ? school.id : default_school.id
     raise ActionController::RoutingError.new('Page Not Found') if params[:slug] and !school
   end

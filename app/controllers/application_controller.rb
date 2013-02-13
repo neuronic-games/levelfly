@@ -99,7 +99,7 @@ class ApplicationController < ActionController::Base
   end
   
   def after_sign_out_path_for(resource_or_scope)
-    school.default_school? ? new_user_session_path : new_user_session_path + "/" + school.handle
+    session[:slug].blank? ? new_user_session_path : new_user_session_path + "/" + school.handle
   end
   
   def after_sign_in_path_for(resource)

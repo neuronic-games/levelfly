@@ -6,7 +6,7 @@ class SessionsController < Devise::SessionsController
   def identify_school
     default_school = School.find_by_handle("bmcc")
     session[:school_id] = default_school.id
-    
+    session[:slug] = params[:slug] ? params[:slug] : ""
     school = School.find_by_handle(params[:slug])
     if school
       # School.default_vault = school.vault  # TODO: I don't think this line works
