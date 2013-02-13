@@ -58,7 +58,7 @@ class MessageController < ApplicationController
     #   profile = Profile.find(params[:id])
     #   viewed = notification_badge(profile)
     # end
-    # render :json => {:alert_badge => viewed}
+    render :json => {:alert_badge => viewed}
   end
   
   def check_request
