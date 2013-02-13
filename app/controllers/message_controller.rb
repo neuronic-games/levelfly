@@ -54,12 +54,11 @@ class MessageController < ApplicationController
   end
   
   def alert_badge
-    # if params[:id] and !params[:id].nil?
-    #   profile = Profile.find(params[:id])
-    #   viewed = notification_badge(profile)
-    # end
-    # render :json => {:alert_badge => viewed}
-    render :json => {:alert_badge => false}
+    if params[:id] and !params[:id].nil?
+      profile = Profile.find(params[:id])
+      viewed = notification_badge(profile)
+    end
+    render :json => {:alert_badge => viewed}
   end
   
   def check_request
