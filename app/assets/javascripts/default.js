@@ -46,6 +46,7 @@ function toggle_comments(all) {
 }
 
 function arrange_comments(msg_id_array,show) {
+	
 	if(show==true) {
 		$(msg_id_array).each(function(index,item){
 			view_all_comment(item);
