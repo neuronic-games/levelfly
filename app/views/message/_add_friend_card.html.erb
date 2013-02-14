@@ -6,7 +6,7 @@
       <img onClick="user_profile(<%=profile.id%>);" src="<%=profile.image_file_name%>" id="<%=profile.id%>" class="profile"/>
     </div>
     <div class="txt"> <span class="pop_name"><b><%=profile.full_name%></b><br />
-      <%= "#{profile.major.name}, " if profile.major%><%=profile.school.code%><a id="view_participant_profile" class="blue_bt19px view_profile" style="float:right"rev="" rel="<%=profile.id%>" data="" href="javascript:void(0)">VIEW</a></span>
+      <span style="width:91px;float:left;"><%= "#{profile.major.name}, " if profile.major%><%=profile.school.code%></span><a id="view_participant_profile" class="blue_bt19px view_profile" style="float:inherit"rev="" rel="<%=profile.id%>" data="" href="javascript:void(0)">VIEW</a></span>
       <p><%#=profile.tag_list%></p>
       <div>
         <span class="pop_fav_icon"><img src="/images//fav.png" align="absbottom" /> <%= profile.like_received %></span>
