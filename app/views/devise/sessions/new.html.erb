@@ -1,64 +1,63 @@
 <div class="Main_Wp">
-<div class="Header_Wp">
-<div class="Logo_Wp">
-<!-- <img src="images/icon_dropbox.png"/> -->
-</div><!--Logo_Wp-->
-</div><!--Header_Wp-->
+	<div class="Header_Wp">
+		<div class="Logo_Wp">
+			<!-- <img src="images/icon_dropbox.png"/> -->
+		</div><!--Logo_Wp-->
+	</div><!--Header_Wp-->
   <div class="Content_Wp">
-  <div class="Panel_Left">
-  <img src="/images/login_splash.png" class="Panel_Left_img"/>
-    <div class="left_content_box">	
-      <h1 style="color:white;">Game your learning. Game your life.</h1>
+		<div class="Panel_Left">
+			<img src="/images/login_splash.png" class="Panel_Left_img"/>
+			<div class="left_content_box">	
+				<h1 style="color:white;">Game your learning. Game your life.</h1>
         <div class="clear"></div>
         Coming to your web browsers everywhere.
-         <div class="clear"></div>
-          <div class="Divider_15"></div>
-    </div><!--left_content_box-->
-  </div><!--Panel_Left-->
-  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <div class="Panel_Rirght">
-  	<div><h3 style="color:white;margin-top:0px;"><%= session[:slug].blank? ? "" : school.name %></h3></div>
-	<div class="Divider_90"></div>
-    <div class="Sign_in_wp">
-    <div class="sign_in_box"><h1>Sign in </h1></div><!--sign_in-box-->
-    <div class="creat_text">
-    (or <span class="blue">
-    <%- if devise_mapping.registerable? && controller_name != "registrations" %>
-    <%= link_to "create an account", session[:slug].blank? ? new_registration_path(resource_name) : new_registration_path(resource_name) + "/" + school.handle %>
-    <% end -%>
-    </span>)</div>
-    </div>
-    <div class="clear"></div>
-    <div class="Divider_15"></div>
-    <div class="clear"></div>
-    <div class="text_box_wp">
-     <%= f.email_field :email, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Email"%>
-    </div><!--text_box_wp-->
-    <div class="Divider_15"></div>
-    <div class="clear"></div>
-    <div class="text_box_wp">
-     <%= f.password_field :password, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Password"%>
-    </div><!--text_box_wp-->
-    <div class="Divider_15"></div>
-    <div class="clear"></div>
-    <div class="remember_box_wp">
-    <div class="remember_wp">
-      <div class="check_box_wp">
-        <% if devise_mapping.rememberable? -%>
-          <%= f.check_box :remember_me %>
-        </div><!--check_box_wp-->
-        <div class="check_box_text">
-        Remember me
-      
-      <% end -%>
-
-      </div><!--chekc_box_text-->
-    </div><!--remember-->
-     <div class="sign_in_button_wp">
+        <div class="clear"></div>
+        <div class="Divider_15"></div>
+			</div><!--left_content_box-->
+		</div><!--Panel_Left-->
+		<div class="Panel_Rirght" id="signin_frm">
+			<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+			<div><h3 style="color:white;margin-top:0px;"><%= session[:slug].blank? ? "" : school.name %></h3></div>
+			<div class="Divider_90"></div>
+			<div class="Sign_in_wp">
+				<div class="sign_in_box"><h1>Sign in </h1></div><!--sign_in-box-->
+				<div class="creat_text">
+					(or <span class="blue">
+					<%- if devise_mapping.registerable? && controller_name != "registrations" %>
+						<%= link_to "create an account", session[:slug].blank? ? new_registration_path(resource_name) : new_registration_path(resource_name) + "/" + school.handle %>
+					<% end -%>
+					</span>)
+				</div>
+			</div>
+			<div class="clear"></div>
+			<div class="Divider_15"></div>
+			<div class="clear"></div>
+			<div class="text_box_wp">
+				<%= f.email_field :email, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Email"%>
+			</div><!--text_box_wp-->
+			<div class="Divider_15"></div>
+			<div class="clear"></div>
+			<div class="text_box_wp">
+				<%= f.password_field :password, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Password"%>
+			</div><!--text_box_wp-->
+			<div class="Divider_15"></div>
+			<div class="clear"></div>
+			<div class="remember_box_wp">
+				<% if devise_mapping.rememberable? -%>
+				<div class="remember_wp">
+					<div class="check_box_wp">
+						<%= f.check_box :remember_me %>
+					</div><!--check_box_wp-->
+					<div class="check_box_text">
+						Remember me
+					</div><!--chekc_box_text-->
+				</div><!--remember-->
+				<% end -%>
+				<div class="sign_in_button_wp">
           <%= f.submit "Sign in", :class=>"big_bluebtn" %>
         </div><!--sign_in_button-->
         <div class="Divider_15"></div>
-         <div class="Divider_15"></div>
+        <div class="Divider_15"></div>
         <div class="clear"></div>
         <div class="forgot_your_pass_wp">
           <%- if devise_mapping.recoverable? && controller_name != "passwords" %>
@@ -66,15 +65,26 @@
           <% end -%>
         </div><!--forgot_your_pass_wp-->
       </div><!--remember_box_wp-->
-       <% flash.each do |name, msg| %>
-         <div class="error_message"><h2><%if msg !="You need to sign in or register before continuing."%><%= msg %><%end%></h2></div>
-       <% end %> 
-  </div><!--Panel_Right-->
-     <% end %>
+			<% flash.each do |name, msg| %>
+			<div class="error_message"><h2><%if msg !="You need to sign in or register before continuing."%><%= msg %><%end%></h2></div>
+			<% end %> 
+			<% end %>
+		</div><!--Panel_Right-->
   </div><!--Content_Wp-->
   <div class="clear"></div>
 </div><!--Main_Wp-->
-
-
-
-        
+<div id="browser_warning" class="warning_popup" style="display:none">
+	<div class="heading">YOUR BROWSER IS NOT SUPPORTED</div>
+	<div class="boxadnt">
+		Please use one of the following supported browsers: <br />
+		<div class="suggetions">Chrome, Firefox, Safari, IE9</div>
+	</div>
+</div>
+<script type="text/javascript">
+	if ( $.browser.msie ) {
+		if( parseInt($.browser.version, 10) < 9 ) {
+			$('#signin_frm').remove();
+			$('#browser_warning').show();
+		}
+	} 
+</script>       
