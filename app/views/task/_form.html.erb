@@ -156,10 +156,12 @@ function addNode(element) {
 				
 		      <br /><br />
 		      <%if @is_task_owner %>
-				<div class="field_box2"><span class="font_12px">Members</span>
-                <% if @task_members and !@task_members.blank? %>
-				  <div class="tbc" id="view_page"><h3><input type="checkbox" <%= @task && member_points(nil, @task.id) ? "checked='checked'" : "" %> name="chk_all_completed" id="all_completed" class="check_box_all"  value="All Completed"/> All Completed</h3></div>
-				<% end %>  
+				<div class="field_box2">
+				  <span class="font_12px">Members
+                  <% if @task_members and !@task_members.blank? %>
+				    <a href="javascript:void(0)" id="complete_all" class="blue_bt10px" style="margin-left:50px;">COMPLETE ALL</a> AND AWARD XP</span>
+				    <h3 style="float:right;"> CHECK BOX TO AWARD XP:</h3>
+				  <% end %>  
 				  <div id="load_task_participant">
                   <% if @task_members and !@task_members.nil? %>
                     <% @task_members.each do |p| %>
@@ -174,8 +176,8 @@ function addNode(element) {
                             </div>
                           </div> 
                           <div id="credited_<%=p.profile.id%>" class="tbc">
-                           COMPLETED
-                           <div class="margin_top"><input type="checkbox" <%= @task && member_points(p.profile_id, @task.id) ? "checked='checked'" : "" %>name="task_credited[]" class ="check_box_credired" <%= @task && member_associate(p.profile_id, @task.id) ? "" : "disabled='disabled'" %>id="c_<%=p.profile.id%>" rel ="<%=p.profile.id%>"/></div>
+                           TASK COMPLETED
+                           <div class="margin_top"><input type="checkbox" <%= @task && member_points(p.profile_id, @task.id) ? "checked='checked'" : "" %> name="task_credited[]" class ="check_box_credired" <%= @task && member_associate(p.profile_id, @task.id) ? "" : "disabled='disabled'" %>id="c_<%=p.profile.id%>" rel ="<%=p.profile.id%>"/></div>
                           </div>
                         </div>                        
                         <div class="clear"></div>
@@ -569,7 +571,6 @@ $(document).ready(function(){
     check_val = $(this).is(':checked');
     task_id = $("#task_id_hdn").val();
     member_id = $(this).attr('rel');
-    
       showSpinner(true);
       $.ajax({
          type:"POST",
@@ -580,14 +581,7 @@ $(document).ready(function(){
            showSpinner(false);
            setAlert(data.task.points+" xp rewarded to "+data.member.full_name);
             changed=true;
-			if (!check_val){
-					$("#all_completed").prop("checked", check_val);
-			}
-			else{
-				if ($('.check_box_credired:checked').length == $('.check_box_credired').length){
-					  $("#all_completed").prop("checked", check_val);
-					}
-			}
+			
 				
          }
       });
@@ -617,19 +611,17 @@ $(document).ready(function(){
       });
   });
   
-  $('#view_page').delegate('input[name="chk_all_completed"]', 'change', function(){
-  	check_val = $(this).is(':checked');
+  $('.field_box2').delegate('#complete_all','click', function(){
     task_id = $("#task_id_hdn").val();
 	showSpinner(true);
       $.ajax({
          type:"POST",
          dataType: "json",
          url:"/task/points_credit",
-         data:{task_id:task_id,check_val:check_val},
+         data:{task_id:task_id},
          success:function(data){
            showSpinner(false);
-            changed=true;
-			$('.check_box_credired').prop("checked",check_val);
+			$('.check_box_credired').prop("checked",true);
          }
       });
   });

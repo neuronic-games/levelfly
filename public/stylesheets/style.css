@@ -379,6 +379,29 @@ a.blue_bt19px:hover {
   background:#6ba6be;
   text-decoration: none;
 }
+a.blue_bt10px {
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:10px;
+  text-transform:uppercase;
+  font-weight:bold;
+  color:#e2e4eb;
+  display:inline-block;
+  background:#5a95ad;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  padding-top:2px;
+  padding-bottom:2px;
+  padding-left:10px;
+  padding-right:10px;
+  text-decoration:none;
+  line-height:15px;
+}
+a.blue_bt10px:hover {
+  cursor: pointer;
+  background:#6ba6be;
+  text-decoration: none;
+}
 .staronavatar:hover{
   cursor: pointer;
   background:#6ba6be;

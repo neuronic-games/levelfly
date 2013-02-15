@@ -383,13 +383,9 @@ class TaskController < ApplicationController
         member = Profile.find(params[:member_id])
         render :text => {:status => status, :task=>task, :member=>member}.to_json
       else
-        if params[:check_val] == "true"
-          task_participants = TaskParticipant.find(:all,:conditions => ["task_id = ? and profile_type = 'M' and xp_award_date is null",params[:task_id]])
-        else
-          task_participants = TaskParticipant.find(:all,:conditions => ["task_id = ? and profile_type = 'M' and xp_award_date is not null",params[:task_id]])
-        end
+        task_participants = TaskParticipant.find(:all,:conditions => ["task_id = ? and profile_type = 'M' and xp_award_date is null",params[:task_id]])
         task_participants.each do |participant|
-          status = Task.points_to_student(params[:task_id], params[:check_val]=="true", participant.profile_id,user_session[:profile_id])
+          status = Task.points_to_student(params[:task_id], true, participant.profile_id,user_session[:profile_id])
         end
         render :text => {:status => status}.to_json
       end
