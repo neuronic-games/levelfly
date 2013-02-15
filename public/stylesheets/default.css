@@ -354,7 +354,7 @@
 	margin:-15% 0 0 -25%;
 	left:70%;
 	top:60%;
-	padding:20px 20px;
+	padding:20px;
 	position:absolute;
 	height:15%;
 	z-index:9998;
@@ -373,6 +373,6 @@
 	color:#5b5757;
 }
 .warning_popup .suggestions {
-	padding-top: 10px;
-	color: #3C68A3;
+	padding-top:10px;
+	color:#3C68A3;
 }
