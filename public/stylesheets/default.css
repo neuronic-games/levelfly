@@ -368,12 +368,11 @@
 	padding:0 0 5px 0;
 }
 .warning_popup .boxadnt {
-	padding:20px 20px 0;
+	padding:20px;
 	font-weight:bold;
 	color:#5b5757;
 }
 .warning_popup .suggestions {
 	padding-top: 10px;
-	padding-bottom: 40px;
 	color: #3C68A3;
 }
