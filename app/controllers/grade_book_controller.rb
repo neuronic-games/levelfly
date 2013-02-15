@@ -41,7 +41,7 @@ class GradeBookController < ApplicationController
         :select => "distinct *",
         :include => [:participants], 
         :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND participants.profile_type = ? AND courses.archived = ?",false, @profile.id, Course.parent_type_course, Course.profile_type_master, archived],
-        :order => 'courses.created_at DESC'
+        :order => 'courses.name ASC'
       )
       @course.each do |c|
         if c.participants.find(:all, :conditions=>["profile_type in ('M','S')"]).count>1
