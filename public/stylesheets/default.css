@@ -372,7 +372,8 @@
 	font-weight:bold;
 	color:#5b5757
 }
-.warning_popup .suggetions {
-	padding-top:10px;
+.warning_popup .suggestions {
+	padding-top: 10px;
+	padding-bottom: 20px;
 	color: #3C68A3;
 }
