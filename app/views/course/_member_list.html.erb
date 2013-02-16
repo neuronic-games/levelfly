@@ -4,6 +4,11 @@
     <span><input type="text" name="add_people_email[]" class="dd_select brown_bg" style="width:300px; padding:2px;" id="add_course_people" placeholder="Enter email..."  /></span>
     <span style="float:right; margin-right:89px;"><a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="blue_bt19px btn_add">Invite</a></span>
   </div> 
+	<div style="padding:10px;">
+		<span style="float:right; margin-right:80px;">
+			<a href="javascript:void(0)" name="btn_email_all" id="btn_email_all" class="blue_bt19px btn_add">Send Email to All</a>
+		</span>
+	</div>
   <%end%>
   
   <div class="frm_input">
@@ -15,10 +20,10 @@
   </div>
   <div class="clear"></div>
   <div id="course_people" class="frm_input" style="width:100%;">
-    <% if @peoples and (@course.parent_type != "F" or @courseMaster.nil?)  %>
+		<% if @peoples and (@course.parent_type != "F" or @courseMaster.nil?)  %>
       <%= render :partial => "/course/participant_list", :locals => {:peoples=>@peoples, :mode=>"list"} %>
-	<%else%>
-	  <%= render :partial => "/course/forum_participant_list", :locals => {:peoples=>@peoples, :mode=>"list"} %>
+		<%else%>
+			<%= render :partial => "/course/forum_participant_list", :locals => {:peoples=>@peoples, :mode=>"list"} %>
     <% end %>
   </div>
   <div id="course_participant_list" class="hide">
@@ -31,7 +36,34 @@
   </div>
   <input type="hidden" name="new_course_id" id="new_course_id" value="<%=@course.id if @course%>">
   <div class="clear"></div>
-</div> 
+</div>
+<div id="send_email_all" class="add_task_popup" style="display:none">
+	<div class="heading">Send Email to All Participants</div>
+	<div class="boxadnt"> 
+		<span class="heading02">Subject</span>
+    <div class="heading02_field">
+      <div class="dd_bg brown_bg02">
+        <input type="text" class="dd_input brown_bg02" name="mail_subject" id="mail_subject" value="">
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+	<div class="boxadnt"> 
+		<span class="heading02">Message</span>
+    <div class="heading02_field">
+      <div class="dd_bg brown_bg02">
+        <textarea class="dd_input brown_bg02" style="height:55px" name="mail_msg" id="mail_msg"></textarea>
+      </div>
+    </div>
+    <div class="clear"></div>
+		<div class="spacebar10px"></div>
+		<div class="spacebar10px"></div>
+  </div>
+	<div align="right" style="margin-right:20px;">
+		<a class="big_blue_btn inlineblock" id="dont_send_btn" href="javascript:$('#send_email_all').hide();">Don't Send</a> 
+		<a class="big_blue_btn inlineblock" id="send_btn" href="javascript:void(0)">Send</a>
+	</div>
+</div>
 <script type="text/javascript">
 //List people (participants)
 
@@ -144,6 +176,31 @@
     }
   });
   
+	// For showing popup of send email to all
+	$("#btn_email_all").click(function(){
+		$('#send_email_all').show();
+	});
+	
+	// For sending email to all
+	$("#send_btn").click(function() {
+		var course_id = $("#course_id_hdn").val();
+		/*
+		if(course_id) {
+			var dataString = {mail_sub:$('#mail_subject').val(), mail_msg:$('#mail_msg').val()};
+			$.ajax({
+				type: "POST",
+				url: "course/send_email_to_all_participants",
+				data: dataString,
+				success: function(data) {
+					if(data) {
+						alert("Email Sent Successfully!!!");
+					}
+				}
+			});
+		} 
+		*/
+	});
+	
   // Delete participant
   $(".people_node").delegate(".people_delete", "click", function(){
     showSpinner(true);
