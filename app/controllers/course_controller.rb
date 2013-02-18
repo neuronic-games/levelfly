@@ -346,6 +346,34 @@ class CourseController < ApplicationController
      #@link = OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('md5'), "123456", link)
      UserMailer.registration_confirmation(email,@current_user,@course,@school,message_id,@link,new_user).deliver
   end
+	
+	# Send email to all participants via course group and forum memberlist
+	def send_email_to_all_participants
+		status = false
+		section_type = 'Course' #TO DO : Need to done for forum and groups also
+		@course = Course.find(params[:id])
+		if @course
+			@peoples = Profile.find(
+         :all, 
+         :include => [:participants], 
+         :conditions => ["participants.object_id = ? AND participants.object_type= ? AND participants.profile_type = 'S'", @course.id,section_type]
+       )
+			
+			if @peoples
+				@msg_content = CGI::unescape(params[:mail_msg])
+				@current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+				#threads = []
+				@peoples.each do |people|
+					#threads << Thread.new do
+						UserMailer.course_private_message(people.user.email,@current_user,@course,@msg_content).deliver
+					#end
+				end
+				#threads.each(&:join)
+				status = true
+			end
+		end
+		render :text => {status:status}
+	end
     
   def delete_participant
     status = false

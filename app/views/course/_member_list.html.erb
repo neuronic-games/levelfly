@@ -6,7 +6,7 @@
   </div> 
 	<div style="padding:10px;">
 		<span style="float:right; margin-right:80px;">
-			<a href="javascript:void(0)" name="btn_email_all" id="btn_email_all" class="blue_bt19px btn_add">Send Email to All</a>
+			<a href="javascript:void(0)" name="btn_email_all" id="btn_email_all" class="blue_bt19px btn_add">Send Message to All</a>
 		</span>
 	</div>
   <%end%>
@@ -39,15 +39,6 @@
 </div>
 <div id="send_email_all" class="add_task_popup" style="display:none">
 	<div class="heading">Send Email to All Participants</div>
-	<div class="boxadnt"> 
-		<span class="heading02">Subject</span>
-    <div class="heading02_field">
-      <div class="dd_bg brown_bg02">
-        <input type="text" class="dd_input brown_bg02" name="mail_subject" id="mail_subject" value="">
-      </div>
-    </div>
-    <div class="clear"></div>
-  </div>
 	<div class="boxadnt"> 
 		<span class="heading02">Message</span>
     <div class="heading02_field">
@@ -183,22 +174,24 @@
 	
 	// For sending email to all
 	$("#send_btn").click(function() {
+		showSpinner(true);
 		var course_id = $("#course_id_hdn").val();
-		/*
+		var mail_msg = $('#mail_msg').val();
 		if(course_id) {
-			var dataString = {mail_sub:$('#mail_subject').val(), mail_msg:$('#mail_msg').val()};
+			var dataString = {id:course_id, mail_msg:escape(mail_msg)};
 			$.ajax({
 				type: "POST",
 				url: "course/send_email_to_all_participants",
 				data: dataString,
 				success: function(data) {
 					if(data) {
+						showSpinner(false);
+						$('#send_email_all').hide();
 						alert("Email Sent Successfully!!!");
 					}
 				}
 			});
 		} 
-		*/
 	});
 	
   // Delete participant

@@ -1,0 +1,6 @@
+<p><%=@sender.full_name%> has sent you a message regarding <%=@course.code%>-<%=@course.section%>.</p>
+<%= @message%>
+
+<a><%= Oncapus::Application.config.action_mailer.default_url_options[:host] %></a>
+
+Prof. <%=@sender.full_name%>

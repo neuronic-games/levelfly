@@ -1,5 +1,6 @@
 class UserMailer < ActionMailer::Base
   default :from => "Do Not Reply <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>"
+	
 
   def registration_confirmation(user,sender,course,school,message_id,link,new_user)
     @user = user
@@ -26,4 +27,14 @@ class UserMailer < ActionMailer::Base
     mail( :to => user, 
           :subject => "#{@sender.full_name} at #{@school.code} has sent you a private message")
   end
+	
+	def course_private_message(user,sender,course, msg_content)
+		@user = user
+		@sender = sender
+		@message = msg_content
+		@course = course
+		@subject = "#{@sender.full_name} has sent you a message regarding #{@course.code}-#{@course.section}"
+		mail( :to => @user, 
+          :subject => @subject)
+	end
 end

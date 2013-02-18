@@ -77,12 +77,14 @@
           <a href="javascript:void(0)" id="<%=@course.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="C" onclick="javascript:void(0);">Post</a>
         </div>
       <%end%>
-			<div id="show_all_cmnts_div" class="linkcolour">
-				<a href="javascript:void(0)" id="all_cmnts">Show All Comments</a>
-			</div>
-			<div id="show_only_cmnts_div" class="hide linkcolour">
-				<a href="javascript:void(0)" id="only_cmnts">Show Only Last 2 Comments</a>
-			</div>
+			<% if @course_messages.length > 0 %>
+				<div id="show_all_cmnts_div" class="linkcolour">
+					<a href="javascript:void(0)" id="all_cmnts">Show All Comments</a>
+				</div>
+				<div id="show_only_cmnts_div" class="hide linkcolour">
+					<a href="javascript:void(0)" id="only_cmnts">Show Only Last 2 Comments</a>
+				</div>
+			<% end %>
       <div id="message_wrapper" class="message_wrapper resize_message_box" >
       
       &nbsp;
