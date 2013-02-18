@@ -1928,6 +1928,8 @@ margin-left:33px;
   font-weight: normal;
   overflow: hidden; 
   text-overflow: ellipsis;
+  text-align:justify;
+  height: 34px;
 }
 .list_hover {
   position: absolute; 
@@ -2581,7 +2583,7 @@ float:left; height:800px;
     font-weight: bold;
     /*padding-right: 40px;*/
     padding-top: 20px;
-    width :30%;
+    width :45%;
 }
 
 .titleTType {

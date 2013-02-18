@@ -34,7 +34,7 @@
       <!-- This column does not expand well. Do we need to control max-width via JavaScript? -->
       <div class="titleTTAsk" >
         <div class="title"><%=long_title(t.name)%></div>
-        <div class="description"><%=long_desc(t.descr)%></div>
+        <div class="description"><p><%=t.descr%></p></div>
       </div>
       
       <!-- From the right -->
@@ -51,7 +51,11 @@
 <% end %>
 
 <script type="text/javascript">
-
+$(document).ready(function() {
+    $(".description").dotdotdot({
+	        //  configuration goes here
+	    });
+	});
   //setPageTitle("My Tasks");
   $('a.view').click(function() {
     showSpinner(true);
