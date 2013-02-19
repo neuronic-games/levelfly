@@ -40,16 +40,22 @@
 <tr>
 	<td width="105">&nbsp;</td>
 	<td width="612" valign="top" align="left">
-		<div class="text" style="font-size: 16px; font-family: 'Lucida Grande'; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; "><b><%=@sender.full_name%></b> has invited you to join <b><%=@course.name%> <%= @course.parent_type == 'C' ? "("+@course.code+")" : ""%></b>. Please click the link below to accept this invitation.</span></font><div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; "><br></span></font></div>
+		<div class="text" style="font-size: 16px; font-family: 'Lucida Grande'; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; "><b><%=@sender.full_name%></b> has invited you to join <b><%=@course.name%> <%= @course.parent_type == 'C' ? "("+@course.code+")" : ""%></b>. Please click the link below to accept this invitation.</span></font>
+			
+		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; "><br></span></font></div>
 				
-		<div style="line-height: 20px; "><font face="Verdana" color="#bbf9ff"><span style="font-size: 14px; line-height: 20px; "><a href="<%= @link %>">Join <%=@course.name%> <%= @course.parent_type == 'C' ? "("+@course.code+")" : ""%></a></span></font></div><div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="font-size: 14px; line-height: 20px; "><br></span></font></div>
+		<div style="line-height: 20px; "><font face="Verdana" color="#bbf9ff"><span style="font-size: 14px; line-height: 20px; "><a href="<%= @link %>" style="color:#bbf9ff;">Join <%=@course.name%> <%= @course.parent_type == 'C' ? "("+@course.code+")" : ""%></a></span></font></div>
+		
+		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="font-size: 14px; line-height: 20px; "><br></span></font></div>
 
-		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 12px; ">
+		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; ">
 	    <%=@sender.full_name%><br />
 	    <%=@school.name%>
 		</div>
+
+		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="font-size: 14px; line-height: 20px; "><br></span></font></div>
 		
-		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 12px; ">If you have problems with this link, you may use the URL below with a web browser of your choice. The preferred web browsers are Google Chrome, Firefox, Safari and Internet Explorer 9+.</span></font></div><div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 12px; ">http://xxx</span></font></div></div>
+		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 12px; ">If you have problems with this link, you may use the URL below with a web browser of your choice. The preferred web browsers are Google Chrome, Firefox, Safari and Internet Explorer 9+.</span></font></div><div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 12px; "><a><%= @link %></a></span></font></div></div>
 	</td>
 	<td width="125">&nbsp;</td>
 </tr>
