@@ -777,6 +777,10 @@ class CourseController < ApplicationController
       if @owner and !@owner.nil? and @owner.id == user_session[:profile_id]
          @course.removed = true
          @course.save
+         tasks = Task.filter_by(user_session[:profile_id], @course.id, "")
+         tasks.each do |task|
+           task.update_attribute('archived',true)
+         end
          status = true
       end
     end
