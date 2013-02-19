@@ -56,7 +56,14 @@
                  <%= render :partial => "devise/shared/links" %>
               </div><!--forgot_your_pass_wp-->
         </div><!--remember_box_wp-->
-         <div class="error_message"><%= devise_error_messages! %></div>
+		<div class="error_message">
+		  <% if flash[:notice]%>
+		    <h2><%=flash[:notice].count%> errors prohibited this user from being saved:</h2>
+		    <ul><% flash[:notice].each do |msg| %>
+		      <li><%= msg %></li>
+		    <% end %></ul>
+		  <% end %>
+		</div>
     </div><!--Panel_Right-->
    <% end %>
   </div><!--Content_Wp-->

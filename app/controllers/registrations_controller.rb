@@ -13,7 +13,8 @@ class RegistrationsController < Devise::RegistrationsController
       #set_current_profile()
       sign_in_and_redirect(resource_name, resource)\
     else
-      render :action => :new
+      flash[:notice] = resource.errors.full_messages.uniq
+      redirect_to session[:slug].blank? ? new_registration_path(resource_name) : new_registration_path(resource_name) + "/" + school.handle
     end
   end
 
