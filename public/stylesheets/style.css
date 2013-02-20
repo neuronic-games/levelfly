@@ -2428,6 +2428,22 @@ div .taskmsg_bgc2 {
     width: 578px;
     padding: 23px 0 0;
 }
+.btn_drop_file  a{
+	text-decoration:underline; 
+	color:#B6D496;
+}
+
+.browse_link_div{
+	display:inline-block;
+	width:220px;
+	text-align:center;
+}
+
+.browse_link_div  a{
+	text-decoration:underline; 
+	color:#B6D496;
+}
+
 /* Add member to course*/
 #course_participant_list {
     background: none repeat scroll 0 0 #FFFFFF;

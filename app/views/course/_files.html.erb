@@ -46,12 +46,14 @@
    <div class="titleTextKind">Size</div>
    <div class="titleTextUpdated">Updated</div><br/><br/>
    <div id="all_files">
-		<div id="show_file" class="btn_drop_file" style="<%if @task %> color:#000;<%end%>">DROP FILE HERE</div>
+		<div id="show_file" class="btn_drop_file" style="<%= @task ? "color:#000;" : "" %>">
+			DROP FILE OR <a href="javascript:void(0)" name="browse_btn" id="browse_btn">CLICK HERE</a> 
+		</div>
 		<div id="load_files">
 			<%= render :partial => "/course/load_files", :locals => {:files=>@files} %>
 		</div>
-  </div>
-  <div id="file_download" class="hide"><%=render :partial => "/course/download_dialog" %></div> 
+		</div>
+	<div id="file_download" class="hide"><%=render :partial => "/course/download_dialog" %></div> 
   <input type="hidden" name="current_course" id="current_course" value="<%=@course.id if @course%>">
   <input type="hidden" name="object_type_hdn" id="object_type_hdn" <% if @task %>value="Task" <%else%>value="Course"<%end%>> 
   <input type="hidden" name="object_id_hdn" id="object_id_hdn" <%if @task %>value="<%=@task.id%>" <%else%>value="<%=@course.id%>" <%end%> >
@@ -160,9 +162,10 @@ $(document).ready(function(){
     var add_file_uploader = new plupload.Uploader({
       runtimes: 'html5',
       drop_element: 'show_file',
+			browse_button : 'browse_btn',
       container: 'show_file',
       max_file_size: '5mb',
-      resize : {width : 125, height : 125},
+      //resize : {width : 125, height : 125},
       url: '/course/add_file',
       multipart_params: {
         'authenticity_token' : token,  //For csrf-authentication

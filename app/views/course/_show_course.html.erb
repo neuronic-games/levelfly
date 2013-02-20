@@ -78,14 +78,16 @@
         </div>
       <%end%>
 			<% if @course_messages.length > 0 %>
-				<div id="show_all_cmnts_div" class="linkcolour">
-					<a href="javascript:void(0)" id="all_cmnts">Show All Comments</a>
-				</div>
-				<div id="show_only_cmnts_div" class="hide linkcolour">
-					<a href="javascript:void(0)" id="only_cmnts">Show Only Last 2 Comments</a>
+				<div class="msg_content_left" style="margin-left:100px">
+					<div id="show_all_cmnts_div" class="linkcolour">
+						<a href="javascript:void(0)" id="all_cmnts">Show All Comments</a>
+					</div>
+					<div id="show_only_cmnts_div" class="hide linkcolour">
+						<a href="javascript:void(0)" id="only_cmnts">Show Only Last 2 Comments</a>
+					</div>
 				</div>
 			<% end %>
-      <div id="message_wrapper" class="message_wrapper resize_message_box" >
+      <div id="message_wrapper" class="message_wrapper resize_message_box msg_content_left" >
       
       &nbsp;
         <%if @course_messages  && !@course_messages.nil?%>
