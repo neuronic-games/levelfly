@@ -92,26 +92,27 @@ class Task < ActiveRecord::Base
   def calc_point_value
     return 0 if self.course.nil?
     return 0 if self.level.nil? or self.level > 2 or self.level < 0
-
-    remaining_points = self.course.remaining_points
-    return 0 unless remaining_points > 0
-    
+    estimated_tasks = self.course.tasks_low if self.level == 0
+    estimated_tasks = self.course.tasks_medium if self.level == 1
+    estimated_tasks = self.course.tasks_high if self.level == 2
     # level = 0,1,2
     rating_ratio = [self.course.rating_low, self.course.rating_medium, self.course.rating_high]
 
     # Calculate how many units in total are estimated for the course
-    total_units = self.course.rating_low * self.course.tasks_low +
-      self.course.rating_medium * self.course.tasks_medium +
-      self.course.rating_high * self.course.tasks_high
+    total_units = self.course.rating_low + self.course.rating_medium + self.course.rating_high
 
     # Calculate how much one unit is worth in terms of XP
-    unit =  self.course.default_points_max / total_units
+    unit =  self.course.default_points_max / total_units.to_f
     
     # Calculate how much XP this task should be allocated. We will need to track how much points
     # have been allocated to the course over the life of the course. If the allocated points is over
     # the max (1000 points), then no more points can be allocated to tasks for this course.
-    suggested_points = unit * rating_ratio[self.level]
-    suggested_points = remaining_points if remaining_points < suggested_points
+    suggested_points = unit * rating_ratio[self.level] / estimated_tasks
+    all_tasks = Task.filter_by(self.course.owner.id,self.course.id,"").collect(&:level)
+    new_estimated_tasks = all_tasks.count(self.level) + 1
+    if new_estimated_tasks > estimated_tasks
+      suggested_points = suggested_points * estimated_tasks / new_estimated_tasks 
+    end
     self.points = suggested_points
   end
   
@@ -184,13 +185,18 @@ class Task < ActiveRecord::Base
       previous_level = profile.level
       previous_points =  profile.xp
       task_grade = TaskGrade.find(:first,:conditions=>["task_id = ? and profile_id = ?",task_id,profile_id])
+      remaining_points = task.remaining_points(profile_id)
+      if task.points > remaining_points
+        return status if complete
+      end
       if participant.profile_type == Task.profile_type_member
       # Give points to members who completed the task
         participant.xp_award_date = complete ? Time.now : nil
         if complete
           profile.xp += task.points
         else
-          profile.xp -= task_grade.points
+          profile.xp -= task_grade.points if task_grade
+          return status unless task_grade
         end
         participant.save
         status = complete
@@ -213,6 +219,13 @@ class Task < ActiveRecord::Base
     return status
   end
 	
+  def remaining_points(profile_id)
+    total_points = TaskGrade.sum(:points,
+      :conditions => ["course_id = ? and profile_id = ?", self.course.id, profile_id])
+    
+    return Course.default_points_max - total_points
+  end
+  
 	def task_owner
     if @owner == nil
       @owner = Profile.find(
