@@ -294,7 +294,7 @@ class CourseController < ApplicationController
       #end 
       # Change 'Group' to 'Course' because of query include `participants`.`object_type` = 'Course' when load group or course! Change by vaibhav
       section_type = 'Course'
-      @user = User.find_by_email(params[:email])
+      @user = User.find(:first, :conditions => ["lower(email) = ?", params[:email].downcase])
       if @user 
         @profile = Profile.find_by_user_id(@user.id)
       else
@@ -329,7 +329,16 @@ class CourseController < ApplicationController
             status = true           
           end
         else 
-            already_added = true
+          wall_id = Wall.get_wall_id(params[:course_id],"Course")
+          if params[:section_type] == 'G'
+            message_type = "group_invite"
+            content = "You are invited to join the group: #{course.name}."
+          elsif params[:section_type] == 'C'
+            message_type = "course_invite"
+            content = "Please join #{course.name} (#{course.code_section})."
+          end
+          @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
+          send_email(params[:email],params[:course_id],@message.id,new_user)
         end
       end
       
