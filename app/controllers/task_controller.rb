@@ -253,7 +253,6 @@ class TaskController < ApplicationController
     @task.all_members = true if (params[:all_members] == "All Members")
     # Has something changed on the task that could change it's points value?
     # FIXME: We may want to recalculate points if the task raiting or course settings change
-    @task.calc_point_value
     
     if params[:file]
       @task.image.destroy if @task.image

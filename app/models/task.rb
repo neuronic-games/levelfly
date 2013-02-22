@@ -109,7 +109,7 @@ class Task < ActiveRecord::Base
     # the max (1000 points), then no more points can be allocated to tasks for this course.
     suggested_points = unit * rating_ratio[self.level] / estimated_tasks
     all_tasks = Task.filter_by(self.course.owner.id,self.course.id,"").collect(&:level)
-    new_estimated_tasks = all_tasks.count(self.level) + 1
+    new_estimated_tasks = all_tasks.count(self.level)
     if new_estimated_tasks > estimated_tasks
       suggested_points = suggested_points * estimated_tasks / new_estimated_tasks 
     end
@@ -186,6 +186,9 @@ class Task < ActiveRecord::Base
       previous_points =  profile.xp
       task_grade = TaskGrade.find(:first,:conditions=>["task_id = ? and profile_id = ?",task_id,profile_id])
       remaining_points = task.remaining_points(profile_id)
+      if task.points == 0
+        task.update_attribute('points',task.calc_point_value)
+      end
       if task.points > remaining_points
         return status if complete
       end
