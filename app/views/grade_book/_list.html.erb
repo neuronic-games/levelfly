@@ -1501,7 +1501,7 @@ $(document).ready(function(){
           var table_task = $("<table></table>");width12pxclass="GB_table GB_editable task_grades_width"
           table_task.addClass("task_grades_width");//Add for remove extra column 05/09/12
           var len = task.task_outcomes.length;
-          var  text_grade = $("<input type ='text' name='task_grade' value = '"+value.task_grade[i]+"' id = 'g_"+value.profile_id+"_"+task.id +"' maxlength='2' size='2' rel ='"+ value.profile_id +"' data='"+task.include_task_grade+"'/>");
+          var  text_grade = $("<input type ='text' name='task_grade' value = '"+value.task_grade[i]+"' id = 'g_"+value.profile_id+"_"+task.id +"' maxlength='6' size='2' rel ='"+ value.profile_id +"' data='"+task.include_task_grade+"'/>");
           text_grade.addClass("editable_field task_grade t_"+task.id +" col_width");
           column.html(text_grade); 
           task_name_column.addClass(" width12px width_30 hover task_name_background");
