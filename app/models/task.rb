@@ -107,11 +107,12 @@ class Task < ActiveRecord::Base
     # Calculate how much XP this task should be allocated. We will need to track how much points
     # have been allocated to the course over the life of the course. If the allocated points is over
     # the max (1000 points), then no more points can be allocated to tasks for this course.
-    suggested_points = unit * rating_ratio[self.level] / estimated_tasks
     all_tasks = Task.filter_by(self.course.owner.id,self.course.id,"").collect(&:level)
     new_estimated_tasks = all_tasks.count(self.level)
     if new_estimated_tasks > estimated_tasks
-      suggested_points = suggested_points * estimated_tasks / new_estimated_tasks 
+      suggested_points = unit * rating_ratio[self.level] / new_estimated_tasks
+    else
+      suggested_points = unit * rating_ratio[self.level] / estimated_tasks
     end
     self.points = suggested_points
   end
@@ -160,63 +161,67 @@ class Task < ActiveRecord::Base
     return status
   end  
   
-  def self.task_grade_points(task_id,profile_id,complete)
+  def self.task_grade_points(task_id,profile_id,complete,award_points)
     @task = Task.find(task_id)
     @task_grade = TaskGrade.where("task_id = ? and profile_id = ?", task_id ,profile_id)
     @task_grade << TaskGrade.new({:school_id => @task.school_id, :course_id => @task.course_id, :task_id => task_id, :profile_id => profile_id}) if @task_grade.blank?
     if !@task_grade.nil?
       @task_grade.each do |t|
-        t.points = complete ? @task.points : nil
+        t.points = complete ? award_points : nil
         t.save
       end
     end
   end
   
+  def self.award_xp(complete,profile,task,task_grade,award_points,current_user,course_name = nil)
+    previous_level = profile.level
+    previous_points = profile.xp
+    if complete
+      profile.xp += award_points
+    else
+      profile.xp -= task_grade.points if task_grade
+    end
+    @level = Reward.find(:first, :conditions=>["xp <= ? and object_type = 'level'",  profile.xp], :order=>"xp DESC")
+    puts"#{@level.inspect}"
+    profile.level = @level.object_id
+    profile.save
+    if( profile.xp > previous_points)
+      content = "Congratulations! You have received #{task.points} XP for #{task.name}." if task
+      content = "Congratulations! You have received #{award_points} Bonus XP for #{course_name}." if course_name
+      Message.send_notification(current_user,content,profile.id)
+    end
+    if(previous_level != profile.level)
+      content = "Congratulations! You have achieved level #{profile.level}."
+      Message.send_notification(current_user,content,profile.id)
+    end 
+    Reward.notification_for_reward_sports(profile,previous_points,current_user)
+  end
+  
   def self.points_to_student(task_id, complete, profile_id,current_user)
     status = nil
-    previous_level=nil
-    previous_points = nil
     participant = TaskParticipant.find(:first,
       :include => [:profile, :task],
       :conditions => ["task_id = ? and profile_id = ?", task_id, profile_id])
     if participant
       profile = participant.profile
       task = participant.task
-      previous_level = profile.level
-      previous_points =  profile.xp
+      course_finalised = TaskGrade.where(:school_id => profile.school_id, :profile_id => profile_id, :course_id => task.course_id, :task_id => nil).first
+      return status if course_finalised
       task_grade = TaskGrade.find(:first,:conditions=>["task_id = ? and profile_id = ?",task_id,profile_id])
       remaining_points = task.remaining_points(profile_id)
-      if task.points == 0
-        task.update_attribute('points',task.calc_point_value)
-      end
-      if task.points > remaining_points
-        return status if complete
-      end
+      task.update_attribute('points',task.calc_point_value) if task.points == 0
+      
+      return status if remaining_points == 0 and complete
+      
+      award_points = task.points if remaining_points > task.points
+      award_points = remaining_points unless remaining_points > task.points
       if participant.profile_type == Task.profile_type_member
       # Give points to members who completed the task
         participant.xp_award_date = complete ? Time.now : nil
-        if complete
-          profile.xp += task.points
-        else
-          profile.xp -= task_grade.points if task_grade
-          return status unless task_grade
-        end
+        Task.award_xp(complete,profile,task,task_grade,award_points,current_user)
         participant.save
         status = complete
-        Task.task_grade_points(task_id,profile_id,complete)
-        @level = Reward.find(:first, :conditions=>["xp <= ? and object_type = 'level'",  profile.xp], :order=>"xp DESC")
-        puts"#{@level.inspect}"
-        profile.level = @level.object_id
-        profile.save
-        if( profile.xp > previous_points)
-          content = "Congratulations! You have received #{task.points} XP for #{task.name}."
-          Message.send_notification(current_user,content,profile_id)
-        end
-        if(previous_level != profile.level)
-          content = "Congratulations! You have achieved level #{profile.level}."
-          Message.send_notification(current_user,content,profile_id)
-        end 
-        Reward.notification_for_reward_sports(profile,previous_points,current_user)        
+        Task.task_grade_points(task_id,profile_id,complete,award_points)
       end
     end
     return status

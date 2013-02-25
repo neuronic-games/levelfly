@@ -328,6 +328,7 @@ class GradeBookController < ApplicationController
         @outcomes = @course.outcomes
         @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
         @participant.each do |p|
+          TaskGrade.bonus_points(p.profile.school_id,@course,p.profile.id,user_session[:profile_id])
           outcomes_grade = []
           profile_ids = AvatarBadge.find(:all, :select=>"profile_id",:conditions=>["profile_id = ? and badge_id = ? and course_id = ?",p.profile_id,@badge.id,params[:id]]).collect(&:profile_id)
           AvatarBadge.delete_all(["profile_id = ? and badge_id = ? and course_id = ?",p.profile_id,@badge.id,params[:id]])
