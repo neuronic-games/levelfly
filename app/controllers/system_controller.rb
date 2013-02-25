@@ -19,8 +19,9 @@ class SystemController < ApplicationController
      links = invitation_link.split("&")
      @user = User.find(:first, :conditions=>["email = ?",links[0]])
      @message = links[1]
-     if @user.nil?
-      redirect_to root_path     
+     if @user.nil? or @user.sign_in_count > 0
+       session[:email] = @user.email
+       redirect_to root_path
      end
    else
       redirect_to root_path

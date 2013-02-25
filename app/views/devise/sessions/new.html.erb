@@ -33,7 +33,11 @@
 			<div class="Divider_15"></div>
 			<div class="clear"></div>
 			<div class="text_box_wp">
-				<%= f.email_field :email, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Email"%>
+				<% if session[:email] %>
+				  <%= f.email_field :email, :value=>session.delete(:email).to_s, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Email", :readonly => true %>
+				<% else %>
+				  <%= f.email_field :email, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Email"%>
+				<% end %>
 			</div><!--text_box_wp-->
 			<div class="Divider_15"></div>
 			<div class="clear"></div>
