@@ -55,7 +55,7 @@ class GradeBookController < ApplicationController
         @course_id = @latest_course.id
         session[:course_id] = @course_id
         @outcomes = @latest_course.outcomes
-        @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
+        @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order => "full_name")
         #@participant = @courses.first.participants
         @count = @participant.count
         @tasks = Course.sort_course_task(@course_id)
@@ -77,7 +77,8 @@ class GradeBookController < ApplicationController
       @outcomes = @course.outcomes
       @participant = Participant.all( :joins => [:profile], 
         :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
-        :select => ["profiles.full_name,participants.id,participants.profile_id"])
+        :select => ["profiles.full_name,participants.id,participants.profile_id"],
+        :order => "full_name")
       @tasks =  Course.sort_course_task(params[:course_id])
         if not @participant.nil?
           @participant.each do |p|
