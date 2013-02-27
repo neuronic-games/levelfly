@@ -640,6 +640,12 @@ class CourseController < ApplicationController
   def add_file
     school_id = params[:school_id]
     course_id = params[:id]
+    if params[:object_type] == 'Course'
+      @course = Course.find(params[:id])
+    elsif
+      task = Task.find(params[:id])
+      @course = task.course
+    end
     @profile = Profile.find(params[:profile_id])
     @vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
     if @vault
