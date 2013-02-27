@@ -196,19 +196,13 @@ class GradeBookController < ApplicationController
         # Calculate the GPA
         sub_arrays = characters.in_groups(p, false)
         profile_id.each_with_index do |p,j|
-          average = grade_average(school_id,course_id,p,task_id,task_grade)
+          average,previous_grade = grade_average(school_id,course_id,p,task_id,task_grade)
           @grade = average.round(2).to_s + " " + GradeType.value_to_letter(average, school_id) if average
           arr_grade.push(@grade)
           if undo == "true" and !previous_values.blank?
             @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, profile_id[j],arr_task_grade[j],average)
-            if !@grade_task.blank?
-              previous_grade = GradeType.value_to_letter(@grade_task, school_id)
-            end
           else
             @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, profile_id[j],task_grade,average)
-            if !@grade_task.blank?
-              previous_grade = GradeType.value_to_letter(@grade_task, school_id)
-            end
           end
         end  
       end  
@@ -504,6 +498,8 @@ class GradeBookController < ApplicationController
       category_count[i] = 0
     end
     previous_task_grade = TaskGrade.where("school_id = ? and course_id = ? and task_id =? and profile_id = ? ",school_id,course_id,task_id,profile_id).first
+    previous_grade = previous_task_grade.grade if previous_task_grade
+    previous_grade = previous_grade.to_f if previous_grade
     if !previous_task_grade.nil?
       TaskGrade.task_grade_update(task_grade,previous_task_grade)
     else
@@ -531,8 +527,8 @@ class GradeBookController < ApplicationController
         end
       end
     end
-    return average if flag
-    return nil
+    return average,previous_grade if flag
+    return nil,previous_grade
   end
 
 end
