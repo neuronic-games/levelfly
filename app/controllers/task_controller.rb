@@ -43,7 +43,7 @@ class TaskController < ApplicationController
     @courses = Course.find(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and courses.archived = ?", @profile.id, 'M',Course.parent_type_course,false]
+      :conditions => ["participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and courses.archived = ? and courses.removed = ?", @profile.id, 'M',Course.parent_type_course,false, false]
     )   
     @task = Task.new
     respond_to do |wants|

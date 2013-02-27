@@ -47,7 +47,12 @@
    <div class="titleTextUpdated">Updated</div><br/><br/>
    <div id="all_files">
 		<div id="show_file" class="btn_drop_file" style="<%= @task ? "color:#000;" : "" %>">
-			DROP FILE OR <a href="javascript:void(0)" name="browse_btn" id="browse_btn">CLICK HERE</a> 
+			<span id="drop_text_container">
+				DROP FILE OR <a href="javascript:void(0)" name="browse_btn" id="browse_btn">CLICK HERE</a> 
+			</span>
+			<span id="uploading_text_container" style="display:none">
+				Uploading...
+			</span>
 		</div>
 		<div id="load_files">
 			<%= render :partial => "/course/load_files", :locals => {:files=>@files} %>
@@ -189,7 +194,9 @@ $(document).ready(function(){
     });
     
     add_file_uploader.bind('UploadProgress', function(up, file) {
-      $('#show_file').html('<center>Uploading..</center>');
+      //$('#show_file').html('<center>Uploading..</center>');
+			$('#drop_text_container').hide();
+			$('#uploading_text_container').show();
     });
     
     
@@ -197,8 +204,10 @@ $(document).ready(function(){
       showSpinner(true);
       $("#show_file_list").show();
       $("#load_files").prepend(info.response);
-      $("#show_file").text("DROP THE FILE");
-      $("#show_file").fadeOut('slow');
+      //$("#show_file").text("DROP THE FILE");
+			$('#uploading_text_container').hide();
+			$('#drop_text_container').show();
+			$("#show_file").fadeOut('slow');
       $("#load_files").slideDown(10000);
       $("#show_file").fadeIn('slow');
       $("#no_files").html('');
@@ -228,7 +237,7 @@ $(document).ready(function(){
 
       file_uploader.bind('UploadProgress', function(up, file) {
         $('#show_file_uploading').html('<center>Uploading..</center>');
-      });
+			});
       
       
      file_uploader.bind('FileUploaded', function(up, file, info) {
