@@ -8,7 +8,7 @@ class UserMailer < ActionMailer::Base
     @course = course
     @school = school
     @message = message_id
-    @link = "http://#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/system/new_user/?link=#{link}"
+    @link = "https://#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/system/new_user/?link=#{link}"
     @new_user = new_user
     subject     "You have been invited to join #{@course.name} by #{@sender.full_name} at #{@school.code}"
     recipients  user
@@ -22,7 +22,7 @@ class UserMailer < ActionMailer::Base
     @sender = sender
     @school = school
     @message = message_content
-    @link = "http://#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/users/sign_in"
+    @link = "https://#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/users/sign_in"
     subject     "#{@sender.full_name} at #{@school.code} has sent you a private message"
     recipients  user
     sent_on     Time.now
