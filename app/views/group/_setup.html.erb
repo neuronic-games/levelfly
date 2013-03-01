@@ -28,7 +28,7 @@
       <div class="group_field_box group_input">
          <div class="desc_width field_label">Description
           <div>
-            <textarea name="group_descr" id="group_descr" style="width:100%" class="group_descr" rows="4"  onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
+            <textarea name="group_descr" id="group_descr" style="width:100%" class="group_descr" rows="4"  onBlur='javascript:deleteStorage("group_descr");setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
           </div>
          </div>
        </div>  
@@ -69,6 +69,11 @@
 </div>
 
 <script type="text/javascript">
+
+if($("#group_name").val()!=""){setStorage("group_name", $("#group_name").val());}
+else {setStorage("group_name", "New Group");}
+if($("#group_descr").val()!="") {setStorage("group_descr", $("#group_descr").val());}
+else {setStorage("group_descr", "New Group Description");}
 
 $(document).ready(function(){
   $(".group_setup_edit").delegate("input","change",function(){

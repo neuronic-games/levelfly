@@ -120,12 +120,6 @@ else {setStorage("course_code", "Course Code");}
 if($("#course_section").val()!="") {setStorage("course_section", $("#course_section").val());}
 else {setStorage("course_section", "Section");}
 
-
-if($("#group_name").val()!=""){setStorage("group_name", $("#group_name").val());}
-else {setStorage("group_name", "New Group");}
-if($("#group_descr").val()!="") {setStorage("group_descr", $("#group_descr").val());}
-else {setStorage("group_descr", "New Group Description");}
-
 $(document).ready(function(){
   
   
@@ -434,12 +428,15 @@ function save_course(channel) {
   section_type = $("#section_type").val();
    course_id = $("#course_id_hdn").val();
   //Get data from offline storage
-
-  if(section_type == "G")
+	if(section_type == "G")
   {
     name = getStorage("group_name");
-    descr = getStorage("group_descr");
-    section_type = "G";
+    if(typeof getStorage("group_descr") === 'undefined' || getStorage("group_descr")==null){
+			descr = "";
+		} else {
+			descr = getStorage("group_descr");
+		}
+		section_type = "G";
   }
   else
   {
@@ -519,8 +516,7 @@ function save_course(channel) {
   });
 
   var dataString = 'id='+ id +'&course='+ name + '&descr=' + descr + '&section_type=' + section_type + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id + '&percent_value=' +_categories_persentObject+ '&outcome_share='+_outcomes_shareObject+'&rating_low=' +rating_low + '&rating_medium=' +rating_medium + '&rating_high=' +rating_high + '&task_low=' +task_low + '&task_medium=' +task_medium + '&task_high=' +task_high+ '&post_messages='+post_messages.checked+ '&show_grade=' +show_grade_checked;
-
-  //alert(dataString);  return false;
+	//alert(dataString);  return false;
   if(changed==true){
   showSpinner(true);
   $.ajax({

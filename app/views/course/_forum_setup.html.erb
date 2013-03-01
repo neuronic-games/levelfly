@@ -24,7 +24,7 @@
       <div class="group_field_box group_input">
          <div class="desc_width field_label">Description
           <div>
-            <textarea name="forum_desc" id="forum_desc" style="width:100%;height:90px" class="group_descr" rows="4"  onBlur='javascript:setStorage("forum_desc", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
+            <textarea name="forum_desc" id="forum_desc" style="width:100%;height:90px" class="group_descr" rows="4"  onBlur='javascript:deleteStorage("forum_desc");setStorage("forum_desc", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
           </div>
          </div>
        </div>  
@@ -63,13 +63,16 @@
 </div>
 
 <script type="text/javascript">
-
+		var forum_name,
+			forum_descr;
+		
     $(document).ready(function(){
-      $('textarea#forum_desc').autosize();
-	  setStorage("forum_name",$($("input[name='forum_name']")).val());
-	  setStorage("forum_desc",$($("input[name='forum_desc']")).val());
-    });
- //For image uploads
+			$('textarea#forum_desc').autosize();
+			setStorage("forum_name",$("input[name='forum_name']").val());
+			setStorage("forum_desc",$("textarea#forum_desc").val());
+			get_forum_data();
+		});
+		//For image uploads
     var base_params = {
       'authenticity_token' : token,  //For csrf-authentication
       'school_id' : $("#course_school_id_hdn").val(),
@@ -95,8 +98,9 @@
     
     group_uploader.bind('FilesAdded', function(up, files) {
       showSpinner(true);
-      group_uploader.settings.multipart_params.name = getStorage("forum_desc");
-      group_uploader.settings.multipart_params.descr = getStorage("forum_desc");
+			get_forum_data();
+      group_uploader.settings.multipart_params.name = forum_name;
+      group_uploader.settings.multipart_params.descr = forum_descr;
       group_uploader.settings.multipart_params.parent_type = "F";
       group_uploader.start();
     });
@@ -123,21 +127,32 @@
    $("#save_forum_btn").click(function(){
       id = $("#new_course_id").val();
       parent_id = $("#course_id_hdn").val();
-      name = getStorage("forum_name");
-      descr = getStorage("forum_desc");
-	  $("#hdn_forum_id").attr("value",id);
+      get_forum_data();
+			name = forum_name;
+			descr = forum_descr;
+			$("#hdn_forum_id").attr("value",id);
       var post_messages = document.getElementById('forum_post_messages');
       showSpinner(true);
-    $.ajax({
-      type: "POST",
-      url: "/course/save_forum",
-      data: {id:id,parent_id:parent_id,name:name,descr:descr,post_messages:post_messages.checked},
-      dataType:"json",
-      success: function(data) {
-        $("#load_data").load("/course/show_forum/"+data.course.id, function(){
-          showSpinner(false);
-        });
-      }   
+			$.ajax({
+				type: "POST",
+				url: "/course/save_forum",
+				data: {id:id,parent_id:parent_id,name:name,descr:descr,post_messages:post_messages.checked},
+				dataType:"json",
+				success: function(data) {
+					$("#load_data").load("/course/show_forum/"+data.course.id, function(){
+						showSpinner(false);
+					});
+				}   
       });
    }); 
+	 
+	 function get_forum_data() {
+		forum_name = getStorage("forum_name");
+		// This check is here to check if the setStorage has save a blank value for descr
+		if(typeof getStorage("forum_desc") === 'undefined' || getStorage("forum_desc")==null){
+			forum_descr = "";
+		} else {
+			forum_descr = getStorage("forum_desc");
+		}
+	 }
 </script>
