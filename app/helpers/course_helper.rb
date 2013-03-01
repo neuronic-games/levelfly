@@ -16,6 +16,10 @@ module CourseHelper
     return task
   end
   
+  def all_course(parent_type)
+    courses = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, parent_type], :order => "name")
+  end
+  
   def sort_files(id,type)
     course = Course.find(id)
     att = Attachment.find(:all, :conditions=>["object_type = ? and object_id = ?",type,id], :order=>"starred desc")

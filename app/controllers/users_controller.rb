@@ -9,7 +9,7 @@ class UsersController < ApplicationController
       search_text =  "#{params[:search_text]}%"
       @users = Profile.find(:all, :conditions=>["school_id = ? and full_name LIKE ? and user_id is not null",@profile.school_id, search_text])      
     else   
-      @users = Profile.where("school_id = ? and user_id is not null", @profile.school_id)
+      @users = Profile.where("school_id = ? and user_id is not null", @profile.school_id).order("full_name")
     end
     @profile.record_action('last', 'users')
     respond_to do |wants|
@@ -41,6 +41,42 @@ class UsersController < ApplicationController
       end
     end
   
+ end
+ 
+ def load_users
+   @profile = Profile.find(user_session[:profile_id])
+   if params[:id] and !params[:id].blank?
+     if params[:id] == "all_active"
+       @users = Profile.where("school_id = ? and user_id is not null", @profile.school_id).order("full_name")
+     elsif params[:id] == "members_of_courses"
+       course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, "C"], :order => "name").collect(&:id)
+       profile_ids = Participant.find(:all, :conditions => ["object_id IN (?)",course_ids]).collect(&:profile_id).uniq
+     elsif params[:id] == "members_of_groups"
+       course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, "G"], :order => "name").collect(&:id)
+       profile_ids = Participant.find(:all, :conditions => ["object_id IN (?)",course_ids]).collect(&:profile_id).uniq
+     else
+       profile_ids = Participant.find(:all, :conditions => ["object_id = ?",params[:id]]).collect(&:profile_id).uniq
+     end
+     @users = Profile.where("school_id = ? and user_id is not null and id IN (?)", @profile.school_id, profile_ids).order("full_name") unless @users
+     @profile.record_action('last', 'users')
+     render :partial => "/users/load_users", :locals => {:@users=>@users}
+   end
+ end
+ 
+ def send_message_to_all_users
+   status = false
+   if params[:ids] and !params[:ids].nil?
+     @people = Profile.find(:all, :conditions => ["id IN (?) ", params[:ids]])
+     if @people
+       @msg_content = CGI::unescape(params[:mail_msg])
+       @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+       @people.each do |people|
+         save_message(@current_user,people,"Profile",@msg_content,"Message") unless people.id == @current_user.id
+       end
+       status = true
+     end
+   end
+   render :text => {"status" => status}
  end
  
  def save
@@ -95,6 +131,31 @@ class UsersController < ApplicationController
   
  def new 
    render :partial => "/users/form"
+ end
+ 
+ private
+ 
+ def save_message(current_profile,parent,parent_type,content,message_type)
+   wall_id = Wall.get_wall_id(parent.id, parent_type)
+   message = Message.new
+   message.profile_id = current_profile.id
+   message.parent_id = parent.id
+   message.parent_type = parent_type 
+   message.content = content
+   message.target_id = parent.id
+   message.target_type = parent_type
+   message.message_type = message_type
+   message.wall_id = wall_id
+   message.post_date = DateTime.now
+   
+   if message.save
+     MessageViewer.add(current_profile.id,message.id,parent_type,parent.id)
+     UserMailer.private_message(parent.user.email,current_profile,current_profile.school,content).deliver
+     feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",current_profile.id,wall_id])
+     if feed.nil?
+       Feed.create(:profile_id => current_profile.id,:wall_id =>wall_id)
+     end
+   end
  end
  
 end

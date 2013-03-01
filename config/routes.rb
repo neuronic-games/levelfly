@@ -185,6 +185,8 @@ Oncapus::Application.routes.draw do
 	
 	post "course/send_email_to_all_participants"
   
+  post "users/send_message_to_all_users"
+  
   get "group/index"
   
   get "group/new"
@@ -314,6 +316,8 @@ Oncapus::Application.routes.draw do
   get "users/index"
   
   get "users/show"
+  
+  post "users/load_users"
   
   post "users/save"
   

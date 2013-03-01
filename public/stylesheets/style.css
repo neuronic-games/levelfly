@@ -2108,6 +2108,11 @@ div .taskmsg_bgc2 {
   color:#FFFFFF;
   font-size: 15px;
 }
+.titleTextPeople{
+  font-weight:bold;
+  color:#AAAAA;
+  font-size: 15px;
+}
 .titleTextParticipants{
   font-weight:bold;
   color:#FFFFFF;

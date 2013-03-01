@@ -23,36 +23,36 @@
           <div class="leader_TabCSS">
           <div class="steel_pin"><img src="/images/pin_steel.png" /></div>
           <div class="leader_topselect">
+            <div class="titleTextPeople">Show:&nbsp;&nbsp;
+              <span>
+                <select class="dd_input brown_bg" id="filter_files" style="width:180px;">
+                  <option value="all_active" class="brown_bg">All Active</option>
+                  <option value="members_of_courses" class="brown_bg">Members of Courses</option>
+                  <option value="members_of_groups" class="brown_bg">Members of Groups</option>
+                  <optgroup label="Courses">
+                    <%courses = all_course("C")%>
+                    <% if courses and !courses.nil?%>
+                      <% courses.each do |course| %>
+                        <option value="<%=course.id%>" class="brown_bg"><%=course.name%></option>
+                      <% end %> 
+                    <% end %>
+                  </optgroup>
+                  <optgroup label="Groups">
+                     <%courses = all_course("G")%>
+                     <% if courses and !courses.nil?%>
+                       <% courses.each do |course| %>
+                         <option value="<%=course.id%>" class="brown_bg"><%=course.name%></option>
+                       <% end %> 
+                     <% end %>
+                   </optgroup>
+                </select>
+             </span>
+            </div>
             <div class="clear"></div>
           </div>
-
-          <div id="rows" class="LB_table">
-            <div class="LB_tableheader">
-            <div class="LBT_ava"> &nbsp;</div>
-            <div class="LBT_name">&nbsp;</div>
-            <div class="LBT_level">Email</div>
-            <div class="LBT_xp"> Member Since</div>
-            <div class="LBT_badges">Last Login</div>
-          </div>
-           <%if @users and !@users.nil?%>
-            <% @users.each do |p|%>
-              <%if p.user%>
-              <div class="LB_tablecontent <%= cycle("even", "odd") %>">
-                <div class="LBT_ava">
-                  <div class="avatarWbdr"><img src="<%= p.image_file_name%>" class="profile" profile_id="<%= p.id %>" /></div>
-                </div>
-                <div class="LBT_name view_user" rel="/users/show/<%=p.id%>" > 
-                  <span class="name_txt "><%= p.full_name %> </span><br />
-                  <span class="course_txt"><%= p.major_school %></span> 
-                </div>
-                <div class="LBT_level view_user" rel="/users/show/<%=p.id%>" style="font-size:12px;"><%= p.user.email %></div>
-                <div class="LBT_xp view_user" rel="/users/show/<%=p.id%>" style="font-size:12px;"><%= change_date_format(p.user.created_at) %></div>
-                <div class="LBT_badges view_user" rel="/users/show/<%=p.id%>" style="font-size:12px;"><%= change_date_format(p.user.last_sign_in_at) %></div>
-                </div>
-              <% end %>
-            <% end %>
-          <% end %>  
-          </div>        
+            <div id="load_users">
+              <%= render :partial => "/users/load_users", :locals => {:@users=>@users} %>
+            </div>  
         </div>         
         <div class="end_of_page"></div>
        </div>
@@ -63,6 +63,7 @@
  <div id="sidebar_right">
     <div class="course_side_buttons">
         <a class="big_blue_btn" name="create_new_user" id="create_new_user" href="javascript:void(0)">ADD</a>
+        <a class="big_blue_btn" name="message_to_user" id="message_to_user" href="javascript:void(0)">MESSAGE</a>
     </div><!-- crud_level -->
   </div>
 
@@ -85,15 +86,22 @@ $(document).ready(function(){
       showSpinner(false);
     }); 
   });
-  $(".view_user").click(function(){
-    showSpinner(true);
-    url = $(this).attr("rel");
-    $("#container").load(url, function(){
-      showSpinner(false);
-    }); 
-  });
 });
   
-
+$("#filter_files").change(function(){
+    var id = $("#filter_files").val();
+    if(id){
+      showSpinner(true);
+      $.ajax({
+         type: "POST",  
+         url: "/users/load_users",  
+         data: {id:id},
+         success: function(data) {
+           $("#load_users").html(data);
+           showSpinner(false);
+         }
+      });
+    }
+  });
 
 </script>

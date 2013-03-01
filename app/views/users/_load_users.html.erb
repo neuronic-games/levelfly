@@ -1,0 +1,87 @@
+<div id="rows" class="LB_table">
+  <div class="LB_tableheader">
+    <div class="LBT_ava"> &nbsp;</div>
+    <div class="LBT_name">&nbsp;</div>
+    <div class="LBT_level">Email</div>
+    <div class="LBT_xp"> Member Since</div>
+    <div class="LBT_badges">Last Login</div>
+  </div>
+  <%if @users and !@users.nil?%>
+    <% @users.each do |p|%>
+      <%if p.user%>
+        <div class="LB_tablecontent <%= cycle("even", "odd") %>">
+          <div class="LBT_ava">
+            <div class="avatarWbdr"><img src="<%= p.image_file_name%>" class="profile" profile_id="<%= p.id %>" /></div>
+          </div>
+          <div class="LBT_name view_user user" rel="/users/show/<%=p.id%>" id="<%=p.id%>" > 
+            <span class="name_txt "><%= p.full_name %> </span><br />
+            <span class="course_txt"><%= p.major_school %></span> 
+          </div>
+          <div class="LBT_level view_user" rel="/users/show/<%=p.id%>" style="font-size:12px;"><%= p.user.email %></div>
+          <div class="LBT_xp view_user" rel="/users/show/<%=p.id%>" style="font-size:12px;"><%= change_date_format(p.user.created_at) %></div>
+          <div class="LBT_badges view_user" rel="/users/show/<%=p.id%>" style="font-size:12px;"><%= change_date_format(p.user.last_sign_in_at) %></div>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+  <div id="send_email_all" class="add_task_popup" style="display:none">
+	<div class="heading">Send Message to All Users</div>
+	<div class="boxadnt"> 
+		<span class="heading02">Message</span>
+    <div class="heading02_field">
+      <div class="dd_bg brown_bg02">
+        <textarea class="dd_input brown_bg02" style="height:55px" name="mail_msg" id="mail_msg"></textarea>
+      </div>
+    </div>
+    <div class="clear"></div>
+		<div class="spacebar10px"></div>
+		<div class="spacebar10px"></div>
+  </div>
+	<div align="right" style="margin-right:20px;">
+		<a class="big_blue_btn inlineblock" id="dont_send_btn" href="javascript:void(0)">Don't Send</a> 
+		<a class="big_blue_btn inlineblock" id="send_btn" href="javascript:void(0)">Send</a>
+	</div>
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".view_user").click(function(){
+    showSpinner(true);
+    url = $(this).attr("rel");
+    $("#container").load(url, function(){
+      showSpinner(false);
+    });
+  });
+});
+// For showing popup of send email to all
+	$("#message_to_user").click(function(){
+		$('#send_email_all').show();
+	});
+	
+	$("#dont_send_btn").click(function(){
+		$('#send_email_all').hide();
+	});
+	
+	// For sending message to all
+	$("#send_btn").click(function() {
+		showSpinner(true);
+		var ids = new Array();
+		$(".user").each(function(n,i){ids.push(this.id)});
+		var mail_msg = $('#mail_msg').val();
+		if(ids) {
+			var dataString = {ids:ids, mail_msg:escape(mail_msg)};
+			$.ajax({
+				type: "POST",
+				url: "users/send_message_to_all_users",
+				data: dataString,
+				success: function(data) {
+					if(data) {
+						showSpinner(false);
+						$('#send_email_all').hide();
+						alert("Message Sent Successfully!!!");
+					}
+				}
+			});
+		} 
+	});
+</script>
