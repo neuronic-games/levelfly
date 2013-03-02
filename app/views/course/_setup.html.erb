@@ -202,14 +202,15 @@ $(document).ready(function(){
     
     //Uploader course image upload
     var course_uploader = new plupload.Uploader({
-      runtimes: 'html5',
+      runtimes: 'html5,flash',
       drop_element: 'course_image',
 			browse_button: 'course_browse_btn',
       container: 'course_image',
       max_file_size: '5mb',
       resize : {width : 125, height : 125},
       url: '/course/save',
-      multipart_params: {
+			flash_swf_url : '/assets/fileupload/plupload.flash.swf',
+			multipart_params: {
         'authenticity_token' : token,  //For csrf-authentication
         'school_id' : $("#course_school_id_hdn").val(),
         'id' : $("#course_id_hdn").val()
@@ -219,8 +220,8 @@ $(document).ready(function(){
       ]
     });
     
-    course_uploader.init();
-    
+		course_uploader.init();
+		
     course_uploader.bind('FilesAdded', function(up, files) {
       showSpinner(true);
       course_uploader.settings.multipart_params.course = getStorage("course_name");

@@ -222,12 +222,11 @@ function addNode(element) {
 								<div id="image_drop">
 									<img id="task_image" class="task_image" src="<%= @task.image_file %>" width="156" height="156" />
                   <img class="image_icon_drop_target" src="/images/course_img_drop.png" />
+									<div class="browse_link_div">
+										<a href="javascript:void(0)" id="task_browse_btn">CLICK HERE TO UPLOAD</a> 
+									</div>
 								</div>
-								<div class="browse_link_div">
-									<a href="javascript:void(0)" id="task_browse_btn">CLICK HERE TO UPLOAD</a> 
-								</div>
-                  
-                <div class="clip_img"></div>
+								<div class="clip_img"></div>
                 <div class="task_info_meta">
                   <div class="title">Course Task is For</div>
                 </div>
@@ -784,13 +783,14 @@ $(document).ready(function(){
     
     //Uploader task image upload
     var task_uploader = new plupload.Uploader({
-      runtimes: 'html5',
+      runtimes: 'html5,flash',
       drop_element: 'image_drop',
 			browse_button : 'task_browse_btn',
-      container: 'task_image',
+      container: 'image_drop',
       max_file_size: '5mb',
       resize : {width : 125, height : 125},
       url: '/task/save',
+			flash_swf_url : '/assets/fileupload/plupload.flash.swf',
       multipart_params: base_params,
       filters : [
         {title : "Image files", extensions : "jpg,gif,png,JPG,PNG,GIF,JPEG"}
@@ -827,11 +827,12 @@ $(document).ready(function(){
     
     //Uploader file (Attachments) upload
     var uploader = new plupload.Uploader({
-      runtimes : 'html5',
+      runtimes : 'html5,flash',
       drop_element: 'upload_container',
       container: 'upload_container',
       max_file_size : '10mb',
       url : '/task/upload_resource',
+			flash_swf_url : '/assets/fileupload/plupload.flash.swf',
       multipart_params: base_params
     });
     

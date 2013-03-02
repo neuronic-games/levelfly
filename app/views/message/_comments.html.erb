@@ -1,29 +1,29 @@
 <!--box 2nd-->
 <div class="msg_small_box comments_lists_box" id ="messsage_box_<%=comment.id%>" rel="<%=comment.id%>">
-  <div class="avatar_green_bdr_upper">
+  <div class="msg_small_box_fullwidth">
+		<div class="msg_small_box_arrow_pos"><div class="msg_small_box_arrow"><img src="/images/green_arrow.png" width="15px" height="21px" /></div></div>
+		<div class="msg_box_txt green_bg_msg_txt">
+			<p><strong><%=comment.profile.full_name%></strong>   <div class="message_content_link"><%=auto_link(comment.formatted_content, :html => { :target => "_blank" })
+				%></div></p>
+			<div class="msg_bottom_links">
+			 <div class="time" rel ="<%=comment.id%>"><span class="words"><%= time_ago_in_words(comment.created_at) %> ago</span><span class="hide dates" ><%=gdt(comment.created_at)%></span></div>
+				<div class="like_cmt"><span class="fav_icon"><img src="/images/fav.png" align="absbottom" /><span id="count_<%=comment.id%>"><%=comment.like%></span></span> 
+				<span class="comments_lists" id="c_<%=comment.id%>">
+				<span id="link_<%=comment.id%>">
+					<a href="javascript:void(0)" class="blue_bt19px like" rev ="<%=course_id%>" rel="<%=user_like(user_session[:profile_id], comment.id) ? "unlike" : "like" %>" id="<%=comment.id%>"><%=user_like(user_session[:profile_id], comment.id) ? "UNLIKE" : "LIKE" %></a>
+				</span>
+				<%if comment.profile_id == user_session[:profile_id] or course_owner == true or @message_page==true%>
+					 <span id="delete_<%=comment.id%>">
+					 <a href="javascript:void(0);" class="message_del blue_bt19px" rel="<%=comment.id %>" rev="comment">DELETE</a>
+					 </span>
+				<% end %>
+			 </span>
+			</div>
+			</div>
+		</div>
+		<div class="avatar_green_bdr_upper">
     <div class="avatar_green_bdr">
       <img src="<%=comment.profile.image_file_name%>" profile_id="<%=comment.profile.id%>" class="profile" />
-    </div>
-  </div>
-  <div class="msg_small_box_fullwidth">
-  <div class="msg_small_box_arrow_pos"><div class="msg_small_box_arrow"><img src="/images/green_arrow.png" width="15px" height="21px" /></div></div>
-  <div class="msg_box_txt green_bg_msg_txt">
-    <p><strong><%=comment.profile.full_name%></strong>   <div class="message_content_link"><%=auto_link(comment.formatted_content, :html => { :target => "_blank" })
-      %></div></p>
-    <div class="msg_bottom_links">
-     <div class="time" rel ="<%=comment.id%>"><span class="words"><%= time_ago_in_words(comment.created_at) %> ago</span><span class="hide dates" ><%=gdt(comment.created_at)%></span></div>
-      <div class="like_cmt"><span class="fav_icon"><img src="/images/fav.png" align="absbottom" /><span id="count_<%=comment.id%>"><%=comment.like%></span></span> 
-      <span class="comments_lists" id="c_<%=comment.id%>">
-      <span id="link_<%=comment.id%>">
-        <a href="javascript:void(0)" class="blue_bt19px like" rev ="<%=course_id%>" rel="<%=user_like(user_session[:profile_id], comment.id) ? "unlike" : "like" %>" id="<%=comment.id%>"><%=user_like(user_session[:profile_id], comment.id) ? "UNLIKE" : "LIKE" %></a>
-      </span>
-      <%if comment.profile_id == user_session[:profile_id] or course_owner == true or @message_page==true%>
-         <span id="delete_<%=comment.id%>">
-         <a href="javascript:void(0);" class="message_del blue_bt19px" rel="<%=comment.id %>" rev="comment">DELETE</a>
-         </span>
-      <% end %>
-     </span>
-    </div>
     </div>
   </div>
   <div class="clear"></div>

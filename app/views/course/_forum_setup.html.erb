@@ -81,13 +81,14 @@
     
     //Uploader task image upload
     var group_uploader = new plupload.Uploader({
-      runtimes: 'html5',
+      runtimes: 'html5,flash',
       drop_element: 'group_image',
 			browse_button: 'forum_browse_btn',
       container: 'group_image',
       max_file_size: '5mb',
       resize : {width : 125, height : 125},
       url: '/course/save_forum',
+			flash_swf_url : '/assets/fileupload/plupload.flash.swf',
       multipart_params: base_params,
       filters : [
         {title : "Image files", extensions : "jpg,gif,png,JPG,PNG,GIF,JPEG"}

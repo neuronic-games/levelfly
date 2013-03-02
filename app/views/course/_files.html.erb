@@ -165,13 +165,14 @@ $(document).ready(function(){
     
     //Uploader task image upload
     var add_file_uploader = new plupload.Uploader({
-      runtimes: 'html5',
+      runtimes: 'html5,flash',
       drop_element: 'show_file',
 			browse_button : 'browse_btn',
       container: 'show_file',
       max_file_size: '5mb',
       //resize : {width : 125, height : 125},
       url: '/course/add_file',
+			flash_swf_url : '/assets/fileupload/plupload.flash.swf',
       multipart_params: {
         'authenticity_token' : token,  //For csrf-authentication
         'school_id' : $("#course_school_id_hdn").val(),
@@ -215,11 +216,12 @@ $(document).ready(function(){
     });
     
     var file_uploader = new plupload.Uploader({
-        runtimes : 'html5',
+        runtimes : 'html5,flash',
         browse_button : 'pickfiles',
         container: 'pickfiles',
         max_file_size : '10mb',
         url : '/course/add_file',
+				flash_swf_url : '/assets/fileupload/plupload.flash.swf',
         multipart_params: {
           'authenticity_token' : token,  //For csrf-authentication
           'school_id' : $("#course_school_id_hdn").val(),
