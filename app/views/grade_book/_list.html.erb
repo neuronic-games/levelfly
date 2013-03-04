@@ -92,7 +92,6 @@
     </div>
 
     <input type="hidden" name="grade_val"  id ="grad_val" value="">
-    <input type="hidden" name="previous_grade"  id ="previous_grade" value="">
     <input type="hidden" name="clicked_id"  id ="clicked_id" value="">
     <input type="hidden" name="letest"  id ="letest" value="">
     <input type="hidden" name="plus_minus"  id ="plus_minus" value="">
@@ -505,18 +504,10 @@ $(document).ready(function(){
         $.ajax({
           type :"POST",
           url: "/grade_book/grade_calculate", 
-          dataType: "json",
           data: datastring,
           error: function(e){alert("error");},
           success: function(data){
-            $(rel).each(function(index,item){
-              $("#"+item).attr("value",data.grade[index]);            
-            })
-            $(arr_ids).each(function(index,item){
-              $("#"+item).removeClass("warning");
-            });
-            //$("#"+rel).attr("value",data.grade);
-            $("#previous_grade").attr("value",data.previous_grade);
+            $("#all_participant").html(data);
             grades = [];
             arrOfgrades=[];
             arr_profile=[];

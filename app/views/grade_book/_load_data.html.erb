@@ -16,7 +16,7 @@
   </div>
   <div class="clear"></div>
   <div id="all_participant">
-    <%= render :partial=>"/grade_book/show_participant"%>
+    <%= render :partial=>"/grade_book/show_participant", :locals => {:previous_grade=>nil}%>
   </div>
   <div id="add_task" class="add_task hide" >
     <%= render :partial=>"/grade_book/add_new_task"%>

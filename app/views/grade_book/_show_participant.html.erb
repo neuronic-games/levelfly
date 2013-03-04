@@ -179,7 +179,8 @@
               <%task_grade = TaskGrade.load_task_grade(@school_id, @course_id,t.id,p.profile_id)%>
               <%grade=""%>
               <%if !task_grade.nil?%>
-                <% grade = GradeType.value_to_letter(task_grade, @school_id)%>
+                <% grade = task_grade.to_f if t.course.display_number_grades %>
+                <% grade = GradeType.value_to_letter(task_grade, @profile.school_id) unless t.course.display_number_grades %>
               <%end%>
                 <td class="width12px width_30 hover task_name_background " >
                   <div class="rotate_text GB_outcomment3 white_font"><%if i==0%>&nbsp;<%end%></div>
@@ -264,7 +265,7 @@
     </table>
 
   </div><!--task_left_heading-->
-
+<input type="hidden" name="previous_grade"  id ="previous_grade" value="<%= previous_grade if previous_grade %>">
 </div>
 
 

@@ -111,7 +111,8 @@ class GradeBookController < ApplicationController
                 task_grade = TaskGrade.load_task_grade(@profile.school_id, params[:course_id],t.id,p.profile_id)
                 grade=""
                 if !task_grade.blank?
-                  grade = GradeType.value_to_letter(task_grade, @profile.school_id)
+                  grade = task_grade.to_f if t.course.display_number_grades
+                  grade = GradeType.value_to_letter(task_grade, @profile.school_id) unless t.course.display_number_grades
                 end
                 array_task_grade.push(grade)
                 task_outcomes = t.outcomes
@@ -166,6 +167,7 @@ class GradeBookController < ApplicationController
       characters = params[:characters].split(",") if params[:characters]
       school_id = params[:school_id]
       course_id = params[:course_id]
+      course = Course.find(params[:course_id])
       task_id = params[:task_id]
       profile_id = params[:profile_id].split(",") if params[:profile_id]
       task_grade = params[:task_grade]
@@ -197,6 +199,8 @@ class GradeBookController < ApplicationController
         sub_arrays = characters.in_groups(p, false)
         profile_id.each_with_index do |p,j|
           average,previous_grade = grade_average(school_id,course_id,p,task_id,task_grade)
+          previous_grade = GradeType.value_to_letter(previous_grade, school_id) if !course.display_number_grades and previous_grade
+          course.update_attribute('display_number_grades',num) unless task_grade.blank?
           @grade = average.round(2).to_s + " " + GradeType.value_to_letter(average, school_id) if average
           arr_grade.push(@grade)
           if undo == "true" and !previous_values.blank?
@@ -206,7 +210,18 @@ class GradeBookController < ApplicationController
           end
         end  
       end  
-        render :json => {:grade => arr_grade,:previous_grade=>previous_grade}
+      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      @latest_course = Course.find(course_id)
+      @course_id = @latest_course.id
+      @school_id = @profile.school_id
+      @outcomes = @latest_course.outcomes
+      @participant = Participant.all( :joins => [:profile], 
+        :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", course_id],
+        :select => ["profiles.full_name,participants.id,participants.profile_id"],
+        :order => "full_name")
+      @tasks =  Course.sort_course_task(course_id)
+      @count = @participant.count
+      render :partial => "/grade_book/show_participant", :locals => {:previous_grade=>previous_grade}
     end  
   end
 
