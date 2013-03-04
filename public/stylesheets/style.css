@@ -296,6 +296,10 @@ a.icon_users_active {
     float:right;
     width:404px;
 }*/
+.message_wrapper {
+	max-width: 750px;
+}
+
 .message_wrapper_group {
     float: left;
     margin-left: 120px;
@@ -792,6 +796,7 @@ a.blue_bt19px2 {
 .task_profile_image img {
   padding:16px 0 17px 45px;
 }
+/*
 .task_profile_image div a {
   font-family: 'MyriadWebRegular';
   text-decoration:none;
@@ -799,6 +804,12 @@ a.blue_bt19px2 {
   font-size:12px;
   padding:0 0 0 22px;
 }
+*/
+
+.task_profile_image div.browse_link_div {
+	margin-left:12px;
+}
+
 .task_pdf {
   padding:40px 0 0px;
   height:50px;
@@ -2423,19 +2434,19 @@ div .taskmsg_bgc2 {
 }
 
 .btn_drop_file {
-    border: 1px dashed #5A95AD;
-    color: #E2E4EB;
-    font-weight: bold;
-    height: 40px;
-    margin: 20px 0 20px 29px;
-    position: relative;
-    text-align: center;
-    width: 578px;
-    padding: 23px 0 0;
+	border: 1px dashed #5A95AD;
+	color: #E2E4EB;
+	font-weight: bold;
+	height: 40px;
+	margin: 20px 0 20px 29px;
+	position: relative;
+	text-align: center;
+	width: 578px;
+	padding: 23px 0 0;
 }
 .btn_drop_file  a{
 	text-decoration:underline; 
-	color:#FFF;
+	color:#9ab0b9;
 }
 
 .browse_link_div{
@@ -2448,7 +2459,7 @@ div .taskmsg_bgc2 {
 
 .browse_link_div  a{
 	text-decoration:underline; 
-	color:#FFF;
+	color:#9ab0b9;
 }
 
 /* Add member to course*/

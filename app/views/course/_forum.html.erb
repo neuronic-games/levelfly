@@ -15,7 +15,7 @@
       Organizer
     </th>
   </tr>
-  <% @groups.reverse.each do |c| %>
+  <% @groups.each do |c| %>
   <tr class="course_row">
     <td>
       <a href="/course/show_forum/<%=c.id%>" class="view" rel="<%=c.id%>">

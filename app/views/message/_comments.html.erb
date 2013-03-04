@@ -1,6 +1,11 @@
 <!--box 2nd-->
 <div class="msg_small_box comments_lists_box" id ="messsage_box_<%=comment.id%>" rel="<%=comment.id%>">
-  <div class="msg_small_box_fullwidth">
+	<div class="avatar_green_bdr_upper">
+		<div class="avatar_green_bdr">
+			<img src="<%=comment.profile.image_file_name%>" profile_id="<%=comment.profile.id%>" class="profile" />
+		</div>
+	</div>
+	<div class="msg_small_box_fullwidth">
 		<div class="msg_small_box_arrow_pos"><div class="msg_small_box_arrow"><img src="/images/green_arrow.png" width="15px" height="21px" /></div></div>
 		<div class="msg_box_txt green_bg_msg_txt">
 			<p><strong><%=comment.profile.full_name%></strong>   <div class="message_content_link"><%=auto_link(comment.formatted_content, :html => { :target => "_blank" })
@@ -21,12 +26,7 @@
 			</div>
 			</div>
 		</div>
-		<div class="avatar_green_bdr_upper">
-    <div class="avatar_green_bdr">
-      <img src="<%=comment.profile.image_file_name%>" profile_id="<%=comment.profile.id%>" class="profile" />
-    </div>
-  </div>
-  <div class="clear"></div>
+		<div class="clear"></div>
   </div>
   <div class="clear"></div>
 </div>

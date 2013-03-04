@@ -188,7 +188,7 @@ class Course < ActiveRecord::Base
   
   
   def course_forum(profile_id = nil)
-    return Course.find(:all,:include => [:participants],:conditions => ["participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?",profile_id,self.id,false, false], :order => 'name')
+    return Course.find(:all,:include => [:participants],:conditions => ["participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?",profile_id,self.id,false, false], :order => 'courses.name')
   end
   
   def join_all(profile)
