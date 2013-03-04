@@ -231,7 +231,7 @@ GradeType.create(:school_id => school, :letter => 'C-', :value_min => 70, :value
 GradeType.create(:school_id => school, :letter => 'D+', :value_min => 67, :value => 68.33, :gpa=> 1.3)
 GradeType.create(:school_id => school, :letter => 'D', :value_min => 63, :value => 65, :gpa=> 1.0)
 GradeType.create(:school_id => school, :letter => 'D-', :value_min => 60, :value => 61.66, :gpa=> 0.7)
-GradeType.create(:school_id => school, :letter => 'F', :value_min => 0, :value => 0, :gpa=> 0.0)
+GradeType.create(:school_id => school, :letter => 'F', :value_min => 0, :value => 55, :gpa=> 0.0)
 GradeType.create(:school_id => school, :letter => 'U', :value_min => 0, :value => 0, :gpa=> 0.0)
 
 # Badge_images
