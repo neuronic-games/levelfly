@@ -42,27 +42,6 @@
 </div>
 <div class="clear"></div>
 
-<!-- Task totals -->
-<div class="page_block">
-  <div class="page_block_left">
-    <span class="field_title">Estimated Task Totals</span>
-    <span class="field_notes">
-      Provide your best guess for how many low, medium, and high level tasks you will have for the course. This helps us figure out how much XP to award a student for finishing a task. You can change these numbers during the semester.
-    </span>
-  </div>
-
-  <div class="page_block_right">
-    <div class="field_label">Low<br /><input type="text" name="task_low" id="task_low" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" value="<%=@course.tasks_low if @course%>" onBlur='javascript:setStorage("task_low", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
-    <div class="field_label">Medium<br /><input type="text" name="task_medium" id="task_medium" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" value="<%=@course.tasks_medium if @course%>" onBlur='javascript:setStorage("task_medium", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
-    <div class="field_label">High<br /><input type="text" name="task_high" value="<%=@course.tasks_high if @course%>" id="task_high" class="small dd_input brown_bg prompted" prompt="course_tasks_prompt" style="width:60px;" onBlur='javascript:setStorage("task_high", $(this).val());$("#hdn_is_page_change").val(true);' /></div>
-    
-    <!--<div id="course_tasks_prompt" class="field_prompt">
-      Provide your best guess on how many Low, Medium and High rated tasks you will have for the course
-    </div>-->
-    
-  </div>
-</div> <!-- End page_block -->
-
 <!-- Outcomes -->
   <div class="page_block">
     <div class="page_block_left">

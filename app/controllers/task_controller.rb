@@ -160,8 +160,9 @@ class TaskController < ApplicationController
 		else
 			@files = @task.attachments.where("owner_id IN (?)", [@profile.id, @task_owner.id]).order("starred desc")
 		end
-		
-		
+    all_tasks = Task.filter_by(@course.owner.id,@course.id,"").collect(&:points)
+    @tasks_allocated = all_tasks.count
+    @allocated_points = all_tasks.sum
     @outcomes = @course.outcomes if @course
     @courses = Course.find(
       :all, 
@@ -244,7 +245,7 @@ class TaskController < ApplicationController
     @task.name = params[:task] if params[:task]
     @task.descr = params[:descr] if params[:descr]
     @task.due_date = Date.strptime(params[:due_date], '%m-%d-%Y') if params[:due_date] && params[:due_date] != "null"
-    @task.level = params[:level] if params[:level]
+    @task.points = params[:task_xp] if params[:task_xp]
     @task.school_id = params[:school_id] if params[:school_id]
     @task.course_id = params[:course_id] if params[:course_id]
     @task.archived = false

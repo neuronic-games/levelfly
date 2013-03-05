@@ -451,22 +451,6 @@ function save_course(channel) {
   school_id = $("#course_school_id_hdn").val();
   wall_id = $("#course_wall_id_hdn").val();
 
-  rating_low = getStorage("course_rating_low");
-  rating_medium = getStorage("course_rating_medium");
-  rating_high = getStorage("course_rating_high");
-  task_low = getStorage("task_low");
-  task_medium = getStorage("task_medium");
-  task_high = getStorage("task_high");
-  if (task_low==null){
-    task_low = $("#task_low").val();
-  }
-  if (task_medium==null){
-    task_medium = $("#task_medium").val();
-  }
-  if (task_high==null){
-    task_high = $("#task_high").val();
-  }
-  
   var post_messages = document.getElementById('post_messages');
   var show_grade = document.getElementById('show_grade');
   if(!show_grade){
@@ -515,7 +499,7 @@ function save_course(channel) {
     n++;
   });
 
-  var dataString = 'id='+ id +'&course='+ name + '&descr=' + descr + '&section_type=' + section_type + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id + '&percent_value=' +_categories_persentObject+ '&outcome_share='+_outcomes_shareObject+'&rating_low=' +rating_low + '&rating_medium=' +rating_medium + '&rating_high=' +rating_high + '&task_low=' +task_low + '&task_medium=' +task_medium + '&task_high=' +task_high+ '&post_messages='+post_messages.checked+ '&show_grade=' +show_grade_checked;
+  var dataString = 'id='+ id +'&course='+ name + '&descr=' + descr + '&section_type=' + section_type + '&code=' + code + '&section=' + section + '&school_id=' + school_id + '&outcomes=' + _outcomesObject + '&outcomes_descr=' + _outcomes_descrObject + '&categories=' + _categoriesObject + '&wall_id=' +wall_id + '&percent_value=' +_categories_persentObject+ '&outcome_share='+_outcomes_shareObject+'&post_messages='+post_messages.checked+ '&show_grade=' +show_grade_checked;
 	//alert(dataString);  return false;
   if(changed==true){
   showSpinner(true);

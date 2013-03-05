@@ -102,9 +102,8 @@ function addNode(element) {
                       <input type="text" class="dd_input" id="task_date"  <%if @task %> value="<%=change_date_format(@task.due_date)%>" readonly="readonly" <%end%>/>
                     </div>
                   </div>
-                  <div class="rating_viewfield font_12px">
-                   Task Challenge Rating
-                    <img src="<%=@task.rating_icon_file if @task%>" class="task_rating_icon task_raiting" task_id="<%=@task.id if @task%>">
+                  <div class="xp_amount">
+                    <span class="font_15px"><%=@task.points if @task %> XP</span>
                   </div>
                 </div>
                 <div class="clear"></div>
@@ -322,14 +321,15 @@ function addNode(element) {
                     <option value="confirm__by_creator">Confirm by Creator</option>
                   </select>
                 </div>
-                <div class="rating_viewfield font_12px">
-                   Task Challenge Rating<br />
-                   <select id="level" name="level" class="clipboard_select" style="width:80px;">
-                     <option <%if @task.level==2 %>selected="selected"<%end%> value="2">High</option>
-                     <option <%if @task.level==1 %>selected="selected"<%end%> value="1">Medium</option>
-                     <option <%if @task.level==0 %>selected="selected"<%end%> value="0">Low</option>
-                   </select>        
+                <div class="dd_bg1">
+                   <input type="text" name="task_xp" id="task_xp" class="dd_input1" maxlength="4" value="<%=@task ? @task.points : 0 %>" onblur='javascript:setStorage("task_xp", $(this).val())' />&nbsp;&nbsp;<span class="font_12px">XP</span>
                 </div>
+                <% if @tasks_allocated %>
+                  <div class="xp_allocated">
+                    <span class="font_10px">Currently <%=@tasks_allocated%> tasks with <%=@allocated_points%> XP allocated.</span></br>
+                    <span class="font_10px">A person may receive up to 1000 XP per course.</span>
+                  </div>
+                <% end %>
                 <div class="clear"></div>
               </div>
               <div class="spacebar10px"></div>
@@ -417,6 +417,10 @@ function addNode(element) {
     </div>
   </div>
 </div>
+<!-- Warning pop for Invalid Input Xp -->
+<div id="invalid_input" style="display:none;margin-top:10px;">
+  <%= render :partial => "/task/invalid_input" %>
+</div>
 <!-- Warning pop for grading category select -->
 <div id="warning_msg" class="add_task_popup" style="display:none;margin-top:10px;">
 	<div class="heading">Grading Category Missing!!!</div>
@@ -463,12 +467,23 @@ else {setStorage("task_name", "Task Name");}
 if($("#descr").val()!="") {setStorage("task_descr", $("#descr").val());}
 else {setStorage("task_descr", "Description");}
 if($("#course").val()!="") {setStorage("task_course", $("#course").val());}
-if($("#level").val()!="") {setStorage("task_level", $("#level").val());}
+if($("#task_xp").val()!="") {setStorage("task_xp", $("#task_xp").val());}
 if($("#due_date").val()!="") {setStorage("task_due_date", $("#due_date").val());}
 if($("#course_categories") && $("#course_categories").val()!="") {setStorage("task_category", $("#course_categories").val());}
 $("#level").change(function(){
   if($(this).val()!="") {setStorage("task_level", $(this).val());}
 });
+ 
+  function validateXP(value){
+  	var isValid = /^([0-9]|[0-9][0-9]|[0-9][0-9][0-9]|[0]?[0-9][0-9][0-9]|[1]?[0][0][0])?$/.test(value);
+    if (!isValid) {
+      $("#invalid_input").show();
+      $("#task_xp").attr("value","0");
+      setStorage("task_xp", $("#task_xp").val());
+    }
+    return isValid;
+  }
+  
   
  
 $(document).ready(function(){
@@ -525,6 +540,9 @@ $(document).ready(function(){
   
   //Submit data
   $("#btn_task").unbind('click').bind('click', function(){
+		if(!validateXP($("#task_xp").val())) {
+			return false;
+		}
 		if($("#course_categories").val()=="null") {
 			$("#warning_msg").show();
 			return false;
@@ -971,13 +989,13 @@ $(document).ready(function(){
 }); //document.ready ends
 
 function save_task(channel) {
-
+    var valid = validateXP($("#task_xp").val());
     //Get data from offline storage
     task_id = $("#task_id_hdn").val();
     task = getStorage("task_name");
     descr = getStorage("task_descr");
     due_date = getStorage("task_due_date");
-    level = getStorage("task_level");
+    task_xp = getStorage("task_xp");
     course_id = getStorage("task_course");
     school_id = $("#task_school_id_hdn").val();
     category_id = getStorage("task_category");
@@ -1009,7 +1027,7 @@ function save_task(channel) {
     });*/
     
     
-    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&level=' +level + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id +'&extra_credit='+extra_credit.checked + '&all_members='+all_members;  
+    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&task_xp=' +task_xp + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id +'&extra_credit='+extra_credit.checked + '&all_members='+all_members;  
 
     //alert(dataString); return false;
     if( changed == true){
