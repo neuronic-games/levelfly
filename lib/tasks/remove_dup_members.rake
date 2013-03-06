@@ -5,8 +5,8 @@ task :remove_dup_members => :environment do
   
   count = 0
   list.each do |tp|
-    dup = TaskParticipant.find(:first, :conditions => ["task_id = ? and profile_id = ?", tp.task_id, tp.profile_id])
-    if dup.complete_date.nil?
+    dup = TaskParticipant.find(:first, :conditions => ["task_id = ? and profile_id = ? and id <> ?", tp.task_id, tp.profile_id, tp.id])
+    if dup and dup.complete_date.nil?
       puts "Removing task_participants ##{dup.id}"
       # We only want to delete this if this is not complete
       dup.destroy
