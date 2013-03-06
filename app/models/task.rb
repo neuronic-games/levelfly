@@ -173,13 +173,13 @@ class Task < ActiveRecord::Base
     end
   end
   
-  def self.award_xp(complete,profile,task,task_grade,award_points,current_user,course_name = nil)
+  def self.award_xp(complete,profile,participant,task,award_points,current_user,course_name = nil)
     previous_level = profile.level
     previous_points = profile.xp
     if complete
-      profile.xp += award_points
+      profile.xp += award_points if !participant.xp_award_date
     else
-      profile.xp -= task_grade.points if task_grade
+      profile.xp -= award_points if participant.xp_award_date
     end
     @level = Reward.find(:first, :conditions=>["xp <= ? and object_type = 'level'",  profile.xp], :order=>"xp DESC")
     puts"#{@level.inspect}"
@@ -207,7 +207,6 @@ class Task < ActiveRecord::Base
       task = participant.task
       course_finalised = TaskGrade.where(:school_id => profile.school_id, :profile_id => profile_id, :course_id => task.course_id, :task_id => nil).first
       return status if course_finalised
-      task_grade = TaskGrade.find(:first,:conditions=>["task_id = ? and profile_id = ?",task_id,profile_id])
       remaining_points = task.remaining_points(profile_id)
       
       return status if remaining_points == 0 and complete
@@ -216,10 +215,10 @@ class Task < ActiveRecord::Base
       award_points = remaining_points unless remaining_points > task.points
       if participant.profile_type == Task.profile_type_member
       # Give points to members who completed the task
-        participant.xp_award_date = complete ? Time.now : nil
-        Task.award_xp(complete,profile,task,task_grade,award_points,current_user)
-        participant.save
+        Task.award_xp(complete,profile,participant,task,award_points,current_user)
         Task.task_grade_points(task_id,profile_id,complete,award_points)
+        participant.xp_award_date = complete ? Time.now : nil
+        participant.save
       end
     end
     return status
