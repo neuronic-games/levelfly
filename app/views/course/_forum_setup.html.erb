@@ -40,9 +40,7 @@
         <input type="hidden" name="new_course_id" id="new_course_id" value="<%=@course.id if @course%>">
       </div>
       <div class="clear"></div>
-	  <div id="confirm_box" class="hide">
-        <%= render :partial => "/course/forum_archive_box" %>
-      </div>
+			
 	  <div class="page_block">
         <div class="page_block_left">
           </br></br>
@@ -61,7 +59,9 @@
 	  <a href="javascript:void(0)" name="forum_btn_archive" id="forum_btn_archive" class="big_blue_btn">Remove</a>
   </div>
 </div>
-
+<div id="confirm_box" class="hide">
+	<%= render :partial => "/course/forum_archive_box" %>
+</div>
 <script type="text/javascript">
 		var forum_name,
 			forum_descr;

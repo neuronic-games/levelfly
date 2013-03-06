@@ -76,10 +76,16 @@
     <div id="remove_course_div" class="hide">
       <div class="add_task_popup" style="position:fixed;">
         <div class="heading" id="file_dialog_heading">Remove  <% if defined?(section_type) && section_type == "C" %>Course  <% elsif defined?(section_type) && section_type == "G" %>Group<%end%></div>
-          <div class="clear"></div>
+          <div class="boxadnt"> 
+						Warning: By removing this content you will lose all data and files associated with it.
+					</div>
           <div class="spacebar10px"></div>
           <div class="spacebar10px"></div>
-          <div style="font-weight: bold;"> This <% if defined?(section_type) && section_type == "C" %>Course  <% elsif defined?(section_type) && section_type == "G" %>Group<%end%> will no longer be available once removed. Are you sure you want to remove this <% if defined?(section_type) && section_type == "C" %>Course  <% elsif defined?(section_type) && section_type == "G" %>Group<%end%>?   </div></br>
+          <!--
+					<div style="font-weight: bold;"> 
+						This <% if defined?(section_type) && section_type == "C" %>Course  <% elsif defined?(section_type) && section_type == "G" %>Group<%end%> will no longer be available once removed. Are you sure you want to remove this <% if defined?(section_type) && section_type == "C" %>Course  <% elsif defined?(section_type) && section_type == "G" %>Group<%end%>?   
+					</div></br>
+					-->
            <div id="dialog_url" style="word-wrap:break-word;"></div>
           <div class="spacebar10px"></div>
         <div align="right">
