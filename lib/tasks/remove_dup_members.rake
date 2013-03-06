@@ -6,7 +6,7 @@ task :remove_dup_members => :environment do
   count = 0
   remove_list = {}
   list.each do |tp|
-    next if remove_list.contains(tp.id)
+    next if remove_list.include?(tp.id)
     puts "Checking task_participants ##{tp.id}: status=#{tp.status} profile_type=#{tp.profile_type} assign_date=#{tp.assign_date} complete_date=#{tp.complete_date} xp_award_date=#{tp.xp_award_date}"
     dups = TaskParticipant.find(:all, :conditions => ["task_id = ? and profile_id = ? and id <> ?", tp.task_id, tp.profile_id, tp.id])
     dups.each do |dup|
