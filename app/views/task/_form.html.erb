@@ -643,8 +643,12 @@ $(document).ready(function(){
            showSpinner(false);
            setAlert(data.task.points+" xp rewarded to "+data.member.full_name);
             changed=true;
-			
-				
+         },
+         error:function(){
+           alert("An error has occured");
+           showSpinner(false);
+           changed = false
+           $("#c_"+member_id).prop("checked",!check_val);
          }
       });
      
@@ -684,6 +688,11 @@ $(document).ready(function(){
          success:function(data){
            showSpinner(false);
 			$('.check_box_credired').prop("checked",true);
+         },
+         error:function(){
+           alert("An error has occured");
+           showSpinner(false);
+           changed = false
          }
       });
   });
