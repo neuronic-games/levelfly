@@ -283,8 +283,9 @@ class CourseController < ApplicationController
     status = false
     already_added = false
     new_user = false
-    message_type = nil
+		message_type = nil
     content = nil
+		resend = false
     if params[:email] && params[:email]
       #if params[:section_type] == 'G'
        #    section_type = 'Group'
@@ -329,20 +330,24 @@ class CourseController < ApplicationController
             status = true           
           end
         else 
-          wall_id = Wall.get_wall_id(params[:course_id],"Course")
-          if params[:section_type] == 'G'
-            message_type = "group_invite"
-            content = "You are invited to join the group: #{course.name}."
-          elsif params[:section_type] == 'C'
-            message_type = "course_invite"
-            content = "Please join #{course.name} (#{course.code_section})."
-          end
-          @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
-          send_email(params[:email],params[:course_id],@message.id,new_user)
+					if participant_exist.profile_type == "P"
+						wall_id = Wall.get_wall_id(params[:course_id],"Course")
+						if params[:section_type] == 'G'
+							message_type = "group_invite"
+							content = "You are invited to join the group: #{course.name}."
+						elsif params[:section_type] == 'C'
+							message_type = "course_invite"
+							content = "Please join #{course.name} (#{course.code_section})."
+						end
+						@message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
+						send_email(params[:email],params[:course_id],@message.id,new_user)
+						resend = true
+					else
+						already_added = true
+					end
         end
       end
-      
-      render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user,"new_user"=>new_user}.to_json
+      render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user,"new_user"=>new_user, "resend"=>resend}.to_json
    end
   end
   
