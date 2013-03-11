@@ -333,7 +333,7 @@ function addNode(element) {
                 <div class="xp_allocated">
                   <% if @tasks_created %>
                     <span class="font_12px" id="xp_allocated_span1">You have created </span></br>
-                    <span class="font_12px" id="xp_allocated_span2"><%=@tasks_created - 1%> tasks totalling <%=@allocated_points - @task.points%> XP out of 1000 available</span>
+                    <span class="font_12px" id="xp_allocated_span2"><%=@tasks_created - 1%> tasks totaling <%=@allocated_points - @task.points%> XP out of 1000 available</span>
                   <% end %>
                   <input type="hidden" name="remaining_points" id="remaining_points" value="<%=@remaining_points if @remaining_points%>" />
                 </div>
@@ -659,7 +659,7 @@ $(document).ready(function(){
           var course_remaining_points = $("#course_remaining_points").val();
           var course_tasks_created = $("#course_tasks_created").val();
           var course_allocated_points = $("#course_allocated_points").val();
-          var span2_html = "<span class='font_12px'>" + course_tasks_created + " tasks totalling  " + course_allocated_points + " XP out of 1000 available</span>";
+          var span2_html = "<span class='font_12px'>" + course_tasks_created + " tasks totaling  " + course_allocated_points + " XP out of 1000 available</span>";
           max_points = 100;
           if (course_remaining_points < max_points) {
             max_points = course_remaining_points;
