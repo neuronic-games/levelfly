@@ -15,7 +15,9 @@
   </div>
   <% end %>
 <% end %>
-
+<input type="hidden" name="course_remaining_points" id="course_remaining_points" value="<%=@remaining_points if @remaining_points%>" />
+<input type="hidden" name="course_tasks_created" id="course_tasks_created" value="<%=@tasks_created if @tasks_created%>" />
+<input type="hidden" name="course_allocated_points" id="course_allocated_points" value="<%=@allocated_points if @allocated_points%>" />
 <script type="text/javascript">
 <!--
 $(document).ready(function(){

@@ -311,9 +311,18 @@ function addNode(element) {
                     </div>
 
                 </div>
-                 <div class="date_viewfield font_12px " style="margin-top:20px">
+                 <div class="date_viewfield font_12px " style="margin-top:20px;width:325px;">
                   <input type="checkbox" name = "extra_credit"  <%= @task && @task.extra_credit ? "checked='checked'" : "" %> value="" id="extra_credit" />
                   &nbsp;&nbsp;&nbsp;<span class="font_12px">Extra Credit</span>
+                  <div id="slider" style="margin-right:35px">
+                    <span id="min" class="font_12px" style="position:absolute;left:-7px;top:20px">0</span>
+                    <input type="text" class="" name="task_xp" id="task_xp" style="position:absolute;border: 0; font-weight: bold;width:24px;text-align:center;top:29px;" value="<%=@task.points if @task%>" />
+                    <input id="max" class="font_12px" style="position:absolute;right:-5px;top:18px;text-align:right;" value="100" ></input>
+                    <span class="font_15px" style="position:absolute;right:-31px;top:-1px" >XP</span>
+                  </div>
+				  
+                  <div class="bg1" style="margin-left:305px;">
+                  </div>
                 </div>   	
                 <div class="date_viewfield hide">Task Completion<br />
                   <select name="task_completion" class="clipboard_select">
@@ -321,15 +330,13 @@ function addNode(element) {
                     <option value="confirm__by_creator">Confirm by Creator</option>
                   </select>
                 </div>
-                <div class="dd_bg1">
-                   <input type="text" name="task_xp" id="task_xp" class="dd_input1" maxlength="4" value="<%=@task ? @task.points : 0 %>" onblur='javascript:setStorage("task_xp", $(this).val())' />&nbsp;&nbsp;<span class="font_12px">XP</span>
+                <div class="xp_allocated">
+                  <% if @tasks_created %>
+                    <span class="font_12px" id="xp_allocated_span1">You have created </span></br>
+                    <span class="font_12px" id="xp_allocated_span2"><%=@tasks_created - 1%> tasks totalling upto <%=@allocated_points - @task.points%> points.</span>
+                  <% end %>
+                  <input type="hidden" name="remaining_points" id="remaining_points" value="<%=@remaining_points if @remaining_points%>" />
                 </div>
-                <% if @tasks_allocated %>
-                  <div class="xp_allocated">
-                    <span class="font_10px">Currently <%=@tasks_allocated%> tasks with <%=@allocated_points%> XP allocated.</span></br>
-                    <span class="font_10px">A person may receive up to 1000 XP per course.</span>
-                  </div>
-                <% end %>
                 <div class="clear"></div>
               </div>
               <div class="spacebar10px"></div>
@@ -417,10 +424,6 @@ function addNode(element) {
     </div>
   </div>
 </div>
-<!-- Warning pop for Invalid Input Xp -->
-<div id="invalid_input" style="display:none;margin-top:10px;">
-  <%= render :partial => "/task/invalid_input" %>
-</div>
 <!-- Warning pop for grading category select -->
 <div id="warning_msg" class="add_task_popup" style="display:none;position:fixed;z-index:10000">
 	<div class="heading">Grading Category Missing!!!</div>
@@ -489,20 +492,80 @@ $("#level").change(function(){
   if($(this).val()!="") {setStorage("task_level", $(this).val());}
 });
  
-  function validateXP(value){
-  	var isValid = /^([0-9]|[0-9][0-9]|[0-9][0-9][0-9]|[0]?[0-9][0-9][0-9]|[1]?[0][0][0])?$/.test(value);
-    if (!isValid) {
-      $("#invalid_input").show();
-      $("#task_xp").attr("value","0");
-      setStorage("task_xp", $("#task_xp").val());
-    }
-    return isValid;
-  }
-  
-  
- 
 $(document).ready(function(){
-
+  remaining_points = $("#remaining_points").val();
+  task_points = $("input[name='task_xp']").val();
+  if (remaining_points <= 0) {
+  	final_remaining_points = parseInt(task_points);
+  }
+  else {
+    final_remaining_points = parseInt(remaining_points) + parseInt(task_points);
+  }  
+  var max_points = 100;
+  if (final_remaining_points < max_points) {
+    max_points = final_remaining_points;
+  }
+  $( "#max" ).val(max_points);
+  function load_slider() {
+    $("#slider").slider({
+      min: 0,
+      max: max_points,
+      animate: "slow",
+      step: 5,
+      value: $("input[name='task_xp']").val(),
+      slide: function( event, ui ) {
+        changed = true
+        var delay = function() {
+          if (ui.value == 0 || ui.value == max_points) {
+            $("#task_xp").hide();
+          }
+          else {
+            $("#task_xp").show();
+            $("#task_xp").html('$' + ui.value).position({
+              my: 'center top',
+              at: 'center bottom',
+              of: ui.handle,
+              offset: "0, 10"
+            });
+          }
+          $( "#task_xp" ).val(ui.value );
+        };
+        setTimeout(delay, 100);
+      },
+      stop: function( event, ui ) {
+        var delay = function() {
+          if (ui.value == 0 || ui.value == max_points) {
+            $("#task_xp").hide();
+          }
+          else {
+            $("#task_xp").show();
+            $("#task_xp").html('$' + ui.value).position({
+              my: 'center top',
+              at: 'center bottom',
+              of: ui.handle,
+              offset: "0, 10"
+            });
+          }
+          $( "#task_xp" ).val(ui.value );
+        };
+        setTimeout(delay, 500);
+      }
+    });
+    showVal();
+  };
+  function showVal(){
+    var value = $('#task_xp').val();
+    var left_value = value - 9;
+    if (value == 0 || value == max_points ) {
+      $('#task_xp').hide();
+    }
+    else{
+      var val = $('#task_xp');
+      val.text(value).css({'left':left_value + '%','top':'29px' });
+      $('#task_xp').show();
+    }
+  }
+  load_slider();
     <% if defined?(task_new) && task_new == true %>
       new_task = true;
     <% end %>
@@ -555,9 +618,6 @@ $(document).ready(function(){
   
   //Submit data
   $("#btn_task").unbind('click').bind('click', function(){
-		if(!validateXP($("#task_xp").val())) {
-			return false;
-		}
 		if($("#course_categories").val()=="null") {
 			$("#warning_msg").show();
 			return false;
@@ -596,6 +656,23 @@ $(document).ready(function(){
         //To fill out the participants
         $.get('/task/course_peoples/', {course_id:courseId}, function(data) {
           $('#load_task_participant_wall').html(data);
+          var course_remaining_points = $("#course_remaining_points").val();
+          var course_tasks_created = $("#course_tasks_created").val();
+          var course_allocated_points = $("#course_allocated_points").val();
+          var span2_html = "<span class='font_12px'>" + course_tasks_created + " tasks totalling upto " + course_allocated_points + " points.</span>";
+          max_points = 100;
+          if (course_remaining_points < max_points) {
+            max_points = course_remaining_points;
+            if (course_remaining_points <= 0) {
+              max_points = 0
+            }
+          }
+          $( "#max" ).val(max_points);
+          $( "#task_xp" ).val(0);
+          $( "#task_xp" ).hide();
+          load_slider();
+          $(".xp_allocated").html("<span class='font_12px'>You have created </span>");
+          $(".xp_allocated").append(span2_html);
         });
       });
       showSpinner(false);
@@ -1019,13 +1096,12 @@ $(document).ready(function(){
 }); //document.ready ends
 
 function save_task(channel) {
-    var valid = validateXP($("#task_xp").val());
     //Get data from offline storage
     task_id = $("#task_id_hdn").val();
     task = getStorage("task_name");
     descr = getStorage("task_descr");
     due_date = getStorage("task_due_date");
-    task_xp = getStorage("task_xp");
+	task_xp = $("#task_xp").val();
     course_id = getStorage("task_course");
     school_id = $("#task_school_id_hdn").val();
     category_id = getStorage("task_category");

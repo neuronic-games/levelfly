@@ -161,8 +161,9 @@ class TaskController < ApplicationController
 			@files = @task.attachments.where("owner_id IN (?)", [@profile.id, @task_owner.id]).order("starred desc")
 		end
     all_tasks = Task.filter_by(@course.owner.id,@course.id,"").collect(&:points)
-    @tasks_allocated = all_tasks.count
+    @tasks_created = all_tasks.count
     @allocated_points = all_tasks.sum
+    @remaining_points = 1000 - @allocated_points
     @outcomes = @course.outcomes if @course
     @courses = Course.find(
       :all, 
@@ -489,11 +490,16 @@ class TaskController < ApplicationController
   
   def course_peoples
     if !params[:course_id].nil?
+      @course = Course.find(params[:course_id])
       @people = Participant.find(
         :all, 
         :include => [:profile], 
         :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S' ", params[:course_id]]
       )
+      all_tasks = Task.filter_by(@course.owner.id,@course.id,"").collect(&:points)
+      @tasks_created = all_tasks.count
+      @allocated_points = all_tasks.sum
+      @remaining_points = 1000 - @allocated_points
       render :partial => "/task/course_peoples"
     end
   end
