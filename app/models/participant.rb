@@ -7,8 +7,8 @@ class Participant < ActiveRecord::Base
     is_participant = false
     
     p = Participant.find(:first, 
-      :conditions => ["object_type = ? and object_id = ? and profile_id = ? and profile_type in (?)"], 
-        object_type, object_id, profile_id, profile_type))
+      :conditions => ["object_type = ? and object_id = ? and profile_id = ? and profile_type in (?)", 
+        object_type, object_id, profile_id, profile_type])
 
     is_participant = !p.nil?
     
