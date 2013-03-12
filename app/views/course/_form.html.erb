@@ -120,7 +120,7 @@ $.each($('input[name="outcomes[]"], input[name="people_id[]"], input[name="categ
 //set storage on load while view of course
 if($("#course_name").val()!="") {setStorage("course_name", $("#course_name").val());}
 else {setStorage("course_name", "Course Name");}
-if($("#course_descr").val()!="") {setStorage("course_descr", $("#course_descr").val());} else {setStorage("course_descr", "New Course Description");}
+if($("#course_descr").val()!="") {setStorage("course_descr", $("#course_descr").val());} else {setStorage("course_descr", " ");}
 if($("#course_code").val()!="") {setStorage("course_code", $("#course_code").val());}
 else {setStorage("course_code", "Course Code");}
 if($("#course_section").val()!="") {setStorage("course_section", $("#course_section").val());}
@@ -446,8 +446,13 @@ function save_course(channel) {
   }
   else
   {
+   if (typeof getStorage("course_descr") === 'undefined' || getStorage("course_descr")==null){
+      descr = "";
+   } 
+   else {
+      descr = getStorage("course_descr");
+   }
     name = getStorage("course_name");
-    descr = getStorage("course_descr");
     section_type = "C";
   }
 

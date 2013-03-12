@@ -483,7 +483,7 @@ var new_task = false;
 if($("#task").val()!="") {setStorage("task_name", $("#task").val());}
 else {setStorage("task_name", "Task Name");}
 if($("#descr").val()!="") {setStorage("task_descr", $("#descr").val());}
-else {setStorage("task_descr", "Description");}
+else {setStorage("task_descr", " ");}
 if($("#course").val()!="") {setStorage("task_course", $("#course").val());}
 if($("#task_xp").val()!="") {setStorage("task_xp", $("#task_xp").val());}
 if($("#due_date").val()!="") {setStorage("task_due_date", $("#due_date").val());}
@@ -955,7 +955,7 @@ $(document).ready(function(){
       runtimes : 'html5,flash',
       drop_element: 'upload_container',
       container: 'upload_container',
-      max_file_size : '10mb',
+      max_file_size : '5mb',
       url : '/task/upload_resource',
 			flash_swf_url : '/assets/fileupload/plupload.flash.swf',
       multipart_params: base_params
@@ -1099,9 +1099,14 @@ function save_task(channel) {
     //Get data from offline storage
     task_id = $("#task_id_hdn").val();
     task = getStorage("task_name");
-    descr = getStorage("task_descr");
+    if (typeof getStorage("task_descr") === 'undefined' || getStorage("task_descr")==null){
+      descr = "";
+    } 
+    else {
+      descr = getStorage("task_descr");
+    }
     due_date = getStorage("task_due_date");
-	task_xp = $("#task_xp").val();
+    task_xp = $("#task_xp").val();
     course_id = getStorage("task_course");
     school_id = $("#task_school_id_hdn").val();
     category_id = getStorage("task_category");
