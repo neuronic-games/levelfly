@@ -10,11 +10,12 @@ class UserMailer < ActionMailer::Base
     @message = message_id
     @link = "https://#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/system/new_user/?link=#{link}"
     @new_user = new_user
-    subject     "You have been invited to join #{@course.name} by #{@sender.full_name} at #{@school.code}"
+    subject     "Your invitation to join #{@course.name} at #{@school.code}"
     recipients  user
     sent_on     Time.now
-    mail( :to => user, 
-          :subject => "You have been invited to join #{@course.name} by #{@sender.full_name} at #{@school.code}")
+    mail( :from => "#{@sender.full_name} (Do Not Reply) <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>"
+          :to => user, 
+          :subject => "Your invitation to join #{@course.name} at #{@school.code}")
   end
   
   def private_message(user,sender,school,message_content)

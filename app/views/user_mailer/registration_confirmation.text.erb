@@ -1,7 +1,8 @@
+WELCOME!
 
- <p>Prof. <%=@sender.full_name%> has invited you to join <%=@course.name%> <%=@course.code%>. Please click the link below to accept this invitation.</p>
+<%=@sender.full_name%> has invited you to join <%=@course.name%> <%= @course.parent_type == 'C' ? "("+@course.code+")" : ""%> at <%=@school.code%>. Please use the link below to accept this invitation.
 
-<a>[Accept invitation to <%=@course.name%> <%=@course.code%>]</a>
+Accept Invite: <%= @link %>
 
 <%=@sender.full_name%>
 <%=@school.name%>
