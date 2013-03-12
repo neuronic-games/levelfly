@@ -13,7 +13,7 @@ class UserMailer < ActionMailer::Base
     subject     "Your invitation to join #{@course.name} at #{@school.code}"
     recipients  user
     sent_on     Time.now
-    mail( :from => "#{@sender.full_name} (Do Not Reply) <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>"
+    mail( :from => "#{@sender.full_name} (Do Not Reply) <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>",
           :to => user, 
           :subject => "Your invitation to join #{@course.name} at #{@school.code}")
   end
