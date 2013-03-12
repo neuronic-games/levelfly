@@ -924,7 +924,7 @@ margin-top:-20px;
   padding: 0 15px 0 38px;
 }
 .field_box_setup{
-  padding: 0 15px 0 38px;
+  padding: 0 0 0 38px;
 }
 .date_viewfield {
   float:left;
@@ -933,8 +933,9 @@ margin-top:-20px;
 }
 .xp_allocated {
   float:right;
-  max-width:105px;
-  margin-top:-32px;
+  max-width:123px;
+  margin-top:-25px;
+  margin-right:-18px;
 }
 .rating_viewfield {
   float:right;

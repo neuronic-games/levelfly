@@ -203,7 +203,7 @@ function addNode(element) {
           <%= render :partial => "/course/files" %>         
         </div> 
 
-		    <div id="div_3" class="tab_content hide task_form_main"> <!--TAsk setup page-->
+		    <div id="div_3" class="tab_content hide task_form_main" style="min-width:873px;"> <!--TAsk setup page-->
             <%if Role.check_permission(@profile.id,"T") == true%> 
               <div class="task_side_buttons"> 
                 <!-- <a href="javascript:void(0)" class="big_blue_btn">ATTACH</a> -->
@@ -311,31 +311,28 @@ function addNode(element) {
                     </div>
 
                 </div>
-                 <div class="date_viewfield font_12px " style="margin-top:20px;width:325px;">
+                 <div class="date_viewfield font_12px " style="margin-top:20px;width:422px;">
                   <input type="checkbox" name = "extra_credit"  <%= @task && @task.extra_credit ? "checked='checked'" : "" %> value="" id="extra_credit" />
                   &nbsp;&nbsp;&nbsp;<span class="font_12px">Extra Credit</span>
-                  <div id="slider" style="margin-right:35px">
+                  <div id="slider" style="margin-right:140px">
                     <span id="min" class="font_12px" style="position:absolute;left:-7px;top:20px">0</span>
                     <input type="text" class="" name="task_xp" id="task_xp" style="position:absolute;border: 0; font-weight: bold;width:24px;text-align:center;top:29px;" value="<%=@task.points if @task%>" />
                     <input id="max" class="font_12px" style="position:absolute;right:-5px;top:18px;text-align:right;" value="100" ></input>
                     <span class="font_15px" style="position:absolute;right:-31px;top:-1px" >XP</span>
                   </div>
-				  
-                  <div class="bg1" style="margin-left:305px;">
-                  </div>
+                <div class="xp_allocated">
+                  <% if @tasks_created %>
+                    <span class="font_10px" id="xp_allocated_span1"><%=@tasks_created%> Tasks Created </span></br>
+                    <span class="font_10px" id="xp_allocated_span2"> <%=@allocated_points %> / 1000 XP Allocated </span>
+                  <% end %>
+                  <input type="hidden" name="remaining_points" id="remaining_points" value="<%=@remaining_points if @remaining_points%>" />
+                </div>
                 </div>   	
                 <div class="date_viewfield hide">Task Completion<br />
                   <select name="task_completion" class="clipboard_select">
                     <option value="">SELECT</option>
                     <option value="confirm__by_creator">Confirm by Creator</option>
                   </select>
-                </div>
-                <div class="xp_allocated">
-                  <% if @tasks_created %>
-                    <span class="font_12px" id="xp_allocated_span1">You have created </span></br>
-                    <span class="font_12px" id="xp_allocated_span2"><%=@tasks_created - 1%> tasks totaling <%=@allocated_points - @task.points%> XP out of 1000 available</span>
-                  <% end %>
-                  <input type="hidden" name="remaining_points" id="remaining_points" value="<%=@remaining_points if @remaining_points%>" />
                 </div>
                 <div class="clear"></div>
               </div>
@@ -434,7 +431,7 @@ function addNode(element) {
 	<div class="spacebar10px"></div>
 	<div class="spacebar10px"></div>
 	<div align="right" style="margin-right:20px;">
-		<a class="big_blue_btn inlineblock" id="dont_save_btn" href="javascript:$('#warning_msg').hide();">Don't Save</a> 
+		<a class="big_blue_btn inlineblock" id="dont_save_btn" href="javascript:void(0)">Don't Save</a> 
 		<a class="big_blue_btn inlineblock" id="save_task_btn" href="javascript:void(0)">Save</a>
 	</div>
 </div>
@@ -630,6 +627,10 @@ $(document).ready(function(){
 		$("#warning_msg").hide();
 		save_task("btn_task");
 	});
+	
+	$("#dont_save_btn").unbind('click').bind('click', function(){
+		$("#warning_msg").hide();
+	});
  
 	//Add a category
 
@@ -659,7 +660,8 @@ $(document).ready(function(){
           var course_remaining_points = $("#course_remaining_points").val();
           var course_tasks_created = $("#course_tasks_created").val();
           var course_allocated_points = $("#course_allocated_points").val();
-          var span2_html = "<span class='font_12px'>" + course_tasks_created + " tasks totaling  " + course_allocated_points + " XP out of 1000 available</span>";
+          var span1_html = "<span class='font_10px'>" + course_tasks_created + " Tasks Created </span></br>";
+          var span2_html = "<span class='font_10px'>" + course_allocated_points + " / 1000 XP Allocated</span>";
           max_points = 100;
           if (course_remaining_points < max_points) {
             max_points = course_remaining_points;
@@ -671,7 +673,7 @@ $(document).ready(function(){
           $( "#task_xp" ).val(0);
           $( "#task_xp" ).hide();
           load_slider();
-          $(".xp_allocated").html("<span class='font_12px'>You have created </span>");
+          $(".xp_allocated").html(span1_html);
           $(".xp_allocated").append(span2_html);
         });
       });
