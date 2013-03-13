@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
       #u.reset_password_token= User.reset_password_token 
     end
     @user.save(:validate => false)
-   if @user
+    if @user
       @profile = Profile.create_for_user(@user.id,school_id)
     end
     return @user, @profile
@@ -45,6 +45,18 @@ class User < ActiveRecord::Base
   end
   
   def full_name
+  end
+  
+  # Delete User who is not register their acoount yet.
+  def self.delete_pending_user(profile_id)
+    profile = Profile.find(profile_id)
+    if profile
+      user = User.find(profile.user_id)
+      if user and user.sign_in_count == 0
+        user.delete
+        profile.delete
+      end
+    end
   end
   
   

@@ -48,7 +48,7 @@
    <div id="all_files">
 		<div id="show_file" class="btn_drop_file" style="<%= @task ? "color:#9ab0b9;" : "" %>">
 			<span id="drop_text_container">
-				DROP FILE OR <a href="javascript:void(0)" name="browse_btn" id="browse_btn">CLICK HERE</a> 
+				<span id="drop_file_span">DROP FILE OR </span><a href="javascript:void(0)" name="browse_btn" id="browse_btn">CLICK HERE</a> 
 			</span>
 			<span id="uploading_text_container" style="display:none">
 				Uploading...
@@ -66,6 +66,10 @@
   <div class="clear"></div>
 </div>
 <script type="text/javascript">
+
+if ( $.browser.msie ) {
+  $('#drop_file_span').remove();
+} 
 $(document).ready(function(){
     var object_id;
     var object_type;
@@ -77,11 +81,11 @@ $(document).ready(function(){
      object_type = 'Course';
     <% end %>
   
-       <% if @courseMaster %>
-         <% if @courseMaster.id != user_session[:profile_id] %>
-         $("#show_file").css("display","none");
-         <%end%>
+     <% if @courseMaster %>
+       <% if @courseMaster.id != user_session[:profile_id] %>
+       $("#show_file").css("display","none");
        <%end%>
+     <%end%>
        //Remove files
     $("#all_files").delegate('.files_del', 'click', function(){       
       showSpinner(true);
@@ -165,7 +169,7 @@ $(document).ready(function(){
     
     //Uploader task image upload
     var add_file_uploader = new plupload.Uploader({
-      runtimes: 'html5,flash',
+      runtimes: 'html5, flash',
       drop_element: 'show_file',
 			browse_button : 'browse_btn',
       container: 'show_file',
@@ -178,7 +182,7 @@ $(document).ready(function(){
         'school_id' : $("#course_school_id_hdn").val(),
         'id' : object_id,
         'object_type': object_type,
-		'profile_id' : $("#current_profile").val()
+        'profile_id' : $("#current_profile").val()
       }
     });
     
@@ -216,7 +220,7 @@ $(document).ready(function(){
     });
     
     var file_uploader = new plupload.Uploader({
-        runtimes : 'html5,flash',
+        runtimes : 'html5, flash',
         browse_button : 'pickfiles',
         container: 'pickfiles',
         max_file_size : '30mb',

@@ -435,6 +435,7 @@ class CourseController < ApplicationController
           end
         end
         status = true
+        User.delete_pending_user(params[:profile_id])
       end
     end
     render :text => {"status"=>status}.to_json
