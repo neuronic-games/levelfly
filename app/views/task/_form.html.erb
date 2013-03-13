@@ -103,7 +103,13 @@ function addNode(element) {
                     </div>
                   </div>
                   <div class="xp_amount">
-                    <span class="font_15px"><%=@task.points if @task %> XP</span>
+                    <% if @task and @task.points <= 25 %>
+                      <span class="font_15px" style="color:#94b958"><%=@task.points if @task %> XP</span>
+                    <% elsif @task and @task.points > 25 and @task.points <= 50 %>
+                      <span class="font_15px" style="color:#db9321"><%=@task.points if @task %> XP</span>
+                    <% else %>
+                      <span class="font_15px" style="color:#cb2d2d"><%=@task.points if @task %> XP</span>
+                    <% end %>
                   </div>
                 </div>
                 <div class="clear"></div>
