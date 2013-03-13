@@ -200,12 +200,21 @@ body {
   font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
   font-size:16px;
   color:#e1e7cc;
-  padding: 7px 0 0 4px;
+  padding: -1px 0 0 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 250px;
 }
 .header .avatar_detail .full_name {
   font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
   font-size:29px;
   color:#f6f6f6;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  height:29px;
+  overflow:hidden;
+  line-height:29px;
 }
 .full_name input {
   font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
