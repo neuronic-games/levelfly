@@ -188,7 +188,7 @@ class Task < ActiveRecord::Base
     profile.save
     if( profile.xp > previous_points)
       content = "Congratulations! You have received #{award_points} XP for #{task.name}." unless course_name
-      content = "Congratulations! You have received #{award_points} Bonus XP for #{course_name}." if course_name
+      content = "Congratulations! You have received #{award_points} Final Bonus Points for #{course_name}." if course_name
       Message.send_notification(current_user,content,profile.id)
     end
     if(previous_level != profile.level)
@@ -206,8 +206,6 @@ class Task < ActiveRecord::Base
     if participant
       profile = participant.profile
       task = participant.task
-      course_finalised = TaskGrade.where(:school_id => profile.school_id, :profile_id => profile_id, :course_id => task.course_id, :task_id => nil).first
-      return status if course_finalised
       remaining_points = task.remaining_points(profile_id)
       
       return status if remaining_points == 0 and complete
