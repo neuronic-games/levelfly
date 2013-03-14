@@ -1,5 +1,5 @@
 <%if @people and !@people.nil?%>
-<div class="tbc" id="all_members_create" style="margin-top: -23px; float:left;"><h3><input type="checkbox" checked="checked" name="chk_all_members" id="all_members" class="check_box_all"  value="All Members"/> All Members</h3></div>
+<div class="tbc" id="all_members_create" style="margin-top: -23px; text-align:left; width:100%;"><h3><input type="checkbox" checked="checked" name="chk_all_members" id="all_members" class="check_box_all"  value="All Members"/> All Members</h3></div>
   <% @people.each do |p| %>
   <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
     <div style="">
