@@ -176,12 +176,14 @@ class TaskController < ApplicationController
     @people = Participant.find(
       :all, 
       :include => [:profile], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @task.course_id]
+      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @task.course_id],
+      :order => "profiles.full_name"
     )
     @task_members = TaskParticipant.find(
       :all, 
       :include => [:profile], 
-      :conditions => ["task_participants.task_id = ? AND task_participants.profile_type = 'M'", @task.id]
+      :conditions => ["task_participants.task_id = ? AND task_participants.profile_type = 'M'", @task.id],
+      :order => "profiles.full_name"
     )
      
     @profile.record_action('last', 'task')

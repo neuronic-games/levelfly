@@ -625,13 +625,15 @@ class CourseController < ApplicationController
        @peoples = Profile.find(
          :all, 
          :include => [:participants], 
-         :conditions => ["participants.object_id = ? AND participants.object_type= ? AND participants.profile_type = 'S'", @course.course_id,section_type]
+         :conditions => ["participants.object_id = ? AND participants.object_type= ? AND participants.profile_type = 'S'", @course.course_id,section_type],
+         :order => "full_name"
        )
      else
        @peoples = Profile.find(
        :all, 
        :include => [:participants], 
-       :conditions => ["participants.object_id = ? AND participants.object_type= ? AND participants.profile_type IN ('P', 'S')", @course.id,section_type]
+       :conditions => ["participants.object_id = ? AND participants.object_type= ? AND participants.profile_type IN ('P', 'S')", @course.id,section_type],
+       :order => "full_name"
      )
      end
      #ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}") 
