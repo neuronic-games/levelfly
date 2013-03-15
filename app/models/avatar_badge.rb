@@ -15,7 +15,7 @@ belongs_to :badges
     end
     @student.badge_count+=1
     @student.save
-    content = "Congradulations! You have received a badge: #{@badge.name}"
+    content = "Congratulations! You have received a badge: #{@badge.name}"
     Message.send_notification(giver_profile_id,content,@student.id)
     return status
   end
