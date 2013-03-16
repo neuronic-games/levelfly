@@ -53,6 +53,7 @@ $('.friend-request').unbind("click").bind("click", function(){
       });
     }
     if(message_type == "Friend"){ 
+      showSpinner(true);
       $.ajax({  
         type: "POST",  
         url: "/message/respond_to_friend_request",

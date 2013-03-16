@@ -279,8 +279,9 @@ class MessageController < ApplicationController
       @message = Message.find(params[:message_id])
       profile = Profile.find(user_session[:profile_id])
       if @message 
+      already_friend = Participant.find(:first, :conditions =>["object_id = ? AND profile_id = ? AND object_type = 'User' AND profile_type = 'F'", @message.parent_id, @message.profile_id])
         if params[:activity] && !params[:activity].nil?
-          if params[:activity] == "add"
+          if params[:activity] == "add" and not already_friend
             content = "#{profile.full_name} has accepted your friend request."
             @friend_participant = Participant.new
             @friend_participant.object_id = @message.parent_id
@@ -311,7 +312,7 @@ class MessageController < ApplicationController
               @friend_profile = Profile.find(@message.parent_id)
               render :partial => "friend_list", :locals=>{:friend=>@friend_profile}
             end
-          else
+          elsif params[:activity] == "dntadd"
             content = "#{profile.full_name} has rejected your friend request."
             Message.send_notification(profile.id,content,@message.profile_id)
             @message.archived = true
