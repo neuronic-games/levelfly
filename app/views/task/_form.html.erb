@@ -384,7 +384,7 @@ function addNode(element) {
 				<% if not defined?(task_new)%>
                 <div class="field_box2" id="all_members"><span class="font_12px"><input type="checkbox" <%= @task.all_members ? "checked='checked'" : "" %> name="chk_all_members" id="all_members" class="check_all_members"  value="All Members"/> All Members</h3></span>
 				<% end %>
-                  <div id="load_task_participant_wall">
+                  <div id="load_task_participant_wall" style="margin-top: 15px;">
                   <% if @people and !@people.nil? %>
                    <% @people.each do |p| %>
                         <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
