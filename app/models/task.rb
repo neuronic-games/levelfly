@@ -240,4 +240,19 @@ class Task < ActiveRecord::Base
     end
     return @owner
   end
+
+  def grade_recalculate
+    participant_profile_ids = TaskParticipant.find(:all, :conditions => ["task_id = ? and profile_type = 'M'",self.id]).collect(&:profile_id)
+    if participant_profile_ids
+      participant_profile_ids.each do |profile_id|
+        previous_task_grade = TaskGrade.where("school_id = ? and course_id = ? and task_id =? and profile_id = ? ",self.school_id,self.course_id,self.id,profile_id).first
+        if previous_task_grade
+          average,previous_grade = TaskGrade.grade_average(self.school_id,self.course_id,profile_id)
+          grade = average.round(2).to_s + " " + GradeType.value_to_letter(average, self.school_id) if average
+          CourseGrade.save_grade(profile_id, grade, self.course_id)
+        end
+      end
+    end
+  end
+
 end

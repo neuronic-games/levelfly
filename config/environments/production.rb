@@ -21,7 +21,7 @@ Oncapus::Application.configure do
   config.assets.digest = true
 
   #Activate observers that should always be running
-  config.active_record.observers = :participant_observer
+  #config.active_record.observers = :participant_observer
 
   # Defaults to Rails.root.join("public/assets")
   # config.assets.manifest = YOUR_PATH

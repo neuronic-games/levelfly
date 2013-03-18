@@ -198,7 +198,7 @@ class GradeBookController < ApplicationController
         # Calculate the GPA
         sub_arrays = characters.in_groups(p, false)
         profile_id.each_with_index do |p,j|
-          average,previous_grade = grade_average(school_id,course_id,p,task_id,task_grade)
+          average,previous_grade = TaskGrade.grade_average(school_id,course_id,p,task_id,task_grade)
           previous_grade = GradeType.value_to_letter(previous_grade, school_id) if !course.display_number_grades and previous_grade
           course.update_attribute('display_number_grades',num) unless task_grade.blank?
           @grade = average.round(2).to_s + " " + GradeType.value_to_letter(average, school_id) if average
@@ -497,53 +497,6 @@ class GradeBookController < ApplicationController
     end
     filename = @course.code + "-" + @course.section + "-" + Date.today.strftime("%Y%m%d") + ".csv"
     send_data(user_csv, :type => 'test/csv', :filename => filename)
-  end
-
-  private
-
-  def grade_average(school_id,course_id,profile_id,task_id,task_grade)
-    average = 0
-    flag = false
-    category_count = []
-    category_percent_value = []
-    category_used = 0
-    tasks = Task.find(:all,:conditions => ["course_id = ? and archived = false",course_id])
-    categories = Category.find(:all,:conditions => ["course_id = ?",course_id]).collect(&:percent_value)
-    categories.each_with_index do |category,i|
-      category_count[i] = 0
-    end
-    previous_task_grade = TaskGrade.where("school_id = ? and course_id = ? and task_id =? and profile_id = ? ",school_id,course_id,task_id,profile_id).first
-    previous_grade = previous_task_grade.grade if previous_task_grade
-    previous_grade = previous_grade.to_f if previous_grade
-    if !previous_task_grade.nil?
-      TaskGrade.task_grade_update(task_grade,previous_task_grade)
-    else
-      TaskGrade.task_grade_save(school_id,course_id,task_id, profile_id,task_grade)
-    end
-    tasks.each do |task|
-      if task.category
-        tg = TaskGrade.find(:first,:conditions => ["school_id = ? and course_id = ? and task_id =? and profile_id = ?",school_id,course_id,task.id,profile_id])
-        if tg and tg.grade
-          category_count[categories.find_index(task.category.percent_value)] += 1
-          category_used += task.category.percent_value if category_count[categories.find_index(task.category.percent_value)] == 1
-        end
-      end
-    end
-    category_count.each_with_index do |count,j|
-      category_percent_value[j] = categories[j]/count.to_f unless count == 0
-      category_percent_value[j] = 0 if count == 0
-    end
-    tasks.each do |task|
-      if task.category
-        tg = TaskGrade.find(:first,:conditions => ["school_id = ? and course_id = ? and task_id =? and profile_id = ?",school_id,course_id,task.id,profile_id])
-        if tg and tg.grade
-          average += tg.grade*category_percent_value[categories.find_index(task.category.percent_value)]/category_used unless category_used == 0
-          flag = true
-        end
-      end
-    end
-    return average,previous_grade if flag
-    return nil,previous_grade
   end
 
 end
