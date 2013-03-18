@@ -69,7 +69,7 @@
 	<div class="spacebar10px"></div>
 	<div class="spacebar10px"></div>
 	<div align="right" style="margin-right:20px;">
-		<a class="big_blue_btn inlineblock" href="javascript:$('#msg_alert_popup').hide();">Close</a> 
+		<a class="big_blue_btn inlineblock" id="close_btn" href="javascript:void(0)">Close</a> 
 	</div>
 </div>
 <!-- Add participant alert message ends -->
@@ -312,6 +312,10 @@
 				showSpinner(false);
 			},
 		}); 
+	});
+	
+	$("#close_btn").unbind('click').bind('click', function(){
+		$("#msg_alert_popup").hide();
 	});
 	
 	function show_alert_message(content,visible) {
