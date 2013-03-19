@@ -1,4 +1,5 @@
 module ApplicationHelper
+ include MessageHelper
  
  def is_a_valid_email(email)
   
@@ -39,15 +40,8 @@ module ApplicationHelper
         end
     end
     users.each do |user|
-      message = Message.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and target_type = 'Profile' and parent_type = 'Profile' and profile_id = ? and parent_id = ?",false,user.id,profile.id],:order => "created_at DESC")
-      if message
-        message_viewer =MessageViewer.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?",false,message.id,user.id,profile.id], :order => "created_at DESC")
-        if message_viewer
-          if !message_viewer.viewed
-            return message_viewer.viewed
-          end
-        end
-      end
+      viewed = messages_viewed(user.id,profile.id)
+      return false if !viewed and !viewed.nil?
     end
     return true
   end

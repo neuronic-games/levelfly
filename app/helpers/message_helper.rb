@@ -69,12 +69,20 @@ module MessageHelper
   end
   
   def messages_viewed(profile_id,current_user)
-    message = Message.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and target_type = 'Profile' and parent_type = 'Profile' and profile_id = ? and parent_id = ?",false,profile_id,current_user],:order => "created_at DESC")
-    if message
-      message_viewer =MessageViewer.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?",false,message.id,profile_id,current_user], :order => "created_at DESC")
-      if message_viewer
-        return message_viewer.viewed
+    messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and target_type = 'Profile' and parent_type = 'Profile' and ((profile_id = ? and parent_id = ?) or (profile_id = ? and parent_id = ?))",false,profile_id,current_user,current_user,profile_id],:order => "created_at DESC")
+    if messages
+      messages.each do |message|
+        message_viewer =MessageViewer.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?",false,message.id,profile_id,current_user], :order => "created_at DESC")
+        return message_viewer.viewed if message_viewer and !message_viewer.viewed
+        comments = comment_list(message.id).collect(&:id)
+        if comments
+          comments.each do |comment_id|
+            comment_message_viewer = MessageViewer.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?",false,comment_id,profile_id,current_user], :order => "created_at DESC")
+            return comment_message_viewer.viewed if comment_message_viewer and !comment_message_viewer.viewed
+          end
+        end
       end
+      return true
     end
     return nil
   end

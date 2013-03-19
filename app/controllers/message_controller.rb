@@ -101,18 +101,24 @@ class MessageController < ApplicationController
         case params[:parent_type]
           when "Message"
             @msg = Message.find(params[:parent_id])
+            if @msg and @msg.parent_type == "Profile"
+              @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+              @school = @current_user.school
+              email = Profile.find(@msg.parent_id).user.email if @current_user.id == @msg.profile_id
+              email = @msg.profile.user.email unless @current_user.id == @msg.profile_id
+              UserMailer.private_message(email,@current_user,@school,@message.content).deliver
+            end
             render :partial => "comments", :locals => {:comment => @message,:course_id=>@msg.parent_id}
           when "Profile"
+            email = Profile.find(params[:parent_id]).user.email if params[:parent_id]
+            @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+            @school = @current_user.school
             if params[:message_type] && !params[:message_type].nil?
               message = (params[:message_type]=="Friend") ? "Friend request sent" : "Message sent"
-              if message == "Message sent"
-                email = Profile.find(params[:parent_id]).user.email if params[:parent_id]
-                @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-                @school = School.find(@current_user.school_id)
-                UserMailer.private_message(email,@current_user,@school,@message.content).deliver
-              end
+              UserMailer.private_message(email,@current_user,@school,@message.content).deliver if message == "Message sent"
               render :text => {"status"=>"save", "message"=>message}.to_json
             else
+            UserMailer.private_message(email,@current_user,@school,@message.content).deliver
             @feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",user_session[:profile_id],wall_id])
               if @feed.nil?
                 Feed.create(:profile_id => user_session[:profile_id],:wall_id =>wall_id)
@@ -384,9 +390,13 @@ class MessageController < ApplicationController
     if @messages and !@messages.blank?
       @messages.each do |message|
         message_viewer =MessageViewer.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?",false,message.id,params[:friend_id],user_session[:profile_id]], :order => "created_at DESC")
-        if message_viewer
-          message_viewer.viewed = true
-          message_viewer.save
+        message_viewer.update_attribute("viewed",true) if message_viewer
+        comments = comment_list(message.id).collect(&:id)
+        if comments
+          comments.each do |comment_id|
+            comment_message_viewer = MessageViewer.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?",false,comment_id,params[:friend_id],user_session[:profile_id]], :order => "created_at DESC")
+            comment_message_viewer.update_attribute("viewed",true) if comment_message_viewer
+          end
         end
       end
     end
