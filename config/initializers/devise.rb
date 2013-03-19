@@ -4,7 +4,7 @@ Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = "OnCampus Admin <admin@oncampus.com>"
+  config.mailer_sender = "CollegeQuest Administrator <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>"
   config.warden do |manager|
     manager.failure_app = CustomFailure
   end
