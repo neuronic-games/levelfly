@@ -1,6 +1,10 @@
-<p><%=@sender.full_name%> has sent you a message regarding <%=@course.code%>-<%=@course.section%>.</p>
+NEW MESSAGE!
+
+<%=@sender.full_name%> at <%=@school.code%> has sent you a message regarding <%=@course.code_section%>. Please use the link below to respond to this message using a web browser of your choice. The preferred web browser is Firefox.
+
 <%= @message%>
 
-<a><%= Oncapus::Application.config.action_mailer.default_url_options[:host] %></a>
+<%= @link %>
 
-Prof. <%=@sender.full_name%>
+<%=@sender.full_name%>
+<%=@school.name%>
