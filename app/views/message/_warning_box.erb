@@ -6,9 +6,15 @@
     <div class="spacebar10px"></div>
      <div >
      <%if @del == true%>
-        You are not able to delete this message <br/>because it have others users comments.
+        You are not able to delete this message<br />
+		because other users have already commented on it.
      <%else%>
-        <%if @type=="message"%>You are about to remove this message along with<br />any comments on this message. Are you sure?<%else%>You are about to remove this message Are you sure?<%end%>
+        <%if @type=="message"%>
+		You are about to remove this message along with<br />
+		any comments on this message. Are you sure?
+		<%else%>
+		You are about to remove this message. Are you sure?
+		<%end%>
     <%end%>
     </div>
     <div class="spacebar10px"></div>
