@@ -28,7 +28,7 @@ class UserMailer < ActionMailer::Base
     sent_on     Time.now
     mail( :from => "#{@sender.full_name} (Do Not Reply) <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>",
           :to => user, 
-          :subject => "#[CollegeQuest] {@sender.full_name} at #{@school.code} has sent you a private message")
+          :subject => "[CollegeQuest] #{@sender.full_name} at #{@school.code} has sent you a private message")
   end
 	
 	def course_private_message(user,sender,course, msg_content)
