@@ -31,9 +31,10 @@ class UserMailer < ActionMailer::Base
           :subject => @subject)
   end
 	
-	def course_private_message(user,sender,course, msg_content)
+	def course_private_message(user, sender, school, course, msg_content)
 		@user = user
 		@sender = sender
+    @school = school
 		@message = msg_content
 		@course = course
 		@subject = "[CollegeQuest] #{@sender.full_name} at #{@school.code} has sent you a message regarding #{@course.code_section}"

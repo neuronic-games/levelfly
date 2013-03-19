@@ -379,6 +379,7 @@ class CourseController < ApplicationController
 				#threads = []
 				@peoples.each do |people|
 					#threads << Thread.new do
+            @school = people.user.school
 						UserMailer.course_private_message(people.user.email,@current_user,@course,@msg_content).deliver
 					#end
 				end
