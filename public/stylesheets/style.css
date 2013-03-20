@@ -3237,10 +3237,12 @@ filter:alpha(opacity="0");
   /*width: 112px;*/
 }
 .group_descr {
-	background: #898888;
-  width: 168px;
-	padding: 5px;
+  background: #898888;
+  width: 390px;
+  min-height: 80px;
+  padding: 5px;
   color:#FFFFFF !important;
+  word-wrap:break-word;
 }
 .privacy_setting {
     letter-spacing: 0;
