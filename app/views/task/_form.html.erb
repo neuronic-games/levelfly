@@ -756,6 +756,7 @@ $(document).ready(function(){
 				$('.check_box').prop("disabled",check_val);
 			}
 			else{
+				$('.check_box').prop("checked",check_val);
 				$('.check_box').prop("disabled",check_val);
 			}
          }
@@ -1131,7 +1132,7 @@ function save_task(channel) {
     });
     //get people id from offline storage
     j = 0;
-    $.each($('input[name="chk_task_people[]"]'), function() {
+    $.each($('input[name="chk_new_task_people[]"]'), function() {
       if(this.checked) {
          storage_key = "task_people_"+$(this).attr('id');
         _taskPeopleObject[j] = getStorage(storage_key);

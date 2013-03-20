@@ -79,6 +79,7 @@ class TaskController < ApplicationController
       if params[:check_val] == "false"
         @task.all_members = false
         @task.save
+        TaskParticipant.delete_all(["task_id = ? and profile_type = 'M'",@task.id])
         status = true
       else
         @task.all_members = true
@@ -496,7 +497,8 @@ class TaskController < ApplicationController
       @people = Participant.find(
         :all, 
         :include => [:profile], 
-        :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S' ", params[:course_id]]
+        :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S' ", params[:course_id]],
+        :order => "profiles.full_name"
       )
       all_tasks = Task.filter_by(@course.owner.id,@course.id,"").collect(&:points)
       @tasks_created = all_tasks.count
