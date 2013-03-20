@@ -71,7 +71,7 @@ class UsersController < ApplicationController
        @msg_content = CGI::unescape(params[:mail_msg])
        @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
        @people.each do |people|
-         save_message(@current_user,people,"Profile",@msg_content,"Message") unless people.id == @current_user.id
+         Message.save_message(@current_user,people,"Profile",@msg_content,"Message") unless people.id == @current_user.id
        end
        status = true
      end
@@ -131,31 +131,6 @@ class UsersController < ApplicationController
   
  def new 
    render :partial => "/users/form"
- end
- 
- private
- 
- def save_message(current_profile,parent,parent_type,content,message_type)
-   wall_id = Wall.get_wall_id(parent.id, parent_type)
-   message = Message.new
-   message.profile_id = current_profile.id
-   message.parent_id = parent.id
-   message.parent_type = parent_type 
-   message.content = content
-   message.target_id = parent.id
-   message.target_type = parent_type
-   message.message_type = message_type
-   message.wall_id = wall_id
-   message.post_date = DateTime.now
-   
-   if message.save
-     MessageViewer.add(current_profile.id,message.id,parent_type,parent.id)
-     UserMailer.private_message(parent.user.email,current_profile,current_profile.school,content).deliver
-     feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",current_profile.id,wall_id])
-     if feed.nil?
-       Feed.create(:profile_id => current_profile.id,:wall_id =>wall_id)
-     end
-   end
  end
  
 end

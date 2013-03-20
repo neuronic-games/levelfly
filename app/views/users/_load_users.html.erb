@@ -78,7 +78,8 @@ $(document).ready(function(){
 					if(data) {
 						showSpinner(false);
 						$('#send_email_all').hide();
-						alert("Message Sent Successfully!!!");
+						var success_html = "<div class='error_message'>Message sent to all participants.</div>";
+						$('.alert').html(success_html);
 					}
 				}
 			});

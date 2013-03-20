@@ -379,9 +379,8 @@ class CourseController < ApplicationController
 				#threads = []
 				@peoples.each do |people|
 					#threads << Thread.new do
-            @school = people.school
-						UserMailer.course_private_message(people.user.email,@current_user,@school,@course,@msg_content).deliver
-					#end
+          Message.save_message(@current_user,people,"Profile",@msg_content,"Message",@course)
+          #end
 				end
 				#threads.each(&:join)
 				status = true

@@ -74,4 +74,29 @@ class Message < ActiveRecord::Base
     MessageViewer.invites(current_user, @message.id,profile_id)
   
   end
+
+  def self.save_message(current_profile,parent,parent_type,content,message_type,course = nil)
+    wall_id = Wall.get_wall_id(parent.id, parent_type)
+    message = Message.new
+    message.profile_id = current_profile.id
+    message.parent_id = parent.id
+    message.parent_type = parent_type 
+    message.content = content
+    message.target_id = parent.id
+    message.target_type = parent_type
+    message.message_type = message_type
+    message.wall_id = wall_id
+    message.post_date = DateTime.now
+    
+    if message.save
+      MessageViewer.add(current_profile.id,message.id,parent_type,parent.id)
+      UserMailer.private_message(parent.user.email,current_profile,current_profile.school,content).deliver unless course
+      UserMailer.course_private_message(parent.user.email,current_profile,current_profile.school,course,content).deliver if course
+      feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",current_profile.id,wall_id])
+      if feed.nil?
+        Feed.create(:profile_id => current_profile.id,:wall_id =>wall_id)
+      end
+    end
+  end
+
 end
