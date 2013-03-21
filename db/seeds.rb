@@ -179,8 +179,8 @@ item['props_hobbies'] = WardrobeItem.create(:wardrobe => basic, :parent_item => 
 item['props_misc'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['props'], :name => 'Misc', :item_type => 'misc', :sort_order => 4, :depth => 1)
 
 # Jewlery
-WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_jewelery'], :name => 'Orange Necklace', :item_type => 'necklace', :image_file => 'basic/earrings/earring_orange', :sort_order => 0, :depth => 2)
-WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_jewelery'], :name => 'Orange Earrings', :item_type => 'earrings', :image_file => 'basic/necklace/necklace_orange', :sort_order => 1, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_jewelery'], :name => 'Orange Necklace', :item_type => 'necklace', :image_file => 'basic/earrings/necklace_orange', :sort_order => 0, :depth => 2)
+WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_jewelery'], :name => 'Orange Earrings', :item_type => 'earrings', :image_file => 'basic/necklace/earring_orange', :sort_order => 1, :depth => 2)
 
 # Bags
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['props_bags'], :name => 'Leather Bag', :item_type => 'prop', :image_file => 'basic/props/leather_bag', :sort_order => 0, :depth => 2)
