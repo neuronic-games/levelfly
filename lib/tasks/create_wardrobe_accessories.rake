@@ -12,11 +12,13 @@ task :create_wardrobe_accessories => :environment do
   Wardrobe.add("Accessories 1", "Accessories", "Bags", "Messenger Bag", "prop", "basic/props/side_bag")
   Wardrobe.add("Accessories 1", "Head", "Hats", "Black Cap", "hat", "basic/hats/hat_red_black")
   Wardrobe.unlock("Accessories 1", 500)
+  Reward.destroy_all(:object_type => 'wardrobe', object_id => '3')  
   
   Wardrobe.add("Purple Man", "Body", "Misc", "Purple Man", "top", "basic/tops/superhero_top")
   Wardrobe.add("Purple Man", "Legs", "Misc", "Purple Man", "bottom", "basic/bottoms/superhero_bottom")
   Wardrobe.add("Purple Man", "Feet", "Misc", "Purple Man", "shoes", "basic/shoes/superhero_boot")
   Wardrobe.unlock("Purple Man", 1000)
+  Reward.destroy_all(:object_type => 'wardrobe', object_id => '4')  
   
   wi = WardrobeItem.find_by_name("Orange Necklace")
   wi.image_file = "basic/necklace/necklace_orange"
@@ -26,8 +28,6 @@ task :create_wardrobe_accessories => :environment do
   wi.image_file = "basic/earrings/earring_orange"
   wi.save
   
-  Reward.delete_if("object_type = 'wardrobe' and object_id = 3")  
-  Reward.delete_if("object_type = 'wardrobe' and object_id = 4")  
 end
 
 # Create a new Urban wardrobe and add Accessories > Jewlery > Nosestud
