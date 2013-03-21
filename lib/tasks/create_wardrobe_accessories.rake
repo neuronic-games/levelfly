@@ -19,12 +19,15 @@ task :create_wardrobe_accessories => :environment do
   Wardrobe.unlock("Purple Man", 1000)
   
   wi = WardrobeItem.find_by_name("Orange Necklace")
-  wi.image_file = "basic/earrings/necklace_orange"
+  wi.image_file = "basic/necklace/necklace_orange"
   wi.save
 
   wi = WardrobeItem.find_by_name("Orange Earrings")
   wi.image_file = "basic/earrings/earring_orange"
   wi.save
+  
+  Reward.delete_if("object_type = 'wardrobe' and object_id = 3")  
+  Reward.delete_if("object_type = 'wardrobe' and object_id = 4")  
 end
 
 # Create a new Urban wardrobe and add Accessories > Jewlery > Nosestud
