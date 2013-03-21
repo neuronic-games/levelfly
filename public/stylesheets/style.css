@@ -1991,6 +1991,8 @@ margin-left:33px;
   font-weight: normal;
   overflow: hidden; 
   text-overflow: ellipsis;
+  text-align:justify;
+  height: 34px;
 }
 
 .msg_box_fullwidth2 {
@@ -3910,6 +3912,7 @@ div .frm_input2 {
 	float:left;
 	width:18%;
 	text-align:center;
+	min-height:102px;
 }
 
 .dd_input_new_badge {

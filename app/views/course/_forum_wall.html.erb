@@ -26,9 +26,9 @@
       </div>  
       <div class="group_field_box group_input">
         <div class="field_label desc_width" >Description
-          <div class="group_descr" style="width:100%;height:90px" id="group_descr">
-						<%=formatted_html_content(@course.descr) if @course%>
-            <!-- textarea name="group_descr" id="group_descr" style="width:100%;height:90px" class="group_descr" rows="2" cols="34" <%if @course %> value="<%=@course.descr if @course%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea-->
+          <div class="group_descr" id="group_descr">
+						<%#=formatted_html_content(@course.descr) if @course%>
+            <textarea name="group_descr" id="group_descr" style="width:100%;height:90px" class="group_descr" rows="2" cols="34" <%if @course %> value="<%=@course.descr if @course%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>
           </div>
         </div>
       </div>

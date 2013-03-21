@@ -29,7 +29,7 @@
     <input type="hidden" id="section_type" value="<%=section_type%>"/>
     <% end %>
   </tr>
-  <% @courses.reverse.each do |c| %>
+  <% @courses.each do |c| %>
   <tr class="course_row">
     <td>
       <a href="/course/show/<%=c.id%>" class="view">
@@ -72,7 +72,8 @@
 </table>
 <script type="text/javascript">
 
-$(document).ready(function(){            
+$(document).ready(function(){  
+$('.description').dotdotdot({});          
 $('a.view').click(function() {
     showSpinner(true);
     section_type = $("#section_type").val();
