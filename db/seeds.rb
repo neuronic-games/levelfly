@@ -172,7 +172,7 @@ WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_misc'], :name
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_misc'], :name => 'Devil', :item_type => 'shoes', :image_file => 'basic/shoes/devil_boot', :sort_order => 2, :depth => 2)
 
 item['props'] = WardrobeItem.create(:wardrobe => basic, :name => 'Accessories', :item_type => 'prop', :sort_order => 4, :depth => 0)
-item['props_jewelery'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['props'], :name => 'Jewlery', :item_type => 'jewlery', :sort_order => 0, :depth => 1)
+item['props_jewelery'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['props'], :name => 'Jewelery', :item_type => 'jewlery', :sort_order => 0, :depth => 1)
 item['props_bags'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['props'], :name => 'Bags', :item_type => 'bag', :sort_order => 1, :depth => 1)
 item['props_gadgets'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['props'], :name => 'Gadgets', :item_type => 'gadget', :sort_order => 2, :depth => 1)
 item['props_hobbies'] = WardrobeItem.create(:wardrobe => basic, :parent_item => item['props'], :name => 'Hobbies', :item_type => 'hobby', :sort_order => 3, :depth => 1)

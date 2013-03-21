@@ -1,9 +1,13 @@
 task :create_wardrobe_accessories => :environment do
-  Wardrobe.add("Accessories 1", "Accessories", "Jewlery", "Nosestud", "earrings", "basic/earrings/nose_stud")
+  wi = WardrobeItem.find_by_name("Jewlery")
+  wi.name = "Jewelry"
+  wi.save
+
+  Wardrobe.add("Accessories 1", "Accessories", "Jewelry", "Nosestud", "earrings", "basic/earrings/nose_stud")
   Wardrobe.add("Accessories 1", "Accessories", "Gadgets", "Headphones", "prop", "basic/props/headphone")
   Wardrobe.add("Accessories 1", "Accessories", "Misc", "Teddy", "prop", "basic/props/pink_teddy")
   Wardrobe.add("Accessories 1", "Accessories", "Hobbies", "Folk Guitar", "prop", "basic/props/guitar_brown")
-  Wardrobe.add("Accessories 1", "Accessories", "Jewelery", "Silver Necklace", "necklace", "basic/necklace/necklace_silver")
+  Wardrobe.add("Accessories 1", "Accessories", "Jewelry", "Silver Necklace", "necklace", "basic/necklace/necklace_silver")
   Wardrobe.add("Accessories 1", "Accessories", "Bags", "Brown Handbag", "prop", "basic/props/hand_bag")
   Wardrobe.add("Accessories 1", "Accessories", "Bags", "Messenger Bag", "prop", "basic/props/side_bag")
   Wardrobe.add("Accessories 1", "Head", "Hats", "Black Cap", "hat", "basic/hats/hat_red_black")
