@@ -16,7 +16,7 @@ class WardrobeItem < ActiveRecord::Base
     
     item = WardrobeItem.create(:wardrobe => wardrobe, :parent_item => level_1, :name => name, :item_type => item_type, :image_file => image_file, :sort_order => sort_order+1, :depth => 2)
     
-    puts "#{item.name} (#{item.id}) added to #{level_1.name} (#{level_1.id}), #{level0.name} (#{level_0.id}), #{wardrobe.name} (#{wardrobe.id})"
+    puts "#{item.name} (#{item.id}) added to #{level_1.name} (#{level_1.id}), #{level_0.name} (#{level_0.id}), #{wardrobe.name} (#{wardrobe.id})"
     return
   end
 end
