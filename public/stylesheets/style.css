@@ -249,7 +249,7 @@ a.icon_users_active {
 .msg_content_left {
   width:65%;
   font-family:Arial, Helvetica, sans-serif;
-  font-size:11px;
+  /*font-size:11px;*/
   float:left;
   padding:0px 2% 0 0;
 }
@@ -3234,13 +3234,14 @@ filter:alpha(opacity="0");
   background: #898888;
   color: #ffffff;
   padding: 2px;
+  width:135%;
 }
 .group_name {
   /*width: 112px;*/
 }
 .group_descr {
   background: #898888;
-  width: 390px;
+  width: 381px;
   min-height: 80px;
   padding: 5px;
   color:#FFFFFF !important;

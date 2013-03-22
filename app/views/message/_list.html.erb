@@ -10,7 +10,7 @@
     <!-- Invites -->
    
     <% if @friend_requests and not @friend_requests.empty? %>
-     <div id="invites_title"><h2>INVITES</h2></div>
+     <div id="invites_title"><h2 style="font-size:16px;">INVITES</h2></div>
      <div id="course_requests">
       <% @friend_requests.each do |friend_request| %>
         <%= render :partial => "/message/friend_requests", :locals => {:friend_request=>friend_request} %>
@@ -21,7 +21,7 @@
 
      <!-- Respond -->
        <% if @respont_to_course and not @respont_to_course.empty? %>
-         <div id="notification_title"><h2>NOTIFICATIONS
+         <div id="notification_title"><h2 style="font-size:16px;">NOTIFICATIONS
            <span style="float: right;" class="like_cmt">
              <% message_ids = @respont_to_course.map(&:id)%>
              <a href="javascript:void(0);" class="all_notification_del blue_bt19px">Clear All Notifications</a>
@@ -35,7 +35,7 @@
       <% end %>
      <!-- Message -->
    <h2><!-- Post Message --></h2>
-   <h2>MESSAGES</h2>
+   <h2 style="font-size:16px;">MESSAGES</h2>
 	 <% if @messages.length > 0 %>
 		 <div id="show_all_cmnts_div" class="linkcolour">
 			<a href="javascript:void(0)" id="all_cmnts">Show All Comments</a>
@@ -56,7 +56,7 @@
     <!-- Notes -->
     <div id="notes">
       <% if @notes %>
-      <h2>NOTES</h2>      
+      <h2 style="font-size:16px;">NOTES</h2>      
          <% @notes.each do |note| %>
            <%= render :partial => "/message/notes", :locals => {:note=>note} %>
          <% end %>
