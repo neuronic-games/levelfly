@@ -21,7 +21,7 @@
       <div class="group_field_box group_input">
         <div class="group_viewfield field_label">NAME
           <div>
-            <input type="text" name="group_name" id="group_name" class="group_name dd_select brown_bg" style="width:100%" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+            <input type="text" name="group_name" id="group_name" class="group_name dd_select brown_bg" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("group_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
           </div>
         </div>
       </div>   
