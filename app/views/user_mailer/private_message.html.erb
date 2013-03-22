@@ -44,7 +44,7 @@
 			
 		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; "><br></span></font></div>
 
-		<div style="line-height: 20px; "><font face="Verdana" color="#ffffff"><span style="font-size: 14px; line-height: 20px; "><i><%= @message %></i></span></font></div>
+		<div style="line-height: 20px; "><font face="Verdana" color="#ffffff"><span style="font-size: 14px; line-height: 20px; "><i><%= raw(@message.gsub(/\n/, '<br/>').html_safe) %></i></span></font></div>
 
 		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="font-size: 14px; line-height: 20px; "><br></span></font></div>
 
