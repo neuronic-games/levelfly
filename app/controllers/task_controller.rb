@@ -79,7 +79,7 @@ class TaskController < ApplicationController
       if params[:check_val] == "false"
         @task.all_members = false
         @task.save
-        TaskParticipant.delete_all(["task_id = ? and profile_type = 'M'",@task.id])
+        modify_xp(params[:task_id],false)
         status = true
       else
         @task.all_members = true
@@ -120,6 +120,7 @@ class TaskController < ApplicationController
      participant = TaskParticipant.find(:first, 
         :conditions => ["profile_id = ? AND task_id = ? AND profile_type = ? ", params[:member_id], params[:task_id], Task.profile_type_member])
       if participant
+        status = Task.points_to_student(params[:task_id], false, participant.profile_id,user_session[:profile_id])
         participant.delete
         status = true
       else
@@ -363,6 +364,7 @@ class TaskController < ApplicationController
        task_participant=TaskParticipant.find(:first,:conditions => ["task_id = ? and profile_id = ?",@task.id,user_session[:profile_id]])
        if task_participant.profile_type == "O"
          @task.archived = true
+         modify_xp(params[:task_id],false)
        else
          task_participant.delete
        end
@@ -526,6 +528,7 @@ class TaskController < ApplicationController
        @task = Task.find(params[:task_id])
        @task.archived = true
        @task.save
+       modify_xp(params[:task_id],false)
        render :text => {:status=>true}.to_json
     end
   end
@@ -536,5 +539,14 @@ class TaskController < ApplicationController
     end
   end
   
+  private
+
+  def modify_xp(task_id,complete)
+    task_participants = TaskParticipant.find(:all,:conditions => ["task_id = ? and profile_type = 'M'",task_id])
+      task_participants.each do |participant|
+        status = Task.points_to_student(task_id, complete, participant.profile_id,user_session[:profile_id])
+        participant.delete
+      end
+  end
 
 end

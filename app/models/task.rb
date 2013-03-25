@@ -178,13 +178,13 @@ class Task < ActiveRecord::Base
     previous_points = profile.xp
     if complete
       profile.xp += award_points if (participant and !participant.xp_award_date) or course_name
+      @level = Reward.find(:first, :conditions=>["xp <= ? and object_type = 'level'",  profile.xp], :order=>"xp DESC")
+      puts"#{@level.inspect}"
+      profile.level = @level.object_id
     else
       task_grade = TaskGrade.find(:first, :conditions => ["task_id = ? and profile_id = ? and course_id = ? and school_id = ?",task.id,profile.id,task.course_id,profile.school_id])
       profile.xp -= task_grade.points if participant.xp_award_date and task_grade
     end
-    @level = Reward.find(:first, :conditions=>["xp <= ? and object_type = 'level'",  profile.xp], :order=>"xp DESC")
-    puts"#{@level.inspect}"
-    profile.level = @level.object_id
     profile.save
     if( profile.xp > previous_points)
       content = "Congratulations! You have received #{award_points} XP for #{task.name}." unless course_name

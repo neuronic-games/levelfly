@@ -187,10 +187,10 @@ class ProfileController < ApplicationController
     @groups = Course.all_group(@profile,"M")
     @courses = Course.course_filter(@profile.id,"")
     @major = Major.find(:all, :conditions =>["school_id = ? ",@profile.school_id])
-    @level = Reward.find(:first, :conditions=>["xp <= ? and object_type = 'level'",  @profile.xp], :order=>"xp DESC")
-    puts"#{@level.inspect}"
-    @profile.level = @level.object_id
-    @profile.save
+    #@level = Reward.find(:first, :conditions=>["xp <= ? and object_type = 'level'",  @profile.xp], :order=>"xp DESC")
+    #puts"#{@level.inspect}"
+    #@profile.level = @level.object_id
+    #@profile.save
     @levels = Reward.find(:all, :select => "distinct xp", :conditions=>["object_type = 'level'"], :order=>"xp ASC").collect(&:xp)
     if(previous_level != @profile.level)
       content = "Congratulations! You have achieved level #{@profile.level}."
