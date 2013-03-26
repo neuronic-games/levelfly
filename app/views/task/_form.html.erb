@@ -596,27 +596,28 @@ $(document).ready(function(){
   $(".menu_container a").unbind('click').bind('click', function(){
     
     idx = $(this).attr("value");
-    $(".menu_container a").removeClass("active");
-    $(this).addClass("active");
-    for(i=0;i<4;i++){
-      //---- Set all menu as De-Selected
-      if(document.getElementById("menu"+(i+1))!=null){
-        document.getElementById("menu"+(i+1)).className = "tab_close";
-      }
-      //----
-      if(idx != i){
-        $("#div_"+i).hide();
-      }
-    }
-    
-    //---- Selected menu will highlighted
-    document.getElementById("menu"+idx).className = "tab_open";
-    $("#div_"+idx).fadeIn();
-    
     is_page_change = $("#hdn_is_page_change").val();
-    if(is_page_change == "true") {
-      save_task(this.id);
-    }
+    if (is_page_change == "true") {
+		save_task("btn_task");
+	}
+	else {
+		$(".menu_container a").removeClass("active");
+		$(this).addClass("active");
+		for (i = 0; i < 4; i++) {
+			//---- Set all menu as De-Selected
+			if (document.getElementById("menu" + (i + 1)) != null) {
+				document.getElementById("menu" + (i + 1)).className = "tab_close";
+			}
+			//----
+			if (idx != i) {
+				$("#div_" + i).hide();
+			}
+		}
+		
+		//---- Selected menu will highlighted
+		document.getElementById("menu" + idx).className = "tab_open";
+		$("#div_" + idx).fadeIn();
+	}
   });
   
   //Submit data
@@ -751,6 +752,7 @@ $(document).ready(function(){
          success:function(data){
            showSpinner(false);
             changed=true;
+			$("#hdn_is_page_change").val(true);
 			if(check_val==true){
 				$('.check_box').prop("checked",check_val);
 				$('.check_box').prop("disabled",check_val);
@@ -844,6 +846,7 @@ $(document).ready(function(){
            success:function(data){
              if(data.status)
              {
+               $("#hdn_is_page_change").val(true);
                showSpinner(false);
                 changed=true;
                if(check_val==true){
