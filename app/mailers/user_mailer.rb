@@ -31,6 +31,20 @@ class UserMailer < ActionMailer::Base
           :subject => @subject)
   end
 	
+  def wardrobe_unlock_message(user,sender,school,message_content)
+    @user = user
+    @sender = sender
+    @school = school
+    @message = message_content
+    @link = "http://#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/users/sign_in"
+    @subject = "[CollegeQuest] Congratulations!"
+    recipients  user
+    sent_on     Time.now
+    mail( :from => "#{@sender.full_name} (Do Not Reply) <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>",
+          :to => user, 
+          :subject => @subject)
+  end
+
 	def course_private_message(user, sender, school, course, msg_content)
 		@user = user
 		@sender = sender

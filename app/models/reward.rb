@@ -20,6 +20,8 @@ class Reward < ActiveRecord::Base
     if wardrobe and !wardrobe.nil?
       content = "Congratulations! You have unlocked a new wardrobe: #{wardrobe.name}."
       Message.send_notification(current_user,content,profile.id)
+      sender = Profile.find(current_user)
+      UserMailer.wardrobe_unlock_message(profile.user.email,sender,sender.school,content).deliver
     end
     
   end
