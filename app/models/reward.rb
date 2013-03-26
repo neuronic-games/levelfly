@@ -14,4 +14,14 @@ class Reward < ActiveRecord::Base
      end
     end
   end
+
+  def self.notification_for_new_reward(profile,current_user)
+    wardrobe = Wardrobe.find(profile.wardrobe)
+    if wardrobe and !wardrobe.nil?
+      content = "Congratulations! You have unlocked a new wardrobe: #{wardrobe.name}."
+      Message.send_notification(current_user,content,profile.id)
+    end
+    
+  end
+
 end

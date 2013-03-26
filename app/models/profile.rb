@@ -60,11 +60,11 @@ class Profile < ActiveRecord::Base
     if basic and !basic.nil?
       ids.push(basic.id)
     end
-    sports_reward = Reward.find(:first, :conditions=>["object_type = 'wardrobe' and object_id = '2'"])
+    sports_reward = Reward.find(:all, :select => "object_id", :conditions=>["object_type = 'wardrobe' and object_id <= ?",self.wardrobe])
     if sports_reward and !sports_reward.nil?
-       if self.xp >= sports_reward.xp
-        ids.push(sports_reward.object_id)
-       end
+      sports_reward.each do |reward|
+        ids.push(reward[:object_id])
+      end
     end
     return ids
   end

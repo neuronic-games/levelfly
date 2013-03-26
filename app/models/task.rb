@@ -176,11 +176,15 @@ class Task < ActiveRecord::Base
   def self.award_xp(complete,profile,participant,task,award_points,current_user,course_name = nil)
     previous_level = profile.level
     previous_points = profile.xp
+    previous_wardrobe = profile.wardrobe
     if complete
       profile.xp += award_points if (participant and !participant.xp_award_date) or course_name
       @level = Reward.find(:first, :conditions=>["xp <= ? and object_type = 'level'",  profile.xp], :order=>"xp DESC")
       puts"#{@level.inspect}"
       profile.level = @level.object_id
+      wardrobe = Reward.find(:first, :conditions=>["xp <= ? and object_type = 'wardrobe'",  profile.xp], :order=>"xp DESC")
+      puts"#{wardrobe.inspect}"
+      profile.wardrobe = wardrobe.object_id
     else
       task_grade = TaskGrade.find(:first, :conditions => ["task_id = ? and profile_id = ? and course_id = ? and school_id = ?",task.id,profile.id,task.course_id,profile.school_id])
       profile.xp -= task_grade.points if participant.xp_award_date and task_grade
@@ -195,7 +199,7 @@ class Task < ActiveRecord::Base
       content = "Congratulations! You have achieved level #{profile.level}."
       Message.send_notification(current_user,content,profile.id)
     end 
-    Reward.notification_for_reward_sports(profile,previous_points,current_user)
+    Reward.notification_for_new_reward(profile,current_user) if profile.wardrobe > previous_wardrobe 
   end
   
   def self.points_to_student(task_id, complete, profile_id,current_user)
