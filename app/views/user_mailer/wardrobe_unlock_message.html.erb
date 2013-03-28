@@ -28,7 +28,7 @@
 <tbody><tr>
 	<td width="105">&nbsp;</td>
 	<td width="612" valign="top" align="left">
-		<div class="heading" style="font-size: 16px; font-family: 'Lucida Grande'; "><span class="Apple-style-span" style="color: rgb(255, 255, 255); font-size: 36px; "><font face="Marker Felt">New message!</font></span></div>
+		<div class="heading" style="font-size: 16px; font-family: 'Lucida Grande'; "><span class="Apple-style-span" style="color: rgb(255, 255, 255); font-size: 36px; "><font face="Marker Felt">Congratulations!</font></span></div>
 	</td>
 	<td width="125">&nbsp;</td>
 </tr>
@@ -40,19 +40,15 @@
 <tr>
 	<td width="105">&nbsp;</td>
 	<td width="612" valign="top" align="left">
-		<div class="text" style="font-size: 16px; font-family: 'Lucida Grande'; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; "><b><%=@sender.full_name%></b> at <%=@school.code%> sent you a message.</span></font>
-			
-		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; "><br></span></font></div>
-
-		<div style="line-height: 20px; "><font face="Verdana" color="#ffffff"><span style="font-size: 14px; line-height: 20px; "><i><%= raw(@message.gsub(/\n/, '<br/>').html_safe) %></i></span></font></div>
+		<div style="line-height: 20px; "><font face="Verdana" color="#ffffff"><span style="font-size: 14px; line-height: 20px; "><%= raw(@message.gsub(/\n/, '<br/>').html_safe) %></span></font></div>
 
 		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="font-size: 14px; line-height: 20px; "><br></span></font></div>
 
-		<div style="line-height: 20px; "><font face="Verdana" color="#bbf9ff"><span style="font-size: 14px; line-height: 20px; "><a href="<%= @link %>" style="color:#bbf9ff; text-decoration:none;">Respond to this Message</a></span></font></div>
+		<div style="line-height: 20px; "><font face="Verdana" color="#bbf9ff"><span style="font-size: 14px; line-height: 20px; "><a href="<%= @link %>" style="color:#bbf9ff; text-decoration:none;">Click here to see your new rewards</a></span></font></div>
 
 		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="font-size: 14px; line-height: 20px; "><br></span></font></div>
 
-		<div style="line-height: 20px; "><font color="#b9dba9" face="Verdana"><span style="line-height: 20px; font-size: 12px; ">If you have problems with this link, you may use the URL below with a web browser of your choice. The preferred web browser is Firefox.</span></font></div><div style="line-height: 20px; "><font color="#b9dba9" face="Verdana"><span style="line-height: 20px; font-size: 10px; text-decoration:none;"><a href="<%= @link %>" style="color:#b9dba9;"><%= @link %></a></span></font></div></div>
+		<div style="line-height: 20px; "><font color="#b9dba9" face="Verdana"><span style="line-height: 20px; font-size: 12px; ">If you have problems with this link copy and paste the URL below into a different web browser of your choice. The preferred web browser is Firefox.</span></font></div><div style="line-height: 20px; "><font color="#b9dba9" face="Verdana"><span style="line-height: 20px; font-size: 10px; text-decoration:none;"><a href="<%= @link %>" style="color:#b9dba9;"><%= @link %></a></span></font></div></div>
 	</td>
 	<td width="125">&nbsp;</td>
 </tr>

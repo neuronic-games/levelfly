@@ -38,7 +38,7 @@ class School < ActiveRecord::Base
     if school
       admin_user = User.find(:first, :conditions => ["email like ?", email])
       if admin_user.nil?
-        admin_user, admin_profile = User.new_user(email, school.id)
+        admin_user, admin_profile = User.new_user(email, school.id, "LetMeIn!")
         Role.create(:name => Role.edit_user, :profile => admin_profile)
         return admin_user
       end

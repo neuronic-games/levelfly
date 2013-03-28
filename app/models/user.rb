@@ -30,10 +30,10 @@ class User < ActiveRecord::Base
     end
   end
   
-  def self.new_user(email,school_id)
+  def self.new_user(email, school_id, password = nil)
     @user = User.create do |u|
       u.email = email
-      u.password="defaultpassword"
+      u.password = password ? password : "defaultpassword"
       #u.reset_password_token= User.reset_password_token 
     end
     @user.save(:validate => false)
