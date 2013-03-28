@@ -343,7 +343,6 @@ function showAvatar() {
 }
 
 function modifyAvatar() {
-  if (_wardrobeItems == undefined) {
     showSpinner(true);
   // Fill-up the wardrobe for the first time
     $.getJSON("/profile/edit",
@@ -357,10 +356,6 @@ function modifyAvatar() {
         prepWardrobeIcons();
         showSpinner(false);
       });
-  } else {
-    prepWardrobeIcons();
-  }
-
   $("#show_controls").hide();
   $("#edit_controls").show();
   $("#wardrobe_options").show();

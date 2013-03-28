@@ -306,32 +306,28 @@ class TaskController < ApplicationController
       peoples_array=[]
       if params[:people_id] && !params[:people_id].empty?
         if params[:people_id] == "all_people"
-          @task.all_members = true
+          @task.all_members = false
           @task.save
-          course_members = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",params[:course_id]],:select => ["participants.profile_id"])
-          course_members.each do |p|
-            peoples_array.push(p.profile_id)
-          end
         else
           peoples_array = params[:people_id].split(",")
-        end
-        peoples_array.each do |p_id|
-          if p_id !=""
-            task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='M' AND profile_id = ?", @task.id, p_id])
-            if !task_participant
-              @task_participant = TaskParticipant.new
-              @task_participant.profile_id = p_id
-              @task_participant.profile_type = "M"
-              @task_participant.status = "A"
-              @task_participant.priority = "L"
-              @task_participant.task_id = @task.id
-              if @task_participant.save
-                Feed.create(
-                  :profile_id => p_id,
-                  :wall_id => wall_id
-                )
-              content = "#{@profile.full_name} assigned you a new task: #{@task.name}"   
-              Message.send_notification(@profile.id,content,p_id)    
+          peoples_array.each do |p_id|
+            if p_id !=""
+              task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='M' AND profile_id = ?", @task.id, p_id])
+              if !task_participant
+                @task_participant = TaskParticipant.new
+                @task_participant.profile_id = p_id
+                @task_participant.profile_type = "M"
+                @task_participant.status = "A"
+                @task_participant.priority = "L"
+                @task_participant.task_id = @task.id
+                if @task_participant.save
+                  Feed.create(
+                    :profile_id => p_id,
+                    :wall_id => wall_id
+                  )
+                content = "#{@profile.full_name} assigned you a new task: #{@task.name}"   
+                Message.send_notification(@profile.id,content,p_id)    
+                end
               end
             end
           end

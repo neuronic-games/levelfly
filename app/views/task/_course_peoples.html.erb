@@ -22,6 +22,9 @@
 <!--
 $(document).ready(function(){
 	setStorage("all_members",$($("input[name=''chk_all_members]")).val());
+	$($('input[name="chk_new_task_people[]"]')).each(function(){
+			setStorage("task_people_"+$(this).attr('id'), $(this).val());
+	});
 });
   $('#all_members_create').delegate('input[name="chk_all_members"]', 'change', function(){
   	check_val = $(this).is(':checked');
