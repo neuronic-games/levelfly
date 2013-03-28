@@ -184,7 +184,7 @@ class Task < ActiveRecord::Base
       profile.level = @level.object_id
       wardrobe = Reward.find(:first, :conditions=>["xp <= ? and object_type = 'wardrobe'",  profile.xp], :order=>"xp DESC")
       puts"#{wardrobe.inspect}"
-      profile.wardrobe = wardrobe.object_id
+      profile.wardrobe = wardrobe.object_id if wardrobe
     else
       task_grade = TaskGrade.find(:first, :conditions => ["task_id = ? and profile_id = ? and course_id = ? and school_id = ?",task.id,profile.id,task.course_id,profile.school_id])
       profile.xp -= task_grade.points if participant.xp_award_date and task_grade
