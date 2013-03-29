@@ -1,0 +1,50 @@
+<div class="add_task_popup" style="position:fixed;">
+   <div class="heading" id="file_dialog_heading">Remove  <% if defined?(section_type) && section_type == "C" %>Course  <% elsif defined?(section_type) && section_type == "G" %>Group<%end%></div>
+   <div class="boxadnt"> 
+     Warning: By removing this content you will lose all data and files associated with it.
+   </div>
+   <div class="spacebar10px"></div>
+   <div class="spacebar10px"></div>
+   <!--
+     <div style="font-weight: bold;"> 
+       This <% if defined?(section_type) && section_type == "C" %>Course  <% elsif defined?(section_type) && section_type == "G" %>Group<%end%> will no longer be available once removed. Are you sure you want to remove this <% if defined?(section_type) && section_type == "C" %>Course  <% elsif defined?(section_type) && section_type == "G" %>Group<%end%>?   
+     </div></br>
+   -->
+   <div id="dialog_url" style="word-wrap:break-word;"></div>
+   <div class="spacebar10px"></div>
+   <div align="right">
+     <a class="smaller_text big_blue_btn inlineblock dialog_btn" id="dont_remove_btn" href="javascript:void(0)">Don't Remove</a>
+     <a class="big_orange_btn inlineblock dialog_btn" id="remove_btn_course" href="javascript:void(0)">Remove</a>
+   </div>        
+</div>
+<script type="text/javascript">
+   $("#dont_remove_btn").click(function(){
+      $("#remove_course_div").hide();
+   });
+  
+  
+  //Remove course/group
+   $("#remove_btn_course").click(function(){
+      id = $("#course_id_hdn").val();
+      section_type = $("#section_type").val();
+      if(id){
+        showSpinner(true);
+        $.ajax({
+         type:"POST",
+         url:"/course/removed",
+         data:{id:id},
+         dataType:"json",
+         success : function(resp){
+            if (resp.status){
+            $("#container").load("/course/?section_type="+section_type, function(){
+              showSpinner(false);
+          });
+            }else{
+               showSpinner(false);
+            }
+         }
+        });
+      }
+    
+   });
+</script>
