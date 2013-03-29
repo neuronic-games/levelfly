@@ -1,5 +1,5 @@
 
-<div class="add_task_popup" style="width:365px; left:60%; height:230px;">
+<div class="add_task_popup">
   <div class="heading">Task Setup</div>
   <div class="boxadnt"> <span class="heading02">Task Name</span>
     <div class="heading02_field">
@@ -10,31 +10,29 @@
     <div class="clear"></div>
     <div class="spacebar10px"></div>
     <div>
-    <div >Options</div>
+    <span class="">Category</span>
+    <select id="categories1" class="brown_bg02" style="margin-left: 34px;">
+      <% unless @categories.nil? %>
+        <option value="">SELECT</option>
+        <% @categories.each do |c| %> 
+        <option value="<%= c.id %>" <%=@task.category and @task.category.name == c.name ? "selected" : ""%>><%= c.name %></option>
+        <% end %>
+      <% end %>
+    </select>
+     <div class="spacebar10px"></div>
+    <div >Outcomes</div>
       <div class="spacebar10px"></div>
-      <div class="hide">
-        <span class="custom-checkbox">
-        <input type="checkbox" id="include_task_grade" <%= @task && @task.include_task_grade ? "checked='checked'" : "" %>/>
-        <span class="box"><span class="tick"></span></span> </span><span class="rfw">Include task grade in final grades</span>
-        <div class="spacebar10px"></div>
-      </div>
-      
-       <div>
-        <span class="custom-checkbox">
-        <input type="checkbox" id="show_outcomes"<%= @task && @task.show_outcomes ? "checked='checked'" : "" %>/>
-        <span class="box"><span class="tick"></span></span> </span><span class="rfw">Show outcomes</span>
-        <div class="spacebar10px"></div>
-      </div>
-      
-       <div>
-        <span class="custom-checkbox">
-        <input type="checkbox" id="grading_complete_date" <%= @task && @task.grading_complete_date.blank? ? "" : "checked='checked'" %> />
-        <span class="box"><span class="tick"></span></span> </span><span class="rfw">All grades have been entered for this task</span>
-        <div class="spacebar10px"></div>
-      </div>
-      
+      <% if !@outcomes_course.nil? %>
+       <% @outcomes_course.each do |outcomes| %>
+        <div id="task_outcomes_<%=outcomes.id%>" class="">
+          <span class="custom-checkbox">
+          <input type="checkbox" name="chk_outcomes[]" <%=@task.outcomes.map(&:name).include?(outcomes.name) ? "checked='checked'" : "" %> id="<%=outcomes.id%>"  value="<%=outcomes.id%>" <%if outcomes.shared == true%>disabled="disabled"<%end%> />
+          <span class="box"><span class="tick"></span></span> </span><span class="rfw"><%= outcomes.name %></span>
+          <div class="spacebar10px"></div>
+        </div>
+       <% end %>  
+      <% end %>
     </div>  
-    <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
   </div>
@@ -63,19 +61,24 @@ $(document).click(function (e){
    //console.log($(this).is(':checked'))
     //check_val = $(this).is(':checked');
  });
- 
  $("#change_btn").click(function(){
     task_id = $("#setup_task_id").val();
-    grading_complete_date = $("#grading_complete_date").is(':checked');
-    show_outcomes = $("#show_outcomes").is(':checked');
-    include_task_grade = $("#include_task_grade").is(':checked');
     task_name = $("#task_name").val();
+    var category_id = $("#categories1").val();
+    var outcomeObject = [];
+      i = 0;
+      $("input[name='chk_outcomes[]']").each(function(){
+        if(this.checked) {
+          outcomeObject.push(this.id)
+          i++;
+        }
+      }); 
     showSpinner(true);
     $.ajax({
       type:"POST",
       url:"/grade_book/task_setup",
       dataType:"json",
-      data:{task_id:task_id,grading_complete_date:grading_complete_date,show_outcomes:show_outcomes,include_task_grade:include_task_grade,task_name:task_name},
+      data:{task_id:task_id,task_name:task_name,outcomes:outcomeObject,category_id:category_id},
       error:  function(e){alert("error");},
       success: function(resp){
          showSpinner(false);

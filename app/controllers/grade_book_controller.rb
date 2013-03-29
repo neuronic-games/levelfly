@@ -374,6 +374,9 @@ class GradeBookController < ApplicationController
   def load_task_setup
     if params[:task_id] and !params[:task_id].blank?
       @task = Task.find(params[:task_id])
+      @course = @task.course if @task
+      @outcomes_course = @course ? @course.outcomes : nil
+      @categories = Category.find(:all, :conditions=>["course_id = ?",@course.id])
       render :partial=>"/grade_book/load_task_setup"
     end
   end
@@ -382,15 +385,26 @@ class GradeBookController < ApplicationController
     if params[:task_id] and !params[:task_id].blank?
       @task = Task.find(params[:task_id])
       if @task
-        if params[:grading_complete_date] == "true"
-          @task.grading_complete_date = Time.now
-        else
-          @task.grading_complete_date = nil
-        end
-        @task.show_outcomes = params[:show_outcomes] if params[:show_outcomes]
-        @task.include_task_grade =  params[:include_task_grade] if params[:include_task_grade]
         @task.name = params[:task_name] if params[:task_name]
+        @task.category_id = params[:category_id] if params[:category_id]
         if @task.save
+         if params[:outcomes] && !params[:outcomes].empty?
+           #OutcomeTask.delete_all(["outcome_id NOT IN (?) AND task_id = ?", outcome_ids, @task.id])
+           OutcomeTask.delete_all(["task_id = ?", @task.id])
+           params[:outcomes].each do |o|
+             if o !=""
+               outcome_task = OutcomeTask.find(:first, :conditions => ["task_id = ? AND outcome_id = ?", @task.id, o])
+               if !outcome_task
+                 #OutcomeTask record
+                 @outcome_task = OutcomeTask.new
+                 @outcome_task.task_id = @task.id
+                 @outcome_task.outcome_id = o
+                 #@outcome_task.points_percentage = params[:points]
+                 @outcome_task.save
+               end
+             end
+           end
+         end
          render :json =>{:status=> true}
         end
       end  
