@@ -47,6 +47,10 @@
         <a href="javascript:void(0);" class="<%=p_type == "P" ? "light_blue" : "join_btn blue_bt19px"%>" course_id="<%= c.id %>">
           <%=p_type == "P" ? " Invite Pending " : "Join"%>
         </a>
+        <% elsif defined?(section_type) and section_type == "G" %>
+        <a href="javascript:void(0);" class="remove_btn blue_bt19px" course_id="<%= c.id %>">
+          Remove
+        </a>
         <% end %>
       </div>
  

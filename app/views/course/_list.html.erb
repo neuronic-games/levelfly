@@ -23,9 +23,11 @@
            <%= render :partial=>"/course/content_list",:locals => {:section_type=>section_type}%>
            </div>  
           </div>  
-
+          <div id="remove_course_div" class="hide">
+            <%= render :partial => "/course/remove_course", :locals => {:section_type=>section_type} %>
+          </div>
           <div class="end_of_page"></div>
-
+          <input type="hidden" name="course_id" id="course_id_hdn" value="" />
         </div>
       </div>
     </div>
@@ -95,6 +97,15 @@ $("#content_list").delegate('.join_btn', 'click', function(event){
   }
   event.stopPropagation();
 });
+  $("#content_list").delegate('.remove_btn', 'click', function(event){       
+    course_id = $(this).attr("course_id");
+    if(course_id){
+      $("#course_id_hdn").attr("value",course_id);
+      $("#remove_course_div").show();
+    }
+    event.stopPropagation();
+  });
+
   // Handler for side-tabs
   $(".tab_group").unbind('click').bind('click', function(){
     $('.tab_group').addClass("side_tab_close").removeClass("side_tab_open");

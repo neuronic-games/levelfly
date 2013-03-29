@@ -805,6 +805,10 @@ class CourseController < ApplicationController
            task.update_attribute('archived',true)
          end
          status = true
+      else
+         participant = Participant.find( :first, :conditions => ["participants.object_id = ? AND participants.profile_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @course.id, user_session[:profile_id]])
+         participant.delete if participant
+         status = true
       end
     end
     render :json=>{:status=>status}
