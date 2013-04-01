@@ -405,6 +405,7 @@ $(document).ready(function(){
   //Save grades/points
   function save_grade(val,id,rel,arrOfProfile,array_of_values){ 
     var valid = false;
+    var focusedId = id;
     var _undo = undo_select
     if(id[0]=="g"){
       valid = valid_grade(val.toUpperCase(),id)
@@ -515,6 +516,7 @@ $(document).ready(function(){
             previous_values=[];
             arr_ids=[];
             showSpinner(false);
+            document.getElementById(focusedId).focus();
           }
         });
       }  
