@@ -334,31 +334,21 @@ class GradeBookController < ApplicationController
         @course.grading_completed_at = Time.now
         @course.save
         @profile = Profile.find(user_session[:profile_id])
-        @badge = Badge.find_by_name("Gold Outcome")
         @outcomes = @course.outcomes
         @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
         @participant.each do |p|
           TaskGrade.bonus_points(p.profile.school_id,@course,p.profile.id,user_session[:profile_id])
           outcomes_grade = []
-          profile_ids = AvatarBadge.find(:all, :select=>"profile_id",:conditions=>["profile_id = ? and badge_id = ? and course_id = ?",p.profile_id,@badge.id,params[:id]]).collect(&:profile_id)
-          AvatarBadge.delete_all(["profile_id = ? and badge_id = ? and course_id = ?",p.profile_id,@badge.id,params[:id]])
-          if profile_ids and !profile_ids.nil?
-            profile_ids.each do
-              p.profile.badge_count-=1
-              p.profile.save
-            end
-          end
           if !@outcomes.nil?
             @outcomes.each do |o|
               outcome_grade = CourseGrade.load_outcomes(p.profile_id, params[:id],o.id,@profile.school_id)
-              if !outcome_grade.blank?
-                outcomes_grade.push(outcome_grade)                  
-              end
-            end
-            outcomes_grade.each do |og|
-              if og >= 2.5
-                status = AvatarBadge.add_badge(p.profile_id,@badge.id,params[:id],@profile.id)
-                url = ProfileAction.last_action(p.profile_id)
+              if !outcome_grade.blank? and outcome_grade >= 2.5
+                @badge = Badge.gold_outcome_badge(o.name,@profile)
+                avatar_badge = AvatarBadge.find(:first, :conditions => ["profile_id = ? and badge_id = ? and course_id = ? and giver_profile_id = ?",p.profile_id,@badge.id,params[:id],@profile.id]) if @badge
+                if avatar_badge.nil?
+                  status = AvatarBadge.add_badge(p.profile_id,@badge.id,params[:id],@profile.id)
+                  url = ProfileAction.last_action(p.profile_id)
+                end
               end
             end
           end

@@ -38,4 +38,18 @@ has_many :avatar_badges
     return badge
   end
 
+  def self.gold_outcome_badge(outcome_name,badge_creator)
+    @badge = self.find_by_name("Gold Medal in #{outcome_name}")
+    return @badge if @badge
+    @badge = self.new
+    @badge.name = "Gold Medal in #{outcome_name}"
+    @badge.descr = "Congratulations! You received this award because you were among the highest-performing students in your course for the learning outcome '#{outcome_name}'."
+    @badge.badge_image_id = 42
+    @badge.school_id = badge_creator.school_id
+    @badge.creator_profile_id = badge_creator.id
+    if @badge.save
+      return @badge
+    end
+  end
+
 end
