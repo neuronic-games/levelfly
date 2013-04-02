@@ -108,7 +108,6 @@ class ProfileController < ApplicationController
     @profile.major_id = profile["major_id"]
     @profile.school_id = profile["school_id"]
     @profile.user_id = current_user.id if current_user
-    @profile.image_file_name = "https://s3.amazonaws.com/#{@profile.school.vaults[0].folder}/avatar_thumb/avatar_#{@profile.id}.jpg"
     @profile.save
     
     @avatar.skin = avatar["skin"]
@@ -133,10 +132,11 @@ class ProfileController < ApplicationController
     @avatar.save
     
     if @avatar.save
-     file_name = "avatar_#{user_session[:profile_id]}.jpg"
+     file_name = "avatar_#{@profile.updated_at}.jpg"
+     @profile.image_file_name = "https://s3.amazonaws.com/#{@profile.school.vaults[0].folder}/avatar_thumb/avatar_#{@profile.updated_at}.jpg"
+     @profile.save
      Attachment.aws_upload(@profile.school_id, file_name, Base64.decode64(params[:avatar_img]), true)
-    end
-
+   end
     publish_profile(@profile)
     
     render :text => {"profile"=>@profile, "avatar"=>@avatar}.to_json
