@@ -1008,7 +1008,12 @@ $(document).ready(function(){
         row_td.addClass("hover task_name_background width12px line_height24px");
         //row_td.attr("rel","grade_column");
         name_div.addClass("rotate_text GB_outcomment3 white_font");
-        name_div.html(resp.task.name+" "+"<span style='color:#B5BDD0;'>("+resp.category_name+")</span>");
+        if (resp.category_name) {
+            name_div.html(resp.task.name + " " + "<span style='color:#B5BDD0;'>(" + resp.category_name + ")</span>");
+        }
+        else{
+            name_div.html(resp.task.name + " " + "<span style='color:#B5BDD0;'>(Uncategorized)</span>");
+        }
         row_td2.addClass("hover width60px line_height24px");
         row_td2.attr("id","t_"+resp.task.id);
         row_td2.attr("rel","grade_column");
@@ -1173,7 +1178,7 @@ $(document).ready(function(){
           }
           else{
             task_div.attr("id","t_"+task.id);  
-            task_div.html(task.name);
+            task_div.html(" ");
           }
           task_name_column.html(task_div);
           task_grade.html(task_grade_div);

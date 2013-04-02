@@ -378,9 +378,8 @@ class GradeBookController < ApplicationController
         @task.name = params[:task_name] if params[:task_name]
         @task.category_id = params[:category_id] if params[:category_id]
         if @task.save
+         OutcomeTask.delete_all(["task_id = ?", @task.id])
          if params[:outcomes] && !params[:outcomes].empty?
-           #OutcomeTask.delete_all(["outcome_id NOT IN (?) AND task_id = ?", outcome_ids, @task.id])
-           OutcomeTask.delete_all(["task_id = ?", @task.id])
            params[:outcomes].each do |o|
              if o !=""
                outcome_task = OutcomeTask.find(:first, :conditions => ["task_id = ? AND outcome_id = ?", @task.id, o])
