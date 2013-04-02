@@ -37,7 +37,8 @@ class CourseController < ApplicationController
         @courses = []
       end
     end
-    
+    @profile.record_action('course', section_type)
+    @profile.record_action('last', 'course')
     respond_to do |wants|  
       wants.html do
         if request.xhr?

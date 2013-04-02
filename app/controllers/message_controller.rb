@@ -48,6 +48,7 @@ class MessageController < ApplicationController
     # else
       # ids = recently_messaged.zip(recently_messaged_by_other).flatten.compact
     # end
+    @profile.delete_action
     @profile.record_action('last', 'message')
     session[:controller]="message"
     render :partial => "list",:locals => {:friend_id => @friend_id} 
@@ -385,8 +386,11 @@ class MessageController < ApplicationController
    def friends_only
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
     message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", user_session[:profile_id]]).collect(&:message_id)
+    profile = Profile.find(user_session[:profile_id])
     @friend = Profile.find(params[:friend_id]) 
     @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND ((profile_id= ? and  parent_id = ?) or (profile_id = ? and parent_id = ?)) AND message_type ='Message' AND parent_type!='Message' and target_type not in('Notification','Course','Group') and id in(?)",false,params[:friend_id],user_session[:profile_id],user_session[:profile_id],params[:friend_id],message_ids], :order => 'created_at DESC')
+    profile.record_action('message', @friend.id)
+    profile.record_action('last', 'message')
     if @messages and !@messages.blank?
       @messages.each do |message|
         message_viewer =MessageViewer.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?",false,message.id,params[:friend_id],user_session[:profile_id]], :order => "created_at DESC")

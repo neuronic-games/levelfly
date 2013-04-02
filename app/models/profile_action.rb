@@ -8,11 +8,17 @@ class ProfileAction < ActiveRecord::Base
         action = ProfileAction.find(:first, :conditions =>["profile_id = ? and action_type = ?",profile_id, pa.action_param])
         url = "/#{pa.action_param}/"
         if action and !action.nil?
-           url = url + "show/#{action.action_param}"
-          if action.action_type = 'course'
-            course = Course.find(action.action_param) 
-            if course
-              url = url+"?section_type=#{course.parent_type}"
+          if action.action_param == "C" or action.action_param == "G"
+            url = url+"?section_type=#{action.action_param}"
+          elsif action.action_type == 'message'
+            url = url + "friends_only/#{action.action_param}"
+          else
+            url = url + "show/#{action.action_param}"
+            if action.action_type = 'course'
+              course = Course.find(action.action_param) 
+              if course
+                url = url+"?section_type=#{course.parent_type}"
+              end
             end
           end
         end

@@ -42,6 +42,10 @@ class Profile < ActiveRecord::Base
     profile_action.save
   end
   
+  def delete_action
+    ProfileAction.delete_all(["profile_id = ? and action_type = ?",self.id, "message"])
+  end
+  
   def major_school
     info = []
     info << self.major.name if self.major
