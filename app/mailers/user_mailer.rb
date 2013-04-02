@@ -23,7 +23,7 @@ class UserMailer < ActionMailer::Base
     @school = school
     @message = message_content
     @link = "https://#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/users/sign_in"
-    @subject = "[CollegeQuest] #{@sender.full_name} at #{@school.code} has sent you a private message"
+    @subject = "[CollegeQuest] New message from #{@sender.full_name} at #{@school.code}"
     recipients  user
     sent_on     Time.now
     mail( :from => "#{@sender.full_name} (Do Not Reply) <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>",
@@ -37,7 +37,7 @@ class UserMailer < ActionMailer::Base
     @school = school
     @message = message_content
     @link = "http://#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/users/sign_in"
-    @subject = "[CollegeQuest] Congratulations!"
+    @subject = "[CollegeQuest] You just leveled up!"
     recipients  user
     sent_on     Time.now
     mail( :from => "#{@sender.full_name} (Do Not Reply) <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>",

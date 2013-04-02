@@ -53,6 +53,6 @@ en:
       confirmation_instructions:
         subject: 'Confirmation instructions'
       reset_password_instructions:
-        subject: '[CollegeQuest] Reset password instructions'
+        subject: '[CollegeQuest] Password Reset Instructions'
       unlock_instructions:
         subject: 'Unlock Instructions'
