@@ -1055,7 +1055,7 @@ $(document).ready(function(){
         var task = resp.task;
         var len = resp.outcomes.length;
         var count = resp.participants.length;
-        $(resp.participants).each(function(p, value){ 
+        $(resp.participants).each(function(p, value){
           var row_item = $("<tr></tr>");
           var rows =$("<td></td>");
           var column =$("<td></td>");
@@ -1069,7 +1069,7 @@ $(document).ready(function(){
           rows.addClass("red_border")
           var table_task = $("<table></table>");
           table_task.addClass("task_grades_width");
-          var  text_grade = $("<input type ='text' value = '' name='task_grade' id = 'g_"+value+"_"+resp.task.id +"' maxlength='2' size='2' rel = '"+ value +"' data='"+resp.task.include_task_grade+"'/>");
+          var  text_grade = $("<input type ='text' value = '' name='task_grade' id = 'g_"+value.profile_id+"_"+resp.task.id +"' maxlength='6' size='2' rel = '"+ value.profile_id +"' data='"+resp.task.include_task_grade+"'/>");
           text_grade.addClass("editable_field task_grade t_"+task.id);
           column.html(text_grade); 
           task_name_column.addClass("width12px width_30 hover task_name_background");
@@ -1095,7 +1095,7 @@ $(document).ready(function(){
               var point_column =$("<td></td>");
               var outcome =$("<td></td>");
               var outcome_div =$("<div></div>");             
-              var  text_point = $("<input type ='text' name='task_grade' value = '' id = 'p_"+value+"_"+task_outcome.id+"_"+task.id +"' rel = 'p_"+value+"_"+task_outcome.id+"' data='"+resp.task.include_task_grade+"' maxlength='1' size='2'/>");
+              var  text_point = $("<input type ='text' name='task_grade' value = '' id = 'p_"+value.profile_id+"_"+task_outcome.id+"_"+task.id +"' rel = 'p_"+value.profile_id+"_"+task_outcome.id+"' data='"+resp.task.include_task_grade+"' maxlength='1' size='2'/>");
               text_point.addClass("editable_field task_grade "+task.id+"_"+task_outcome.id+"");
               if(p%2==0){
                 outcome.addClass("Dark_no width_30 hover white_border");

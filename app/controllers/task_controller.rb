@@ -288,6 +288,7 @@ class TaskController < ApplicationController
         end
       end
       # Participant record
+      course_participants = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",params[:course_id]],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order => "full_name")
       task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='O' AND profile_id = ?", @task.id, user_session[:profile_id]])
       if !task_participant
         @task_participant = TaskParticipant.new
@@ -343,7 +344,7 @@ class TaskController < ApplicationController
         end
       end
     end
-    render :text => {"status"=>status, "task"=>@task, "image_url"=>image_url, "participants"=>peoples_array, "outcomes"=> @task_outcomes, "category_name"=>category_name}.to_json
+    render :text => {"status"=>status, "task"=>@task, "image_url"=>image_url, "participants"=>course_participants, "outcomes"=> @task_outcomes, "category_name"=>category_name}.to_json
   end
   
   def create
