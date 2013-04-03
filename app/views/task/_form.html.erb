@@ -161,17 +161,20 @@ function addNode(element) {
 				
 		      <br /><br />
 		      <%if @is_task_owner %>
-				<div class="field_box2">
+				<div class="field_box2" id="all_completion">
+				  <% if @task_members and !@task_members.blank? %> <input type="checkbox" checked="checked" name="chk_all_completion_people" id="chk_all_completion" class="check_box_all_completion"  value="All Completion" style="margin-right:10px;"/> <% end %>
 				  <span class="font_12px">Members
                   <% if @task_members and !@task_members.blank? %>
-				    <a href="javascript:void(0)" id="complete_all" class="blue_bt10px" style="margin-left:50px;">COMPLETE ALL</a> AND AWARD XP</span>
-				    <h3 style="float:right;"> CHECK BOX TO AWARD XP:</h3>
+				    <a href="javascript:void(0)" id="complete_all" class="blue_bt10px" style="margin-left:229px;width:127px;text-align:center;" name="true">GIVE XP TO <%=@task_members.count%></a>
+				    <a href="javascript:void(0)" id="un-complete_all" class="blue_bt10px" style="float:right;min-width:127px;text-align:center;" name="false">TAKE AWAY XP FROM <%=@task_members.count%></a>
 				  <% end %>  
+				  </span>
 				  <div id="load_task_participant">
                   <% if @task_members and !@task_members.nil? %>
                     <% @task_members.each do |p| %>
                         <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
                           <div style="">
+                            <input type="checkbox" checked="checked" name="chk_completion_people[]" id="<%=p.profile.id%>" class="check_box_completion"  value="<%=p.profile.id%>"/>
                             <div class=" avtar avatar_white_bdr" style="margin-left:0px;">
                               <img src="<%=p.profile.image_file_name%>" profile_id="<%=p.profile_id%>" class="profile"/>
                             </div>
@@ -181,8 +184,17 @@ function addNode(element) {
                             </div>
                           </div> 
                           <div id="credited_<%=p.profile.id%>" class="tbc">
-                           TASK COMPLETED
-                           <div class="margin_top"><input type="checkbox" <%= @task && member_points(p.profile_id, @task.id) ? "checked='checked'" : "" %> name="task_credited[]" class ="check_box_credired" <%= @task && member_associate(p.profile_id, @task.id) ? "" : "disabled='disabled'" %>id="c_<%=p.profile.id%>" rel ="<%=p.profile.id%>"/></div>
+                           <div id="xp_<%=p.profile.id%>">
+                           <% points = member_points(p.profile_id, @task.id)%>
+                           <% if points and points <= 25 %>
+                             <span class="font_15px" style="color:#94b958"><%=points %> XP</span>
+                           <% elsif points and points > 25 and points <= 50 %>
+                             <span class="font_15px" style="color:#db9321"><%=points %> XP</span>
+                           <% elsif points and points > 50 %>
+                             <span class="font_15px" style="color:#cb2d2d"><%=points %> XP</span> 
+                           <% end %>
+                           </div>
+                           <div class="margin_top list_hover1"><a href="javascript:void(0)" name="task_credited[]" class ="give_xp blue_bt10px" id="c_<%=p.profile.id%>" rel ="<%=p.profile.id%>" value = "<%= points ? "false" : "true" %>"><%= points ? 'TAKE AWAY' : 'GIVE XP'%></a></div>
                           </div>
                         </div>                        
                         <div class="clear"></div>
@@ -715,29 +727,39 @@ $(document).ready(function(){
     }
   });
   
-  $('#load_task_participant').delegate('input[name="task_credited[]"]', 'change', function(){
-    check_val = $(this).is(':checked');
+  $(".give_xp").click(function(event){
+    check_val = $(this).attr("value");
     task_id = $("#task_id_hdn").val();
-    member_id = $(this).attr('rel');
+    var member_id = new Array();
+    member_id.push($(this).attr('rel'));
       showSpinner(true);
       $.ajax({
          type:"POST",
          dataType: "json",
          url:"/task/points_credit",
-         data:{task_id:task_id,member_id:member_id,check_val:check_val},
+         data:{task_id:task_id,member_ids:member_id,check_val:check_val},
          success:function(data){
            showSpinner(false);
-           setAlert(data.task.points+" xp rewarded to "+data.member.full_name);
-            changed=true;
+           changed=true;
+           if (check_val != "true") {
+		   	$("#c_" + member_id).html("give xp");
+            $("#c_" + member_id).attr("value","true");
+			$("#xp_" + member_id).html(" ");
+		   }
+		   else {
+		   	$("#c_" + member_id).html("take away");
+            $("#c_" + member_id).attr("value","false");
+			color = xp_color(data.task_points)
+			$("#xp_" + member_id).html("<span class='font_15px' style="+color+">" +data.task_points+ " XP</span>");
+		   }
          },
          error:function(){
            alert("An error has occured");
            showSpinner(false);
            changed = false
-           $("#c_"+member_id).prop("checked",!check_val);
          }
       });
-     
+     event.stopPropagation();
   });
   
   $('#all_members').delegate('input[name="chk_all_members"]', 'change', function(){
@@ -765,17 +787,84 @@ $(document).ready(function(){
       });
   });
   
-  $('.field_box2').delegate('#complete_all','click', function(){
+  $('#all_completion').delegate('input[name="chk_all_completion_people"]', 'change', function(){
+    check_val = $(this).is(':checked');
+    $('.check_box_completion').prop('checked',check_val);
+    if (check_val) {
+      $('#complete_all').html('give xp to '+$('.check_box_completion').length);
+      $('#un-complete_all').html('take away xp from '+$('.check_box_completion').length);
+    }else {
+      $('#complete_all').html('give xp to all');
+      $('#un-complete_all').html('take away xp from all');
+    }
+  });
+  
+  $('#load_task_participant').delegate('input[name="chk_completion_people[]"]', 'change', function(){
+    check_val = $(this).is(':checked');
+    checked_user = $('.check_box_completion:checked').length;
+    if($('.check_box_completion').length == $('.check_box_completion:checked').length){
+      $('.check_box_all_completion').prop('checked',true);
+    }
+    else{
+      $('.check_box_all_completion').prop('checked',false);
+    }
+    if (checked_user == 0) {
+      $('#complete_all').html('give xp to all');
+      $('#un-complete_all').html('take away xp from all');
+    }
+    else{
+      $('#complete_all').html('give xp to '+checked_user);
+      $('#un-complete_all').html('take away xp from '+checked_user);
+    }
+  });
+  
+  $('#all_completion').delegate('#complete_all, #un-complete_all','click', function(){
+    check_val = $(this).attr("name");
     task_id = $("#task_id_hdn").val();
+	var ids = new Array();
+	$(".check_box_completion:checked").each(function(n,i){ids.push(this.id)});
 	showSpinner(true);
       $.ajax({
          type:"POST",
          dataType: "json",
          url:"/task/points_credit",
-         data:{task_id:task_id},
+         data:{task_id:task_id,check_val:check_val,member_ids:ids},
          success:function(data){
+           color = xp_color(data.task_points);
            showSpinner(false);
-			$('.check_box_credired').prop("checked",true);
+           if($(".check_box_completion:checked").length == 0){
+             if(check_val == "true"){
+			 	$(".check_box_completion").each(function(n,i){
+					if ($("#c_" + this.id).attr("value") == "true") {
+						$("#c_" + this.id).html("take away");
+						$("#c_" + this.id).attr("value", "false");
+						$("#xp_" + this.id).html("<span class='font_15px' style=" + color + ">" + data.task_points + " XP</span>");
+					}
+				});
+			 }else{
+			 	$(".check_box_completion").each(function(n,i){
+					$("#c_" + this.id).html("give xp");
+					$("#c_" + this.id).attr("value","true");
+					$("#xp_" + this.id).html(" ");
+				});
+			 }
+           }else{
+		   	  if(check_val == "true"){
+			 	$(".check_box_completion:checked").each(function(n,i){
+					if ($("#c_" + this.id).attr("value") == "true") {
+						$("#c_" + this.id).html("take away");
+						$("#c_" + this.id).attr("value", "false");
+						$("#xp_" + this.id).html("<span class='font_15px' style=" + color + ">" + data.task_points + " XP</span>");
+					}
+				});
+			  }else{
+			 	$(".check_box_completion:checked").each(function(n,i){
+					$("#c_" + this.id).html("give xp");
+					$("#c_" + this.id).attr("value","true");
+					$("#xp_" + this.id).html(" ");
+				});
+			  }
+		   }
          },
          error:function(){
            alert("An error has occured");
@@ -1105,8 +1194,25 @@ $(document).ready(function(){
     }
   });
   
+$(".task_member").hover(
+    function () {
+      $(".list_hover1", this).show();
+    }, 
+    function () {
+      $(".list_hover1", this).hide();
+    }
+  );
 }); //document.ready ends
-
+function xp_color(points){
+  if(points <= 25){
+  	color = "color:#94b958"
+  }else if(points > 25 && points <=50){
+  	color = "color:#db9321"
+  }else{
+  	color = "color:#cb2d2d"
+  }
+  return color;
+}
 function save_task(channel) {
     //Get data from offline storage
     task_id = $("#task_id_hdn").val();

@@ -45,7 +45,7 @@ module TaskHelper
       task_grade = TaskGrade.find(:first, 
         :conditions => ["profile_id = ? AND task_id = ? ", member_id, task_id])
       if task_grade
-        return true if task_grade.points
+        return task_grade.points if task_grade.points
       end
     end
     return false

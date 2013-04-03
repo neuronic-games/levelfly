@@ -212,7 +212,7 @@ class Task < ActiveRecord::Base
       task = participant.task
       remaining_points = task.remaining_points(profile_id)
       
-      return status if remaining_points == 0 and complete
+      return status if (remaining_points == 0 or participant.xp_award_date) and complete
       
       award_points = task.points if remaining_points > task.points
       award_points = remaining_points unless remaining_points > task.points

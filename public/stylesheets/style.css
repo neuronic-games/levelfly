@@ -949,6 +949,9 @@ margin-top:-20px;
 .xp_amount .font_15px{
   font-size:25px;
 }
+.tbc .font_15px{
+  font-size:20px;
+}
 .task_com_viewfield {
   float:center;
   width:95px;
@@ -1966,6 +1969,9 @@ margin-left:33px;
 }
 .list_hover {
   position: absolute; 
+  display: none;
+}
+.list_hover1 {
   display: none;
 }
 .blackboard_list {
@@ -3200,7 +3206,7 @@ filter:alpha(opacity="0");
 .task_member .member_name {float:left; margin:35px 0 0 10px;}
 .task_member .avtar{float:left; margin-left:10px;}
 .margin_top{margin-top:10px;}
-
+.check_box_completion{float:left; margin-top:35px;margin-right:10px}
 /********************************group page************************************/
 
 .group_image_name {
@@ -4029,7 +4035,7 @@ border:solid 0px #000000;
 .completed_task {float:right; margin-top:-100px; width:200px;}
 .comments_lists {display: none;}
 .confirm_box_width{width:301px; left:60%;}
-.tbc{float:right; width:100px; text-align:center;}
+.tbc{float:right; width:100px; text-align:center; margin-top:23px;}
 .GB_outcomment3 {
     color: #6989B5;
     font-family: Arial,Helvetica,sans-serif;
