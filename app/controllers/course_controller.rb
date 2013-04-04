@@ -10,7 +10,7 @@ class CourseController < ApplicationController
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     
     if params[:search_text]
-      search_text =  "#{params[:search_text]}%"
+      search_text =  "%#{params[:search_text]}%"
       if params[:section_type]=="C"
         @courses = Course.find(
           :all,
