@@ -47,9 +47,13 @@
         <a href="javascript:void(0);" class="<%=p_type == "P" ? "light_blue" : "join_btn blue_bt19px"%>" course_id="<%= c.id %>">
           <%=p_type == "P" ? " Invite Pending " : "Join"%>
         </a>
-        <% elsif defined?(section_type) and section_type == "G" %>
+        <% elsif defined?(section_type) and section_type == "G" and c.owner.id == user_session[:profile_id]%>
         <a href="javascript:void(0);" class="remove_btn blue_bt19px" course_id="<%= c.id %>">
           Remove
+        </a>
+        <% elsif defined?(section_type) and section_type == "G" and c.owner.id != user_session[:profile_id] and p_type == "S"%>
+        <a href="javascript:void(0);" class="leave_btn blue_bt19px" course_id="<%= c.id %>" course_name="<%=c.name%>">
+          Leave
         </a>
         <% end %>
       </div>
