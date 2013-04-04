@@ -180,7 +180,7 @@ class CourseController < ApplicationController
       @course = Course.new
     end
    
-    @course.name = params[:course] if params[:course]
+    @course.name = params[:course].slice(0,64) if params[:course]
     @course.descr = params[:descr] if params[:descr]
     @course.parent_type = params[:section_type] if params[:section_type]
     @course.code = params[:code].upcase if params[:code]
@@ -845,7 +845,7 @@ class CourseController < ApplicationController
       @course = Course.new
     end
     @profile = Profile.find(user_session[:profile_id])
-    @course.name = params[:name] if params[:name]
+    @course.name = params[:name].slice(0,64) if params[:name]
     @course.descr = params[:descr] if params[:descr]
     @course.parent_type = "F"
     @course.code = params[:code].upcase if params[:code]

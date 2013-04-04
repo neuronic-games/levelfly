@@ -162,11 +162,11 @@ function addNode(element) {
 		      <br /><br />
 		      <%if @is_task_owner %>
 				<div class="field_box2" id="all_completion">
-				  <% if @task_members and !@task_members.blank? %> <input type="checkbox" checked="checked" name="chk_all_completion_people" id="chk_all_completion" class="check_box_all_completion"  value="All Completion" style="margin-right:10px;"/> <% end %>
+				  <% if @task_members and !@task_members.blank? %> <input type="checkbox" name="chk_all_completion_people" id="chk_all_completion" class="check_box_all_completion"  value="All Completion" style="margin-right:10px;"/> <% end %>
 				  <span class="font_12px">Members
                   <% if @task_members and !@task_members.blank? %>
-				    <a href="javascript:void(0)" id="complete_all" class="blue_bt10px" style="margin-left:229px;width:127px;text-align:center;" name="true">GIVE XP TO <%=@task_members.count%></a>
-				    <a href="javascript:void(0)" id="un-complete_all" class="blue_bt10px" style="float:right;min-width:127px;text-align:center;" name="false">TAKE AWAY XP FROM <%=@task_members.count%></a>
+				    <a href="javascript:void(0)" id="complete_all" class="blue_bt10px" style="margin-left:229px;width:127px;text-align:center;" name="true">GIVE XP TO ALL</a>
+				    <a href="javascript:void(0)" id="un-complete_all" class="blue_bt10px" style="float:right;min-width:127px;text-align:center;" name="false">TAKE AWAY XP FROM ALL</a>
 				  <% end %>  
 				  </span>
 				  <div id="load_task_participant">
@@ -174,7 +174,7 @@ function addNode(element) {
                     <% @task_members.each do |p| %>
                         <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
                           <div style="">
-                            <input type="checkbox" checked="checked" name="chk_completion_people[]" id="<%=p.profile.id%>" class="check_box_completion"  value="<%=p.profile.id%>"/>
+                            <input type="checkbox" name="chk_completion_people[]" id="<%=p.profile.id%>" class="check_box_completion"  value="<%=p.profile.id%>"/>
                             <div class=" avtar avatar_white_bdr" style="margin-left:0px;">
                               <img src="<%=p.profile.image_file_name%>" profile_id="<%=p.profile_id%>" class="profile"/>
                             </div>
@@ -312,7 +312,7 @@ function addNode(element) {
                 <div class="field_box2">
                   <p class="font_12px" >Name</p>
                   <div class="dd_bg">
-                    <input type="text" name="task" id="task" class="dd_input" value="<%=@task.name if @task %>" onblur='javascript:setStorage("task_name", $(this).val())'/>
+                    <input type="text" name="task" id="task" class="dd_input" value="<%=@task.name if @task %>" maxlength="64" onblur='javascript:setStorage("task_name", $(this).val())'/>
                   </p>
                 </div>
                 <div class="clear"></div>

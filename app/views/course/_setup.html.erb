@@ -24,7 +24,7 @@
 
         <div class="course_viewfield field_label">COURSE NAME
           <div class="dd_bg brown_bg">
-            <input type="text" name="course_name" id="course_name" class="dd_select brown_bg" value="<%=@course.name if @course%>" onBlur='javascript:setStorage("course_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
+            <input type="text" name="course_name" id="course_name" class="dd_select brown_bg" value="<%=@course.name if @course%>" maxlength="64" onBlur='javascript:setStorage("course_name", $(this).val()); $("#hdn_is_page_change").val(true);' />
           </div>
         </div>
 

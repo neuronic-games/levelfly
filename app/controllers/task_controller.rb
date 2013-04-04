@@ -247,7 +247,7 @@ class TaskController < ApplicationController
       @task = Task.new
     end
     @profile = Profile.find(user_session[:profile_id])
-    @task.name = params[:task] if params[:task]
+    @task.name = params[:task].slice(0,64) if params[:task]
     @task.descr = params[:descr] if params[:descr]
     @task.due_date = Date.strptime(params[:due_date], '%m-%d-%Y') if params[:due_date] && params[:due_date] != "null"
     @task.points = params[:task_xp] if params[:task_xp]
