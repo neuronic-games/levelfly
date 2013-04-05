@@ -409,7 +409,9 @@ class GradeBookController < ApplicationController
       @tasks = Course.sort_course_task(@course.id)
       @participant = Participant.all( :joins => [:profile], 
         :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", session[:course_id]],
-        :select => ["profiles.full_name,participants.id,participants.profile_id"])
+        :select => ["profiles.full_name,participants.id,participants.profile_id"],
+        :order => "full_name"
+        )
       y << "User ID"
       y << "Name"
       y << "Course Code"
@@ -430,7 +432,7 @@ class GradeBookController < ApplicationController
             if @task_outcomes.length > 0
               if !@task_outcomes.nil?
                 @task_outcomes.each do|o|
-                  y << t.name+": "+o.name
+                  y << "#{o.name} (#{t.name})"
                 end
               end
             end
@@ -470,7 +472,8 @@ class GradeBookController < ApplicationController
               task_grade = TaskGrade.load_task_grade(t.school_id,t.course_id,t,p.profile_id)
               grade = ""
               if !task_grade.nil?
-                grade = GradeType.value_to_letter(task_grade, t.school_id )
+                grade = GradeType.value_to_letter(task_grade, t.school_id ) unless @course.display_number_grades
+                grade = task_grade if @course.display_number_grades
               end
               x << grade
               @task_outcomes = t.outcomes
