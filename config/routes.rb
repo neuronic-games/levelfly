@@ -225,6 +225,8 @@ Oncapus::Application.routes.draw do
   
   post "grade_book/course_outcomes"
   
+  post "grade_book/show_outcomes"
+  
   post "grade_book/load_outcomes"
   
   post "grade_book/grade_calculate"

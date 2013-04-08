@@ -1,6 +1,7 @@
 <% unless @latest_course.nil? %>
   <div class="task_side_buttons"> 
     <a href="javascript:void(0)" class="big_orange_btn new_task">ADD TASK</a> 
+    <a href="javascript:void(0)" class="big_blue_btn show_hide_outcomes" style="padding:6px 0 6px;" show="<%= @latest_course.show_outcomes ? "false" : "true"%>"><%= @latest_course.show_outcomes ? 'HIDE OUTCOMES' : 'SHOW OUTCOMES'%></a> 
     <%= link_to 'Export CSV', csv_path, :class =>"big_blue_btn"%>
     <a href="javascript:void(0)" class="big_blue_btn finalize" id ="finalize">Finalize</a> 
   </div>
@@ -494,13 +495,14 @@ $(document).ready(function(){
         var ids = id.split("_");
         var task_id = ids[2];
         var task_grade = String(val.replace(/\+/g, "%2B"));
+        var show = $('.show_hide_outcomes').attr("show");
         task_grade = task_grade.toUpperCase();
         var profile_id = rel;
         if (_undo==true){
-          var datastring ='school_id=' +school_id+ '&course_id=' +course_id+ '&task_id=' +task_id+ '&characters='+arrOfgrades+ '&profile_id=' +profile_id+ '&task_grade=' +task_grade+ '&last_changes='+array_of_values+ '&undo='+_undo
+          var datastring ='school_id=' +school_id+ '&course_id=' +course_id+ '&task_id=' +task_id+ '&characters='+arrOfgrades+ '&profile_id=' +profile_id+ '&task_grade=' +task_grade+ '&last_changes='+array_of_values+ '&undo='+_undo+ '&show='+show
         }
         else{
-           var datastring ='school_id=' +school_id+ '&course_id=' +course_id+ '&task_id=' +task_id+ '&characters='+arrOfgrades+ '&profile_id=' +profile_id+ '&task_grade=' +task_grade
+           var datastring ='school_id=' +school_id+ '&course_id=' +course_id+ '&task_id=' +task_id+ '&characters='+arrOfgrades+ '&profile_id=' +profile_id+ '&task_grade=' +task_grade+ '&show='+show
         }
         $.ajax({
           type :"POST",
@@ -955,7 +957,30 @@ $(document).ready(function(){
         }      
     });
   });
-  
+
+  //Show/hide outcomes
+  $(".show_hide_outcomes").click(function(){
+    var course_id = $("#course_id").val();
+    var show = $(this).attr("show");
+    showSpinner(true);
+    $.ajax({
+      type:"POST",
+      url:"/grade_book/show_outcomes",
+      data:{course_id:course_id,show:show},
+      error:  function(e){alert("error");},
+      success: function(resp){       
+          $("#all_participant").html(resp);
+          if (show == "false"){
+            $('.show_hide_outcomes').attr("show","true");
+            $('.show_hide_outcomes').html("Show outcomes");
+          }else{
+            $('.show_hide_outcomes').attr("show","false");
+            $('.show_hide_outcomes').html("hide outcomes");
+          }
+          showSpinner(false);
+        }      
+    });
+  });
   $("#finalize").click(function(){
     $("#finalize_div").show();
   });
@@ -978,6 +1003,7 @@ $(document).ready(function(){
     
     var task = $("#new_task").val();
     var course_id = $("#course_id").val();
+    var show = $('.show_hide_outcomes').attr("show");
     var school_id = $("#school_id").val();  
     var category_id = $("#categories").val();
     var level = 0;
@@ -1027,7 +1053,7 @@ $(document).ready(function(){
         table_row.append(row_td);
         table_row.append(row_td2);
         
-        if(outcomes_length>0){
+        if(outcomes_length>0 && show == "false"){
             $(resp.outcomes).each(function(o, task_outcome){ 
              var outcome_div = $("<div></div>");
              var outcome_td = $("<td></td>");
@@ -1090,7 +1116,7 @@ $(document).ready(function(){
           rows.append(task_name_column);
           rows.append(task_grade);
           rows.append(column);
-            if(len>0){ 
+            if(len>0 && show == "false"){ 
              $(resp.outcomes).each(function(o, task_outcome){ 
               var point_column =$("<td></td>");
               var outcome =$("<td></td>");
@@ -1185,7 +1211,7 @@ $(document).ready(function(){
           rows.append(task_name_column);
           rows.append(task_grade);
           rows.append(column); 
-            if(len>0){ 
+            if(len>0 && show == "false"){ 
              $(resp.outcomes).each(function(o, task_outcome){ 
               var point_column =$("<td></td>");
               var outcome =$("<td></td>");
@@ -1317,6 +1343,13 @@ $(document).ready(function(){
     data: {course_id:course_id},
     success: function(data){
       showSpinner(false);
+      if (data.show_outcomes == false){
+            $('.show_hide_outcomes').attr("show","true");
+            $('.show_hide_outcomes').html("Show outcomes");
+          }else{
+            $('.show_hide_outcomes').attr("show","false");
+            $('.show_hide_outcomes').html("hide outcomes");
+      }
       //$('.GB_right_table').replaceWith($("<table></table>"));
       $('#outcome_note').val(1);
       $('#outcome_note').parent().find('.fakebox').html("OUTCOMES" );
@@ -1357,7 +1390,7 @@ $(document).ready(function(){
         row_td.append(name_div);
         table_row.append(row_td);
         table_row.append(row_td2);
-        if (item.show_outcomes==true){
+        if (item.show_outcomes==true  && data.show_outcomes == true){
           if(outcomes_length>0){
               for (j=0; j<outcomes_length; j++){
                var outcome_div = $("<div></div>");
@@ -1521,7 +1554,7 @@ $(document).ready(function(){
           rows.append(task_name_column);
           rows.append(task_grade);
           rows.append(column);
-          if (task.show_outcomes==true){
+          if (task.show_outcomes==true && data.show_outcomes == true){
             if(len>0){
               for (i=0; i<len; i++)
               {
@@ -1703,7 +1736,7 @@ $(document).ready(function(){
           rows.append(task_name_column);
           rows.append(task_grade);
           rows.append(column);
-          if (task.show_outcomes==true){
+          if (task.show_outcomes==true && data.show_outcomes == true){
             if(len>0){
               for (i=0; i<len; i++)
               {

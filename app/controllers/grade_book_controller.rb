@@ -74,6 +74,7 @@ class GradeBookController < ApplicationController
       session[:course_id] = params[:course_id]
       @profile = Profile.find(user_session[:profile_id])
       @course = Course.find(params[:course_id])
+      show_outcomes = @course.show_outcomes if @course
       @outcomes = @course.outcomes
       @participant = Participant.all( :joins => [:profile], 
         :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
@@ -156,7 +157,8 @@ class GradeBookController < ApplicationController
         :participant => @participant,
         :outcomes => @outcomes,
         :profile => @profile,
-        :count => @count}}
+        :count => @count,
+        :show_outcomes => show_outcomes}}
     end
 
   end
@@ -287,6 +289,23 @@ class GradeBookController < ApplicationController
       notes = CourseGrade.save_notes(profile_id, course_id,school_id,notes)
       render :json => {:notes => @notes}
     end
+  end
+  
+  def show_outcomes
+    show_outcomes = params[:show] == "true" ? true : false
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @latest_course = Course.find(params[:course_id])
+    @latest_course.update_attribute("show_outcomes",show_outcomes)
+    @course_id = @latest_course.id
+    @school_id = @profile.school_id
+    @outcomes = @latest_course.outcomes
+    @participant = Participant.all( :joins => [:profile], 
+      :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
+      :select => ["profiles.full_name,participants.id,participants.profile_id"],
+      :order => "full_name")
+    @tasks =  Course.sort_course_task(params[:course_id])
+    @count = @participant.count
+    render :partial => "/grade_book/show_participant", :locals => {:previous_grade=>nil}
   end
   
   def course_outcomes
