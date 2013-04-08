@@ -15,7 +15,10 @@ belongs_to :badges
     end
     @student.badge_count+=1
     @student.save
+    @current_user = Profile.find_by_id(giver_profile_id)
+    course = Course.find_by_id(course_id)
     content = "Congratulations! You have received a badge: #{@badge.name}"
+    UserMailer.new_badge(@student,@current_user,@current_user.school,course,@badge.name).deliver
     Message.send_notification(giver_profile_id,content,@student.id)
     return status
   end
