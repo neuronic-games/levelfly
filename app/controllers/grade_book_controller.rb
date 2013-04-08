@@ -449,7 +449,8 @@ class GradeBookController < ApplicationController
         val = participant_grade[@course.id]
         grade = ""
         if !val.nil?
-          grade = val.to_s+" "+GradeType.value_to_letter(val, @course.school_id)
+          grade = GradeType.value_to_letter(val, @course.school_id) unless @course.display_number_grades
+          grade = val if @course.display_number_grades
         end
         x << grade
         participant_note = CourseGrade.load_notes(p.profile_id, @course.id, @course.school_id)
