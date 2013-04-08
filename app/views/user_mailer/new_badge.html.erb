@@ -44,25 +44,19 @@
 
 		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; "><br></span></font></div>
 
-		<div style="line-height: 20px; "><font face="Verdana" color="#ffffff"><span style="font-size: 14px; line-height: 20px; ">Dear <%=@receiver.full_name%>,</span></font></div>
+		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="font-size: 14px; line-height: 20px; "><br></span></font></div>
+
+		<div style="line-height: 20px; "><font face="Verdana" color="#ffffff"><span style="font-size: 14px; line-height: 20px; ">Congratulations, <%=@receiver.full_name%>! You just earned a new badge: <%=@badge_name%>. </span></font></div>
 
 		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="font-size: 14px; line-height: 20px; "><br></span></font></div>
 
-		<div style="line-height: 20px; "><font face="Verdana" color="#ffffff"><span style="font-size: 14px; line-height: 20px; ">Congratulations! You earned a new badge: <%=@badge_name%>. </span></font></div>
+		<div style="line-height: 20px; "><font face="Verdana" color="#ffffff"><span style="font-size: 14px; line-height: 20px; "><%=@sender.full_name%> gave you this badge for <%=@course.name%> (<%=@course.code_section%>) at <%=@school.code%>.</span></font></div>
 
 		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="font-size: 14px; line-height: 20px; "><br></span></font></div>
 
-		<div style="line-height: 20px; "><font face="Verdana" color="#ffffff"><span style="font-size: 14px; line-height: 20px; ">This badge was given to you by <%=@sender.full_name%> for <%=@course.name%> (<%=@course.code_section%>) at <%=@school.code%>.</span></font></div>
+		<div style="line-height: 20px; "><font face="Verdana" color="#bbf9ff"><span style="font-size: 14px; line-height: 20px; "><a href="<%= @link %>" style="color:#bbf9ff; text-decoration:none;">Login to see your new badge on your Profile page</a></span></font></div>
 
 		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="font-size: 14px; line-height: 20px; "><br></span></font></div>
-
-		<div style="line-height: 20px; "><font face="Verdana" color="#bbf9ff"><span style="font-size: 14px; line-height: 20px; "><a href="<%= @link %>" style="color:#bbf9ff; text-decoration:none;">Click Here to see your badges</a></span></font></div>
-
-		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="font-size: 14px; line-height: 20px; "><br></span></font></div>
-
-		<div style="line-height: 20px; "><font face="Verdana" color="#ffffff"><span style="font-size: 14px; line-height: 20px; ">Sincerely,</span></font></div>
-
-		<div style="line-height: 20px; "><font face="Verdana" color="#ffffff"><span style="font-size: 14px; line-height: 20px; ">College Quest Administrator</span></font></div>
 
 		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="font-size: 14px; line-height: 20px; "><br></span></font></div>
 
