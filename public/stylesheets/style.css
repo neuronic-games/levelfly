@@ -923,6 +923,9 @@ margin-top:-20px;
 .field_box2 {
   padding: 0 15px 0 38px;
 }
+.field_box3 {
+  padding: 15px 15px 0 63px;
+}
 .field_box_setup{
   padding: 0 0 0 38px;
 }
@@ -3256,6 +3259,10 @@ filter:alpha(opacity="0");
 .privacy_setting {
     letter-spacing: 0;
     margin: 21px 0 16px 10px;
+}
+.task_setting {
+    letter-spacing: 0;
+    margin: 0 0 4px 39px;
 }
 .privacy_setting span{
   margin:0 0px 0px 18px;

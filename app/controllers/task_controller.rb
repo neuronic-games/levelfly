@@ -69,82 +69,7 @@ class TaskController < ApplicationController
     end
     render :text => {"status"=>status}.to_json
   end
-  
-  def all_members_checked
-    status = false
-    if params[:task_id] && !params[:task_id].nil?
-      wall_id = Wall.get_wall_id(params[:task_id],"Task")
-      @task = Task.find(params[:task_id])
-      @profile = Profile.find(user_session[:profile_id])
-      if params[:check_val] == "false"
-        @task.all_members = false
-        @task.save
-        modify_xp(params[:task_id],false)
-        status = true
-      else
-        @task.all_members = true
-        @task.save
-        course_participants = Participant.find(:all,:conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @task.course_id])
-        course_participants.each do |course_participant|
-          participant = TaskParticipant.find(:first, :conditions => ["profile_id = ? AND task_id = ? and profile_type = 'M'",course_participant.profile_id, @task.id])
-          if !participant
-            @task_participant = TaskParticipant.new
-            @task_participant.profile_id = course_participant.profile_id
-            @task_participant.profile_type = "M"
-            @task_participant.status = "A"
-            @task_participant.priority = "L"
-            @task_participant.task_id = @task.id
-            if @task_participant.save
-              Feed.create(
-               :profile_id => course_participant.profile_id,
-               :wall_id => wall_id
-              )
-            content = "Assigned a task: #{@task.name}"
-            Message.send_notification(@profile.id,content,course_participant.profile_id)    
-            status = true
-            end
-          end
-        end
-      end
-    end
-    render :text => {"status"=>status}.to_json
-  end
-  
-  def member_unchecked
-    status = false
-    if params[:task_id] && !params[:task_id].nil?
-     wall_id = Wall.get_wall_id(params[:task_id],"Task")
-     @task = Task.find(params[:task_id])
-     @profile = Profile.find(user_session[:profile_id])
-     # participant = Participant.find(:first, :conditions=>["object_type = 'Task'  AND  profile_type = 'S' AND object_id = ? AND profile_id = ?",params[:task_id],params[:member_id]])
-     participant = TaskParticipant.find(:first, 
-        :conditions => ["profile_id = ? AND task_id = ? AND profile_type = ? ", params[:member_id], params[:task_id], Task.profile_type_member])
-      if participant
-        status = Task.points_to_student(params[:task_id], false, participant.profile_id,user_session[:profile_id])
-        participant.delete
-        status = true
-      else
-        @task_participant = TaskParticipant.new
-        @task_participant.profile_id = params[:member_id]
-        @task_participant.profile_type = "M"
-        @task_participant.status = "A"
-        @task_participant.priority = "L"
-        @task_participant.task_id = params[:task_id]
-        if @task_participant.save
-          Feed.create(
-            :profile_id => params[:member_id],
-            :wall_id => wall_id
-          )
-         content = "Assigned a task: #{@task.name}"
-         Message.send_notification(@profile.id,content,params[:member_id])    
-        status = true
-        end       
-      end 
-    end
-    render :text => {"status"=>status}.to_json
-  end
 
-  
   def show
     @task = Task.find_by_id(params[:id])
     @course = @task.course
@@ -257,6 +182,7 @@ class TaskController < ApplicationController
     @task.category_id = params[:category_id] if params[:category_id]
     @task.extra_credit = params[:extra_credit] if params[:extra_credit]
     @task.all_members = true if (params[:all_members] == "All Members")
+    @task.all_members = false if (params[:all_members] == "Some")
     # Has something changed on the task that could change it's points value?
     # FIXME: We may want to recalculate points if the task raiting or course settings change
     
@@ -302,6 +228,14 @@ class TaskController < ApplicationController
             :profile_id => user_session[:profile_id],
             :wall_id =>wall_id
           )
+        end
+      end
+      if params[:remove_people_ids] && !params[:remove_people_ids].empty?
+        remove_people = params[:remove_people_ids].split(",")
+        remove_participants = TaskParticipant.find(:all,:conditions => ["task_id = ? and profile_type = 'M' and profile_id in (?)",@task.id,remove_people])
+        remove_participants.each do |participant|
+          status = Task.points_to_student(@task.id, false, participant.profile_id,user_session[:profile_id])
+          participant.delete
         end
       end
       peoples_array=[]

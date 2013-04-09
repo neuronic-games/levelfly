@@ -392,42 +392,46 @@ function addNode(element) {
                 </div>
                 
                 
-                <br /><br />
-				<% if not defined?(task_new)%>
-                <div class="field_box2" id="all_members"><span class="font_12px"><input type="checkbox" <%= @task.all_members ? "checked='checked'" : "" %> name="chk_all_members" id="all_members" class="check_all_members"  value="All Members"/> All Members</h3></span>
-				<% end %>
+                <br />
                   <div id="load_task_participant_wall" style="margin-top: 15px;">
-                  <% if @people and !@people.nil? %>
-                   <% @people.each do |p| %>
-                        <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
-                          <div style="">
-                            <input type="checkbox" <%= @task && member_associate(p.profile_id, @task.id) ? "checked='checked'" : "" %> <%= @task.all_members ? "disabled='disabled'" : ""%> name="chk_task_people[]" id="<%=p.profile.id%>" class="check_box"  value="<%=p.profile.id%>"/>
-                            <div class=" avtar avatar_white_bdr">
-                              <img src="<%=p.profile.image_file_name%>" profile_id="<%=p.profile_id%>" class="profile"/>
+                    <% if @people and !@people.nil? %>
+                      <div class="task_setting">
+                        <input type="radio" name="assign_task[]" checked="true" value="All Members"/><span class="font_12px" style="margin-left:10px;">All Members Should Receive this Task</span>
+                      </div> 
+                      <div class="task_setting">
+                        <input type="radio" name="assign_task[]" <% if @task and !@task.all_members %> checked="true" <% end %> value="Some"/><span class="font_12px" style="margin-left:10px;">Some Members Should Receive this Task</span>
+                      </div> 
+                      <% if !@people.blank? %>
+                      <div class="field_box3" id="all_members"><span class="font_12px"><input type="checkbox" <%= @task.all_members ? "checked='checked'" : "" %> <%= @task.all_members ? "disabled='disabled'" : ""%> name="chk_all_members" id="all_members" class="check_all_members"  value="All Members"/><span class="font_12px" style="margin-left:10px;">Members</span></h3></span>
+                        <% @people.each do |p| %>
+                          <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
+                            <div style="">
+                              <input type="checkbox" <%= @task && member_associate(p.profile_id, @task.id) ? "checked='checked'" : "" %> <%= @task.all_members ? "disabled='disabled'" : ""%> name="chk_task_people[]" id="<%=p.profile.id%>" class="check_box"  value="<%=p.profile.id%>"/>
+                              <div class=" avtar avatar_white_bdr">
+                                <img src="<%=p.profile.image_file_name%>" profile_id="<%=p.profile_id%>" class="profile"/>
+                              </div>
+                              <div class="member_name">
+                                <%= p.profile.full_name %> <br />
+                                <%= p.profile.major_school %>
+                              </div>
+                            </div> 
+                            <%if @task.extra_credit==true%>
+                              <div id="" class="tbc hide">
+                                EXTRA CREDIT
+                                <div class="margin_top"><input type="checkbox" <%= @task && task_extra_credit(p.profile_id, @task.id) ? "checked='checked'" : "" %>  <%if @is_task_owner %><%else%>disabled="disabled"<%end%>name="task_extra_credited" class ="check_box_credired1" rel ="<%=p.profile.id%>"/></div>
+                              </div>
+                            <%end%>
+                            <div id="completed_div_<%=p.profile.id%>" class="tbc hide">
+                              COMPLETED
+                              <div class="margin_top"><%=complete_date(p.profile_id,@task.id)%></div>
                             </div>
-                            <div class="member_name">
-                              <%= p.profile.full_name %> <br />
-                              <%= p.profile.major_school %>
-                            </div>
-                          </div> 
-                          <%if @task.extra_credit==true%>
-                            <div id="" class="tbc hide">
-                             EXTRA CREDIT
-                             <div class="margin_top"><input type="checkbox" <%= @task && task_extra_credit(p.profile_id, @task.id) ? "checked='checked'" : "" %>  <%if @is_task_owner %><%else%>disabled="disabled"<%end%>name="task_extra_credited" class ="check_box_credired1" rel ="<%=p.profile.id%>"/></div>
-                            </div>
-                          <%end%>
-                          <div id="completed_div_<%=p.profile.id%>" class="tbc hide">
-                          COMPLETED
-                          <div class="margin_top"><%=complete_date(p.profile_id,@task.id)%></div>
-                          </div>
-                                                  
-                        </div>                        
-                        <div class="clear"></div>
-                        
-                   <% end %>
+                          </div>                        
+                          <div class="clear"></div>
+                        <% end %>
+                      </div>
+                      <% end %>
                     <% end %>
                   </div>
-                </div>
                
                 <div class="end_of_page"></div>
               </div>
@@ -489,6 +493,7 @@ var i = 0;
 var j = 0;
 var extra_credit = document.getElementById('extra_credit');
 var _taskPeopleObject = [];
+var _taskRemovePeople = [];
 var _addTaskPeopleEmailObject = [];
 var _outcomeValueObject = [];
 var changed = false;
@@ -584,6 +589,10 @@ $(document).ready(function(){
     <% if defined?(task_new) && task_new == true %>
       new_task = true;
     <% end %>
+  
+  if($('.check_box:checked').length == $('.check_box').length){
+        $('.check_all_members').prop("checked", true);
+  }
   
   $(".task_form_main").delegate("input","change",function(){
     changed=true;
@@ -762,29 +771,22 @@ $(document).ready(function(){
      event.stopPropagation();
   });
   
-  $('#all_members').delegate('input[name="chk_all_members"]', 'change', function(){
-  	check_val = $(this).is(':checked');
-    task_id = $("#task_id_hdn").val();
-	showSpinner(true);
-      $.ajax({
-         type:"POST",
-         dataType: "json",
-         url:"/task/all_members_checked",
-         data:{task_id:task_id,check_val:check_val},
-         success:function(data){
-           showSpinner(false);
-            changed=true;
-			$("#hdn_is_page_change").val(true);
-			if(check_val==true){
-				$('.check_box').prop("checked",check_val);
-				$('.check_box').prop("disabled",check_val);
-			}
-			else{
-				$('.check_box').prop("checked",check_val);
-				$('.check_box').prop("disabled",check_val);
-			}
-         }
-      });
+  $('#load_task_participant_wall').delegate('input[name="assign_task[]"]', 'change', function(){
+    assignment_type = $(this).attr("value");
+    $('.check_box').prop("checked",true);
+    $('.check_all_members').prop("checked",true);
+    if(assignment_type == "All Members"){
+       $('.check_box').prop("disabled",true);
+       $('.check_all_members').prop("disabled",true);
+    }else{
+       $('.check_box').prop("disabled",false);
+       $('.check_all_members').prop("disabled",false);
+    }
+  });
+  
+  $('#load_task_participant_wall').delegate('input[name="chk_all_members"]', 'change', function(){
+     check_val = $(this).is(':checked');
+     $('.check_box').prop("checked",check_val);
   });
   
   $('#all_completion').delegate('input[name="chk_all_completion_people"]', 'change', function(){
@@ -919,35 +921,14 @@ $(document).ready(function(){
   
   $('#load_task_participant_wall').delegate('input[name="chk_task_people[]"]', 'change', function(){
     check_val = $(this).is(':checked');
-    deleteStorage("task_people_"+$(this).attr('id'));
-    member_id = $(this).attr('id');
-    task_id = $("#task_id_hdn").val();
-    course_id = $("#course_id_hdn").val();
-    var id = $(this).attr('id');
-    var val = $(this).val();
-      if(task_id){ 
-        showSpinner(true);
-        $.ajax({
-           type:"POST",
-           dataType: "json",
-           url:"/task/member_unchecked",
-           data:{task_id:task_id,member_id:member_id,check_val:check_val},
-           success:function(data){
-             if(data.status)
-             {
-               $("#hdn_is_page_change").val(true);
-               showSpinner(false);
-                changed=true;
-               if(check_val==true){
-                 setStorage("task_people_"+id, val);
-              }
-              else{
-                deleteStorage("task_people_"+id);
-              }  
-             } 
-           }
-        });
-      }  
+    $('.check_box').prop("disabled",false);
+    if (check_val == true) {
+      if($('.check_box:checked').length == $('.check_box').length){
+        $('.check_all_members').prop("checked", check_val);
+      }
+    }else{
+      $('.check_all_members').prop("checked", check_val);
+    }
   });
   
   $(function() {
@@ -1228,7 +1209,7 @@ function save_task(channel) {
     course_id = getStorage("task_course");
     school_id = $("#task_school_id_hdn").val();
     category_id = getStorage("task_category");
-    all_members = getStorage("all_members");
+    all_members = $('input[name="assign_task[]"]:checked').attr("value");
     //For outcome data object (gather values from dynamic created nodes)
     var outcomeObject = [];
     i = 0;
@@ -1241,11 +1222,14 @@ function save_task(channel) {
     });
     //get people id from offline storage
     j = 0;
-    $.each($('input[name="chk_new_task_people[]"]'), function() {
+    k = 0;
+    $.each($('input[name="chk_task_people[]"]'), function() {
       if(this.checked) {
-         storage_key = "task_people_"+$(this).attr('id');
-        _taskPeopleObject[j] = getStorage(storage_key);
+        _taskPeopleObject[j] = $(this).attr('id');
         j++;
+      }else{
+        _taskRemovePeople[k] = $(this).attr('id');
+        k++;
       }
     });
     //get people email from offline storage
@@ -1256,7 +1240,7 @@ function save_task(channel) {
     });*/
     
     
-    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&task_xp=' +task_xp + '&people_id=' + _taskPeopleObject + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id +'&extra_credit='+extra_credit.checked + '&all_members='+all_members;  
+    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&task_xp=' +task_xp + '&people_id=' + _taskPeopleObject + '&remove_people_ids=' + _taskRemovePeople + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id +'&extra_credit='+extra_credit.checked + '&all_members='+all_members;  
 
     //alert(dataString); return false;
     if( changed == true){
