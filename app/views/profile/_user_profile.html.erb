@@ -279,7 +279,7 @@ _level_meter.push(0)
 $(document).ready(function(){
 
   setPageTitle('My Profile');
-  
+  $(".top_level_header").html('<%= "%02d" % profile.level %>');
   $('.profile_share').hide();
   var _level = <%= profile.level + 1 %>;  // next level
   var _xp = <%= profile.xp %>;  // current xp
