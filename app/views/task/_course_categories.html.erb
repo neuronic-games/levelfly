@@ -1,5 +1,5 @@
 <select name="course_categories" id="course_categories" onblur='javascript:setStorage("task_category", $(this).val())' class="clipboard_select">
-  <option value="null">SELECT</option>
+  <option value="null">Select Grading Category</option>
   <% categories.each do |c| %>
   <option value="<%= c.id %>" <%=@task.category_id==c.id ? "Selected" : ""  if @task %>><%= c.name %></option>
   <% end %>
