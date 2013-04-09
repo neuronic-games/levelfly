@@ -13,6 +13,7 @@
             <input type="hidden" name="profile_id_hdn_field" id="profile_id_hdn_field" value="<%=profile_id if profile_id%>" />
             <input type="hidden" name="course_id_hdn_field" id="course_id_hdn_field" value="<%=course_id if course_id%>" />
             <input type="hidden" name="last_course_hdn" id="last_course_hdn" value="<%=last_course if last_course%>" />
+            <input type="hidden" name="last_visited_url" id="last_visited_url" value="<%=url if url%>" />
           </div><!-- crud_level -->
         </div>
         <div class="badges_box1" style="width:550px">
@@ -46,6 +47,19 @@
     </div>
   </div>
    <input type="hidden" name="hdn_last_action" id="hdn_last_action" value="<%=session[:controller]%>" />
+   
+  <div id="warning_add_badge" class="add_task_popup" style="display:none;position:fixed;z-index:10000">
+    <div class="heading">Warning</div>
+    <div class="boxadnt"> 
+    </div>
+    <div class="spacebar10px"></div>
+    <div class="spacebar10px"></div>
+    <div align="right" style="margin-right:20px;">
+      <a class="smaller_text big_blue_btn inlineblock dialog_btn" id="hide_pop_up" href="javascript:void(0);">Ok</a> 
+    </div>
+</div>
+   
+   
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -59,6 +73,7 @@ $(document).ready(function() {
     if(previous_click == id){
       $(this).removeClass("selected_badge");
       $(".selected_badge_position").hide();
+      id = "";
     }
     else{
       $(this).addClass("selected_badge");
@@ -76,10 +91,12 @@ $(document).ready(function() {
       var descr = $("#new_badge_descr").val();
       var submit_type = $(this).attr("rel");
       if (id==""){
-        alert("select any image");
+        $("#warning_add_badge .boxadnt").html('select any image');
+        $("#warning_add_badge").show();
       }
       else if($("#new_badge").val()==""){
-        alert("Enter new badge name")
+        $("#warning_add_badge .boxadnt").html('Enter new badge name');
+        $("#warning_add_badge").show();
       }
       else
       {
@@ -104,17 +121,7 @@ $(document).ready(function() {
             else if (data.save_and_give==true && data.url !=""){
               $("#"+id).removeClass("selected_badge");  
              url = data.url
-             controller = url.split("/");
-             showSpinner(true);
-             $.ajax({
-              type: "GET",
-              url: url,
-              success: function(data) {
-               setAlert("Loading /"+controller[1]+"/")
-               $("#container").html(data);            
-               showSpinner(false);
-              }
-              });       
+             loadLastPage (url);   
             }
             else{
              course_id = $("#last_course_hdn").val();
@@ -148,5 +155,28 @@ $(document).ready(function() {
   
   });
   
+  $("#btn_dont_save").click(function(){ 
+    url = $("#last_visited_url").val();
+    loadLastPage (url);
+  });
+  
+  $("#hide_pop_up").click(function(){
+     $("#warning_add_badge").hide();
+  });
+  
 });
+
+function loadLastPage (url) {
+  controller = url.split("/");
+  showSpinner(true);
+  $.ajax({
+    type: "GET",
+    url: url,
+    success: function(data) {
+      setAlert("Loading /"+controller[1]+"/")
+      $("#container").html(data);            
+      showSpinner(false);
+    }
+  });   
+}
 </script>

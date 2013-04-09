@@ -18,7 +18,9 @@ before_filter :authenticate_user!
   def new_badges
     #@badges = Badge.create
     @badge_image = BadgeImage.all
-    render :partial =>"/badge/new_badges", :locals=>{:course_id=>params[:course_id],:profile_id=>params[:profile_id],:last_course =>params[:last_course]}
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    url= ProfileAction.last_action(@profile.id)
+    render :partial =>"/badge/new_badges", :locals=>{:course_id=>params[:course_id],:profile_id=>params[:profile_id],:last_course =>params[:last_course], :url => url}
   end
   
   def save
