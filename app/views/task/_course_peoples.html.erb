@@ -1,4 +1,5 @@
 <% if @people and !@people.nil? %>
+<div class="field_box2 marginB20px"><span class="font_12px">Assign Task To</span></div>
   <div class="task_setting">
     <input type="radio" name="assign_task[]" checked="true" value="All Members"/><span class="font_12px" style="margin-left:10px;">All Members Should Receive this Task</span>
   </div> 
@@ -6,7 +7,7 @@
     <input type="radio" name="assign_task[]" <% if @task and !@task.all_members %> checked="true" <% end %> value="Some"/><span class="font_12px" style="margin-left:10px;">Some Members Should Receive this Task</span>
   </div> 
   <% if !@people.blank? %>
-    <div class="field_box3" id="all_members"><span class="font_12px"><input type="checkbox" checked='checked' disabled='disabled' name="chk_all_members" id="all_members" class="check_all_members"  value="All Members"/><span class="font_12px" style="margin-left:10px;">Members</span></h3></span>
+    <div class="field_box3" id="all_members"><span class="font_12px"><input type="checkbox" checked='checked' disabled='disabled' name="chk_all_members" id="all_members" class="check_all_members"  value="All Members"/><span class="font_12px" style="margin-left:10px;">Select All Members</span></h3></span>
     <% @people.each do |p| %>
       <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
         <div style="">
