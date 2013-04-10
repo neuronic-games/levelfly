@@ -160,50 +160,50 @@ function addNode(element) {
                   <% end %>
 				
 		      <br /><br />
-		      <%if @is_task_owner %>
-				<div class="field_box2" id="all_completion">
-				  <% if @task_members and !@task_members.blank? %> <input type="checkbox" name="chk_all_completion_people" id="chk_all_completion" class="check_box_all_completion"  value="All Completion" style="margin-right:10px;"/> <% end %>
-				  <span class="font_12px">Select All
-                  <% if @task_members and !@task_members.blank? %>
-				    <a href="javascript:void(0)" id="complete_all" class="blue_bt10px" style="margin-left:229px;width:127px;text-align:center;" name="true">GIVE XP TO ALL</a>
-				    <a href="javascript:void(0)" id="un-complete_all" class="blue_bt10px" style="float:right;min-width:127px;text-align:center;" name="false">TAKE AWAY XP FROM ALL</a>
-				  <% end %>  
-				  </span>
-				  <div id="load_task_participant">
-                  <% if @task_members and !@task_members.nil? %>
-                    <% @task_members.each do |p| %>
-                        <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
-                          <div style="">
-                            <input type="checkbox" name="chk_completion_people[]" id="<%=p.profile.id%>" class="check_box_completion"  value="<%=p.profile.id%>"/>
-                            <div class=" avtar avatar_white_bdr" style="margin-left:0px;">
-                              <img src="<%=p.profile.image_file_name%>" profile_id="<%=p.profile_id%>" class="profile"/>
+           <div class="field_box2 marginB20px"><span class="font_12px">Members Awarded XP</span></div>
+            <%if @is_task_owner %>
+              <div class="field_box2" id="all_completion">
+                <% if @task_members and !@task_members.blank? %> <input type="checkbox" name="chk_all_completion_people" id="chk_all_completion" class="check_box_all_completion"  value="All Completion" style="margin-right:10px;"/> <% end %>
+                <span class="font_12px">Select All Members
+                <% if @task_members and !@task_members.blank? %>
+                  <a href="javascript:void(0)" id="complete_all" class="blue_bt10px" style="margin-left:229px;width:127px;text-align:center;" name="true">GIVE XP TO ALL</a>
+                  <a href="javascript:void(0)" id="un-complete_all" class="blue_bt10px" style="float:right;min-width:127px;text-align:center;" name="false">TAKE AWAY XP FROM ALL</a>
+                <% end %>  
+                </span>
+                <div id="load_task_participant">
+                    <% if @task_members and !@task_members.nil? %>
+                      <% @task_members.each do |p| %>
+                          <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
+                            <div style="">
+                              <input type="checkbox" name="chk_completion_people[]" id="<%=p.profile.id%>" class="check_box_completion"  value="<%=p.profile.id%>"/>
+                              <div class=" avtar avatar_white_bdr" style="margin-left:0px;">
+                                <img src="<%=p.profile.image_file_name%>" profile_id="<%=p.profile_id%>" class="profile"/>
+                              </div>
+                              <div class="member_name">
+                                <%= p.profile.full_name %> <br />
+                                <%= p.profile.major_school %>
+                              </div>
+                            </div> 
+                            <div id="credited_<%=p.profile.id%>" class="tbc">
+                             <div id="xp_<%=p.profile.id%>">
+                             <% points = member_points(p.profile_id, @task.id)%>
+                             <% if points and points <= 25 %>
+                               <span class="font_15px" style="color:#94b958"><%=points %> XP</span>
+                             <% elsif points and points > 25 and points <= 50 %>
+                               <span class="font_15px" style="color:#db9321"><%=points %> XP</span>
+                             <% elsif points and points > 50 %>
+                               <span class="font_15px" style="color:#cb2d2d"><%=points %> XP</span> 
+                             <% end %>
+                             </div>
+                             <div class="margin_top list_hover1"><a href="javascript:void(0)" name="task_credited[]" class ="give_xp blue_bt10px" id="c_<%=p.profile.id%>" rel ="<%=p.profile.id%>" value = "<%= points ? "false" : "true" %>"><%= points ? 'TAKE AWAY' : 'GIVE XP'%></a></div>
                             </div>
-                            <div class="member_name">
-                              <%= p.profile.full_name %> <br />
-                              <%= p.profile.major_school %>
-                            </div>
-                          </div> 
-                          <div id="credited_<%=p.profile.id%>" class="tbc">
-                           <div id="xp_<%=p.profile.id%>">
-                           <% points = member_points(p.profile_id, @task.id)%>
-                           <% if points and points <= 25 %>
-                             <span class="font_15px" style="color:#94b958"><%=points %> XP</span>
-                           <% elsif points and points > 25 and points <= 50 %>
-                             <span class="font_15px" style="color:#db9321"><%=points %> XP</span>
-                           <% elsif points and points > 50 %>
-                             <span class="font_15px" style="color:#cb2d2d"><%=points %> XP</span> 
-                           <% end %>
-                           </div>
-                           <div class="margin_top list_hover1"><a href="javascript:void(0)" name="task_credited[]" class ="give_xp blue_bt10px" id="c_<%=p.profile.id%>" rel ="<%=p.profile.id%>" value = "<%= points ? "false" : "true" %>"><%= points ? 'TAKE AWAY' : 'GIVE XP'%></a></div>
-                          </div>
-                        </div>                        
-                        <div class="clear"></div>
+                          </div>                        
+                          <div class="clear"></div>
+                      <% end %>
                     <% end %>
-                  <% end %>
-                  </div>
-                </div>		
-		      <%end%>
-                                                             
+                    </div>
+                  </div>		
+                <%end%>                                   
                 </div>
                 <div class="clear"></div>
               </div>
@@ -395,6 +395,7 @@ function addNode(element) {
                 <br />
                   <div id="load_task_participant_wall" style="margin-top: 15px;">
                     <% if @people and !@people.nil? %>
+                     <div class="field_box2 marginB20px"><span class="font_12px">Assign Task To</span></div>
                       <div class="task_setting">
                         <input type="radio" name="assign_task[]" checked="true" value="All Members"/><span class="font_12px" style="margin-left:10px;">All Members Should Receive this Task</span>
                       </div> 
@@ -402,7 +403,7 @@ function addNode(element) {
                         <input type="radio" name="assign_task[]" <% if @task and !@task.all_members %> checked="true" <% end %> value="Some"/><span class="font_12px" style="margin-left:10px;">Some Members Should Receive this Task</span>
                       </div> 
                       <% if !@people.blank? %>
-                      <div class="field_box3" id="all_members"><span class="font_12px"><input type="checkbox" <%= @task.all_members ? "checked='checked'" : "" %> <%= @task.all_members ? "disabled='disabled'" : ""%> name="chk_all_members" id="all_members" class="check_all_members"  value="All Members"/><span class="font_12px" style="margin-left:10px;">Members</span></h3></span>
+                      <div class="field_box3" id="all_members"><span class="font_12px"><input type="checkbox" <%= @task.all_members ? "checked='checked'" : "" %> <%= @task.all_members ? "disabled='disabled'" : ""%> name="chk_all_members" id="all_members" class="check_all_members"  value="All Members"/><span class="font_12px" style="margin-left:10px;">Select All Members</span></h3></span>
                         <% @people.each do |p| %>
                           <div class="task_member" id="task_people_div_<%=p.profile.id%>" style="height:90px;">
                             <div style="">

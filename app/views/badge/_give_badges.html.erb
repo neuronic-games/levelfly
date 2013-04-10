@@ -2,13 +2,11 @@
   <div class="badge_board_left">
     <div class="badge_board_right">
       <div class="badge_board_center">
-        <div class="badge_pad_top"> </div>
           <div id = "badge_content" class="badge_contenttt">
             <div id="sidebar_right">
               <div class="course_side_buttons">
                 <!--<a href="javascript:void(0)" name="btn_give" id="btn_give_badge" class="big_blue_btn">GIVE</a>
                 <a href="javascript:void(0)" name="btn_dont_give" id="btn_dont_give" class="big_blue_btn">DON'T GIVE</a>-->
-                <a href="javascript:void(0)" name="btn_create_new" id="btn_create_new" class="big_blue_btn">CREATE NEW</a>
                 <input type="hidden" name="hdn_field_profile_id" id="hdn_field_profile_id" value="<%=profile_id if profile_id%>" />
                 <input type="hidden" name="hdn_field_course_id" id="hdn_field_course_id" value="<%=course_id if course_id%>" />
                 <input type="hidden" name="hdn_last_action" id="hdn_last_action" value="<%=session[:controller]%>" />
@@ -16,16 +14,21 @@
             </div>
              
             <div class="badges_box1">
-             <%if @courses and @courses.length>1%>
-              <div class="course_dd_style">Select Course     
-                <select name="course_select" id="course_select" class="course_dd" style="">
-                  <option value="">Select Course</option>
-                  <% @courses.each do |c| %>
-                     <option value="<%= c.id %>" <%=course_id.to_i == c.id ? "Selected" : ""  if course_id %>><%= c.name %></option>
-                  <% end %>
-              </select>
+              <div class="badges_top_heading">Badges
+                <div class="course_dd_style">Course     
+                  <select name="course_select" id="course_select" class="course_dd" style="">
+                    <option value="" selected >Select Course</option>
+                    <%if @courses and @courses.length>=1%>
+                      <% @courses.each do |c| %>
+                        <option value="<%= c.id %>"><%= c.name %></option>
+                      <% end %>
+                    <% end %>  
+                  </select>
+                </div>
+		        <a href="javascript:void(0)" name="btn_create_new" id="btn_create_new" class="big_blue_btn badge_new_btn">NEW</a>
               </div>
-           <% end %>  
+             <div class="clear"></div>
+             <div class="green_border"></div>
              <p class="badges_heading">Last Used</p>
              <div>
               <%if @last_used && !@last_used.nil?%>
@@ -44,7 +47,7 @@
               <% end %>
             <% end %> 
              <div class="clear"></div>
-             <div class="border1"></div>
+             <div class="green_border"></div>
            </div>     
 
             <!------------------------badge div end------------------->
@@ -79,8 +82,7 @@
               </div>
             </div>
           </div>
-       
-
+          <%= render :partial => "/badge/warning_popup" %>
           <div class="end_of_page"></div>
 
       </div>
@@ -107,9 +109,8 @@ $(document).ready(function() {
           url: "/badge/new_badges",
           data:{profile_id:student_id,course_id:course_id,last_course:last_course},
           success: function(data) {
-            $("#container").html(data);  
+            $("#badge_popup").html(data);  
             //$("#page_title").html("NEW BADGES")
-            setPageTitle("NEW BADGES");
             showSpinner(false);
           },
           error: function()
@@ -141,50 +142,39 @@ $(document).ready(function() {
       var badge_id = $(this).attr("rel");
       var student_id =$("#hdn_field_profile_id").val();
       if ($("#course_select").val()=="" || $("#course_select").val()==undefined ){
-        var course_id = $("#hdn_field_course_id").val();
+        $("#warning_add_badge .boxadnt").html('select any course');
+        $("#warning_add_badge").show();
         }
       else{
         var course_id = $("#course_select").val();
-        }
-      showSpinner(true);
-      $.ajax({
-        type: "POST",
-        url: "/badge/give_badge_to_student",
-        dataType: 'json',
-        data:{badge_id:badge_id,profile_id:student_id,course_id:course_id},
-        success: function(data){
-          //$("#container").html(data);  
-          if(data.status==false)
+      }
+      if (course_id){
+        showSpinner(true);
+        $.ajax({
+          type: "POST",
+          url: "/badge/give_badge_to_student",
+          dataType: 'json',
+          data:{badge_id:badge_id,profile_id:student_id,course_id:course_id},
+          success: function(data){
+            //$("#container").html(data);  
+            $("#badge_popup").hide();
+            if(data.status==false)
+            {
+              //alert("This badge already given to this student for this course");
+              showSpinner(false);
+            }
+            else{
+              $("#"+id).removeClass("selected_badge");
+              showSpinner(false);
+            }            
+          },
+          error: function()
           {
-            //alert("This badge already given to this student for this course");
+            alert("An Error has occured");
             showSpinner(false);
-          }
-          else{
-            $("#"+id).removeClass("selected_badge");
-            showSpinner(false);
-            if(data.url!=""){
-             url = data.url;
-             controller = url.split("/");
-             showSpinner(true);
-             $.ajax({
-              type: "GET",
-              url: url,
-              success: function(data) {
-               setAlert("Loading /"+controller[1]+"/")
-               $("#container").html(data); 
-               showSpinner(false);
-              }
-              });  
-            }      
-          }            
-        },
-        error: function()
-        {
-          alert("An Error has occured");
-          showSpinner(false);
-        },
-      });
-      //}  
+          },
+        });
+      }
     });
     
     $("#btn_dont_give").click(function(){ 
@@ -248,6 +238,15 @@ $(document).ready(function() {
     }
   });
   
+});
+$(document).unbind('click').bind('click', function (e)
+{
+    var container = $("#badge_popup");
+    if (container.has(e.target).length === 0)
+    {
+        container.hide();
+        $(document).unbind('click');
+    }
 });
 
 </script>
