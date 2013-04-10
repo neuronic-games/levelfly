@@ -96,15 +96,15 @@ $(document).ready(function() {
       var submit_type = $(this).attr("rel");
       var course_id =$("#course_id_hdn_field").val();
       if (id==""){
-        $("#warning_add_badge .boxadnt").html('select any image');
+        $("#warning_add_badge .boxadnt").html('A badge should have an image. Please select one of the available images.');
         $("#warning_add_badge").show();
       }
       else if($("#new_badge").val()==""){
-        $("#warning_add_badge .boxadnt").html('Enter new badge name');
+        $("#warning_add_badge .boxadnt").html('A badge should have a descriptive name. Please enter a badge name.');
         $("#warning_add_badge").show();
       }
       else if(($("#course_select").val()=="" || $("#course_select").val()==undefined) && submit_type == "give"){
-        $("#warning_add_badge .boxadnt").html('select any course');
+        $("#warning_add_badge .boxadnt").html('A badge is associated with a course so that your students will know why they received the badge. Please select a course.');
         $("#warning_add_badge").show();
       }
       else
