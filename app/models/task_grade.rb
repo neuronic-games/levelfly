@@ -44,12 +44,12 @@ class TaskGrade < ActiveRecord::Base
     tasks = Task.filter_by(profile_id,course.id,"")
     xp_could_get = Task.filter_by(profile_id,course.id,"").collect(&:points).sum
     xp_could_get = Course.default_points_max if xp_could_get > Course.default_points_max
-    bonus_points = received_xp / xp_could_get.to_f * Course.default_points_max - received_xp
+    bonus_points = received_xp / xp_could_get.to_f * Course.default_points_max - received_xp unless xp_could_get == 0
     task_grade = TaskGrade.where(:school_id => school_id, :profile_id => profile_id, :course_id => course.id, :task_id => nil).first
     if task_grade.nil?
       task_grade = TaskGrade.create({:school_id => school_id, :course_id => course.id, :profile_id => profile_id, :points => bonus_points})
       profile = Profile.find(profile_id)
-      Task.award_xp(true,profile,nil,task_grade,task_grade.points,current_user,course.name)
+      Task.award_xp(true,profile,nil,task_grade,task_grade.points,current_user,course.name) if task_grade.points
     end
   end
 
