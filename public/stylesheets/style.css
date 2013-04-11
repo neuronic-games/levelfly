@@ -4353,3 +4353,8 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
 .container_tipshelp .tops_row { display: table-row;  }
 .container_tipshelp .tops_row .panel { display: table-cell;color:#fff;vertical-align:top;}
 .pr120{ padding-right:120px !important;}
+
+/*Add CSS for task setup change*/
+.marginB20px{
+  margin-bottom: 20px;
+}
