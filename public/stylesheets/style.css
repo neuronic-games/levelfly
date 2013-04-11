@@ -3682,6 +3682,45 @@ div .frm_input2 {
 	font-weight:bold;
 	color:#5b5757
 }
+.badge_popup_dialog {
+	border:solid 0px #000000;
+	-moz-border-radius: 16px;
+	-webkit-border-radius: 16px;
+	border-radius: 16px;
+	-moz-box-shadow: 0px 0px 12px #333333;
+	-webkit-box-shadow: 0px 0px 12px #333333;
+	box-shadow: 0px 0px 12px #333333;
+	background-color:rgba(0, 0, 0, 0.85);
+	width:58%;
+	/*height:50%;*/
+	margin:-20% 0 0 -32%;
+	left:50%;
+	top:50%;
+	padding:20px 20px;
+	position:absolute;
+	z-index:9999;
+	max-height:525px;
+}
+.badge_popup_dialog .heading {
+	color: #3C68A3;
+	font-family: 'CollegeRegular';
+	font-size: 21px;
+	padding: 4px 15px 0 0;
+	border-bottom:#dba29c solid 1px;
+	padding:0 0 5px 0;
+}
+.badge_popup_dialog .heading02 {
+	float:left;
+	padding:5px 15px 0 0;
+}
+.badge_popup_dialog .heading02_field {
+	padding-left:95px;
+}
+.badge_popup_dialog .boxadnt {
+	padding:20px 20px 0;
+	font-weight:bold;
+	color:#5b5757
+}
 .rfw {
 	font-weight:normal;
 	vertical-align: text-top;
@@ -3956,15 +3995,23 @@ div .frm_input2 {
   margin: 10px 20px 20px 16px;
 }
 
-.badges_box1{ width:654px;margin:60px 0px 0px 120px;}
-.badges_heading{font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;font-size: 15px; color:#8ea900;margin:30px 0px 0px 0px;}
-.course_dd_style{font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;font-size: 15px; color:#8ea900;margin:30px 0px 0px 0px;}
+.badges_box1{ 
+  width:660px;
+  margin:0px 0px 0px -7px;
+  overflow-y: scroll; 
+  overflow: -moz-scrollbars-vertical;
+  max-height:525px;
+}
+.badges_top_heading{font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;font-size: 22px; color:#8ea900;margin:30px 0px 0px 0px;}
+.badges_heading{font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;font-size: 15px; color:#8ea900;margin:30px 0px 0px 0px}
+.course_dd_style{font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;font-size: 15px; color:#8ea900;margin:-28px 0px 0px 210px;;width:210px;}
 .badgeselctdiv{ width:290px; float:left; margin:10px 20px 0px 0px; padding:0px 8px 0px 3px;height: 65px;}
 .badge_imgdiv{ float:left;}
-.badge_cont{ float:left; color:#a8afb3; font-size:12px; margin:0px 0px 0px 5px; padding-top:27px; vertical-align:middle;}
+.badge_cont{ float:left; color:white; font-size:12px; margin:0px 0px 0px 5px; padding-top:27px; vertical-align:middle;}
 .notedefault{position: relative; float:right; margin-top:-45px; display:block;}
-.badgeselctdiv:hover{background-color:#4b5f72;-moz-border-radius: 4px;-webkit-border-radius:4px;-khtml-border-radius: 4px;border-radius: 4px;background:url(../images/trans_gray.png) repeat center;}
+.badgeselctdiv:hover{background-color:#8EA900;-moz-border-radius: 4px;-webkit-border-radius:4px;-khtml-border-radius: 4px;border-radius: 4px;}
 .border1{ height:1px;background-color:#666666; margin-top:18px; position:relative}
+.green_border{ height:1px;background-color:#8EA900; margin-top:18px; position:relative;width:635px;}
 .border2{ height:1px;background-color:#666666; margin:20px 0px 20px 0px;}
 .selected_badge{background-color:#4b5f72;-moz-border-radius: 4px;-webkit-border-radius:4px;-khtml-border-radius: 4px;border-radius: 4px;background:url(../images/trans_gray.png) repeat center;}}
 .badge_content {
@@ -3994,6 +4041,19 @@ div .frm_input2 {
 .badge_pad {
 	width:100%;
 }
+.badge_new_btn {
+	float:right;
+	font-size:15px;
+	margin:-30px 10px;
+}
+.badge_btn_save {
+	font-size:15px;
+	margin:-30px 0px 0px 444px;
+}
+.badge_btn_give {
+	float:right;
+	margin:-37px 10px;
+}
 
 .text_style_badge{margin: 10px 0 0 0px;}
 .icon_style_badge{margin:-6px 0 0 -10px;}
@@ -4008,7 +4068,7 @@ border:solid 0px #000000;
 	box-shadow: 0px 0px 12px #333333;
 	background:#FFF url(../images/add_newtask_bg.jpg) repeat;
 	margin:-15% 0 0 -25%;
-	left:54%;
+	left:40%;
 	padding:20px 20px;
 	position:absolute;
 	z-index:9998;

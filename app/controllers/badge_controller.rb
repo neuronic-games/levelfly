@@ -18,6 +18,8 @@ before_filter :authenticate_user!
   def new_badges
     #@badges = Badge.create
     @badge_image = BadgeImage.all
+    course_ids = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.profile_type = 'M' and participants.object_type = 'Course' and parent_type = 'C'", user_session[:profile_id]],:order=>"courses.name")
+    @courses = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.object_id in(?) and participants.profile_type = 'S' and participants.object_type = 'Course' and parent_type = 'C'", params[:profile_id], course_ids],:order=>"courses.id")
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     url= ProfileAction.last_action(@profile.id)
     render :partial =>"/badge/new_badges", :locals=>{:course_id=>params[:course_id],:profile_id=>params[:profile_id],:last_course =>params[:last_course], :url => url}

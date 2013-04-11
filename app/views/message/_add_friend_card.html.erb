@@ -54,7 +54,6 @@
         <% end %>
         
       <% end %>
-      
     </div>
   </div>
 </div>
@@ -142,14 +141,15 @@ $('#unfriend').click(function(){
 $('#give_badges').click(function(){    
      course_id = $(this).attr("rel");
      profile_id = $(this).attr("rev");
+     showSpinner(true);
      $.ajax({
           type: "POST",
           url: "/badge/give_badges",
           data:{course_id:course_id,profile_id:profile_id},
           success: function(data) {
-             $('#avatar_card').html("");
-            $("#container").html(data);
-            $("#page_title").html("BADGES")
+            $("#badge_popup").html(data);
+            $("#badge_popup").show();
+            $("#avatar_card").html("");
             $("#alert").html("Loading /Badges/")
             showSpinner(false);
           },

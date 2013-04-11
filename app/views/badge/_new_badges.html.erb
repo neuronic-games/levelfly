@@ -2,13 +2,9 @@
   <div class="badge_board_left">
     <div class="badge_board_right">
       <div class="badge_board_center">
-        <div class="badge_pad_top"> </div>
         <div id = "badge_content" class="badge_contentt">
         <div id="sidebar_right">
           <div class="course_side_buttons">
-            <a href="javascript:void(0)" name="btn_save_and_give" id="btn_save_and_give" class="big_orange_btn btn_save_badge" rel="give">SAVE & GIVE</a>
-            <a href="javascript:void(0)" name="btn_save" id="btn_save" class="big_blue_btn btn_save_badge" rel="save">SAVE</a>
-            <a href="javascript:void(0)" name="btn_dont_save" id="btn_dont_save" class="big_blue_btn">DON'T SAVE</a>    
             <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=@profile.id if @profile%>" />
             <input type="hidden" name="profile_id_hdn_field" id="profile_id_hdn_field" value="<%=profile_id if profile_id%>" />
             <input type="hidden" name="course_id_hdn_field" id="course_id_hdn_field" value="<%=course_id if course_id%>" />
@@ -16,23 +12,41 @@
             <input type="hidden" name="last_visited_url" id="last_visited_url" value="<%=url if url%>" />
           </div><!-- crud_level -->
         </div>
-        <div class="badges_box1" style="width:550px">
-
-          <div class="badgetitlediv"><div class="badge_title">Badge Name</div>
-            <div>
-              <div class ="selected_badge_position hide"><input id="selected_badge" src="" type="image" class="grading_Btn2" /></div>  
-              <input name="new_badge_name" type="text" id="new_badge" value="" class="dd_input_new_badge" />
+        <div class="badges_box1" style="width:654px">
+          <div class="badges_top_heading">Badges
+            <div class="course_dd_style">Course     
+              <select name="course_select" id="course_select" class="course_dd" style="">
+                <option value="" selected>Select Course</option>
+                <%if @courses and @courses.length>=1%>
+                  <% @courses.each do |c| %>
+                    <option value="<%= c.id %>"><%= c.name %></option>
+                  <% end %>
+                <% end %>  
+              </select>
             </div>
-          </div></br>
-          <div class="badgetitlediv"><div class="badge_title">Description</div>
-            <div>
-              <textarea name="new_badge_name" type="text" id="new_badge_descr" value="" style="height:50px;" class="dd_input_new_badge"/>
-            </div>
+            <a href="javascript:void(0)" name="btn_save" id="btn_save" class="big_blue_btn btn_save_badge badge_btn_save" rel="save">SAVE</a>
+            <a href="javascript:void(0)" name="btn_save_and_give" id="btn_save_and_give" class="big_orange_btn btn_save_badge badge_btn_give" rel="give">SAVE & GIVE</a>
           </div>
-        <div class="border2"></div>
-          <div class="choose_badge">Choose an image for the new badge:</div>
+            <div class="clear"></div>
+            <div class="green_border"></div>
+            <div>
+            <div class="choose_badge">1. Give a descriptive name and a short description for the badge.</div>
+            <div class="badgetitlediv"><div class="badge_title">Badge Name</div>
+              <div>
+                <div class ="selected_badge_position hide"><input id="selected_badge" src="" type="image" class="grading_Btn2" /></div>  
+                <input name="new_badge_name" type="text" id="new_badge" value="" class="dd_input_new_badge" />
+              </div>
+            </div></br>
+            <div class="badgetitlediv"><div class="badge_title">Description</div>
+              <div>
+                <textarea name="new_badge_name" type="text" id="new_badge_descr" value="" style="height:50px;" class="dd_input_new_badge"/>
+              </div>
+            </div>
+            </div>
+            <div class="green_border"></div>
+            <div class="choose_badge">2. Choose an image for the new badge.</div>
 
-          <div style ="width:550px">
+            <div style ="width:550px">
           
             <%if @badge_image && !@badge_image.nil? %>
               <% @badge_image.each do|bm|%>
@@ -40,24 +54,14 @@
               <%end%>  
             <%end%>  
 
-          </div>
-        </div>
-      </div>
+            </div>
+       </div>
       </div>
     </div>
   </div>
    <input type="hidden" name="hdn_last_action" id="hdn_last_action" value="<%=session[:controller]%>" />
    
-  <div id="warning_add_badge" class="add_task_popup" style="display:none;position:fixed;z-index:10000">
-    <div class="heading">Warning</div>
-    <div class="boxadnt"> 
-    </div>
-    <div class="spacebar10px"></div>
-    <div class="spacebar10px"></div>
-    <div align="right" style="margin-right:20px;">
-      <a class="smaller_text big_blue_btn inlineblock dialog_btn" id="hide_pop_up" href="javascript:void(0);">Ok</a> 
-    </div>
-</div>
+  <%= render :partial => "/badge/warning_popup" %>
    
    
 </div>
@@ -90,18 +94,22 @@ $(document).ready(function() {
       var badge_name = $("#new_badge").val();
       var descr = $("#new_badge_descr").val();
       var submit_type = $(this).attr("rel");
+      var course_id =$("#course_id_hdn_field").val();
       if (id==""){
-        $("#warning_add_badge .boxadnt").html('select any image');
+        $("#warning_add_badge .boxadnt").html('A badge should have an image. Please select one of the available images.');
         $("#warning_add_badge").show();
       }
       else if($("#new_badge").val()==""){
-        $("#warning_add_badge .boxadnt").html('Enter new badge name');
+        $("#warning_add_badge .boxadnt").html('A badge should have a descriptive name. Please enter a badge name.');
+        $("#warning_add_badge").show();
+      }
+      else if(($("#course_select").val()=="" || $("#course_select").val()==undefined) && submit_type == "give"){
+        $("#warning_add_badge .boxadnt").html('A badge is associated with a course so that your students will know why they received the badge. Please select a course.');
         $("#warning_add_badge").show();
       }
       else
       {
         var student_id =$("#profile_id_hdn_field").val();
-        var course_id =$("#course_id_hdn_field").val();
         var last_course =$("#last_course_hdn").val();
         showSpinner(true);
         $.ajax({
@@ -120,8 +128,9 @@ $(document).ready(function() {
             }
             else if (data.save_and_give==true && data.url !=""){
               $("#"+id).removeClass("selected_badge");  
+             $("#badge_popup").hide();
              url = data.url
-             loadLastPage (url);   
+             //loadLastPage (url);   
             }
             else{
              course_id = $("#last_course_hdn").val();
@@ -131,8 +140,8 @@ $(document).ready(function() {
                   url: "/badge/give_badges",
                   data:{course_id:course_id,profile_id:profile_id},
                   success: function(data) {
-                    $("#container").html(data);
-                    $("#page_title").html("BADGES");
+                    $("#badge_popup").html(data);
+                    $("#badge_popup").show();
                     setAlert("Loading /Badges/");                   
                     showSpinner(false);
                   },
@@ -160,12 +169,18 @@ $(document).ready(function() {
     loadLastPage (url);
   });
   
-  $("#hide_pop_up").click(function(){
-     $("#warning_add_badge").hide();
-  });
   
 });
+$(document).unbind('click').bind('click', function (e)
+{
+    var container = $("#badge_popup");
 
+    if (container.has(e.target).length === 0)
+    {
+        container.hide();
+        $(document).unbind('click');
+    }
+});
 function loadLastPage (url) {
   controller = url.split("/");
   showSpinner(true);
