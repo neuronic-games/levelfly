@@ -246,7 +246,7 @@ class Task < ActiveRecord::Base
   end
 
   def grade_recalculate
-    participant_profile_ids = TaskParticipant.find(:all, :conditions => ["task_id = ? and profile_type = 'M'",self.id]).collect(&:profile_id)
+    participant_profile_ids = TaskGrade.find(:all, :conditions => ["task_id = ?",self.id]).collect(&:profile_id)
     if participant_profile_ids
       participant_profile_ids.each do |profile_id|
         previous_task_grade = TaskGrade.where("school_id = ? and course_id = ? and task_id =? and profile_id = ? ",self.school_id,self.course_id,self.id,profile_id).first
