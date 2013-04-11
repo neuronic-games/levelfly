@@ -19,7 +19,7 @@
                 <option value="" selected>Select Course</option>
                 <%if @courses and @courses.length>=1%>
                   <% @courses.each do |c| %>
-                    <option value="<%= c.id %>"><%= c.name %></option>
+                    <option value="<%= c.id %>" <%= "Selected" if @selected_course and @selected_course.id == c.id %>><%= c.name %></option>
                   <% end %>
                 <% end %>  
               </select>
@@ -134,11 +134,12 @@ $(document).ready(function() {
             }
             else{
              course_id = $("#last_course_hdn").val();
+             var last_course = $("#course_select").val();
              profile_id = $("#profile_id_hdn_field").val();
              $.ajax({
                   type: "POST",
                   url: "/badge/give_badges",
-                  data:{course_id:course_id,profile_id:profile_id},
+                  data:{course_id:course_id,profile_id:profile_id,last_course:last_course},
                   success: function(data) {
                     $("#badge_popup").html(data);
                     $("#badge_popup").show();

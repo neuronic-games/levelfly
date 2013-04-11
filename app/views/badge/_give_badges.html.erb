@@ -20,7 +20,7 @@
                     <option value="" selected >Select Course</option>
                     <%if @courses and @courses.length>=1%>
                       <% @courses.each do |c| %>
-                        <option value="<%= c.id %>"><%= c.name %></option>
+                        <option value="<%= c.id %>" <%= "Selected" if @selected_course and @selected_course.id == c.id %>><%= c.name %></option>
                       <% end %>
                     <% end %>  
                   </select>
@@ -102,7 +102,7 @@ $(document).ready(function() {
     else{
       var course_id = $("#course_select").val();
     }
-      var last_course = $("#hdn_field_course_id").val();
+      var last_course = $("#course_select").val();
     showSpinner(true);
      $.ajax({
           type: "POST",
@@ -142,7 +142,7 @@ $(document).ready(function() {
       var badge_id = $(this).attr("rel");
       var student_id =$("#hdn_field_profile_id").val();
       if ($("#course_select").val()=="" || $("#course_select").val()==undefined ){
-        $("#warning_add_badge .boxadnt").html('select any course');
+        $("#warning_add_badge .boxadnt").html('A badge is associated with a course so that your students will know why they received the badge. Please select a course.');
         $("#warning_add_badge").show();
         }
       else{
