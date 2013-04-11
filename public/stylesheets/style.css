@@ -3173,7 +3173,7 @@ filter:alpha(opacity="0");
   text-align:center;
 }
 .task_info_meta {
-  margin: 10px 0 0 50px;
+  margin: 10px 0 0 40px;
 }
 .task_info_meta > .title {
   font-size: 9px;
@@ -4417,4 +4417,7 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
 /*Add CSS for task setup change*/
 .marginB20px{
   margin-bottom: 20px;
+}
+.width175px{
+  width: 175px !important;
 }
