@@ -1,5 +1,5 @@
 
-<div class="add_task_popup">
+<div class="add_task_popup" id="add_task_popup">
   <div class="heading">Task Setup</div>
   <div class="boxadnt"> <span class="heading02">Task Name</span>
     <div class="heading02_field">
@@ -104,6 +104,7 @@ $(document).click(function (e){
     
  });
 $("#remove_task_btn").click(function(event){
+	$("#add_task_popup").hide();
 	$("#warning_msg_remove").show();
 	event.stopPropagation();
 }); 
