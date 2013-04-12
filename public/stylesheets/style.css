@@ -4419,3 +4419,19 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
 .width175px{
   width: 175px !important;
 }
+.giveXpToAll{
+  margin-left: 200px;
+  width: 127px;
+  text-align: center; 
+  float: left;
+}
+.removeXp{
+  float:right;
+  min-width:127px;
+  text-align:center;
+}
+
+.XpButtons{
+  float: right; 
+  min-width: 530px;
+}

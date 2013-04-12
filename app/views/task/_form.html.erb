@@ -166,8 +166,10 @@ function addNode(element) {
                 <% if @task_members and !@task_members.blank? %> <input type="checkbox" name="chk_all_completion_people" id="chk_all_completion" class="check_box_all_completion"  value="All Completion" style="margin-right:10px;"/> <% end %>
                 <span class="font_12px">Select All Members
                 <% if @task_members and !@task_members.blank? %>
-                  <a href="javascript:void(0)" id="complete_all" class="blue_bt10px" style="margin-left:229px;width:127px;text-align:center;" name="true">GIVE XP TO ALL</a>
-                  <a href="javascript:void(0)" id="un-complete_all" class="blue_bt10px" style="float:right;min-width:127px;text-align:center;" name="false">TAKE AWAY XP FROM ALL</a>
+                  <div class="XpButtons">
+                    <a href="javascript:void(0)" id="complete_all" class="blue_bt10px giveXpToAll" name="true">GIVE XP TO ALL</a>
+                    <a href="javascript:void(0)" id="un-complete_all" class="blue_bt10px removeXp" name="false">TAKE AWAY XP FROM ALL</a>
+                  </div>
                 <% end %>  
                 </span>
                 <div id="load_task_participant">
