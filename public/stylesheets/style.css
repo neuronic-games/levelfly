@@ -3659,7 +3659,7 @@ div .frm_input2 {
 	left:50%;
 	top:50%;
 	padding:20px 20px;
-	position:absolute;
+	position:fixed;
 	z-index:9998;
 }
 .add_task_popup .heading {
@@ -3691,13 +3691,13 @@ div .frm_input2 {
 	-webkit-box-shadow: 0px 0px 12px #333333;
 	box-shadow: 0px 0px 12px #333333;
 	background-color:rgba(0, 0, 0, 0.85);
-	width:58%;
+	max-width:58%;
 	/*height:50%;*/
-	margin:-20% 0 0 -32%;
+	margin:-25% 0 0 -32%;
 	left:50%;
 	top:50%;
 	padding:20px 20px;
-	position:absolute;
+	position:fixed;
 	z-index:9999;
 	max-height:525px;
 }
@@ -3998,6 +3998,8 @@ div .frm_input2 {
 .badges_box1{ 
   width:660px;
   margin:0px 0px 0px -7px;
+}
+.badge_board_left{
   overflow-y: scroll; 
   overflow: -moz-scrollbars-vertical;
   max-height:525px;
@@ -4043,14 +4045,17 @@ div .frm_input2 {
 }
 .badge_new_btn {
 	float:right;
-	margin:-30px 10px;
+	margin:-30px 25px;
+	font-family: Arial, Helvetica, sans-serif;
 }
 .badge_btn_save {
 	margin:-30px 0px 0px 444px;
+	font-family: Arial, Helvetica, sans-serif;
 }
 .badge_btn_give {
 	float:right;
-	margin:-37px 10px;
+	margin:-37px 18px;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .text_style_badge{margin: 10px 0 0 0px;}

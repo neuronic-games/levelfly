@@ -9,7 +9,6 @@
             <input type="hidden" name="profile_id_hdn_field" id="profile_id_hdn_field" value="<%=profile_id if profile_id%>" />
             <input type="hidden" name="course_id_hdn_field" id="course_id_hdn_field" value="<%=course_id if course_id%>" />
             <input type="hidden" name="last_course_hdn" id="last_course_hdn" value="<%=last_course if last_course%>" />
-            <input type="hidden" name="last_visited_url" id="last_visited_url" value="<%=url if url%>" />
           </div><!-- crud_level -->
         </div>
         <div class="badges_box1" style="width:654px">
@@ -64,7 +63,7 @@
   <%= render :partial => "/badge/warning_popup" %>
    
    
-</div>
+</div></div>
 <script type="text/javascript">
 $(document).ready(function() {
   var id ="";
@@ -94,7 +93,7 @@ $(document).ready(function() {
       var badge_name = $("#new_badge").val();
       var descr = $("#new_badge_descr").val();
       var submit_type = $(this).attr("rel");
-      var course_id =$("#course_id_hdn_field").val();
+      var course_id =$("#course_select").val();
       if (id==""){
         $("#warning_add_badge .boxadnt").html('A badge should have an image. Please select one of the available images.');
         $("#warning_add_badge").show();
@@ -128,8 +127,8 @@ $(document).ready(function() {
             }
             else if (data.save_and_give==true && data.url !=""){
               $("#"+id).removeClass("selected_badge");  
-             $("#badge_popup").hide();
-             url = data.url
+              $('#alert').html(data.badge_name+" badge given to "+data.student_name+" for "+data.course_name);
+              $("#badge_popup").hide();
              //loadLastPage (url);   
             }
             else{

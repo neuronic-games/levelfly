@@ -156,7 +156,7 @@ $(document).ready(function() {
           dataType: 'json',
           data:{badge_id:badge_id,profile_id:student_id,course_id:course_id},
           success: function(data){
-            //$("#container").html(data);  
+            $('#alert').html(data.badge_name+" badge given to "+data.student_name+" for "+data.course_name);  
             $("#badge_popup").hide();
             if(data.status==false)
             {
