@@ -25,7 +25,7 @@ class MessageController < ApplicationController
       @respont_to_course = Message.find(:all,:conditions=>["target_type in('Course','Notification') AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived = ? and id in(?)", @profile.id,false,message_ids], :order => 'created_at DESC')
     end
     
-     recently_messaged = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type = 'Profile' and parent_type = 'Profile' and (profile_id = ? or parent_id = ?)",false,message_ids,user_session[:profile_id],user_session[:profile_id]],:order=>"created_at desc")
+     recently_messaged = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type = 'Profile' and parent_type = 'Profile' and (profile_id = ? or parent_id = ?)",false,message_ids,user_session[:profile_id],user_session[:profile_id]],:order=>"updated_at desc")
      profile_ids = []
      @users = []
      recently_messaged.each do |r|
@@ -103,6 +103,7 @@ class MessageController < ApplicationController
           when "Message"
             @msg = Message.find(params[:parent_id])
             if @msg and @msg.parent_type == "Profile"
+              @msg.touch
               @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
               @school = @current_user.school
               email = Profile.find(@msg.parent_id).user.email if @current_user.id == @msg.profile_id
