@@ -213,7 +213,7 @@ class MessageController < ApplicationController
 						if params[:activity] == "add"
 							tasks.each do |t|
 								wall_id = Wall.get_wall_id(t.id,"Task")
-								task_owner = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='O' and complete_date is null", t.id])
+								task_owner = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='O'", t.id])
 								task_member = TaskParticipant.where("task_id = ? AND profile_id = ?", t.id,p_id.id).count
 								if task_owner && task_member == 0
 									@profile = Profile.find(task_owner.profile_id)
@@ -455,6 +455,8 @@ class MessageController < ApplicationController
   def delete_message
     if params[:id] && !params[:id].nil?
       comments_ids = Message.find(:all, :select => "id", :conditions=>["parent_id = ?",params[:id]]).collect(&:id)
+      Message.update_all({:archived => true},["id = ?",params[:id]])
+      Message.update_all({:archived => true},["id in (?)",comments_ids])
       if params[:delete_all] and params[:delete_all]=="delete_all"
         MessageViewer.delete_all(["message_id = ?", params[:id]])
         MessageViewer.delete_all(["message_id in(?)",comments_ids])
