@@ -167,8 +167,8 @@ function addNode(element) {
                 <span class="font_12px">Select All Members
                 <% if @task_members and !@task_members.blank? %>
                   <div class="XpButtons">
-                    <a href="javascript:void(0)" id="complete_all" class="blue_bt10px giveXpToAll" name="true">GIVE XP TO ALL</a>
-                    <a href="javascript:void(0)" id="un-complete_all" class="blue_bt10px removeXp" name="false">TAKE AWAY XP FROM ALL</a>
+                    <a href="javascript:void(0)" id="complete_all" class="blue_bt10px giveXpToAll" title = "All members will be awarded the XP for this task unless it was previously awarded to them." name="true">GIVE XP TO ALL</a>
+                    <a href="javascript:void(0)" id="un-complete_all" class="blue_bt10px removeXp" title = "All members will be deducted the XP for this task, but only if they previously received the XP." name="false">TAKE AWAY XP FROM ALL</a>
                   </div>
                 <% end %>  
                 </span>
@@ -197,7 +197,7 @@ function addNode(element) {
                                <span class="font_15px" style="color:#cb2d2d"><%=points %> XP</span> 
                              <% end %>
                              </div>
-                             <div class="margin_top list_hover1"><a href="javascript:void(0)" name="task_credited[]" class ="give_xp blue_bt10px" id="c_<%=p.profile.id%>" rel ="<%=p.profile.id%>" value = "<%= points ? "false" : "true" %>"><%= points ? 'TAKE AWAY' : 'GIVE XP'%></a></div>
+                             <div class="margin_top list_hover1"><a href="javascript:void(0)" name="task_credited[]" class ="give_xp blue_bt10px" id="c_<%=p.profile.id%>" rel ="<%=p.profile.id%>" value = "<%= points ? "false" : "true" %>" title = "<%= points ? "Take away XP only from this member." : "Give XP only to this member." %>"><%= points ? 'TAKE AWAY' : 'GIVE XP'%></a></div>
                             </div>
                           </div>                        
                           <div class="clear"></div>
@@ -589,6 +589,25 @@ $(document).ready(function(){
     }
   }
   load_slider();
+  function load_tooltip(title){
+  	$( title ).tooltip({
+      position: {
+        my: "center bottom",
+        at: "center top",
+		using: function( position) {
+          $( this ).css( position );
+          $( "<div>" )
+            .addClass( "arrow" )
+            .appendTo( this );
+        }
+      }
+    });
+  };
+  load_tooltip('a[title]');
+  function update_tooltip(title){
+	$(title).tooltip("destroy");
+	load_tooltip(title);
+  }
     <% if defined?(task_new) && task_new == true %>
       new_task = true;
     <% end %>
@@ -756,14 +775,17 @@ $(document).ready(function(){
            if (check_val != "true") {
 		   	$("#c_" + member_id).html("give xp");
             $("#c_" + member_id).attr("value","true");
+			$("#c_" + member_id).attr("title","Give XP only to this member.");
 			$("#xp_" + member_id).html(" ");
 		   }
 		   else {
 		   	$("#c_" + member_id).html("take away");
             $("#c_" + member_id).attr("value","false");
+			$("#c_" + member_id).attr("title","Take away XP only from this member.");
 			color = xp_color(data.task_points)
 			$("#xp_" + member_id).html("<span class='font_15px' style="+color+">" +data.task_points+ " XP</span>");
 		   }
+		   update_tooltip('#c_' + member_id);
          },
          error:function(){
            alert("An error has occured");
@@ -797,11 +819,17 @@ $(document).ready(function(){
     $('.check_box_completion').prop('checked',check_val);
     if (check_val) {
       $('#complete_all').html('give xp to '+$('.check_box_completion').length);
+      $('#complete_all').attr("title","All checked members will be awarded the XP for this task unless it was previously awarded to them.");
       $('#un-complete_all').html('take away xp from '+$('.check_box_completion').length);
+      $('#un-complete_all').attr("title","All checked members will be deducted the XP for this task, but only if they previously received the XP.");
     }else {
       $('#complete_all').html('give xp to all');
+      $('#complete_all').attr("title","All members will be awarded the XP for this task unless it was previously awarded to them.");
       $('#un-complete_all').html('take away xp from all');
+      $('#un-complete_all').attr("title","All members will be deducted the XP for this task, but only if they previously received the XP.");
     }
+    update_tooltip('#complete_all');
+    update_tooltip('#un-complete_all');
   });
   
   $('#load_task_participant').delegate('input[name="chk_completion_people[]"]', 'change', function(){
@@ -815,12 +843,18 @@ $(document).ready(function(){
     }
     if (checked_user == 0) {
       $('#complete_all').html('give xp to all');
+      $('#complete_all').attr("title","All members will be awarded the XP for this task unless it was previously awarded to them.");
       $('#un-complete_all').html('take away xp from all');
+      $('#un-complete_all').attr("title","All members will be deducted the XP for this task, but only if they previously received the XP.");
     }
     else{
       $('#complete_all').html('give xp to '+checked_user);
+      $('#complete_all').attr("title","All checked members will be awarded the XP for this task unless it was previously awarded to them.");
       $('#un-complete_all').html('take away xp from '+checked_user);
+      $('#un-complete_all').attr("title","All checked members will be deducted the XP for this task, but only if they previously received the XP.");
     }
+    update_tooltip('#complete_all');
+    update_tooltip('#un-complete_all');
   });
   
   $('#all_completion').delegate('#complete_all, #un-complete_all','click', function(){
@@ -842,15 +876,19 @@ $(document).ready(function(){
 			 	$(".check_box_completion").each(function(n,i){
 					if ($("#c_" + this.id).attr("value") == "true") {
 						$("#c_" + this.id).html("take away");
+						$("#c_" + this.id).attr("title","Take away XP only from this member.");
 						$("#c_" + this.id).attr("value", "false");
 						$("#xp_" + this.id).html("<span class='font_15px' style=" + color + ">" + data.task_points + " XP</span>");
+						update_tooltip("#c_" + this.id);
 					}
 				});
 			 }else{
 			 	$(".check_box_completion").each(function(n,i){
 					$("#c_" + this.id).html("give xp");
 					$("#c_" + this.id).attr("value","true");
+					$("#c_" + this.id).attr("title","Give XP only to this member.");
 					$("#xp_" + this.id).html(" ");
+					update_tooltip("#c_" + this.id);
 				});
 			 }
            }else{
@@ -858,15 +896,19 @@ $(document).ready(function(){
 			 	$(".check_box_completion:checked").each(function(n,i){
 					if ($("#c_" + this.id).attr("value") == "true") {
 						$("#c_" + this.id).html("take away");
+						$("#c_" + this.id).attr("title","Take away XP only from this member.");
 						$("#c_" + this.id).attr("value", "false");
 						$("#xp_" + this.id).html("<span class='font_15px' style=" + color + ">" + data.task_points + " XP</span>");
+						update_tooltip("#c_" + this.id);
 					}
 				});
 			  }else{
 			 	$(".check_box_completion:checked").each(function(n,i){
 					$("#c_" + this.id).html("give xp");
 					$("#c_" + this.id).attr("value","true");
+					$("#c_" + this.id).attr("title","Give XP only to this member.");
 					$("#xp_" + this.id).html(" ");
+					update_tooltip("#c_" + this.id);
 				});
 			  }
 		   }
