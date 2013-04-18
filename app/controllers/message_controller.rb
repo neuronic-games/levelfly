@@ -162,7 +162,7 @@ class MessageController < ApplicationController
       course_id = nil
         @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
         #@owner = Participant.find(:first,:conditions=>["object_id = ? and profile_id = ? and profile_type= 'M' and object_type = 'Course'",params[:course_id],@current_user.id])
-        course_ids = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.profile_type = 'M' and participants.object_type = 'Course' and parent_type = 'C'", user_session[:profile_id]])
+        course_ids = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.profile_type = 'M' and participants.object_type = 'Course' and parent_type = 'C' and removed = ?", user_session[:profile_id],false])
         @courses = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.object_id in(?) and participants.profile_type = 'S' and participants.object_type = 'Course' and parent_type = 'C'", params[:profile_id], course_ids],:order=>"courses.id")
         if @courses && !@courses.empty?
           if params[:course_id] && !params[:course_id].nil?
