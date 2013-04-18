@@ -154,32 +154,20 @@ class Course < ActiveRecord::Base
   end
   
   def self.sort_course_task(course_id)
-    all_task = Task.find(:all,:conditions=>["course_id = ? and archived = ?",course_id,false], :select => "id,category_id")
-    task_ids = [];
     @tasks = [];
-    percent_values = [];
-    all_task.each do |t|
-      if t.category!=0 and !t.category.nil?
-        category = Category.find(t.category_id)
-        task_ids.push(t.id)
-        percent_values.push(category.percent_value)
-      else
-        task_ids.insert(0,t.id)
-        percent_values.insert(0,0)
-      end
-    end
-    for i in (0..percent_values.length-1)
-     for j in (0..i-1)
-       if percent_values[i] < percent_values[j]
-        temp = percent_values[i]
-        percent_values[i] = percent_values[j]
-        percent_values[j] = temp
-        temp2 = task_ids[i]
-        task_ids[i] = task_ids[j]
-        task_ids[j] = temp2
-       end
-     end
-   end
+    task_ids = Task.find(
+      :all, 
+      :include => [:category], 
+      :conditions => ["tasks.course_id = ? and tasks.archived = ? and (tasks.category_id is null or tasks.category_id = ?)",course_id,false,0],
+      :order => "tasks.due_date,tasks.created_at"
+    ).map(&:id)
+    categorised_task_ids = Task.find(
+      :all,
+      :include => [:category], 
+      :conditions => ["tasks.course_id = ? and categories.course_id = ? and tasks.archived = ?",course_id,course_id,false], 
+      :order => "percent_value,categories.name,due_date,tasks.created_at"
+    ).map(&:id)
+    task_ids.concat(categorised_task_ids)
     task_ids.each do |task_id|
       @tasks.push(Task.find(task_id))
     end
