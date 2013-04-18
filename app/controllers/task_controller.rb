@@ -63,7 +63,7 @@ class TaskController < ApplicationController
     if params[:task_id] && !params[:task_id].blank?
       outcome_task = OutcomeTask.find(:first, :conditions=>["outcome_id = ? AND task_id = ?", params[:outcome_id], params[:task_id]])
       if outcome_task
-        outcome_task.delete
+        outcome_task.destroy
         status = true
       end
     end
@@ -197,7 +197,7 @@ class TaskController < ApplicationController
       if params[:outcomes] && !params[:outcomes].empty?
         outcome_ids = params[:outcomes].split(",")
         #OutcomeTask.delete_all(["outcome_id NOT IN (?) AND task_id = ?", outcome_ids, @task.id])
-        OutcomeTask.delete_all(["outcome_id is NULL AND task_id = ?", @task.id])
+        OutcomeTask.destroy_all(["outcome_id is NULL AND task_id = ?", @task.id])
         outcomes_array = params[:outcomes].split(",")
         outcomes_array.each do |o|
           if o !=""

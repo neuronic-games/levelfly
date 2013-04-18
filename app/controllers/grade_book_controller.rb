@@ -397,7 +397,7 @@ class GradeBookController < ApplicationController
         @task.name = params[:task_name] if params[:task_name]
         @task.category_id = params[:category_id] if params[:category_id]
         if @task.save
-         OutcomeTask.delete_all(["task_id = ?", @task.id])
+         OutcomeTask.destroy_all(["task_id = ?", @task.id])
          if params[:outcomes] && !params[:outcomes].empty?
            params[:outcomes].each do |o|
              if o !=""

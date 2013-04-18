@@ -92,5 +92,19 @@ class CourseGrade < ActiveRecord::Base
     return points, course_xp.first.total
   end
   
-  
+  def self.update_outcome_average(outcome_id,task_id,course_id)
+    participant_profile_ids = OutcomeGrade.find(:all, :conditions => ["task_id = ? and outcome_id = ?",task_id,outcome_id]).map(&:profile_id)
+    OutcomeGrade.destroy_all(["task_id = ? and outcome_id = ?",task_id,outcome_id])
+    tasks = Course.sort_course_task(course_id).collect(&:id)
+    participant_profile_ids.each do |profile_id|
+      course_grade = CourseGrade.where(:profile_id => profile_id, :course_id => course_id, :outcome_id => outcome_id).first
+      if course_grade and !course_grade.nil?
+        outcome_grade = OutcomeGrade.find(:all, :conditions => ["course_id = ? and profile_id =? and  outcome_id = ? and grade is not null and task_id in (?)",course_id,profile_id,outcome_id,tasks]).map(&:grade)
+        average = outcome_grade.sum/outcome_grade.count.to_f if outcome_grade.count > 0
+        course_grade.update_attribute(:grade, average)
+        course_grade.update_attribute(:grade, nil) if outcome_grade.count == 0
+      end
+    end
+  end
+
 end
