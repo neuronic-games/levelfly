@@ -11,7 +11,12 @@
     position: fixed;
     text-transform: uppercase;
     box-shadow: 0 0 7px black;
-  }
+    transition-delay: 1s;
+    -webkit-transition-delay: 1s;
+    -moz-transition-delay: 1s;
+    -ms-transition-delay: 1s;
+    -o-transition-delay: 1s;
+   }
   .arrow {
     width: 70px;
     height: 16px;
