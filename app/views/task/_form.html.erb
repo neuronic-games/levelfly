@@ -160,8 +160,8 @@ function addNode(element) {
                   <% end %>
 				
 		      <br /><br />
-           <div class="field_box2 marginB20px"><span class="font_12px">Members Awarded XP</span></div>
             <%if @is_task_owner %>
+              <div class="field_box2 marginB20px"><span class="font_12px">Members Awarded XP</span></div>
               <div class="field_box2" id="all_completion">
                 <% if @task_members and !@task_members.blank? %> <input type="checkbox" name="chk_all_completion_people" id="chk_all_completion" class="check_box_all_completion"  value="All Completion" style="margin-right:10px;"/> <% end %>
                 <span class="font_12px">Select All Members
