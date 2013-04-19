@@ -85,6 +85,26 @@ class Task < ActiveRecord::Base
     )
   end
   
+  def self.sort_tasks(profile_id,course_id)
+    @tasks = [];
+    task_ids = Task.find(
+      :all, 
+      :include => [:category, :task_participants], 
+      :conditions => ["tasks.course_id = ? and task_participants.profile_id = ? and tasks.archived = ? and (tasks.category_id is null or tasks.category_id = ?)",course_id,profile_id,false,0],
+      :order => "tasks.due_date,tasks.created_at"
+    ).map(&:id)
+    categorised_task_ids = Task.find(
+      :all,
+      :include => [:category, :task_participants], 
+      :conditions => ["tasks.course_id = ? and task_participants.profile_id = ? and categories.course_id = ? and tasks.archived = ?",course_id,profile_id,course_id,false], 
+      :order => "percent_value,categories.name,due_date,tasks.created_at"
+    ).map(&:id)
+    task_ids.concat(categorised_task_ids)
+    task_ids.each do |task_id|
+      @tasks.push(Task.find(task_id))
+    end
+   return @tasks
+  end
   # Calculate the point value of this task based on the task rating and the task estimate counts
   # in the associated course. Each course is allocated a total of 1000 points that are distributed
   # to all the tasks associated with the course. The amount of points is also weighted by the task

@@ -709,7 +709,7 @@ class CourseController < ApplicationController
       if !@profile.nil?
         @badge = AvatarBadge.find(:all, :select => "id, badge_id", :conditions =>["profile_id = ? and course_id = ?",@profile.id,@course.id])
         #@task_grade = TaskGrade.where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course ,@profile.id)
-        @course_tasks = Task.find(:all, :conditions=>["course_id = ? ",@course.id],:order=>"created_at asc") 
+        @course_tasks = Task.sort_tasks(@profile.id,@course.id)
       end
       render :partial =>"/course/course_stats"
     end  
