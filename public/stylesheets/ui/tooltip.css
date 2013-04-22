@@ -9,7 +9,6 @@
     margin: -16px -16px;
     font: bold 14px "Helvetica Neue", Sans-Serif;
     position: fixed;
-    text-transform: uppercase;
     box-shadow: 0 0 7px black;
     transition-delay: 1s;
     -webkit-transition-delay: 1s;

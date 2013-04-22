@@ -4434,7 +4434,7 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
   width: 175px !important;
 }
 .giveXpToAll{
-  margin-left: 200px;
+  margin-left: 150px;
   width: 127px;
   text-align: center; 
   float: left;
@@ -4447,5 +4447,13 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
 
 .XpButtons{
   float: right; 
-  min-width: 530px;
+  min-width: 452px;
+}
+.warning_in_red{
+	float:left;
+	max-width:60%;
+	font-weight:bold;
+	color:#cb2d2d;
+	font-size:11px;
+	text-align:justify;
 }
