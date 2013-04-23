@@ -53,7 +53,6 @@ class GradeBookController < ApplicationController
         @school_id = @profile.school_id
         @latest_course = @courses.first    
         @course_id = @latest_course.id
-        session[:course_id] = @course_id
         @outcomes = @latest_course.outcomes
         @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order => "full_name")
         #@participant = @courses.first.participants
@@ -71,7 +70,6 @@ class GradeBookController < ApplicationController
      
   def get_task
     if params[:course_id] && !params[:course_id].blank?
-      session[:course_id] = params[:course_id]
       @profile = Profile.find(user_session[:profile_id])
       @course = Course.find(params[:course_id])
       show_outcomes = @course.show_outcomes if @course
@@ -422,12 +420,12 @@ class GradeBookController < ApplicationController
   def export_csv
     x = []
     y = []
-    if session[:course_id] && !session[:course_id].blank?
-      @course = Course.find(session[:course_id])
+    if params[:course_id] && !params[:course_id].blank?
+      @course = Course.find(params[:course_id])
       @outcomes = @course.outcomes
       @tasks = Course.sort_course_task(@course.id)
       @participant = Participant.all( :joins => [:profile], 
-        :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", session[:course_id]],
+        :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
         :select => ["profiles.full_name,participants.id,participants.profile_id"],
         :order => "full_name"
         )
@@ -458,71 +456,71 @@ class GradeBookController < ApplicationController
           end
         end
       end
-    end
-    if !@participant.nil?
-      @participant.each do |p|
-        x << p.profile.user_id
-        x << p.full_name
-        x << @course.code+" - "+@course.section
-        participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, @course.id,@course.school_id)
-        val = participant_grade[@course.id]
-        grade = ""
-        if !val.nil?
-          grade = GradeType.value_to_letter(val, @course.school_id) unless @course.display_number_grades
-          grade = val if @course.display_number_grades
-        end
-        x << grade
-        participant_note = CourseGrade.load_notes(p.profile_id, @course.id, @course.school_id)
-        if participant_note.blank?
-          x << ""
-        else
-          x << participant_note
-        end
-        if @outcomes.length>0
-          if !@outcomes.nil?
-            @outcomes.each do |o|
-              outcome_grade = CourseGrade.load_outcomes(p.profile_id, @course.id,o.id,@course.school_id)
-              x << outcome_grade
+      if !@participant.nil?
+        @participant.each do |p|
+          x << p.profile.user_id
+          x << p.full_name
+          x << @course.code+" - "+@course.section
+          participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, @course.id,@course.school_id)
+          val = participant_grade[@course.id]
+          grade = ""
+          if !val.nil?
+            grade = GradeType.value_to_letter(val, @course.school_id) unless @course.display_number_grades
+            grade = val if @course.display_number_grades
+          end
+          x << grade
+          participant_note = CourseGrade.load_notes(p.profile_id, @course.id, @course.school_id)
+          if participant_note.blank?
+            x << ""
+          else
+            x << participant_note
+          end
+          if @outcomes.length>0
+            if !@outcomes.nil?
+              @outcomes.each do |o|
+                outcome_grade = CourseGrade.load_outcomes(p.profile_id, @course.id,o.id,@course.school_id)
+                x << outcome_grade
+              end
             end
           end
-        end
-        if @tasks.count > 0
-          if !@tasks.nil?
-            @tasks.each do|t|
-              task_grade = TaskGrade.load_task_grade(t.school_id,t.course_id,t,p.profile_id)
-              grade = ""
-              if !task_grade.nil?
-                grade = GradeType.value_to_letter(task_grade, t.school_id ) unless @course.display_number_grades
-                grade = task_grade if @course.display_number_grades
-              end
-              x << grade
-              @task_outcomes = t.outcomes
-              if @task_outcomes.length > 0
-                if !@task_outcomes.nil?
-                  @task_outcomes.each do|o|
-                    outcome_grade = OutcomeGrade.load_task_outcomes(@course.school_id, @course.id,t.id,p.profile_id,o.id)
-                    x << outcome_grade
+          if @tasks.count > 0
+            if !@tasks.nil?
+              @tasks.each do|t|
+                task_grade = TaskGrade.load_task_grade(t.school_id,t.course_id,t,p.profile_id)
+                grade = ""
+                if !task_grade.nil?
+                  grade = GradeType.value_to_letter(task_grade, t.school_id ) unless @course.display_number_grades
+                  grade = task_grade if @course.display_number_grades
+                end
+                x << grade
+                @task_outcomes = t.outcomes
+                if @task_outcomes.length > 0
+                  if !@task_outcomes.nil?
+                    @task_outcomes.each do|o|
+                      outcome_grade = OutcomeGrade.load_task_outcomes(@course.school_id, @course.id,t.id,p.profile_id,o.id)
+                      x << outcome_grade
+                    end
                   end
                 end
               end
             end
           end
+          x << "\m"
         end
-        x << "\m"
       end
-    end
-    user_csv = CSV.generate do |csv|
-      y = y.split("\m")
-      y.each do |i|
-        csv << i
-      end
-        x = x.split("\m")
-        x.each do |i|
+      user_csv = CSV.generate do |csv|
+        y = y.split("\m")
+        y.each do |i|
           csv << i
         end
+          x = x.split("\m")
+          x.each do |i|
+            csv << i
+          end
+      end
+      filename = @course.code + "-" + @course.section + "-" + Date.today.strftime("%Y%m%d") + ".csv"
+      send_data(user_csv, :type => 'test/csv', :filename => filename)
     end
-    filename = @course.code + "-" + @course.section + "-" + Date.today.strftime("%Y%m%d") + ".csv"
-    send_data(user_csv, :type => 'test/csv', :filename => filename)
   end
 
 end

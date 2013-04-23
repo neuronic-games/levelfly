@@ -2,7 +2,7 @@
   <div class="task_side_buttons"> 
     <a href="javascript:void(0)" class="big_orange_btn new_task">ADD TASK</a> 
     <a href="javascript:void(0)" class="big_blue_btn show_hide_outcomes" style="padding:6px 0 6px;" show="<%= @latest_course.show_outcomes ? "false" : "true"%>"><%= @latest_course.show_outcomes ? 'HIDE OUTCOMES' : 'SHOW OUTCOMES'%></a> 
-    <%= link_to 'Export CSV', csv_path, :class =>"big_blue_btn"%>
+    <%= link_to 'Export CSV', csv_path(:course_id => @latest_course.id), :class =>"big_blue_btn", :id => "export_csv"%>
     <a href="javascript:void(0)" class="big_blue_btn finalize" id ="finalize">Finalize</a> 
   </div>
   
@@ -1096,6 +1096,7 @@ $(document).ready(function(){
             $('.show_hide_outcomes').attr("show","false");
             $('.show_hide_outcomes').html("hide outcomes");
       }
+      $('#export_csv').attr("href","/csv?course_id="+course_id);
       //$('.GB_right_table').replaceWith($("<table></table>"));
       $('#outcome_note').val(1);
       $('#outcome_note').parent().find('.fakebox').html("OUTCOMES" );
