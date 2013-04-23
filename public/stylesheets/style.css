@@ -4434,7 +4434,7 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
   width: 175px !important;
 }
 .giveXpToAll{
-  margin-left: 150px;
+  margin-left: 145px;
   width: 127px;
   text-align: center; 
   float: left;
@@ -4443,6 +4443,7 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
   float:right;
   min-width:127px;
   text-align:center;
+  margin-left:12px;
 }
 
 .XpButtons{
