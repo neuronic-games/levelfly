@@ -39,13 +39,7 @@
       
       <!-- From the right -->
       <div class="titleTrating">
-        <% if t.points <= 25 %>
-          <span class="font_15px" style="color:#94b958"><%=t.points%></span>
-        <% elsif t.points > 25 and t.points <= 50 %>
-          <span class="font_15px" style="color:#db9321"><%=t.points%></span>
-        <% else %>
-          <span class="font_15px" style="color:#cb2d2d"><%=t.points%></span>
-        <% end %>
+        <span class="font_15px" style="color:#<%=xp_color(t.points)%>"><%=t.points%></span>
       </div>
       
       <div class="titleTType"><%=t.course.name if t.course %></div>

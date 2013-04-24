@@ -51,6 +51,16 @@ module TaskHelper
     return false
   end
   
+  def xp_color(points)
+    if points <= 25
+      return "94b958"
+    elsif points >25 and points <= 50
+      return "db9321"
+    elsif points > 50
+      return "cb2d2d"
+    end
+  end
+  
   def task_extra_credit(member_id, task_id)
     if member_id
       participant = TaskParticipant.find(:first, :conditions => ["profile_id = ? AND task_id = ?", member_id, task_id])

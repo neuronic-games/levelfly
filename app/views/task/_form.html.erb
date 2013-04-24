@@ -103,12 +103,8 @@ function addNode(element) {
                     </div>
                   </div>
                   <div class="xp_amount">
-                    <% if @task and @task.points <= 25 %>
-                      <span class="font_15px" style="color:#94b958"><%=@task.points if @task %> XP</span>
-                    <% elsif @task and @task.points > 25 and @task.points <= 50 %>
-                      <span class="font_15px" style="color:#db9321"><%=@task.points if @task %> XP</span>
-                    <% else %>
-                      <span class="font_15px" style="color:#cb2d2d"><%=@task.points if @task %> XP</span>
+                    <% if @task %>
+                      <span class="font_15px" style="color:#<%=xp_color(@task.points)%>"><%=@task.points if @task %> XP</span>
                     <% end %>
                   </div>
                 </div>
@@ -189,13 +185,7 @@ function addNode(element) {
                             <div id="credited_<%=p.profile.id%>" class="tbc">
                              <div id="xp_<%=p.profile.id%>">
                              <% points = member_points(p.profile_id, @task.id)%>
-                             <% if points and points <= 25 %>
-                               <span class="font_15px" style="color:#94b958"><%=points %> XP</span>
-                             <% elsif points and points > 25 and points <= 50 %>
-                               <span class="font_15px" style="color:#db9321"><%=points %> XP</span>
-                             <% elsif points and points > 50 %>
-                               <span class="font_15px" style="color:#cb2d2d"><%=points %> XP</span> 
-                             <% end %>
+                               <% if points %><span class="font_15px" style="color:#<%=xp_color(points)%>"><%=points %> XP</span><% end %>
                              </div>
                              <div class="margin_top list_hover1"><a href="javascript:void(0)" name="task_credited[]" class ="give_xp blue_bt10px" id="c_<%=p.profile.id%>" rel ="<%=p.profile.id%>" value = "<%= points ? "false" : "true" %>" title = "<%= points ? "Take away XP only from this member." : "Give XP only to this member." %>"><%= points ? 'TAKE AWAY' : 'GIVE XP'%></a></div>
                             </div>

@@ -1,4 +1,5 @@
 module CourseHelper
+  include TaskHelper
   def show_date_format(the_date)
      return the_date.strftime('%m/%d/%Y')
   end
