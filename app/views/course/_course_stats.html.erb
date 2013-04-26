@@ -72,11 +72,13 @@
           <div class="LBT_ava"> &nbsp;</div>
           <div class="LBT_level">NAME</div>
           <div class="LBT_level">DUE DATE</div>
+          <div class="LBT_grades">GRADE</div>
           <div class="LBT_xp">XP</div>
         </div>
        
           <% @course_tasks.each do |t|%>  
             <%task_grade = nil%>
+            <%task_grade = TaskGrade.load_task_grade(t.school_id,t.course_id,t,user_session[:profile_id])%>
             <% points = member_points(user_session[:profile_id], t.id)%>
             <div class="LB_tablecontent <%= cycle("even_tg", "odd_tg") %>">
               <div class="LBT_ava" >
@@ -85,6 +87,17 @@
               <div class="LBT_name"> <span class="name_txt"><%=t.name%></span><br />
                 </div>
               <div class="LBT_level"><%=change_date_format(t.due_date)%></div>
+              <div class="LBT_grades">
+                <%if !task_grade.nil?%>
+                  <% if @course.show_grade %>
+                    <%=task_grade%> <%=GradeType.value_to_letter(task_grade, t.school_id )%>
+                  <% else %>
+                    --
+                  <% end %>
+                <%else%>
+                  Not Graded
+                <%end%>
+              </div>
               <div class="LBT_xp">
                 <%if points %><span style="color:#<%=xp_color(points)%>"><%=points %></span><% end %>
               </div>

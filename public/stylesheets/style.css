@@ -3493,8 +3493,12 @@ filter:alpha(opacity="0");
 	width:10%;
 	display:table-cell
 }
+.LB_table .LBT_grades {
+	width:25%;
+	display:table-cell
+}
 .LB_table .LBT_xp {
-	width:17%;
+	width:12%;
 	display:table-cell
 }
 .LB_table .LBT_badges {
