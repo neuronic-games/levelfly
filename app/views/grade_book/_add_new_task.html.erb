@@ -1,4 +1,4 @@
-<div class="add_task_popup">
+<div class="add_task_popup" id="new_task_div">
   <div class="heading">New Task</div>
   <div class="boxadnt"> <span class="heading02">Task Name</span>
     <div class="heading02_field">
@@ -45,7 +45,7 @@
     <a class="big_orange_btn inlineblock clr_red" id = "add_btn" href="javascript:void(0)">add task</a>
   </div>
 </div>
-
+<%= render :partial => "task/grading_category_missing"%>
 
 <script type="text/javascript">
 <!--
@@ -55,6 +55,15 @@
     } else {
       deleteStorage("task_outcomes_"+$(this).attr('id'));
     }
+  });
+  
+  $("#save_task_btn").click(function(){
+    $("#warning_msg").hide();
+    save_new_task();
+  });
+
+  $("#dont_save_btn").click(function(){
+    $("#warning_msg").hide();
   });
 
 //-->

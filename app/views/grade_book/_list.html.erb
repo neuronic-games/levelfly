@@ -987,41 +987,16 @@ $(document).ready(function(){
   //Save new task
   $(".grade_book_content").delegate("a","click",function(){
     id = $(this).attr("id");
-    if (id=="dont_add_btn"){
+    if (id == "dont_add_btn") {
       $("#add_task").hide();
     }
-    else if(id=="add_btn"){     
-      var outcomeObject = [];
-      i = 0;
-      $("input[name='chk_outcomes[]']").each(function(){
-        if(this.checked) {
-          storage_key = "task_outcomes_"+$(this).attr('id');
-          outcomeObject[i] =  getStorage(storage_key);
-          i++;
-        }
-      }); 
-    
-    var task = $("#new_task").val();
-    var course_id = $("#course_id").val();
-    var show = $('.show_hide_outcomes').attr("show");
-    var school_id = $("#school_id").val();  
-    var category_id = $("#categories").val();
-    var level = 0;
-    var dataString = 'task='+ task + '&course_id=' + course_id + '&outcomes=' +outcomeObject + '&level=' + level + '&school_id=' + school_id + '&category_id=' + category_id + '&people_id=' + "all_people";  
-    showSpinner(true);
-    $.ajax({
-      type:"POST",
-      url:"/task/save",
-      data:dataString,
-      dataType: "json",
-      error:  function(e){alert("error");},
-      success: function(resp){    
-        $("#add_task").html("");
-        $("#add_task").hide();
-        load_outcomes();table_heading
-        //var col = $("<th></th>");
-      }      
-    });  
+    else if (id == "add_btn") {
+      if (!$("#categories").val()) {
+        $("#new_task_div").hide();
+        $("#warning_msg").show();
+        return false;
+      }
+      save_new_task();
     }
   });
 
@@ -1074,7 +1049,41 @@ $(document).ready(function(){
         });
       }
      }); 
-  
+
+  function save_new_task() {
+    var outcomeObject = [];
+    i = 0;
+    $("input[name='chk_outcomes[]']").each(function(){
+      if(this.checked) {
+        storage_key = "task_outcomes_"+$(this).attr('id');
+        outcomeObject[i] =  getStorage(storage_key);
+        i++;
+      }
+    }); 
+    
+    var task = $("#new_task").val();
+    var course_id = $("#course_id").val();
+    var show = $('.show_hide_outcomes').attr("show");
+    var school_id = $("#school_id").val();  
+    var category_id = $("#categories").val();
+    var level = 0;
+    var dataString = 'task='+ task + '&course_id=' + course_id + '&outcomes=' +outcomeObject + '&level=' + level + '&school_id=' + school_id + '&category_id=' + category_id + '&people_id=' + "all_people";  
+    showSpinner(true);
+    $.ajax({
+      type:"POST",
+      url:"/task/save",
+      data:dataString,
+      dataType: "json",
+      error:  function(e){alert("error");},
+      success: function(resp){    
+        $("#add_task").html("");
+        $("#add_task").hide();
+        load_outcomes();table_heading
+        //var col = $("<th></th>");
+      }      
+    });  
+  }
+
   function load_outcomes(){
 
   var participant;

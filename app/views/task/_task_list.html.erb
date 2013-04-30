@@ -58,7 +58,7 @@
 	<div class="spacebar10px"></div>
 	<div class="spacebar10px"></div>
 	<div align="right" style="margin-right:20px;">
-		<a class="smaller_text big_blue_btn inlineblock dialog_btn" id="dont_remove_btn" href="javascript:$('#warning_msg_remove').hide();">Don't Remove</a> 
+		<a class="smaller_text big_blue_btn inlineblock dialog_btn" id="dont_remove_btn" href="javascript:void(0)">Don't Remove</a> 
 		<a class="big_orange_btn inlineblock dialog_btn" id="remove_task_cnfrm" href="javascript:void(0)">Remove</a>
 	</div>
 </div>
@@ -171,6 +171,9 @@
     });
 	});
 	
+	$("#dont_remove_btn").click(function(){
+		$("#warning_msg_remove").hide();
+	});
   
   // For task priority
   $("#XXXstaronavatar2 a").unbind("click").bind("click",function(){
