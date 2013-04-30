@@ -157,17 +157,17 @@ function addNode(element) {
 				
 		      <br /><br />
             <%if @is_task_owner %>
-              <div class="field_box2 marginB20px"><span class="font_12px">Members Awarded XP</span></div>
               <div class="field_box2" id="all_completion">
-                <% if @task_members and !@task_members.blank? %> <input type="checkbox" name="chk_all_completion_people" id="chk_all_completion" class="check_box_all_completion"  value="All Completion" style="margin-right:10px;"/> <% end %>
-                <span class="font_12px">Select All Members
-                <% if @task_members and !@task_members.blank? %>
-                  <div class="XpButtons">
-                    <a href="javascript:void(0)" id="complete_all" class="blue_bt10px giveXpToAll" title = "All members will be awarded the XP for this task unless it was previously awarded to them." name="true">GIVE XP TO ALL</a>
-                    <a href="javascript:void(0)" id="un-complete_all" class="blue_bt10px removeXp" title = "All members will be deducted the XP for this task, but only if they previously received the XP." name="false">TAKE AWAY XP FROM ALL</a>
-                  </div>
-                <% end %>  
-                </span>
+              <% if @task_members and !@task_members.blank? %>
+                  <span class="font_12px">Members Awarded XP</span></br></br></br>
+                  <input type="checkbox" name="chk_all_completion_people" id="chk_all_completion" class="check_box_all_completion"  value="All Completion" style="margin-right:10px;"/>
+                  <span class="font_12px">Select All Members
+                    <div class="XpButtons">
+                      <a href="javascript:void(0)" id="complete_all" class="blue_bt10px giveXpToAll" title = "All members will be awarded the XP for this task unless it was previously awarded to them." name="true">GIVE XP TO ALL</a>
+                      <a href="javascript:void(0)" id="un-complete_all" class="blue_bt10px removeXp" title = "All members will be deducted the XP for this task, but only if they previously received the XP." name="false">TAKE AWAY XP FROM ALL</a>
+                    </div>
+                  </span>
+              <% end %>  
                 <div id="load_task_participant">
                     <% if @task_members and !@task_members.nil? %>
                       <% @task_members.each do |p| %>
@@ -436,36 +436,9 @@ function addNode(element) {
     </div>
   </div>
 </div>
-<!-- Warning pop for grading category select -->
-<div id="warning_msg" class="add_task_popup" style="display:none;position:fixed;z-index:10000">
-	<div class="heading">Grading Category Missing!!!</div>
-	<div class="boxadnt"> 
-		You are creating a task without assigning it a grading category. If you grade this task, 
-		it will not affect the student's course average until you later assign this task a grading category.
-  </div>
-	<div class="spacebar10px"></div>
-	<div class="spacebar10px"></div>
-	<div align="right" style="margin-right:20px;">
-		<a class="big_blue_btn inlineblock" id="dont_save_btn" href="javascript:void(0)">Don't Save</a> 
-		<a class="big_blue_btn inlineblock" id="save_task_btn" href="javascript:void(0)">Save</a>
-	</div>
-</div>
-<!-- Warning pop for grading category select ends -->
+<%= render :partial => "task/grading_category_missing"%>
 
-<!-- Warning pop for remove task -->
-<div id="warning_msg_remove" class="add_task_popup" style="display:none;position:fixed;z-index:10000">
-	<div class="heading">Remove Task</div>
-	<div class="boxadnt"> 
-		Warning: By removing this content you will lose all data and files associated with it.
-  </div>
-	<div class="spacebar10px"></div>
-	<div class="spacebar10px"></div>
-	<div align="right" style="margin-right:20px;">
-		<a class="smaller_text big_blue_btn inlineblock dialog_btn" id="dont_remove_btn" href="javascript:$('#warning_msg_remove').hide();">Don't Remove</a> 
-		<a class="big_orange_btn inlineblock dialog_btn" id="remove_task_cnfrm" href="javascript:void(0)">Remove</a>
-	</div>
-</div>
-<!-- Warning pop for grading category select ends -->
+<%= render :partial => "task/remove_task"%>
 
 <% if defined?(task_new) && task_new == true %>
 <input type="hidden" id="task_new" value="<%=task_new%>"/>
@@ -947,6 +920,10 @@ $(document).ready(function(){
       
       }
     }); 
+	});
+	
+	$("#dont_remove_btn").click(function(){
+		$("#warning_msg_remove").hide();
 	});
 	
 	//Show warning message for remove task
