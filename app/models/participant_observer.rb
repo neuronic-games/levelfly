@@ -1,7 +1,7 @@
 class ParticipantObserver < ActiveRecord::Observer
   
   def after_save(participant)
-    unless participant.profile_type == "P"
+    if participant.profile_type == "S"
       message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", participant.object.owner.id]).collect(&:message_id)
       messages = Message.find(:all, :conditions =>["parent_id = ? and parent_type in ('C','F','G') and archived = ? and id in (?)",participant.object.id, false, message_ids])
       messages.each do |message|
