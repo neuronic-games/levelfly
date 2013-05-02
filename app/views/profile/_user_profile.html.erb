@@ -106,10 +106,10 @@
       <div class="caption" style="margin-left:12px;">Interests</div>
 			<% if user_session[:profile_id] != profile.id %>
 				<div class="readonly_text" style="height:100px; width:300px; margin-left:12px;">
-					<%= formatted_html_content(h profile.tag_list) %>
+					<%= formatted_html_content(h profile.interests) %>
 				</div>
 			<% else %> 
-				<textarea name="interests" id="interests" class="" style="height:100px; width:300px; margin-left:12px;" <% if (user_session[:profile_id] == profile.id)%>placeholder="Enter your interests, separated by commas (e.g. apples, bananas, oranges)" <% end %>><%=h profile.tag_list %></textarea> 
+				<textarea name="interests" id="interests" class="" style="height:100px; width:300px; margin-left:12px;" <% if (user_session[:profile_id] == profile.id)%>placeholder="Enter your interests, separated by commas (e.g. apples, bananas, oranges)" <% end %>><%=h profile.interests %></textarea> 
 			<% end %> 
     </div>
   </div>
@@ -380,16 +380,16 @@ $(document).ready(function(){
 
   $("#interests").change(function () {
     var new_data = $("#interests").val();
-    _profile.tag_list = new_data;
+    _profile.interests = new_data;
     saveProfile();
-    setAlert("Saving interests " + _profile.tag_list);
+    setAlert("Saving interests " + _profile.interests);
   });
   
   $("#contact_info").change(function () {
     var new_data = $("#contact_info").val();
     _profile.contact_info = new_data;
     saveProfile();
-    setAlert("Saving interests " + _profile.tag_list);
+    setAlert("Saving interests " + _profile.interests);
   });
   
    $("#Notes").change(function () {
@@ -457,7 +457,7 @@ $(document).ready(function(){
 
   function saveProfile() {
      interests = $("#interests").val();
-    _profile.tag_list = interests;
+    _profile.interests = interests;
     $.ajax({
       url: "/profile/save_meta",
       data: { id: _profile.id, profile: _profile }, 
