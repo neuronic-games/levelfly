@@ -123,6 +123,22 @@ class UsersController < ApplicationController
     render :text => {:status=>status, :email_exist =>email_exist}.to_json  
  end
  
+ def login_as
+   status = nil
+   if params[:email] and !params[:email].blank?
+     @user = User.find_by_email(params[:email])
+     if @user and !@user.nil?
+       cookies[:active_admin] = current_user.email
+       sign_out current_user
+       sign_in @user
+       status = true
+     else
+       status = false
+     end
+   end
+     render :text => {:status => status}.to_json
+ end
+ 
  def check_role
     if Role.check_permission(user_session[:profile_id],Role.edit_user)==false
       render :text=>""

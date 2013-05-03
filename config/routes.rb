@@ -323,6 +323,8 @@ Oncapus::Application.routes.draw do
   
   post "users/save"
   
+  post "users/login_as"
+  
   get "users/new"
   
   get "reward/new"

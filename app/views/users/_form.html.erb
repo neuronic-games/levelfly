@@ -102,12 +102,13 @@
 
   <div id="sidebar_right">
     <div class="course_side_buttons">
+        <a class="big_blue_btn" name="login_as_btn" id="login_as_btn" href="javascript:void(0)">LOGIN AS</a>
         <a class="big_blue_btn" name="save_user_btn" id="save_user_btn" href="javascript:void(0)">SAVE</a>
     </div><!-- crud_level -->
   </div>
 <input type="hidden" name="user_id" id="user_id_hdn" value="<%=@profile.id if @profile%>" />
 <input type="hidden" name="avtr" id="avtr" value="<%=@avatar if @avatar%>" />
-
+<%= render :partial => "users/invalid_email_popup"%>
 <script type="text/javascript">
   var roles_assign = [];
   var roles_name = [];
@@ -161,6 +162,25 @@
         }
         });
       }
+  });
+  $("#login_as_btn").click(function(){
+    var email = $("#user_email").val();
+    showSpinner(true);
+      $.ajax({
+         type: "POST",
+         dataType :"json",
+         url: "/users/login_as",  
+         data: {email:email},
+         success: function(data) {
+           showSpinner(false);
+           if (data.status){
+               window.location = "/";
+           }
+           else {
+               $("#invalid_email").show();
+           }
+         }
+      });
   });
   <%if @profile and !@profile.nil?%>
     loadWardrobe();

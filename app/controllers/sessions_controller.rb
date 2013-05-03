@@ -1,6 +1,7 @@
 class SessionsController < Devise::SessionsController
   before_filter :identify_school, :only => :new
-
+  after_filter :active_admin, :only => :destroy
+  
   private
   
   def identify_school
@@ -15,5 +16,12 @@ class SessionsController < Devise::SessionsController
     
     raise ActionController::RoutingError.new('Page Not Found') if params[:slug] and !school
   end
-  
+
+  def active_admin
+    if cookies[:active_admin]
+      user = User.find_by_email(cookies.delete :active_admin)
+      sign_in user
+    end
+  end
+
 end
