@@ -3,7 +3,7 @@ task :cleanup_wardrobe_mistakes => :environment do
   w.name = "Purple Power Superhero"
   w.save
   
-  wi_list = WardrobeItem.find_by_name("Purple Man")
+  wi_list = WardrobeItem.find(:all, :conditions => {:name => "Purple Man"})
   wi_list.each do |wi|
     wi.name = "Purple Power"
     wi.save
