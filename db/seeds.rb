@@ -167,7 +167,6 @@ WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_career'], :na
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_career'], :name => 'Cowboy', :item_type => 'shoes', :image_file => 'basic/shoes/cowboy_boot', :sort_order => 1, :depth => 2)
 
 # Misc Shoes
-WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_misc'], :name => 'Superhero', :item_type => 'shoes', :image_file => 'basic/shoes/superhero_boot', :sort_order => 0, :depth => 2)
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_misc'], :name => 'Pirate', :item_type => 'shoes', :image_file => 'basic/shoes/pirate_boot', :sort_order => 1, :depth => 2)
 WardrobeItem.create(:wardrobe => basic, :parent_item => item['feet_misc'], :name => 'Devil', :item_type => 'shoes', :image_file => 'basic/shoes/devil_boot', :sort_order => 2, :depth => 2)
 
