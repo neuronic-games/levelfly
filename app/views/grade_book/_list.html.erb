@@ -511,15 +511,25 @@ $(document).ready(function(){
           data: datastring,
           error: function(e){alert("error");},
           success: function(data){
-            $("#all_participant").html(data);
-            grades = [];
-            arrOfgrades=[];
-            arr_profile=[];
-            arr_rel=[];
-            previous_values=[];
-            arr_ids=[];
-            showSpinner(false);
+            if (typeof data.previous_grade === 'undefined'){
+              $("#all_participant").html(data);
+              grades = [];
+              arrOfgrades=[];
+              arr_profile=[];
+              arr_rel=[];
+              previous_values=[];
+              arr_ids=[];
+            }else {
+              $(rel).each(function(index,item){
+                $("#"+item).attr("value",data.grade[index]);
+              })
+              $(arr_ids).each(function(index,item){
+                $("#"+item).removeClass("warning");
+              });
+              $("#previous_grade").attr("value",data.previous_grade);
+            }
             document.getElementById(focusedId).focus();
+            showSpinner(false);
           }
         });
       }  

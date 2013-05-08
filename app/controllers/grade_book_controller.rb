@@ -168,6 +168,7 @@ class GradeBookController < ApplicationController
       school_id = params[:school_id]
       course_id = params[:course_id]
       course = Course.find(params[:course_id])
+      previous_grade_type = course.display_number_grades
       task_id = params[:task_id]
       profile_id = params[:profile_id].split(",") if params[:profile_id]
       task_grade = params[:task_grade]
@@ -209,19 +210,23 @@ class GradeBookController < ApplicationController
             @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, profile_id[j],task_grade,average)
           end
         end  
-      end  
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-      @latest_course = Course.find(course_id)
-      @course_id = @latest_course.id
-      @school_id = @profile.school_id
-      @outcomes = @latest_course.outcomes
-      @participant = Participant.all( :joins => [:profile], 
-        :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", course_id],
-        :select => ["profiles.full_name,participants.id,participants.profile_id"],
-        :order => "full_name")
-      @tasks =  Course.sort_course_task(course_id)
-      @count = @participant.count
-      render :partial => "/grade_book/show_participant", :locals => {:previous_grade=>previous_grade}
+      end
+      if course.display_number_grades == previous_grade_type
+        render :json => {:grade => arr_grade,:previous_grade=>previous_grade}
+      else
+        @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+        @latest_course = Course.find(course_id)
+        @course_id = @latest_course.id
+        @school_id = @profile.school_id
+        @outcomes = @latest_course.outcomes
+        @participant = Participant.all( :joins => [:profile], 
+          :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", course_id],
+          :select => ["profiles.full_name,participants.id,participants.profile_id"],
+          :order => "full_name")
+        @tasks =  Course.sort_course_task(course_id)
+        @count = @participant.count
+        render :partial => "/grade_book/show_participant", :locals => {:previous_grade=>previous_grade}
+      end
     end  
   end
 
