@@ -110,7 +110,12 @@ class Course < ActiveRecord::Base
   end
   
   def self.get_top_achievers(school_id,course_id,outcome_id)
-    @students = CourseGrade.where("school_id = ? and course_id = ? and outcome_id = ? and grade >= '2'",school_id,course_id,outcome_id).order("grade DESC").limit(5)
+    member_ids = Profile.find(
+       :all, 
+       :include => [:participants], 
+       :conditions => ["participants.object_id = ? AND participants.profile_type IN ('P', 'S')", course_id]
+     ).map(&:id)
+    @students = CourseGrade.where("school_id = ? and course_id = ? and outcome_id = ? and grade >= '2' and profile_id in (?)",school_id,course_id,outcome_id,member_ids).order("grade DESC").limit(5)
     return @students
   end
   
