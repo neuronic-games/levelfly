@@ -2997,14 +2997,16 @@ input[type="button"].grading_Btn4 {
 }
 
 .GB_table td {
-	height:47px;/*41px*/
+	/*height:47px;/*41px*/
 	/*text-align: center;*/
 }
 
 .b_box{
 	line-height:30px;
 }
-
+.line_height47px{
+	line-height:47px;
+}
 .Number_box{
 	background-image: url("../images/GB_transparentbg.png");
     border-right: 2px solid #CBCFDA;
@@ -3117,9 +3119,10 @@ filter:alpha(opacity="0");
 .task_right_wp td{
 	text-align:center;
 	/*height:47px;/*/
-  line-height:47px;
 }
-
+.GB_row {
+	height:47px;
+}
 .task_right_heading{
 	height:25px;
 	border-bottom: 1px solid #7794AC;
@@ -3606,7 +3609,7 @@ filter:alpha(opacity="0");
   cursor: hand;cursor: pointer;
  
 }
-.task_grade{ text-align:center; text-transform:uppercase; height:44px;}
+.task_grade{ text-align:center; text-transform:uppercase; height:47px;min-width:53px;}
 .td_align{vertical-align:middle;}
 .col_width{ min-width: 40px;}
 .warning{
