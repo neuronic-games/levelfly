@@ -3564,6 +3564,14 @@ filter:alpha(opacity="0");
 	text-overflow:ellipsis;
 	width:165px;
 }
+.LBT_name .long_name {
+	font-size:16px;
+	font-weight:bold;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	height:34px;
+	width:175px;
+}
 .LBT_name .course_txt {
 	font-size:11px;
 }

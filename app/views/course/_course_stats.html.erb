@@ -84,7 +84,7 @@
               <div class="LBT_ava" >
                 <div class=""><img src="<%=t.image_file%>" profile_id="<%#= p.id %>" width="53" height="53" style="border-radius:5px" /></div>
               </div>
-              <div class="LBT_name"> <span class="name_txt"><%=t.name%></span><br />
+              <div class="LBT_name"> <span class="long_name"><%=t.name%></span><br />
                 </div>
               <div class="LBT_level"><%=change_date_format(t.due_date)%></div>
               <div class="LBT_grades">
@@ -135,7 +135,13 @@
   </div>
   <input type="hidden" name="course_id"  id ="course_id" value="<%=@course.id%>">
 <script type="text/javascript">
-
+  $(document).ready(function(){
+    $(".long_name").each(function(){
+		if ($(this).html().length > 20){
+			$(this).dotdotdot({});
+		}
+	});
+  });
   $(function(){
   
     $(".more_btn_stat").click(function(){
