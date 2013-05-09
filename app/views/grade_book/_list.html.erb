@@ -494,6 +494,7 @@ $(document).ready(function(){
       } 
         var ids = id.split("_");
         var task_id = ids[2];
+        var course_grade_id = ids[1];
         var task_grade = String(val.replace(/\+/g, "%2B"));
         var show = $('.show_hide_outcomes').attr("show");
         task_grade = task_grade.toUpperCase();
@@ -520,9 +521,7 @@ $(document).ready(function(){
               previous_values=[];
               arr_ids=[];
             }else {
-              $(rel).each(function(index,item){
-                $("#"+item).attr("value",data.grade[index]);
-              })
+                $("#"+course_grade_id).attr("value",data.grade[0]);
               $(arr_ids).each(function(index,item){
                 $("#"+item).removeClass("warning");
               });

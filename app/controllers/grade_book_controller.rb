@@ -170,9 +170,10 @@ class GradeBookController < ApplicationController
       course = Course.find(params[:course_id])
       previous_grade_type = course.display_number_grades
       task_id = params[:task_id]
-      profile_id = params[:profile_id].split(",") if params[:profile_id]
+      profile_ids = params[:profile_id].split(",") if params[:profile_id]
       task_grade = params[:task_grade]
-      p=profile_id.length
+      p=profile_ids.length
+      profile_id = profile_ids.last
       arr_grade = []
       arr_task_grade = []
       undo = params[:undo]
@@ -198,18 +199,16 @@ class GradeBookController < ApplicationController
       if !profile_id.nil?      
         # Calculate the GPA
         sub_arrays = characters.in_groups(p, false)
-        profile_id.each_with_index do |p,j|
-          average,previous_grade = TaskGrade.grade_average(school_id,course_id,p,task_id,task_grade)
-          previous_grade = GradeType.value_to_letter(previous_grade, school_id) if !course.display_number_grades and previous_grade
-          course.update_attribute('display_number_grades',num) unless task_grade.blank?
-          @grade = average.round(2).to_s + " " + GradeType.value_to_letter(average, school_id) if average
-          arr_grade.push(@grade)
-          if undo == "true" and !previous_values.blank?
-            @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, profile_id[j],arr_task_grade[j],average)
-          else
-            @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, profile_id[j],task_grade,average)
-          end
-        end  
+        average,previous_grade = TaskGrade.grade_average(school_id,course_id,profile_id,task_id,task_grade)
+        previous_grade = GradeType.value_to_letter(previous_grade, school_id) if !course.display_number_grades and previous_grade
+        course.update_attribute('display_number_grades',num) unless task_grade.blank?
+        @grade = average.round(2).to_s + " " + GradeType.value_to_letter(average, school_id) if average
+        arr_grade.push(@grade)
+        if undo == "true" and !previous_values.blank?
+          @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, profile_id,arr_task_grade,average)
+        else
+          @grade_task = TaskGrade.task_grades(school_id,course_id,task_id, profile_id,task_grade,average)
+        end
       end
       if course.display_number_grades == previous_grade_type
         render :json => {:grade => arr_grade,:previous_grade=>previous_grade}
@@ -437,7 +436,8 @@ class GradeBookController < ApplicationController
       y << "User ID"
       y << "Name"
       y << "Course Code"
-      y << "Course Grade"
+      y << "Course Grade (Numerical)"
+      y << "Course Grade (Letter)"
       y << "Notes"
       if @outcomes.length > 0
         if !@outcomes.nil?
@@ -470,10 +470,12 @@ class GradeBookController < ApplicationController
           val = participant_grade[@course.id]
           grade = ""
           if !val.nil?
-            grade = GradeType.value_to_letter(val, @course.school_id) unless @course.display_number_grades
-            grade = val if @course.display_number_grades
+#            grade = val.to_s+" "+GradeType.value_to_letter(val, @course.school_id)
+            grade = val
+            x << grade
+            grade = GradeType.value_to_letter(val, @course.school_id)
+            x << grade
           end
-          x << grade
           participant_note = CourseGrade.load_notes(p.profile_id, @course.id, @course.school_id)
           if participant_note.blank?
             x << ""
