@@ -145,6 +145,11 @@ $(document).ready(function(){
   var arr_profile2 = [];
 
 
+  $("input[type=text]").live("focus",function(){
+    // Select field contents
+    this.select();
+  });
+
   //Toggle Tabs
   $(".menu_container").delegate('a', 'click', function(){
     //showSpinner(true);
@@ -432,7 +437,7 @@ $(document).ready(function(){
           var count = 0;
           $("input[rel="+rel[i]+"]").each(function(index,item){
           var data_include = $("#"+item.id).attr("data");
-            if (data_include == "true"){
+              if (data_include == "true"){
               var points = parseInt(item.value);
               if (isNaN(points)==false){
                 sum = sum + points;
@@ -458,9 +463,7 @@ $(document).ready(function(){
           data: datastring,
           error: function(e){alert("error");},
           success: function(data){
-            $(rel).each(function(index,item){
-              $("#"+item).attr("value",data.average[index]);            
-            });
+            $("#p_"+profile_id+"_"+outcome_id).attr("value",data.average);            
             $(arr_ids).each(function(index,item){
               $("#"+item).removeClass("warning");
             });
@@ -522,11 +525,11 @@ $(document).ready(function(){
               arr_ids=[];
             }else {
                 $("#"+course_grade_id).attr("value",data.grade[0]);
-              $(arr_ids).each(function(index,item){
-                $("#"+item).removeClass("warning");
-              });
               $("#previous_grade").attr("value",data.previous_grade);
             }
+            $(arr_ids).each(function(index,item){
+              $("#"+item).removeClass("warning");
+            });
             document.getElementById(focusedId).focus();
             showSpinner(false);
           }
@@ -535,10 +538,11 @@ $(document).ready(function(){
       $(this).css("background-color","");  
     }
     else{
-      $(arr_ids).each(function(index,item){
-        $("#"+item).addClass("warning");
-        $("#"+item).attr("value",previous_values[index]);
-      });
+     // $(arr_ids).each(function(index,item){
+     //   $("#"+item).addClass("warning");
+     //   $("#"+item).attr("value",previous_values[index]);
+     // });
+	 $("#"+id).addClass("warning");
       arr_ids=[];
       arr_average=[]; 
       arr_profile=[];
@@ -691,6 +695,36 @@ $(document).ready(function(){
       arr_profile2 = arr_profile;
       save_grade(val,id,arr_rel,arr_profile,"");
      }
+  });
+
+  //Save grade on key up/down
+  $(".grade_book_content").delegate("input","keydown",function(e){
+    entire_column = false
+    $(this).removeClass("warning");
+    if (e.keyCode == 40) {
+      $(this).trigger("change");
+      id = $(this).attr("id");
+      var ids = id.split("_");
+      var next_profile_id = $(this).parents("tr").next("tr").find("input").first().attr("rel");
+      if (ids[0] == "g") {
+        $("#" + ids[0] + "_" + next_profile_id + "_" + ids[2]).focus();
+      }else{
+        $("#" + ids[0] + "_" + next_profile_id + "_" + ids[2] + "_" + ids[3]).focus();
+      }
+      return false;
+    }
+    if (e.keyCode == 38) {
+      $(this).trigger("change");
+      id = $(this).attr("id");
+      var ids = id.split("_");
+      var next_profile_id = $(this).parents("tr").prev("tr").find("input").first().attr("rel");
+      if (ids[0] == "g") {
+        $("#" + ids[0] + "_" + next_profile_id + "_" + ids[2]).focus();
+      }else{
+        $("#" + ids[0] + "_" + next_profile_id + "_" + ids[2] + "_" + ids[3]).focus();
+      }
+      return false;
+    }
   });
   
   //Save grade on click

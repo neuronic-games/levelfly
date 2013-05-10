@@ -253,7 +253,7 @@ class GradeBookController < ApplicationController
         else
           previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, profile_ids,average,task_id,outcome_values)
         end    
-        render :json => {:average => average,:previous_grade=>previous_grade}
+        render :json => {:average => average.last,:previous_grade=>previous_grade}
       end  
     end   
   end
