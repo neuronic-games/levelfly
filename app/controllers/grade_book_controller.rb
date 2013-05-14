@@ -249,9 +249,9 @@ class GradeBookController < ApplicationController
       previous_grade = ""
       if !profile_ids.nil?
         if undo == "true" and !previous_values.blank?
-           previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, profile_ids,average,task_id,previous_values)
+           previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, profile_ids.last,average.last,task_id,previous_values.last)
         else
-          previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, profile_ids,average,task_id,outcome_values)
+          previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, profile_ids.last,average.last,task_id,outcome_values.last)
         end    
         render :json => {:average => average.last,:previous_grade=>previous_grade}
       end  

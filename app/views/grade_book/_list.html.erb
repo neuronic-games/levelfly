@@ -446,9 +446,12 @@ $(document).ready(function(){
             }  
           });
           average = sum/count;
-          if (isNaN(average)==true)
-            arr_average.push('')
-            arr_average.push(average.toFixed(2))
+          if (isNaN(average) == true) {
+             arr_average.push('')
+          }
+          else {
+             arr_average.push(average.toFixed(2))
+          }
         }
          if (_undo==true){
           var datastring ='school_id=' +school_id+ '&course_id=' +course_id+ '&task_id=' +task_id+ '&outcome_id='+outcome_id+ '&profile_id=' +arrOfProfile+ '&average=' +arr_average+ '&outcome_val=' +val+ '&last_changes='+array_of_values+ '&undo='+_undo
