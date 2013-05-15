@@ -61,7 +61,7 @@ class SystemController < ApplicationController
       if tasks and !tasks.blank?
         tasks.each do |t|
           wall_id = Wall.get_wall_id(t.id,"Task")
-          task_owner = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='O' and complete_date is null", t.id])
+          task_owner = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='O'", t.id])
           if task_owner
             @profile = Profile.find(task_owner.profile_id)
             @task_participant = TaskParticipant.new
