@@ -116,7 +116,35 @@ class Course < ActiveRecord::Base
        :conditions => ["participants.object_id = ? AND participants.profile_type IN ('P', 'S')", course_id]
      ).map(&:id)
     @students = CourseGrade.where("school_id = ? and course_id = ? and outcome_id = ? and grade >= '2' and profile_id in (?)",school_id,course_id,outcome_id,member_ids).order("grade DESC").limit(5)
-    return @students
+    sorted_gpa = Course.sort_top_achievers(@students,school_id,course_id,"GPA")
+    sorted_total_xp = Course.sort_top_achievers(sorted_gpa,school_id,course_id,"XP")
+    return sorted_total_xp
+  end
+  
+  def self.sort_top_achievers(students,school_id,course_id,sort_type)
+    sorted_array = []
+    outcome_grades = students.map(&:grade)
+    profile_ids = students.map(&:profile_id)
+    temp = 0
+    outcome_grades.each_with_index do |og,i|
+      if i >= temp
+        count = outcome_grades.count(outcome_grades[i])
+        temp = temp+count
+        if count > 1
+          if sort_type == "GPA"
+            course_grades = CourseGrade.where("school_id = ? and course_id = ? and profile_id in (?) and outcome_id is null",school_id,course_id,profile_ids[i..count+i-1]).order("grade DESC").limit(5)
+            sorted_array.concat(course_grades)
+          else
+            profiles = Profile.find(:all, :conditions => ["id in (?)", profile_ids[i..count+i-1]], :order => "xp desc")
+            sorted_array.concat(profiles)
+          end
+        else
+          sorted_array.push(students[i]) if sort_type == "GPA"
+          sorted_array.push(students[i].profile) if sort_type == "XP"
+        end
+      end
+    end
+    return sorted_array
   end
   
   def self.all_group(profile,filter)
