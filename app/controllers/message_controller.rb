@@ -7,27 +7,38 @@ class MessageController < ApplicationController
     @profile = Profile.find(user_session[:profile_id])
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?", @profile.id]).collect(&:wall_id)
     message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
+    cut_off_number = Setting.cut_off_number
+    if params[:messages_length]
+      messages_length = params[:messages_length].to_i
+      users_length = params[:users_length].to_i
+      messages_limit = params[:load] == "messages" ? messages_length + cut_off_number.to_i : messages_length
+      users_limit = params[:load] == "users" ? users_length + cut_off_number.to_i : users_length
+    else
+      messages_limit = cut_off_number.to_i
+      users_limit = cut_off_number.to_i
+    end
     if params[:search_text]
       search_text =  "%#{params[:search_text]}%"
       @comment_ids = Message.find(:all,
         :select => "parent_id", 
         :conditions => ["(archived is NULL or archived = ?) AND parent_type = 'Message' AND lower(content) LIKE ? ", false, search_text.downcase]).collect(&:parent_id)
-      @messages = Message.find(:all, 
+      messages = Message.find(:all, 
         :conditions => ["id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend' AND (lower(content) LIKE ? OR id in (?) or lower(topic) LIKE ? )", message_ids, false, search_text.downcase, @comment_ids,search_text.downcase])
       
     elsif params[:friend_id]
-      @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND profile_id = ? AND message_type ='Message' AND parent_type='Profile' and id in (?)", false, params[:friend_id], message_ids])  
+      messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND profile_id = ? AND message_type ='Message' AND parent_type='Profile' and id in (?)", false, params[:friend_id], message_ids])  
     else 
-      @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type in('C','','G','F')",false,message_ids], :order => 'created_at DESC')
-      
+      messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type in('C','','G','F')",false,message_ids], :order => 'created_at DESC')
       @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite', 'group_request','group_invite') AND parent_id = ? AND (archived is NULL or archived = ?) and id in(?)", @profile.id, false, message_ids],:order => 'created_at DESC')
       
       @respont_to_course = Message.find(:all,:conditions=>["target_type in('Course','Notification') AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived = ? and id in(?)", @profile.id,false,message_ids], :order => 'created_at DESC')
     end
+    @messages = messages[0..messages_limit-1]
+    @show_more_btn = messages.length > @messages.length ? true : false
     
      recently_messaged = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type = 'Profile' and parent_type = 'Profile' and (profile_id = ? or parent_id = ?)",false,message_ids,user_session[:profile_id],user_session[:profile_id]],:order=>"updated_at desc")
      profile_ids = []
-     @users = []
+     users = []
      recently_messaged.each do |r|
        profile_ids.push(r.profile_id)
        profile_ids.push(r.parent_id)
@@ -37,10 +48,12 @@ class MessageController < ApplicationController
         profile_ids.each do |id|
           if id != user_session[:profile_id]
             @user = Profile.find(id)
-            @users.push(@user)
+            users.push(@user)
           end  
         end
      end
+     @users = users[0..users_limit-1]
+     @show_more_users = users.length > @users.length ? true : false
      #friend_id = Participant.find(:all, :select =>"distinct profile_id", :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", @profile.id]).collect(&:profile_id)
    
     # if recently_messaged.empty?
@@ -51,7 +64,7 @@ class MessageController < ApplicationController
     @profile.delete_action
     @profile.record_action('last', 'message')
     session[:controller]="message"
-    render :partial => "list",:locals => {:friend_id => @friend_id} 
+    render :partial => "list",:locals => {:friend_id => @friend_id, :messages_length => messages_limit, :users_length => users_limit} 
   end
   
   def alert_badge
@@ -388,8 +401,13 @@ class MessageController < ApplicationController
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
     message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", user_session[:profile_id]]).collect(&:message_id)
     profile = Profile.find(user_session[:profile_id])
+    cut_off_number = Setting.cut_off_number
+    messages_length = params[:messages_length].to_i if params[:messages_length]
+    messages_limit = params[:messages_length] ? messages_length + cut_off_number.to_i : cut_off_number.to_i
     @friend = Profile.find(params[:friend_id]) 
-    @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND ((profile_id= ? and  parent_id = ?) or (profile_id = ? and parent_id = ?)) AND message_type ='Message' AND parent_type!='Message' and target_type not in('Notification','Course','Group') and id in(?)",false,params[:friend_id],user_session[:profile_id],user_session[:profile_id],params[:friend_id],message_ids], :order => 'created_at DESC')
+    messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND ((profile_id= ? and  parent_id = ?) or (profile_id = ? and parent_id = ?)) AND message_type ='Message' AND parent_type!='Message' and target_type not in('Notification','Course','Group') and id in(?)",false,params[:friend_id],user_session[:profile_id],user_session[:profile_id],params[:friend_id],message_ids], :order => 'created_at DESC')
+    @messages = messages[0..messages_limit-1]
+    @show_more_btn = messages.length > @messages.length ? true : false
     profile.record_action('message', @friend.id)
     profile.record_action('last', 'message')
     if @messages and !@messages.blank?
@@ -405,7 +423,7 @@ class MessageController < ApplicationController
         end
       end
     end
-    render :partial => "list",:locals => {:friend_id =>params[:friend_id]}
+    render :partial => "list",:locals => {:friend_id =>params[:friend_id], :messages_length => messages_limit, :users_length => nil}
   end 
   
   

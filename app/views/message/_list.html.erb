@@ -35,7 +35,8 @@
       <% end %>
      <!-- Message -->
    <h2><!-- Post Message --></h2>
-   <h2 style="font-size:16px;">MESSAGES</h2>
+   <h2 style="font-size:16px;">MESSAGES
+   </h2>
 	 <% if @messages.length > 0 %>
 		 <div id="show_all_cmnts_div" class="linkcolour">
 			<a href="javascript:void(0)" id="all_cmnts">Show All Comments</a>
@@ -50,8 +51,13 @@
 					<%= render :partial => "/message/messages", :locals => {:message=>message} %>
         <% end %>
       <% end %>
-      <div class="end_of_page"></div>
     </div>
+     <% if @show_more_btn %>
+       <span style="float: right;margin-top:7px;" class="like_cmt">
+         <a href="javascript:void(0);" load="messages" <%if friend_id && !friend_id.nil? %>id="friend_page" friend_id="<%=friend_id%>"<%else%>id="main_messages_page" friend_id=""<%end%> class="blue_bt19px">MORE</a>
+       </span>
+     <% end %>
+      <div class="end_of_page"></div>
        
     <!-- Notes -->
     <div id="notes">
@@ -73,6 +79,9 @@
         <%= render :partial => "/message/friend_list", :locals => {:friend=>friend} %>
       <% end %>
     <% end %>
+    <% if @show_more_users %>
+      <span style="float: right;" class="like_cmt"><a href="javascript:void(0);" load="users" class="more_users blue_bt19px">MORE</a></span>
+    <% end %>
   </div>
   <div class ="hide" id ="div_message_delete">
   </div>
@@ -80,6 +89,8 @@
  <input type="hidden" name="notification_count" id="notification_count" value="<%=@respont_to_course.count if @respont_to_course%>"> 
   <input type="hidden" name="invitation_count" id="invitation_count" value="<%=@friend_requests.count if @friend_requests%>"> 
   <input type="hidden" name="all_notifications" id="all_notifications" value="<%=message_ids%>">
+  <input type="hidden" name="messages_length" id="messages_length" value="<%=messages_length%>">
+  <input type="hidden" name="users_length" id="users_length" value="<%=users_length%>">
 <script type="text/javascript">
 var message_show_array = [];
 <% if @messages %>
@@ -241,6 +252,44 @@ $('.message_list').click(function(){
     }
   });
   
+  //Load more messages
+  $('#main_messages_page, .more_users').click(function(){
+    showSpinner(true);
+    load = $(this).attr("load");
+    messages_length = $("#messages_length").val();
+    users_length = $("#users_length").val();
+    search_text = $("#search_input").val();
+    if (search_text == "Find Message") {
+      var dataString = 'messages_length='+messages_length+'&users_length='+users_length+'&load='+load;
+    } else {
+      var dataString = 'messages_length='+messages_length+'&users_length='+users_length+'&load='+load+'&search_text='+search_text;
+    }
+    $.ajax({
+       type: "POST",  
+       url: "/message/",  
+       data: dataString,
+       success: function(data) {
+         $("#container").html(data);
+         showSpinner(false);
+       }
+    });
+  });
+  
+  $('#friend_page').click(function(){
+    showSpinner(true);
+    messages_length = $("#messages_length").val();
+    friend_id = $(this).attr("friend_id");
+    var dataString = 'messages_length='+messages_length+'&friend_id='+friend_id;
+    $.ajax({
+       type: "POST",  
+       url: "/message/friends_only/"+friend_id,  
+       data: dataString,
+       success: function(data) {
+         $("#container").html(data);
+         showSpinner(false);
+       }
+    });
+  });
   
    $(".notification_del").click(function(){
         showSpinner(true);
