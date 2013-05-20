@@ -9,11 +9,10 @@ class CourseGrade < ActiveRecord::Base
   
   # If outcome_id is nil, the grade is a percent grade for the course. If outcome_id is present,
   # the grade is a outcome grade 1-3.
-  def self.save_grade(profile_id, grade, course_id, outcome_id = nil)
-    cg = CourseGrade.where(:profile_id => profile_id, :course_id => course_id, :outcome_id => outcome_id).first
+  def self.save_grade(profile_id, grade, course_id, outcome_id = nil, school_id)
+    cg = CourseGrade.where(:profile_id => profile_id, :course_id => course_id, :outcome_id => outcome_id, :school_id => school_id).first
     if cg.nil?
       profile = Profile.find(profile_id)
-      school_id = profile.school_id
       cg = CourseGrade.create(
         :school_id => school_id, 
         :profile_id => profile_id, 

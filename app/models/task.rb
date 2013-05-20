@@ -232,7 +232,7 @@ class Task < ActiveRecord::Base
       task = participant.task
       remaining_points = task.remaining_points(profile_id)
       
-      return status if (remaining_points == 0 or participant.xp_award_date) and complete
+      return status if (remaining_points <= 0 or participant.xp_award_date) and complete
       
       award_points = task.points if remaining_points > task.points
       award_points = remaining_points unless remaining_points > task.points
@@ -273,7 +273,7 @@ class Task < ActiveRecord::Base
         if previous_task_grade
           average,previous_grade = TaskGrade.grade_average(self.school_id,self.course_id,profile_id)
           grade = average.round(2).to_s + " " + GradeType.value_to_letter(average, self.school_id) if average
-          CourseGrade.save_grade(profile_id, grade, self.course_id)
+          CourseGrade.save_grade(profile_id, grade, self.course_id,self.school_id)
         end
       end
     end
