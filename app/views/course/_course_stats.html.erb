@@ -147,6 +147,11 @@ $( "span[title]" ).tooltip({
         }
       }
     });
+
+  if ( $.browser.mozilla ) {
+    $('.long_name').css({'height': '34px'});
+  }
+  
   $(function(){
   
     $(".more_btn_stat").click(function(){
