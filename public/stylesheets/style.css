@@ -3492,7 +3492,7 @@ filter:alpha(opacity="0");
 	display:table-cell;
 }
 .LB_table .LBT_level {
-	width:17%;
+	width:15%;
 	display:table-cell
 }
 
@@ -3505,7 +3505,7 @@ filter:alpha(opacity="0");
 	display:table-cell
 }
 .LB_table .LBT_grades {
-	width:25%;
+	width:17%;
 	display:table-cell
 }
 .LB_table .LBT_xp {
@@ -3568,11 +3568,11 @@ filter:alpha(opacity="0");
 	display:inline-block;
 	font-size:16px;
 	font-weight:bold;
-	height:34px;
-	text-align:justify;
+	height:25px;
+	text-align:left;
 	overflow:hidden;
 	text-overflow:ellipsis;
-	width:175px;
+	width:196px;
 }
 .LBT_name .course_txt {
 	font-size:11px;

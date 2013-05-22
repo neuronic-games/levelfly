@@ -144,6 +144,9 @@ $(document).ready(function(){
   var arr_rel2 =[];
   var arr_profile2 = [];
 
+  if ( $.browser.mozilla ) {
+    $('.GB_course_box2').css({'margin-top': '-230px'});
+  } 
 
   $("input[type=text]").live("focus",function(){
     // Select field contents
