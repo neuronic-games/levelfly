@@ -235,6 +235,7 @@ var h = new Object();
     height = window_height
    }
   $('.main_div_height').css("min-height",height);
+  $('#root_level.nav_box').css("height",height);
   var main_menu_id = ["msg","courses","tasks","networks","leader_board","grade","wardrobe","reward","setting","users"]
   var token = $("meta[name='csrf-token']").attr("content");
   var search_arr = {
@@ -678,6 +679,7 @@ $('#container').delegate('.add_topic', 'click', function(){
          height = window_height
       }
      $('.main_div_height').css("min-height",height); 
+	 $('#root_level.nav_box').css("height",height);
    });
    //Resize window size for IE
    function resize_function(){
@@ -688,6 +690,8 @@ $('#container').delegate('.add_topic', 'click', function(){
       height = window_height
      }
      $('.main_div_height').css("min-height",height);
+	 $('#root_level.nav_box').css("height",height);
+	 
     }
 -->
 </script>
