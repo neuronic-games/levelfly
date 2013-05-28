@@ -44,12 +44,18 @@ has_many :avatar_badges
     @badge = self.new
     @badge.name = "Gold Medal in #{outcome_name}"
     @badge.descr = "Congratulations! You received this award because you were among the highest-performing students in your course for the learning outcome '#{outcome_name}'."
-    @badge.badge_image_id = 42
+    @badge.badge_image_id = Badge.gold_badge_image
     @badge.school_id = badge_creator.school_id
     @badge.creator_profile_id = badge_creator.id
     if @badge.save
       return @badge
     end
+  end
+
+  def self.gold_badge_image
+    gold_badge = BadgeImage.find_by_image_file_name("gold_badge.png")
+    gold_badge = BadgeImage.create(:image_file_name => 'gold_badge.png', :image_content_type =>"image/png") unless gold_badge
+    return gold_badge.id
   end
 
 end
