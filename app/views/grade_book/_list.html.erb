@@ -708,7 +708,6 @@ $(document).ready(function(){
     entire_column = false
     $(this).removeClass("warning");
     if (e.keyCode == 40) {
-      $(this).trigger("change");
       id = $(this).attr("id");
       var ids = id.split("_");
       var next_profile_id = $(this).parents("tr").next("tr").find("input").first().attr("rel");
@@ -719,8 +718,7 @@ $(document).ready(function(){
       }
       return false;
     }
-    if (e.keyCode == 38) {
-      $(this).trigger("change");
+    else if (e.keyCode == 38) {
       id = $(this).attr("id");
       var ids = id.split("_");
       var next_profile_id = $(this).parents("tr").prev("tr").find("input").first().attr("rel");
@@ -729,6 +727,26 @@ $(document).ready(function(){
       }else{
         $("#" + ids[0] + "_" + next_profile_id + "_" + ids[2] + "_" + ids[3]).focus();
       }
+      return false;
+    }
+    else if (e.keyCode == 39) {
+      if ($(this).parent("td").next("td").next("td").find("input").attr("rel") == undefined) {
+        var next_profile_id = $(this).parents("td").next("td").find("input").first().attr("id");
+      }
+      else {
+        var next_profile_id = $(this).parent("td").next("td").next("td").find("input").first().attr("id");
+      }
+      $("#"+next_profile_id).focus();
+      return false;
+    }
+    else if (e.keyCode == 37) {
+      if ($(this).parent("td").prev("td").prev("td").find("input").attr("rel") == undefined) {
+        var next_profile_id = $(this).parents("td").prev("td").last().find("input").last().attr("id");
+      }
+      else {
+        var next_profile_id = $(this).parent("td").prev("td").prev("td").find("input").attr("id");
+      }
+      $("#"+next_profile_id).focus();
       return false;
     }
   });

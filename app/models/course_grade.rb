@@ -24,7 +24,7 @@ class CourseGrade < ActiveRecord::Base
       cg.grade = grade
       cg.save
     end
-    return cg
+    return cg.grade
   end
   
   # Returns two hashes of course and outcome grades. The key is the course_id. Outcome grades are represented
