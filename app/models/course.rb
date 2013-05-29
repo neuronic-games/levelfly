@@ -115,10 +115,10 @@ class Course < ActiveRecord::Base
        :include => [:participants], 
        :conditions => ["participants.object_id = ? AND participants.profile_type IN ('P', 'S')", course_id]
      ).map(&:id)
-    @students = CourseGrade.where("school_id = ? and course_id = ? and outcome_id = ? and grade >= '2' and profile_id in (?)",school_id,course_id,outcome_id,member_ids).order("grade DESC").limit(5)
+    @students = CourseGrade.where("school_id = ? and course_id = ? and outcome_id = ? and grade >= '2' and profile_id in (?)",school_id,course_id,outcome_id,member_ids).order("grade DESC")
     sorted_gpa = Course.sort_top_achievers(@students,school_id,course_id,"GPA")
     sorted_total_xp = Course.sort_top_achievers(sorted_gpa,school_id,course_id,"XP")
-    return sorted_total_xp
+    return sorted_total_xp.uniq[0..4]
   end
   
   def self.sort_top_achievers(students,school_id,course_id,sort_type)
@@ -132,8 +132,16 @@ class Course < ActiveRecord::Base
         temp = temp+count
         if count > 1
           if sort_type == "GPA"
-            course_grades = CourseGrade.where("school_id = ? and course_id = ? and profile_id in (?) and outcome_id is null",school_id,course_id,profile_ids[i..count+i-1]).order("grade DESC").limit(5)
+            course_grades = CourseGrade.where("school_id = ? and course_id = ? and profile_id in (?) and outcome_id is null and grade is not null",school_id,course_id,profile_ids[i..count+i-1]).order("grade DESC")
             sorted_array.concat(course_grades)
+            p_ids = profile_ids[i..count+i-1]
+            c_ids = course_grades.map(&:profile_id)
+            remaining_people = p_ids-c_ids
+            if remaining_people.count > 0
+              remaining_people.each do |people|
+                sorted_array.push(students[profile_ids.find_index(people)])
+              end
+            end
           else
             profiles = Profile.find(:all, :conditions => ["id in (?)", profile_ids[i..count+i-1]], :order => "xp desc")
             sorted_array.concat(profiles)

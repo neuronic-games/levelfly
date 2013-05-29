@@ -717,8 +717,9 @@ class CourseController < ApplicationController
   
   def top_achivers
     if params[:outcome_id] && !params[:course_id].blank?
+       course = Course.find(params[:course_id])
        @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-       @students = Course.get_top_achievers(@profile.school_id,params[:course_id], params[:outcome_id])
+       @students = Course.get_top_achievers(course.school_id,params[:course_id], params[:outcome_id])
        render :partial =>"/course/top_achivers"
     end    
   end
