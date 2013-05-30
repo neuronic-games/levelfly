@@ -4164,7 +4164,7 @@ border:solid 0px #000000;
     padding: 20px;
     position: fixed;
     top: 50%;
-    width: 29%;
+    width: 375px;
     z-index: 9993;
 }
 .badge_popup .heading{
@@ -4175,7 +4175,7 @@ border:solid 0px #000000;
 	border-bottom:#dba29c solid 1px;
 	padding:0 0 5px 0;
 }
-.badge_popup .icon{float:right;}
+.badge_popup .icon{float:right;width:15%;}
 .selected_column{background-color:#DFD4B6 !important;}
 .sign_out_btn{float:right; margin-right:10px;}
 .sign_out_img:hover{background: url("../images/signout_btn.png") !important;}
