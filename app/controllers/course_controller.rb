@@ -179,7 +179,6 @@ class CourseController < ApplicationController
       # Save a new course
       @course = Course.new
     end
-   
     @course.name = params[:course].slice(0,64) if params[:course]
     @course.descr = params[:descr] if params[:descr]
     @course.parent_type = params[:section_type] if params[:section_type]
@@ -205,8 +204,8 @@ class CourseController < ApplicationController
       wall_id = Wall.get_wall_id(@course.id,"Course")
       #Save categories
       if params[:categories] && !params[:categories].empty?
-        categories_array = params[:categories].split(",")
-        loaded_categories_array = params[:percent_value].split(",")
+        categories_array = params[:categories]
+        loaded_categories_array = params[:percent_value]
         categories_array.each_with_index do |category,i|
           @category = Category.create(
             :name=> category,
@@ -242,9 +241,9 @@ class CourseController < ApplicationController
 
       #Save outcomes
       if params[:outcomes] && !params[:outcomes].empty?
-        outcomes_array = params[:outcomes].split(",")
-        outcomes_descs_array = params[:outcomes_descr].split(",")
-        outcomes_share_array = params[:outcome_share].split(",")
+        outcomes_array = params[:outcomes]
+        outcomes_descs_array = params[:outcomes_descr]
+        outcomes_share_array = params[:outcome_share]
         outcomes_array.each_with_index do |outcome,i|
           @outcome = Outcome.create(
             :name=> outcome,

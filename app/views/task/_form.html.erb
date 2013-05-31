@@ -1252,7 +1252,7 @@ function save_task(channel) {
     });*/
     
     
-    var dataString = 'id='+ task_id +'&task='+ task + '&descr=' + descr + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&task_xp=' +task_xp + '&people_id=' + _taskPeopleObject + '&remove_people_ids=' + _taskRemovePeople + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id +'&extra_credit='+extra_credit.checked + '&all_members='+all_members;  
+    var dataString = '{"id" : "' + task_id +'","task" : "' + task + '","descr" : "' + descr + '","course_id" : "' + course_id + '","category_id" : "' + category_id + '","due_date" : "' + due_date + '","outcomes" : "' +outcomeObject + '","task_xp" : "' +task_xp + '","people_id" : "' + _taskPeopleObject + '","remove_people_ids" : "' + _taskRemovePeople + '","people_email" : "' + _addTaskPeopleEmailObject + '","school_id" : "' +school_id +'","extra_credit" : "'+extra_credit.checked + '","all_members" : "'+all_members+'"}';  
 
     //alert(dataString); return false;
     if( changed == true){
@@ -1261,6 +1261,7 @@ function save_task(channel) {
       type: "POST",  
       url: "/task/save",  
       data: dataString,
+      contentType: 'application/json; charset=utf-8',
       dataType:"json",
       success: function(data) {
         if (data) {
