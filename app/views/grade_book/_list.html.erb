@@ -453,7 +453,11 @@ $(document).ready(function(){
              arr_average.push('')
           }
           else {
-             arr_average.push(average.toFixed(2))
+            if (average.toFixed(2)[3] == "0") {
+              arr_average.push(average.toFixed(1))
+            } else {
+              arr_average.push(average.toFixed(2))
+            }
           }
         }
          if (_undo==true){
@@ -469,7 +473,9 @@ $(document).ready(function(){
           data: datastring,
           error: function(e){alert("error");},
           success: function(data){
-            $("#p_"+profile_id+"_"+outcome_id).attr("value",data.average);            
+            $(rel).each(function(index,item){
+              $("#"+item).attr("value",data.average[index]);
+            });
             $(arr_ids).each(function(index,item){
               $("#"+item).removeClass("warning");
             });
@@ -523,16 +529,16 @@ $(document).ready(function(){
           success: function(data){
             if (typeof data.previous_grade === 'undefined'){
               $("#all_participant").html(data);
-              grades = [];
-              arrOfgrades=[];
-              arr_profile=[];
-              arr_rel=[];
-              previous_values=[];
-              arr_ids=[];
             }else {
-                $("#"+course_grade_id).attr("value",data.grade[0]);
+              $("#"+course_grade_id).attr("value",data.grade[0]);
               $("#previous_grade").attr("value",data.previous_grade);
             }
+            grades = [];
+            arrOfgrades=[];
+            arr_profile=[];
+            arr_rel=[];
+            previous_values=[];
+            arr_ids=[];
             $(arr_ids).each(function(index,item){
               $("#"+item).removeClass("warning");
             });
