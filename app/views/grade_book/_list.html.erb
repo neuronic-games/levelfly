@@ -1141,13 +1141,12 @@ $(document).ready(function(){
     var school_id = $("#school_id").val();  
     var category_id = $("#categories").val();
     var level = 0;
-    var dataString = '{"task" : "' + task + '","course_id" : "' + course_id + '","category_id" : "' + category_id + '","outcomes" : "' +outcomeObject + '","people_id" : "all_people","school_id" : "' +school_id +'","level" : "' +level+ '"}';
+    var dataString = 'task='+ escape(task) + '&course_id=' + course_id + '&outcomes=' +outcomeObject + '&level=' + level + '&school_id=' + school_id + '&category_id=' + category_id + '&people_id=' + "all_people";  
     showSpinner(true);
     $.ajax({
       type:"POST",
       url:"/task/save",
       data:dataString,
-      contentType: 'application/json; charset=utf-8',
       dataType: "json",
       error:  function(e){alert("error");},
       success: function(resp){    
