@@ -521,7 +521,6 @@ $(document).ready(function(){
            var datastring ='school_id=' +school_id+ '&course_id=' +course_id+ '&task_id=' +task_id+ '&characters='+arrOfgrades+ '&profile_id=' +profile_id+ '&task_grade=' +task_grade+ '&show='+show
         }
         $.ajax({
-          async: false,
           type :"POST",
           url: "/grade_book/grade_calculate", 
           data: datastring,
@@ -977,6 +976,12 @@ $(document).ready(function(){
             }
           }
            $('.GB_right_table').replaceWith(table_note);
+         complete:
+         {
+           if ( $.browser.mozilla ) {
+             $('#GB_right_table').css({'font-size' : '14px'});
+           }
+         }
         }
       });  
     }    
