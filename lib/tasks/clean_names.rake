@@ -6,7 +6,7 @@ task :clean_names => :environment do
   profiles = Profile.all
   profiles.each do |profile|
     profile.full_name = FIRST.sample + ' ' + LAST.sample
-    # profile.save
+    profile.save
     puts profile.full_name
   end
 end
