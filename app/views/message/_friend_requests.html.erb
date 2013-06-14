@@ -41,11 +41,13 @@ $('.friend-request').unbind("click").bind("click", function(){
         datatype: 'json',
         data: dataString,
         success: function(data) {
-          setAlert(data);
-          $("#request_box_"+message_id).fadeOut(1500);
+          setAlert(data.status);
+          $.each(data.message_ids, function(index, id) { 
+            $("#request_box_"+id).fadeOut(1500);
+            var invites = $("#invitation_count").val();
+            $("#invitation_count").attr("value",invites-1);
+          });
           showSpinner(false);
-          var invites = $("#invitation_count").val();
-           $("#invitation_count").attr("value",invites-1);
            if($("#invitation_count").val()==0){
               $("#invites_title").html("");
            }

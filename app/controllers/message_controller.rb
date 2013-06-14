@@ -3,6 +3,7 @@ class MessageController < ApplicationController
   before_filter :authenticate_user!
   
  def index
+   
     user_session[:last_check_time] = DateTime.now
     @profile = Profile.find(user_session[:profile_id])
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?", @profile.id]).collect(&:wall_id)
@@ -30,7 +31,6 @@ class MessageController < ApplicationController
     else 
       messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type in('C','','G','F')",false,message_ids], :order => 'created_at DESC')
       @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite', 'group_request','group_invite') AND parent_id = ? AND (archived is NULL or archived = ?) and id in(?)", @profile.id, false, message_ids],:order => 'created_at DESC')
-      
       @respont_to_course = Message.find(:all,:conditions=>["target_type in('Course','Notification') AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived = ? and id in(?)", @profile.id,false,message_ids], :order => 'created_at DESC')
     end
     @messages = messages[0..messages_limit-1]
@@ -190,9 +190,10 @@ class MessageController < ApplicationController
   end
   
   def respond_to_course_request
+     status = nil
      if params[:message_id] && !params[:message_id].nil?
       @message = Message.find(params[:message_id])
-      p_id = Profile.find(user_session[:profile_id])
+      p_id = Profile.find(user_session[:profile_id]) 
       if @message
         group_request = false
         action = nil
@@ -275,21 +276,26 @@ class MessageController < ApplicationController
             end
              # Notification according to message type
             @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,content,params[:section_type])
-            render :text=> "Added to #{course.name} (#{course.code_section})"
+            status = "Added to #{course.name} (#{course.code_section})"
          else
             if @course_participant
              @course_participant.delete
             end
             @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,content,params[:section_type])
-            render :text => "friend_list"
+            status = "friend_list"
          end
-         @message.archived = true
-         @message.save
           wall_id = Wall.get_wall_id(@message.target_id, "C")
               Feed.create(
                 :profile_id => @message.parent_id,
                 :wall_id =>wall_id
               )
+              
+         messages =  Message.find(:all, :conditions =>["profile_id = ? and parent_id = ? and parent_type = ? and message_type = ? and target_id = ? and archived = ?",@message.profile_id,@message.parent_id,@message.parent_type,@message.message_type,@message.target_id,false])     
+         message_ids = messages.map(&:id)
+         messages.each do |message|
+           message.update_attributes(:archived => true) 
+         end
+        render :json => {:status => status, :message_ids=>message_ids}
         end
       end
     end      
