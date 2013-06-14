@@ -3,11 +3,12 @@ belongs_to :badge_image
 has_many :avatar_badges
 
   def self.load_all_badges(profile)
-    @badges = Badge.where("school_id = ? and (creator_profile_id = ? or creator_profile_id IS NULL)",profile.school_id,profile.id).order("created_at desc")
+    gold_image_id = BadgeImage.find_by_image_file_name("gold_badge.png").id
+    @badges = Badge.where("school_id = ? and (creator_profile_id = ? or creator_profile_id IS NULL) and badge_image_id not in (?)",profile.school_id,profile.id,gold_image_id).order("created_at desc")
     badge_ids = AvatarBadge.find(:all, :select=>"badge_id", :conditions=>["giver_profile_id = ?",profile.id], :order => "created_at desc").collect(&:badge_id)
     badge_ids=badge_ids.uniq
     ids = badge_ids.in_groups_of(4)
-    @last_used = Badge.find(:all, :conditions => ["id in (?)",ids[0]])
+    @last_used = Badge.find(:all, :conditions => ["id in (?) and badge_image_id not in (?)",ids[0],gold_image_id])
     return @badges,@last_used
   end 
 
