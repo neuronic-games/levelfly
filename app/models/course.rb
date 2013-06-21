@@ -115,7 +115,7 @@ class Course < ActiveRecord::Base
        :include => [:participants], 
        :conditions => ["participants.object_id = ? AND participants.profile_type IN ('P', 'S')", course_id]
      ).map(&:id)
-    @students = CourseGrade.where("school_id = ? and course_id = ? and outcome_id = ? and grade >= '2' and profile_id in (?)",school_id,course_id,outcome_id,member_ids).order("grade DESC")
+    @students = CourseGrade.where("school_id = ? and course_id = ? and outcome_id = ? and grade >= '2.1' and profile_id in (?)",school_id,course_id,outcome_id,member_ids).order("grade DESC")
     sorted_gpa = Course.sort_top_achievers(@students,school_id,course_id,"GPA")
     sorted_total_xp = Course.sort_top_achievers(sorted_gpa,school_id,course_id,"XP")
     return sorted_total_xp.uniq[0..4]
