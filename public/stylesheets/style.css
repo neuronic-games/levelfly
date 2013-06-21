@@ -3694,7 +3694,7 @@ div .frm_input2 {
 	top:50%;
 	padding:20px 20px;
 	position:fixed;
-	z-index:9998;
+	z-index:9999;
 }
 .add_task_popup .heading {
 	color: #3C68A3;
@@ -4482,4 +4482,10 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
 	color:#cb2d2d;
 	font-size:11px;
 	text-align:justify;
+}
+
+.boxadnt_scroll{
+  overflow-y: scroll; 
+  overflow: -moz-scrollbars-vertical;
+  max-height:475px;
 }
