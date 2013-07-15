@@ -314,7 +314,7 @@ class GradeBookController < ApplicationController
   def course_outcomes
      if !params[:course_id].blank?
       @course = Course.find(params[:course_id])
-      @outcomes_course = @course ? @course.outcomes : nil
+      @outcomes_course = @course ? @course.outcomes.order('id') : nil
       @categories = Category.find(:all, :conditions=>["course_id = ?",@course.id])
       render :partial => "/grade_book/add_new_task"
     end

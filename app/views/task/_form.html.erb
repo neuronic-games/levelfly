@@ -146,7 +146,7 @@ function addNode(element) {
                       <%if !outcomes.nil?%>
                         <div class="task_outcomes">
                           <span class="outcome_name"><%= outcomes.name %></span>
-                          <% if !outcomes.descr.nil? %>— <span class="outcome_descr"><%= outcomes.descr %></span><% end %>
+                          <% if !outcomes.descr.nil? %>— <span class="outcome_descr"><%= formatted_html_content(outcomes.descr) %></span><% end %>
                         </div> 
                       <% end %>  
                     <% end %>  

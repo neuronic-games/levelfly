@@ -298,7 +298,7 @@ class CourseController < ApplicationController
       @user = User.find(:first, :conditions => ["lower(email) = ?", params[:email].downcase])
       if @user 
         @profile = Profile.find_by_user_id(@user.id)
-      else
+      else  
         @user, @profile = User.new_user(params[:email],school.id)
         new_user = true
       end
@@ -701,7 +701,7 @@ class CourseController < ApplicationController
           @grade.push(letter)
         end
       end
-      @outcomes = @course.outcomes
+      @outcomes = @course.outcomes.order('id')
       if !@outcomes.nil?
          @points , @course_xp = CourseGrade.get_outcomes(@course.id,@outcomes,@profile.school_id,@profile.id) 
       end
