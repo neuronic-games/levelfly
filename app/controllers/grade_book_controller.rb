@@ -398,9 +398,14 @@ class GradeBookController < ApplicationController
         @task.name = params[:task_name] if params[:task_name]
         @task.category_id = params[:category_id] if params[:category_id]
         if @task.save
-         OutcomeTask.destroy_all(["task_id = ?", @task.id])
+          unchecked_outcomes = @task.outcomes.map(&:id) - params[:outcomes].map{|s| s.to_i}
+          unchecked_outcomes.each do |outcome_uncheck|
+            OutcomeTask.destroy_all(["outcome_id = ? AND task_id = ?", outcome_uncheck, @task.id])
+          end
+         
+         new_outcomes = params[:outcomes].map{|s| s.to_i} - @task.outcomes.map(&:id) 
          if params[:outcomes] && !params[:outcomes].empty?
-           params[:outcomes].each do |o|
+           new_outcomes.each do |o|
              if o !=""
                outcome_task = OutcomeTask.find(:first, :conditions => ["task_id = ? AND outcome_id = ?", @task.id, o])
                if !outcome_task
