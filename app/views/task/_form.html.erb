@@ -142,7 +142,7 @@ function addNode(element) {
                   <div class="field_box2"><span class="font_12px">Outcomes</span>
                     <div id="load_outcomes">
 
-                    <% @task.outcomes.each do |outcomes| %>
+                    <% @task.outcomes.sort_by{|m| m.name.downcase}.each do |outcomes| %>
                       <%if !outcomes.nil?%>
                         <div class="task_outcomes">
                           <span class="outcome_name"><%= outcomes.name %></span>

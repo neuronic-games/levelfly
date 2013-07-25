@@ -701,7 +701,7 @@ class CourseController < ApplicationController
           @grade.push(letter)
         end
       end
-      @outcomes = @course.outcomes.order('id')
+      @outcomes = @course.outcomes.order('name')
       if !@outcomes.nil?
          @points , @course_xp = CourseGrade.get_outcomes(@course.id,@outcomes,@profile.school_id,@profile.id) 
       end

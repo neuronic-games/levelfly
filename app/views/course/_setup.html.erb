@@ -60,7 +60,7 @@
       
       <div id="load_outcomes">
         <% if @course %>
-          <%  @course.outcomes.order('id').each do |outcomes| %>
+          <%  @course.outcomes.order('name').each do |outcomes| %>
             <%= render :partial => "/course/outcomes_list", :locals => {:outcomes=>outcomes} %>
            <% end %>
         <% end %>

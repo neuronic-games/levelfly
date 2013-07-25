@@ -73,8 +73,8 @@ class GradeBookController < ApplicationController
       @profile = Profile.find(user_session[:profile_id])
       @course = Course.find(params[:course_id])
       show_outcomes = @course.show_outcomes if @course
-      @outcomes = @course.outcomes
-      @participant = Participant.all( :joins => [:profile], 
+      @outcomes = @course.outcomes.order('name')
+      @participant = Participant.all( :joins => [:profile],
         :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
         :select => ["profiles.full_name,participants.id,participants.profile_id"],
         :order => "full_name")
@@ -133,8 +133,8 @@ class GradeBookController < ApplicationController
         end
       @task_outcomes = []
         if not @tasks.nil?
-          @tasks.each do |t|      
-            t["task_outcomes"] = t.outcomes
+          @tasks.each do |t|
+            t["task_outcomes"] = t.outcomes.sort_by{|m| m.name.downcase}
              task = Task.find(t.id)
               if task.category
                t["task_category"] = "(#{task.category.name})"
@@ -314,7 +314,7 @@ class GradeBookController < ApplicationController
   def course_outcomes
      if !params[:course_id].blank?
       @course = Course.find(params[:course_id])
-      @outcomes_course = @course ? @course.outcomes.order('id') : nil
+      @outcomes_course = @course ? @course.outcomes.order('name') : nil
       @categories = Category.find(:all, :conditions=>["course_id = ?",@course.id])
       render :partial => "/grade_book/add_new_task"
     end
@@ -385,7 +385,7 @@ class GradeBookController < ApplicationController
     if params[:task_id] and !params[:task_id].blank?
       @task = Task.find(params[:task_id])
       @course = @task.course if @task
-      @outcomes_course = @course ? @course.outcomes : nil
+      @outcomes_course = @course ? @course.outcomes.order('name') : nil
       @categories = Category.find(:all, :conditions=>["course_id = ?",@course.id])
       render :partial=>"/grade_book/load_task_setup"
     end

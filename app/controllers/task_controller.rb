@@ -91,7 +91,7 @@ class TaskController < ApplicationController
     @tasks_created = all_tasks.count
     @allocated_points = all_tasks.sum
     @remaining_points = 1000 - @allocated_points
-    @outcomes = @course.outcomes if @course
+    @outcomes = @course.outcomes.order('name') if @course
     @courses = Course.find(
       :all, 
       :include => [:participants], 
@@ -423,7 +423,7 @@ class TaskController < ApplicationController
   def course_outcomes
     if !params[:course_id].nil?
       @course = Course.find(params[:course_id])
-      @outcomes = @course ? @course.outcomes.order('id') : nil
+      @outcomes = @course ? @course.outcomes.order('name') : nil
       render :partial => "/task/course_outcomes"
     end
   end
