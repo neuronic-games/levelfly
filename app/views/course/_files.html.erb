@@ -27,7 +27,7 @@
    <span>
    
      <select class="dd_input brown_bg" id="filter_files">
-       <option value="all"><%if @course.parent_type=="C"%>Course Files<%elsif @course.parent_type=="G"%>Group Files<%end%></option>
+       <option value="all"><%if @course.parent_type=="C"%>All Course Files<%elsif @course.parent_type=="G"%>All Group Files<%end%></option>
        <%if @course.parent_type=="C"%><optgroup label="By Task"><%end%>
         <% unless @course.nil? %>
           <%task = all_task(@course.id)%>
