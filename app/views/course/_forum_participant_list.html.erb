@@ -1,7 +1,10 @@
+<div style = "margin-left:44px;font-size:16px;" class="people_name"><h3> Members of this Forum</h3></div>
+</br></br></br>
+<a href="javascript:void(0)" name="btn_email_all" style="float:right; margin-right:80px;" id="btn_email_all" class="blue_bt19px btn_add">Send Message to All</a>
 <ul class="forum_people_node">
   <% if !peoples.empty? %>
     <% if mode == "list" %>
-      <div class="people_name" style="width:33%;margin-left:44px;"><h3><input type="checkbox" <%= @course.all_members ? "checked='checked'" : "" %> name="chk_include_all" id="include_all" class="all_include"  value="All Members"/> All Members</h3></div>
+      <div class="people_name" style="width:33%;margin-left:44px;font-size:13px;"><h3><input type="checkbox" <%= @course.all_members ? "checked='checked'" : "" %> name="chk_include_all" id="include_all" class="all_include"  value="Select All Course Members"/> Select All Course Members</h3></div>
       <br/><br/>
 	  <% peoples.each do |p| %>
         <li class="forum_blackboard_list" id="<%=p.id%>" style="width:88%; height:88px;">

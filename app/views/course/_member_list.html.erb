@@ -8,7 +8,7 @@
 	
 	<div style="padding:10px;">
 		<span style="float:right; margin-right:80px;">
-		<% if @courseMaster %>
+		<% if @courseMaster and @course.parent_type != "F"%>
 			<a href="javascript:void(0)" name="btn_email_all" id="btn_email_all" class="blue_bt19px btn_add">Send Message to All</a>
 		<% end %>
 		</span>
