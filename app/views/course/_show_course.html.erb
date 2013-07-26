@@ -71,7 +71,7 @@
     <div class="frm_input2">
       <% if @course.post_messages or @courseMaster.id == user_session[:profile_id]%>
         <div style="margin-left: 90px; text-align:right;">
-          <textarea id="msg_content" name="msg_content" class="msg_content2" placeholder="Make a post..."></textarea> <br />
+          <textarea id="msg_content" name="msg_content" class="msg_content2" placeholder="Make a new post..."></textarea> <br />
           <!-- When user click on cancel button first data will clear from textarea and finall popup window will hide.-->
           <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');">Clear</a>
           <a href="javascript:void(0)" id="<%=@course.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="C" onclick="javascript:void(0);">Post</a>
