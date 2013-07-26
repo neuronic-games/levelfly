@@ -1,18 +1,28 @@
 <div id="div_6" class="tab_content">
   <%if (@courseMaster and !@courseMaster.nil? and @course.parent_type=="C") || (@course and @course.parent_type=="G")%> 
-  <div class="titleTextParticipants">Add:&nbsp;&nbsp;
-    <span><input type="text" name="add_people_email[]" class="dd_select brown_bg" style="width:300px; padding:2px;" id="add_course_people" placeholder="Enter email..."  /></span>
-    <span style="float:right; margin-right:89px;"><a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="blue_bt19px btn_add">Invite</a></span>
-  </div> 
-	<%end%>
-	
-	<div style="padding:10px;">
-		<span style="float:right; margin-right:80px;">
-		<% if @courseMaster and @course.parent_type != "F"%>
-			<a href="javascript:void(0)" name="btn_email_all" id="btn_email_all" class="blue_bt19px btn_add">Send Message to All</a>
-		<% end %>
-		</span>
-	</div>
+    </br></br>
+    <div style = "margin-left:27px;font-size:14px;" class="people_name"><h3>Invite a New Member</h3></div>
+    </br>
+    <div class="titleTextParticipants">
+      <span><input type="text" name="add_people_email[]" class="dd_select brown_bg" style="width:300px; padding:2px;margin-left:15px;" id="add_course_people" placeholder="Enter email..."  /></span>
+      <span style="float:right; margin-right:358px;"><a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="blue_bt19px btn_add">Invite</a></span>
+    </div> 
+  <%end%>
+
+  <div style="padding:10px;">
+    <% if @courseMaster and @course.parent_type != "F"%>
+      <a style = "margin-left;margin-left:19px;font-size:14px;" class="people_name"><h3><%= @course.parent_type == "G" ? "Members in Your Group" : "Members in Your Course" %></h3></a>
+      </br></br>
+      <span style="float:left; margin-left:34px;">
+        <a href="javascript:void(0)" name="btn_email_all" id="btn_email_all" class="blue_bt19px btn_add">Send Message to All</a>
+      </span>
+    <% elsif @course.parent_type != "F" %>
+      </br>
+      <a style = "margin-left;margin-left:19px;font-size:14px;" class="people_name"><h3><%= @course.parent_type == "G" ? "Members in this Group" : "Members in this Course" %></h3></a>
+    <% elsif @courseMaster.nil? and @course.parent_type == "F" %>
+      <a style = "margin-left;margin-left:19px;font-size:14px;" class="people_name"><h3>Members in this Forum</h3></a>
+    <% end %>
+  </div>
   
   <div class="frm_input">
     <div class="frm_input" id="add_people_container"></div>
@@ -42,7 +52,7 @@
 </div>
 <!-- send email to all dialog -->
 <div id="send_email_all" class="add_task_popup" style="display:none">
-	<div class="heading">Send Message to All Participants</div>
+	<div class="heading">Send Message to All Members</div>
 	<div class="boxadnt"> 
 		<span class="heading02">Message</span>
     <div class="heading02_field">
@@ -192,7 +202,7 @@
 						partcipant_html += '<div class="field_label3" style="width:30%;margin:7px 8px;"><a>'+data.user.email+ '</a></div>';
 						partcipant_html += '</br><span class="participant_type" style="font-size:10px; font-weight:normal;margin:9px -421px;">Pending</span>';
 						partcipant_html += '<div class="FloatR" style="width:20%"><div class="list_hover" style="margin-top:10px;width:10%;">';
-						partcipant_html += '<a href="javascript:void(0)" class="people_resend blue_bt19px FloatL" rel='+data.profile.id+' value='+data.user.email+'>Resend</a>';
+						partcipant_html += '<a href="javascript:void(0)" style=" margin-left: -32px;" class="people_resend blue_bt19px FloatL" rel='+data.profile.id+' value='+data.user.email+'>Resend Invite</a>';
 						partcipant_html += '<a href="javascript:void(0)" class="people_delete blue_bt19px FloatR" rel='+data.profile.id+'  >Remove</a></div></div>';
 						partcipant_html += '<div class="clear"></div>';
 						participant_node.append(partcipant_html);
@@ -219,6 +229,7 @@
 	
 	$("#dont_send_btn").unbind('click').bind('click', function(){
 		$("#send_email_all").hide();
+		$('#mail_msg').val('');
 	});
 	
 	// For sending email to all
@@ -238,6 +249,7 @@
 						$('#send_email_all').hide();
 						var success_html = "<div class='error_message'>Message sent to all participants.</div>";
 						$('.alert').html(success_html);
+						$('#mail_msg').val('');
 					}
 				}
 			});
@@ -321,6 +333,7 @@
 	
 	$("#close_btn").unbind('click').bind('click', function(){
 		$("#msg_alert_popup").hide();
+		$("#add_course_people").val("");
 	});
 	
 	function show_alert_message(content,visible) {
