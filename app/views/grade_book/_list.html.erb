@@ -412,7 +412,7 @@ $(document).ready(function(){
     return flag;    
   }
   //Save grades/points
-  function save_grade(val,id,rel,arrOfProfile,array_of_values){ 
+  function save_grade(val,id,rel,arrOfProfile,array_of_values,entire_column,t_id){ 
     var valid = false;
     var focusedId = id;
     var _undo = undo_select
@@ -528,6 +528,7 @@ $(document).ready(function(){
           success: function(data){
             if (typeof data.previous_grade === 'undefined'){
               $("#all_participant").html(data);
+            
             }else {
               $("#"+course_grade_id).attr("value",data.grade[0]);
               $("#previous_grade").attr("value",data.previous_grade);
@@ -541,7 +542,14 @@ $(document).ready(function(){
             $(arr_ids).each(function(index,item){
               $("#"+item).removeClass("warning");
             });
-            document.getElementById(focusedId).focus();
+            if (entire_column == false)
+            {
+            	document.getElementById(focusedId).focus();
+            }
+            if (entire_column == true)
+            {
+            	$('.' + t_id)[0].focus();
+            }
             showSpinner(false);
           }
         });
@@ -607,7 +615,7 @@ $(document).ready(function(){
          $("#"+change_id).attr("value",$("#previous_grade").val())
           previous_grade = $("#previous_grade").val();
           idd = $("#last_id").val();
-          save_grade(previous_grade,idd,arr_rel2,arr_profile2,"")
+          save_grade(previous_grade,idd,arr_rel2,arr_profile2,"","","")
           $("#last_id").attr("value","");
           //console.log(previous_grade+"---"+idd+"---"+arr_rel2+"---"+arr_profile2)
        }
@@ -635,7 +643,7 @@ $(document).ready(function(){
             arr_ids.push(click_id);
         });
         pg = last_fills;
-        save_grade(given_val,click_id,arr_rel2,arr_profile2,pg);
+        save_grade(given_val,click_id,arr_rel2,arr_profile2,pg,"","");
        // console.log(given_val+"---"+click_id+"---"+arr_rel2+"---"+arr_profile2+"entire column")
         $("#last_id").attr("value","");
       }
@@ -678,7 +686,7 @@ $(document).ready(function(){
       arr_rel2 = arr_rel
       arr_profile2 = arr_profile
       //last_fills = previous_values;
-      save_grade(given_val,click_id,arr_rel,arr_profile,pg)     
+      save_grade(given_val,click_id,arr_rel,arr_profile,pg,entire_column,id)
      } 
    }
   });
@@ -704,7 +712,7 @@ $(document).ready(function(){
       arr_ids.push(id);
       arr_rel2 = arr_rel;
       arr_profile2 = arr_profile;
-      save_grade(val,id,arr_rel,arr_profile,"");
+      save_grade(val,id,arr_rel,arr_profile,"",entire_column,"");
      }
   });
 
