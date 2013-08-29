@@ -5,19 +5,23 @@ class CourseController < ApplicationController
   before_filter :check_role,:only=>[:new, :save]
       
   def index
-    section_type = params[:section_type]
+    if params[:section_type]
+      section_type = params[:section_type]
+    else
+      section_type = "C"
+    end
     
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     
     if params[:search_text]
       search_text =  "%#{params[:search_text]}%"
-      if params[:section_type]=="C"
+      if section_type == "C"
         @courses = Course.find(
           :all,
           :include => [:participants], 
           :conditions => ["(lower(courses.name) LIKE ? OR lower(courses.code) LIKE ?) and parent_type = ? and school_id = ? and removed = ?", search_text.downcase, search_text.downcase, Course.parent_type_course, @profile.school_id, false])
       
-      elsif params[:section_type]=="G"
+      elsif section_type == "G"
         @courses = Course.find(:all, :conditions=>["(lower(courses.name) LIKE ? OR lower(courses.code) LIKE ?) and parent_type = ? and school_id = ? and removed = ?",search_text.downcase,search_text.downcase, Course.parent_type_group, @profile.school_id, false])
       end
      
@@ -26,11 +30,11 @@ class CourseController < ApplicationController
       # Check if the user was working on a details page before, and redirect if so
       return if redirect_to_last_action(@profile, 'course', '/course/show')
       
-      if !params[:section_type].nil?
-        if params[:section_type] == 'C'
+      if !section_type.nil?
+        if section_type == 'C'
           @courses = Course.course_filter(@profile.id,"")
         end
-        if params[:section_type] == 'G'
+        if section_type == 'G'
           @courses = Course.all_group(@profile,"M")
         end
       else
@@ -39,6 +43,7 @@ class CourseController < ApplicationController
     end
     @profile.record_action('course', section_type)
     @profile.record_action('last', 'course')
+    @section_type = section_type
     respond_to do |wants|  
       wants.html do
         if request.xhr?
