@@ -61,7 +61,7 @@
           <tr class="<%= cycle("Dark_no","light_row")%>">
           <%if @outcomes.length>0%>
             <%if !@outcomes.nil?%>
-               <% @outcomes.each do |o|%>
+               <% @outcomes.order('name').each do |o|%>
                 <td class="red_border1">
                   <div class="GB_outcomment rotate_text"><%if i == 0%><%=o.name%><%end%></div>
                 </td>
@@ -147,7 +147,7 @@
                </div>
               </td>
                <%if t.show_outcomes%>
-                 <% @task_outcomes = t.outcomes%>
+                 <% @task_outcomes = t.outcomes.sort_by{|m| m.name.downcase}%>
                   <%if @task_outcomes.length>0 and @latest_course.show_outcomes%>
                     <% if !@task_outcomes.nil?%>
                       <% @task_outcomes.each_with_index do |o,j|%>
@@ -175,7 +175,7 @@
           <td class="red_border"> 
             <table border="0" class="GB_table GB_editable task_grades_width"><!--Add task_grades_width for extra width problem 05/09/12-->
               <tr <%if i%2 == 0%>class="GB_odd"<%end%>>
-              <% @task_outcomes = t.outcomes%>
+              <% @task_outcomes = t.outcomes.sort_by{|m| m.name.downcase}%>
               <%task_grade = TaskGrade.load_task_grade(@school_id, @course_id,t.id,p.profile_id)%>
               <%grade=""%>
               <%if !task_grade.nil?%>
@@ -225,7 +225,7 @@
           <td class="red_border"> 
             <table border="0" class="GB_table GB_editable task_grades_width">
               <tr <%if i%2 == 0%>class="GB_odd"<%end%>>
-              <% @task_outcomes = t.outcomes%>
+              <% @task_outcomes = t.outcomes.sort_by{|m| m.name.downcase}%>
                <td class="task_name_background width12px">
                   <div class="rotate_text GB_outcomment3 "></div>
                 </td>
@@ -263,7 +263,6 @@
      
      
     </table>
-
   </div><!--task_left_heading-->
 <input type="hidden" name="previous_grade"  id ="previous_grade" value="<%= previous_grade if previous_grade %>">
 </div>

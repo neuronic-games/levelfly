@@ -301,7 +301,7 @@ class GradeBookController < ApplicationController
     @latest_course.update_attribute("show_outcomes",show_outcomes)
     @course_id = @latest_course.id
     @school_id = @profile.school_id
-    @outcomes = @latest_course.outcomes
+    @outcomes = @latest_course.outcomes.order('name')
     @participant = Participant.all( :joins => [:profile], 
       :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
       :select => ["profiles.full_name,participants.id,participants.profile_id"],
@@ -325,8 +325,8 @@ class GradeBookController < ApplicationController
     if !params[:course_id].blank?
       @course = Course.find(params[:course_id])
       @profile = Profile.find(user_session[:profile_id])
-      @outcomes = @course ? @course.outcomes : nil
-      @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
+      @outcomes = @course ? @course.outcomes.order('name') : nil
+      @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order =>"full_name")
       if not @participant.nil?
         @participant.each do |p|
           outcomes_grade = []
@@ -355,7 +355,7 @@ class GradeBookController < ApplicationController
         @course.grading_completed_at = Time.now
         @course.save
         @profile = Profile.find(user_session[:profile_id])
-        @outcomes = @course.outcomes
+        @outcomes = @course.outcomes.order('name')
         @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
         @participant.each do |p|
           TaskGrade.bonus_points(p.profile.school_id,@course,p.profile.id,user_session[:profile_id])
@@ -430,7 +430,7 @@ class GradeBookController < ApplicationController
     y = []
     if params[:course_id] && !params[:course_id].blank?
       @course = Course.find(params[:course_id])
-      @outcomes = @course.outcomes
+      @outcomes = @course.outcomes.order('name')
       @tasks = Course.sort_course_task(@course.id)
       @participant = Participant.all( :joins => [:profile], 
         :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
@@ -454,7 +454,7 @@ class GradeBookController < ApplicationController
         if !@tasks.nil?
           @tasks.each do|t|
             y << t.name
-            @task_outcomes = t.outcomes
+            @task_outcomes = t.outcomes.sort_by{|m| m.name.downcase}
             if @task_outcomes.length > 0
               if !@task_outcomes.nil?
                 @task_outcomes.each do|o|
