@@ -114,7 +114,7 @@ class GradeBookController < ApplicationController
                   grade = GradeType.value_to_letter(task_grade, @profile.school_id) unless t.course.display_number_grades
                 end
                 array_task_grade.push(grade)
-                task_outcomes = t.outcomes
+                task_outcomes = t.outcomes.sort_by{|a| a.name.downcase}
                 task_outcomes.each do |o|
                   task_outcome_grade = OutcomeGrade.load_task_outcomes(@profile.school_id, params[:course_id],t.id,p.profile_id,o.id)
                   if task_outcome_grade.nil?
@@ -398,12 +398,12 @@ class GradeBookController < ApplicationController
         @task.name = params[:task_name] if params[:task_name]
         @task.category_id = params[:category_id] if params[:category_id]
         if @task.save
-          unchecked_outcomes = @task.outcomes.map(&:id) - params[:outcomes].map{|s| s.to_i}
+          unchecked_outcomes = params[:outcomes] ? @task.outcomes.map(&:id) - params[:outcomes].map{|s| s.to_i} : @task.outcomes.map(&:id)
           unchecked_outcomes.each do |outcome_uncheck|
             OutcomeTask.destroy_all(["outcome_id = ? AND task_id = ?", outcome_uncheck, @task.id])
           end
          
-         new_outcomes = params[:outcomes].map{|s| s.to_i} - @task.outcomes.map(&:id) 
+         new_outcomes = params[:outcomes].map{|s| s.to_i} - @task.outcomes.map(&:id) if params[:outcomes]
          if params[:outcomes] && !params[:outcomes].empty?
            new_outcomes.each do |o|
              if o !=""
