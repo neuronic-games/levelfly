@@ -19,7 +19,9 @@
               <div class="GDingbox_botright" >
                 <div class="GDingbox_botcenter main_div_height" >
                   <div class="GDingbox_botleft" >
-                  <div class="GDingbox_heading" >GRADE PALETTE</div>
+                  <div class="GDingbox_heading" style="padding:9px 0 0 19px;" >GRADE PALETTE
+                  <input id="left" style="margin-left: 230px;" type="image" src="images/left.png">
+                  <input id="right" style="margin-left: 375px;" type="image" src="images/right.png"></div>
                     <div class="GDingbox_botcontainer" id ="GDingbox_botcontainer" >
                       <div class="GDingboxinner_grade" >
                         <div align="center">GRADES</div>
@@ -1675,9 +1677,53 @@ function filter() {
   });
 }  
   
+  $('#left').click(function (event) {
+    event.preventDefault();
+    var leftPos = $('div#task_right_wp').scrollLeft();
+    console.log(leftPos);    
+    $("div#task_right_wp").animate({
+      scrollLeft: leftPos - 400
+    }, 500);
+  });
   
+  $('#right').click(function (event) {
+    event.preventDefault();
+    var leftPos = $('div#task_right_wp').scrollLeft();
+    console.log(leftPos); 
+    $("div#task_right_wp").animate({
+      scrollLeft: leftPos + 400
+    }, 500);
+  });
   
-  
+  function collision($div1, $div2) {
+    var x1 = $div1.offset().left;
+    var y1 = $div1.offset().top;
+    var h1 = $div1.outerHeight(true);
+    var w1 = $div1.outerWidth(true);
+    var b1 = y1 + h1;
+    var r1 = x1 + w1;
+    var x2 = $div2.offset().left;
+    var y2 = $div2.offset().top;
+    var h2 = $div2.outerHeight(true);
+    var w2 = $div2.outerWidth(true);
+    var b2 = y2 + h2;
+    var r2 = x2 + w2;
+        
+    if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2) return false;
+    return true;
+  }
+
+  window.setInterval(function() {
+    divcollision = collision($('#task_right_wp'), $('#GDingbox_botcontainer'));
+    if (divcollision == true){
+      $('#right').show();
+      $('#left').show();
+    }
+    else{
+      $('#right').hide();
+      $('#left').hide();
+    }
+  }, 200);
   
 </script>
 
