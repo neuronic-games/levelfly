@@ -8,7 +8,7 @@
       <!--<a href="javascript:void(0)" name="menu_btn_addfile" id="menu_btn_addfile" class="big_blue_btn hide">ADD FILE</a>-->
       <a href="javascript:void(0)" name="btn_category_remove" id="btn_category_remove" class="big_blue_btn hide">REMOVE CAT</a>
       <a href="javascript:void(0)" name="btn_archive" id="btn_archive" class="big_blue_btn hide">ARCHIVE</a>
-      <a href="javascript:void(0)" name="btn_course_remove" id="btn_course_remove" class="big_blue_btn">REMOVE</a>
+      <a href="javascript:void(0)" name="btn_course_remove" id="btn_course_remove" style="padding:6px 0 6px" class="big_blue_btn"><%=section_type == "C" ? "Delete Course" : "Delete Group"%></a>
     <% end %>
     <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@course ? false : true %>" />
   </div><!-- crud_level -->
