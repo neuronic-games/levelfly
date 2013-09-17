@@ -254,7 +254,8 @@ class CourseController < ApplicationController
             :name=> outcome,
             :descr=> outcomes_descs_array[i],
             :school_id=> @course.school_id,
-            :shared=> outcomes_share_array[i]
+            :shared=> outcomes_share_array[i],
+            :created_by=> @course.id
           )
           @course.outcomes << @outcome
         end
@@ -448,7 +449,18 @@ class CourseController < ApplicationController
   
   def remove_course_outcomes
     if params[:outcomes] && !params[:outcomes].nil?
-      Outcome.destroy(params[:outcomes])
+      if Outcome.find(params[:outcomes]).shared == true && !params[:course_id].nil?
+        @course = Course.find(params[:course_id])
+        if Outcome.find(params[:outcomes]).created_by == @course.id
+          shared_outcome = Outcome.find(params[:outcomes])
+          shared_outcome.shared = false
+          shared_outcome.save!
+        else
+          @course.outcomes.destroy(params[:outcomes]) if @course
+        end
+      else
+        Outcome.destroy(params[:outcomes])
+      end
       render :text => {"status"=>"true"}.to_json
     end
   end
