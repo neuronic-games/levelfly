@@ -34,8 +34,8 @@
         <div id="course_section_prompt" class="field_prompt break gap hide">
           Enter an optional course section, such as 001
         </div>
-
       </div>
+      
       <div class="clear"></div>
       
     </div>
@@ -276,8 +276,9 @@ $(document).ready(function(){
   $(".outcome_del").click(function(){
     showSpinner(true);
     outcome_id = $(this).attr('rel');
+    course_id = $("#course_id_hdn").val();
     $("#outcome_div_"+outcome_id).remove();
-    var dataString = 'outcomes='+outcome_id;
+    var dataString = 'outcomes='+outcome_id+ '&course_id=' + course_id;
     $.ajax({  
        type: "POST",  
        url: "/course/remove_course_outcomes",  
