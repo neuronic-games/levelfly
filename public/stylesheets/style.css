@@ -1945,7 +1945,7 @@ margin-left:33px;
   color:#E2E4EA;
   margin: 0 20px 0 20px;
 }
-.clipboard_list {
+.clipboard_list, #infscr-loading {
   border-bottom:1px solid #B1C4D0;
   color: #3B3131;
   padding: 5px 0 5px 0;
@@ -1956,7 +1956,7 @@ margin-left:33px;
   background-color: #F2F4FB;
   cursor: pointer;
 }
-.clipboard_list .title {
+.clipboard_list .title, #infscr-loading {
   font-size: 17px;
   font-weight: bold;
   overflow: hidden; 
@@ -1969,6 +1969,11 @@ margin-left:33px;
   text-overflow: ellipsis;
   text-align:justify;
   height: 34px;
+}
+#infscr-loading {
+  text-align: center;
+  margin-bottom: 10px;
+  border-bottom: none;
 }
 .list_hover {
   position: absolute; 

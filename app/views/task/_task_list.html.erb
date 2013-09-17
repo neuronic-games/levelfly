@@ -1,53 +1,8 @@
 <% if @tasks.nil? %>
   ERROR: Nil @tasks
 <% else %>
-  <% @tasks.each do |t| %>
-    <% participant = t.task_participants[0] %>
-    <div class="task_list_content clipboard_list" task_id="<%=t.id%>" style="min-height:100px;">
-
-      <div class="list_hover" style="margin-top:70px; margin-left:150px;">
-        <div class="like_cmt">
-          <a href="javascript:void(0);" class="tasks_pri_toggle tasks_pri_toggle_btn blue_bt19px" task_id="<%=t.id %>"><% if participant.priority == "H"%>Unstar<%else%>Star<%end%></a>
-          <% if t.course.owner.id == user_session[:profile_id]%><a href="javascript:void(0);" class="tasks_del blue_bt19px" task_id="<%=t.id %>">Remove</a><%end%>
-        </div>
-      </div>
-      <div style="float:left; width:150px;">
-      <div class="staronavatar2">
-        <img src="/images/<% if participant.priority == "H" %>star_up<%else%>star_down<%end%>.png" width="36" height="37" task_id="<%=t.id %>" class="tasks_pri_toggle tasks_pri_toggle_img" />
-      </div>
-
-      <div class="titleTcheckboxinner">
-        <span class="custom-checkbox_new">
-        
-        <input type="checkbox" <% if participant.status == "C" %> checked="checked" <% end %> name="task_complete" id="task_complete" class="" rel="<%=t.id%>"/><span class="box"><span class="tick"></span></span> </span>
-        </div>
-
-      <div class="avatar_white_bdrC2task">
-        <a href="/task/show/<%=t.id%>" id="<%=t.id%>" class="view">
-           <img src='<%= t.image_file %>' width="150" height="150" alt="<%=t.name%>" />
-        </a>
-      </div>
-      </div>
-      <div style="margin-left:150px;">
-      <div class="titleTDue"><%=change_date_format(t.due_date) if t.due_date%></div>
-      
-      <!-- This column does not expand well. Do we need to control max-width via JavaScript? -->
-      <div class="titleTTAsk" >
-        <div class="title"><%=long_title(t.name)%></div>
-        <div class="description"><p><%=t.descr%></p></div>
-      </div>
-      
-      <!-- From the right -->
-      <div class="titleTrating">
-        <span class="font_15px" style="color:#<%=xp_color(t.points)%>"><%=t.points%></span>
-      </div>
-      
-      <div class="titleTType"><%=t.course.name if t.course %></div>
-      </div>
-
-    </div>  <!-- task_list_content -->
-    
-  <% end %>  <!-- @tasks -->
+  <%= render :partial => "task_list_page", :locals => { :tasks => @tasks } %>
+  <%= will_paginate @tasks %>
 <% end %>
 <!-- Warning pop for remove task -->
 <div id="warning_msg_remove" class="add_task_popup" style="display:none;position:fixed;z-index:10000">
@@ -62,6 +17,8 @@
 		<a class="big_orange_btn inlineblock dialog_btn" id="remove_task_cnfrm" href="javascript:void(0)">Remove</a>
 	</div>
 </div>
+<script type="text/javascript" src="/assets/ui/jquery.infinitescroll.min.js"></script>
+
 <!-- Warning pop for grading category select ends -->
 <script type="text/javascript">
 	var remove_task_id;
@@ -195,6 +152,18 @@
         showSpinner(false);
       }
     });
+  });
+
+  // infinite scroll lazy loads tasks
+  $('#task_show_list_data').infinitescroll({
+    navSelector: "div.pagination",
+    nextSelector: "div.pagination a.next_page",
+    itemSelector: "div.task_list_content",
+    loading: {
+      finishedMsg: null,
+      img: "/images/ajax-loader.gif",
+      msgText: "Loading more tasks..."
+    }
   });
       
 </script>

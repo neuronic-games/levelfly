@@ -11,7 +11,7 @@ class Task < ActiveRecord::Base
   has_many :messages, :as => :parent
   has_many :outcome_tasks
   has_many :outcomes, :through => :outcome_tasks
-  
+
   after_initialize :init_defaults
 
   has_attached_file :image,
@@ -60,7 +60,7 @@ class Task < ActiveRecord::Base
   end
   
   
-  def self.filter_by(profile_id, filter, period)
+  def self.filter_by(profile_id, filter, period, page)
     conditions = ["task_participants.profile_id = ? and archived = ?", profile_id, false]
 
     if filter == "starred"
@@ -77,11 +77,12 @@ class Task < ActiveRecord::Base
       conditions[0] += " and task_participants.complete_date is not null"
     end
 
-    tasks = Task.find(
-      :all, 
+    tasks = Task.paginate(
       :include => [:task_participants], 
       :conditions => conditions,
-      :order => "priority asc,due_date"
+      :order => "priority asc,due_date",
+      :page => page,
+      :per_page => 20
     )
   end
   

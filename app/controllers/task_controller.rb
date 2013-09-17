@@ -4,6 +4,7 @@ class TaskController < ApplicationController
   before_filter :check_role,:only=>[:new, :save]
   def index
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @page = params[:page] || 1
     if @profile
       @courses = Course.find(
         :all, 
@@ -15,16 +16,18 @@ class TaskController < ApplicationController
     
       if params[:search_text]
         search_text =  "%#{params[:search_text]}%"
-        @tasks = Task.find(
+        @tasks = Task.paginate(
           :all, 
           :include => [:task_participants], 
-          :conditions => ["task_participants.profile_id = ? AND (lower(tasks.name) LIKE ? OR lower(tasks.descr) LIKE ?) AND archived = ?", @profile.id, search_text.downcase, search_text.downcase, false]
+          :conditions => ["task_participants.profile_id = ? AND (lower(tasks.name) LIKE ? OR lower(tasks.descr) LIKE ?) AND archived = ?", @profile.id, search_text.downcase, search_text.downcase, false],
+          :page => @page,
+          :per_page => 20
         )
       else 
 
         # Check if the user was working on a details page before, and redirect if so
         return if redirect_to_last_action(@profile, 'task', '/task/show')
-        @tasks = Task.filter_by(@profile.id, "", "current")
+        @tasks = Task.filter_by(@profile.id, "", "current", @page)
       end
     end
     respond_to do |wants|
