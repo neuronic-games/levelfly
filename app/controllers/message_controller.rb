@@ -336,16 +336,14 @@ class MessageController < ApplicationController
               @message.archived = true
               @message.save
               Message.send_notification(profile.id,content,@message.profile_id)
-              @friend_profile = Profile.find(@message.parent_id)
-              render :partial => "friend_list", :locals=>{:friend=>@friend_profile}
             end
           elsif params[:activity] == "dntadd"
             content = "#{profile.full_name} has rejected your friend request."
             Message.send_notification(profile.id,content,@message.profile_id)
             @message.archived = true
             @message.save
-            render :nothing=>true
           end
+            render :nothing=>true
         end
       end
     end
