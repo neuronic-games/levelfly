@@ -39,6 +39,24 @@
       <div class="clear"></div>
       
     </div>
+    <div  class="catagory_viewfield field_label" style="margin-top:15px;margin-left:6px;">Semester
+      <div class="dd_bg brown_bg">
+        <select id="course_semester" class="brown_bg">
+          <% course_semesters = @course.school ? @course.school.semesters : @profile.school.semesters %>
+          <% default_semester = @course.semester ? @course.semester : course_semesters.select{|sem| Time.now.month.between?(sem.start_month,sem.end_month)}.first.name %>
+          <% semesters = ["Fall", "Spring", "Summer I", "Summer II", "Winter"] %>
+          <% semesters.each do |sem| %>
+            <option value="<%= sem %>" <%= "selected = selected" if sem == default_semester %>><%= sem %></option>
+          <% end %>
+        </select>
+      </div>
+    </div> 
+    <div  class="catagory_viewfield field_label" style="margin-top:15px;">Year
+      <div class="dd_bg brown_bg">
+        <%= select "date", "year", [["#{Time.now.year}","#{Time.now.year}"],["#{Time.now.year+1}","#{Time.now.year+1}"],["#{Time.now.year+2}","#{Time.now.year+2}"],["#{Time.now.year+3}","#{Time.now.year+3}"],["#{Time.now.year+4}","#{Time.now.year+4}"],["#{Time.now.year+5}","#{Time.now.year+5}"]], {:selected=>!@course.year.blank? ? @course.year : Time.now.year}, {:class=>"brown_bg"} %>
+      </div>
+    </div>
+      
 </div>
 <div class="clear"></div>
 

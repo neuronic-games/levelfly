@@ -415,6 +415,10 @@ function save_course(channel) {
   section = getStorage("course_section");
   school_id = $("#course_school_id_hdn").val();
   wall_id = $("#course_wall_id_hdn").val();
+  selected_year = $("#date_year").val();
+  selected_semester = $("#course_semester").val();
+  semester_change = selected_semester == "<%=@course.semester%>"
+  course_change = selected_year == "<%=@course.year%>"
 
   var post_messages = document.getElementById('post_messages');
   var show_grade = document.getElementById('show_grade');
@@ -464,10 +468,10 @@ function save_course(channel) {
     n++;
   });
 
-  var dataString = {id:id , course:name , descr:descr , section_type:section_type , code:code , section:section , school_id:school_id , outcomes:_outcomesObject , outcomes_descr:_outcomes_descrObject , categories:_categoriesObject , wall_id:wall_id , percent_value:_categories_persentObject , outcome_share:_outcomes_shareObject , post_messages:post_messages.checked , show_grade:show_grade_checked }
+  var dataString = {id:id , course:name , descr:descr , section_type:section_type , code:code , section:section , school_id:school_id , outcomes:_outcomesObject , outcomes_descr:_outcomes_descrObject , categories:_categoriesObject , wall_id:wall_id , percent_value:_categories_persentObject , outcome_share:_outcomes_shareObject , post_messages:post_messages.checked , show_grade:show_grade_checked , semester:selected_semester , year:selected_year}
   
 	//alert(dataString);  return false;
-  if(changed==true){
+if(changed==true || semester_change != true || course_change != true){
   showSpinner(true);
   $.ajax({
     type: "POST",

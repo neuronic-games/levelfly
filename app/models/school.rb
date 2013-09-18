@@ -1,4 +1,5 @@
 class School < ActiveRecord::Base
+  has_many :semesters
   has_many :profile
   has_many :majors
   has_many :access_codes
