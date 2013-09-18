@@ -60,7 +60,7 @@ class Task < ActiveRecord::Base
   end
   
   
-  def self.filter_by(profile_id, filter, period, page)
+  def self.filter_by(profile_id, filter, period, page = nil)
     conditions = ["task_participants.profile_id = ? and archived = ?", profile_id, false]
 
     if filter == "starred"
@@ -81,8 +81,8 @@ class Task < ActiveRecord::Base
       :include => [:task_participants], 
       :conditions => conditions,
       :order => "priority asc,due_date",
-      :page => page,
-      :per_page => 20
+      :page => page || 1,
+      :per_page => page ? 20 : Task.count
     )
   end
   
