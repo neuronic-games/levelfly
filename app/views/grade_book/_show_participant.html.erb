@@ -116,17 +116,17 @@
   <div class="clear"></div>
   <div class="spacebarGbook2"></div>
 
-  <div class="task_left_wp">
+  <div class="task_left_wp" id = "task_left" style="padding-left: 1%">
     <div class="task_left_heading">
       <div class="positn_rtlv"><div id="seting_box" style="display:none;" class="GBsttingbox"></div>
         <div class="GB_sttingbt hide"><img id="setting_icon" src="images/GB_setting_icon.png" /></div></div>
-     
+     <input type = "image" id="left" style="position:fixed;" src="images/left.png" />
     </div><!--task_left_heading-->
     <div class="clear"></div>
     
   </div><!--task_left_wp-->
 
-  <div class="task_right_wp" id = "task_right_wp">
+  <div class="task_right_wp" id = "task_right_wp" style="max-width:85%">
   
     <table width="100%" border="0" cellpadding="0" cellspacing="0" id="heading_task" class="heading_task"><!--Right side table-->
       <tr class="task_right_heading" id = "table_heading"><!--Top row for filling grades-->
@@ -260,11 +260,31 @@
        </tr>
       <% end %>
     <% end %> 
-     
-     
-    </table>
+ </table>
   </div><!--task_left_heading-->
+  <div style="float:left;">
+  	<input type ="image" id="right" style="position: fixed;margin-left:3px;" src="images/right.png" />
+  </div>
 <input type="hidden" name="previous_grade"  id ="previous_grade" value="<%= previous_grade if previous_grade %>">
 </div>
 
-
+<script>
+  $('#left').click(function(){
+    var leftPos = $('div#task_right_wp').scrollLeft();
+    a = parseInt($("#hid").val() );
+    if (a != 0)
+    {
+        $("#hid").val(leftPos);
+        $("div#task_right_wp").animate({scrollLeft: leftPos - 200}, 300);
+    }
+  });
+  $('#right').click(function(){
+    var leftPos = $('div#task_right_wp').scrollLeft()+1;
+     a = parseInt($("#hid").val() );
+     if (a != leftPos || leftPos == 1)
+    {   
+      $("#hid").val(leftPos);
+      $("div#task_right_wp").animate({scrollLeft: leftPos + 200}, 300);
+    }
+  });
+</script>
