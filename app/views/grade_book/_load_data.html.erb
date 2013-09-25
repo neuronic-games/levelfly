@@ -31,3 +31,6 @@
  <%else%>
   <div class="msg_pos">You are currently not in any courses</div>
  <%end%>
+ <script>
+  grade_book_data = <%= @data.to_json.html_safe %>;
+ </script>
