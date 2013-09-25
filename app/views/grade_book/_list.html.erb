@@ -20,8 +20,10 @@
                 <div class="GDingbox_botcenter main_div_height" >
                   <div class="GDingbox_botleft" >
                   <div class="GDingbox_heading" style="padding:9px 0 0 19px;" >GRADE PALETTE
-                  <input id="left" style="margin-left: 230px;" type="image" src="images/left.png">
-                  <input id="right" style="margin-left: 375px;" type="image" src="images/right.png"></div>
+                  <input id="hid" type="hidden" value="0" />
+                  <input id="hid1" type="hidden" value="0" />
+                  <input id="hid2" type="hidden" value="0" />
+                  <input id="hid3" type="hidden" value="0" /></div>
                     <div class="GDingbox_botcontainer" id ="GDingbox_botcontainer" >
                       <div class="GDingboxinner_grade" >
                         <div align="center">GRADES</div>
@@ -261,7 +263,9 @@ $(function(){
  <%end%>*/
 });
 $(document).ready(function(){
-
+  $("#hid1").val("0");
+  $('#hid2').val($('#right').offset().left);
+  $('#hid3').val($('#task_right_wp').width());
   setPageTitle("GradeBook");
   var arr = new Array();
   var grades = new Array();
@@ -705,6 +709,7 @@ $(document).ready(function(){
             arr_rel=[];
             previous_values=[];
             arr_ids=[];
+            top_offset();
           }
         });
       }
@@ -1221,6 +1226,7 @@ $(document).ready(function(){
             $('.show_hide_outcomes').attr("show","false");
             $('.show_hide_outcomes').html("hide outcomes");
           }
+          top_offset();
           showSpinner(false);
         }      
     });
@@ -1332,7 +1338,7 @@ $(document).ready(function(){
 
   var participant;
   var tasks;
-  var outcomes
+  var outcomes;
   course_id = $("#course_id").val();
   showSpinner(true);
   $.ajax({
@@ -1817,6 +1823,7 @@ $(document).ready(function(){
      $(".task_right_wp").scrollLeft(0);
      /*scroll_div(last_task);
      last_task = 0;*/
+    left_offset();
     }
   });
 }
@@ -1830,29 +1837,12 @@ function filter() {
      data: {filter:filter},
      success: function(data) {
        $("#grade_book_content").html(data);
+       top_offset();
        showSpinner(false);
      }
   });
 }  
-  
-  $('#left').click(function (event) {
-    event.preventDefault();
-    var leftPos = $('div#task_right_wp').scrollLeft();
-    console.log(leftPos);    
-    $("div#task_right_wp").animate({
-      scrollLeft: leftPos - 400
-    }, 500);
-  });
-  
-  $('#right').click(function (event) {
-    event.preventDefault();
-    var leftPos = $('div#task_right_wp').scrollLeft();
-    console.log(leftPos); 
-    $("div#task_right_wp").animate({
-      scrollLeft: leftPos + 400
-    }, 500);
-  });
-  
+
   function collision($div1, $div2) {
     var x1 = $div1.offset().left;
     var y1 = $div1.offset().top;
@@ -1872,17 +1862,91 @@ function filter() {
   }
 
   window.setInterval(function() {
-    divcollision = collision($('#task_right_wp'), $('#GDingbox_botcontainer'));
-    if (divcollision == true){
+    if ($('#task_right_wp').css("display") == "block" && $('#GDingbox_botcontainer').css("display") == "block"){
+      divcollision = collision($('#task_right_wp'), $('#GDingbox_botcontainer'));
+    }
+    task_right_width = false;
+    task_right_display = $('#task_right_wp').css("display") == "block";
+    task_right_width0 = Math.round(($(".GB_course_box2").width())*0.85) == Math.round($("#task_right_wp").width());
+    task_right_width1 = Math.round(($(".GB_course_box2").width())*0.85)+1 == Math.round($("#task_right_wp").width());
+    task_right_width2 = Math.round(($(".GB_course_box2").width())*0.85)-1 == Math.round($("#task_right_wp").width());
+    if(task_right_width0 == true || task_right_width1 == true || task_right_width2 == true){
+      task_right_width = true;
+    }
+    if (divcollision == true && task_right_display == true && task_right_width == true)
+    {
       $('#right').show();
       $('#left').show();
+       div_left = $("#task_right_wp").offset().left;
+       div_width = $("#task_right_wp").width();
+       total = div_left +  div_width + 3;
+       hidden_val = parseInt($('#hid2').val());
+       hidden_width = parseInt($('#hid3').val());
+       if(hidden_val != total )
+       {
+       	if (div_width != hidden_width)
+          {
+          	hidden_val = total;
+          }
+          total = hidden_val;
+          $("#hid2").val(total);
+          $("#hid3").val(div_width);
+       }
+       if(div_width != 0)
+       { 
+         $("#right").offset({ left: total});
+       }
+      if ($('#task_right_wp').css("display")){
+      previous_val = parseInt($("#hid1").val() );
+      div_top = $('.GDingbox_botleft').offset().top;
+      if ( $.browser.mozilla ) {
+        if (previous_val <= 0){
+          $('#hid1').val(div_top);
+          $("#left").offset({ top: div_top-20});
+          $("#right").offset({ top: div_top-17});
+        }
+      }
+      else
+      { 
+        total_height =  div_top - $(window).scrollTop();
+        if (previous_val <= 0){
+          $('#hid1').val(div_top);
+          $("#left").offset({ top: total_height-20});
+          $("#right").offset({ top: total_height-17});
+        }
+      }
     }
-    else{
-      $('#right').hide();
-      $('#left').hide();
-    }
-  }, 200);
+  }
+  else{
+    $('#right').hide();
+    $('#left').hide();
+  }
+}, 200);
   
+  function left_offset(){
+    div_left = $("#task_right_wp").offset().left;
+    div_width = $("#task_right_wp").width();
+    total = div_left +  div_width + 3;
+    if(div_width != 0)
+      {
+        $("#right").offset({ left: total});
+      }
+  }
+  function top_offset(){
+    div_top = $('.GDingbox_botleft').offset().top;
+    if ( $.browser.mozilla ) {
+      $('#hid1').val(div_top);
+      $("#left").offset({ top: div_top-20});
+      $("#right").offset({ top: div_top-17});
+    }
+    else
+    {
+      total_height =  div_top - $(window).scrollTop();
+      $('#hid1').val(div_top);
+      $("#left").offset({ top: total_height-20});
+      $("#right").offset({ top: total_height-17});
+    }
+  }
 </script>
 
 

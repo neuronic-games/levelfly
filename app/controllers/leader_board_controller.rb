@@ -33,6 +33,11 @@ class LeaderBoardController < ApplicationController
       :conditions => conditions,
       :include => [:participants],
       :order => "xp desc")
+      
+    if filter == "friend"
+      @profiles << @profile
+      @profiles = @profiles.sort_by{|a| a.xp}.reverse
+    end
 
     render :partial => "/leader_board/rows"
   end
