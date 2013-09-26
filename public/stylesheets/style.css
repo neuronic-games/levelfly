@@ -4181,7 +4181,7 @@ border:solid 0px #000000;
 	padding:0 0 5px 0;
 }
 .badge_popup .icon{float:right;width:15%;}
-.selected_column{background-color:#DFD4B6 !important;}
+.selected_column, .selected_cell {background-color:#DFD4B6 !important;}
 .sign_out_btn{float:right; margin-right:10px;}
 .sign_out_img:hover{background: url("../images/signout_btn.png") !important;}
 /*.setting_box:hover{background: url("../images/setting_icon.png") !important;}*/
