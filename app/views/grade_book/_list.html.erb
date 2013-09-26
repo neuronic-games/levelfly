@@ -307,6 +307,11 @@ $(document).ready(function(){
   $("input[type=text]").live("focus",function(){
     // Select field contents
     this.select();
+    $(this).addClass('selected_cell');
+  });
+
+  $('input[type="text"').live("blur", function() {
+    $(this).removeClass('selected_cell');
   });
 
   //Toggle Tabs
