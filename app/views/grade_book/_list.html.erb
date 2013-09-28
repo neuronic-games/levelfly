@@ -242,6 +242,19 @@
         }
 
         return collection;
+      },
+      throttle: function(func, wait) {
+        var context, args, result, previous = 0;
+        return function() {
+          var now = Date.now();
+          context = this;
+          args = arguments;
+          if (wait - (now - previous) <= 0) {
+            previous = now;
+            result = func.apply(context, args)
+          }
+          return result;
+        }
       }
     }
   };
@@ -304,11 +317,27 @@ $(document).ready(function(){
     $('.GB_course_box2').css({'margin-top': '-230px'});
   } 
 
-  $("input[type=text]").live("focus",function(){
+  $("input[type=text]").live("focus", OnCampus.Utilities.throttle(function(event){
+    var $current = $("#" + this.id),
+        x = $current.offset(),
+        $task_right_wp = $(".task_right_wp"),
+        col_width = 60,
+        offset = $task_right_wp.offset(),
+        leftBound = offset.left,
+        rightBound = offset.left + $task_right_wp.width();
+
     // Select field contents
     this.select();
     $(this).addClass('selected_cell');
-  });
+
+    if (x.left + col_width > rightBound ) {
+      var adjust = (x.left + col_width) - rightBound;
+      $task_right_wp.scrollLeft($task_right_wp.scrollLeft() + adjust);
+    } else if (x.left < leftBound) {
+      var adjust = leftBound - x.left;
+      $task_right_wp.scrollLeft($task_right_wp.scrollLeft() - adjust);
+    }
+  }, 100));
 
   $('input[type="text"').live("blur", function() {
     $(this).removeClass('selected_cell');
@@ -698,11 +727,11 @@ $(document).ready(function(){
               if ($("#" + rel[i]).val() != data.grade[i]) {
                 console && console.log("grade calculations do not match", $("#" + rel[i]).val(), data.grade[i]);
                 $("#" + rel[i]).val(data.grade[i]);
+                if (entire_column == false) {
+                  $('#' + focusedId).focus();
+                }
               }
               $("#previous_grade").attr("value",data.previous_grade);
-            }
-            if (entire_column == false) {
-              document.getElementById(focusedId).focus();
             }
             if (entire_column == true) {
               $('.' + t_id)[0].focus();
@@ -938,12 +967,12 @@ $(document).ready(function(){
     id = $(this).attr("id");
      $("#last_id").attr("value", id);
     arr_ids.push(id);
-    document.getElementById(id).focus();
+    $('#' + id).focus();
     document.getElementById(id).select();
     previous_grade = $(this).val();
     $(this).removeClass("warning");
     if(final_value != "" || reset == true){
-      document.getElementById('reset_fields').focus(); 
+      $('#reset_fields').focus(); 
       $(this).attr("value",final_value);  
       $(this).trigger("change");
     }
