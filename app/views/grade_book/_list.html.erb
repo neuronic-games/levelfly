@@ -321,10 +321,14 @@ $(document).ready(function(){
     var $current = $("#" + this.id),
         x = $current.offset(),
         $task_right_wp = $(".task_right_wp"),
+        $window = $(window),
         col_width = 60,
+        row_height = 50,
         offset = $task_right_wp.offset(),
         leftBound = offset.left,
-        rightBound = offset.left + $task_right_wp.width();
+        rightBound = offset.left + $task_right_wp.width(),
+        topBound = 0,
+        bottomBound = $('#GDingbox_botcontainer').offset().top;
 
     // Select field contents
     this.select();
@@ -336,6 +340,12 @@ $(document).ready(function(){
     } else if (x.left < leftBound) {
       var adjust = leftBound - x.left;
       $task_right_wp.scrollLeft($task_right_wp.scrollLeft() - adjust);
+    } else if (x.top + row_height > bottomBound) {
+      var adjust = (x.top + row_height) - bottomBound;
+      $window.scrollTop($window.scrollTop() + adjust);
+    } else if (x.top - $window.scrollTop() < topBound) {
+      var adjust = topBound - (x.top - $window.scrollTop());
+      $window.scrollTop($window.scrollTop() - adjust);
     }
   }, 100));
 
