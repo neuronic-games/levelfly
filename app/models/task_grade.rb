@@ -24,8 +24,9 @@ class TaskGrade < ActiveRecord::Base
   end
   
   def self.task_grade_update(task_grade,grade_obj)
+    tg = GradeType.is_num(task_grade.to_s) ? task_grade : GradeType.letter_to_value(task_grade, 1)
     grade = grade_obj.grade
-    grade_obj.update_attribute('grade',task_grade)
+    grade_obj.update_attribute('grade', tg)
     return grade
   end
   
