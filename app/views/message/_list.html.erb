@@ -1,12 +1,6 @@
 <div class="messages_content load_messages">
   <div class="msg_content_left">
-    <div id="" class="message_wrapper">
-    <div style="margin-left: 90px; text-align:right;">
-      <textarea id="msg_content" name="msg_content" class="msg_content2" style ="width:99%" placeholder="<%= friend_id && !friend_id.nil? ? "Send a New Private Message to #{@friend.full_name}..." : "Share with all friends..."%>"></textarea> <br />
-      <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');$('#msg_content').css('height','');">Clear</a>
-      <a href="javascript:void(0)" <%if friend_id && !friend_id.nil? %>id="<%=friend_id%>" rel="Profile"<%else%>id="<%=user_session[:profile_id]%>" rel=""<%end%> class="sbmt_msg blue_bt19px" title="msg_content" onclick="javascript:void(0);">Post</a>
-    </div>
-  </div>
+    
     <!-- Invites -->
    
     <% if @friend_requests and not @friend_requests.empty? %>
@@ -35,8 +29,15 @@
       <% end %>
      <!-- Message -->
    <h2><!-- Post Message --></h2>
-   <h2 style="font-size:16px;"><%= friend_id && !friend_id.nil? ? "Private Messages With #{@friend.full_name}" : "MESSAGES"%>
+   <h2 style="font-size:16px;"><%= friend_id && !friend_id.nil? ? "Private Messages With #{@friend.full_name}" : "Messages Shared With All Friends"%>
    </h2>
+    <div id="" class="message_wrapper">
+      <div style="margin-left: 90px; text-align:right;">
+        <textarea id="msg_content" name="msg_content" class="msg_content2" style ="width:99%" placeholder="<%= friend_id && !friend_id.nil? ? "Send a New Private Message to #{@friend.full_name}..." : "Share with all friends..."%>"></textarea> <br />
+        <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#msg_content').val('');$('#msg_content').css('height','');">Clear</a>
+        <a href="javascript:void(0)" <%if friend_id && !friend_id.nil? %>id="<%=friend_id%>" rel="Profile"<%else%>id="<%=user_session[:profile_id]%>" rel=""<%end%> class="sbmt_msg blue_bt19px" title="msg_content" onclick="javascript:void(0);">Post</a>
+      </div>
+    </div>
 	 <% if @messages.length > 0 %>
 		 <div id="show_all_cmnts_div" class="linkcolour">
 			<a href="javascript:void(0)" id="all_cmnts">Show All Comments</a>
@@ -57,6 +58,7 @@
          <a href="javascript:void(0);" load="messages" <%if friend_id && !friend_id.nil? %>id="friend_page" friend_id="<%=friend_id%>"<%else%>id="main_messages_page" friend_id=""<%end%> class="blue_bt19px">MORE</a>
        </span>
      <% end %>
+    
       <div class="end_of_page"></div>
        
     <!-- Notes -->
