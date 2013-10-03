@@ -924,6 +924,8 @@ $(document).ready(function(){
 
   //Save grade on key up/down
   $(".grade_book_content").delegate("input","keydown",function(e){
+    $(".task_right_wp").removeClass('mouse_mode').addClass('keyboard_mode');
+
     entire_column = false
     $(this).removeClass("warning");
     if (e.keyCode == 40) {
@@ -1322,6 +1324,7 @@ $(document).ready(function(){
   }
   //show entire column on hover 
   $("table td").live("mouseover",function(){
+    $(".task_right_wp").removeClass('keyboard_mode').addClass('mouse_mode');
   //$("table td").hover(function() {
       var id = $(this).attr("id");
       if($(this).attr("rel")=="grade_column"){

@@ -3619,7 +3619,7 @@ filter:alpha(opacity="0");
 .jTscrollerPrevButton{margin:-9px 0px 0px 6px; top:0; width:58%; background:url("../images/up_arrow.png") no-repeat scroll center, url("../images/left_navigation_mask.png") repeat scroll center;}
 
 
-.editable_field:hover {
+.mouse_mode .editable_field:hover {
   background: #DFD4B6!important;
   cursor: hand;cursor: pointer;
  
@@ -4181,7 +4181,7 @@ border:solid 0px #000000;
 	padding:0 0 5px 0;
 }
 .badge_popup .icon{float:right;width:15%;}
-.selected_column, .selected_cell {background-color:#DFD4B6 !important;}
+.keyboard_mode .selected_cell {background-color:#DFD4B6 !important;}
 .sign_out_btn{float:right; margin-right:10px;}
 .sign_out_img:hover{background: url("../images/signout_btn.png") !important;}
 /*.setting_box:hover{background: url("../images/setting_icon.png") !important;}*/
