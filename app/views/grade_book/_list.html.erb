@@ -167,6 +167,7 @@
         }
 
         total = total / (used / 100.0)
+
         if (isNaN(total)) {
           grade = '';
         } else {
@@ -176,6 +177,8 @@
         }
 
         $('#' + profile_id).val(grade);
+
+        return grade;
       },
       link_task_grades: function(task_grades) {
         for (var i = 0; this.participants && i < this.participants.length; i++) {
@@ -187,7 +190,12 @@
         }
       },
       letter_grade_to_score: function(grade) {
-        var g = OnCampus.Utilities.find_first(this.grade_types, function(grade_type) {
+        var score = parseInt(grade),
+            g;
+        
+        if (!isNaN(score)) return score;
+
+        g = OnCampus.Utilities.find_first(this.grade_types, function(grade_type) {
           return grade_type.letter == grade;
         });
 
@@ -1517,6 +1525,7 @@ $(document).ready(function(){
         cols.addClass("Name_box td_align");
         cols.html(value.full_name);
         cols2.addClass("");
+        value.grade = OnCampus.GradeBook.recalculate_course_grade(value.profile_id);
         var  text = $("<input type ='text' value = '"+value.grade+"' id = '"+ value.profile_id +"' maxlength='1' readonly='readonly' size='5'/>")         
         text.addClass("task_grade")         
         div.html(text);        
