@@ -313,7 +313,7 @@ $(document).ready(function(){
   $('textarea[name="loaded_outcomes_descr[]"]').unbind('blur').bind('blur', function(){
     var outcome_id = $(this).attr('rel');
     var outcome = $(this).val();
-    var dataString = 'outcome_id=' + outcome_id + '&outcome_descr=' + escape(outcome);
+    var dataString = {outcome_id:outcome_id, outcome_descr:outcome}
     update_outcomes(dataString,outcome_id)
   });
   
@@ -341,7 +341,7 @@ $(document).ready(function(){
   $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
     var outcome_id = $(this).attr('rel');
     var outcome = $(this).val();
-    var dataString = 'outcome_id=' + outcome_id + '&outcome=' + escape(outcome);
+    var dataString = {outcome_id:outcome_id, outcome:outcome}
     update_outcomes(dataString,outcome_id)
   });
 
