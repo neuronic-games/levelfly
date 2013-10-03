@@ -737,9 +737,6 @@ $(document).ready(function(){
               if ($("#" + rel[i]).val() != data.grade[i]) {
                 console && console.log("grade calculations do not match", $("#" + rel[i]).val(), data.grade[i]);
                 $("#" + rel[i]).val(data.grade[i]);
-                if (entire_column == false) {
-                  $('#' + focusedId).focus();
-                }
               }
               $("#previous_grade").attr("value",data.previous_grade);
             }
