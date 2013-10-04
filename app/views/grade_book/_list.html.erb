@@ -1042,8 +1042,8 @@ $(document).ready(function(){
             var rows2 =$("<tr></tr>");
             if(data.outcomes.length>0){
               $(data.outcomes).each(function(i, outcomes){
-                var grade_col =$("<td></td>");
-                var outcomes_col =$("<td></td>");
+                var grade_col =$("<td class=\"outcome_cell\"></td>");
+                var outcomes_col =$("<td class=\"outcome_cell\"></td>");
                 var outcome_name =$("<div></div>"); 
                 outcomes_col.addClass("red_border1");
                 if(p==0){
@@ -1060,8 +1060,8 @@ $(document).ready(function(){
               });
             }
             else{
-              var grade_col =$("<td></td>");
-              var outcomes_col =$("<td></td>");
+              var grade_col =$("<td class=\"outcome_cell\"></td>");
+              var outcomes_col =$("<td class=\"outcome_cell\"></td>");
               var outcome_name =$("<div></div>"); 
               outcomes_col.addClass("red_border1");
               if(p==0){
@@ -1089,8 +1089,8 @@ $(document).ready(function(){
               var rows2 =$("<tr></tr>");
               if(data.outcomes.length>0){
                 $(data.outcomes).each(function(i, outcomes){
-                  var grade_col =$("<td></td>");
-                  var outcomes_col =$("<td></td>");
+                  var grade_col =$("<td class=\"outcome_cell\"></td>");
+                  var outcomes_col =$("<td class=\"outcome_cell\"></td>");
                   var outcome_name =$("<div></div>");
                   outcomes_col.addClass("red_border1");
                   if(p==0){
@@ -1107,8 +1107,8 @@ $(document).ready(function(){
                 });
               }
               else{
-                var grade_col =$("<td></td>");
-                var outcomes_col =$("<td></td>");
+                var grade_col =$("<td class=\"outcome_cell\"></td>");
+                var outcomes_col =$("<td class=\"outcome_cell\"></td>");
                 var outcome_name =$("<div></div>"); 
                 if(p==0){
                   outcome_name.html("");
@@ -1262,24 +1262,22 @@ $(document).ready(function(){
   $(".show_hide_outcomes").click(function(){
     var course_id = $("#course_id").val();
     var show = $(this).attr("show");
-    showSpinner(true);
+
+    $('.task_right_wp').toggleClass('hide_outcomes', show == "false");
+
+    if (show == "false"){
+      $('.show_hide_outcomes').attr("show","true");
+      $('.show_hide_outcomes').html("Show outcomes");
+    }else{
+      $('.show_hide_outcomes').attr("show","false");
+      $('.show_hide_outcomes').html("hide outcomes");
+    }
+
     $.ajax({
       type:"POST",
       url:"/grade_book/show_outcomes",
       data:{course_id:course_id,show:show},
-      error:  function(e){alert("error");},
-      success: function(resp){       
-          $("#all_participant").html(resp);
-          if (show == "false"){
-            $('.show_hide_outcomes').attr("show","true");
-            $('.show_hide_outcomes').html("Show outcomes");
-          }else{
-            $('.show_hide_outcomes').attr("show","false");
-            $('.show_hide_outcomes').html("hide outcomes");
-          }
-          top_offset();
-          showSpinner(false);
-        }      
+      error:  function(e){alert("error");}      
     });
   });
   $("#finalize").click(function(){
@@ -1451,11 +1449,11 @@ $(document).ready(function(){
         row_td.append(name_div);
         table_row.append(row_td);
         table_row.append(row_td2);
-        if (item.show_outcomes==true  && data.show_outcomes == true){
+        if (item.show_outcomes==true){
           if(outcomes_length>0){
               for (j=0; j<outcomes_length; j++){
                var outcome_div = $("<div></div>");
-               var outcome_td = $("<td></td>");
+               var outcome_td = $("<td class=\"outcome_cell\"></td>");
                var fill_icon_div2 = $("<div></div>");
                outcome_td.addClass("hover width60px line_height24px");
                outcome_td.attr("rel","grade_column")
@@ -1534,8 +1532,8 @@ $(document).ready(function(){
         rows.append(col2);
         if(outcomes.length>0){
           $(outcomes).each(function(i, outcomes){
-            var grade_col =$("<td></td>");
-            var outcomes_col =$("<td></td>");
+            var grade_col =$("<td class=\"outcome_cell\"></td>");
+            var outcomes_col =$("<td class=\"outcome_cell\"></td>");
             var outcome_name =$("<div></div>"); 
             outcomes_col.addClass("red_border1");
             if(p==0){
@@ -1616,12 +1614,12 @@ $(document).ready(function(){
           rows.append(task_name_column);
           rows.append(task_grade);
           rows.append(column);
-          if (task.show_outcomes==true && data.show_outcomes == true){
+          if (task.show_outcomes==true){
             if(len>0){
               for (i=0; i<len; i++)
               {
-                var point_column =$("<td></td>");
-                var outcome =$("<td></td>");
+                var point_column =$("<td class=\"outcome_cell\"></td>");
+                var outcome =$("<td class=\"outcome_cell\"></td>");
                 var outcome_div =$("<div></div>");             
                 var  text_point = $("<input type ='text' name='task_grade' value = '"+value.task_outcome_grade[count]+"' id = 'p_"+value.profile_id+"_"+task.task_outcomes[i].id+"_"+task.id +"' data='"+task.include_task_grade+"' rel='p_"+value.profile_id+"_"+task.task_outcomes[i].id+"' maxlength='1' size='2'/>");
                 count = count + 1 ;
@@ -1717,8 +1715,8 @@ $(document).ready(function(){
         if(outcomes.length>0){
           $(outcomes).each(function(i, outcomes){
 
-            var grade_col =$("<td></td>");
-            var outcomes_col =$("<td></td>");
+            var grade_col =$("<td class=\"outcome_cell\"></td>");
+            var outcomes_col =$("<td class=\"outcome_cell\"></td>");
             var outcome_name =$("<div></div>"); 
             outcomes_col.addClass("red_border1");
             if(p==0){
@@ -1798,12 +1796,12 @@ $(document).ready(function(){
           rows.append(task_name_column);
           rows.append(task_grade);
           rows.append(column);
-          if (task.show_outcomes==true && data.show_outcomes == true){
+          if (task.show_outcomes==true){
             if(len>0){
               for (i=0; i<len; i++)
               {
-                var point_column =$("<td></td>");
-                var outcome =$("<td></td>");
+                var point_column =$("<td class=\"outcome_cell\"></td>");
+                var outcome =$("<td class=\"outcome_cell\"></td>");
                 var outcome_div =$("<div></div>");             
                 var  text_point = $("<input type ='text' value = '' id = '' rel = '' readonly='readonly' maxlength='1' size='2'/>");
     
@@ -1873,7 +1871,7 @@ $(document).ready(function(){
      $('.GB_left_table').replaceWith(table);
      $('.GB_right_table').replaceWith(table2);
      $('.heading_task').replaceWith(table3);
-     $(".task_right_wp").scrollLeft(0);
+     $(".task_right_wp").scrollLeft(0).toggleClass('hide_outcomes', !data.show_outcomes);
      /*scroll_div(last_task);
      last_task = 0;*/
     left_offset();

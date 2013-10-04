@@ -312,19 +312,9 @@ class GradeBookController < ApplicationController
   
   def show_outcomes
     show_outcomes = params[:show] == "true" ? true : false
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @latest_course = Course.find(params[:course_id])
     @latest_course.update_attribute("show_outcomes",show_outcomes)
-    @course_id = @latest_course.id
-    @school_id = @profile.school_id
-    @outcomes = @latest_course.outcomes.order('name')
-    @participant = Participant.all( :joins => [:profile], 
-      :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
-      :select => ["profiles.full_name,participants.id,participants.profile_id"],
-      :order => "full_name")
-    @tasks =  Course.sort_course_task(params[:course_id])
-    @count = @participant.count
-    render :partial => "/grade_book/show_participant", :locals => {:previous_grade=>nil}
+    render :json => {:success => true}
   end
   
   def course_outcomes

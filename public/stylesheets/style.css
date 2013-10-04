@@ -3222,6 +3222,9 @@ filter:alpha(opacity="0");
 .task_member .avtar{float:left; margin-left:10px;}
 .margin_top{margin-top:10px;}
 .check_box_completion{float:left; margin-top:35px;margin-right:10px}
+
+.hide_outcomes .outcome_cell { display: none; }
+
 /********************************group page************************************/
 
 .group_image_name {

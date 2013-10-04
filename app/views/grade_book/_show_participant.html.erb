@@ -126,7 +126,7 @@
     
   </div><!--task_left_wp-->
 
-  <div class="task_right_wp" id = "task_right_wp" style="max-width:85%">
+  <div class="task_right_wp <% if !@latest_course.show_outcomes %>hide_outcomes<% end %>" id = "task_right_wp" style="max-width:85%">
   
     <table width="100%" border="0" cellpadding="0" cellspacing="0" id="heading_task" class="heading_task"><!--Right side table-->
       <tr class="task_right_heading" id = "table_heading"><!--Top row for filling grades-->
@@ -148,7 +148,7 @@
               </td>
                <%if t.show_outcomes%>
                  <% @task_outcomes = t.outcomes.sort_by{|m| m.name.downcase}%>
-                  <%if @task_outcomes.length>0 and @latest_course.show_outcomes%>
+                  <%if @task_outcomes.length>0%>
                     <% if !@task_outcomes.nil?%>
                       <% @task_outcomes.each_with_index do |o,j|%>
                       <td  class="hover width60px line_height24px" id="<%=t.id%>_<%=o.id%>" rel="grade_column">
@@ -192,15 +192,15 @@
                   <input type="text" name="task_grade" value="<%=grade%>" id="g_<%=p.profile_id%>_<%=t.id%>" rel="<%=p.profile_id%>" data="<%=t.include_task_grade%>" class="task_grade editable_field t_<%=t.id%> col_width" maxlength="6" size="2"/>
                 </td>
                <%if t.show_outcomes%>
-                 <%if @task_outcomes.length>0 and @latest_course.show_outcomes%>
+                 <%if @task_outcomes.length>0%>
                   <% if !@task_outcomes.nil?%>
                     <% @task_outcomes.each_with_index do |o,j|%>
                      
-                    <td class="white_border <%if i%2==0%>Dark_no<%else%>light_row<%end%> width_30 hover ">
+                    <td class="white_border <%if i%2==0%>Dark_no<%else%>light_row<%end%> width_30 hover outcome_cell">
                       <div class="GB_outcomment2 rotate_text line_height47px" id ="<%=t.id%>_<%=o.id%>"><%if i == 0%><%=o.name%><%end%></div>
                     </td>
                     <%outcome_grade = OutcomeGrade.load_task_outcomes(@school_id, @course_id,t.id,p.profile_id,o.id)%>
-                    <td class="first_row_layout o_<%=t.id%>_<%=o.id%> <%if i%2==0%>Dark_no<%else%>light_row<%end%> width_30 td_align">
+                    <td class="first_row_layout o_<%=t.id%>_<%=o.id%> <%if i%2==0%>Dark_no<%else%>light_row<%end%> width_30 td_align outcome_cell">
                       <input type="text" name="task_grade" value="<%=outcome_grade%>" id="p_<%=p.profile_id%>_<%=o.id%>_<%=t.id%>" rel="p_<%=p.profile_id%>_<%=o.id%>" data="<%=t.include_task_grade%>" class="task_grade editable_field <%=t.id%>_<%=o.id%> col_width" maxlength="1" size="2"/>
                     </td>
                     <%end%>
@@ -236,14 +236,14 @@
                  <input type="text" name="task_grade" value="" id="" rel = "" class="task_grade col_width" readonly="readonly" maxlength="2" size="2"/>
                </td>
                <%if t.show_outcomes%>
-                 <%if @task_outcomes.length>0 and @latest_course.show_outcomes%>
+                 <%if @task_outcomes.length>0%>
                   <% if !@task_outcomes.nil?%>
                     <% @task_outcomes.each_with_index do |o,j|%>
-                    <td class="white_border <%if i%2==0%>Dark_no<%else%>light_row<%end%> width_30 hover " >
+                    <td class="white_border <%if i%2==0%>Dark_no<%else%>light_row<%end%> width_30 hover outcome_cell" >
                       <div class="GB_outcomment2 rotate_text" id =""></div>
                     </td>
                    
-                    <td class="o_<%=t.id%>_<%=o.id%> <%if i%2==0%>Dark_no<%else%>light_row<%end%> width_30 td_align">
+                    <td class="o_<%=t.id%>_<%=o.id%> <%if i%2==0%>Dark_no<%else%>light_row<%end%> width_30 td_align outcome_cell">
                       <input type="text" name="task_point" value="" id="" rel= ""class="task_grade col_width" readonly="readonly" maxlength="1" size="2"/>
                     </td>
                     <%end%>
