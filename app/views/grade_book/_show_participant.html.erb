@@ -151,7 +151,7 @@
                   <%if @task_outcomes.length>0%>
                     <% if !@task_outcomes.nil?%>
                       <% @task_outcomes.each_with_index do |o,j|%>
-                      <td  class="hover width60px line_height24px" id="<%=t.id%>_<%=o.id%>" rel="grade_column">
+                      <td  class="hover width60px line_height24px outcome_cell" id="<%=t.id%>_<%=o.id%>" rel="grade_column">
                         <div id="img_<%=t.id%>_<%=o.id%>" class="hide">
                          <img id="" src="images/btn_fill_column.png"/>
                        </div>

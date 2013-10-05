@@ -346,7 +346,7 @@ $(document).ready(function(){
       var adjust = (x.left + col_width) - rightBound;
       $task_right_wp.scrollLeft($task_right_wp.scrollLeft() + adjust);
     } else if (x.left < leftBound) {
-      var adjust = leftBound - x.left;
+      var adjust = leftBound - x.left + 35;
       $task_right_wp.scrollLeft($task_right_wp.scrollLeft() - adjust);
     } else if (x.top + row_height > bottomBound) {
       var adjust = (x.top + row_height) - bottomBound;
@@ -929,7 +929,6 @@ $(document).ready(function(){
 
   //Save grade on key up/down
   $(".grade_book_content").delegate("input","keydown",function(e){
-    $(".task_right_wp").removeClass('mouse_mode').addClass('keyboard_mode');
 
     entire_column = false
     $(this).removeClass("warning");
@@ -956,21 +955,20 @@ $(document).ready(function(){
       return false;
     }
     else if (e.keyCode == 39) {
-      if ($(this).parent("td").next("td").next("td").find("input").attr("rel") == undefined) {
-        var next_profile_id = $(this).parents("td").next("td").find("input").first().attr("id");
+      if ($(this).parent("td").next("td:visible").next("td:visible").find("input").attr("rel") == undefined) {
+        var next_profile_id = $(this).closest("td.red_border").next("td.red_border").find("input:visible").first().attr("id");
       }
       else {
-        var next_profile_id = $(this).parent("td").next("td").next("td").find("input").first().attr("id");
+        var next_profile_id = $(this).parent("td").next("td:visible").next("td:visible").find("input").first().attr("id");
       }
       $("#"+next_profile_id).focus();
       return false;
     }
     else if (e.keyCode == 37) {
-      if ($(this).parent("td").prev("td").prev("td").find("input").attr("rel") == undefined) {
-        var next_profile_id = $(this).parents("td").prev("td").last().find("input").last().attr("id");
-      }
-      else {
-        var next_profile_id = $(this).parent("td").prev("td").prev("td").find("input").attr("id");
+      if ($(this).parent("td").prev("td:visible").prev("td:visible").find("input").attr("rel") == undefined) {
+        var next_profile_id = $(this).closest("td.red_border").prev("td.red_border").find("input:visible").last().attr("id");
+      } else {
+        var next_profile_id = $(this).parent("td").prev("td:visible").prev("td:visible").find("input").attr("id");
       }
       $("#"+next_profile_id).focus();
       return false;
@@ -1326,30 +1324,26 @@ $(document).ready(function(){
      $(".task_right_wp").animate({scrollLeft: (x.left-div.left)+position-15 }, 1000);
   }
   //show entire column on hover 
-  $("table td").live("mouseover",function(){
-    $(".task_right_wp").removeClass('keyboard_mode').addClass('mouse_mode');
-  //$("table td").hover(function() {
-      var id = $(this).attr("id");
-      if($(this).attr("rel")=="grade_column"){
-        $("td[id="+id+"]").each(function(index,item){
-          $(".selected_"+item.id).addClass("selected_column"); 
-          $(".o_"+item.id).addClass("selected_column");
-          $("#img_"+id).removeClass("hide");
-        });
-      
-      }
-    }); 
-    $("table td").live("mouseleave",function(){
-      var id = $(this).attr("id");
-      if($(this).attr("rel")=="grade_column"){
-       $("td[id="+id+"]").each(function(index,item){
-          $(".selected_"+item.id).removeClass("selected_column");
-          $(".o_"+item.id).removeClass("selected_column");  
-          $("#img_"+id).addClass("hide");
-        });
-      }
-     }); 
-
+  $("table td").live("mouseover",function(e){
+    var id = $(this).attr("id");
+    if($(this).attr("rel")=="grade_column"){
+      $("td[id="+id+"]").each(function(index,item){
+        $(".selected_"+item.id).addClass("selected_column"); 
+        $(".o_"+item.id).addClass("selected_column");
+        $("#img_"+id).removeClass("hide");
+      });
+    }
+  });
+  $("table td").live("mouseleave",function(){
+    var id = $(this).attr("id");
+    if($(this).attr("rel")=="grade_column"){
+      $("td[id="+id+"]").each(function(index,item){
+        $(".selected_"+item.id).removeClass("selected_column");
+        $(".o_"+item.id).removeClass("selected_column");  
+        $("#img_"+id).addClass("hide");
+      });
+    }
+  }); 
   function save_new_task() {
     var outcomeObject = [];
     i = 0;

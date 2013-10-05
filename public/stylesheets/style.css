@@ -3621,12 +3621,6 @@ filter:alpha(opacity="0");
 .jTscrollerNextButton{margin:0px 0px -14px 6px; bottom:0; width:58%; background:url(../images/down_arrow.png) no-repeat center, url("../images/left_navigation_mask.png") repeat center; padding:0px 0 0 0; z-index:9999;}
 .jTscrollerPrevButton{margin:-9px 0px 0px 6px; top:0; width:58%; background:url("../images/up_arrow.png") no-repeat scroll center, url("../images/left_navigation_mask.png") repeat scroll center;}
 
-
-.mouse_mode .editable_field:hover {
-  background: #DFD4B6!important;
-  cursor: hand;cursor: pointer;
- 
-}
 .task_grade{ text-align:center; text-transform:uppercase; height:47px;min-width:53px;}
 .td_align{vertical-align:middle;}
 .col_width{ min-width: 40px;}
@@ -4184,7 +4178,7 @@ border:solid 0px #000000;
 	padding:0 0 5px 0;
 }
 .badge_popup .icon{float:right;width:15%;}
-.keyboard_mode .selected_cell {background-color:#DFD4B6 !important;}
+.selected_cell {background-color:#DFD4B6 !important;}
 .sign_out_btn{float:right; margin-right:10px;}
 .sign_out_img:hover{background: url("../images/signout_btn.png") !important;}
 /*.setting_box:hover{background: url("../images/setting_icon.png") !important;}*/
