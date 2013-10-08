@@ -63,4 +63,7 @@ Oncapus::Application.configure do
 
   # Used for password reminder emails
   config.action_mailer.default_url_options = { :host => 'oncampus.heroku.com' }
+  
+  # replace this with your tracker code
+  GA.tracker = "UA-44679323-1"
 end
