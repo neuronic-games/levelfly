@@ -121,7 +121,8 @@
             task_grade = OnCampus.Utilities.find_first(profile.task_grades, function(task_grade) {
               return task_grade.task_id == task_id;
             }),
-            grade_string;
+            grade_string,
+            g;
 
         if (!task_grade) {
           var id = (OnCampus.Utilities.max(profile.task_grades, "id") || 0) + 1;
@@ -129,14 +130,14 @@
           profile.task_grades.push(task_grade);
         }
 
-        // profile.task_grade[task_index] = grade;
-        if (grade === '') {
+        g = this.letter_grade_to_score(grade);
+        if (isNaN(g)) {
           // remove the task_grade
           profile.task_grades = $.grep(profile.task_grades, function(tg) {
             return task_grade.id != tg.id;
           });
         } else {
-          task_grade.grade = this.letter_grade_to_score(grade);          
+          task_grade.grade = g;          
         }
 
         this.recalculate_course_grade(profile_id);
@@ -165,7 +166,6 @@
             used += category.percent_value;
           }
         }
-
         total = total / (used / 100.0)
 
         if (isNaN(total)) {
@@ -199,12 +199,12 @@
           return grade_type.letter == grade;
         });
 
-        return g ? g.value : 0;
+        return g ? g.value : NaN;
       },
       // counts on this.grade_types being sorted in descending order (A to F)
       score_to_letter_grade: function(score) {
         var i;
-        for (i = 0; this.grade_types[i].value_min > score; i++);
+        for (i = 0; this.grade_types[i].value_min > parseFloat(score); i++);
         return this.grade_types[i].letter;
       }
     },
@@ -357,7 +357,7 @@ $(document).ready(function(){
     }
   }, 100));
 
-  $('input[type="text"').live("blur", function() {
+  $('input[type="text"]').live("blur", function() {
     $(this).removeClass('selected_cell');
   });
 
