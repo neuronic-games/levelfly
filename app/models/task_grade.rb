@@ -57,13 +57,12 @@ class TaskGrade < ActiveRecord::Base
   def self.grade_average(school_id,course_id,profile_id,task_id = nil,task_grade = nil)
     average = 0
     flag = false
-    category_count = []
     category_percent_value = []
     category_used = 0
     tasks = Task.find(:all,:conditions => ["course_id = ? and archived = false",course_id])
-    categories = Category.find(:all,:conditions => ["course_id = ?",course_id]).collect(&:percent_value)
-    categories.each_with_index do |category,i|
-      category_count[i] = 0
+    c = Category.find(:all,:conditions => ["course_id = ?",course_id])
+    categories = c.map do |category|
+      {:id => category.id, :percent_value => category.percent_value, :count => 0}
     end
     previous_task_grade = TaskGrade.where("school_id = ? and course_id = ? and task_id =? and profile_id = ? ",school_id,course_id,task_id,profile_id).first if task_id
     previous_grade = previous_task_grade.grade if previous_task_grade
@@ -77,20 +76,27 @@ class TaskGrade < ActiveRecord::Base
       if task.category
         tg = TaskGrade.find(:first,:conditions => ["school_id = ? and course_id = ? and task_id =? and profile_id = ?",school_id,course_id,task.id,profile_id])
         if tg and tg.grade
-          category_count[categories.find_index(task.category.percent_value)] += 1
-          category_used += task.category.percent_value if category_count[categories.find_index(task.category.percent_value)] == 1
+          category_index = categories.index{|category| task.category.id == category[:id]}
+          category = categories[category_index]
+          category[:count] += 1
+          category_used += task.category.percent_value if category[:count] == 1
         end
       end
     end
-    category_count.each_with_index do |count,j|
-      category_percent_value[j] = categories[j]/count.to_f unless count == 0
-      category_percent_value[j] = 0 if count == 0
+    categories.each do |category|
+      if category[:count] == 0
+        category[:percent_share] = 0
+      else
+        category[:percent_share] = category[:percent_value] / category[:count].to_f unless count == 0
+      end
     end
     tasks.each do |task|
       if task.category
         tg = TaskGrade.find(:first,:conditions => ["school_id = ? and course_id = ? and task_id =? and profile_id = ?",school_id,course_id,task.id,profile_id])
         if tg and tg.grade
-          average += tg.grade*category_percent_value[categories.find_index(task.category.percent_value)]/category_used unless category_used == 0
+          category_index = categories.index{|category| task.category.id == category[:id]}
+          percent_share = categories[category_index][:percent_share]
+          average += tg.grade * percent_share / category_used unless category_used == 0
           flag = true
         end
       end

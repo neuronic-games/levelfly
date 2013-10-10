@@ -220,7 +220,7 @@ class GradeBookController < ApplicationController
         previous_grade=""
         if num == false     
           task_grade = GradeType.letter_to_value(task_grade, school_id)
-          task_grade = task_grade.to_i unless task_grade.nil?
+          task_grade = task_grade.to_f unless task_grade.nil?
         end
       end
     

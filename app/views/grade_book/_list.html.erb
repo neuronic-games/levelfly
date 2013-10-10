@@ -111,6 +111,18 @@
       tasks: null,
       participants: null,
       grade_types: null,
+      grade_updates: {},
+      register_grade_update: function(profile_id, grade_string, timestamp) {
+        this.grade_updates[profile_id + ''] = {'grade_string': grade_string, 'timestamp': timestamp};
+      },
+      resolve_grade_update: function(profile_id, timestamp) {
+        var u = this.grade_updates[profile_id + ''];
+        if (u && u.timestamp == timestamp) {
+          this.grade_updates[profile_id + ''] = null;
+          return u.grade_string;
+        }
+        return null;
+      },
       update_task_grade: function(profile_id, task_id, grade, data_string) {
         var task_index = OnCampus.Utilities.index_of_first(this.tasks, function(task) {
               return task.id == task_id;
@@ -131,6 +143,7 @@
         }
 
         g = this.letter_grade_to_score(grade);
+
         if (isNaN(g)) {
           // remove the task_grade
           profile.task_grades = $.grep(profile.task_grades, function(tg) {
@@ -140,7 +153,7 @@
           task_grade.grade = g;          
         }
 
-        this.recalculate_course_grade(profile_id);
+        return this.recalculate_course_grade(profile_id);
       },
       recalculate_course_grade: function(profile_id) {
         var profile = OnCampus.Utilities.find_first(this.participants, function(participant) {
@@ -191,12 +204,13 @@
       },
       letter_grade_to_score: function(grade) {
         var score = parseInt(grade),
+            uppercase_grade = grade ? grade.toUpperCase() : '',
             g;
         
         if (!isNaN(score)) return score;
 
         g = OnCampus.Utilities.find_first(this.grade_types, function(grade_type) {
-          return grade_type.letter == grade;
+          return grade_type.letter == uppercase_grade;
         });
 
         return g ? g.value : NaN;
@@ -707,7 +721,9 @@ $(document).ready(function(){
             task_id = ids[2],
             task_grade = String(val.replace(/\+/g, "%2B")).toUpperCase(),
             show = $('.show_hide_outcomes').attr("show"),
-            profile_id = rel;
+            profile_id = rel,
+            grade,
+            timestamp = Date.now();
 
         for(i = 0; i<rel.length;i++) {
           $("input[rel="+rel[i]+"]").each(function(index,item){
@@ -722,7 +738,8 @@ $(document).ready(function(){
             }
           });
 
-          OnCampus.GradeBook.update_task_grade(rel[i], task_id, vals[i], datastring);
+          grade = OnCampus.GradeBook.update_task_grade(rel[i], task_id, vals[i], datastring);
+          OnCampus.GradeBook.register_grade_update(rel[i], grade, timestamp);
 
           arrOfgrades.push(grades);
           grades=[];
@@ -740,13 +757,18 @@ $(document).ready(function(){
           url: "/grade_book/grade_calculate", 
           data: datastring,
           error: function(e){alert("error");},
-          success: function(data){
+          success: function(data) {
             for(i = 0; i<rel.length;i++) {
-              if ($("#" + rel[i]).val() != data.grade[i]) {
-                console && console.log("grade calculations do not match", $("#" + rel[i]).val(), data.grade[i]);
-                $("#" + rel[i]).val(data.grade[i]);
+              var u = OnCampus.GradeBook.resolve_grade_update(rel[i], timestamp);
+              if (u) {
+                if (u != data.grade[i]) {
+                  if (console && console.log) {
+                    console.log("grade calculations do not match", $("#" + rel[i]).val(), data.grade[i]);
+                  }
+                  $("#" + rel[i]).val(data.grade[i]);
+                }
+                $("#previous_grade").attr("value",data.previous_grade);
               }
-              $("#previous_grade").attr("value",data.previous_grade);
             }
             if (entire_column == true) {
               $('.' + t_id)[0].focus();
