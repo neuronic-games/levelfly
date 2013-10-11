@@ -218,7 +218,7 @@
       // counts on this.grade_types being sorted in descending order (A to F)
       score_to_letter_grade: function(score) {
         var i;
-        for (i = 0; this.grade_types[i].value_min > parseFloat(score); i++);
+        for (i = 0; this.grade_types[i].value_min > parseFloat(score) && this.grade_types[i].value_min > 0; i++);
         return this.grade_types[i].letter;
       }
     },
@@ -339,7 +339,7 @@ $(document).ready(function(){
     $('.GB_course_box2').css({'margin-top': '-230px'});
   } 
 
-  $("input[type=text]").live("focus", OnCampus.Utilities.throttle(function(event){
+  $("input[type=text]").live("focus", function(event) {
     var $current = $("#" + this.id),
         x = $current.offset(),
         $task_right_wp = $(".task_right_wp"),
@@ -369,7 +369,7 @@ $(document).ready(function(){
       var adjust = topBound - (x.top - $window.scrollTop());
       $window.scrollTop($window.scrollTop() - adjust);
     }
-  }, 100));
+  });
 
   $('input[type="text"]').live("blur", function() {
     $(this).removeClass('selected_cell');
@@ -689,6 +689,9 @@ $(document).ready(function(){
         else{
            var datastring ='school_id=' +school_id+ '&course_id=' +course_id+ '&task_id=' +task_id+ '&outcome_id='+outcome_id+ '&profile_id=' +arrOfProfile+ '&average=' +arr_average+ '&outcome_val=' +val
         }
+
+        arr_rel=[];
+
         $.ajax({
           type :"POST",
           url: "/grade_book/outcomes_points", 
@@ -708,7 +711,6 @@ $(document).ready(function(){
 
             arr_average=[]; 
             arr_profile=[];
-            arr_rel=[];
             previous_values=[];
             arr_ids=[];
 
@@ -752,6 +754,8 @@ $(document).ready(function(){
            var datastring ='school_id=' +school_id+ '&course_id=' +course_id+ '&task_id=' +task_id+ '&characters='+arrOfgrades+ '&profile_id=' +profile_id+ '&task_grade=' +task_grade+ '&show='+show
         }
 
+        arr_rel=[];
+
         $.ajax({
           type :"POST",
           url: "/grade_book/grade_calculate", 
@@ -777,7 +781,6 @@ $(document).ready(function(){
             grades = [];
             arrOfgrades=[];
             arr_profile=[];
-            arr_rel=[];
             previous_values=[];
             arr_ids=[];
             top_offset();
@@ -934,7 +937,6 @@ $(document).ready(function(){
       if ($(this).attr("id")!=arr_ids[0])
       previous_values.push($(this).val())
       var val = $(this).val();
-     
       rel = $(this).attr("rel");
       grades=[];
       $(this).val(val.toUpperCase());
