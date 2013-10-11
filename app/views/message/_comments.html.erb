@@ -17,11 +17,11 @@
 				<span id="link_<%=comment.id%>">
 					<a href="javascript:void(0)" class="blue_bt19px like" rev ="<%=course_id%>" rel="<%=user_like(user_session[:profile_id], comment.id) ? "unlike" : "like" %>" id="<%=comment.id%>"><%=user_like(user_session[:profile_id], comment.id) ? "UNLIKE" : "LIKE" %></a>
 				</span>
-				<%if comment.profile_id == user_session[:profile_id] or course_owner == true or @message_page==true%>
+				<!--<%if comment.profile_id == user_session[:profile_id] or course_owner == true or @message_page==true%>
 					 <span id="delete_<%=comment.id%>">
 					 <a href="javascript:void(0);" class="message_del blue_bt19px" rel="<%=comment.id %>" rev="comment">DELETE</a>
 					 </span>
-				<% end %>
+				<% end %>-->
 			 </span>
 			</div>
 			</div>
