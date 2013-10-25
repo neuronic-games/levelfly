@@ -24,7 +24,7 @@ class GradeBookController < ApplicationController
             :select => ["profiles.full_name,participants.id,participants.profile_id"],
             :order => "full_name"
           ),
-          :grade_types => GradeType.all,
+          :grade_types => GradeType.order("value DESC"),
           :task_grades => TaskGrade.all(:conditions => { :course_id => @course_id, :school_id => @school_id })
         }
 
@@ -85,7 +85,7 @@ class GradeBookController < ApplicationController
           :select => ["profiles.full_name,participants.id,participants.profile_id"],
           :order => "full_name"
         ),
-        :grade_types => GradeType.all,
+        :grade_types => GradeType.order("value DESC"),
         :task_grades => TaskGrade.all(:conditions => { :course_id => @course_id })
       }
 
@@ -181,7 +181,7 @@ class GradeBookController < ApplicationController
         :participant => @participant,
         :outcomes => @outcomes,
         :categories => @categories,
-        :grade_types => GradeType.all,
+        :grade_types => GradeType.order("value DESC"),
         :task_grades => TaskGrade.all(:conditions => { :course_id => params[:course_id] }),
         :profile => @profile,
         :count => @count,
