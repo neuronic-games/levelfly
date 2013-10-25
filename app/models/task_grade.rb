@@ -87,7 +87,7 @@ class TaskGrade < ActiveRecord::Base
       if category[:count] == 0
         category[:percent_share] = 0
       else
-        category[:percent_share] = category[:percent_value] / category[:count].to_f unless count == 0
+        category[:percent_share] = category[:percent_value] / category[:count].to_f unless category[:count] == 0
       end
     end
     tasks.each do |task|
