@@ -299,7 +299,7 @@ $(function(){
 });
 $(document).ready(function(){
   $("#hid1").val("0");
-  $('#hid2').val($('#right').offset().left);
+  // $('#hid2').val($('#right').offset().left);
   $('#hid3').val($('#task_right_wp').width());
   setPageTitle("GradeBook");
   var arr = new Array();
@@ -1944,12 +1944,13 @@ function filter() {
     }
     if (divcollision == true && task_right_display == true && task_right_width == true)
     {
-      $('#right').show();
-      $('#left').show();
+      // $('#right').show();
+      // $('#left').show();
        div_left = $("#task_right_wp").offset().left;
        div_width = $("#task_right_wp").width();
        total = div_left +  div_width + 3;
-       hidden_val = parseInt($('#hid2').val());
+       // hidden_val = parseInt($('#hid2').val());
+       hidden_val = 0;
        hidden_width = parseInt($('#hid3').val());
        if(hidden_val != total )
        {
@@ -1958,12 +1959,12 @@ function filter() {
           	hidden_val = total;
           }
           total = hidden_val;
-          $("#hid2").val(total);
+          // $("#hid2").val(total);
           $("#hid3").val(div_width);
        }
        if(div_width != 0)
        { 
-         $("#right").offset({ left: total});
+         // $("#right").offset({ left: total});
        }
       if ($('#task_right_wp').css("display")){
       previous_val = parseInt($("#hid1").val() );
@@ -1971,8 +1972,8 @@ function filter() {
       if ( $.browser.mozilla ) {
         if (previous_val <= 0){
           $('#hid1').val(div_top);
-          $("#left").offset({ top: div_top-20});
-          $("#right").offset({ top: div_top-17});
+          // $("#left").offset({ top: div_top-20});
+          // $("#right").offset({ top: div_top-17});
         }
       }
       else
@@ -1980,15 +1981,15 @@ function filter() {
         total_height =  div_top - $(window).scrollTop();
         if (previous_val <= 0){
           $('#hid1').val(div_top);
-          $("#left").offset({ top: total_height-20});
-          $("#right").offset({ top: total_height-17});
+          // $("#left").offset({ top: total_height-20});
+          // $("#right").offset({ top: total_height-17});
         }
       }
     }
   }
   else{
-    $('#right').hide();
-    $('#left').hide();
+    // $('#right').hide();
+    // $('#left').hide();
   }
 }, 200);
   
@@ -1998,22 +1999,22 @@ function filter() {
     total = div_left +  div_width + 3;
     if(div_width != 0)
       {
-        $("#right").offset({ left: total});
+        // $("#right").offset({ left: total});
       }
   }
   function top_offset(){
     div_top = $('.GDingbox_botleft').offset().top;
     if ( $.browser.mozilla ) {
       $('#hid1').val(div_top);
-      $("#left").offset({ top: div_top-20});
-      $("#right").offset({ top: div_top-17});
+      // $("#left").offset({ top: div_top-20});
+      // $("#right").offset({ top: div_top-17});
     }
     else
     {
       total_height =  div_top - $(window).scrollTop();
       $('#hid1').val(div_top);
-      $("#left").offset({ top: total_height-20});
-      $("#right").offset({ top: total_height-17});
+      // $("#left").offset({ top: total_height-20});
+      // $("#right").offset({ top: total_height-17});
     }
   }
 </script>
