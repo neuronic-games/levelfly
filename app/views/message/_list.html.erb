@@ -29,7 +29,7 @@
       <% end %>
      <!-- Message -->
    <h2><!-- Post Message --></h2>
-   <h2 style="font-size:16px;"><%= friend_id && !friend_id.nil? ? "Private Messages With #{@friend.full_name}" : "Messages Shared With All Friends"%>
+   <h2 style="font-size:16px;"><%= friend_id && !friend_id.nil? ? "PRIVATE MESSAGES WITH #{@friend.full_name.upcase}" : "MESSAGES WITH FRIENDS"%>
    </h2>
     <div id="" class="message_wrapper">
       <div style="margin-left: 90px; text-align:right;">
