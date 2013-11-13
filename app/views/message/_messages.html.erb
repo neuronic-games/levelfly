@@ -63,12 +63,12 @@
             <a href="javascript:void(0)" class="blue_bt19px" onclick="javascript:$('#post_comment_<%=message.id%>').show();$('#cmnt_content_<%=message.id%>').autosize();">COMMENT</a>
           </span>
          <%end%> 
-          <!--<%if message.profile_id == user_session[:profile_id] or @course_owner==true or @message_page==true%>
+          <%if (message.profile_id == user_session[:profile_id] or @course_owner==true) and session[:controller] != 'message'%>
              <span id="delete_<%=message.id%>">
              <a href="javascript:void(0);" class="message_del blue_bt19px" rev ="message" rel="<%=message.id %>">DELETE</a>
              </span>
              
-           <% end %>-->
+           <% end %>
         </span>
        </div>
       </div>
