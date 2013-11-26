@@ -43,7 +43,13 @@
       <div>
         <select id="course_semester" class="brown_bg">
           <% course_semesters = @course.school ? @course.school.semesters : @profile.school.semesters %>
-          <% default_semester = @course.semester ? @course.semester : course_semesters.select{|sem| Time.now.month.between?(sem.start_month,sem.end_month)}.first.name %>
+          <% if @course.semester %>
+            <% default_semester = @course.semester %>
+          <% elsif course_semesters.empty? %>
+            <% default_semester = nil %>
+          <% else %>
+            <% default_semester = course_semesters.select{|sem| Time.now.month.between?(sem.start_month,sem.end_month)}.first.name %>
+          <% end %>
           <% semesters = ["Fall", "Spring", "Summer I", "Summer II", "Winter"] %>
           <% semesters.each do |sem| %>
             <option class="brown_bg" value="<%= sem %>" <%= "selected = selected" if sem == default_semester %>><%= sem %></option>
