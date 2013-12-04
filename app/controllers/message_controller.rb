@@ -106,49 +106,51 @@ class MessageController < ApplicationController
       @message.wall_id = wall_id
       @message.post_date = DateTime.now
      
-      if @message.save
-        if params[:parent_id] && !params[:parent_id].nil?
-          @courseMaster = Profile.find(
-            :first, 
-            :include => [:participants], 
-            :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", params[:parent_id]]
-            )
-        end
-        @message_viewer = MessageViewer.add(user_session[:profile_id],@message.id,params[:parent_type],params[:parent_id])
-        case params[:parent_type]
-          when "Message"
-            @msg = Message.find(params[:parent_id])
-            if @msg and @msg.parent_type == "Profile"
-              @msg.touch
+      Message.transaction do
+        if @message.save
+          if params[:parent_id] && !params[:parent_id].nil?
+            @courseMaster = Profile.find(
+              :first, 
+              :include => [:participants], 
+              :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", params[:parent_id]]
+              )
+          end
+          @message_viewer = MessageViewer.add(user_session[:profile_id],@message.id,params[:parent_type],params[:parent_id])
+          case params[:parent_type]
+            when "Message"
+              @msg = Message.find(params[:parent_id])
+              if @msg and @msg.parent_type == "Profile"
+                @msg.touch
+                @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+                @school = @current_user.school
+                email = Profile.find(@msg.parent_id).user.email if @current_user.id == @msg.profile_id
+                email = @msg.profile.user.email unless @current_user.id == @msg.profile_id
+                UserMailer.private_message(email,@current_user,@school,@message.content).deliver
+              end
+              render :partial => "comments", :locals => {:comment => @message,:course_id=>@msg.parent_id}
+            when "Profile"
+              email = Profile.find(params[:parent_id]).user.email if params[:parent_id]
               @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
               @school = @current_user.school
-              email = Profile.find(@msg.parent_id).user.email if @current_user.id == @msg.profile_id
-              email = @msg.profile.user.email unless @current_user.id == @msg.profile_id
+              if params[:message_type] && !params[:message_type].nil?
+                message = (params[:message_type]=="Friend") ? "Friend request sent" : "Message sent"
+                UserMailer.private_message(email,@current_user,@school,@message.content).deliver if message == "Message sent"
+                render :text => {"status"=>"save", "message"=>message}.to_json
+              else
               UserMailer.private_message(email,@current_user,@school,@message.content).deliver
-            end
-            render :partial => "comments", :locals => {:comment => @message,:course_id=>@msg.parent_id}
-          when "Profile"
-            email = Profile.find(params[:parent_id]).user.email if params[:parent_id]
-            @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-            @school = @current_user.school
-            if params[:message_type] && !params[:message_type].nil?
-              message = (params[:message_type]=="Friend") ? "Friend request sent" : "Message sent"
-              UserMailer.private_message(email,@current_user,@school,@message.content).deliver if message == "Message sent"
-              render :text => {"status"=>"save", "message"=>message}.to_json
+              @feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",user_session[:profile_id],wall_id])
+                if @feed.nil?
+                  Feed.create(:profile_id => user_session[:profile_id],:wall_id =>wall_id)
+                end
+                render :partial => "messages", :locals => {:message => @message}
+              end
             else
-            UserMailer.private_message(email,@current_user,@school,@message.content).deliver
-            @feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",user_session[:profile_id],wall_id])
+             @feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",user_session[:profile_id],wall_id])
               if @feed.nil?
                 Feed.create(:profile_id => user_session[:profile_id],:wall_id =>wall_id)
               end
               render :partial => "messages", :locals => {:message => @message}
-            end
-          else
-           @feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",user_session[:profile_id],wall_id])
-            if @feed.nil?
-              Feed.create(:profile_id => user_session[:profile_id],:wall_id =>wall_id)
-            end
-            render :partial => "messages", :locals => {:message => @message}
+          end
         end
       end
     end
