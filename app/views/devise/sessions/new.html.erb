@@ -84,11 +84,26 @@
 		<!-- <div class="suggestions">Chrome, Firefox, Safari, Internet Explorer 9+</div> -->
 	</div>
 </div>
+
+<div id="popup_warning" class="warning_popup" style="display:none;top:75%;left:55%;width:460px;height:130px;">
+	<div class="heading">Warning</div>
+	<div class="boxadnt" style="text-align: justify;">
+		 This software works best on Firefox or Chrome. You can still use Internet Explorer but you will experience problems.
+	</div>
+	<div align="right" style="margin-right:20px;">
+      <a class="big_bluebtn" id="hide_pop_up" style="padding:6px 0 6px;height: 18px;width: 55px;font: 13px;" href="javascript:void(0);">Ok</a> 
+    </div>
+</div>
+
 <script type="text/javascript">
+
 	if ( $.browser.msie ) {
-		if( parseInt($.browser.version, 10) < 9 ) {
+		if( parseInt($.browser.version, 10) < 10 ) {
 			$('#signin_frm').remove();
 			$('#browser_warning').show();
+		}
+		else if( parseInt($.browser.version) > 9 ) {
+			$('#popup_warning').show();
 		}
 	} 
 	if ( $.browser.mozilla ) {
@@ -97,4 +112,8 @@
 			$('#browser_warning').show();
 		}
 	} 
+	$("#hide_pop_up").click(function(){
+		$("#popup_warning").hide();
+	});
+
 </script>       
