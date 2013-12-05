@@ -28,13 +28,13 @@ class Attachment < ActiveRecord::Base
     end
   end
   
-  def self.aws_connection(school_id)
+  def self.aws_connection(school_id, bucket=nil)
     #@vault = nil
     if school_id
       #@vault = Vault.find(:first,
       #:conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
       #if @vault
-        self.aws_bucket(ENV['S3_PATH'])
+        self.aws_bucket(bucket ? bucket : ENV['S3_PATH'])
         if AWS::S3::Base.establish_connection!(
             :access_key_id     => ENV['S3_KEY'],
             :secret_access_key => ENV['S3_SECRET']
@@ -64,7 +64,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def self.aws_upload_base64(school_id, bucket, filename, base64)
-    connection = self.aws_connection(school_id)
+    connection = self.aws_connection(school_id, bucket)
     if connection
       base_name = File.basename(filename)
       AWS::S3::S3Object.store(
