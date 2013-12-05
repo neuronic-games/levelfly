@@ -41,6 +41,7 @@ class Attachment < ActiveRecord::Base
           )
           connect = true
         end
+        puts bucket, connect
       #end
     end
     return connect
