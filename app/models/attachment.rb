@@ -29,6 +29,7 @@ class Attachment < ActiveRecord::Base
   end
   
   def self.aws_connection(school_id, bucket=nil)
+    connect = false
     #@vault = nil
     if school_id
       #@vault = Vault.find(:first,
@@ -41,9 +42,9 @@ class Attachment < ActiveRecord::Base
           )
           connect = true
         end
-        puts bucket, connect
       #end
     end
+    puts "#{bucket}, #{connect}"
     return connect
   end
   
