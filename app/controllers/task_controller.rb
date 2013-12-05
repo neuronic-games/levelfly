@@ -392,8 +392,8 @@ class TaskController < ApplicationController
   def upload_resource 
     school_id = params[:school_id]
     task_id = params[:id]
-    @vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
-    if @vault
+    #@vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
+    #if @vault
       @attachment = Attachment.new(:resource=>params[:file], :school_id=>school_id, :object_type=>"task", :object_id=>task_id)
       if @attachment.save
         @url = @attachment.resource.url
@@ -401,7 +401,7 @@ class TaskController < ApplicationController
       else
         render :nothing => true
       end
-    end
+    #end
   end
   
   def remove_attachment

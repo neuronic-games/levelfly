@@ -7,10 +7,10 @@ class Course < ActiveRecord::Base
   has_and_belongs_to_many :outcomes
   has_many :attachments, :as => :object
   has_attached_file :image,
-    :storage => :s3,
-    :s3_credentials => { :access_key_id => School.vault.account, :secret_access_key => School.vault.secret },
-    :path => "schools/:school/courses/:id/:filename",
-    :bucket => School.vault.folder
+   :storage => :s3,
+   :s3_credentials => { :access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET'] },
+   :path => "schools/:school/courses/:id/:filename",
+   :bucket => ENV['S3_PATH']
   
   after_initialize :init_defaults
   
@@ -72,6 +72,8 @@ class Course < ActiveRecord::Base
   def image_file
     return image_file_name ? image.url : Course.default_image_file
   end
+  
+  
   
   def init_defaults
     self.rating_low = Course.default_rating_low

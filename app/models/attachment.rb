@@ -8,9 +8,9 @@ class Attachment < ActiveRecord::Base
   acts_as_taggable
   has_attached_file :resource,
     :storage => :s3,
-    :s3_credentials => { :access_key_id => School.vault.account, :secret_access_key => School.vault.secret },
+    :s3_credentials => { :access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET'] },
     :path => "schools/:school/files/:object/:object_id/:filename",
-    :bucket => School.vault.folder
+    :bucket => ENV['S3_PATH']
 
   def self.aws_bucket(bucket)
     create = true
@@ -29,29 +29,29 @@ class Attachment < ActiveRecord::Base
   end
   
   def self.aws_connection(school_id)
-    @vault = nil
+    #@vault = nil
     if school_id
-      @vault = Vault.find(:first,
-      :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
-      if @vault
-        self.aws_bucket(@vault.folder)
+      #@vault = Vault.find(:first,
+      #:conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
+      #if @vault
+        self.aws_bucket(ENV['S3_PATH'])
         if AWS::S3::Base.establish_connection!(
-            :access_key_id     => @vault.account,
-            :secret_access_key => @vault.secret
+            :access_key_id     => ENV['S3_KEY'],
+            :secret_access_key => ENV['S3_SECRET']
           )
           connect = true
         end
-      end
+      #end
     end
-    return @vault
+    return connect
   end
   
   def self.aws_upload(school_id, filename, temp_image, dataURL=false)
-    @vault = self.aws_connection(school_id)
-    if @vault
+    connection = self.aws_connection(school_id)
+    if connection
       base_name = File.basename(filename)
       file_to_upload = dataURL ? temp_image : File.open(temp_image)
-      bucket_folder = dataURL ? @vault.folder+"/avatar_thumb" : @vault.folder+"/resources" 
+      bucket_folder = dataURL ? ENV['S3_PATH']+"/avatar_thumb" : ENV['S3_PATH']+"/resources" 
       AWS::S3::S3Object.store(
         base_name,
         file_to_upload,

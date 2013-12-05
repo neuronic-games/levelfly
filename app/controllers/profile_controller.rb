@@ -133,7 +133,7 @@ class ProfileController < ApplicationController
     
     if @avatar.save
      file_name = "avatar_#{@profile.updated_at}.jpg"
-     @profile.image_file_name = "https://s3.amazonaws.com/#{@profile.school.vaults[0].folder}/avatar_thumb/avatar_#{@profile.updated_at}.jpg"
+     @profile.image_file_name = "https://s3.amazonaws.com/#{ENV['S3_PATH']}/avatar_thumb/avatar_#{@profile.updated_at}.jpg"
      @profile.save
      Attachment.aws_upload(@profile.school_id, file_name, Base64.decode64(params[:avatar_img]), true)
    end
