@@ -136,7 +136,7 @@ class ProfileController < ApplicationController
      bucket = "#{ENV['S3_PATH']}/schools/#{@profile.school_id}/avatars"
      @profile.image_file_name = "https://s3.amazonaws.com/#{bucket}/#{file_name}"
      @profile.save
-     Attachment.aws_upload_base64(@profile.school_id, file_name, bucket, Base64.decode64(params[:avatar_img]))
+     Attachment.aws_upload_base64(@profile.school_id, bucket, file_name, Base64.decode64(params[:avatar_img]))
    end
     publish_profile(@profile)
     
