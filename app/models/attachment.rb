@@ -46,12 +46,12 @@ class Attachment < ActiveRecord::Base
     return connect
   end
   
-  def self.aws_upload(school_id, filename, temp_image, dataURL=false)
+  def self.aws_upload(school_id, filename, temp_image_path)
     connection = self.aws_connection(school_id)
     if connection
       base_name = File.basename(filename)
-      file_to_upload = dataURL ? temp_image : File.open(temp_image)
-      bucket_folder = dataURL ? ENV['S3_PATH']+"/avatar_thumb" : ENV['S3_PATH']+"/resources" 
+      file_to_upload = File.open(temp_image_path)
+      bucket_folder = ENV['S3_PATH']+"/resources" 
       AWS::S3::S3Object.store(
         base_name,
         file_to_upload,
@@ -59,7 +59,22 @@ class Attachment < ActiveRecord::Base
         :access => :public_read
       )
     else
-      puts 'not connect!!'
+      puts "Error uploading #{filename}"
+    end
+  end
+
+  def self.aws_upload_base64(school_id, bucket, filename, base64)
+    connection = self.aws_connection(school_id)
+    if connection
+      base_name = File.basename(filename)
+      AWS::S3::S3Object.store(
+        base_name,
+        base64,
+        bucket,
+        :access => :public_read
+      )
+    else
+      puts "Error uploading #{filename} to #{bucket}"
     end
   end
 end
