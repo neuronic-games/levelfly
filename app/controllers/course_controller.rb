@@ -968,4 +968,22 @@ class CourseController < ApplicationController
     end
   end
   
+  def duplicate
+    if params[:id]
+      if course = Course.find(params[:id])
+        duplicate = course.duplicate(params[:duplicate_settings])
+        if duplicate.save
+          if params[:search_text]
+            @courses = Course.search(params[:search_text])
+          else
+            @courses = Course.course_filter(current_user.profile.id,"")
+          end
+
+          render :nothing => true, :status => 200
+        else
+          render :status => 500
+        end
+      end
+    end
+  end
 end

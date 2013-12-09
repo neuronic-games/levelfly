@@ -3,6 +3,7 @@ class Course < ActiveRecord::Base
   has_many :participants, :as => :object
   has_many :messages, :as => :parent
   has_many :categories
+  has_many :tasks, :order => :due_date
   #has_many :outcomes
   has_and_belongs_to_many :outcomes
   has_many :attachments, :as => :object
@@ -11,8 +12,13 @@ class Course < ActiveRecord::Base
    :s3_credentials => { :access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET'] },
    :path => "schools/:school/courses/:id/:filename",
    :bucket => ENV['S3_PATH']
+
+  has_many :forums, :class_name => 'Course', :conditions => {:parent_type => "F"}, :order => :name
+  has_one :wall, :as => :parent
   
   after_initialize :init_defaults
+  after_save :save_messages
+  after_save :save_owner
   
   # Defaults
   
@@ -68,6 +74,7 @@ class Course < ActiveRecord::Base
   cattr_accessor :profile_type_pending
   
   @owner = nil
+  @messages = nil
   
   def image_file
     return image_file_name ? image.url : Course.default_image_file
@@ -109,6 +116,52 @@ class Course < ActiveRecord::Base
       )
     end
     return @owner
+  end
+
+  def owner=(o)
+    attributes = {:object_type => 'Course', :profile_type => 'M', :object_id => self.id}
+    if p = Participant.find(:first, :conditions => attributes)
+      p.profile = o
+      # p.save
+    else
+      p = Participant.new
+      p.object = self
+      p.profile_type = 'M'
+      p.profile = o
+      # p.save
+    end
+    @owner = p
+  end
+
+  def save_owner
+    @owner.save if @owner
+  end
+
+  def messages
+    @messages ||= Message.where({ :target_id => self.id, :target_type => self.parent_type }).order('starred DESC, created_at DESC')
+  end
+
+  def messages=(m)
+    @messages = m
+  end
+
+  def save_messages
+    # this only really needs to fire when a course is duplicated
+    if @messages
+      self.messages.each do |m|
+        m.target_type = self.parent_type || 'C'
+        m.target_id = self.id
+        m.parent_type = m.target_type
+        m.parent_id = m.target_id
+
+        mv = MessageViewer.new
+        mv.poster_profile = self.owner.profile
+        mv.viewer_profile = self.owner.profile
+        m.message_viewers.push mv
+
+        m.save
+      end
+    end
   end
   
   def self.get_top_achievers(school_id,course_id,outcome_id)
@@ -217,6 +270,12 @@ class Course < ActiveRecord::Base
    return @tasks
   end
   
+  def self.search(text)
+    d = text.downcase
+    Course.find(:all, 
+      :conditions => ["(lower(courses.name) LIKE ? OR lower(courses.code) LIKE ?) and parent_type = ? and school_id = ? and removed = ?", d, d, Course.parent_type_course, @profile.school_id, false]
+    )
+  end
   
   def course_forum(profile_id = nil)
     return Course.find(:all,:include => [:participants],:conditions => ["participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?",profile_id,self.id,false, false], :order => 'courses.name')
@@ -252,5 +311,53 @@ class Course < ActiveRecord::Base
     end
   end
   
-  
+  def duplicate(params)
+    duplicate = self.dup
+    duplicate.name = "#{duplicate.name} COPY"
+    duplicate.owner = self.owner
+    duplicate.wall = self.wall.dup
+
+    begin
+      duplicate.image = self.image
+    rescue
+      logger.error "AWS::S3::NoSuchKey: #{self.image.url}"
+    end      
+
+    self.outcomes.each do |outcome|
+      duplicate.outcomes.push outcome.dup
+    end
+
+    self.categories.each do |category|
+      duplicate.categories.push category.dup
+    end
+
+    self.course_forum(self.owner.id).each do |forum|
+      duplicate.forums.push forum.duplicate(params)
+    end
+
+    self.messages.where(:starred => true, :profile_id => self.owner.id).each do |message|
+      m = message.dup
+      m.wall = duplicate.wall
+      m.like = 0
+      duplicate.messages.push m
+    end
+
+    self.attachments.each do |attachment|
+      duplicate.attachments.push attachment.duplicate
+    end
+
+    self.tasks.each do |task|
+      t = task.dup
+
+      task.attachments.each do |attachment|
+        t.attachments.push attachment.duplicate
+      end
+
+      t.outcomes = task.outcomes
+      duplicate.tasks.push t
+    end
+
+    # duplicate.save && duplicate
+    duplicate
+  end
 end

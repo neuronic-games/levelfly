@@ -30,6 +30,9 @@
           <div id="leave_group_div" class="hide">
             <%= render :partial => "/course/leave_group"%>
           </div>
+          <div id="duplicate_course_div" class="hide">
+            <%= render :partial => "/course/duplicate_course"%>
+          </div>
           <div class="end_of_page"></div>
           <input type="hidden" name="course_id" id="course_id_hdn" value="" />
         </div>
@@ -74,7 +77,7 @@ $(".course_row").hover(
 
 $("#content_list").delegate('.join_btn', 'click', function(event){       
   showSpinner(true);
-  course_id = $(this).attr("course_id");
+  var course_id = $(this).attr("course_id");
   if(course_id){
     $.ajax({
        type: "POST",  
@@ -102,7 +105,7 @@ $("#content_list").delegate('.join_btn', 'click', function(event){
   event.stopPropagation();
 });
   $("#content_list").delegate('.remove_btn', 'click', function(event){       
-    course_id = $(this).attr("course_id");
+    var course_id = $(this).attr("course_id");
     if(course_id){
       $("#course_id_hdn").attr("value",course_id);
       $("#remove_course_div").show();
@@ -111,14 +114,20 @@ $("#content_list").delegate('.join_btn', 'click', function(event){
   });
 
   $("#content_list").delegate('.leave_btn', 'click', function(event){       
-    course_id = $(this).attr("course_id");
-    course_name = $(this).attr("course_name");
+    var course_id = $(this).attr("course_id");
+    var course_name = $(this).attr("course_name");
     if(course_id){
       $("#course_id_hdn").attr("value",course_id);
       $('#group_name').html("Are you sure you wish to leave this group: "+course_name);
       $("#leave_group_div").show();
     }
     event.stopPropagation();
+  });
+
+  $('#content_list').delegate('.duplicate_btn', 'click', function(event) {
+    var course_id = $(this).attr("course_id");
+    $("#course_id_hdn").attr("value",course_id);
+    $('#duplicate_course_div').show();
   });
 
   // Handler for side-tabs
