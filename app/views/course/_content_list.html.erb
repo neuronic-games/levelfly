@@ -55,6 +55,10 @@
         <a href="javascript:void(0);" class="leave_btn blue_bt19px" course_id="<%= c.id %>" course_name="<%=c.name%>">
           Leave
         </a>
+        <% elsif defined?(section_type) and section_type == "C" and c.owner.id == user_session[:profile_id] %>
+        <a href="javascript:void(0);" class="duplicate_btn blue_bt19px" course_id="<%= c.id %>" course_name="<%=c.name%>">
+          Duplicate
+        </a>
         <% end %>
       </div>
  
@@ -96,12 +100,12 @@ $('a.view').click(function() {
   
   
   $(".course_row").hover(
-  function () {
-    $(".list_hover", this).show();
-  }, 
-  function () {
-    $(".list_hover", this).hide();
-  }
-);
+    function () {
+      $(".list_hover", this).show();
+    }, 
+    function () {
+      $(".list_hover", this).hide();
+    }
+  );
 });
 </script>  

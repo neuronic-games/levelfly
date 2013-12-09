@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'aws/s3'
+require 'open-uri'
 class Attachment < ActiveRecord::Base
   belongs_to :object, :polymorphic => true
   belongs_to :school
@@ -11,6 +12,19 @@ class Attachment < ActiveRecord::Base
     :s3_credentials => { :access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET'] },
     :path => "schools/:school/files/:object/:object_id/:filename",
     :bucket => ENV['S3_PATH']
+
+  def duplicate
+    a = self.dup
+
+    begin
+      a.resource = self.resource
+    rescue
+      # a.resource = nil
+      logger.error "AWS::S3::NoSuchKey: #{self.resource.url}"
+    end
+
+    a
+  end
 
   def self.aws_bucket(bucket)
     create = true

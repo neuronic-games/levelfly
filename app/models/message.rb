@@ -2,6 +2,9 @@ class Message < ActiveRecord::Base
   belongs_to :profile
   belongs_to :parent, :polymorphic=>true
   belongs_to :wall
+  has_many :message_viewers
+
+  scope :starred, :conditions => ['starred = ?', true]
   
   def self.send_friend_request(profile_id,parent_id,wall_id,target_id)
     @message = Message.new

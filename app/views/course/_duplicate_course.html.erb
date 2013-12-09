@@ -1,0 +1,52 @@
+<div class="add_task_popup" style="position:fixed;">
+  <div class="heading" id="file_dialog_heading">Duplicate Course</div>
+  <p class="boxadnt" id="course_name"> 
+    You are about to create a copy of your course. You can then use that copy to teach a new course with similar information. Any members from the original course and their posts will be removed.
+  </p>
+  <p class="boxadnt">The following items will be duplicated:</p>
+  <p class="boxadnt">
+    <form id="duplicate_course_form">
+      <input type="checkbox" name="duplicate_settings" checked value="course_identifiers"> Course Identifiers: course name, code, image, semester date<br>
+      <input type="checkbox" name="duplicate_settings" checked value="course_settings"> Course Settings: outcomes, grading categories, preferences<br>
+      <input type="checkbox" name="duplicate_settings" checked value="forum_identifiers"> Forum Identifiers: forum name, image<br>
+      <input type="checkbox" name="duplicate_settings" checked value="forum_settings"> Forum Settings: forum descriptions, preferences<br>
+      <input type="checkbox" name="duplicate_settings" checked value="posts"> Posts: only starred posts belonging to the organizer will be duplicated<br>
+      <input type="checkbox" name="duplicate_settings" checked value="course_files"> Course Files: only course files uploaded by the organizer<br>
+      <input type="checkbox" name="duplicate_settings" checked value="task_identifiers"> Task Identifiers: Titles, images<br>
+      <input type="checkbox" name="duplicate_settings" checked value="task_settings"> Task Settings: descriptions, outcomes, XP assigned, etc.<br>
+      <input type="checkbox" name="duplicate_settings" checked value="task_files"> Task Files: only task files uploaded by the organizer<br>
+      <input type="checkbox" name="duplicate_settings" checked value="gradebook"> Gradebook: all tasks and related outcomes
+    </form>
+  </p>
+  <p class="boxadnt">Do you wish to duplicate this course?</p>
+  <div class="spacebar10px"></div>
+  <div class="spacebar10px"></div>
+  <div align="right">
+    <a class="smaller_text big_blue_btn inlineblock dialog_btn" id="cancel_btn" href="javascript:void(0)">Cancel</a>
+    <a class="big_orange_btn inlineblock dialog_btn" id="duplicate_btn" href="javascript:void(0)">Okay</a>
+  </div>        
+</div>
+<script type="text/javascript">
+   $("#cancel_btn").click(function(){
+      $("#duplicate_course_div").hide();
+   });
+  
+  
+  //Remove course/group
+   $("#duplicate_btn").click(function(){
+      var id = $("#course_id_hdn").val();
+      var section_type = $("#section_type").val();
+      if (id) {
+        showSpinner(true);
+        $.ajax({
+          type: "POST",
+          url: "/course/duplicate",
+          data: $.merge($('#duplicate_course_form').serializeArray(), [{name: 'id', value: id}]),
+          // dataType:"json",
+          success: function(resp) {
+            $("#container").load("/course/?section_type=" + section_type, function() { showSpinner(false); });
+          }
+        });
+      }
+   });
+</script>
