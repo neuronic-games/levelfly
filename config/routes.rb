@@ -184,6 +184,8 @@ Oncapus::Application.routes.draw do
   post "course/forum_member_unchecked"
 	
 	post "course/send_email_to_all_participants"
+
+  post "course/duplicate"
   
   post "users/send_message_to_all_users"
   
