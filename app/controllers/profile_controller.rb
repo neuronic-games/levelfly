@@ -132,10 +132,11 @@ class ProfileController < ApplicationController
     @avatar.save
     
     if @avatar.save
-     file_name = "avatar_#{@profile.updated_at}.jpg"
-     @profile.image_file_name = "https://s3.amazonaws.com/#{ENV['S3_PATH']}/avatar_thumb/avatar_#{@profile.updated_at}.jpg"
+     file_name = "avatar_#{@profile.id}_#{@profile.updated_at.strftime('%Y%m%d%H%M%S')}.jpg"
+     bucket = "#{ENV['S3_PATH']}/schools/#{@profile.school_id}/avatars"
+     @profile.image_file_name = "https://s3.amazonaws.com/#{bucket}/#{file_name}"
      @profile.save
-     Attachment.aws_upload(@profile.school_id, file_name, Base64.decode64(params[:avatar_img]), true)
+     Attachment.aws_upload_base64(@profile.school_id, bucket, file_name, Base64.decode64(params[:avatar_img]))
    end
     publish_profile(@profile)
     
