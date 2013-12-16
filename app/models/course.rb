@@ -353,6 +353,12 @@ class Course < ActiveRecord::Base
         t.attachments.push attachment.duplicate
       end
 
+      task.task_participants.each do |task_participant|
+        tp = task_participant.dup
+        tp.task = t
+        t.task_participants.push tp
+      end
+
       t.outcomes = task.outcomes
       duplicate.tasks.push t
     end

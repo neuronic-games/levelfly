@@ -981,7 +981,7 @@ class CourseController < ApplicationController
 
           render :nothing => true, :status => 200
         else
-          render :status => 500
+          render :nothing => true, :status => 500
         end
       end
     end
