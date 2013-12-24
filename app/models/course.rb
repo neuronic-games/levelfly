@@ -311,28 +311,33 @@ class Course < ActiveRecord::Base
     end
   end
   
-  def duplicate(params)
+  def duplicate(params = {})
+    categories = {}
+    outcomes = {}
+
     duplicate = self.dup
-    duplicate.name = "#{duplicate.name} COPY"
+    duplicate.name = "#{duplicate.name} #{params[:name_ext]}" if params[:name_ext]
     duplicate.owner = self.owner
     duplicate.wall = self.wall.dup
+
+    self.outcomes.each do |outcome|
+      outcomes[outcome.id] ||= outcome.dup
+      duplicate.outcomes << outcomes[outcome.id]
+    end
 
     begin
       duplicate.image = self.image
     rescue
       logger.error "AWS::S3::NoSuchKey: #{self.image.url}"
-    end      
-
-    self.outcomes.each do |outcome|
-      duplicate.outcomes.push outcome.dup
     end
 
     self.categories.each do |category|
-      duplicate.categories.push category.dup
+      categories[category.id] ||= category.dup
+      duplicate.categories << categories[category.id]
     end
 
     self.course_forum(self.owner.id).each do |forum|
-      duplicate.forums.push forum.duplicate(params)
+      duplicate.forums.push forum.duplicate
     end
 
     self.messages.where(:starred => true, :profile_id => self.owner.id).each do |message|
@@ -343,24 +348,42 @@ class Course < ActiveRecord::Base
     end
 
     self.attachments.each do |attachment|
-      duplicate.attachments.push attachment.duplicate
+      if attachment.owner == duplicate.owner
+        duplicate.attachments.push attachment.duplicate
+      end
     end
 
     self.tasks.each do |task|
       t = task.dup
+      t.due_date = nil
+      t.course = duplicate
+
+      categories[task.category.id] ||= task.category.dup
+      t.category = categories[task.category.id]
+
+      task.outcome_tasks.each do |outcome_task|
+        outcomes[outcome_task.outcome.id] ||= outcome_task.outcome.dup
+        ot = outcome_task.dup
+        ot.task = t
+        ot.outcome = outcomes[outcome_task.outcome.id]
+        t.outcome_tasks << ot
+      end
 
       task.attachments.each do |attachment|
-        t.attachments.push attachment.duplicate
+        if attachment.owner == duplicate.owner
+          t.attachments << attachment.duplicate
+        end
       end
 
       task.task_participants.each do |task_participant|
-        tp = task_participant.dup
-        tp.task = t
-        t.task_participants.push tp
+        if task_participant.profile_type == 'O'
+          tp = task_participant.dup
+          tp.task = t
+          t.task_participants << tp
+        end
       end
 
-      t.outcomes = task.outcomes
-      duplicate.tasks.push t
+      duplicate.tasks << t
     end
 
     # duplicate.save && duplicate

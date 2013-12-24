@@ -72,5 +72,9 @@ class Profile < ActiveRecord::Base
     end
     return ids
   end
+
+  def has_role(type)
+    Role.check_permission(self.id, type)
+  end
   
 end

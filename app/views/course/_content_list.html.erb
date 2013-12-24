@@ -55,7 +55,7 @@
         <a href="javascript:void(0);" class="leave_btn blue_bt19px" course_id="<%= c.id %>" course_name="<%=c.name%>">
           Leave
         </a>
-        <% elsif defined?(section_type) and section_type == "C" and c.owner.id == user_session[:profile_id] %>
+        <% elsif defined?(section_type) and section_type == "C" and c.owner.id == user_session[:profile_id] and c.owner.has_role("C") %>
         <a href="javascript:void(0);" class="duplicate_btn blue_bt19px" course_id="<%= c.id %>" course_name="<%=c.name%>">
           Duplicate
         </a>

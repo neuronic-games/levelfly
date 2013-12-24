@@ -971,7 +971,7 @@ class CourseController < ApplicationController
   def duplicate
     if params[:id]
       if course = Course.find(params[:id])
-        duplicate = course.duplicate(params[:duplicate_settings])
+        duplicate = course.duplicate(:name_ext => "COPY")
         if duplicate.save
           if params[:search_text]
             @courses = Course.search(params[:search_text])
