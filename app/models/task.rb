@@ -13,6 +13,7 @@ class Task < ActiveRecord::Base
   has_many :outcomes, :through => :outcome_tasks
 
   after_initialize :init_defaults
+  after_create :image_save
 
  has_attached_file :image,
    :storage => :s3,
@@ -49,7 +50,11 @@ class Task < ActiveRecord::Base
     
   def image_file
     return image_file_name ? image.url : Course.default_image_file
-  end 
+  end
+
+  def image_save
+    self.image.save
+  end
 
   def outcomes
     return OutcomeTask.find(:all, :conditions => ["task_id = ?", self.id]).collect {|x| x.outcome}

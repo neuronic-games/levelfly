@@ -348,7 +348,7 @@ class Course < ActiveRecord::Base
     end
 
     self.attachments.each do |attachment|
-      if attachment.owner == duplicate.owner
+      if attachment.owner == duplicate.owner.profile
         duplicate.attachments.push attachment.duplicate
       end
     end
@@ -360,6 +360,7 @@ class Course < ActiveRecord::Base
 
       categories[task.category.id] ||= task.category.dup
       t.category = categories[task.category.id]
+      t.image = task.image unless task.image_file == Course.default_image_file
 
       task.outcome_tasks.each do |outcome_task|
         outcomes[outcome_task.outcome.id] ||= outcome_task.outcome.dup
@@ -370,7 +371,7 @@ class Course < ActiveRecord::Base
       end
 
       task.attachments.each do |attachment|
-        if attachment.owner == duplicate.owner
+        if attachment.owner == duplicate.owner.profile
           t.attachments << attachment.duplicate
         end
       end
