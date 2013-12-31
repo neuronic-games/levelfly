@@ -202,7 +202,9 @@
           $("#btn_course").removeClass("hide");
           $("#btn_course_remove").removeClass("hide");
           $("#btn_archive").removeClass("hide");
+          <% if Role.check_permission(current_user.profile.id, Role.edit_user) %>
           $('#btn_course_duplicate').removeClass('hide');
+          <% end %>
         },
         error: function()
         {
