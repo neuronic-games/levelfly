@@ -358,8 +358,11 @@ class Course < ActiveRecord::Base
       t.due_date = nil
       t.course = duplicate
 
-      categories[task.category.id] ||= task.category.dup
-      t.category = categories[task.category.id]
+      if task.category
+        categories[task.category.id] ||= task.category.dup
+        t.category = categories[task.category.id]
+      end
+      
       t.image = task.image unless task.image_file == Course.default_image_file
 
       task.outcome_tasks.each do |outcome_task|
