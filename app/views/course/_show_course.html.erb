@@ -87,7 +87,7 @@
 					</div>
 				</div>
 			<% end %>
-      <div id="message_wrapper" class="message_wrapper resize_message_box msg_content_left" >
+      <div id="message_wrapper_course" class="message_wrapper resize_message_box msg_content_left" >
       
       &nbsp;
         <%if @course_messages  && !@course_messages.nil?%>
@@ -118,7 +118,7 @@
 		$("#btn_course").addClass("hide");
     $("#btn_course_remove").addClass("hide");
     $("textarea#msg_content").autosize();
-    $("#message_wrapper").delegate('.msg_pri_toggle', 'click', function(){
+    $("#message_wrapper_course").delegate('.msg_pri_toggle', 'click', function(){
     showSpinner(true);
     msg_id = $(this).attr("rel");
     $.ajax({
