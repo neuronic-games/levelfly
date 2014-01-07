@@ -160,6 +160,7 @@ class CourseController < ApplicationController
     if params[:section_type]=="C"
       @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C' and id in(?)",@course.id,message_ids],:order => "starred DESC,created_at DESC" )
     elsif params[:section_type]=="G"
+      message_ids = MessageViewer.find(:all, :select => "message_id").collect(&:message_id) if @member.nil?
       @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'G' and id in (?)",@course.id,message_ids],:order => "starred DESC,created_at DESC" )
     end
     @profile.record_action('course', @course.id)
@@ -599,6 +600,7 @@ class CourseController < ApplicationController
     if params[:section_type]=="C"
       @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C' and id in(?)",@course.id,message_ids],:order => "starred DESC,created_at DESC" )
     elsif params[:section_type]=="G"
+       message_ids = MessageViewer.find(:all, :select => "message_id").collect(&:message_id) if @member.nil?
       @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'G' and id in (?)",@course.id,message_ids],:order => "starred DESC,created_at DESC" )
     end
      if params[:value] == "3"
