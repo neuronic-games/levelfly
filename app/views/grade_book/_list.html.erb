@@ -322,8 +322,7 @@ $(document).ready(function(){
   var sign = "";
   var people = new Array();
   var arr_rel = new Array();
-  var arr_profile = new Array();
-  var arr_average =  new Array();
+  var arr_profile = [];
   var arrOfgrades = new Array();
   var previous_values = new Array();
   var arr_ids = new Array();
@@ -333,7 +332,6 @@ $(document).ready(function(){
   var undo_select = false;
   var entire_column = false;
   var arr_rel2 =[];
-  var arr_profile2 = [];
 
   if ( $.browser.mozilla ) {
     $('.GB_course_box2').css({'margin-top': '-230px'});
@@ -639,6 +637,8 @@ $(document).ready(function(){
     var focusedId = id;
     var _undo = undo_select
     var val = vals[vals.length - 1];
+    var arr_average = [];
+
     if(id[0]=="g"){
       valid = valid_grade(val.toUpperCase(),id)
     }
@@ -709,8 +709,6 @@ $(document).ready(function(){
               $("#"+item).removeClass("warning");
             });
 
-            arr_average=[]; 
-            arr_profile=[];
             previous_values=[];
             arr_ids=[];
 
@@ -780,7 +778,6 @@ $(document).ready(function(){
 
             grades = [];
             arrOfgrades=[];
-            arr_profile=[];
             previous_values=[];
             arr_ids=[];
             top_offset();
@@ -797,36 +794,11 @@ $(document).ready(function(){
      // });
 	 $("#"+id).addClass("warning");
       arr_ids=[];
-      arr_average=[]; 
-      arr_profile=[];
       arr_rel=[];
       arrOfgrades=[];
       previous_values=[];
     }
   }
-  //Fill grades click on table headings
-  /*$(".task_right_wp").delegate("th","click",function(){
-   if(final_value != "" || reset == true)
-   {
-    var id = $(this).attr("id");
-    $("."+id).each(function() {
-      previous_values.push($(this).val())
-      $(this).attr("value",final_value);
-      click_id = $(this).attr("id")
-      given_val = $(this).val();
-      var rel = $(this).attr("rel");
-      grades = [];
-      var ids= click_id.split("_");
-      var profile_id = ids[1];
-      arr_profile.push(profile_id)
-      arr_rel.push(rel);
-      arr_ids.push(click_id);
-     
-    });
-    save_grade(given_val,click_id,arr_rel,arr_profile) 
-   } 
-  });*/
-  
   
   //Undo last change
   $(".undo").click(function(){
@@ -849,7 +821,7 @@ $(document).ready(function(){
          $("#"+change_id).attr("value",$("#previous_grade").val())
           previous_grade = $("#previous_grade").val();
           idd = $("#last_id").val();
-          save_grade([previous_grade],idd,arr_rel2,arr_profile2,"","","")
+          save_grade([previous_grade],idd,arr_rel2,arr_profile,"","","")
           $("#last_id").attr("value","");
           //console.log(previous_grade+"---"+idd+"---"+arr_rel2+"---"+arr_profile2)
        }
@@ -873,12 +845,11 @@ $(document).ready(function(){
             grades = [];
             var ids= click_id.split("_");
             var profile_id = ids[1];
-            arr_profile.push(profile_id)
             arr_rel.push(rel);
             arr_ids.push(click_id);
         });
         pg = last_fills;
-        save_grade(values,click_id,arr_rel2,arr_profile2,pg,"","");
+        save_grade(values,click_id,arr_rel2,arr_profile,pg,"","");
        // console.log(given_val+"---"+click_id+"---"+arr_rel2+"---"+arr_profile2+"entire column")
         $("#last_id").attr("value","");
       }
@@ -914,14 +885,12 @@ $(document).ready(function(){
         grades = [];
         var ids= click_id.split("_");
         var profile_id = ids[1];
-        arr_profile.push(profile_id)
         arr_rel.push(rel);
         arr_ids.push(click_id);
       });
       pg = last_fills;
-      arr_rel2 = arr_rel
-      arr_profile2 = arr_profile
-      //last_fills = previous_values;
+      arr_rel2 = arr_rel;
+      arr_profile = [profile_id];
       save_grade(values,click_id,arr_rel,arr_profile,pg,entire_column,id)
      } 
    }
@@ -942,11 +911,10 @@ $(document).ready(function(){
       $(this).val(val.toUpperCase());
       var ids= id.split("_");
       var profile_id = ids[1];
-      arr_profile.push(profile_id)
       arr_rel.push(rel);
       arr_ids.push(id);
       arr_rel2 = arr_rel;
-      arr_profile2 = arr_profile;
+      arr_profile = [profile_id];
       save_grade([val],id,arr_rel,arr_profile,"",entire_column,"");
      }
   });
