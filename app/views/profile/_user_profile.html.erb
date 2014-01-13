@@ -21,8 +21,12 @@
     <div class="profile_item FloatR">
       <a href="javascript:void(0)" class="big_blue_btn" name="change_my_look" id="change_my_look" onClick="loadPage('/profile/edit_wardrobe'); setAlert('Loading/wardrobe');">Wardrobe</a>
     </div>
-     <div class="profile_item FloatR" style="padding-right:10px;">
+    
+    <div class="profile_item FloatR" style="padding-right:10px;">
+    <% major = Setting.find_by_object_id_and_name( profile.school_id, "enable_majors") %>
+    <% unless major and major.value == "false" %>
       <a href="javascript:void(0)" class="big_blue_btn" name="major_btn" id="major_btn">Major</a>
+    <% end %>
     </div>
     <% end %>
      
