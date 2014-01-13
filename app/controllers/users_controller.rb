@@ -139,6 +139,26 @@ class UsersController < ApplicationController
      render :text => {:status => status}.to_json
  end
  
+ def remove
+   status = nil
+   if params[:id]
+     profile = Profile.find(params[:id])
+     timestamp = Time.now.strftime("%d%m%Y")
+     @user = profile.user
+     check = @user.email.downcase.scan(/del\-[0-9]*\-/)
+     unless !check.empty?
+       @user.status = "S"
+       @user.email = "DEL-#{timestamp}-#{@user.email}"
+     end
+     if @user.save
+       status = true
+     end
+   else
+     status = false     
+   end
+   render :json => {:status => status}
+ end
+ 
  def check_role
     if Role.check_permission(user_session[:profile_id],Role.edit_user)==false
       render :text=>""

@@ -98,11 +98,18 @@
         <div class="end_of_page" style="height:600px;"></div>
       </div>
     </div>
+    <div id="remove_user_div" class="hide">
+      <%= render :partial => "/users/remove_user" %>
+    </div>
+    <div class ="hide" id ="div_message_delete">
+    
+    </div>
   </div>
 
   <div id="sidebar_right">
     <div class="course_side_buttons">
         <a class="big_blue_btn" name="login_as_btn" id="login_as_btn" href="javascript:void(0)">LOGIN AS</a>
+        <a class="big_blue_btn" name="remove_user_btn" id="remove_user_btn" href="javascript:void(0)">REMOVE</a>
         <a class="big_blue_btn" name="save_user_btn" id="save_user_btn" href="javascript:void(0)">SAVE</a>
     </div><!-- crud_level -->
   </div>
@@ -163,6 +170,13 @@
         });
       }
   });
+  
+  $("#remove_user_btn").click(function(){
+  	<% if @profile %> $("#remove_user_div").show(); <% else %> $("#invalid_email").show(); <% end %>
+  	
+  	
+  });
+  
   $("#login_as_btn").click(function(){
     var email = $("#user_email").val();
     showSpinner(true);

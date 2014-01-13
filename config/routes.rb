@@ -327,6 +327,8 @@ Oncapus::Application.routes.draw do
   
   post "users/login_as"
   
+  post "users/remove"
+  
   get "users/new"
   
   get "reward/new"
