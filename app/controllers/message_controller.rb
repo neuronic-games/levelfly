@@ -57,7 +57,7 @@ class MessageController < ApplicationController
      end
      @users = users[0..users_limit-1]
      @show_more_users = users.length > @users.length ? true : false
-     #friend_id = Participant.find(:all, :select =>"distinct profile_id", :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", @profile.id]).collect(&:profile_id)
+     #friend_id = Participant.find(:all, :select =>"distinct profile_id", :conditions=>["target_id = ? AND target_type = 'User' AND profile_type = 'F'", @profile.id]).collect(&:profile_id)
    
     # if recently_messaged.empty?
       # ids = recently_messaged_by_other
@@ -112,7 +112,7 @@ class MessageController < ApplicationController
             @courseMaster = Profile.find(
               :first, 
               :include => [:participants], 
-              :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", params[:parent_id]]
+              :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:parent_id]]
               )
           end
           @message_viewer = MessageViewer.add(user_session[:profile_id],@message.id,params[:parent_type],params[:parent_id])
@@ -179,16 +179,16 @@ class MessageController < ApplicationController
       @profile = Profile.find(params[:profile_id])
       course_id = nil
         @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-        #@owner = Participant.find(:first,:conditions=>["object_id = ? and profile_id = ? and profile_type= 'M' and object_type = 'Course'",params[:course_id],@current_user.id])
-        course_ids = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.profile_type = 'M' and participants.object_type = 'Course' and parent_type = 'C' and removed = ?", user_session[:profile_id],false])
-        @courses = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.object_id in(?) and participants.profile_type = 'S' and participants.object_type = 'Course' and parent_type = 'C'", params[:profile_id], course_ids],:order=>"courses.id")
+        #@owner = Participant.find(:first,:conditions=>["target_id = ? and profile_id = ? and profile_type= 'M' and target_type = 'Course'",params[:course_id],@current_user.id])
+        course_ids = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.profile_type = 'M' and participants.target_type = 'Course' and parent_type = 'C' and removed = ?", user_session[:profile_id],false])
+        @courses = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'", params[:profile_id], course_ids],:order=>"courses.id")
         if @courses && !@courses.empty?
           if params[:course_id] && !params[:course_id].nil?
             course_id = params[:course_id]
           else
             course_id = @courses.first.id
           end
-          @participant = Participant.find(:first, :conditions =>["object_id = ? and profile_id = ? and object_type = 'Course' and profile_type='S'",course_id,@profile.id])
+          @participant = Participant.find(:first, :conditions =>["target_id = ? and profile_id = ? and target_type = 'Course' and profile_type='S'",course_id,@profile.id])
         end  
       render :partial => "add_friend_card", :locals => {:profile => @profile}
     end
@@ -226,7 +226,7 @@ class MessageController < ApplicationController
             profile_id = @message.parent_id
           end
 					
-          @course_participant = Participant.where("object_type = ? AND object_id = ? AND profile_id = ? AND profile_type='P'",params[:section_type],@message.target_id,profile_id).first
+          @course_participant = Participant.where("target_type = ? AND target_id = ? AND profile_id = ? AND profile_type='P'",params[:section_type],@message.target_id,profile_id).first
           tasks = Task.find(:all, :conditions => ["course_id = ? and archived = ? and all_members = ?", @message.target_id, false, true])
           if tasks and !tasks.blank?
 						if params[:activity] == "add"
@@ -260,8 +260,8 @@ class MessageController < ApplicationController
 							forums.each do |forum|
 								wall_id = Wall.get_wall_id(forum.id,"Course")
 								@forum_participant = Participant.new
-								@forum_participant.object_id = forum.id
-								@forum_participant.object_type = "Course"
+								@forum_participant.target_id = forum.id
+								@forum_participant.target_type = "Course"
 								@forum_participant.profile_id = user_session[:profile_id]
 								@forum_participant.profile_type = "S"
 								if @forum_participant.save
@@ -311,13 +311,13 @@ class MessageController < ApplicationController
       @message = Message.find(params[:message_id])
       profile = Profile.find(user_session[:profile_id])
       if @message 
-      already_friend = Participant.find(:first, :conditions =>["object_id = ? AND profile_id = ? AND object_type = 'User' AND profile_type = 'F'", @message.parent_id, @message.profile_id])
+      already_friend = Participant.find(:first, :conditions =>["target_id = ? AND profile_id = ? AND target_type = 'User' AND profile_type = 'F'", @message.parent_id, @message.profile_id])
         if params[:activity] && !params[:activity].nil?
           if params[:activity] == "add" and not already_friend
             content = "#{profile.full_name} has accepted your friend request."
             @friend_participant = Participant.new
-            @friend_participant.object_id = @message.parent_id
-            @friend_participant.object_type = "User"
+            @friend_participant.target_id = @message.parent_id
+            @friend_participant.target_type = "User"
             @friend_participant.profile_id = @message.profile_id
             @friend_participant.profile_type = "F"
             if @friend_participant.save
@@ -327,8 +327,8 @@ class MessageController < ApplicationController
               )
               #Participant record for friend
               @participant = Participant.new
-              @participant.object_id = @message.profile_id
-              @participant.object_type = "User"
+              @participant.target_id = @message.profile_id
+              @participant.target_type = "User"
               @participant.profile_id = @message.parent_id
               @participant.profile_type = "F"
               if @participant.save
@@ -359,13 +359,13 @@ class MessageController < ApplicationController
     if params[:profile_id] && ![:profile_id].nil?
       @friend_participant = Participant.find(
         :first, 
-        :conditions=>["object_id = ? AND profile_id = ? AND profile_type = 'F'", user_session[:profile_id], params[:profile_id]]
+        :conditions=>["target_id = ? AND profile_id = ? AND profile_type = 'F'", user_session[:profile_id], params[:profile_id]]
       )
       if @friend_participant
         @friend_participant.delete
         @participant = Participant.find(
           :first, 
-          :conditions=>["object_id = ? AND profile_id = ? AND profile_type = 'F'",params[:profile_id] , user_session[:profile_id]]
+          :conditions=>["target_id = ? AND profile_id = ? AND profile_type = 'F'",params[:profile_id] , user_session[:profile_id]]
         )
         if @participant
           @participant.delete
@@ -401,7 +401,7 @@ class MessageController < ApplicationController
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?",user_session[:profile_id]]).collect(&:wall_id)
     @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend'", wall_ids, false])
     @friend_requests = Message.find(:all, :conditions=>["message_type ='Friend' AND parent_id = ? AND (archived is NULL or archived = ?)", user_session[:profile_id], false])
-    @friend = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", user_session[:profile_id]])
+    @friend = Participant.find(:all, :conditions=>["target_id = ? AND target_type = 'User' AND profile_type = 'F'", user_session[:profile_id]])
     render :partial => "list",:locals => {:limit => @limitAttr}
   end
   

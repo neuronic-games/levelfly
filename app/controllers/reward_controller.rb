@@ -29,8 +29,8 @@ class RewardController < ApplicationController
       @reward = Reward.new
     end
     @reward.xp = params[:xp] if params[:xp]
-    @reward.object_type = params[:object_type] if params[:object_type]
-    @reward.object_id = params[:object_id] if params[:object_id]
+    @reward.target_type = params[:target_type] if params[:target_type]
+    @reward.target_id = params[:target_id] if params[:target_id]
     if @reward.save
       render :text => {:status=>true}.to_json 
     end

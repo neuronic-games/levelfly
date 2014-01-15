@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  object_type: MyString
-  object_id: 1
+  target_type: MyString
+  target_id: 1
 
 two:
-  object_type: MyString
-  object_id: 1
+  target_type: MyString
+  target_id: 1

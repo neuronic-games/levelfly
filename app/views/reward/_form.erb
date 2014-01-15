@@ -8,18 +8,18 @@
     </div>
     <div class="clear"></div>
   </div>
-  <div class="boxadnt"> <span class="heading02">Object Type</span>
+  <div class="boxadnt"> <span class="heading02">Target Type</span>
     <div class="heading02_field">
       <div class="dd_bg brown_bg02">
-        <input type ="text" class = "dd_input brown_bg02" id ="object_type" value="<%=@reward.object_type if @reward%>">
+        <input type ="text" class = "dd_input brown_bg02" id ="target_type" value="<%=@reward.target_type if @reward%>">
       </div>
     </div>
     <div class="clear"></div>
   </div>
-  <div class="boxadnt"> <span class="heading02">Object ID</span>
+  <div class="boxadnt"> <span class="heading02">Target ID</span>
     <div class="heading02_field">
       <div class="dd_bg brown_bg02">
-        <input type ="text" class = "dd_input brown_bg02" id ="object_id" value="<%=@reward.object_id if @reward%>">
+        <input type ="text" class = "dd_input brown_bg02" id ="target_id" value="<%=@reward.target_id if @reward%>">
       </div>
     </div>
     <div class="clear"></div>
@@ -47,14 +47,14 @@ $(document).ready(function(){
   $("#save_btn").click(function(){
     id = $("#hdn_reward_id").val();
     xp = $("#xp_points").val();
-    object_type = $("#object_type").val();
-    object_id = $("#object_id").val();
+    target_type = $("#target_type").val();
+    target_id = $("#target_id").val();
     showSpinner(true);
     $.ajax({
       type:"POST",
       dataType :"json",
       url:"/reward/save/",
-      data:{id:id,xp:xp,object_type:object_type,object_id:object_id},
+      data:{id:id,xp:xp,target_type:target_type,target_id:target_id},
       success: function(resp){
         if (resp.status==true){
             $("#container").load('/reward/', function(){

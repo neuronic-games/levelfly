@@ -20,7 +20,7 @@ class WardrobeController < ApplicationController
     if params[:id]
       @profile = Profile.find(:first,  :select => "school_id", :conditions=>["user_id = ?", current_user.id])
       #@vault = Vault.find(:first, 
-      #  :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", @profile.school_id])
+      #  :conditions => ["target_id = ? and target_type = 'School' and vault_type = 'AWS S3'", @profile.school_id])
       @wardrobe_item = WardrobeItem.find(params[:id])
       @wardrobe_id = @wardrobe_item.wardrobe_id
       respond_to do |wants|
@@ -39,7 +39,7 @@ class WardrobeController < ApplicationController
   def new
     @profile = Profile.find(:first,  :select => "school_id", :conditions=>["user_id = ?", current_user.id])
     #@vault = Vault.find(:first, 
-    #  :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", @profile.school_id])
+    #  :conditions => ["target_id = ? and target_type = 'School' and vault_type = 'AWS S3'", @profile.school_id])
     respond_to do |wants|
       wants.html do
         if params[:id] && !params[:id].empty?

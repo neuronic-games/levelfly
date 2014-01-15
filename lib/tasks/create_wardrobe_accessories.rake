@@ -8,13 +8,13 @@ task :create_wardrobe_accessories => :environment do
   Wardrobe.add("Urban Cool", "Accessories", "Bags", "Messenger Bag", "prop", "basic/props/side_bag")
   Wardrobe.add("Urban Cool", "Head", "Hats", "Black Cap", "hat", "basic/hats/hat_red_black")
   Wardrobe.unlock("Urban Cool", 500)
-  Reward.destroy_all(:object_type => 'wardrobe', :object_id => '2') # Sports
+  Reward.destroy_all(:target_type => 'wardrobe', :target_id => '2') # Sports
     
   Wardrobe.add("Purple Power Superhero", "Body", "Misc", "Purple Power", "top", "basic/tops/superhero_top")
   Wardrobe.add("Purple Power Superhero", "Legs", "Misc", "Purple Power", "bottom", "basic/bottoms/superhero_bottom")
   Wardrobe.add("Purple Power Superhero", "Feet", "Misc", "Purple Power", "shoes", "basic/shoes/superhero_boot")
   Wardrobe.unlock("Purple Power Superhero", 1000)
-  Reward.destroy_all(:object_type => 'wardrobe', :object_id => '4') # Devil
+  Reward.destroy_all(:target_type => 'wardrobe', :target_id => '4') # Devil
   
   wi = WardrobeItem.find_by_name("Orange Necklace")
   wi.image_file = "basic/necklace/necklace_orange"

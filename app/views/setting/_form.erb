@@ -1,18 +1,18 @@
 <div class="add_task_popup">
   <div class="heading">Setting</div>
-  <!--<div class="boxadnt"> <span class="heading02">object id</span>
+  <!--<div class="boxadnt"> <span class="heading02">target id</span>
     <div class="heading02_field">
       <div class="dd_bg brown_bg02">
-        <input type ="text" class = "dd_input brown_bg02" id ="object_id" value="">
+        <input type ="text" class = "dd_input brown_bg02" id ="target_id" value="">
       </div>
     </div>
     <div class="clear"></div>
   </div>
   
-  <div class="boxadnt"> <span class="heading02">object Type</span>
+  <div class="boxadnt"> <span class="heading02">target Type</span>
     <div class="heading02_field">
       <div class="dd_bg brown_bg02">
-        <input type ="text" class = "dd_input brown_bg02" id ="object_type" value="">
+        <input type ="text" class = "dd_input brown_bg02" id ="target_type" value="">
       </div>
     </div>
     <div class="clear"></div>
@@ -42,8 +42,8 @@
     <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
   
-  <input type="hidden" id="object_id" value="<%=@profile.school_id if @profile%>">
-  <input type="hidden" id="object_type" value="school">
+  <input type="hidden" id="target_id" value="<%=@profile.school_id if @profile%>">
+  <input type="hidden" id="target_type" value="school">
   <input type="hidden" id="hdn_setting_id" value="<%=@setting.id if @setting%>">
   <div align="right" style="margin-right:20px;">
   <a class="big_blue_btn inlineblock" id ="dont_save_btn" href="javascript:void(0)">Don't Save</a> <a class="big_blue_btn inlineblock" id ="save_btn" href="javascript:void(0)">Save</a></div>
@@ -63,8 +63,8 @@ $(document).ready(function(){
   
   $("#save_btn").click(function(){
     id = $("#hdn_setting_id").val();
-    object_type = $("#object_type").val();
-    object_id = $("#object_id").val();
+    target_type = $("#target_type").val();
+    target_id = $("#target_id").val();
     name = $("#name").val();
     value = $("#value").val();
     showSpinner(true);
@@ -72,7 +72,7 @@ $(document).ready(function(){
       type:"POST",
       dataType :"json",
       url:"/setting/save/",
-      data:{id:id,name:name,object_type:object_type,object_id:object_id,value:value},
+      data:{id:id,name:name,target_type:target_type,target_id:target_id,value:value},
       success: function(resp){
         if (resp.status==true){
             $("#container").load('/setting/', function(){

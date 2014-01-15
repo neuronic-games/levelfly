@@ -50,12 +50,12 @@ class UsersController < ApplicationController
        @users = Profile.where("school_id = ? and user_id is not null", @profile.school_id).order("full_name")
      elsif params[:id] == "members_of_courses"
        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, "C"], :order => "name").collect(&:id)
-       profile_ids = Participant.find(:all, :conditions => ["object_id IN (?)",course_ids]).collect(&:profile_id).uniq
+       profile_ids = Participant.find(:all, :conditions => ["target_id IN (?)",course_ids]).collect(&:profile_id).uniq
      elsif params[:id] == "members_of_groups"
        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, "G"], :order => "name").collect(&:id)
-       profile_ids = Participant.find(:all, :conditions => ["object_id IN (?)",course_ids]).collect(&:profile_id).uniq
+       profile_ids = Participant.find(:all, :conditions => ["target_id IN (?)",course_ids]).collect(&:profile_id).uniq
      else
-       profile_ids = Participant.find(:all, :conditions => ["object_id = ?",params[:id]]).collect(&:profile_id).uniq
+       profile_ids = Participant.find(:all, :conditions => ["target_id = ?",params[:id]]).collect(&:profile_id).uniq
      end
      @users = Profile.where("school_id = ? and user_id is not null and id IN (?)", @profile.school_id, profile_ids).order("full_name") unless @users
      @profile.record_action('last', 'users')

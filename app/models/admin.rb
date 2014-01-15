@@ -3,9 +3,9 @@ class Admin < ActiveRecord::Base
   def self.clean_friends
     pmap = {}
     count = 0
-    plist = Participant.find(:all, :conditions => {:object_type => "User", :profile_type => "F"})
+    plist = Participant.find(:all, :conditions => {:target_type => "User", :profile_type => "F"})
     plist.each do |p|
-      index = "#{p.object_id},#{p.profile_id}"
+      index = "#{p.target_id},#{p.profile_id}"
       if pmap[index].nil?
         pmap[index] = p.id
       else
