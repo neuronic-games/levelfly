@@ -8,11 +8,11 @@ class Setting < ActiveRecord::Base
   def self.add(school_handle, name, value)
     school = School.find_by_handle(school_handle)
     return unless school
-    setting = Setting.find(:first, :conditions => {:object_id => school.id, :object_type => "school", :name => name})
+    setting = Setting.find(:first, :conditions => {:target_id => school.id, :target_type => "school", :name => name})
     if setting.nil?
       setting = Setting.new
-      setting.object_id = school.id
-      setting.object_type = 'school'
+      setting.target_id = school.id
+      setting.target_type = 'school'
       setting.name = name
     end
     setting.value = value
