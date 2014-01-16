@@ -2,7 +2,7 @@ require 'rubygems'
 require 'aws/s3'
 require 'open-uri'
 class Attachment < ActiveRecord::Base
-  belongs_to :object, :polymorphic => true
+  belongs_to :target, :polymorphic => true
   belongs_to :school
   belongs_to :owner, :class_name => "Profile"
   
@@ -10,7 +10,7 @@ class Attachment < ActiveRecord::Base
   has_attached_file :resource,
     :storage => :s3,
     :s3_credentials => { :access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET'] },
-    :path => "schools/:school/files/:object/:object_id/:filename",
+    :path => "schools/:school/files/:target/:target_id/:filename",
     :bucket => ENV['S3_PATH']
 
   def duplicate
@@ -47,7 +47,7 @@ class Attachment < ActiveRecord::Base
     #@vault = nil
     if school_id
       #@vault = Vault.find(:first,
-      #:conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
+      #:conditions => ["target_id = ? and target_type = 'School' and vault_type = 'AWS S3'", school_id])
       #if @vault
         self.aws_bucket(bucket ? bucket : ENV['S3_PATH'])
         if AWS::S3::Base.establish_connection!(

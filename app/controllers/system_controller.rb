@@ -51,7 +51,7 @@ class SystemController < ApplicationController
   def accept_course_invitation(message_id,profile)
     @message = Message.find(message_id)
     if @message
-      @course_participant = Participant.where("object_type = ? AND object_id = ? AND profile_id = ? AND profile_type='P'",@message.parent_type,@message.target_id,@message.parent_id).first
+      @course_participant = Participant.where("target_type = ? AND target_id = ? AND profile_id = ? AND profile_type='P'",@message.parent_type,@message.target_id,@message.parent_id).first
       if @course_participant and @course_participant.profile_type == 'P'
         course = Course.find(@message.target_id)
         if @course_participant
@@ -87,8 +87,8 @@ class SystemController < ApplicationController
           forums.each do |forum|
             wall_id = Wall.get_wall_id(forum.id,"Course")
             @forum_participant = Participant.new
-            @forum_participant.object_id = forum.id
-            @forum_participant.object_type = "Course"
+            @forum_participant.target_id = forum.id
+            @forum_participant.target_type = "Course"
             @forum_participant.profile_id = profile.id
             @forum_participant.profile_type = "S"
             if @forum_participant.save

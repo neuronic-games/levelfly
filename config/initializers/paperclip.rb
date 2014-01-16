@@ -10,10 +10,10 @@ Paperclip.interpolates :id do |attachment, style|
   attachment.instance.id
 end
 
-Paperclip.interpolates :object do |attachment, style|
-  attachment.instance.object_type
+Paperclip.interpolates :target do |attachment, style|
+  attachment.instance.target_type
 end
 
-Paperclip.interpolates :object_id do |attachment, style|
-  attachment.instance.object_id
+Paperclip.interpolates :target_id do |attachment, style|
+  attachment.instance.target_id
 end

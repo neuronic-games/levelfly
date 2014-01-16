@@ -54,7 +54,7 @@ class Profile < ActiveRecord::Base
   end
   
   def friends
-    profiles = Participant.find(:all, :conditions=>["object_id = ? AND object_type = 'User' AND profile_type = 'F'", self.id])#.collect! {|x| x.profile}
+    profiles = Participant.find(:all, :conditions=>["target_id = ? AND target_type = 'User' AND profile_type = 'F'", self.id])#.collect! {|x| x.profile}
     return profiles
   end
   
@@ -64,10 +64,10 @@ class Profile < ActiveRecord::Base
     if basic and !basic.nil?
       ids.push(basic.id)
     end
-    sports_reward = Reward.find(:all, :select => "object_id", :conditions=>["object_type = 'wardrobe' and object_id <= ?",self.wardrobe])
+    sports_reward = Reward.find(:all, :select => "target_id", :conditions=>["target_type = 'wardrobe' and target_id <= ?",self.wardrobe])
     if sports_reward and !sports_reward.nil?
       sports_reward.each do |reward|
-        ids.push(reward[:object_id])
+        ids.push(reward[:target_id])
       end
     end
     return ids

@@ -23,14 +23,14 @@ module CourseHelper
   
   def sort_files(id,type)
     course = Course.find(id)
-    att = Attachment.find(:all, :conditions=>["object_type = ? and object_id = ?",type,id], :order=>"starred desc")
+    att = Attachment.find(:all, :conditions=>["target_type = ? and target_id = ?",type,id], :order=>"starred desc")
     return att
   end
   
   def already_join(group_id, profile_id)
     status = false
     profile_type = nil
-    participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ? ", group_id, profile_id])#replace 'Course' by 'Group' 
+    participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type = 'Course' AND profile_id = ? ", group_id, profile_id])#replace 'Course' by 'Group' 
     if participant
       profile_type = participant.profile_type
       status = true
@@ -40,14 +40,14 @@ module CourseHelper
   
   def member_forum(member_id, course_id)
     if member_id
-      participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", course_id, member_id]) 
+      participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type='Course' AND profile_id = ?", course_id, member_id]) 
       if participant
         return true
       end
     else
       course = Course.find_by_id(course_id)
-      forum_participants = Participant.find(:all, :conditions => ["object_id = ? AND object_type='Course' AND profile_type='S'", course_id])
-      course_participants = Participant.find(:all, :conditions => ["object_id = ? AND object_type='Course' AND profile_type='S'", course.course_id])
+      forum_participants = Participant.find(:all, :conditions => ["target_id = ? AND target_type='Course' AND profile_type='S'", course_id])
+      course_participants = Participant.find(:all, :conditions => ["target_id = ? AND target_type='Course' AND profile_type='S'", course.course_id])
       if (forum_participants.count == course_participants.count) and !course_participants.blank?
         return true
       end

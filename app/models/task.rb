@@ -6,8 +6,8 @@ class Task < ActiveRecord::Base
   belongs_to :course
   belongs_to :group
   has_many :task_participants
-  has_many :participants, :as => :object
-  has_many :attachments, :as => :object
+  has_many :participants, :as => :target
+  has_many :attachments, :as => :target
   has_many :messages, :as => :parent
   has_many :outcome_tasks
   has_many :outcomes, :through => :outcome_tasks
@@ -205,12 +205,12 @@ class Task < ActiveRecord::Base
     previous_wardrobe = profile.wardrobe
     if complete
       profile.xp += award_points if (participant and !participant.xp_award_date) or course_name
-      @level = Reward.find(:first, :conditions=>["xp <= ? and object_type = 'level'",  profile.xp], :order=>"xp DESC")
+      @level = Reward.find(:first, :conditions=>["xp <= ? and target_type = 'level'",  profile.xp], :order=>"xp DESC")
       puts"#{@level.inspect}"
-      profile.level = @level.object_id
-      wardrobe = Reward.find(:first, :conditions=>["xp <= ? and object_type = 'wardrobe'",  profile.xp], :order=>"xp DESC")
+      profile.level = @level.target_id
+      wardrobe = Reward.find(:first, :conditions=>["xp <= ? and target_type = 'wardrobe'",  profile.xp], :order=>"xp DESC")
       puts"#{wardrobe.inspect}"
-      profile.wardrobe = wardrobe.object_id if wardrobe
+      profile.wardrobe = wardrobe.target_id if wardrobe
     else
       task_grade = TaskGrade.find(:first, :conditions => ["task_id = ? and profile_id = ? and course_id = ? and school_id = ?",task.id,profile.id,task.course_id,profile.school_id])
       profile.xp -= task_grade.points if participant.xp_award_date and task_grade

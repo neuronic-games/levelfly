@@ -20,12 +20,12 @@ class LeaderBoardController < ApplicationController
 
     if filter == "course"
       course_ids = Participant.find(:all, 
-        :conditions => ["object_type = 'Course' and profile_id = ? and profile_type in ('M', 'S')", @profile.id], 
-        :select => "distinct object_id as course_id").map(&:course_id)
-      conditions[0] += " and participants.object_type = 'Course' and participants.profile_type in ('M', 'S') and participants.object_id in (?)"
+        :conditions => ["target_type = 'Course' and profile_id = ? and profile_type in ('M', 'S')", @profile.id], 
+        :select => "distinct target_id as course_id").map(&:course_id)
+      conditions[0] += " and participants.target_type = 'Course' and participants.profile_type in ('M', 'S') and participants.target_id in (?)"
       conditions << course_ids
     elsif filter == "friend"
-      conditions[0] += " and participants.object_type = 'User' and participants.profile_type = 'F' and participants.object_id = ?"
+      conditions[0] += " and participants.target_type = 'User' and participants.profile_type = 'F' and participants.target_id = ?"
       conditions << @profile.id
     end
     
@@ -44,7 +44,7 @@ class LeaderBoardController < ApplicationController
   
   def show_user_profile
     if params[:course_id] && !params[:course_id].nil?
-       @courses_list = Course.joins(:participants => [{:profile => :avatar}]).where("participants.object_type = 'Course' AND courses.id = ?",params[:course_id]).select("profiles.full_name,avatars.level,avatars.points,courses.name,profiles.image_file_name")
+       @courses_list = Course.joins(:participants => [{:profile => :avatar}]).where("participants.target_type = 'Course' AND courses.id = ?",params[:course_id]).select("profiles.full_name,avatars.level,avatars.points,courses.name,profiles.image_file_name")
     end
     render :partial => "/leader_board/courses_list"
   end

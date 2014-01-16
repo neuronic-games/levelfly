@@ -60,8 +60,8 @@
 		</div>
 	<div id="file_download" class="hide"><%=render :partial => "/course/download_dialog" %></div> 
   <input type="hidden" name="current_course" id="current_course" value="<%=@course.id if @course%>">
-  <input type="hidden" name="object_type_hdn" id="object_type_hdn" <% if @task %>value="Task" <%else%>value="Course"<%end%>> 
-  <input type="hidden" name="object_id_hdn" id="object_id_hdn" <%if @task %>value="<%=@task.id%>" <%else%>value="<%=@course.id%>" <%end%> >
+  <input type="hidden" name="target_type_hdn" id="target_type_hdn" <% if @task %>value="Task" <%else%>value="Course"<%end%>> 
+  <input type="hidden" name="target_id_hdn" id="target_id_hdn" <%if @task %>value="<%=@task.id%>" <%else%>value="<%=@course.id%>" <%end%> >
   <input type="hidden" name="current_profile" id="current_profile" value="<%=@profile.id%>">
   <div class="clear"></div>
 </div>
@@ -71,14 +71,14 @@ if ( $.browser.msie ) {
   $('#drop_file_span').remove();
 } 
 $(document).ready(function(){
-    var object_id;
-    var object_type;
+    var target_id;
+    var target_type;
     <%if @task%>
-     object_id = $("#task_id_hdn").val();
-     object_type = 'Task';
+     target_id = $("#task_id_hdn").val();
+     target_type = 'Task';
     <% else %>
-     object_id = $("#course_id_hdn").val();
-     object_type = 'Course';
+     target_id = $("#course_id_hdn").val();
+     target_type = 'Course';
     <% end %>
   
      <% if @courseMaster %>
@@ -180,8 +180,8 @@ $(document).ready(function(){
       multipart_params: {
         'authenticity_token' : token,  //For csrf-authentication
         'school_id' : $("#course_school_id_hdn").val(),
-        'id' : object_id,
-        'object_type': object_type,
+        'id' : target_id,
+        'target_type': target_type,
         'profile_id' : $("#current_profile").val()
       }
     });
@@ -189,8 +189,8 @@ $(document).ready(function(){
     add_file_uploader.init();
     
      add_file_uploader.bind("BeforeUpload", function(up,file) {
-      add_file_uploader.settings.multipart_params.id = object_id
-      add_file_uploader.settings.multipart_params.object_type = object_type
+      add_file_uploader.settings.multipart_params.id = target_id
+      add_file_uploader.settings.multipart_params.target_type = target_type
      });
     
     add_file_uploader.bind('FilesAdded', function(up, files) {
@@ -229,8 +229,8 @@ $(document).ready(function(){
         multipart_params: {
           'authenticity_token' : token,  //For csrf-authentication
           'school_id' : $("#course_school_id_hdn").val(),
-          'id' : object_id,
-          'object_type': object_type
+          'id' : target_id,
+          'target_type': target_type
         }
       });
 
@@ -267,11 +267,11 @@ $(document).ready(function(){
          data: {id:id,course_id:course_id,profile_id:profile_id},
          success: function(data) {
             if(id == "all"){
-              object_type = "Course";
-              object_id = course_id;
+              target_type = "Course";
+              target_id = course_id;
             }else{
-              object_type = "Task"
-              object_id = id;
+              target_type = "Task"
+              target_id = id;
             }
            if(data==""){
             $("#load_files").html("<div id='no_files' class='badge_message'>No file uploaded for this task</div>");

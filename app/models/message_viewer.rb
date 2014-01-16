@@ -17,18 +17,18 @@ class MessageViewer < ActiveRecord::Base
         end
       end
     end
-    object_type = nil;
+    target_type = nil;
     if parent_type =="C"
-      object_type ="Course"
+      target_type ="Course"
     elsif  parent_type =="G"
-      object_type ="Group"
+      target_type ="Group"
     end
     
     if (parent_type == "C" || parent_type =="G" || parent_type =="F")
     @viewers = Profile.find(
        :all, 
        :include => [:participants], 
-       :conditions => ["participants.object_id = ? AND participants.object_type in ('Course','Group') AND participants.profile_type IN ('M', 'P', 'S')", parent_id]
+       :conditions => ["participants.target_id = ? AND participants.target_type in ('Course','Group') AND participants.profile_type IN ('M', 'P', 'S')", parent_id]
      )
     elsif parent_type == "Profile"
       @viewers = Profile.where("id = ?",parent_id)
@@ -38,13 +38,13 @@ class MessageViewer < ActiveRecord::Base
        @viewers = Profile.find(
        :all, 
        :include => [:participants],
-       :conditions=>["participants.object_id = ? AND participants.object_type = 'User' AND profile_type = 'F'",profile_id])
+       :conditions=>["participants.target_id = ? AND participants.target_type = 'User' AND profile_type = 'F'",profile_id])
         MessageViewer.create(:message_id => message_id, :poster_profile_id =>profile_id, :viewer_profile_id => profile_id) 
     # elsif  parent_type == "Message"
        # @viewers = Profile.find(
        # :all, 
        # :include => [:participants],
-       # :conditions=>["participants.object_id = ? AND participants.object_type = 'User' AND profile_type = 'F'",profile_id])
+       # :conditions=>["participants.target_id = ? AND participants.target_type = 'User' AND profile_type = 'F'",profile_id])
     end
       if @viewers and not@viewers.nil?
         @viewers.each do |viewer|
