@@ -106,7 +106,7 @@ class TaskController < ApplicationController
     @people = Participant.find(
       :all, 
       :include => [:profile], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @task.course_id],
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'S'", @task.course_id],
       :order => "profiles.full_name"
     )
     @task_members = TaskParticipant.find(
@@ -217,7 +217,7 @@ class TaskController < ApplicationController
         end
       end
       # Participant record
-      course_participants = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",params[:course_id]],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order => "full_name")
+      course_participants = Participant.all( :joins => [:profile], :conditions => ["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'",params[:course_id]],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order => "full_name")
       task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='O' AND profile_id = ?", @task.id, user_session[:profile_id]])
       if !task_participant
         @task_participant = TaskParticipant.new
@@ -378,8 +378,8 @@ class TaskController < ApplicationController
         #Participant duplicate
         @task.participants.each do |p|
           @dup_task_participant = Participant.new
-          @dup_task_participant.object_id = @dup_task.id
-          @dup_task_participant.object_type = p.object_type
+          @dup_task_participant.target_id = @dup_task.id
+          @dup_task_participant.target_type = p.target_type
           @dup_task_participant.profile_id = p.profile_id
           @dup_task_participant.profile_type = p.profile_type
           @dup_task_participant.save
@@ -394,7 +394,7 @@ class TaskController < ApplicationController
     task_id = params[:id]
     #@vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
     #if @vault
-      @attachment = Attachment.new(:resource=>params[:file], :school_id=>school_id, :object_type=>"task", :object_id=>task_id)
+      @attachment = Attachment.new(:resource=>params[:file], :school_id=>school_id, :target_type=>"task", :target_id=>task_id)
       if @attachment.save
         @url = @attachment.resource.url
         render :text => {"attachment"=>@attachment, "resource_url" => @url}.to_json
@@ -437,7 +437,7 @@ class TaskController < ApplicationController
       @people = Participant.find(
         :all, 
         :include => [:profile], 
-        :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S' ", params[:course_id]],
+        :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'S' ", params[:course_id]],
         :order => "profiles.full_name"
       )
       all_tasks = Task.filter_by(@course.owner.id,@course.id,"").collect(&:points)

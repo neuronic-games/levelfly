@@ -1,3 +1,3 @@
 class Vault < ActiveRecord::Base
-  belongs_to :object, :polymorphic=>true
+  belongs_to :target, :polymorphic=>true
 end

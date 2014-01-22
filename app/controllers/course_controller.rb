@@ -60,13 +60,13 @@ class CourseController < ApplicationController
     if params[:id] && !params[:id].nil?
       @course = Course.find_by_id(params[:id])
       @profile = Profile.find(user_session[:profile_id])
-      @participant =  participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ? ", params[:id], user_session[:profile_id]])
-      @owner = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_type ='M'", params[:id]])
+      @participant =  participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type = 'Course' AND profile_id = ? ", params[:id], user_session[:profile_id]])
+      @owner = Participant.find(:first, :conditions => ["target_id = ? AND target_type = 'Course' AND profile_type ='M'", params[:id]])
       if !@participant 
         @participant = Participant.new
-        @participant.object_id    = params[:id] if params[:id]
+        @participant.target_id    = params[:id] if params[:id]
         @participant.profile_id   = user_session[:profile_id]
-        @participant.object_type  = "Course" # Change 'Group' to 'Course' because of query include `participants`.`object_type` = 'Course' when load group or course! Change by vaibhav
+        @participant.target_type  = "Course" # Change 'Group' to 'Course' because of query include `participants`.`target_type` = 'Course' when load group or course! Change by vaibhav
         @participant.profile_type = "P"  
         if @participant.save
           status = true
@@ -139,20 +139,20 @@ class CourseController < ApplicationController
     @member_count = Profile.count(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @course.id]
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'S'", @course.id]
     )
-    @member = Participant.find( :first, :conditions => ["participants.object_id = ? AND participants.profile_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id])
+    @member = Participant.find( :first, :conditions => ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id])
     @pending_count = Profile.count(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('P')", @course.id]
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')", @course.id]
     )
     @courseMaster = Profile.find(
       :first, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", @course.id]
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", @course.id]
       )
-    @course_owner = Participant.find(:first, :conditions=>["object_id = ? AND profile_type = 'M' AND object_type='Course'",params[:id]])   
+    @course_owner = Participant.find(:first, :conditions=>["target_id = ? AND profile_type = 'M' AND target_type='Course'",params[:id]])   
     #@totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @totaltask = @tasks = Task.filter_by(user_session[:profile_id], @course.id, "current")
     @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
@@ -265,11 +265,11 @@ class CourseController < ApplicationController
       end
       
       # Participant record for master
-      participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]])
+      participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]])
       if !participant
         @participant = Participant.new
-        @participant.object_id = @course.id
-        @participant.object_type = "Course"
+        @participant.target_id = @course.id
+        @participant.target_type = "Course"
         @participant.profile_id = user_session[:profile_id]
         @participant.profile_type = "M"
         if @participant.save
@@ -302,7 +302,7 @@ class CourseController < ApplicationController
       #if params[:section_type] == 'C'
        #  section_type = 'Course'
       #end 
-      # Change 'Group' to 'Course' because of query include `participants`.`object_type` = 'Course' when load group or course! Change by vaibhav
+      # Change 'Group' to 'Course' because of query include `participants`.`target_type` = 'Course' when load group or course! Change by vaibhav
       section_type = 'Course'
       @user = User.find(:first, :conditions => ["lower(email) = ?", params[:email].downcase])
       if @user 
@@ -312,12 +312,12 @@ class CourseController < ApplicationController
         new_user = true
       end
       if @profile
-        participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type= ? AND profile_id = ?", params[:course_id], section_type, @profile.id])
+        participant_exist = Participant.find(:first, :conditions => ["target_id = ? AND target_type= ? AND profile_id = ?", params[:course_id], section_type, @profile.id])
         course = Course.find(params[:course_id])
         if !participant_exist
           @participant = Participant.new
-          @participant.object_id = params[:course_id]
-          @participant.object_type = section_type
+          @participant.target_id = params[:course_id]
+          @participant.target_type = section_type
           @participant.profile_id = @profile.id
           @participant.profile_type = "P"
           if @participant.save
@@ -379,7 +379,7 @@ class CourseController < ApplicationController
 			@peoples = Profile.find(
          :all, 
          :include => [:participants], 
-         :conditions => ["participants.object_id = ? AND participants.object_type= ? AND participants.profile_type = 'S'", @course.id,section_type]
+         :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type = 'S'", @course.id,section_type]
        )
 			
 			if @peoples
@@ -401,7 +401,7 @@ class CourseController < ApplicationController
   def delete_participant
     status = false
     if params[:profile_id] && params[:course_id]
-      participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ? ", params[:course_id], params[:profile_id]])
+      participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type = 'Course' AND profile_id = ? ", params[:course_id], params[:profile_id]])
       if participant
         participant.delete
         @wall_id = Wall.find(:first, :conditions=>["parent_id = ? and parent_type = 'C'",params[:course_id]])
@@ -414,7 +414,7 @@ class CourseController < ApplicationController
         forum = Course.find(:all, :conditions => ["course_id = ?",params[:course_id]])
         if forum
           forum.each do |forum|
-            forum_participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ? ", forum.id, params[:profile_id]])
+            forum_participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type = 'Course' AND profile_id = ? ", forum.id, params[:profile_id]])
             if forum_participant
               forum_participant.delete
               wall_id = Wall.find(:first, :conditions=>["parent_id = ? and parent_type = 'C'",forum.id])
@@ -550,17 +550,17 @@ class CourseController < ApplicationController
      @member_count = Profile.count(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id]
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id]
       )
       @pending_count = Profile.count(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('P')", @course.id]
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')", @course.id]
      )
      @courseMaster = Profile.find(
       :first, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", params[:id]]
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]]
       )
      render :partial => "/group/setup",:locals=>{:@course=>@course}         
   end 
@@ -578,20 +578,20 @@ class CourseController < ApplicationController
     @peoples = Profile.find(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type IN ('Course','Group') AND participants.profile_type = 'S'", @course.id]
+      :conditions => ["participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type = 'S'", @course.id]
     )
     @member_count = @peoples.length
-    @member = Participant.find(:first, :conditions => ["participants.object_id = ? AND participants.profile_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id]
+    @member = Participant.find(:first, :conditions => ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id]
 )
     @pending_count = Profile.count(
       :all, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type IN ('Course','Group') AND participants.profile_type IN ('P')", @course.id]
+      :conditions => ["participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P')", @course.id]
     )
     @courseMaster = Profile.find(
       :first, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", params[:id]]
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]]
       )
     @groups = nil# Group.find(:all, :conditions=>["course_id = ?",params[:id]])
     enable_forum = false
@@ -604,7 +604,7 @@ class CourseController < ApplicationController
       @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'G' and id in (?)",@course.id,message_ids],:order => "starred DESC,created_at DESC" )
     end
      if params[:value] == "3"
-         setting = Setting.find(:first, :conditions=>["object_id = ? and value = 'true' and object_type ='school' and name ='enable_course_forums' ",@course.school_id])
+         setting = Setting.find(:first, :conditions=>["target_id = ? and value = 'true' and target_type ='school' and name ='enable_course_forums' ",@course.school_id])
        if setting and !setting.nil?
         @groups = @course.course_forum(@profile.id)
         enable_forum = true
@@ -634,26 +634,26 @@ class CourseController < ApplicationController
      # else   
         # section_type = 'Course' 
      # end   
-     # Change 'Group' to 'Course' because of query include `participants`.`object_type` = 'Course' when load groups or courses! Change by vaibhav
+     # Change 'Group' to 'Course' because of query include `participants`.`target_type` = 'Course' when load groups or courses! Change by vaibhav
      @profile = Profile.find(user_session[:profile_id])
      section_type = 'Course'
      @courseMaster = Profile.find(
       :first, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M' and profile_id = ? ", @course.id,user_session[:profile_id]]
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M' and profile_id = ? ", @course.id,user_session[:profile_id]]
       )
      if @courseMaster and @course.course_id != 0
        @peoples = Profile.find(
          :all, 
          :include => [:participants], 
-         :conditions => ["participants.object_id = ? AND participants.object_type= ? AND participants.profile_type = 'S'", @course.course_id,section_type],
+         :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type = 'S'", @course.course_id,section_type],
          :order => "full_name"
        )
      else
        @peoples = Profile.find(
        :all, 
        :include => [:participants], 
-       :conditions => ["participants.object_id = ? AND participants.object_type= ? AND participants.profile_type IN ('P', 'S')", @course.id,section_type],
+       :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('P', 'S')", @course.id,section_type],
        :order => "full_name"
      )
      end
@@ -669,19 +669,19 @@ class CourseController < ApplicationController
   def add_file
     school_id = params[:school_id]
     course_id = params[:id]
-    if params[:object_type] == 'Course'
+    if params[:target_type] == 'Course'
       @course = Course.find(params[:id])
     elsif
       task = Task.find(params[:id])
       @course = task.course
     end
     @profile = Profile.find(params[:profile_id])
-    #@vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
+    #@vault = Vault.find(:first, :conditions => ["target_id = ? and target_type = 'School' and vault_type = 'AWS S3'", school_id])
     #if @vault
-      @attachment = Attachment.new(:resource=>params[:file], :object_type=>params[:object_type], :object_id=>course_id, :school_id=>school_id, :owner_id=>user_session[:profile_id])
+      @attachment = Attachment.new(:resource=>params[:file], :target_type=>params[:target_type], :target_id=>course_id, :school_id=>school_id, :owner_id=>user_session[:profile_id])
       if @attachment.save
         @url = @attachment.resource.url
-        puts"#{@url}--#{params[:object_type]}"
+        puts"#{@url}--#{params[:target_type]}"
       end
     #end
     render :partial => "/course/file_list" ,:locals=>{:a => @attachment}
@@ -828,7 +828,7 @@ class CourseController < ApplicationController
          end
          status = true
       else
-         participant = Participant.find( :first, :conditions => ["participants.object_id = ? AND participants.profile_id = ? AND participants.object_type='Course' AND participants.profile_type = 'S'", @course.id, user_session[:profile_id]])
+         participant = Participant.find( :first, :conditions => ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type = 'S'", @course.id, user_session[:profile_id]])
          participant.delete if participant
          status = true
       end
@@ -843,9 +843,9 @@ class CourseController < ApplicationController
       @peoples = Profile.find(
         :all, 
         :include => [:participants], 
-        :conditions => ["participants.object_id = ? AND participants.object_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S')", @course.id]
+        :conditions => ["participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S')", @course.id]
       )
-      @member = Participant.find( :first, :conditions => ["participants.object_id = ? AND participants.profile_id = ? AND participants.object_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id])
+      @member = Participant.find( :first, :conditions => ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id])
       @member_count = @peoples.length
       @courseMaster = @course.owner
       message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
@@ -879,11 +879,11 @@ class CourseController < ApplicationController
     end
     if @course.save
       wall_id = Wall.get_wall_id(@course.id,"Course")
-      participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]])
+      participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]])
       if !participant
         @participant = Participant.new
-        @participant.object_id = @course.id
-        @participant.object_type = "Course"
+        @participant.target_id = @course.id
+        @participant.target_type = "Course"
         @participant.profile_id = user_session[:profile_id]
         @participant.profile_type = "M"
         if @participant.save
@@ -910,14 +910,14 @@ class CourseController < ApplicationController
        @course = Course.find(params[:course_id])
        wall_id = Wall.get_wall_id(@course.id,"Course")
        if params[:member_id] && !params[:member_id].nil?
-         participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", @course.id, params[:member_id]])
+         participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, params[:member_id]])
          if participant
            participant.delete
            status = true
          else
            @participant = Participant.new
-           @participant.object_id = @course.id
-           @participant.object_type = "Course"
+           @participant.target_id = @course.id
+           @participant.target_type = "Course"
            @participant.profile_id = params[:member_id]
            @participant.profile_type = "S"
            if @participant.save
@@ -933,13 +933,13 @@ class CourseController < ApplicationController
            @course.all_members = false
          else
            @course.all_members = true
-           course_participants = Participant.find(:all, :conditions => ["object_id = ? AND object_type='Course' AND profile_type = 'S'", @course.course_id])
+           course_participants = Participant.find(:all, :conditions => ["target_id = ? AND target_type='Course' AND profile_type = 'S'", @course.course_id])
            course_participants.each do |participant|
-             forum_participant = Participant.find(:first, :conditions => ["object_id = ? AND object_type='Course' AND profile_id = ?", @course.id, participant.profile_id])
+             forum_participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, participant.profile_id])
              if forum_participant.nil? and params[:check_val] == "true" 
                @participant = Participant.new
-               @participant.object_id = @course.id
-               @participant.object_type = "Course"
+               @participant.target_id = @course.id
+               @participant.target_type = "Course"
                @participant.profile_id = participant.profile_id
                @participant.profile_type = "S"
                if @participant.save

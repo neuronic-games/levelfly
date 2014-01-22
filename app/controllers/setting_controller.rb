@@ -5,7 +5,7 @@ class SettingController < ApplicationController
   
   def index
     @profile = Profile.find(user_session[:profile_id])
-    @settings = Setting.find(:all, :conditions=>["object_id = ?", @profile.school_id])
+    @settings = Setting.find(:all, :conditions=>["target_id = ?", @profile.school_id])
     render :partial => "/setting/list"
   end
   
@@ -32,8 +32,8 @@ class SettingController < ApplicationController
       @setting = Setting.new
     end
     @setting.name = params[:name] if params[:name]
-    @setting.object_type = params[:object_type] if params[:object_type]
-    @setting.object_id = params[:object_id] if params[:object_id]
+    @setting.target_type = params[:target_type] if params[:target_type]
+    @setting.target_id = params[:target_id] if params[:target_id]
     @setting.value = params[:value] if params[:value]
     if @setting.save
       render :text => {:status=>true}.to_json 

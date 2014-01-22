@@ -8,7 +8,7 @@
 
 # School setting
 school = School.create(:name => 'Borough of Manhattan Community College', :code => 'BMCC', :handle => 'bmcc')
-vault = Vault.create(:vault_type => 'AWS S3', :object_id => school.id, :object_type => 'School', :account => ENV['S3_KEY'], :secret => ENV['S3_SECRET'], :folder => ENV['S3_PATH'])
+vault = Vault.create(:vault_type => 'AWS S3', :target_id => school.id, :target_type => 'School', :account => ENV['S3_KEY'], :secret => ENV['S3_SECRET'], :folder => ENV['S3_PATH'])
 
 profile = Profile.create(:code => 'DEFAULT', :school => school, :image_file_name => Profile.default_avatar_image, :level => 1)
 default = Avatar.create(:profile => profile, :skin => 3, :body => 'avatar/body/body_3', :head => 'avatar/head/diamond_3', :face => 'avatar/face/latin_male', :hair => 'avatar/hair/short_wavy_5', :hair_back => 'avatar/hair/short_wavy_5_back', :top => 'basic/tops/polo_short_sleeve_blue', :bottom => 'basic/bottoms/trousers_long_brown', :shoes => 'basic/shoes/sneakers_gray')
@@ -287,13 +287,13 @@ BadgeImage.create(:image_file_name => 'university.png', :image_content_type =>"i
 Badge.create(:name => 'Gold Outcome', :descr => 'For Each Gold Outcome', :school_id => "1", :badge_image_id => "42")
 
 #reward 
-Reward.create(:xp => "0", :object_type => 'level', :object_id => "1")
-Reward.create(:xp => "250", :object_type => 'level', :object_id => "2")
-Reward.create(:xp => "500", :object_type => 'level', :object_id => "3")
-Reward.create(:xp => "1000", :object_type => 'level', :object_id => "4")
-Reward.create(:xp => "2000", :object_type => 'level', :object_id => "5")
-Reward.create(:xp => "3000", :object_type => 'level', :object_id => "6")
-Reward.create(:xp => "400", :object_type => 'wardrobe', :object_id => "2")
+Reward.create(:xp => "0", :target_type => 'level', :target_id => "1")
+Reward.create(:xp => "250", :target_type => 'level', :target_id => "2")
+Reward.create(:xp => "500", :target_type => 'level', :target_id => "3")
+Reward.create(:xp => "1000", :target_type => 'level', :target_id => "4")
+Reward.create(:xp => "2000", :target_type => 'level', :target_id => "5")
+Reward.create(:xp => "3000", :target_type => 'level', :target_id => "6")
+Reward.create(:xp => "400", :target_type => 'wardrobe', :target_id => "2")
 
 #majors
 Major.create(:school_id => school, :name =>"Accounting", :code => "ACC")

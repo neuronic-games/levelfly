@@ -27,12 +27,12 @@ class Wardrobe < ActiveRecord::Base
       puts "Wardrobe #{wardrobe.name} (#{wardrobe.id}) created"
     end
 
-    exists = Reward.find(:first, :conditions => {:object_type => 'wardrobe', :object_id => wardrobe.id})
+    exists = Reward.find(:first, :conditions => {:target_type => 'wardrobe', :target_id => wardrobe.id})
     if exists
       exists.xp = xp
       exists.save
     else
-      exists = Reward.create(:xp => xp, :object_type => 'wardrobe', :object_id => wardrobe.id)
+      exists = Reward.create(:xp => xp, :target_type => 'wardrobe', :target_id => wardrobe.id)
     end
     
     puts "Wardrobe #{wardrobe.name} (#{wardrobe.id}) unlocked at #{xp} XP"

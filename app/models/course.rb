@@ -1,12 +1,12 @@
 class Course < ActiveRecord::Base
   belongs_to :school
-  has_many :participants, :as => :object
+  has_many :participants, :as => :target
   has_many :messages, :as => :parent
   has_many :categories
   has_many :tasks, :order => :due_date
   #has_many :outcomes
   has_and_belongs_to_many :outcomes
-  has_many :attachments, :as => :object
+  has_many :attachments, :as => :target
   has_attached_file :image,
    :storage => :s3,
    :s3_credentials => { :access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET'] },
@@ -112,20 +112,20 @@ class Course < ActiveRecord::Base
       @owner = Profile.find(
       :first, 
       :include => [:participants], 
-      :conditions => ["participants.object_id = ? AND participants.object_type='Course' AND participants.profile_type = 'M'", self.id]
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", self.id]
       )
     end
     return @owner
   end
 
   def owner=(o)
-    attributes = {:object_type => 'Course', :profile_type => 'M', :object_id => self.id}
+    attributes = {:target_type => 'Course', :profile_type => 'M', :target_id => self.id}
     if p = Participant.find(:first, :conditions => attributes)
       p.profile = o
       # p.save
     else
       p = Participant.new
-      p.object = self
+      p.target = self
       p.profile_type = 'M'
       p.profile = o
       # p.save
@@ -168,7 +168,7 @@ class Course < ActiveRecord::Base
     member_ids = Profile.find(
        :all, 
        :include => [:participants], 
-       :conditions => ["participants.object_id = ? AND participants.profile_type IN ('P', 'S')", course_id]
+       :conditions => ["participants.target_id = ? AND participants.profile_type IN ('P', 'S')", course_id]
      ).map(&:id)
     @students = CourseGrade.where("school_id = ? and course_id = ? and outcome_id = ? and grade >= '2.1' and profile_id in (?)",school_id,course_id,outcome_id,member_ids).order("grade DESC")
     sorted_gpa = Course.sort_top_achievers(@students,school_id,course_id,"GPA")
@@ -285,15 +285,15 @@ class Course < ActiveRecord::Base
      @all_members = Profile.find(
            :all, 
            :include => [:participants], 
-           :conditions => ["participants.object_id = ? AND participants.object_type in ('Course','Group') AND participants.profile_type IN ('M', 'S')", self.course_id]
+           :conditions => ["participants.target_id = ? AND participants.target_type in ('Course','Group') AND participants.profile_type IN ('M', 'S')", self.course_id]
          )
      if @all_members and not@all_members.nil?
         @all_members.each do |viewer|
-           participant_exist = Participant.find(:first, :conditions => ["object_id = ? AND object_type = 'Course' AND profile_id = ?",self.id , viewer.id])
+           participant_exist = Participant.find(:first, :conditions => ["target_id = ? AND target_type = 'Course' AND profile_id = ?",self.id , viewer.id])
           if !participant_exist
             @participant = Participant.new
-            @participant.object_id = self.id
-            @participant.object_type = "Course"
+            @participant.target_id = self.id
+            @participant.target_type = "Course"
             @participant.profile_id = viewer.id
             @participant.profile_type = "S"
             if @participant.save

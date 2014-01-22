@@ -8,9 +8,9 @@ task :update_forum_members_count => :environment do
       course_participants = Profile.find(
         :all, 
         :include => [:participants], 
-        :conditions => ["participants.object_id = ? AND participants.object_type IN ('Course','Group') AND participants.profile_type = 'S'", course.id]
+        :conditions => ["participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type = 'S'", course.id]
       ).map(&:id)
-      count = Participant.delete_all(["participants.object_id = ? AND participants.object_type IN ('Course','Group') AND participants.profile_type = 'S' AND participants.profile_id not in (?)", forum.id, course_participants])
+      count = Participant.delete_all(["participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type = 'S' AND participants.profile_id not in (?)", forum.id, course_participants])
       puts "#{count} forum members deleted"
     end
   end

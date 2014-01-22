@@ -6,7 +6,7 @@ class Reward < ActiveRecord::Base
   end
   
   def self.notification_for_reward_sports(profile,previous_points,current_user)
-    reward = Reward.find(:first, :conditions=>["object_type = 'wardrobe' and object_id = '2'"])
+    reward = Reward.find(:first, :conditions=>["target_type = 'wardrobe' and target_id = '2'"])
     if reward and !reward.nil?
      if previous_points < reward.xp and profile.xp >= reward.xp
        content = "Congratulations! You have unlocked a new wardrobe: Sports."

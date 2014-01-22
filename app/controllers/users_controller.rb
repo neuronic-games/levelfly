@@ -50,12 +50,12 @@ class UsersController < ApplicationController
        @users = Profile.where("school_id = ? and user_id is not null", @profile.school_id).order("full_name")
      elsif params[:id] == "members_of_courses"
        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, "C"], :order => "name").collect(&:id)
-       profile_ids = Participant.find(:all, :conditions => ["object_id IN (?)",course_ids]).collect(&:profile_id).uniq
+       profile_ids = Participant.find(:all, :conditions => ["target_id IN (?)",course_ids]).collect(&:profile_id).uniq
      elsif params[:id] == "members_of_groups"
        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, "G"], :order => "name").collect(&:id)
-       profile_ids = Participant.find(:all, :conditions => ["object_id IN (?)",course_ids]).collect(&:profile_id).uniq
+       profile_ids = Participant.find(:all, :conditions => ["target_id IN (?)",course_ids]).collect(&:profile_id).uniq
      else
-       profile_ids = Participant.find(:all, :conditions => ["object_id = ?",params[:id]]).collect(&:profile_id).uniq
+       profile_ids = Participant.find(:all, :conditions => ["target_id = ?",params[:id]]).collect(&:profile_id).uniq
      end
      @users = Profile.where("school_id = ? and user_id is not null and id IN (?)", @profile.school_id, profile_ids).order("full_name") unless @users
      @profile.record_action('last', 'users')
@@ -137,6 +137,26 @@ class UsersController < ApplicationController
      end
    end
      render :text => {:status => status}.to_json
+ end
+ 
+ def remove
+   status = nil
+   if params[:id]
+     profile = Profile.find(params[:id])
+     timestamp = Time.now.strftime("%d%m%Y")
+     @user = profile.user
+     check = @user.email.downcase.scan(/del\-[0-9]*\-/)
+     unless !check.empty?
+       @user.status = "S"
+       @user.email = "DEL-#{timestamp}-#{@user.email}"
+     end
+     if @user.save
+       status = true
+     end
+   else
+     status = false     
+   end
+   render :json => {:status => status}
  end
  
  def check_role

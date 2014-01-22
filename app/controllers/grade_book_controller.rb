@@ -8,7 +8,7 @@ class GradeBookController < ApplicationController
     @enable_palette = false
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if @profile
-      setting = Setting.find(:first, :conditions=>["object_id = ? and value = 'true' and object_type ='school' and name ='enable_grade_palette' ",@profile.school_id])
+      setting = Setting.find(:first, :conditions=>["target_id = ? and value = 'true' and target_type ='school' and name ='enable_grade_palette' ",@profile.school_id])
       if setting and !setting.nil?
         @enable_palette = true
       end
@@ -20,7 +20,7 @@ class GradeBookController < ApplicationController
           :tasks => Course.sort_course_task(@course_id),
           :categories => Category.all(:conditions => {:course_id => @course_id, :school_id => @school_id}),
           :participant => Participant.all( :joins => [:profile],
-            :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", @course_id],
+            :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course'", @course_id],
             :select => ["profiles.full_name,participants.id,participants.profile_id"],
             :order => "full_name"
           ),
@@ -66,7 +66,7 @@ class GradeBookController < ApplicationController
         @latest_course = @courses.first    
         @course_id = @latest_course.id
         @outcomes = @latest_course.outcomes
-        @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order => "full_name")
+        @participant = Participant.all( :joins => [:profile], :conditions => ["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order => "full_name")
         #@participant = @courses.first.participants
         @count = @participant.count
         @tasks = Course.sort_course_task(@course_id)
@@ -81,7 +81,7 @@ class GradeBookController < ApplicationController
         :tasks => Course.sort_course_task(@course_id),
         :categories => Category.all(:conditions => {:course_id => @course_id}),
         :participant => Participant.all( :joins => [:profile],
-          :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", @course_id],
+          :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course'", @course_id],
           :select => ["profiles.full_name,participants.id,participants.profile_id"],
           :order => "full_name"
         ),
@@ -101,7 +101,7 @@ class GradeBookController < ApplicationController
       show_outcomes = @course.show_outcomes if @course
       @outcomes = @course.outcomes.order('name')
       @participant = Participant.all( :joins => [:profile],
-        :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
+        :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course'", params[:course_id]],
         :select => ["profiles.full_name,participants.id,participants.profile_id"],
         :order => "full_name")
       @tasks =  Course.sort_course_task(params[:course_id])
@@ -280,7 +280,7 @@ class GradeBookController < ApplicationController
     if params[:course_id] && !params[:course_id].blank?
       @profile = Profile.find(user_session[:profile_id])
       @participant = Participant.all( :joins => [:profile], 
-      :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
+      :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course'", params[:course_id]],
       :select => ["profiles.full_name,participants.id,participants.profile_id"])
       if not @participant.nil?
         @participant.each do |p|
@@ -332,7 +332,7 @@ class GradeBookController < ApplicationController
       @course = Course.find(params[:course_id])
       @profile = Profile.find(user_session[:profile_id])
       @outcomes = @course ? @course.outcomes.order('name') : nil
-      @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order =>"full_name")
+      @participant = Participant.all( :joins => [:profile], :conditions => ["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order =>"full_name")
       if not @participant.nil?
         @participant.each do |p|
           outcomes_grade = []
@@ -362,7 +362,7 @@ class GradeBookController < ApplicationController
         @course.save
         @profile = Profile.find(user_session[:profile_id])
         @outcomes = @course.outcomes.order('name')
-        @participant = Participant.all( :joins => [:profile], :conditions => ["participants.object_id=? AND participants.profile_type = 'S' AND object_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
+        @participant = Participant.all( :joins => [:profile], :conditions => ["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
         @participant.each do |p|
           TaskGrade.bonus_points(p.profile.school_id,@course,p.profile.id,user_session[:profile_id])
           outcomes_grade = []
@@ -439,7 +439,7 @@ class GradeBookController < ApplicationController
       @outcomes = @course.outcomes.order('name')
       @tasks = Course.sort_course_task(@course.id)
       @participant = Participant.all( :joins => [:profile], 
-        :conditions => ["participants.object_id = ? AND participants.profile_type = 'S' AND object_type = 'Course'", params[:course_id]],
+        :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course'", params[:course_id]],
         :select => ["profiles.full_name,participants.id,participants.profile_id"],
         :order => "full_name"
         )

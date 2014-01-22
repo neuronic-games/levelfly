@@ -19,8 +19,8 @@ module MessageHelper
     end
   end
   
-  def is_friend(object_id, profile_id)
-    @friends = Participant.find(:first, :conditions=>["object_id = ? AND profile_id = ? AND profile_type = 'F'", object_id, profile_id])
+  def is_friend(target_id, profile_id)
+    @friends = Participant.find(:first, :conditions=>["target_id = ? AND profile_id = ? AND profile_type = 'F'", target_id, profile_id])
     if @friends
       return true
     else 
@@ -29,7 +29,7 @@ module MessageHelper
   end
   
   def belongs_to_course_message(target_id)
-    participant = Participant.where("profile_type='S' AND object_id = ? AND object_type='Course'", target_id).count
+    participant = Participant.where("profile_type='S' AND target_id = ? AND target_type='Course'", target_id).count
     if participant > 0
       return true
     else
@@ -38,7 +38,7 @@ module MessageHelper
   end
   
   def is_course_request_pending(target_id,profile_id)
-    @course_request = Participant.find(:first, :conditions=>["profile_id = ? AND object_id=? AND object_type='Course'", profile_id,target_id]) 
+    @course_request = Participant.find(:first, :conditions=>["profile_id = ? AND target_id=? AND target_type='Course'", profile_id,target_id]) 
     return @course_request
   end
   
