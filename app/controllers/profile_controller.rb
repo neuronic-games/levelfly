@@ -206,6 +206,7 @@ class ProfileController < ApplicationController
     else
       @profile = Profile.find(params[:profile_id])
     end
+    @edit = true
     render :partial => "/profile/edit_wardrobe", :locals => {:profile => @profile}
   end
   

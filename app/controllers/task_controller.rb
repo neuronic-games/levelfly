@@ -174,6 +174,8 @@ class TaskController < ApplicationController
       # Save a new task
       @task = Task.new
     end
+    course = @task.course_id ? @task.course_id : 0
+    
     @profile = Profile.find(user_session[:profile_id])
     @task.name = params[:task].slice(0,64) if params[:task]
     @task.descr = params[:descr] if params[:descr]
@@ -192,6 +194,20 @@ class TaskController < ApplicationController
     if params[:file]
       @task.image.destroy if @task.image
       @task.image = params[:file]
+    end
+    
+    if course != @task.course_id && @task.image.to_s != "/images/original/missing.png" && @task.course_id != 0
+      school_id = @task.school_id ? @task.school_id : 1
+      filename = @task.image_file_name
+      bucket = "#{ENV['S3_PATH']}/schools/#{school_id}/courses/#{course}/tasks/#{@task.id}"
+      data = Attachment.aws_get_file_data(school_id, filename, bucket)
+      bucket_2 = "#{ENV['S3_PATH']}/schools/#{school_id}/courses/#{@task.course_id}/tasks/#{@task.id}"
+      Attachment.aws_upload_base64(school_id, bucket_2, filename, data)
+      Attachment.aws_delete_file(school_id, filename, bucket)
+    end
+    
+    if @task.course_id != 0 && @task.image.to_s == "/images/original/missing.png"
+      @task.image = @task.course.image
     end
     
     if @task.save
@@ -217,7 +233,7 @@ class TaskController < ApplicationController
         end
       end
       # Participant record
-      course_participants = Participant.all( :joins => [:profile], :conditions => ["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'",params[:course_id]],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order => "full_name")
+      course_participants = Participant.all( :joins => [:profile], :conditions => ["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'",params[:course_id] && params[:course_id] != "" && params[:course_id] != "null"  ? params[:course_id] : 0 ],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order => "full_name")
       task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='O' AND profile_id = ?", @task.id, user_session[:profile_id]])
       if !task_participant
         @task_participant = TaskParticipant.new
