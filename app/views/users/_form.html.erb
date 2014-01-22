@@ -27,6 +27,7 @@
 
           <div class="smaller_avatar" style="margin-left: 100px;">
             <div>
+            <% unless @profile && @profile.image_file_name == "/images/wardrobe/null_profile.png" %>
               <div id="modify" class="avat">
                 <img id="background" class="smaller_full_avatar">
                 <img id="avatar_body" class="smaller_full_avatar">
@@ -45,6 +46,7 @@
                 <img id="hat" class="smaller_full_avatar">
                 <img id="prop" class="smaller_full_avatar">
               </div>
+            <% end %>
             </div>
 
           </div>
