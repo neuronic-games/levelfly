@@ -93,4 +93,24 @@ class Attachment < ActiveRecord::Base
       puts "Error uploading #{filename} to #{bucket}"
     end
   end
+  
+  def self.aws_get_file_data(school_id, filename, bucket)
+    connection = self.aws_connection(school_id, bucket)
+    if connection
+      base_name = File.basename(filename)
+      AWS::S3::S3Object.value(base_name, bucket)
+    else
+      puts "Error uploading #{filename} to #{bucket}"
+    end
+  end
+  
+  def self.aws_delete_file(school_id, filename, bucket)
+    connection = self.aws_connection(school_id, bucket)
+    if connection
+      base_name = File.basename(filename)
+      AWS::S3::S3Object.delete(base_name, bucket)
+    else
+      puts "Error uploading #{filename} to #{bucket}"
+    end
+  end
 end
