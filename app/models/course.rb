@@ -340,7 +340,7 @@ class Course < ActiveRecord::Base
       duplicate.forums.push forum.duplicate
     end
 
-    self.messages.where(:starred => true, :profile_id => self.owner.id).each do |message|
+    self.messages.where(:starred => true, :archived => false, :profile_id => self.owner.id).each do |message|
       m = message.dup
       m.wall = duplicate.wall
       m.like = 0

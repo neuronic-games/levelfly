@@ -849,7 +849,7 @@ class CourseController < ApplicationController
       @member_count = @peoples.length
       @courseMaster = @course.owner
       message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
-      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'F' and id in(?)",@course.id,message_ids],:order => "starred DESC,created_at DESC" )
+      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'F' and id in(?)",@course.id,message_ids],:order => "starred DESC, post_date DESC" )
       render :partial => "/course/forum_wall"
     end
   end
