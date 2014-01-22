@@ -383,6 +383,7 @@ class Course < ActiveRecord::Base
         if task_participant.profile_type == 'O'
           tp = task_participant.dup
           tp.task = t
+          tp.status = Task.status_assigned
           t.task_participants << tp
         end
       end
