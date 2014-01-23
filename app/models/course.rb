@@ -324,7 +324,7 @@ class Course < ActiveRecord::Base
       duplicate.name = name
       i = 0
 
-      while existing = Course.find_by_name(duplicate.name) do
+      while existing = Course.find(:first, :conditions => {:name => duplicate.name, :archived => false, :removed => false}) do
         i = i + 1
         duplicate.name = "#{name}#{i}"
       end
@@ -394,6 +394,7 @@ class Course < ActiveRecord::Base
           tp = task_participant.dup
           tp.task = t
           tp.status = Task.status_assigned
+          tp.complete_date = nil
           t.task_participants << tp
         end
       end
