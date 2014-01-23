@@ -192,35 +192,17 @@ $(document).ready(function() {
   );  
   $(".del_btn").click(function(){
     delete_badge_id = $(this).attr("id");
+	var badge_id = delete_badge_id;
+	var student_id =$("#hdn_field_profile_id").val();
+	var course_id =$("#hdn_field_course_id").val();	
       showSpinner(true);
-      $.ajax({
-        type: "POST",
-        url: "/badge/warning_box",
-        data:{badge_id:delete_badge_id},
-        success: function(resp) {
-          showSpinner(false);
-          $("#warning_box").html(resp)
-          $("#warning_box").show();
-        },
-        error: function()
-        {
-          alert("An Error has occured");
-          showSpinner(false);
-        },
-      });
-  });
-  
-  $(".warning_box").delegate("a","click",function(){
-    if($(this).attr("id")=="delete_btn"){
-      var badge_id = delete_badge_id;
-      var course_id =$("#hdn_field_course_id").val();
-      showSpinner(true);
-      $.ajax({
+      
+	  $.ajax({
           type: "POST",
           url: "/badge/delete_badge",
-          data:{badge_id:badge_id,course_id:course_id},
+          data:{badge_id:badge_id,course_id:course_id, profile_id:student_id},
           success: function(data) {
-            $("#warning_box").hide();
+            //$("#warning_box").hide();
             $("#last_used_"+badge_id).remove();
             $("#all_"+badge_id).remove();
             delete_badge_id="";
@@ -232,13 +214,9 @@ $(document).ready(function() {
             showSpinner(false);
           },
         });
-    }
-    else if($(this).attr("id")=="dont_delete_btn"){
-       $("#warning_box").hide();
-    }
   });
-  
 });
+
 $(document).unbind('click').bind('click', function (e)
 {
     var container = $("#badge_popup");
