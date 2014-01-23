@@ -85,22 +85,13 @@ before_filter :authenticate_user!
   
   def delete_badge
     if params[:badge_id] && !params[:badge_id].nil?
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-      @badge = Badge.find(params[:badge_id]) 
+      @profile = Profile.find(params[:profile_id])
+      @badge = Badge.find(params[:badge_id])
       if @badge
-        profile_ids = AvatarBadge.find(:all, :select=>"profile_id",:conditions=>["giver_profile_id = ? and badge_id = ?",@profile.id,@badge.id]).collect(&:profile_id)
-        #if !@badge_people.nil?
-        AvatarBadge.delete_all(["giver_profile_id = ? and badge_id = ?",@profile.id,@badge.id])
-        @badge.delete
-        if profile_ids and !profile_ids.nil?
-          @badge_peoples =Profile.find(:all, :conditions=>["id in(?)",profile_ids])
-          @badge_peoples.each do |p|
-            p.badge_count-=1
-            p.save
-          end  
-        end
-        #end
+        AvatarBadge.delete_all(["profile_id = ? and badge_id = ?",@profile.id,@badge.id])
+        @profile.badge_count -= 1
       end
+      @profile.save
     end
     render :text=> "DELETED"
   end
