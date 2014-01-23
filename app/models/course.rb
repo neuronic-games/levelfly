@@ -316,9 +316,19 @@ class Course < ActiveRecord::Base
     outcomes = {}
 
     duplicate = self.dup
-    duplicate.name = "#{duplicate.name} #{params[:name_ext]}" if params[:name_ext]
     duplicate.owner = self.owner
     duplicate.wall = self.wall.dup
+
+    if params[:name_ext]
+      name = "#{duplicate.name} #{params[:name_ext]}"
+      duplicate.name = name
+      i = 0
+
+      while existing = Course.find_by_name(duplicate.name) do
+        i = i + 1
+        duplicate.name = "#{name}#{i}"
+      end
+    end
 
     self.outcomes.each do |outcome|
       outcomes[outcome.id] ||= outcome.dup
