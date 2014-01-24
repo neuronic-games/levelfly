@@ -33,7 +33,7 @@
             <div class="badgetitlediv"><div class="badge_title">Badge Name</div>
               <div>
                 <div class ="selected_badge_position hide"><input id="selected_badge" src="" type="image" class="grading_Btn2" /></div>  
-                <input name="new_badge_name" type="text" id="new_badge" value="" class="dd_input_new_badge" />
+                <input name="new_badge_name" type="text" id="new_badge" value="" class="dd_input_new_badge" maxlength=40 />
               </div>
             </div></br>
             <div class="badgetitlediv"><div class="badge_title">Description</div>
@@ -84,9 +84,7 @@ $(document).ready(function() {
     }
     previous_click = id;
     $("#selected_badge").attr("src",image_path);
-  
   });
-  
   
   $(".btn_save_badge").click(function(){ 
       var badge_image_id = id;
