@@ -424,9 +424,10 @@ $(document).ready(function(){
   
     $("#course_code").blur(function(){
       var code = $(this).val();
+      course_id = $("#course_id_hdn").val();
       if(code)
       {
-        dataString = {code:code};
+        dataString = {code:code, id:course_id};
         showSpinner(true);
          $.ajax({  
               type: "POST",  
