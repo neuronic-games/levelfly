@@ -359,7 +359,20 @@ class Course < ActiveRecord::Base
 
     self.attachments.each do |attachment|
       if attachment.owner == duplicate.owner.profile
-        duplicate.attachments.push attachment.duplicate
+        a = Attachment.new
+
+        a.target = duplicate
+        a.school = attachment.school
+        a.owner = attachment.owner
+
+        begin
+          a.resource = attachment.resource
+        rescue
+          # a.resource = nil
+          logger.error "AWS::S3::NoSuchKey: #{attachment.resource.url}"
+        end
+
+        duplicate.attachments << a
       end
     end
 
@@ -385,7 +398,20 @@ class Course < ActiveRecord::Base
 
       task.attachments.each do |attachment|
         if attachment.owner == duplicate.owner.profile
-          t.attachments << attachment.duplicate
+          a = Attachment.new
+
+          a.target = t
+          a.school = attachment.school
+          a.owner = attachment.owner
+
+          begin
+            a.resource = attachment.resource
+          rescue
+            # a.resource = nil
+            logger.error "AWS::S3::NoSuchKey: #{attachment.resource.url}"
+          end
+
+          t.attachments << a
         end
       end
 

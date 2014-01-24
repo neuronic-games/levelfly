@@ -13,19 +13,6 @@ class Attachment < ActiveRecord::Base
     :path => "schools/:school/files/:target/:target_id/:filename",
     :bucket => ENV['S3_PATH']
 
-  def duplicate
-    a = self.dup
-
-    begin
-      a.resource = self.resource
-    rescue
-      # a.resource = nil
-      logger.error "AWS::S3::NoSuchKey: #{self.resource.url}"
-    end
-
-    a
-  end
-
   def self.aws_bucket(bucket)
     create = true
     begin
