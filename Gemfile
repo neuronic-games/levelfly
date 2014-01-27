@@ -51,3 +51,7 @@ gem 'paperclip', '2.4.5'
 # gem 'ruby-debug'
 
 gem 'will_paginate', '~> 3.0'
+
+gem 'delayed_job_active_record'
+
+gem 'pusher'

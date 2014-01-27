@@ -1,3 +1,5 @@
+require 'pusher'
+
 Oncapus::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
@@ -63,5 +65,9 @@ Oncapus::Application.configure do
 
   # Used for password reminder emails
   config.action_mailer.default_url_options = { :host => 'oncampus.heroku.com' }
-  
+
+  Pusher.app_id = '64377'
+  Pusher.key = 'c8fb9a955828496c8ed2'
+  Pusher.secret = '0be4a588118c56c95029'
+
 end
