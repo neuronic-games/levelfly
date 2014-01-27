@@ -37,14 +37,27 @@
       var id = $("#course_id_hdn").val();
       var section_type = $("#section_type").val();
       if (id) {
+        var channel_name = 'course-duplicate-<%= current_user.id %>',
+            pusher = new Pusher('<%= Pusher.key %>'),
+            channel = pusher.subscribe(channel_name);
+
+        channel.bind('complete', function(data) {
+          $("#container").load("/course/?section_type=" + section_type, function() { 
+            showSpinner(false);
+          });
+        });
+
         showSpinner(true);
+
         $.ajax({
           type: "POST",
           url: "/course/duplicate",
           data: $.merge($('#duplicate_course_form').serializeArray(), [{name: 'id', value: id}]),
-          // dataType:"json",
-          success: function(resp) {
-            $("#container").load("/course/?section_type=" + section_type, function() { showSpinner(false); });
+          success: function() {
+            $('#cancel_btn').hide();
+            $('#duplicate_btn').hide();
+            $('div.add_task_popup p.boxadnt').eq(-1).hide();
+            $('p#course_name').html('<%= @course && @course.name %> is being duplicated. Please wait.')
           }
         });
       }

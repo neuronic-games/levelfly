@@ -311,7 +311,7 @@ class Course < ActiveRecord::Base
     end
   end
   
-  def duplicate(params = {})
+  def duplicate(params = {}, current_user = nil)
     categories = {}
     outcomes = {}
 
@@ -428,7 +428,11 @@ class Course < ActiveRecord::Base
       duplicate.tasks << t
     end
 
-    # duplicate.save && duplicate
-    duplicate
+    if current_user
+      duplicate.save
+      Pusher["course-duplicate-#{current_user.id}"].trigger('complete', {})
+    else
+      duplicate
+    end
   end
 end
