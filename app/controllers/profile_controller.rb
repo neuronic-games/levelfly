@@ -235,5 +235,16 @@ class ProfileController < ApplicationController
       end
     end
   end
-
+  
+  def show_comments
+    if params[:id] and not params[:id].nil?
+      @profile = Profile.find(params[:id])
+    else
+      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    end
+    @profile.all_comments = params[:show]== "true" ? true : false
+    @profile.save
+    render :json => {:message => @profile.all_comments, :status => true}
+  end
+  
 end
