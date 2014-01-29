@@ -153,17 +153,17 @@ $(document).ready(function() {
 	 $('textarea#msg_content').autosize();
 	 
 	 $('#all_cmnts').click(function(){
-		arrange_comments(message_show_array,true);
-		all_msg_comments = true;
+		update_show_comments(message_show_array,true);
+		all_comments = true;
 	 });
 	 
 	 $('#only_cmnts').click(function(){
-		arrange_comments(message_show_array,false);
-		all_msg_comments = false;
+		update_show_comments(message_show_array,false);
+		all_comments = false;
 	 });
 	 
 	 // See the last setting of user or the default setting in main.html
-	 if(all_msg_comments) {
+	 if(all_comments) {
 		arrange_comments(message_show_array,true);
 	 } else {
 		arrange_comments(message_show_array,false);

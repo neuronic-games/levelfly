@@ -254,10 +254,12 @@ var h = new Object();
   var section_type = "C"
   var search_term = $("#search_input").val();
 	// These booleans are set for show / hide all comments on walls & messages
-	var all_msg_comments = false;
-	var all_course_comments = false;
-	var all_group_comments = false;
-	var all_forum_comments = false;
+	<% @profile = @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id]) %>
+	<% if @profile && @profile.all_comments == false %>
+	var all_comments = false;
+	<% else %>
+	var all_comments = true;
+	<% end %>
 	
   //Set CSRF Token (Required for ajax request (post))
   $(document).ajaxSend(function(e, xhr, options) {
@@ -581,7 +583,7 @@ $('#container').delegate('.add_topic', 'click', function(){
 
   function setTab(item){
     if(document.getElementById("msg")!=null){
-      document.getElementById("courses").className = "icon_msg menu_btn";
+      document.getElementById("msg").className = "icon_msg menu_btn";
     }
     if(document.getElementById("courses")!=null){
       document.getElementById("courses").className = "icon_courses menu_btn";

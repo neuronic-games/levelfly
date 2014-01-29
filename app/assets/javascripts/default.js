@@ -59,3 +59,28 @@ function arrange_comments(msg_id_array,show) {
 		toggle_comments(true);
 	}
 }
+
+function update_show_comments(message_show_array, show){
+	var user_profile_id = $("#hdn_profile_id").val();
+	showSpinner(true);
+	$.ajax({
+       type: "POST",  
+       url: "/profile/show_comments",  
+       data: {id:user_profile_id, show:show},
+       dataType: "json",
+       success: function(data) {
+           if (data.message == true) {
+             arrange_comments(message_show_array,true);
+           } else {
+           	arrange_comments(message_show_array,false);
+           }
+        showSpinner(false);
+       },
+       error: function(){
+          alert("An Error has occured");
+          showSpinner(false);
+        }
+	});
+	
+}
+

@@ -61,6 +61,8 @@ Oncapus::Application.routes.draw do
   
   post "profile/account_setup"
   
+  post "profile/show_comments"
+  
   get "task/index"
 
   get "task/show"

@@ -454,13 +454,7 @@ class CourseController < ApplicationController
     if params[:outcomes] && !params[:outcomes].nil?
       if Outcome.find(params[:outcomes]).shared == true && !params[:course_id].nil?
         @course = Course.find(params[:course_id])
-        if Outcome.find(params[:outcomes]).created_by == @course.id
-          shared_outcome = Outcome.find(params[:outcomes])
-          shared_outcome.shared = false
-          shared_outcome.save!
-        else
-          @course.outcomes.destroy(params[:outcomes]) if @course
-        end
+        @course.outcomes.destroy(params[:outcomes]) if @course
       else
         Outcome.destroy(params[:outcomes])
       end
