@@ -207,7 +207,7 @@ class TaskController < ApplicationController
     end
     
     if @task.course_id != 0 && @task.image.to_s == "/images/original/missing.png"
-      @task.image = @task.course.image
+      @task.image = @task.course.image if @task.course.image_file_name.present?
     end
     
     if @task.save

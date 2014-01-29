@@ -132,18 +132,18 @@
 		
 		// When user clicks on Show All Comments
 		$('#all_cmnts').click(function(){
-			arrange_comments(message_show_array,true);
-			all_group_comments = true;
+			update_show_comments(message_show_array,true);
+			all_comments = true;
 		});
 
 		// When user clicks on Show only 2 Comments
 		$('#only_cmnts').click(function(){
-			arrange_comments(message_show_array,false);
-			all_group_comments = false;
+			update_show_comments(message_show_array,false);
+			all_comments = false;
 		});
 		
 	// See the last setting of user or the default setting in main.html
-	 if(all_group_comments) {
+	 if(all_comments) {
 		arrange_comments(message_show_array,true);
 	 } else {
 		arrange_comments(message_show_array,false);

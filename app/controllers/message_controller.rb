@@ -55,7 +55,16 @@ class MessageController < ApplicationController
           end  
         end
      end
-     @users = users[0..users_limit-1]
+     
+     users_temp = users[0..users_limit-1]
+     users_temp_unread = []
+     users_temp_read = []
+     users_temp.each do |ut|
+       viewed = messages_viewed(ut.id, user_session[:profile_id])
+       viewed == true ? users_temp_read.push(ut) : users_temp_unread.push(ut)
+     end
+     @users = users_temp_unread + users_temp_read
+     
      @show_more_users = users.length > @users.length ? true : false
      #friend_id = Participant.find(:all, :select =>"distinct profile_id", :conditions=>["target_id = ? AND target_type = 'User' AND profile_type = 'F'", @profile.id]).collect(&:profile_id)
    
