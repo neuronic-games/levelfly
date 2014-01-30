@@ -7,9 +7,9 @@ class UsersController < ApplicationController
     @profile = Profile.find(user_session[:profile_id])
     if params[:search_text]
       search_text =  "#{params[:search_text]}%"
-      @users = Profile.find(:all, :conditions=>["school_id = ? and full_name LIKE ? and user_id is not null",@profile.school_id, search_text])      
+      @users = Profile.find(:all, :include => [:user], :conditions=>["school_id = ? and full_name LIKE ? and user_id is not null and users.status != 'D'",@profile.school_id, search_text])      
     else   
-      @users = Profile.where("school_id = ? and user_id is not null", @profile.school_id).order("full_name")
+      @users = Profile.find(:all, :include => [:user], :conditions=>["school_id = ? and user_id is not null and users.status != 'D'",@profile.school_id])
     end
     @profile.record_action('last', 'users')
     respond_to do |wants|
@@ -47,7 +47,7 @@ class UsersController < ApplicationController
    @profile = Profile.find(user_session[:profile_id])
    if params[:id] and !params[:id].blank?
      if params[:id] == "all_active"
-       @users = Profile.where("school_id = ? and user_id is not null", @profile.school_id).order("full_name")
+       @users = Profile.includes(:user).where("school_id = ? and user_id is not null and users.status != 'D'", @profile.school_id).order("full_name")
      elsif params[:id] == "members_of_courses"
        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, "C"], :order => "name").collect(&:id)
        profile_ids = Participant.find(:all, :conditions => ["target_id IN (?)",course_ids]).collect(&:profile_id).uniq
@@ -57,7 +57,7 @@ class UsersController < ApplicationController
      else
        profile_ids = Participant.find(:all, :conditions => ["target_id = ?",params[:id]]).collect(&:profile_id).uniq
      end
-     @users = Profile.where("school_id = ? and user_id is not null and id IN (?)", @profile.school_id, profile_ids).order("full_name") unless @users
+     @users = Profile.includes(:user).where("school_id = ? and user_id is not null and profiles.id IN (?) and users.status != 'D'", @profile.school_id, profile_ids).order("full_name") unless @users
      @profile.record_action('last', 'users')
      render :partial => "/users/load_users", :locals => {:@users=>@users}
    end
@@ -147,7 +147,7 @@ class UsersController < ApplicationController
      @user = profile.user
      check = @user.email.downcase.scan(/del\-[0-9]*\-/)
      unless !check.empty?
-       @user.status = "S"
+       @user.status = "D"
        @user.email = "DEL-#{timestamp}-#{@user.email}"
      end
      if @user.save
