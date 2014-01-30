@@ -3490,6 +3490,10 @@ filter:alpha(opacity="0");
 	color:#b3c76a;
 	text-align:center;
 }
+.LB_table .LBT_rank {
+	width:10%;
+	display:table-cell;
+}
 .LB_table .LBT_ava {
 	width:10%;
 	display:table-cell;
