@@ -32,8 +32,8 @@
             <a href="javascript:void(0);" class="blue_bt19px add_topic" id="add_topic_<%=message.id%>" rel="<%=message.id%>">ADD TOPIC</a>
           </div>
           <%end%>  
-          <div class="FloatL" style="padding:0 0 0 10px; width:50%">
-            <input type="text" name="topic_content" id="topic_content_<%=message.id%>" class="topic_input <%if message.topic.blank?%>hide<%end%>" value="<%=message.topic%>" readonly="readonly" rel="<%=message.id%>"/>
+          <div class="FloatL" style="padding:0 0 0 10px; width:65%">
+            <input type="text" name="topic_content" id="topic_content_<%=message.id%>" class="topic_input <%if message.topic.blank?%>hide<%end%>" style="width: 100%;" maxlength="65" value="<%=message.topic%>" readonly="readonly" rel="<%=message.id%>"/>
           </div>
          <%if message.profile_id == user_session[:profile_id]%>
           <div class="FloatR <%if !message.topic.blank?%>edit_topic_btn<%else%>hide<%end%>" id ="et_<%=message.id%>">
