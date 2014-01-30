@@ -115,7 +115,12 @@ class TaskController < ApplicationController
       :conditions => ["task_participants.task_id = ? AND task_participants.profile_type = 'M'", @task.id],
       :order => "profiles.full_name"
     )
-     
+    
+    participant = TaskParticipant.find(:first,
+      :include => [:profile, :task],
+      :conditions => ["task_id = ? and profile_id = ?", @task.id, @profile.id])
+    @check_complete_task = true if participant.status == Task.status_complete
+    
     @profile.record_action('last', 'task')
     @profile.record_action('task', @task.id)
     
