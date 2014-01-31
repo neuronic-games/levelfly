@@ -65,7 +65,7 @@ class Task < ActiveRecord::Base
   end
   
   
-  def self.filter_by(profile_id, filter, period, page = nil)
+  def self.filter_by(profile_id, filter, period)
     conditions = ["task_participants.profile_id = ? and archived = ?", profile_id, false]
 
     if filter == "starred"
@@ -82,12 +82,11 @@ class Task < ActiveRecord::Base
       conditions[0] += " and task_participants.complete_date is not null"
     end
 
-    tasks = Task.paginate(
+    tasks = Task.find(
+      :all,
       :include => [:task_participants], 
       :conditions => conditions,
-      :order => "priority asc,due_date",
-      :page => page || 1,
-      :per_page => page ? 20 : Task.count
+      :order => "priority asc,due_date"
     )
   end
   
