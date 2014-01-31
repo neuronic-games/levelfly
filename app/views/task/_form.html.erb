@@ -30,7 +30,9 @@ function addNode(element) {
           <!-- tabs-->
             
           <div class="task_side_buttons"> 
-            <a href="javascript:void(0)" id="task_completes" class="long_text_btn big_blue_btn task_completes"  rel="<%=@task.id if @task%>">Move to Completed</a>
+            <% unless @check_complete_task %>
+              <a href="javascript:void(0)" id="task_completes" class="long_text_btn big_blue_btn task_completes"  rel="<%=@task.id if @task%>">Move to Completed</a>
+            <% end %>
           </div>
           <div class="tabs menu_container" align="right">
             <a href="javascript:void(0)"  id="menu1" value="1" class="tab_open" ><span class="task_tab">Task</span></a>
@@ -220,7 +222,9 @@ function addNode(element) {
                 <a href="javascript:void(0)" id="btn_task" class="big_orange_btn">SAVE</a>
                 <!-- <a href="javascript:void(0)" class="big_blue_btn">PRINT</a> -->
                 <a href="javascript:void(0)" id="remove_task_btn" class="big_blue_btn">REMOVE</a>
-                 <a href="javascript:void(0)" id="task_completes" class="long_text_btn big_blue_btn task_completes"  rel="<%=@task.id if @task%>">Move to Completed</a>
+                <% unless @check_complete_task %>
+                  <a href="javascript:void(0)" id="task_completes" class="long_text_btn big_blue_btn task_completes"  rel="<%=@task.id if @task%>">Move to Completed</a>
+                <% end %>
                 <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@task ? false : true %>" />
               </div>
            <%end%> 
