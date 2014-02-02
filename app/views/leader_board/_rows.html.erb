@@ -1,4 +1,5 @@
 <div class="LB_tableheader">
+  <div class="LBT_rank">Rank</div>
   <div class="LBT_ava"> &nbsp;</div>
   <div class="LBT_name">&nbsp;</div>
   <div class="LBT_level">LEVEL</div>
@@ -9,6 +10,7 @@
 <% unless @profiles.nil? %>
   <% @profiles.each do |p| %> 
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
+      <div class="LBT_rank"><%= p.rank %></div>
       <div class="LBT_ava">
         <div class="avatarWbdr"><img src="<%= p.image_file_name%>" class="profile" profile_id="<%= p.id %>" /></div>
       </div>
