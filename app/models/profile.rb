@@ -78,24 +78,11 @@ class Profile < ActiveRecord::Base
   end
 
   # Call this to make sure the user has the correct rewards for the XP gained
-  def self.update_rewards
-    # @level = Reward.find(:first, :conditions=>["xp <= ? and target_type = 'level'",  self.xp], :order=>"xp DESC")
-    # puts"#{@level.inspect}"
-    # profile.level = @level.target_id
-    # wardrobe = Reward.find(:first, :conditions=>["xp <= ? and target_type = 'wardrobe'",  profile.xp], :order=>"xp DESC")
-    # puts"#{wardrobe.inspect}"
-    # profile.wardrobe = wardrobe.target_id if wardrobe
-    # profile.save
-    # 
-    # if( profile.xp > previous_points)
-    #   content = "Congratulations! You have received #{award_points} XP for #{task.name}." unless course_name
-    #   content = "Congratulations! You have received #{award_points} Final Bonus Points for #{course_name}." if course_name
-    #   Message.send_notification(current_user,content,profile.id)
-    # end
-    # if(previous_level != profile.level)
-    #   content = "Congratulations! You have achieved level #{profile.level}."
-    #   Message.send_notification(current_user,content,profile.id)
-    # end 
-    # Reward.notification_for_new_reward(profile,current_user) if profile.wardrobe > previous_wardrobe 
+  def update_rewards
+    level = Reward.find(:first, :conditions => ["xp <= ? and target_type = 'level'",  self.xp], :order => "xp DESC")
+    wardrobe = Reward.find(:first, :conditions => ["xp <= ? and target_type = 'wardrobe'",  self.xp], :order => "xp DESC")
+    profile.level = level.target_id if level
+    profile.wardrobe = wardrobe.target_id if wardrobe
+    profile.save
   end  
 end
