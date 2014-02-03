@@ -41,7 +41,7 @@
                 </div>
                  <div class="like_cmt notedefault hide" id="supernote-note-demo1">
                    <div class="margin15px"><a class="blue_bt19px give_btn" style="padding:2px 17px;" rel ="<%=b.id%>" id ="give_<%=b.id%>" href="javascript:void(0)">GIVE</a></div>
-                   <div class="margin8px"><a class="blue_bt19px del_btn" id = "<%=b.id%>" href="javascript:void(0)">DELETE</a></div>
+                   <div class="margin8px"><a class="blue_bt19px del_btn" id = "<%=b.id%>" name="<%=b.name %>" href="javascript:void(0)">DELETE</a></div>
                  </div>
               </div>
               <% end %>
@@ -192,28 +192,10 @@ $(document).ready(function() {
   );  
   $(".del_btn").click(function(){
     delete_badge_id = $(this).attr("id");
-	var badge_id = delete_badge_id;
-	var student_id =$("#hdn_field_profile_id").val();
-	var course_id =$("#hdn_field_course_id").val();	
-      showSpinner(true);
-      
-	  $.ajax({
-          type: "POST",
-          url: "/badge/delete_badge",
-          data:{badge_id:badge_id,course_id:course_id, profile_id:student_id},
-          success: function(data) {
-            //$("#warning_box").hide();
-            $("#last_used_"+badge_id).remove();
-            $("#all_"+badge_id).remove();
-            delete_badge_id="";
-            showSpinner(false);
-          },
-          error: function()
-          {
-            alert("An Error has occured");
-            showSpinner(false);
-          },
-        });
+    var delete_badge_name = $(this).attr("name");
+	$("#delete_badge_id").val(delete_badge_id);
+	$("#delete_badge_name").html(delete_badge_name);
+	$("#warning_box").show();
   });
 });
 

@@ -85,13 +85,11 @@ before_filter :authenticate_user!
   
   def delete_badge
     if params[:badge_id] && !params[:badge_id].nil?
-      @profile = Profile.find(params[:profile_id])
       @badge = Badge.find(params[:badge_id])
       if @badge
-        AvatarBadge.delete_all(["profile_id = ? and badge_id = ?",@profile.id,@badge.id])
-        @profile.badge_count -= 1 if @profile.badge_count > 0
+        @badge.archived = true
+        @badge.save
       end
-      @profile.save
     end
     render :text=> "DELETED"
   end
