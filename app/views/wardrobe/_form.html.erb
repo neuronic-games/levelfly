@@ -195,7 +195,7 @@ $(document).ready(function(){
   });
   
   uploader.bind('FileUploaded', function(up, file) {
-    image_uploaded = 'http://s3.amazonaws.com/<%= ENV['S3_PATH'] %>/resources/' + file.name;
+    image_uploaded = 'https://s3.amazonaws.com/<%= ENV['S3_PATH'] %>/resources/' + file.name;
     $("#image_progress").html('');
     $("#image_progress").html('<img id="full_image" alt="Preview not available" />');
     $("#full_image").attr('src',image_uploaded );
@@ -229,7 +229,7 @@ $(document).ready(function(){
   });
   
   iconUploader.bind('FileUploaded', function(up, file) {
-    icon_uploaded = 'http://s3.amazonaws.com/<%= ENV['S3_PATH'] %>/resources/' + file.name;
+    icon_uploaded = 'https://s3.amazonaws.com/<%= ENV['S3_PATH'] %>/resources/' + file.name;
     $("#icon_progress").html('');
     $("#icon_progress").html('<img id="icon_image" alt="Preview not available"/>');
     $("#icon_image").attr('src', icon_uploaded);

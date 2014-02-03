@@ -18,10 +18,19 @@ class Admin < ActiveRecord::Base
     return count
   end
   
+  # Reset all icons to the default
   def self.reset_icons
     Profile.update_all("image_file_name = '/images/wardrobe/null_profile.png'")
     Course.update_all("image_file_name = null, image_content_type = null, image_file_size = null")
     Task.update_all("image_file_name = null, image_content_type = null, image_file_size = null")
+  end
+  
+  # Make sure all users have the correct level and wardrobe rewards
+  def self.reset_rewards
+    profiles = Profile.all
+    profiles.each do |profile|
+      profile.update_rewards
+    end
   end
   
 end

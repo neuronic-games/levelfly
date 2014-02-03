@@ -78,16 +78,16 @@ csv_data.tr("\r", "\n").each_line do | line |
   basename = File.basename(img_file, extname)
 
   # Wardrobe image
-  target_path = "#{target_root}/avatar/#{reward_folder}/#{img_folder}"
+  target_path = "#{target_root}/#{reward_folder}/#{img_folder}"
   FileUtils.mkdir_p(target_path)
   FileUtils.cp("#{source_path}/avatar/#{img_folder}/#{img_file}", target_path)
 
   # Wardrobe icon
   target_path = "#{target_root}/icon/#{reward_folder}/#{img_folder}" # folder should be the same as img_folder
   FileUtils.mkdir_p(target_path)
-  FileUtils.cp("#{source_path}/icon/avatar/#{icon_folder}/#{icon_file}", "#{target_path}/#{basename}_icon.#{extname}")
+  FileUtils.cp("#{source_path}/icon/avatar/#{icon_folder}/#{icon_file}", "#{target_path}/#{basename}_icon#{extname}")
 
-  out.write "Wardrobe.add('#{reward_name}', '#{wardobe_top}', '#{wardobe_top}', '#{item_name}', '#{item_type}', '#{reward_folder}/#{img_folder}/#{basename}'"
+  out.write "Wardrobe.add('#{reward_name}', '#{wardobe_top}', '#{wardrobe_sub}', '#{item_name}', '#{item_type}', '#{reward_folder}/#{img_folder}/#{basename}'"
   out.write ", '#{new_name}'" if new_name
   out.write ")\n"
   
