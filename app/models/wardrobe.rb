@@ -61,7 +61,7 @@ class Wardrobe < ActiveRecord::Base
       exists = Reward.create(:xp => lvl_reward.xp, :target_type => 'wardrobe', :target_id => wardrobe.id)
     end
     
-    puts "Wardrobe #{wardrobe.name} (#{wardrobe.id}) unlocked at level #{lvl_reward.target_id} and #{xp} XP"
+    puts "Wardrobe #{wardrobe.name} (#{wardrobe.id}) unlocked at level #{lvl_reward.target_id} and #{lvl_reward.xp} XP"
   end
 
 end
