@@ -87,7 +87,7 @@ csv_data.tr("\r", "\n").each_line do | line |
   FileUtils.mkdir_p(target_path)
   FileUtils.cp("#{source_path}/icon/avatar/#{icon_folder}/#{icon_file}", "#{target_path}/#{basename}_icon.#{extname}")
 
-  out.write "Wardrobe.add('#{reward_name}', '#{wardobe_top}', '#{wardobe_top}', '#{item_name}', '#{item_type}', '#{reward_folder}/#{img_folder}/#{basename}'"
+  out.write "Wardrobe.add('#{reward_name}', '#{wardobe_top}', '#{wardrobe_sub}', '#{item_name}', '#{item_type}', '#{reward_folder}/#{img_folder}/#{basename}'"
   out.write ", '#{new_name}'" if new_name
   out.write ")\n"
   
