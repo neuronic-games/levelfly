@@ -38,7 +38,7 @@
   <script type="text/javascript" src="/assets/fileupload/jquery.plupload.queue.js"></script>
 	<script type="text/javascript" src="/assets/fileupload/plupload.flash.js"></script>
   <script type="text/javascript" src="/assets/ui/jquery.autosize.js"></script>
-  <script src="http://js.pusher.com/2.1/pusher.min.js"></script>
+  <script src="/assets/pusher.min.js"></script>
   
   <%= csrf_meta_tags %>
 </head>
@@ -269,24 +269,24 @@ var h = new Object();
   $(document).ready(function(){
     
     $.ajaxSetup({ cache: false }); 
-    setInterval(function() {
-      profile_id = $("#hdn_profile_id").val();
-		$.ajax({  
-          type: "POST",  
-          url: "/message/alert_badge",
-          dataType: "json",
-          data:{id:profile_id},
-          success: function(data) {
-		  	if (data.alert_badge == false){
-				document.getElementById("msg").className = "notification_badge menu_btn";
-			}
-			else{
-				document.getElementById("msg").className = "icon_msg menu_btn";
-			}
+  //   setInterval(function() {
+  //     profile_id = $("#hdn_profile_id").val();
+		// $.ajax({  
+  //         type: "POST",  
+  //         url: "/message/alert_badge",
+  //         dataType: "json",
+  //         data:{id:profile_id},
+  //         success: function(data) {
+		//   	if (data.alert_badge == false){
+		// 		document.getElementById("msg").className = "notification_badge menu_btn";
+		// 	}
+		// 	else{
+		// 		document.getElementById("msg").className = "icon_msg menu_btn";
+		// 	}
 				
-		  },
-		});
-    }, 10000*10);
+		//   },
+		// });
+  //   }, 10000*10);
     
     //Search option settings
     $("#search_options li").bind("click",function(){
