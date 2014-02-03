@@ -16,7 +16,7 @@ class Wardrobe < ActiveRecord::Base
       exists.name = new_name if new_name
       exists.parent_item = level_1
       exists.save
-      puts "#{item.name} (#{item.id}) updated"
+      puts "#{exists.name} (#{exists.id}) updated"
     elseif new_name.nil?
       sort_order = WardrobeItem.maximum(:sort_order, :conditions => ["parent_item_id = ? and depth = 1", level_0.id])
       item = WardrobeItem.create(:wardrobe => wardrobe, :parent_item => level_1, :name => name, :item_type => item_type, :image_file => image_file, :sort_order => sort_order+1, :depth => 2)
