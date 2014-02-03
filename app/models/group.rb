@@ -7,5 +7,6 @@ class Group < ActiveRecord::Base
    :storage => :s3,
    :s3_credentials => { :access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET'] },
    :path => "schools/:school/courses/:course/group/:id/:filename",
-   :bucket => ENV['S3_PATH']
+   :bucket => ENV['S3_PATH'],
+   :s3_protocol => ENV['S3_PROTOCOL']
 end

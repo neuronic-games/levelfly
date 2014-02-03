@@ -76,5 +76,17 @@ class Profile < ActiveRecord::Base
   def has_role(type)
     Role.check_permission(self.id, type)
   end
-  
+
+  # Call this to make sure the user has the correct rewards for the XP gained
+  def update_rewards
+    level_reward = Reward.find(:first, :conditions => ["xp <= ? and target_type = 'level'",  self.xp], :order => "xp DESC")
+    wardrobe_reward = Reward.find(:first, :conditions => ["xp <= ? and target_type = 'wardrobe'",  self.xp], :order => "xp DESC")
+    self.level = level_reward.target_id if level_reward
+    self.wardrobe = wardrobe_reward.target_id if wardrobe_reward
+    self.save
+    
+    wardrobe = Wardrobe.find(wardrobe_reward.target_id)
+    
+    puts "Profile #{self.id} >> Level: #{self.level}, Wardrobe: #{wardrobe.name}"
+  end  
 end
