@@ -3,7 +3,8 @@
     <div class="clear"></div>
     <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
-    <div>You are about to remove a badge that has been given to <%=@count_students if @count_students%> people. Are you sure?</div>
+    <div>You are removing <span id="delete_badge_name"></span> from your list of badges. Are you sure?</div>
+    <input type="hidden" id="delete_badge_id" value="" />
     
     <div class="spacebar10px"></div>
   <div align="right">
@@ -13,6 +14,36 @@
 </div>
 
 <script type="text/javascript">
+$(function() {
+	
+	$("#dont_delete_btn").click(function(){
+		$("#warning_box").hide();
+	});
+	
+	$("#delete_btn").click(function(){
+		
+		var badge_id = $("#delete_badge_id").val();
+		showSpinner(true);
+      	$.ajax({
+	         type: "POST",
+	         url: "/badge/delete_badge",
+	         data:{badge_id:badge_id},
+	         success: function(data) {
+	           $("#warning_box").hide();
+	           $("#last_used_"+badge_id).remove();
+	           $("#all_"+badge_id).remove();
+	           delete_badge_id="";
+	           showSpinner(false);
+	         },
+	         error: function()
+	         {
+	           alert("An Error has occured");
+	           showSpinner(false);
+	         },
+	    });
+	});
+});
+
 <!--
 //-->
 </script>
