@@ -10,7 +10,7 @@
   <div id="on_hover" class="on_hover msg_bottom_linksC2" style="display:none;">
     <div class="like_cmt"> 
       <div style="display:block; padding-bottom:3px;"><a href="javascript:void(0);" class="outcome_del files_del blue_bt19px" rel="<%= outcomes.id %>">REMOVE</a></div>
-      <%if outcomes.shared==false && outcomes.created_by == @course.id%>
+      <%if @course && outcomes.shared==false && outcomes.created_by == @course.id%>
          <a href="javascript:void(0);" class="blue_bt19px2 outcomes_share_btn" rel="<%= outcomes.id %>">Mark as</br> Shared</a>
       <%else%>  
       
