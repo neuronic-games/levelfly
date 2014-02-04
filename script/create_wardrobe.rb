@@ -31,23 +31,28 @@ reward_name = nil
 item_names = Set.new
 wardrobe_count = 0
 item_count = 0
+sort_order = {}
 
 file = File.new(file_path, "r")
 csv_data = file.read
 
 out  = File.new(out_path, "w")
 out.write "#!/usr/bin/env ruby\n\n"
-out.write "# Property of Levelfly. All rights reserved. Date: #{Date.today}\n"
+out.write "# Property of Levelfly. All rights reserved. Date: #{Date.today}\n\n"
+
+out.write "Reward.delete_all(\"target_type = 'wardrobe'\")\n"  # Remove existing wardrobe rewards because they will be re-added
 
 csv_data.tr("\r", "\n").each_line do | line |
   next if line.match(/^\s*#/)
 
   data = CSV.parse_line(line)
   data.collect! { |x| x ? x.strip : x } 
-  status, level, reward, wardobe_top, wardrobe_sub, item_type, item_name, new_name, img_folder, img_file, icon_folder, icon_file = data
+  status, level, reward, wardrobe_top, wardrobe_sub, item_type, item_name, new_name, img_folder, img_file, icon_folder, icon_file = data
 
   # We assume that a data row will have a level unlock
   next if level.to_i == 0
+
+  sort_order["#{wardrobe_top},#{wardrobe_sub}"] = 0 unless sort_order["#{wardrobe_top},#{wardrobe_sub}"]
   
   if reward and !reward.empty?
     if reward_name != reward
@@ -87,11 +92,14 @@ csv_data.tr("\r", "\n").each_line do | line |
   FileUtils.mkdir_p(target_path)
   FileUtils.cp("#{source_path}/icon/avatar/#{icon_folder}/#{icon_file}", "#{target_path}/#{basename}_icon#{extname}")
 
-  out.write "Wardrobe.add('#{reward_name}', '#{wardobe_top}', '#{wardrobe_sub}', '#{item_name}', '#{item_type}', '#{reward_folder}/#{img_folder}/#{basename}'"
+  out.write "Wardrobe.add('#{reward_name}', '#{wardrobe_top}', '#{wardrobe_sub}', '#{item_name}', '#{item_type}', '#{reward_folder}/#{img_folder}/#{basename}'"
+  out.write ", "
+  out.write sort_order["#{wardrobe_top},#{wardrobe_sub}"]
   out.write ", '#{new_name}'" if new_name
   out.write ")\n"
   
   item_count += 1
+  sort_order["#{wardrobe_top},#{wardrobe_sub}"] += 1
 
   puts "#{reward_name}: #{new_name ? new_name : item_name} (#{img_file})"
 
