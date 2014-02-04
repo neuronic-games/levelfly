@@ -1,12 +1,14 @@
 #!/usr/bin/env ruby
 
 # Property of Levelfly. All rights reserved. Date: 2014-02-04
+
 Reward.delete_all("target_type = 'wardrobe'")
+
 # === Basic ===
 Wardrobe.unlock_lvl('Basic', 1)
 Wardrobe.add('Basic', 'Accessories', 'Jewelry', 'Hoop Earrings', 'earrings', 'basic/earrings/earring_large_ring', 0)
-Wardrobe.add('Basic', 'Accessories', 'Jewelry', 'Orange Earrings', 'earrings', 'basic/earrings/earring_orange', 1, 'Gold Earrings')
-Wardrobe.add('Basic', 'Accessories', 'Jewelry', 'Pearl Earrings', 'earrings', 'basic/earrings/earring_white', 2)
+Wardrobe.add('Basic', 'Accessories', 'Jewelry', 'Pearl Earrings', 'earrings', 'basic/earrings/earring_white', 1)
+Wardrobe.add('Basic', 'Accessories', 'Jewelry', 'Orange Earrings', 'earrings', 'basic/earrings/earring_orange', 2, 'Gold Earrings')
 Wardrobe.add('Basic', 'Accessories', 'Jewelry', 'Orange Necklace', 'necklace', 'basic/necklace/necklace_orange', 3, 'Gold Necklace')
 Wardrobe.add('Basic', 'Accessories', 'Hobbies', 'Guitar', 'prop', 'basic/props/guitar_black', 0, 'Electric Guitar')
 Wardrobe.add('Basic', 'Accessories', 'Misc', 'Gray Gloves', 'prop', 'basic/glove/glove_gray', 0)
@@ -21,14 +23,14 @@ Wardrobe.add('Basic', 'Body', 'Casual', 'Short Buttoned Blue Shirt', 'top', 'bas
 Wardrobe.add('Basic', 'Body', 'Casual', 'Short Buttoned Pink Shirt', 'top', 'basic/tops/shirt_short_sleeve_pink', 3, 'Pink Button Up')
 Wardrobe.add('Basic', 'Body', 'Career', 'Lab Coat', 'top', 'basic/tops/doctor_white_top', 0)
 Wardrobe.add('Basic', 'Body', 'Dressy', 'Black Tux', 'top', 'basic/tops_dressy/black_bow', 0)
-Wardrobe.add('Basic', 'Body', 'Dressy', 'Black Dress', 'top', 'basic/tops_dressy/black_maroon_short_dress', 1, 'Black Maroon Dress')
-Wardrobe.add('Basic', 'Body', 'Dressy', 'White Dress', 'top', 'basic/tops_dressy/black_white_long_dress', 2, 'White Dress 3')
+Wardrobe.add('Basic', 'Body', 'Dressy', 'Black Suit', 'top', 'basic/tops_dressy/dark_gray_tie', 1, 'Dark Gray Suit')
+Wardrobe.add('Basic', 'Body', 'Dressy', 'Black Dress', 'top', 'basic/tops_dressy/black_maroon_short_dress', 2, 'Black Maroon Dress')
 Wardrobe.add('Basic', 'Body', 'Dressy', 'Brown Dress', 'top', 'basic/tops_dressy/brown_dress', 3)
-Wardrobe.add('Basic', 'Body', 'Dressy', 'Black Suit', 'top', 'basic/tops_dressy/dark_gray_tie', 4, 'Dark Gray Suit')
-Wardrobe.add('Basic', 'Body', 'Dressy', 'Orange Dress', 'top', 'basic/tops_dressy/orange_short_dress', 5)
-Wardrobe.add('Basic', 'Body', 'Dressy', 'Red Dress', 'top', 'basic/tops_dressy/red_long_dress', 6)
+Wardrobe.add('Basic', 'Body', 'Dressy', 'Orange Dress', 'top', 'basic/tops_dressy/orange_short_dress', 4)
+Wardrobe.add('Basic', 'Body', 'Dressy', 'Red Dress', 'top', 'basic/tops_dressy/red_long_dress', 5)
+Wardrobe.add('Basic', 'Body', 'Dressy', 'White Dress 3', 'top', 'basic/tops_dressy/white_short_dress', 6, 'White Dress 1')
 Wardrobe.add('Basic', 'Body', 'Dressy', 'White Dress 2', 'top', 'basic/tops_dressy/white_dress', 7)
-Wardrobe.add('Basic', 'Body', 'Dressy', 'White Dress 3', 'top', 'basic/tops_dressy/white_short_dress', 8, 'White Dress 1')
+Wardrobe.add('Basic', 'Body', 'Dressy', 'White Dress', 'top', 'basic/tops_dressy/black_white_long_dress', 8, 'White Dress 3')
 Wardrobe.add('Basic', 'Body', 'Misc', 'Cowboy', 'top', 'basic/tops/cowboy_top_with_court', 0, 'Cowboy Jacket')
 Wardrobe.add('Basic', 'Body', 'Sporty', 'Football', 'top', 'basic/tops/american_football_top', 0, 'Football Top')
 Wardrobe.add('Basic', 'Body', 'Sporty', 'Baseball', 'top', 'basic/tops/baseball_t_shirt', 1, 'Baseball Top')
@@ -37,8 +39,8 @@ Wardrobe.add('Basic', 'Feet', 'Sporty', 'Football', 'shoes', 'basic/shoes/americ
 Wardrobe.add('Basic', 'Feet', 'Sporty', 'Baseball', 'shoes', 'basic/shoes/baseball_shoe', 1, 'Baseball Cleats')
 Wardrobe.add('Basic', 'Feet', 'Misc', 'Cowboy', 'shoes', 'basic/shoes/cowboy_boot', 0, 'Cowboy Boots')
 Wardrobe.add('Basic', 'Feet', 'Misc', 'Purple Power', 'shoes', 'basic/shoes/purple_superhero_boot', 1, 'Black Boots')
-Wardrobe.add('Basic', 'Feet', 'Dressy', 'Black Heels', 'shoes', 'basic/shoes/black_heels', 0, 'Black Heels 2')
-Wardrobe.add('Basic', 'Feet', 'Dressy', 'Black', 'shoes', 'basic/shoes/black_shoe', 1, 'Black Shoes')
+Wardrobe.add('Basic', 'Feet', 'Dressy', 'Black', 'shoes', 'basic/shoes/black_shoe', 0, 'Black Shoes')
+Wardrobe.add('Basic', 'Feet', 'Dressy', 'Black Heels', 'shoes', 'basic/shoes/black_heels', 1, 'Black Heels 2')
 Wardrobe.add('Basic', 'Feet', 'Dressy', 'White Heels', 'shoes', 'basic/shoes/white_heels_1', 2, 'White Heels 1')
 Wardrobe.add('Basic', 'Feet', 'Dressy', 'White Heels 2', 'shoes', 'basic/shoes/white_heels_2', 3)
 Wardrobe.add('Basic', 'Feet', 'Dressy', 'Red Heels', 'shoes', 'basic/shoes/red_heels', 4)
@@ -134,10 +136,10 @@ Wardrobe.add('Jewelry', 'Accessories', 'Jewelry', 'Sapphire Earrings', 'earrings
 Wardrobe.add('Jewelry', 'Accessories', 'Jewelry', 'Ruby Earrings', 'earrings', 'jewelry/earrings/earring_red', 6)
 Wardrobe.add('Jewelry', 'Accessories', 'Jewelry', 'Silver Drop Earrings', 'earrings', 'jewelry/earrings/earring_silver_1', 7)
 Wardrobe.add('Jewelry', 'Accessories', 'Jewelry', 'Silver Stud Earrings', 'earrings', 'jewelry/earrings/earring_silver_2', 8)
-Wardrobe.add('Jewelry', 'Accessories', 'Jewelry', 'Diamond Necklace 1', 'necklace', 'jewelry/necklace/necklace_diamond_1', 9)
-Wardrobe.add('Jewelry', 'Accessories', 'Jewelry', 'Diamond Necklace 2', 'necklace', 'jewelry/necklace/necklace_diamond_2', 10)
-Wardrobe.add('Jewelry', 'Accessories', 'Jewelry', 'Silver Necklace 1', 'necklace', 'jewelry/necklace/necklace_silver_1', 11)
-Wardrobe.add('Jewelry', 'Accessories', 'Jewelry', 'Silver Necklace 2', 'necklace', 'jewelry/necklace/necklace_silver_2', 12)
+Wardrobe.add('Jewelry', 'Accessories', 'Jewelry', 'Silver Necklace 1', 'necklace', 'jewelry/necklace/necklace_silver_1', 9)
+Wardrobe.add('Jewelry', 'Accessories', 'Jewelry', 'Silver Necklace 2', 'necklace', 'jewelry/necklace/necklace_silver_2', 10)
+Wardrobe.add('Jewelry', 'Accessories', 'Jewelry', 'Diamond Necklace 1', 'necklace', 'jewelry/necklace/necklace_diamond_1', 11)
+Wardrobe.add('Jewelry', 'Accessories', 'Jewelry', 'Diamond Necklace 2', 'necklace', 'jewelry/necklace/necklace_diamond_2', 12)
 
 # === Pirate ===
 Wardrobe.unlock_lvl('Pirate', 12)
