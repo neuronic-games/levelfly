@@ -1,8 +1,8 @@
-,,,,,"hat, hair, facial_hair, head, earrings, necklace, top, bottom, shoes, prop",,,,,,
+,Script will only process rows that has a numeric unlock level,,,,"hat, hair, facial_hair, head, earrings, necklace, top, bottom, shoes, prop",,,,,,
 Needs to be added?,Unlock Level ,Reward Set,Wardrobe Top Folder in Levelfly,Wardrobe Subfolder in Levelfly,Type,Unique Name,New Name,Image Folder Name,Image File Name,Icon Folder Name,Icon File Name
 Y,1,Basic,Accessories,Jewelry,earrings,Hoop Earrings,,earrings,earring_large_ring.png,earrings,earring_large_ring_icon.png
-,1,,Accessories,Jewelry,earrings,Orange Earrings,Gold Earrings,earrings,earring_orange.png,earrings,earring_orange_icon.png
 Y,1,,Accessories,Jewelry,earrings,Pearl Earrings,,earrings,earring_white.png,earrings,earring_white_icon.png
+,1,,Accessories,Jewelry,earrings,Orange Earrings,Gold Earrings,earrings,earring_orange.png,earrings,earring_orange_icon.png
 ,1,,Accessories,Jewelry,necklace,Orange Necklace,Gold Necklace,necklace,necklace_orange.png,necklace,necklace_orange_icon.png
 ,1,,Accessories,Hobbies,prop,Guitar,Electric Guitar,props,guitar_black.png,props,guitar_black_icon.png
 Y,1,,Accessories,Misc,prop,Gray Gloves,,glove,glove_gray.png,glove,glove_gray_icon.png
@@ -18,18 +18,18 @@ Y,1,,Accessories,Bags,prop,Handbag,,props,hand_bag.png,props,hand_bag_icon.png
 ,1,,Body,Body,,,,body,body_5.png,body,NA
 ,1,,Body,Casual,top,Black-T,Black T,tops,black_t.png,tops,black_t_icon.png
 ,1,,Body,Casual,top,Blue Polo,,tops,polo_short_sleeve_blue.png,tops,polo_short_sleeve_blue_icon.png
-Y,1,,Body,Casual,top,Short Buttoned Blue Shirt,,tops,shirt_short_sleeve_cyan.png,tops,shirt_short_sleeve_cyan_icon.png
-Y,1,,Body,Casual,top,Short Buttoned Pink Shirt,,tops,shirt_short_sleeve_pink.png,tops,shirt_short_sleeve_pink_icon.png
+Y,1,,Body,Casual,top,Short Buttoned Blue Shirt,Blue Button Up,tops,shirt_short_sleeve_cyan.png,tops,shirt_short_sleeve_cyan_icon.png
+Y,1,,Body,Casual,top,Short Buttoned Pink Shirt,Pink Button Up,tops,shirt_short_sleeve_pink.png,tops,shirt_short_sleeve_pink_icon.png
 ,1,,Body,Career,top,Lab Coat,,tops,doctor_white_top.png,tops,doctor_white_top_icon.png
 ,1,,Body,Dressy,top,Black Tux,,tops_dressy,black_bow.png,tops_dressy,black_bow_icon.png
-,1,,Body,Dressy,top,Black Dress,Black Maroon Dress,tops_dressy,black_maroon_short_dress.png,tops_dressy,black_maroon_short_dress_icon.png
-,1,,Body,Dressy,top,White Dress,White Dress 3,tops_dressy,black_white_long_dress.png,tops_dressy,black_white_long_dress_icon.png
-,1,,Body,Dressy,top,Brown Dress,,tops_dressy,brown_dress.png,tops_dressy,brown_dress_icon.png
 ,1,,Body,Dressy,top,Black Suit,Dark Gray Suit,tops_dressy,dark_gray_tie.png,tops_dressy,dark_gray_tie_icon.png
+,1,,Body,Dressy,top,Black Dress,Black Maroon Dress,tops_dressy,black_maroon_short_dress.png,tops_dressy,black_maroon_short_dress_icon.png
+,1,,Body,Dressy,top,Brown Dress,,tops_dressy,brown_dress.png,tops_dressy,brown_dress_icon.png
 ,1,,Body,Dressy,top,Orange Dress,,tops_dressy,orange_short_dress.png,tops_dressy,orange_short_dress_icon.png
 ,1,,Body,Dressy,top,Red Dress,,tops_dressy,red_long_dress.png,tops_dressy,red_long_dress_icon.png
-,1,,Body,Dressy,top,White Dress 2,,tops_dressy,white_dress.png,tops_dressy,white_dress_icon.png
 ,1,,Body,Dressy,top,White Dress 3,White Dress 1,tops_dressy,white_short_dress.png,tops_dressy,white_short_dress_icon.png
+,1,,Body,Dressy,top,White Dress 2,,tops_dressy,white_dress.png,tops_dressy,white_dress_icon.png
+,1,,Body,Dressy,top,White Dress,White Dress 3,tops_dressy,black_white_long_dress.png,tops_dressy,black_white_long_dress_icon.png
 ,1,,Body,Misc,top,Cowboy,Cowboy Jacket,tops,cowboy_top_with_court.png,tops,cowboy_top_with_court_icon.png
 Y,1,,Body,Sporty,top,,,tops_sporty,american_football_dress.png,tops_sporty,american_football_dress_icon.png
 Y,1,,Body,Sporty,top,,,tops_sporty,baseball_dress.png,tops_sporty,baseball_dress_icon.png
@@ -40,17 +40,25 @@ Y,1,,Body,Sporty,top,,,tops_sporty,baseball_dress.png,tops_sporty,baseball_dress
 ,1,,Feet,Sporty,shoes,Baseball,Baseball Cleats,shoes,baseball_shoe.png,shoes,baseball_shoe_icon.png
 ,1,,Feet,Misc,shoes,Cowboy,Cowboy Boots,shoes,cowboy_boot.png,shoes,cowboy_boot_icon.png
 ,1,,Feet,Misc,shoes,Purple Power,Black Boots,shoes,purple_superhero_boot.png,shoes,purple_superhero_boot_icon.png
-,1,,Feet,Dressy,shoes,Black Heels,Black Heels 2,shoes,black_heels.png,shoes,black_heels_icon.png
 ,1,,Feet,Dressy,shoes,Black,Black Shoes,shoes,black_shoe.png,shoes,black_shoe_icon.png
+Y,1,,Feet,Dressy,shoes,Black Heels,Black Heels 1,shoes,shoe_black.png,shoes,
+,1,,Feet,Dressy,shoes,Black Heels,Black Heels 2,shoes,black_heels.png,shoes,black_heels_icon.png
 ,1,,Feet,Dressy,shoes,White Heels,White Heels 1,shoes,white_heels_1.png,shoes,white_heels_1_icon.png
 ,1,,Feet,Dressy,shoes,White Heels 2,,shoes,white_heels_2.png,shoes,white_heels_2_icon.png
 ,1,,Feet,Dressy,shoes,Red Heels,,shoes,red_heels.png,shoes,red_heels_icon.png
-Y,1,,Feet,Dressy,shoes,Black Heels,,shoes,shoe_black.png,shoes,
 ,1,,Feet,Dressy,shoes,Pink Heels,,shoes,shoe_pink.png,shoes,shoe_pink_icon.png
 ,1,,Feet,Casual,shoes,Brown Slippers,,shoes,slippers_brown.png,shoes,slippers_brown_icon.png
 ,1,,Feet,Casual,shoes,Purple Slippers,,shoes,slippers_purple.png,shoes,slippers_purple_icon.png
 ,1,,Feet,Casual,shoes,Grey Sneakers,Gray Sneakers,shoes,sneakers_gray.png,shoes,sneakers_gray_icon.png
 ,1,,Feet,Casual,shoes,Purple Sneakers,,shoes,sports_shoe_purple.png,shoes,sports_shoe_purple_icon.png
+,1,,Head,Face,face,Face 1,,face,asian_male.png,face,asian_male_icon.png
+,1,,Head,Face,face,Face 2,,face,asian_female.png,face,asian_female_icon.png
+,1,,Head,Face,face,Face 3,,face,chinese_male.png,face,chinese_male_icon.png
+,1,,Head,Face,face,Face 4,,face,chinese_female.png,face,chinese_female_icon.png
+,1,,Head,Face,face,Face 5,,face,african_male.png,face,african_male_icon.png
+,1,,Head,Face,face,Face 6,,face,african_female.png,face,african_female_icon.png
+,1,,Head,Face,face,Face 7,,face,latin_male.png,face,latin_male_icon.png
+,1,,Head,Face,face,Face 8,,face,latin_female.png,face,latin_female_icon.png
 Y,1,,Head,Face,face,Face 9,,expression,angry_1.png,expression,angry_1_icon.png
 Y,1,,Head,Face,face,Face 10,,expression,angry_2.png,expression,angry_2_icon.png
 Y,1,,Head,Face,face,Face 11,,expression,angry_3.png,expression,angry_3_icon.png
@@ -63,14 +71,6 @@ Y,1,,Head,Face,face,Face 17,,expression,winking_1.png,expression,winking_1_icon.
 Y,1,,Head,Face,face,Face 18,,expression,winking_2.png,expression,winking_2_icon.png
 Y,1,,Head,Face,face,Face 19,,expression,winking_3.png,expression,winking_3_icon.png
 Y,1,,Head,Face,face,Face 20,,expression,winking_4.png,expression,winking_4_icon.png
-,1,,Head,Face,face,Face 6,,face,african_female.png,face,african_female_icon.png
-,1,,Head,Face,face,Face 5,,face,african_male.png,face,african_male_icon.png
-,1,,Head,Face,face,Face 2,,face,asian_female.png,face,asian_female_icon.png
-,1,,Head,Face,face,Face 1,,face,asian_male.png,face,asian_male_icon.png
-,1,,Head,Face,face,Face 4,,face,chinese_female.png,face,chinese_female_icon.png
-,1,,Head,Face,face,Face 3,,face,chinese_male.png,face,chinese_male_icon.png
-,1,,Head,Face,face,Face 8,,face,latin_female.png,face,latin_female_icon.png
-,1,,Head,Face,face,Face 7,,face,latin_male.png,face,latin_male_icon.png
 ,1,,Head,Facial Hair,facial_hair,,,facial_hair,handlebar_chin_puff_1.png,facial_hair,handlebar_chin_puff_4_icon.png
 ,1,,Head,Facial Hair,facial_hair,,,facial_hair,handlebar_chin_puff_2.png,facial_hair,handlebar_chin_puff_4_icon.png
 ,1,,Head,Facial Hair,facial_hair,,,facial_hair,handlebar_chin_puff_3.png,facial_hair,handlebar_chin_puff_4_icon.png
@@ -234,15 +234,15 @@ Y,9,,Legs,Dressy,bottom,Black Trousers,,bottoms,trousers_long_black.png,bottoms,
 Y,9,,Legs,Dressy,bottom,Brown Trousers,,bottoms,trousers_long_brown.png,bottoms,trousers_long_brown_icon.png
 Y,10,Army,Body,Career,top,,,tops_career,army_dress.png,tops_career,army_dress_icon.png
 Y,10,,Body,Career,top,Army Shirt 1,,tops,shirt_army.png,tops,shirt_army_icon.png
-Y,10,,Body,Casual,top,Army Shirt 2,,tops,t_shirt_army.png,tops,t_shirt_army_icon.png
+Y,10,,Body,Career,top,Army Shirt 2,,tops,t_shirt_army.png,tops,t_shirt_army_icon.png
 Y,11,Jewelry,Accessories,Jewelry,earrings,Sapphire Earrings,,earrings,earring_blue.png,earrings,earring_blue_icon.png
 Y,11,,Accessories,Jewelry,earrings,Ruby Earrings,,earrings,earring_red.png,earrings,earring_red_icon.png
 Y,11,,Accessories,Jewelry,earrings,Silver Drop Earrings,,earrings,earring_silver_1.png,earrings,earring_silver_1_icon.png
 Y,11,,Accessories,Jewelry,earrings,Silver Stud Earrings,,earrings,earring_silver_2.png,earrings,earring_silver_2_icon.png
-Y,11,,Accessories,Jewelry,necklace,Diamond Necklace 1,,necklace,necklace_diamond_1.png,necklace,necklace_diamond_1_icon.png
-Y,11,,Accessories,Jewelry,necklace,Diamond Necklace 2,,necklace,necklace_diamond_2.png,necklace,necklace_diamond_2_icon.png
 Y,11,,Accessories,Jewelry,necklace,Silver Necklace 1,,necklace,necklace_silver_1.png,necklace,necklace_silver_1_icon.png
 Y,11,,Accessories,Jewelry,necklace,Silver Necklace 2,,necklace,necklace_silver_2.png,necklace,necklace_silver_2_icon.png
+Y,11,,Accessories,Jewelry,necklace,Diamond Necklace 1,,necklace,necklace_diamond_1.png,necklace,necklace_diamond_1_icon.png
+Y,11,,Accessories,Jewelry,necklace,Diamond Necklace 2,,necklace,necklace_diamond_2.png,necklace,necklace_diamond_2_icon.png
 Y,12,Pirate,Legs,Misc,bottom,Pirate Bottom,,bottoms,pirate_bottom.png,bottoms,pirate_bottom_icon.png
 Y,12,,Feet,Misc,shoes,Pirate Boots,,shoes,pirate_boot.png,shoes,pirate_boot_icon.png
 Y,12,,Body,Misc,top,Pirate Top,,tops,pirate_top.png,tops,pirate_top_icon.png
