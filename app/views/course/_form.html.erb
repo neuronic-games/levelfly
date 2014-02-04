@@ -95,6 +95,7 @@ var _categories_persentObject = [];
 var _outcomes_shareObject = [];
 var changed = false;
 var new_course = false;
+var name_blank = false;
 //set outcomes to offline storage
 $.each($('input[name="outcomes[]"], input[name="people_id[]"], input[name="categories[]"]'), function() {
   setStorage($(this).attr('id'), $(this).val());
@@ -104,7 +105,7 @@ $.each($('input[name="outcomes[]"], input[name="people_id[]"], input[name="categ
 if($("#course_name").val()!="") {setStorage("course_name", $("#course_name").val());}
 else {setStorage("course_name", "Course Name");}
 if($("#course_descr").val()!="") {setStorage("course_descr", $("#course_descr").val());} else {setStorage("course_descr", " ");}
-if($("#course_code").val()!="") {setStorage("course_code", $("#course_code").val());}
+if($("#course_code_name").val()!="" && $("#course_code_num").val()!="") {setStorage("course_code", $("#course_code_name").val() + $("#course_code_num").val());}
 else {setStorage("course_code", "Course Code");}
 if($("#course_section").val()!="") {setStorage("course_section", $("#course_section").val());}
 else {setStorage("course_section", "Section");}
@@ -411,6 +412,8 @@ function save_course(channel) {
    }
     name = getStorage("course_name");
     section_type = "C";
+    if($("#course_name").val()!=""){ name_blank = false;}
+    else{ name_blank = true;}
   }
 
   id = $("#course_id_hdn").val();
@@ -474,7 +477,7 @@ function save_course(channel) {
   var dataString = {id:id , course:name , descr:descr , section_type:section_type , code:code , section:section , school_id:school_id , outcomes:_outcomesObject , outcomes_descr:_outcomes_descrObject , categories:_categoriesObject , wall_id:wall_id , percent_value:_categories_persentObject , outcome_share:_outcomes_shareObject , post_messages:post_messages.checked , show_grade:show_grade_checked , semester:selected_semester , year:selected_year}
   
 	//alert(dataString);  return false;
-if(changed==true || semester_change != true || course_change != true){
+if((changed==true || semester_change != true || course_change != true) && name_blank == false){
   showSpinner(true);
   $.ajax({
     type: "POST",
@@ -492,7 +495,8 @@ if(changed==true || semester_change != true || course_change != true){
         else
         {
           $("#course_name").val(data.course.name);
-          $("#course_code").val(data.course.code);
+          if (data.course.code.match(/^\D\s+/)){$("#course_code_name").val(data.course.code.match(/^\D\s+/)[0]);}
+          if (data.course.code.match(/\d+$/)){$("#course_code_num").val(data.course.code.match(/\d+$/)[0]);}
           $("#course_section").val(data.course.section);
         }
          showSpinner(false);
@@ -518,6 +522,10 @@ if(changed==true || semester_change != true || course_change != true){
      $("#container").load('/course/show/'+course_id+'?section_type='+section_type, function(){
         showSpinner(false);
       });
+  }
+  else if(name_blank==true){
+  	$("#blank_course_name_div").show();
+  	showSpinner(false);
   }
   return false;
 }

@@ -1,3 +1,9 @@
+<% if (@courses.nil? || @courses.empty?) and (@user_group == false || params[:filter]=='M') %>
+	<input type="hidden" id="section_type" value="<%=section_type if defined?(section_type)%>"/>
+	<div class="course_tab_content">
+		<div class="system_alert">You don’t belong to any groups yet. Select the “All Groups” tab on the right to see what awesome groups people have started.</div>
+	</div>
+<%else%>
 <table class="blackboard_list" id ="course_group_content">
   <tr>
     <th width="110">
@@ -78,6 +84,7 @@
   </tr>
   <% end %>
 </table>
+<% end %>
 <script type="text/javascript">
 
 $(document).ready(function(){  
