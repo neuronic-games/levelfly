@@ -35,6 +35,7 @@ class CourseController < ApplicationController
           @courses = Course.course_filter(@profile.id,"")
         end
         if section_type == 'G'
+          @user_group = false
           @courses = Course.all_group(@profile,"M")
         end
       else
@@ -650,21 +651,20 @@ class CourseController < ApplicationController
       :include => [:participants], 
       :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M' and profile_id = ? ", @course.id,user_session[:profile_id]]
       )
-     if @courseMaster and @course.course_id != 0
-       @peoples = Profile.find(
-         :all, 
-         :include => [:participants], 
-         :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type = 'S'", @course.course_id,section_type],
-         :order => "full_name"
-       )
-     else
-       @peoples = Profile.find(
+     unless @courseMaster and @course.course_id != 0
+       @people_pending = Profile.find(
        :all, 
-       :include => [:participants], 
-       :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('P', 'S')", @course.id,section_type],
-       :order => "full_name"
-     )
+       :include => [:participants, :user], 
+       :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('P')", @course.id,section_type],
+       :order => "full_name, email"
+       )
      end
+     @peoples = Profile.find(
+       :all, 
+       :include => [:participants, :user], 
+       :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('S')", @course.id,section_type],
+       :order => "full_name, email"
+       )
      #ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}") 
      render :partial => "/course/member_list",:locals=>{:course=>@course}         
    end

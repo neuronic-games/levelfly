@@ -206,7 +206,7 @@
 						partcipant_html += '<a href="javascript:void(0)" class="people_delete blue_bt19px FloatR" rel='+data.profile.id+'  >Remove</a></div></div>';
 						partcipant_html += '<div class="clear"></div>';
 						participant_node.append(partcipant_html);
-						$("#course_people ul").prepend(participant_node);
+						$("#course_people ul:first").prepend(participant_node);
 						$("#course_participant_list").hide();
 						$("#hdn_is_page_change").val(true);
 						$('.blackboard_list').first().hover(a,b);
