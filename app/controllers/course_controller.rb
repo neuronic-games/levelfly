@@ -35,6 +35,7 @@ class CourseController < ApplicationController
           @courses = Course.course_filter(@profile.id,"")
         end
         if section_type == 'G'
+          @user_group = false
           @courses = Course.all_group(@profile,"M")
         end
       else
