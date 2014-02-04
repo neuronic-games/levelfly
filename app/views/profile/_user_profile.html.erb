@@ -135,7 +135,7 @@
                 <% if badge and !badge.nil?%>
                 <li>
                   <div class="SI_icon"><img src="images/badges/<%=badge.badge_image.image_file_name%>"class="icon_style_badge hover badge_details" id="<%=b.id%>"/></div>
-                  <span class="text_style_badge" style="word-break:break-all; word-wrap:break-word; max-width:50px;"><%=badge.name.truncate(40) if badge.name %></span>
+                  <span class="text_style_badge" style="word-break:normal; word-wrap:break-word; max-width:50px;"><%=badge.name.truncate(40) if badge.name %></span>
                 </li>
                 <%end%>  
               <%end%>
