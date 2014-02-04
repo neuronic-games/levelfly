@@ -16,11 +16,19 @@
 
         <div class="catagory_viewfield field_label">COURSE CODE
           <div class="dd_bg brown_bg">
-           <input type="text" name="course_code" id="course_code" value="<%=@course.code if @course%>" class="dd_input brown_bg prompted" style="text-transform:uppercase; width:100px;" prompt="course_code_prompt" onBlur='javascript:setStorage("course_code", $(this).val());$("#hdn_is_page_change").val(true);' />
-           -
-           <input type="text" name="course_section" id="course_section" value="<%=@course.section if @course%>" class="small dd_input brown_bg prompted" prompt="course_section_prompt" style="width:50px;" onBlur='javascript:setStorage("course_section", $(this).val());$("#hdn_is_page_change").val(true);' />
+           <input type="text" name="course_code_name" id="course_code_name" value="<%=@course.code.slice(/[a-zA-Z\s]+/).to_s if @course && @course.code%>" placeholder="ENG" maxlength="8" class="dd_input brown_bg prompted" style="text-transform:uppercase; width:100px;" prompt="course_code_name_prompt" onBlur='javascript:setStorage("course_code", $(this).val() + $("#course_code_num").val());$("#hdn_is_page_change").val(true); check_outcomes();' />
           </div>
-        </div>
+       </div>
+       <div class="catagory_viewfield field_label"> &nbsp;
+          <div class="dd_bg brown_bg">
+           <input type="text" name="course_code_num" id="course_code_num" value="<%=@course.code.slice(/[0-9]+/).to_s if @course && @course.code%>" placeholder="101" maxlength="6" class="dd_input brown_bg prompted" style="text-transform:uppercase; width:100px;" prompt="course_code_num_prompt" onBlur='javascript:setStorage("course_code", $("#course_code_name").val()+$(this).val());$("#hdn_is_page_change").val(true); check_outcomes();' />
+          </div>
+       </div>
+       <div class="catagory_viewfield field_label"> &nbsp;
+          <div class="dd_bg brown_bg">
+           <input type="text" name="course_section" id="course_section" value="<%=@course.section if @course%>" placeholder="123" maxlength="4" class="small dd_input brown_bg prompted" prompt="course_section_prompt" style="width:50px;" onBlur='javascript:setStorage("course_section", $(this).val());$("#hdn_is_page_change").val(true);' />
+          </div>
+       </div>
 
         <div class="course_viewfield field_label">COURSE NAME
           <div class="dd_bg brown_bg">
@@ -28,11 +36,14 @@
           </div>
         </div>
 
-        <div id="course_code_prompt" class="field_prompt break gap hide">
-          Enter a course code, such as ENG101
+        <div id="course_code_name_prompt" class="field_prompt break gap hide">
+          Enter a course prefix, such as ENG
+        </div>
+        <div id="course_code_num_prompt" class="field_prompt break gap hide">
+          Enter a course code, such as 101
         </div>
         <div id="course_section_prompt" class="field_prompt break gap hide">
-          Enter an optional course section, such as 001
+          Enter an optional course section, such as 123
         </div>
       </div>
       
@@ -148,6 +159,9 @@
   <div id="duplicate_course_div" class="hide">
     <%= render :partial => "/course/duplicate_course"%>
   </div>
+  <div id="blank_course_name_div" class="hide">
+    <%= render :partial => "/course/warning_popup"%>
+  </div>  
  <div class="page_block">
   <div class="page_block_left">
     <span class="field_title">Privacy</span>
@@ -177,7 +191,9 @@ $(document).ready(function(){
     changed=true;
   });
 });
-  $("#course_code").mask("aaa999", {placeholder:" "});
+  $("#course_code_name").mask("aaa?aaaaa", {placeholder:""});
+  $("#course_code_num").mask("999?999", {placeholder:""});
+  
   var _shared = -1;
   var _share_outcomes = false;
   // For setup Page 
@@ -422,8 +438,10 @@ $(document).ready(function(){
    });
   
   
-    $("#course_code").blur(function(){
-      var code = $(this).val();
+   /* $("#course_code_name").blur(function(){
+      var code_name = $(this).val();
+      var code_num = $("#course_code_num").val();
+      code = code_name + code_num;
       course_id = $("#course_id_hdn").val();
       if(code)
       {
@@ -443,15 +461,48 @@ $(document).ready(function(){
                  alert("An Error has occured");
                  showSpinner(false);
               },
-         });
+         	});
       }  
 
       $("#menu1").fadeIn();
       $("#menu3").fadeIn();
       $("#menu4").fadeIn();
+    });*/
       
-    });    
+    
+
  });
+ 
+ function check_outcomes(){
+ 	var code_name = $("#course_code_name").val();
+    var code_num = $("#course_code_num").val();
+    code = code_name + code_num;
+    course_id = $("#course_id_hdn").val();
+    if(code)
+    {
+      dataString = {code:code, id:course_id};
+      showSpinner(true);
+      $.ajax({  
+           type: "POST",  
+           url: "/course/check_outcomes",  
+           data: dataString,
+           success: function(data) {
+              $("#load_outcomes").html(data);
+              showSpinner(false);
+               changed=true;
+           },
+           error: function()
+           {
+              alert("An Error has occured");
+              showSpinner(false);
+           },
+      	});
+    }  
+    $("#menu1").fadeIn();
+    $("#menu3").fadeIn();
+    $("#menu4").fadeIn();
+ }
+ 
   $("#btn_archive").click(function(){
     $("#confirm_box").show();
   });
