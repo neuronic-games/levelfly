@@ -33,11 +33,12 @@ class User < ActiveRecord::Base
   end
   
   def self.new_user(email, school_id, password = nil)
-    @user = User.create do |u|
+    @user = User.new do |u|
       u.email = email
       u.password = password ? password : "defaultpassword"
       #u.reset_password_token= User.reset_password_token 
     end
+    @user.skip_confirmation!
     @user.save(:validate => false)
     if @user
       @profile = Profile.create_for_user(@user.id,school_id)
