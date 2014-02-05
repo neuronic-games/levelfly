@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable#, :Confirmable
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
-
+ 
   has_one :profile
   
   def friends
@@ -33,11 +33,14 @@ class User < ActiveRecord::Base
   end
   
   def self.new_user(email, school_id, password = nil)
-    @user = User.create do |u|
+    @user = User.new do |u|
       u.email = email
       u.password = password ? password : "defaultpassword"
       #u.reset_password_token= User.reset_password_token 
     end
+    @user.skip_confirmation!
+    @user.save(:validate => false)
+    @user.confirmed_at = nil
     @user.save(:validate => false)
     if @user
       @profile = Profile.create_for_user(@user.id,school_id)
