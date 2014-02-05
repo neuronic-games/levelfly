@@ -17,7 +17,7 @@ class SystemController < ApplicationController
   if params[:link] and !params[:link].nil?
      invitation_link = Course.hexdigest_to_digest(params[:link])
      links = invitation_link.split("&")
-     @user = User.find(:first, :conditions=>["email = ?",links[0]])
+     @user = User.find(:first, :conditions=>["email = ? OR id = ?", links[0], links[0].to_i])
      @message = links[1]
      if @user.nil? or @user.sign_in_count > 0
        session[:email] = @user.email
