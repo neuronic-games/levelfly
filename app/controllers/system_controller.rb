@@ -33,6 +33,7 @@ class SystemController < ApplicationController
   def edit
     @user = User.find(:first, :conditions=>["id = ?",params[:id]])
     @user.password=params[:user][:password]
+    @user.skip_confirmation!
     if @user.save
       profile = Profile.find(:first, :conditions=>["user_id = ?",@user.id])
       profile.full_name = params[:user][:full_name]
