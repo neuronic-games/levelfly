@@ -14,19 +14,19 @@
 
     <div class="course_field_box1">
 
-        <div class="catagory_viewfield field_label">COURSE CODE
+        <div class="catagory_viewfield field_label" style="margin-right: 5px;">COURSE CODE
           <div class="dd_bg brown_bg">
-           <input type="text" name="course_code_name" id="course_code_name" value="<%=@course.code.slice(/[a-zA-Z\s]+/).to_s if @course && @course.code%>" placeholder="ENG" maxlength="8" class="dd_input brown_bg prompted" style="text-transform:uppercase; width:100px;" prompt="course_code_name_prompt" onBlur='javascript:setStorage("course_code", $(this).val() + $("#course_code_num").val());$("#hdn_is_page_change").val(true); check_outcomes();' />
+           <input type="text" name="course_code_name" id="course_code_name" value="<%=@course.code.slice(/[a-zA-Z\s]+/).to_s if @course && @course.code%>" placeholder="ENG" maxlength="8" class="dd_input brown_bg prompted" style="text-transform:uppercase; width:72px;" prompt="course_code_name_prompt" onBlur='javascript:setStorage("course_code", $(this).val() + $("#course_code_num").val());$("#hdn_is_page_change").val(true); check_outcomes();' />
           </div>
        </div>
-       <div class="catagory_viewfield field_label"> &nbsp;
+       <div class="catagory_viewfield field_label" style="margin-right: 5px;"> &nbsp;
           <div class="dd_bg brown_bg">
-           <input type="text" name="course_code_num" id="course_code_num" value="<%=@course.code.slice(/[0-9]+/).to_s if @course && @course.code%>" placeholder="101" maxlength="6" class="dd_input brown_bg prompted" style="text-transform:uppercase; width:100px;" prompt="course_code_num_prompt" onBlur='javascript:setStorage("course_code", $("#course_code_name").val()+$(this).val());$("#hdn_is_page_change").val(true); check_outcomes();' />
+           <input type="text" name="course_code_num" id="course_code_num" value="<%=@course.code.slice(/[0-9]+/).to_s if @course && @course.code%>" placeholder="101" maxlength="6" class="dd_input brown_bg prompted" style="text-transform:uppercase; width:45px;" prompt="course_code_num_prompt" onBlur='javascript:setStorage("course_code", $("#course_code_name").val()+$(this).val());$("#hdn_is_page_change").val(true); check_outcomes();' />
           </div>
        </div>
-       <div class="catagory_viewfield field_label"> &nbsp;
+       <div class="catagory_viewfield field_label" style="margin-right: 5px;"> &nbsp;
           <div class="dd_bg brown_bg">
-           <input type="text" name="course_section" id="course_section" value="<%=@course.section if @course%>" placeholder="123" maxlength="4" class="small dd_input brown_bg prompted" prompt="course_section_prompt" style="width:50px;" onBlur='javascript:setStorage("course_section", $(this).val());$("#hdn_is_page_change").val(true);' />
+           <input type="text" name="course_section" id="course_section" value="<%=@course.section if @course%>" placeholder="123" maxlength="4" class="small dd_input brown_bg prompted" prompt="course_section_prompt" style="width:30px;" onBlur='javascript:setStorage("course_section", $(this).val());$("#hdn_is_page_change").val(true);' />
           </div>
        </div>
 
