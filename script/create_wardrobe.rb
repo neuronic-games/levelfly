@@ -41,6 +41,8 @@ out.write "# Property of Levelfly. All rights reserved. Date: #{Date.today}\n\n"
 out.write "task :load_wardrobe => :environment do\n\n"
 
 out.write "  Reward.delete_all(\"target_type = 'wardrobe'\")\n"  # Remove existing wardrobe rewards because they will be re-added
+out.write "  WardrobeItem.delete_all(\"depth = 2\")\n"
+out.write "  Wardrobe.delete_all(\"name <> 'Basic'\")\n\n"
 
 csv_data.tr("\r", "\n").each_line do | line |
   next if line.match(/^\s*#/)
@@ -107,6 +109,9 @@ end
 
 puts "#{item_count} items in #{wardrobe_count} wardrobes"
 puts "Output: #{out_path}"
+
+out.write "\n"
+out.write "  Admin.reset_rewards"
 
 out.write "\n"
 out.write "end\n"

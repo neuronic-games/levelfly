@@ -1,8 +1,11 @@
-# Property of Levelfly. All rights reserved. Date: 2014-02-05
+# Property of Levelfly. All rights reserved. Date: 2014-02-06
 
 task :load_wardrobe => :environment do
 
   Reward.delete_all("target_type = 'wardrobe'")
+  WardrobeItem.delete_all("depth = 2")
+  Wardrobe.delete_all("name <> 'Basic'")
+
 
   # === Basic ===
   Wardrobe.unlock_lvl('Basic', 1)
@@ -229,4 +232,5 @@ task :load_wardrobe => :environment do
   Wardrobe.add('Santa', 'Head', 'Misc', 'Santa Hat', 'hat', 'santa/hats/santa_hat', 7)
   Wardrobe.add('Santa', 'Legs', 'Misc', 'Santa', 'bottom', 'santa/bottoms/santa_trouser', 4, 'Santa Bottom')
 
+  Admin.reset_rewards
 end
