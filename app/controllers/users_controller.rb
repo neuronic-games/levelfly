@@ -148,6 +148,7 @@ class UsersController < ApplicationController
      check = @user.email.downcase.scan(/del\-[0-9]*\-/)
      unless !check.empty?
        @user.status = "D"
+       # this only allows you to delete 1 user with the same email per day
        @user.email = "DEL-#{timestamp}-#{@user.email}"
      end
      if @user.save
