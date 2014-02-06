@@ -40,8 +40,11 @@ class User < ActiveRecord::Base
     end
     @user.skip_confirmation!
     @user.save(:validate => false)
+
     @user.confirmed_at = nil
+    @user.confirmation_sent_at = Time.now
     @user.save(:validate => false)
+    
     if @user
       @profile = Profile.create_for_user(@user.id,school_id)
     end
