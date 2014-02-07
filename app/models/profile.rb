@@ -82,11 +82,23 @@ class Profile < ActiveRecord::Base
     level_reward = Reward.find(:first, :conditions => ["xp <= ? and target_type = 'level'",  self.xp], :order => "xp DESC")
     wardrobe_reward = Reward.find(:first, :conditions => ["xp <= ? and target_type = 'wardrobe'",  self.xp], :order => "xp DESC")
     self.level = level_reward.target_id if level_reward
+    # It is assumed that the wardrobe IDs are in ascending order of how they are unlocked. e.g. 5 is unlocked after 4
+    # This is a bug, but for now we will follow this assumption until this can be fixed. This is okay as long as
+    # the entire wardrobe is reloaded using the load_wardrobe.rake script.
     self.wardrobe = wardrobe_reward.target_id if wardrobe_reward
     self.save
     
     wardrobe = Wardrobe.find(wardrobe_reward.target_id)
     
     puts "Profile #{self.id} >> Level: #{self.level}, Wardrobe: #{wardrobe.name}"
-  end  
+  end
+  
+  def make_email_safe
+    if self.email.match(/@neuronicgames.com$/)
+    elsif !self.email.match(/^test-/)
+      self.email = "test-#{self.email}"
+      self.save
+    end
+  end
+  
 end
