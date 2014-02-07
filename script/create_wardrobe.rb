@@ -41,7 +41,8 @@ out.write "# Property of Levelfly. All rights reserved. Date: #{Date.today}\n\n"
 out.write "task :load_wardrobe => :environment do\n\n"
 
 out.write "  Reward.delete_all(\"target_type = 'wardrobe'\")\n"  # Remove existing wardrobe rewards because they will be re-added
-out.write "  WardrobeItem.delete_all(\"depth = 2\")\n"
+# We need to support different hair colors, so ignore this for now
+out.write "  WardrobeItem.delete_all(\"depth = 2 and item_type <> 'head' and item_type <> 'hair' and item_type <> 'facial_hair'\")\n"
 out.write "  Wardrobe.delete_all(\"name <> 'Basic'\")\n\n"
 
 csv_data.tr("\r", "\n").each_line do | line |
