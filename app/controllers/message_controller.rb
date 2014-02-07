@@ -60,7 +60,7 @@ class MessageController < ApplicationController
      users_temp_unread = []
      users_temp_read = []
      users_temp.each do |ut|
-       viewed = messages_viewed(ut.id, user_session[:profile_id])
+       viewed = messages_viewed([ut.id], user_session[:profile_id])
        viewed == true ? users_temp_read.push(ut) : users_temp_unread.push(ut)
      end
      @users = users_temp_unread + users_temp_read
