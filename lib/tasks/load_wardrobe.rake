@@ -1,9 +1,9 @@
-# Property of Levelfly. All rights reserved. Date: 2014-02-06
+# Property of Levelfly. All rights reserved. Date: 2014-02-07
 
 task :load_wardrobe => :environment do
 
   Reward.delete_all("target_type = 'wardrobe'")
-  WardrobeItem.delete_all("depth = 2")
+  WardrobeItem.delete_all("depth = 2 and item_type <> 'head' and item_type <> 'hair' and item_type <> 'facial_hair'")
   Wardrobe.delete_all("name <> 'Basic'")
 
 
