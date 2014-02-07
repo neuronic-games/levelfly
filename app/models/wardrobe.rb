@@ -18,9 +18,9 @@ class Wardrobe < ActiveRecord::Base
       exists.sort_order = sort_order unless sort_order.nil?
       exists.save
       puts "#{exists.name} (#{exists.id}) updated"
-    elsif new_name.nil?
+    else
       sort_order = WardrobeItem.maximum(:sort_order, :conditions => ["parent_item_id = ? and depth = 1", level_0.id]) + 1 if sort_order.nil?
-      item = WardrobeItem.create(:wardrobe => wardrobe, :parent_item => level_1, :name => name, :item_type => item_type, :image_file => image_file, :sort_order => sort_order, :depth => 2)
+      item = WardrobeItem.create(:wardrobe => wardrobe, :parent_item => level_1, :name => new_name ? new_name : name, :item_type => item_type, :image_file => image_file, :sort_order => sort_order, :depth => 2)
       puts "#{item.name} (#{item.id}) added to #{level_1.name} (#{level_1.id}), #{level_0.name} (#{level_0.id}), #{wardrobe.name} (#{wardrobe.id})"
     end
     return

@@ -91,5 +91,9 @@ class Profile < ActiveRecord::Base
     wardrobe = Wardrobe.find(wardrobe_reward.target_id)
     
     puts "Profile #{self.id} >> Level: #{self.level}, Wardrobe: #{wardrobe.name}"
-  end  
+  end
+  
+  def make_email_safe
+  end
+  
 end
