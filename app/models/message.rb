@@ -5,7 +5,18 @@ class Message < ActiveRecord::Base
   has_many :message_viewers
 
   scope :starred, :conditions => ['starred = ?', true]
-  
+  scope :active, :conditions => {:archived => [false, nil]}
+  scope :involving, lambda {|profile| where('profile_id = ? or parent_id = ?', profile.id, profile.id)}
+  scope :interesting, :conditions => ["(message_type = 'Message' and target_type = 'Profile' and parent_type = 'Profile') or parent_type = 'Message'"]
+
+  scope :between, (lambda do |ids, id2|
+    snippets = ids.map do |id|
+      "((parent_id = :other and profile_id = :current_user) or (parent_id = :current_user and profile_id = :other))".gsub(/:other/, "#{id}")
+    end
+
+    where(snippets.join(' or '), {:current_user => id2})
+  end)
+
   def self.send_friend_request(profile_id,parent_id,wall_id,target_id)
     @message = Message.new
     @message.profile_id = profile_id

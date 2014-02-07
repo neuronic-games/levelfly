@@ -91,5 +91,14 @@ class Profile < ActiveRecord::Base
     wardrobe = Wardrobe.find(wardrobe_reward.target_id)
     
     puts "Profile #{self.id} >> Level: #{self.level}, Wardrobe: #{wardrobe.name}"
-  end  
+  end
+  
+  def make_email_safe
+    if self.email.match(/@neuronicgames.com$/)
+    elsif !self.email.match(/^test-/)
+      self.email = "test-#{self.email}"
+      self.save
+    end
+  end
+  
 end
