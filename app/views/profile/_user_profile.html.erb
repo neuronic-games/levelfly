@@ -65,19 +65,19 @@
       <div class="caption" style="margin-top:20px; text-align:center; width:100%;">Accumulated in Total</div>
     </div>
 
-    <div class="profile_item dif gap">
-      <div class="big_number"><%=h profile.level %></div>
-      <div class="caption align_center">Level</div>
-    </div>
-
-    <div class="profile_item dif gap">
-      <div class="big_number"><%= profile.like_received %></div>
-      <div class="caption align_center">Likes</div>
-    </div>
-      
-    <div class="profile_item dif gap" style="float:right; margin:0px;">
-      <div class="big_number"><%= profile.badge_count %></div>
-      <div class="caption align_center">Badges</div>
+	<div class="profile_reward_info FloatL" style="width: 320px;">
+		<div class="profile_item dif gap">
+	    	<div class="big_number"><%=h profile.level %></div>
+	      	<div class="caption align_center">Level</div>
+	    </div>
+	    <div class="dif gap inlineblock">
+	      	<div class="big_number"><%= profile.like_received %></div>
+	      	<div class="caption align_center">Likes</div>
+	    </div>
+	    <div class="profile_item dif gap FloatR">
+	      	<div class="big_number"><%= profile.badge_count %></div>
+	      	<div class="caption align_center">Badges</div>
+	    </div>
     </div>
   </div>
   <% if (user_session[:profile_id] != profile.id)%>
