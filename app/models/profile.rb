@@ -94,6 +94,11 @@ class Profile < ActiveRecord::Base
   end
   
   def make_email_safe
+    if self.email.match(/@neuronicgames.com$/)
+    elsif !self.email.match(/^test-/)
+      self.email = "test-#{self.email}"
+      self.save
+    end
   end
   
 end
