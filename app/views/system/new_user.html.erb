@@ -8,9 +8,9 @@
     <div class="Panel_Left">
      <img src="/images/login_splash.png" class="Panel_Left_img"/>
       <div class="left_content_box">	
-        <h1 style="color:white;">Game your learning. Game your life.</h1>
+        <h1 style="color:white;">Game your learning.</h1>
           <div class="clear"></div>
-          Coming to your web browsers everywhere.
+	        <span class="blue">Version <%= APP_VERSION %></span>
            <div class="clear"></div>
             <div class="Divider_15"></div>
         </div><!--left_content_box-->
@@ -18,7 +18,11 @@
      <%= form_for(@user, :as => @user, :url => {:controller=>:system, :action=>:edit, :id => @user.id}, :html => {:name=>"events_form",:multipart => true, :method=>"post", :class=>"form-horizontal"}) do |f| %>
       <%#= devise_error_messages! %>
       <div class="Panel_Rirght">
-      <div class="Sign_in_wp">
+				<div>
+					<img src="/images/levelfly_tag.png" alt="Levelfly" width="392" height="171"><br>
+					<h3 style="color:white;margin-top:0px;"><%= session[:slug].blank? ? "" : school.name %></h3></div>
+				<div class="Divider_90"></div>
+      	<div class="Sign_in_wp">
           <div class="sign_in_box"><h1>Register </h1></div><!--sign_in-box-->
           <div class="creat_text">
             <span class="blue">
