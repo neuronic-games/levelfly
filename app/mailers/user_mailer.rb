@@ -7,7 +7,7 @@ class UserMailer < ActionMailer::Base
     @course = course
     @school = school
     @message = message_id
-    @link = "#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/system/new_user/?link=#{link}"
+    @link = "http://#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/system/new_user/?link=#{link}"
     @new_user = new_user
     @subject = "[Levelfly] Your invitation to join #{@course.name} at #{@school.code}"
     recipients  user
@@ -22,7 +22,7 @@ class UserMailer < ActionMailer::Base
     @sender = sender
     @school = school
     @message = message_content
-    @link = "#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/users/sign_in"
+    @link = "http://#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/users/sign_in"
     @subject = "[Levelfly] New message from #{@sender.full_name} at #{@school.code}"
     recipients  user
     sent_on     Time.now
@@ -36,7 +36,7 @@ class UserMailer < ActionMailer::Base
     @sender = sender
     @school = school
     @message = message_content
-    @link = "#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/users/sign_in"
+    @link = "http://#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/users/sign_in"
     @subject = "[Levelfly] You just leveled up!"
     recipients  user
     sent_on     Time.now
@@ -52,7 +52,7 @@ class UserMailer < ActionMailer::Base
 		@message = msg_content
 		@course = course
 		@subject = "[Levelfly] #{@sender.full_name} at #{@school.code} has sent you a message regarding #{@course.code_section}"
-    @link = "#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/users/sign_in"
+    @link = "http://#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/users/sign_in"
 		mail( :from => "#{@sender.full_name} (Do Not Reply) <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>",
 		      :to => @user, 
           :subject => @subject)
@@ -65,7 +65,7 @@ class UserMailer < ActionMailer::Base
     @school = school
     @badge_name = badge_name
     @course = course
-    @link = "#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/users/sign_in"
+    @link = "http://#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/users/sign_in"
     @subject = "[Levelfly] You earned a new badge!"
     recipients  email
     sent_on     Time.now
