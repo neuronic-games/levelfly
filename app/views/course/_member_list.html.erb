@@ -14,7 +14,7 @@
       <a style = "margin-left;margin-left:19px;font-size:14px;" class="people_name"><h3><%= @course.parent_type == "G" ? "Members in Your Group" : "Members in Your Course" %></h3></a>
       </br></br>
       <span style="float:left; margin-left:34px;">
-        <a href="javascript:void(0)" name="btn_email_all" id="btn_email_all" class="blue_bt19px btn_add">Send Message to All</a>
+        <a href="javascript:void(0)" name="btn_email_all" id="btn_email_all" class="blue_bt19px btn_add">Send Email to All</a>
       </span>
     <% elsif @course.parent_type != "F" %>
       </br>
@@ -52,18 +52,21 @@
 </div>
 <!-- send email to all dialog -->
 <div id="send_email_all" class="add_task_popup" style="display:none">
-	<div class="heading">Send Message to All Members</div>
+	<div class="heading">Send Email to All Members</div>
 	<div class="boxadnt"> 
 		<span class="heading02">Message</span>
-    <div class="heading02_field">
-      <div class="dd_bg brown_bg02">
-        <textarea class="dd_input brown_bg02" style="height:55px" name="mail_msg" id="mail_msg"></textarea>
-      </div>
-    </div>
-    <div class="clear"></div>
+    	<div class="heading02_field">
+      		<div class="dd_bg brown_bg02">
+        	<textarea class="dd_input brown_bg02" style="height:55px" name="mail_msg" id="mail_msg"></textarea>
+      		</div>
+      		<div class="spacebar10px"></div>
+        	<input type="checkbox" name="message_post_on_wall" id="chk_message_post" />
+        	<span>Send to <%= @course.name.to_s%> - This posts the message to the <%= @course && @course.parent_type == "C" ? "Course":"Group" %> home page</span>
+    	</div>
+    	<div class="clear"></div>
 		<div class="spacebar10px"></div>
 		<div class="spacebar10px"></div>
-  </div>
+  	</div>
 	<div align="right" style="margin-right:20px;">
 		<a class="big_blue_btn inlineblock" id="dont_send_btn" href="javascript:void(0)">Don't Send</a> 
 		<a class="big_blue_btn inlineblock" id="send_btn" href="javascript:void(0)">Send</a>
@@ -236,9 +239,12 @@
 	$("#send_btn").click(function() {
 		showSpinner(true);
 		var course_id = $("#course_id_hdn").val();
+		var section_type = $("#section_type").val();
 		var mail_msg = $('#mail_msg').val();
+		var post_message = $('#chk_message_post').is(':checked');
+		//alert(post_message);
 		if(course_id) {
-			var dataString = {id:course_id, mail_msg:escape(mail_msg)};
+			var dataString = {id:course_id, mail_msg:escape(mail_msg), post_message:post_message, section_type:section_type};
 			$.ajax({
 				type: "POST",
 				url: "course/send_email_to_all_participants",
@@ -247,9 +253,10 @@
 					if(data) {
 						showSpinner(false);
 						$('#send_email_all').hide();
-						var success_html = "<div class='error_message'>Message sent to all participants.</div>";
+						var success_html = "<div class='error_message'>Email sent to all participants.</div>";
 						$('.alert').html(success_html);
 						$('#mail_msg').val('');
+						$('#chk_message_post').attr('checked', false);
 					}
 				}
 			});
