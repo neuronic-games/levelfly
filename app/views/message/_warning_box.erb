@@ -39,7 +39,7 @@
     showSpinner(true);
       id = $(this).attr("rel");
       delete_all = $(this).attr("rev");
-      var dataString = 'id='+id+"&delete_all="+delete_all;
+      var dataString = 'id='+id+"&delete_all="+delete_all<%if session[:controller]=="message" %>+"&message_friends=true"<%end%>;
       $.ajax({
            type: "POST",  
            url: "/message/delete_message",  
