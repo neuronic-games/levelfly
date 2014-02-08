@@ -1592,7 +1592,7 @@ background-color:#FFFFFF;
 .profile_row > .gap {
   margin-left:100px;
 }
-.profile_row > .dif{ margin-left: 66px;}
+.profile_row > .dif{ margin-left: 25px;}
 .profile_top_btn{float: right; margin-top: -67px;}
 .profile_row input, .profile_row textarea, .profile_row .readonly_text {
   color: #ffffff;
@@ -1610,6 +1610,10 @@ background-color:#FFFFFF;
 .profile_item {
   float:left;
   display:block;
+}
+
+.profile_reward_info{
+	text-align:center !important;
 }
 
 .profile_item_empty {

@@ -40,24 +40,33 @@
           </div>
          <div class="clear"></div>
           
-         <div class="group_privacy">Privacy
+         <div class="group_privacy">JOINING PRIVILEGES
             <div class="privacy_setting">
-            <input type="radio" name="joinning_group[]" checked="true" value="I"/><span>Anyone can join
+            <input type="radio" name="joinning_group[]" checked="true" value="I"/><span>Invitation requests must be approved by the organizer
             </span></div> 
             <div class="privacy_setting">
-            <input type="radio" name="joinning_group[]" <% if @course.join_type == "R" %> checked="true" <% end %> value="R"/><span>Only invited people can join</span>
+            <input type="radio" name="joinning_group[]" <% if @course.join_type == "R" %> checked="true" <% end %> value="R"/><span>No one can request to join the group (but the organizer can still send invitation requests)</span>
             </div> 
-            <br/>
+         </div>
+         <div class="group_privacy">VIEWING PRIVILEGES
             <div class="privacy_setting">
-            <input type="radio" name="viewing_group[]" checked="true" value="A"/><span>Anyone can see group content</span>
+            <input type="radio" name="viewing_group[]" checked="true" value="A"/><span>Anyone can view content</span>
             </div> 
             <div class="privacy_setting">
-            <input type="radio" name="viewing_group[]" <% if @course.visibility_type == "M" %> checked="true" <% end %> value="M"/><span>Only members can see group contents</span>
-            </div> <br/>
-            <div class="privacy_setting">
+            <input type="radio" name="viewing_group[]" <% if @course.visibility_type == "M" %> checked="true" <% end %> value="M"/><span>Only members can view content</span>
+            </div>
+         </div>
+         <div class="group_privacy">POSTING PRIVILEGES
+         	<!--div class="privacy_setting">
               <input type="checkbox" name ="post_messages"  <%= @course && @course.post_messages ? "checked='checked'" : "" %> value="" id="post_messages"/>
              <span>Members can post messages (you can always post messages)</span>
-           </div>
+            </div-->
+            <div class="privacy_setting">
+             <input type="radio" name="post_messages" <% if @course && @course.post_messages != true %>checked="true"<%end%> value="false" id="post_messages" /><span>Only the organizer can post</span>
+            </div>
+            <div class="privacy_setting">
+             <input type="radio" name="post_messages" <% if @course && @course.post_messages==true %> checked="true"<%end%>  value="true" id="post_messages" /><span>Members can also post</span>
+           </div><br />
          </div>
         
          <div class="clear"></div>  
@@ -180,5 +189,4 @@ $(document).ready(function(){
         }
       }); 
      });
-  
 </script>

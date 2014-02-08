@@ -25,7 +25,7 @@
     <% end %>
   <% end %>
   <div id="send_email_all" class="add_task_popup" style="display:none">
-	<div class="heading">Send Message to All Users</div>
+	<div class="heading">Send Email to All Users</div>
 	<div class="boxadnt"> 
 		<span class="heading02">Message</span>
     <div class="heading02_field">
@@ -78,7 +78,7 @@ $(document).ready(function(){
 					if(data) {
 						showSpinner(false);
 						$('#send_email_all').hide();
-						var success_html = "<div class='error_message'>Message sent to all participants.</div>";
+						var success_html = "<div class='error_message'>Email sent to all participants.</div>";
 						$('.alert').html(success_html);
 					}
 				}

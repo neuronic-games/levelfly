@@ -166,11 +166,22 @@
   <div class="page_block_left">
     <span class="field_title">Privacy</span>
   </div>
+  <!--div class="page_block_right">
+    <span class="field_title">POSTING PRIVILEGES</span>
+  </div-->
   <div class="page_block_right" style="margin-top:5px;">
+  		<span class="field_title">POSTING PRIVILEGES</span>
+  		&nbsp;
 		<span class="field_notes">
-			<input type="checkbox" name ="post_messages"  <%= @course && @course.post_messages ? "checked='checked'" : "" %> value="" id="post_messages"/> Members can post messages (you can always post messages)
+			<input type="radio" name ="post_messages" <% if @course && @course.post_messages==true %> checked="true"<%end%>  value="true" id="post_messages"/> All members can post to the home page
 		</span>
 		&nbsp;
+		<span class="field_notes">
+			<input type="radio" name ="post_messages"  <% if @course && @course.post_messages != true %>checked="true"<%end%> value="false" id="post_messages"/> Only the organizer can post to the home page
+		</span>
+		&nbsp;
+		<span class="field_title">GRADING PRIVILEGES</span>
+  		&nbsp;
 		<span class="field_notes">
 			<input type="checkbox" name ="show_grade"  <%= @course && @course.show_grade ? "checked='checked'" : "" %> value="" id="show_grade"/> Members can view their grades
 		</span>

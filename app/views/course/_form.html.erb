@@ -473,8 +473,13 @@ function save_course(channel) {
     _outcomes_shareObject[n] = $(this).is(":checked");
     n++;
   });
+  
+  var post_messages = true;
+  if ($('input:radio[name=post_messages]:checked').val()){
+  	post_messages = $('input:radio[name=post_messages]:checked').val();
+  }
 
-  var dataString = {id:id , course:name , descr:descr , section_type:section_type , code:code , section:section , school_id:school_id , outcomes:_outcomesObject , outcomes_descr:_outcomes_descrObject , categories:_categoriesObject , wall_id:wall_id , percent_value:_categories_persentObject , outcome_share:_outcomes_shareObject , post_messages:post_messages.checked , show_grade:show_grade_checked , semester:selected_semester , year:selected_year}
+  var dataString = {id:id , course:name , descr:descr , section_type:section_type , code:code , section:section , school_id:school_id , outcomes:_outcomesObject , outcomes_descr:_outcomes_descrObject , categories:_categoriesObject , wall_id:wall_id , percent_value:_categories_persentObject , outcome_share:_outcomes_shareObject , post_messages: post_messages, show_grade:show_grade_checked , semester:selected_semester , year:selected_year}
   
 	//alert(dataString);  return false;
 if((changed==true || semester_change != true || course_change != true) && name_blank == false){
