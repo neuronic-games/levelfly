@@ -45,8 +45,7 @@
 		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; "><br></span></font></div>
 				
 		<div style="line-height: 20px; "><font face="Verdana" color="#bbf9ff"><span style="font-size: 14px; line-height: 20px; ">
-			<%= link_to 'Create My Account', url_for(:controller => 'confirmations', :action => 'show', :confirmation_token => @resource.confirmation_token, :only_path => false) %>
-			</span></font></div>
+			<a href="<%= url_for :controller => 'confirmations', :action => 'show', :confirmation_token => @resource.confirmation_token, :only_path => false %>" style="color:#bbf9ff; text-decoration:none;">Create My Account</a></span></font></div>
 		
 		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="font-size: 14px; line-height: 20px; "><br></span></font></div>
 
