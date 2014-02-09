@@ -1,4 +1,4 @@
-,Script will only process rows that has a numeric unlock level,,,,"hat, hair, facial_hair, head, earrings, necklace, top, bottom, shoes, prop",,,,,,
+,Script will only process rows that has a numeric unlock level,,,,"Types: hat, hair, facial_hair, head, earrings, necklace, top, bottom, shoes, prop",,,,,,
 Needs to be added?,Unlock Level ,Reward Set,Wardrobe Top Folder in Levelfly,Wardrobe Subfolder in Levelfly,Type,Unique Name,New Name,Image Folder Name,Image File Name,Icon Folder Name,Icon File Name
 Y,1,Basic,Accessories,Jewelry,earrings,Hoop Earrings,,earrings,earring_large_ring.png,earrings,earring_large_ring_icon.png
 Y,1,,Accessories,Jewelry,earrings,Pearl Earrings,,earrings,earring_white.png,earrings,earring_white_icon.png
