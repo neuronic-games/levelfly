@@ -86,14 +86,14 @@ task :load_wardrobe => :environment do
 
   # === BMCC ===
   Wardrobe.unlock_lvl('BMCC', 2)
-  Wardrobe.add('BMCC', 'Body', 'Casual', 'BMCC 1', 'tops', 'bmcc/tops/bmcc_blue', 4)
-  Wardrobe.add('BMCC', 'Body', 'Casual', 'BMCC 2', 'tops', 'bmcc/tops/bmcc_light_gray', 5)
-  Wardrobe.add('BMCC', 'Body', 'Casual', 'BMCC 3', 'tops', 'bmcc/tops/bmcc_small_logo', 6)
-  Wardrobe.add('BMCC', 'Body', 'Casual', 'BMCC 4', 'tops', 'bmcc/tops/bmcc_yellow_small_logo', 7)
+  Wardrobe.add('BMCC', 'Body', 'Casual', 'BMCC 1', 'top', 'bmcc/tops/bmcc_blue', 4)
+  Wardrobe.add('BMCC', 'Body', 'Casual', 'BMCC 2', 'top', 'bmcc/tops/bmcc_light_gray', 5)
+  Wardrobe.add('BMCC', 'Body', 'Casual', 'BMCC 3', 'top', 'bmcc/tops/bmcc_small_logo', 6)
+  Wardrobe.add('BMCC', 'Body', 'Casual', 'BMCC 4', 'top', 'bmcc/tops/bmcc_yellow_small_logo', 7)
 
   # === Basketball ===
   Wardrobe.unlock_lvl('Basketball', 3)
-  Wardrobe.add('Basketball', 'Body', 'Sporty', 'Basketball Jersey', 'tops', 'basketball/tops/basketball_t_shirt', 2)
+  Wardrobe.add('Basketball', 'Body', 'Sporty', 'Basketball Jersey', 'top', 'basketball/tops/basketball_t_shirt', 2)
   Wardrobe.add('Basketball', 'Feet', 'Sporty', 'Basketball Shoes', 'shoes', 'basketball/shoes/basketball_shoe', 2)
   Wardrobe.add('Basketball', 'Legs', 'Sporty', 'Basketball Shorts', 'bottom', 'basketball/bottoms/basketball_short', 2)
 
