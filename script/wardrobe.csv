@@ -1,4 +1,4 @@
-,Script will only process rows that has a numeric unlock level,,,,"Types: hat, hair, facial_hair, head, earrings, necklace, top, bottom, shoes, prop",,,,,,
+,Script will only process rows that has a numeric unlock level,,,,"hat, hair, facial_hair, head, earrings, necklace, top, bottom, shoes, prop",,,,,,
 Needs to be added?,Unlock Level ,Reward Set,Wardrobe Top Folder in Levelfly,Wardrobe Subfolder in Levelfly,Type,Unique Name,New Name,Image Folder Name,Image File Name,Icon Folder Name,Icon File Name
 Y,1,Basic,Accessories,Jewelry,earrings,Hoop Earrings,,earrings,earring_large_ring.png,earrings,earring_large_ring_icon.png
 Y,1,,Accessories,Jewelry,earrings,Pearl Earrings,,earrings,earring_white.png,earrings,earring_white_icon.png
@@ -207,12 +207,12 @@ Y,1,,Legs,Casual,bottom,Black Skinny Jeans,,bottoms,black_tight_jean.png,bottoms
 ,1,,Legs,Dressy,bottom,Grey Trousers,Gray Trousers,bottoms,gray_brown_long_trouser.png,bottoms,gray_brown_long_trouser_icon.png
 ,1,,Legs,Dressy,bottom,Short Brown Skirt,,bottoms,skirt_short_brown.png,bottoms,skirt_short_brown_icon.png
 ,1,,Legs,Dressy,bottom,Short Pink Skirt,,bottoms,skirt_short_pink.png,bottoms,skirt_short_pink_icon.png
-Y,2,BMCC,Body,Casual,tops,BMCC 1,,tops,bmcc_blue.png,tops,bmcc_blue_icon.png
-Y,2,,Body,Casual,tops,BMCC 2,,tops,bmcc_light_gray.png,tops,bmcc_light_gray_icon.png
-Y,2,,Body,Casual,tops,BMCC 3,,tops,bmcc_small_logo.png,tops,bmcc_small_logo_icon.png
-Y,2,,Body,Casual,tops,BMCC 4,,tops,bmcc_yellow_small_logo.png,tops,bmcc_yellow_small_logo_icon.png
-Y,3,Basketball,Body,Sporty,tops,,,tops_sporty,basketball_dress.png,tops_sporty,basketball_dress_icon.png
-Y,3,,Body,Sporty,tops,Basketball Jersey,,tops,basketball_t_shirt.png,tops,basketball_t_shirt_icon.png
+Y,2,BMCC,Body,Casual,top,BMCC 1,,tops,bmcc_blue.png,tops,bmcc_blue_icon.png
+Y,2,,Body,Casual,top,BMCC 2,,tops,bmcc_light_gray.png,tops,bmcc_light_gray_icon.png
+Y,2,,Body,Casual,top,BMCC 3,,tops,bmcc_small_logo.png,tops,bmcc_small_logo_icon.png
+Y,2,,Body,Casual,top,BMCC 4,,tops,bmcc_yellow_small_logo.png,tops,bmcc_yellow_small_logo_icon.png
+Y,3,Basketball,Body,Sporty,top,,,tops_sporty,basketball_dress.png,tops_sporty,basketball_dress_icon.png
+Y,3,,Body,Sporty,top,Basketball Jersey,,tops,basketball_t_shirt.png,tops,basketball_t_shirt_icon.png
 Y,3,,Feet,Sporty,shoes,Basketball Shoes,,shoes,basketball_shoe.png,shoes,basketball_shoe_icon.png
 Y,3,,Legs,Sporty,bottom,Basketball Shorts,,bottoms,basketball_short.png,bottoms,basketball_short_icon.png
 ,4,Urban Chic,Accessories,Jewelry,earrings,Nosestud,Nose Stud,earrings,nose_stud.png,earrings,nose_stud_icon.png
