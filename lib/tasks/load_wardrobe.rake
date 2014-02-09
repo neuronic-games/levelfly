@@ -6,7 +6,6 @@ task :load_wardrobe => :environment do
   WardrobeItem.delete_all("depth = 2 and item_type <> 'head' and item_type <> 'hair' and item_type <> 'facial_hair'")
   Wardrobe.delete_all("name <> 'Basic'")
 
-
   # === Basic ===
   Wardrobe.unlock_lvl('Basic', 1)
   Wardrobe.add('Basic', 'Accessories', 'Jewelry', 'Hoop Earrings', 'earrings', 'basic/earrings/earring_large_ring', 0)
