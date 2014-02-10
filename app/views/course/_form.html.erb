@@ -368,17 +368,11 @@ $(document).ready(function(){
         });
     }); 
     
- $('.right_form_containerr').delegate('.time', 'click', function(){
+ /*$('.right_form_containerr').delegate('.time', 'click', function(){
     var id = $(this).attr("rel");
-    if($("#word_"+id).hasClass("hide")){
-      $("#word_"+id).removeClass("hide");
-      $("#date_"+id).addClass("hide");
-      }
-    else{
-      $("#date_"+id).removeClass("hide");
-      $("#word_"+id).addClass("hide");
-      }
-   });   
+    var profile_id = $("#hdn_profile_id").val();
+    update_show_date(profile_id);
+   });   */
 
   //Upload doc file
 });

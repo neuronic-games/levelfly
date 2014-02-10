@@ -9,7 +9,7 @@
       <p><%=h "#{friend.major.name}, " if friend.major%><%=h friend.school.code%></p>
        <%created_at=last_message(friend.id, user_session[:profile_id])%>
 	   <%viewed=messages_viewed(friend.id, user_session[:profile_id])%>
-      <p style="font-weight: bold;"><%if !created_at.nil?%><%=time_ago_in_words(created_at)%> ago <%end%> </p>
+      <p style="font-weight: bold;" class="time"><%if !created_at.nil?%><span class="words"><%=time_ago_in_words(created_at)%> ago</span><span class="dates"><%=gdt(created_at)%></span><%end%></p>
       <div class="spacebar10px"></div>
       <div align="right" id="frnd_root_btn">
       <a href="javascript:void(0)" class="blue_bt19px menu_btn" rel="/message/friends_only/<%=friend.id%>">View Private Messages</a>
@@ -49,6 +49,13 @@ $(document).ready(function() {
       });
     }
   });
+  if (show_post_date =="D"){
+		$(".words").removeClass("hide");
+	    $(".dates").addClass("hide");
+	}else{
+		$(".dates").removeClass("hide");
+		$(".words").addClass("hide");
+	}
 });  
 //-->
 </script>
