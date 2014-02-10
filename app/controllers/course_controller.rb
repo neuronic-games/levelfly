@@ -336,7 +336,7 @@ class CourseController < ApplicationController
                content = "Please join #{course.name} (#{course.code_section})."
              end
             @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
-						send_email(params[:email],params[:course_id],@message.id,new_user)     
+						send_email(@user.id,params[:course_id],@message.id,new_user)     
             status = true           
           end
         else 
@@ -350,7 +350,7 @@ class CourseController < ApplicationController
 							content = "Please join #{course.name} (#{course.code_section})."
 						end
 						@message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
-						send_email(params[:email],params[:course_id],@message.id,new_user)
+						send_email(@user.id,params[:course_id],@message.id,new_user)
 						resend = true
 					else
 						already_added = true
@@ -375,13 +375,34 @@ class CourseController < ApplicationController
 	def send_email_to_all_participants
 		status = false
 		section_type = 'Course' #TO DO : Need to done for forum and groups also
+		post_message = params[:post_message] == "true" ? true : false if params[:post_message]
 		@course = Course.find(params[:id])
 		if @course
 			@peoples = Profile.find(
          :all, 
          :include => [:participants], 
-         :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type = 'S'", @course.id,section_type]
+         :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type in ('S', 'M')", @course.id,section_type]
        )
+			
+			if post_message and post_message == true
+  			wall_id = Wall.get_wall_id(params[:id], params[:section_type]) #params[:wall_id]
+        @message = Message.new
+        @message.profile_id = user_session[:profile_id]
+        @message.parent_id = params[:id] #params[:target_id]
+        @message.parent_type = params[:section_type] 
+        @message.content = CGI::unescape(params[:mail_msg]) if params[:mail_msg]
+        @message.target_id = params[:id]
+        @message.target_type = params[:section_type]
+        @message.message_type = params[:message_type] if params[:message_type]
+        @message.wall_id = wall_id
+        @message.post_date = DateTime.now
+        @message.save
+        @message_viewer = MessageViewer.add(user_session[:profile_id],@message.id,params[:section_type],params[:id])
+        @feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",user_session[:profile_id],wall_id])
+        if @feed.nil?
+          Feed.create(:profile_id => user_session[:profile_id],:wall_id =>wall_id)
+        end
+			end
 			
 			if @peoples
 				@msg_content = CGI::unescape(params[:mail_msg])

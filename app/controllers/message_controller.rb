@@ -60,7 +60,7 @@ class MessageController < ApplicationController
      users_temp_unread = []
      users_temp_read = []
      users_temp.each do |ut|
-       viewed = messages_viewed(ut.id, user_session[:profile_id])
+       viewed = messages_viewed([ut.id], user_session[:profile_id])
        viewed == true ? users_temp_read.push(ut) : users_temp_unread.push(ut)
      end
      @users = users_temp_unread + users_temp_read
@@ -489,7 +489,7 @@ class MessageController < ApplicationController
   end  
   
   def delete_message
-    if params[:id] && !params[:id].nil?
+    if params[:id] && !params[:id].nil? && params[:message_friends].nil?
       comments_ids = Message.find(:all, :select => "id", :conditions=>["parent_id = ?",params[:id]]).collect(&:id)
       Message.update_all({:archived => true},["id = ?",params[:id]])
       Message.update_all({:archived => true},["id in (?)",comments_ids])
@@ -503,6 +503,18 @@ class MessageController < ApplicationController
           @message_viewer.delete    
         end
       end
+      render :json => {:status => true}
+    elsif params[:id] && !params[:id].nil? && params[:message_friends]
+      @message_viewer = MessageViewer.find(:first, :conditions=>["viewer_profile_id = ? and message_id = ?", user_session[:profile_id], params[:id]])
+      comments_ids = Message.find(:all, :select => "id", :conditions=>["parent_id = ?",params[:id]]).collect(&:id)
+      if @message_viewer and @message_viewer.poster_profile_id == user_session[:profile_id]
+        Message.update_all({:archived => true},["id = ?",params[:id]])
+        Message.update_all({:archived => true},["id in (?)",comments_ids])
+        MessageViewer.delete_all(["message_id = ?", params[:id]])
+        MessageViewer.delete_all(["message_id in(?)",comments_ids])
+      else
+        @message_viewer.delete if @message_viewer
+      end 
       render :json => {:status => true}
     end  
   end

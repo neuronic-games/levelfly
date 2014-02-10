@@ -21,29 +21,31 @@ module ApplicationHelper
   end 
   
   def notification_badge(profile)
-    wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?", profile.id]).collect(&:wall_id)
     message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", profile.id]).collect(&:message_id)
-    recently_messaged = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type = 'Profile' and parent_type = 'Profile' and (profile_id = ? or parent_id = ?)",false,message_ids,profile.id,profile.id],:order=>"created_at desc")
+    recently_messaged = Message.active.involving(profile).find(
+      :all, 
+      :joins => :message_viewers,
+      :conditions => {
+        :messages => {
+          :message_type => 'Message',
+          :target_type => 'Profile',
+          :parent_type => 'Profile'
+        },
+        :message_viewers => {
+          :viewer_profile_id => profile.id
+        }
+      }
+    )
+
     profile_ids = []
-    users = []
-    recently_messaged.each do |r|
+    recently_messaged.map do |r|
       profile_ids.push(r.profile_id)
       profile_ids.push(r.parent_id)
     end
-    profile_ids=profile_ids.uniq
-    if profile_ids.length>0
-        profile_ids.each do |id|
-          if id != profile.id
-            user = Profile.find(id)
-            users.push(user)
-          end  
-        end
-    end
-    users.each do |user|
-      viewed = messages_viewed(user.id,profile.id)
-      return false if !viewed and !viewed.nil?
-    end
-    return true
+    profile_ids.uniq!
+    profile_ids.delete(profile.id)
+
+    messages_viewed(profile_ids, profile.id)
   end
 	
 	def formatted_html_content(content)

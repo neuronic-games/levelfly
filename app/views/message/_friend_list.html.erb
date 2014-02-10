@@ -8,7 +8,7 @@
       <p><b><%=friend.full_name%></b></p>
       <p><%=h "#{friend.major.name}, " if friend.major%><%=h friend.school.code%></p>
        <%created_at=last_message(friend.id, user_session[:profile_id])%>
-	   <%viewed=messages_viewed(friend.id, user_session[:profile_id])%>
+	   <%viewed=messages_viewed([friend.id], user_session[:profile_id])%>
       <p style="font-weight: bold;"><%if !created_at.nil?%><%=time_ago_in_words(created_at)%> ago <%end%> </p>
       <div class="spacebar10px"></div>
       <div align="right" id="frnd_root_btn">
