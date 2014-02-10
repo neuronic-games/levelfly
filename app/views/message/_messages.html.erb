@@ -117,6 +117,15 @@
 
 <!-- comments ends -->
 <script type="text/javascript">
+$(function(){
+	if (show_post_date =="D"){
+		$(".words").removeClass("hide");
+	    $(".dates").addClass("hide");
+	}else{
+		$(".dates").removeClass("hide");
+		$(".words").addClass("hide");
+	}
+});
 function view_all_comment(message_id){
    $("#comment_box_"+message_id+".msg_small_box").show();
    $("#show_all_coments_"+message_id).css("display","none");

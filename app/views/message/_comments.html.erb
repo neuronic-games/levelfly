@@ -32,6 +32,15 @@
 </div>
 <!--box 2nd-->
 <script type="text/javascript">
+$(function(){
+	if (show_post_date =="D"){
+		$(".words").removeClass("hide");
+	    $(".dates").addClass("hide");
+	}else{
+		$(".dates").removeClass("hide");
+		$(".words").addClass("hide");
+	}
+});
 $(".comments_lists_box").hover(
     function () {
       $(".comments_lists", this).show();

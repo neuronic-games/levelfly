@@ -247,4 +247,17 @@ class ProfileController < ApplicationController
     render :json => {:message => @profile.all_comments, :status => true}
   end
   
+  def update_show_date
+    if params[:id] and params[:update]
+      @profile = Profile.find(params[:id])
+      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id]) unless @profile
+      @profile.post_date_format = @profile.post_date_format == "D" ? "E" : "D"
+      if @profile.save
+        render :json =>{:status =>true, :show => @profile.post_date_format}
+      else
+        render :json =>{:status =>false}
+      end 
+    end
+  end
+  
 end
