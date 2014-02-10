@@ -42,13 +42,20 @@
       <div class="clear"></div>
 			
 	  <div class="page_block">
-        <div class="page_block_left">
-          </br></br>
+        <div class="page_block_left" style="margin-top:5px;">
           <span class="field_title">Privacy</span>
         </div>
         <div class="page_block_right" style="margin-top:5px;">
-		  </br>
-		  <span class="field_notes"><input type="checkbox" name ="forum_post_messages"  <%= @course && @course.post_messages ? "checked='checked'" : "" %> value="" id="forum_post_messages"/> Members can post messages (you can always post messages)</span>
+		  <span class="field_title">POSTING PRIVILEGES</span>
+	  	  &nbsp;
+		  <span class="field_notes">
+			<input type="radio" name ="forum_post_messages" <% if @course && @course.post_messages == true %> checked="true"<%end%>  value="true" id="forum_post_messages"/> All members can post to the home page
+		  </span>
+		  &nbsp;
+		  <span class="field_notes">
+			<input type="radio" name ="forum_post_messages"  <% if @course && @course.post_messages != true %>checked="true"<%end%> value="false" id="forum_post_messages"/> Only the organizer can post to the home page
+		  </span>
+		  &nbsp;
         </div>
       </div>
     </div>
@@ -133,12 +140,12 @@
 			name = forum_name;
 			descr = forum_descr;
 			$("#hdn_forum_id").attr("value",id);
-      var post_messages = document.getElementById('forum_post_messages');
+      var post_messages = $('input:radio[name=forum_post_messages]:checked').val();
       showSpinner(true);
 			$.ajax({
 				type: "POST",
 				url: "/course/save_forum",
-				data: {id:id,parent_id:parent_id,name:name,descr:descr,post_messages:post_messages.checked},
+				data: {id:id,parent_id:parent_id,name:name,descr:descr,post_messages:post_messages},
 				dataType:"json",
 				success: function(data) {
 					$("#load_data").load("/course/show_forum/"+data.course.id, function(){
