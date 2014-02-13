@@ -594,7 +594,11 @@ $('#container').delegate('.add_topic', 'click', function(){
 
   function setTab(item){
     if(document.getElementById("msg")!=null){
-      document.getElementById("msg").className = "icon_msg menu_btn";
+      if ($('#msg').hasClass('notification_badge') || $('#msg').hasClass('notification_badge_active')) {
+        document.getElementById("msg").className = "notification_badge menu_btn";
+      } else {
+        document.getElementById("msg").className = "icon_msg menu_btn";
+      }
     }
     if(document.getElementById("courses")!=null){
       document.getElementById("courses").className = "icon_courses menu_btn";
@@ -630,7 +634,11 @@ $('#container').delegate('.add_topic', 'click', function(){
     if(selectted_menu=="courses"){
       $("#courses").addClass("icon_courses_active ");
     } else if(selectted_menu=="msg"){
-	    $("#msg").addClass("icon_msg_active");
+      if ($('#msg').hasClass('notification_badge')) {
+        $("#msg").addClass("notification_badge_active");
+      } else {
+  	    $("#msg").addClass("icon_msg_active");
+      }
     } 
     else if(selectted_menu=="tasks"){
       $("#tasks").addClass("icon_tasks_active");
