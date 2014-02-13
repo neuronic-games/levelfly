@@ -21,8 +21,7 @@ module ApplicationHelper
   end 
   
   def notification_badge(profile)
-    message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", profile.id]).collect(&:message_id)
-    recently_messaged = Message.active.involving(profile).find(
+    recently_messaged = Message.active.involving(profile.id).find(
       :all, 
       :joins => :message_viewers,
       :conditions => {
@@ -45,7 +44,7 @@ module ApplicationHelper
     profile_ids.uniq!
     profile_ids.delete(profile.id)
 
-    messages_viewed(profile_ids, profile.id)
+    messages_viewed(profile_ids, profile.id).count == 0
   end
 	
 	def formatted_html_content(content)

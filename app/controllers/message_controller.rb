@@ -18,6 +18,7 @@ class MessageController < ApplicationController
       messages_limit = cut_off_number.to_i
       users_limit = cut_off_number.to_i
     end
+
     if params[:search_text]
       search_text =  "%#{params[:search_text]}%"
       @comment_ids = Message.find(:all,
@@ -38,35 +39,33 @@ class MessageController < ApplicationController
     @messages = Message.find(:all, :conditions => conditions, :order => order, :limit => messages_limit)
     count = Message.count(:conditions => conditions)
     @show_more_btn = (count > messages_limit)
+
+    # recently_messaged = Profile.includes(:messages).where(
+    #   "(messages.archived = false OR messages.archived IS NULL) AND messages.message_type = 'Message' AND messages.target_type = 'Profile' AND messages.parent_type = 'Profile'"
+    # ).order("messages.updated_at desc").map(&:full_name).uniq
     
-     recently_messaged = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type = 'Profile' and parent_type = 'Profile' and (profile_id = ? or parent_id = ?)",false,message_ids,user_session[:profile_id],user_session[:profile_id]],:order=>"updated_at desc")
-     profile_ids = []
-     users = []
-     recently_messaged.each do |r|
-       profile_ids.push(r.profile_id)
-       profile_ids.push(r.parent_id)
-     end
-     profile_ids=profile_ids.uniq
-     if profile_ids.length>0
-        profile_ids.each do |id|
-          if id != user_session[:profile_id]
-            @user = Profile.find(id)
-            users.push(@user)
-          end  
-        end
-     end
-     
-     users_temp = users[0..users_limit-1]
-     users_temp_unread = []
-     users_temp_read = []
-     users_temp.each do |ut|
-       viewed = messages_viewed([ut.id], user_session[:profile_id])
-       viewed == true ? users_temp_read.push(ut) : users_temp_unread.push(ut)
-     end
-     @users = users_temp_unread + users_temp_read
-     
-     @show_more_users = users.length > @users.length ? true : false
-     #friend_id = Participant.find(:all, :select =>"distinct profile_id", :conditions=>["target_id = ? AND target_type = 'User' AND profile_type = 'F'", @profile.id]).collect(&:profile_id)
+    recently_messaged = Message.active.involving(user_session[:profile_id]).find(
+      :all,
+      :conditions => ["message_type in ('Message') and id in (?) and target_type = 'Profile' and parent_type = 'Profile'", message_ids],
+      :order => "updated_at desc"
+    )
+
+    profile_ids = []
+    recently_messaged.each do |r|
+      profile_ids.push(r.profile_id)
+      profile_ids.push(r.parent_id)
+    end
+    profile_ids.uniq!
+    profile_ids.delete(user_session[:profile_id])
+
+    @viewed_ids = messages_viewed(profile_ids, user_session[:profile_id])
+
+    @users = Profile.find(profile_ids).sort do |a, b|
+      profile_ids.index(a.id) <=> profile_ids.index(b.id)
+    end
+
+    @show_more_users = @users.length > profile_ids.length
+    #friend_id = Participant.find(:all, :select =>"distinct profile_id", :conditions=>["target_id = ? AND target_type = 'User' AND profile_type = 'F'", @profile.id]).collect(&:profile_id)
    
     # if recently_messaged.empty?
       # ids = recently_messaged_by_other
