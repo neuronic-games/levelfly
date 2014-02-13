@@ -205,6 +205,10 @@
 
 <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=user_session[:profile_id] %>"/>
 
+  <div id="server_error_div" class="hide">
+    <%= render :partial => "/layouts/server_error" %>
+  </div>
+
 </body>
 <script type="text/javascript">
 
@@ -214,6 +218,9 @@
     $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
       if (jqXHR.status == 401) {
         window.location.reload();
+      } else {
+        showSpinner(false);
+        $('#server_error_div').show();
       }
     });
 

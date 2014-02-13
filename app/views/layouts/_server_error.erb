@@ -1,0 +1,19 @@
+<div class="add_task_popup" style="position:fixed;">
+   <div class="heading" id="file_dialog_heading">Server Error</div>
+   <div class="boxadnt"> 
+     An unexpected error has occurred. Please report this error to bugs@levelflylearning.com so that we can make Levelfly better.
+   </div>
+   <div class="spacebar10px"></div>
+   <div class="spacebar10px"></div>
+   <div id="dialog_url" style="word-wrap:break-word;"></div>
+   <div class="spacebar10px"></div>
+   <div align="right">
+     <a class="smaller_text big_blue_btn inlineblock dialog_btn" id="dont_email_btn" href="javascript:void(0)">Don't Email</a>
+     <a class="big_orange_btn inlineblock dialog_btn" id="send_email_btn" href="mailto:bugs@levelflylearning.com" target="_blank">Send Email</a>
+   </div>        
+</div>
+<script type="text/javascript">
+   $("#dont_email_btn, #send_email_btn").click(function(){
+      $("#server_error_div").hide();
+   });
+</script>
