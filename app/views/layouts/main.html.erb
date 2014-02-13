@@ -33,6 +33,7 @@
   <script src="/assets/ui/jquery.thumbnailScroller.js"></script>
   <script src="/assets/ui/jquery-ui-1.8.13.custom.min.js"></script>
   <script src="/assets/jstorage.js"></script>
+  <script>window.jStorage = $.jStorage;</script>
   <script type="text/javascript" src="/assets/fileupload/plupload.js"></script>
   <script type="text/javascript" src="/assets/fileupload/plupload.html5.js"></script>
   <script type="text/javascript" src="/assets/fileupload/jquery.plupload.queue.js"></script>
@@ -210,23 +211,33 @@
 <!--
   //jQuery.noConflict(); 
   (function($){
-  window.onload=function(){ 
-    $("#root_level").thumbnailScroller({ 
-      scrollerType:"clickButtons", 
-      scrollerOrientation:"vertical", 
-      scrollSpeed:2, 
-      scrollEasing:"easeOutCirc", 
-      scrollEasingAmount:800, 
-      acceleration:4, 
-      scrollSpeed:800, 
-      noScrollCenterSpace:10, 
-      autoScrolling:0, 
-      autoScrollingSpeed:2000, 
-      autoScrollingEasing:"easeInOutQuad", 
-      autoScrollingDelay:500 
+    $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      }
     });
-  }
-})(jQuery);
+
+    $.jStorage.subscribe('logout', function() {
+      window.location.reload();
+    })
+
+    window.onload=function() { 
+      $("#root_level").thumbnailScroller({ 
+        scrollerType:"clickButtons", 
+        scrollerOrientation:"vertical", 
+        scrollSpeed:2, 
+        scrollEasing:"easeOutCirc", 
+        scrollEasingAmount:800, 
+        acceleration:4, 
+        scrollSpeed:800, 
+        noScrollCenterSpace:10, 
+        autoScrolling:0, 
+        autoScrollingSpeed:2000, 
+        autoScrollingEasing:"easeInOutQuad", 
+        autoScrollingDelay:500 
+      });
+    }
+  })(jQuery);
 
 var h = new Object(); 
  var ie_browser = false;
