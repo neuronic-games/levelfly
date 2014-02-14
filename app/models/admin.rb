@@ -32,5 +32,12 @@ class Admin < ActiveRecord::Base
       profile.update_rewards
     end
   end
+
+  def self.make_email_safe
+    profiles = Profile.all
+    profiles.each do |profile|
+      profile.make_email_safe
+    end
+  end
   
 end
