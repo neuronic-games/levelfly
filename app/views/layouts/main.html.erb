@@ -278,6 +278,7 @@ var h = new Object();
 	<% else %>
 	var all_comments = true;
 	<% end %>
+	var show_post_date = "<%= @profile.post_date_format.to_s %>;"
 	
   //Set CSRF Token (Required for ajax request (post))
   $(document).ajaxSend(function(e, xhr, options) {
@@ -480,14 +481,8 @@ $('#container').delegate('.add_topic', 'click', function(){
   //For toggle date time of messages
  $('#container').delegate('.time', 'click', function(){ 
     var id = $(this).attr("rel");
-    if($(".words").hasClass("hide")){
-      $(".words").removeClass("hide");
-      $(".dates").addClass("hide");
-      }
-    else{
-      $(".dates").removeClass("hide");
-      $(".words").addClass("hide");
-      }
+    var profile_id = $("#hdn_profile_id").val();
+    update_show_date(profile_id);
    }); 
   
   $("#container").delegate('.topic_input','change', function(){
@@ -716,6 +711,37 @@ $('#container').delegate('.add_topic', 'click', function(){
 	 $('#root_level.nav_box').css("height",height);
 	 
     }
+   //Update shown date and time format
+   function update_show_date(id){
+   	if (id){
+   		showSpinner(true);
+	   	$.ajax({
+	      type:"POST",
+	      url:"/profile/update_show_date",
+	      dataType:"json",
+	      data:{id:id, update:true},
+	      success: function(data){
+	      	showSpinner(false);
+	        if(data.status){
+	         if(data.show=="D"){
+	      		$(".words").removeClass("hide");
+	      		$(".dates").addClass("hide");
+	      		show_post_date = "D";
+	      	 }
+	    	 else{
+		      	$(".dates").removeClass("hide");
+		      	$(".words").addClass("hide");
+		      	show_post_date = "E";
+	      	 }
+	        }
+	      },
+	      error: function(){
+	      	showSpinner(false);
+	      	alert("ERROR");
+	      }
+	    });
+    }
+   }
 -->
 </script>
 </html>
