@@ -336,7 +336,7 @@ class CourseController < ApplicationController
                content = "Please join #{course.name} (#{course.code_section})."
              end
             @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
-						send_email(params[:email],params[:course_id],@message.id,new_user)     
+						send_email(@user.id,params[:course_id],@message.id,new_user)     
             status = true           
           end
         else 
@@ -350,7 +350,7 @@ class CourseController < ApplicationController
 							content = "Please join #{course.name} (#{course.code_section})."
 						end
 						@message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
-						send_email(params[:email],params[:course_id],@message.id,new_user)
+						send_email(@user.id,params[:course_id],@message.id,new_user)
 						resend = true
 					else
 						already_added = true

@@ -33,6 +33,7 @@
   <script src="/assets/ui/jquery.thumbnailScroller.js"></script>
   <script src="/assets/ui/jquery-ui-1.8.13.custom.min.js"></script>
   <script src="/assets/jstorage.js"></script>
+  <script>window.jStorage = $.jStorage;</script>
   <script type="text/javascript" src="/assets/fileupload/plupload.js"></script>
   <script type="text/javascript" src="/assets/fileupload/plupload.html5.js"></script>
   <script type="text/javascript" src="/assets/fileupload/jquery.plupload.queue.js"></script>
@@ -204,29 +205,46 @@
 
 <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=user_session[:profile_id] %>"/>
 
+  <div id="server_error_div" class="hide">
+    <%= render :partial => "/layouts/server_error" %>
+  </div>
+
 </body>
 <script type="text/javascript">
 
 <!--
   //jQuery.noConflict(); 
   (function($){
-  window.onload=function(){ 
-    $("#root_level").thumbnailScroller({ 
-      scrollerType:"clickButtons", 
-      scrollerOrientation:"vertical", 
-      scrollSpeed:2, 
-      scrollEasing:"easeOutCirc", 
-      scrollEasingAmount:800, 
-      acceleration:4, 
-      scrollSpeed:800, 
-      noScrollCenterSpace:10, 
-      autoScrolling:0, 
-      autoScrollingSpeed:2000, 
-      autoScrollingEasing:"easeInOutQuad", 
-      autoScrollingDelay:500 
+    $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        showSpinner(false);
+        $('#server_error_div').show();
+      }
     });
-  }
-})(jQuery);
+
+    $.jStorage.subscribe('logout', function() {
+      window.location.reload();
+    })
+
+    window.onload=function() { 
+      $("#root_level").thumbnailScroller({ 
+        scrollerType:"clickButtons", 
+        scrollerOrientation:"vertical", 
+        scrollSpeed:2, 
+        scrollEasing:"easeOutCirc", 
+        scrollEasingAmount:800, 
+        acceleration:4, 
+        scrollSpeed:800, 
+        noScrollCenterSpace:10, 
+        autoScrolling:0, 
+        autoScrollingSpeed:2000, 
+        autoScrollingEasing:"easeInOutQuad", 
+        autoScrollingDelay:500 
+      });
+    }
+  })(jQuery);
 
 var h = new Object(); 
  var ie_browser = false;
@@ -578,7 +596,11 @@ $('#container').delegate('.add_topic', 'click', function(){
 
   function setTab(item){
     if(document.getElementById("msg")!=null){
-      document.getElementById("msg").className = "icon_msg menu_btn";
+      if ($('#msg').hasClass('notification_badge') || $('#msg').hasClass('notification_badge_active')) {
+        document.getElementById("msg").className = "notification_badge menu_btn";
+      } else {
+        document.getElementById("msg").className = "icon_msg menu_btn";
+      }
     }
     if(document.getElementById("courses")!=null){
       document.getElementById("courses").className = "icon_courses menu_btn";
@@ -614,7 +636,11 @@ $('#container').delegate('.add_topic', 'click', function(){
     if(selectted_menu=="courses"){
       $("#courses").addClass("icon_courses_active ");
     } else if(selectted_menu=="msg"){
-	    $("#msg").addClass("icon_msg_active");
+      if ($('#msg').hasClass('notification_badge')) {
+        $("#msg").addClass("notification_badge_active");
+      } else {
+  	    $("#msg").addClass("icon_msg_active");
+      }
     } 
     else if(selectted_menu=="tasks"){
       $("#tasks").addClass("icon_tasks_active");
