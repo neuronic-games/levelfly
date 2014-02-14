@@ -40,38 +40,9 @@ class MessageController < ApplicationController
     count = Message.count(:conditions => conditions)
     @show_more_btn = (count > messages_limit)
 
-    # recently_messaged = Profile.includes(:messages).where(
-    #   "(messages.archived = false OR messages.archived IS NULL) AND messages.message_type = 'Message' AND messages.target_type = 'Profile' AND messages.parent_type = 'Profile'"
-    # ).order("messages.updated_at desc").map(&:full_name).uniq
-    
-    recently_messaged = Message.active.involving(user_session[:profile_id]).find(
-      :all,
-      :conditions => ["message_type in ('Message') and id in (?) and target_type = 'Profile' and parent_type = 'Profile'", message_ids],
-      :order => "updated_at desc"
-    )
+    @users = @profile.recently_messaged[0..users_limit - 1]
+    @show_more_users = @users.length > users_limit
 
-    profile_ids = []
-    recently_messaged.each do |r|
-      profile_ids.push(r.profile_id)
-      profile_ids.push(r.parent_id)
-    end
-    profile_ids.uniq!
-    profile_ids.delete(user_session[:profile_id])
-
-    @viewed_ids = messages_viewed(profile_ids, user_session[:profile_id])
-
-    @users = Profile.find(profile_ids).sort do |a, b|
-      profile_ids.index(a.id) <=> profile_ids.index(b.id)
-    end
-
-    @show_more_users = @users.length > profile_ids.length
-    #friend_id = Participant.find(:all, :select =>"distinct profile_id", :conditions=>["target_id = ? AND target_type = 'User' AND profile_type = 'F'", @profile.id]).collect(&:profile_id)
-   
-    # if recently_messaged.empty?
-      # ids = recently_messaged_by_other
-    # else
-      # ids = recently_messaged.zip(recently_messaged_by_other).flatten.compact
-    # end
     @profile.delete_action
     @profile.record_action('last', 'message')
     session[:controller]="message"

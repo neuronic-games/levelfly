@@ -78,7 +78,7 @@
     <% if @users %>
       <h2>RECENTLY MESSAGED</h2>
       <% @users.each do |friend| %>
-        <%= render :partial => "/message/friend_list", :locals => {:friend => friend, :viewed => !@viewed_ids.include?(friend.id)} %>
+        <%= render :partial => "/message/friend_list", :locals => {:friend => friend} %>
       <% end %>
     <% end %>
     <% if @show_more_users %>
