@@ -7,16 +7,14 @@
     <div class="txt">
       <p><b><%=friend.full_name%></b></p>
       <p><%=h "#{friend.major.name}, " if friend.major%><%=h friend.school.code%></p>
-      <%created_at = last_message(friend.id, user_session[:profile_id])%>
-      <p style="font-weight: bold;"><%if !created_at.nil?%><%=time_ago_in_words(created_at)%> ago <%end%> </p>
+      <p style="font-weight: bold;"><%= time_ago_in_words(friend.latest_message_date) %> ago</p>
       <div class="spacebar10px"></div>
       <div align="right" id="frnd_root_btn">
-      <a href="javascript:void(0)" class="blue_bt19px menu_btn" rel="/message/friends_only/<%=friend.id%>">View Private Messages</a>
-	  <% if !viewed and !viewed.nil? %>
-	  <img src="/images/alert.png" style="margin-left:-16px"/>
-	  <% end %>
+        <a href="javascript:void(0)" class="blue_bt19px menu_btn" rel="/message/friends_only/<%=friend.id%>">View Private Messages</a>
+    	  <% if friend.unread_message_count.to_i > 0 %>
+    	  <img src="/images/alert.png" style="margin-left:-16px"/>
+    	  <% end %>
       </div>
-      
     </div>
     <div class="clear"></div>
   </div>

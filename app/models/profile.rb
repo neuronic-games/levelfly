@@ -106,23 +106,13 @@ class Profile < ActiveRecord::Base
       <<-SQL 
         SELECT 
           profiles.*, 
-          messages.updated_at AS latest_message_date,
-          COUNT(message_viewers.*) AS unread_message
+          MAX(messages.updated_at) AS latest_message_date,
+          COUNT(message_viewers.id) AS unread_message_count
         FROM profiles 
-        INNER JOIN messages ON (
-          (messages.parent_id = profiles.id OR messages.profile_id = profiles.id)
-          AND messages.id = (
-            SELECT id FROM messages 
-            WHERE (parent_id = #{self.id} AND profile_id = profiles.id)
-            OR (profile_id = #{self.id} AND parent_id = profiles.id)
-            ORDER BY updated_at DESC LIMIT 1
-          )
-        ) LEFT JOIN message_viewers ON (
+        INNER JOIN messages ON (messages.parent_id = profiles.id OR messages.profile_id = profiles.id)
+        LEFT JOIN message_viewers ON (
           message_viewers.message_id = messages.id
-          AND (
-            (message_viewers.poster_profile_id = #{self.id} AND message_viewers.viewer_profile_id = profiles.id)
-            OR (message_viewers.poster_profile_id = profiles.id AND message_viewers.viewer_profile_id = #{self.id})
-          )
+          AND (message_viewers.poster_profile_id = profiles.id AND message_viewers.viewer_profile_id = #{self.id})
           AND (message_viewers.archived = false OR message_viewers.archived IS NULL)
           AND message_viewers.viewed = false
         ) WHERE (messages.parent_id = #{self.id} OR messages.profile_id = #{self.id})
@@ -131,8 +121,8 @@ class Profile < ActiveRecord::Base
           AND messages.target_type = 'Profile' 
           AND messages.parent_type = 'Profile'
           AND profiles.id != #{self.id}
-        GROUP BY profiles.id, messages.updated_at
-        ORDER BY messages.updated_at DESC
+        GROUP BY profiles.id
+        ORDER BY unread_message_count DESC, latest_message_date DESC
       SQL
     ).uniq
   end
