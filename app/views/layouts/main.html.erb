@@ -538,7 +538,7 @@ $('#container').delegate('.add_topic', 'click', function(){
          //show_btn(id)
         }
       },
-      error: function(){alert("ERROR")}
+      error: function(){}
     });
   });
     
@@ -752,10 +752,6 @@ $('#container').delegate('.add_topic', 'click', function(){
 		      	show_post_date = "E";
 	      	 }
 	        }
-	      },
-	      error: function(){
-	      	showSpinner(false);
-	      	alert("ERROR");
 	      }
 	    });
     }
