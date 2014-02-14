@@ -18,6 +18,14 @@ module ApplicationHelper
     else
       ''
     end
+  end
+  
+  def change_date_time_format(date)
+    if not date.blank?
+      date.strftime("%m-%d-%Y %I:%M %p")
+    else
+      ''
+    end
   end 
   
   def notification_badge(profile)
