@@ -296,7 +296,7 @@ class CourseController < ApplicationController
 		message_type = nil
     content = nil
 		resend = false
-    if params[:email] && params[:email]
+    if params[:email]
       #if params[:section_type] == 'G'
        #    section_type = 'Group'
       #end   
