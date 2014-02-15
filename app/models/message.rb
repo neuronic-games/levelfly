@@ -6,7 +6,7 @@ class Message < ActiveRecord::Base
 
   scope :starred, :conditions => ['starred = ?', true]
   scope :active, :conditions => {:archived => [false, nil]}
-  scope :involving, lambda {|profile| where('profile_id = ? or parent_id = ?', profile.id, profile.id)}
+  scope :involving, lambda {|profile_id| where('profile_id = ? or parent_id = ?', profile_id, profile_id)}
   scope :interesting, :conditions => ["(message_type = 'Message' and target_type = 'Profile' and parent_type = 'Profile') or parent_type = 'Message'"]
 
   scope :between, (lambda do |ids, id2|

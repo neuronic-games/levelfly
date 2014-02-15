@@ -100,5 +100,31 @@ class Profile < ActiveRecord::Base
       self.save
     end
   end
+
+  def recently_messaged
+    Profile.find_by_sql(
+      <<-SQL 
+        SELECT 
+          profiles.*, 
+          MAX(messages.updated_at) AS latest_message_date,
+          COUNT(message_viewers.id) AS unread_message_count
+        FROM profiles 
+        INNER JOIN messages ON (messages.parent_id = profiles.id OR messages.profile_id = profiles.id)
+        LEFT JOIN message_viewers ON (
+          message_viewers.message_id = messages.id
+          AND (message_viewers.poster_profile_id = profiles.id AND message_viewers.viewer_profile_id = #{self.id})
+          AND (message_viewers.archived = false OR message_viewers.archived IS NULL)
+          AND message_viewers.viewed = false
+        ) WHERE (messages.parent_id = #{self.id} OR messages.profile_id = #{self.id})
+          AND (messages.archived = false OR messages.archived IS NULL) 
+          AND messages.message_type = 'Message' 
+          AND messages.target_type = 'Profile' 
+          AND messages.parent_type = 'Profile'
+          AND profiles.id != #{self.id}
+        GROUP BY profiles.id
+        ORDER BY unread_message_count DESC, latest_message_date DESC
+      SQL
+    ).uniq
+  end
   
 end
