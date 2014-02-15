@@ -65,8 +65,9 @@ module MessageHelper
   end
   
   def messages_viewed(profile_ids,current_user)
-    message_count = Message.active.interesting.between(profile_ids, current_user).count(
+    Message.active.interesting.between(profile_ids, current_user).find(
       :all,
+      :select => 'distinct message_viewers.poster_profile_id',
       :joins => :message_viewers,
       :conditions => {
         :message_viewers => {
@@ -76,9 +77,7 @@ module MessageHelper
           :viewed => false
         }
       }
-    )
-
-    message_count == 0
+    ).map(&:poster_profile_id).map(&:to_i)
   end
   
   def message_content(text) 

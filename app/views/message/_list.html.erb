@@ -78,7 +78,7 @@
     <% if @users %>
       <h2>PRIVATE MESSAGES</h2>
       <% @users.each do |friend| %>
-        <%= render :partial => "/message/friend_list", :locals => {:friend=>friend} %>
+        <%= render :partial => "/message/friend_list", :locals => {:friend => friend} %>
       <% end %>
     <% end %>
     <% if @show_more_users %>

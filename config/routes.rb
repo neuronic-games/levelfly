@@ -65,6 +65,8 @@ Oncapus::Application.routes.draw do
   
   post "profile/show_comments"
   
+  post "profile/update_show_date"
+  
   get "task/index"
 
   get "task/show"
