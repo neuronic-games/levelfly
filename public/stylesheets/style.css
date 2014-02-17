@@ -989,6 +989,10 @@ margin-top:-20px;
   font-size:0px;
   height:0px;
 }
+
+.clearfix:before, .clearfix:after { content: " "; display: table; }
+.clearfix:after { clear: both; }
+
 .end_of_page {
   height:100px;
 }
@@ -2169,6 +2173,7 @@ div .taskmsg_bgc2 {
   font-weight:bold;
   color:#AAAAA;
   font-size: 15px;
+  float: left;
 }
 .titleTextParticipants{
   font-weight:bold;
@@ -3571,7 +3576,7 @@ filter:alpha(opacity="0");
 	font-family:Arial, Helvetica, sans-serif;
 	text-align:left !important;
 }
-.LBT_name .name_txt {
+.LBT_name .name_txt, .titleCountPeople {
 	font-size:16px;
 	font-weight:bold;
 	display:inline-block;
@@ -3579,6 +3584,11 @@ filter:alpha(opacity="0");
 	overflow:hidden;
 	text-overflow:ellipsis;
 	width:165px;
+}
+.titleCountPeople {
+  float: right;
+  margin-right: 10px;
+  width: auto;
 }
 .long_name {
 	display:inline-block;
