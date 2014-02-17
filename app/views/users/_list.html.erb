@@ -22,11 +22,11 @@
            
           <div class="leader_TabCSS">
           <div class="steel_pin"><img src="/images/pin_steel.png" /></div>
-          <div class="leader_topselect">
+          <div class="leader_topselect clearfix">
             <div class="titleTextPeople">Show:&nbsp;&nbsp;
               <span>
                 <select class="dd_input brown_bg" id="filter_files" style="width:180px;">
-                  <option value="all_active" class="brown_bg">All Active</option>
+                  <option value="all_active" class="brown_bg">All Users</option>
                   <option value="members_of_courses" class="brown_bg">Members of Courses</option>
                   <option value="members_of_groups" class="brown_bg">Members of Groups</option>
                   <optgroup label="Courses">
@@ -48,6 +48,7 @@
                 </select>
              </span>
             </div>
+            <div class="titleCountPeople"><%= @users.count %> users</div>
             <div class="clear"></div>
           </div>
             <div id="load_users">
@@ -93,13 +94,17 @@ $("#filter_files").change(function(){
     if(id){
       showSpinner(true);
       $.ajax({
-         type: "POST",  
-         url: "/users/load_users",  
-         data: {id:id},
-         success: function(data) {
-           $("#load_users").html(data);
-           showSpinner(false);
-         }
+        type: "POST",  
+        url: "/users/load_users",  
+        data: {id:id},
+        success: function(data) {
+          var count = $('.LB_tablecontent', data).length,
+              plural = count != 1;
+
+          $("#load_users").html(data);
+          $('.titleCountPeople').html(count + (plural ? ' users' : ' user'));
+          showSpinner(false);
+        }
       });
     }
   });
