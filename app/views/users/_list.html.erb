@@ -51,11 +51,38 @@
             <div class="titleCountPeople"><%= @users.count %> users</div>
             <div class="clear"></div>
           </div>
-            <div id="load_users">
-              <%= render :partial => "/users/load_users", :locals => {:@users=>@users} %>
-            </div>  
+          <div id="load_users">
+            <div id="rows" class="LB_table">
+              <div class="LB_tableheader">
+                <div class="LBT_ava"> &nbsp;</div>
+                <div class="LBT_name">&nbsp;</div>
+                <div class="LBT_level">Email</div>
+                <div class="LBT_xp"> Member Since</div>
+                <div class="LBT_badges">Last Login</div>
+              </div>
+              <%= render :partial => "/users/load_users", :locals => { :@users => @users, :@id => 'all_active', :@page => 1 } %>
+              <div id="send_email_all" class="add_task_popup" style="display:none">
+                <div class="heading">Send Email to All Users</div>
+                <div class="boxadnt"> 
+                  <span class="heading02">Message</span>
+                  <div class="heading02_field">
+                    <div class="dd_bg brown_bg02">
+                      <textarea class="dd_input brown_bg02" style="height:55px" name="mail_msg" id="mail_msg"></textarea>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="spacebar10px"></div>
+                  <div class="spacebar10px"></div>
+                </div>
+                <div align="right" style="margin-right:20px;">
+                  <a class="big_blue_btn inlineblock" id="dont_send_btn" href="javascript:void(0)">Don't Send</a> 
+                  <a class="big_blue_btn inlineblock" id="send_btn" href="javascript:void(0)">Send</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>         
-        <div class="end_of_page"></div>
+        <div class="end_of_page"><div class="load_more hide"><img src="/images/ajax-loader.gif"> Loading more users...</div></div>
        </div>
       </div>
     </div>
@@ -71,16 +98,74 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-  setPageTitle("People");
-
-  /*$('a.view_user').click(function() {
+  $("#load_users").delegate(".view_user", "click", function() {
     showSpinner(true);
-    url = this.href
+    url = $(this).attr("rel");
     $("#container").load(url, function(){
       showSpinner(false);
-    }); 
-    return false; 
-  });*/
+    });
+  });
+});
+
+// For showing popup of send email to all
+$("#message_to_user").click(function(){
+  $('#send_email_all').show();
+});
+
+$("#dont_send_btn").click(function(){
+  $('#send_email_all').hide();
+});
+
+// For sending message to all
+$("#send_btn").click(function() {
+  showSpinner(true);
+  var ids = new Array();
+  $(".user").each(function(n,i){ids.push(this.id)});
+  var mail_msg = $('#mail_msg').val();
+  if(ids) {
+    var dataString = {ids:ids, mail_msg:escape(mail_msg)};
+    $.ajax({
+      type: "POST",
+      url: "users/send_message_to_all_users",
+      data: dataString,
+      success: function(data) {
+        if(data) {
+          showSpinner(false);
+          $('#send_email_all').hide();
+          var success_html = "<div class='error_message'>Email sent to all participants.</div>";
+          $('.alert').html(success_html);
+        }
+      }
+    });
+  } 
+});
+
+$(document).ready(function(){
+  var $window = $(window);
+
+  setPageTitle("People");
+
+  $window.bind('scroll.users', function() {
+    var $end_of_page = $('.end_of_page');
+
+    if ($end_of_page.length && $window.scrollTop() + $window.height() >= $end_of_page.offset().top) {
+      var next_page_href = $('#load_users #rows input[name="next_page"]').eq(-1).val();
+
+      if (next_page_href != 'done') {
+        $('.load_more', $end_of_page).show('fast');
+
+        $.ajax({
+          type: "GET",
+          url: next_page_href,  
+          success: function(data) {
+            $("#load_users #rows").append(data);
+            $('.load_more', $end_of_page).hide('fast');
+          }
+        });
+      }
+    }
+  });
+
   $("#create_new_user").click(function(){
     showSpinner(true);
     $("#container").load("users/new", function(){
@@ -90,20 +175,23 @@ $(document).ready(function(){
 });
   
 $("#filter_files").change(function(){
-    var id = $("#filter_files").val();
-    if(id){
+    var id = $("#filter_files").val(),
+        $header = $('#rows .LB_tableheader');
+    if (id) {
       showSpinner(true);
       $.ajax({
-        type: "POST",  
-        url: "/users/load_users",  
-        data: {id:id},
+        type: "GET",
+        url: "/users/load_users/" + id + "/1",  
         success: function(data) {
-          var count = $('.LB_tablecontent', data).length,
-              plural = count != 1;
-
-          $("#load_users").html(data);
-          $('.titleCountPeople').html(count + (plural ? ' users' : ' user'));
+          $("#load_users #rows").empty().html($header).append(data);
           showSpinner(false);
+
+          setTimeout(function() { 
+          var count = $('#load_users #rows input[name="user_count"]').val(),
+              plural = count != 1;
+ 
+          $('.titleCountPeople').html(count + (plural ? ' users' : ' user'));
+         }, 0);
         }
       });
     }

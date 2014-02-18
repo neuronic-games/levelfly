@@ -1,5 +1,9 @@
 /* NOTE: This CSS file is for all modules in the system. Main layout CSS goes into mail_layout.css */
 
+.load_more { text-align: center; font-weight: bold; padding-top: 10px; line-height: 50px; }
+.load_more img { position: relative; top: 10px; }
+#rows { width: 100%; }
+
 /****icon msg****/
 a.icon_msg {
   background:url(../images/messages_icon.png) no-repeat 20px 8px;
