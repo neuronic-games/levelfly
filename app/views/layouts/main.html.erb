@@ -548,7 +548,10 @@ $('#container').delegate('.add_topic', 'click', function(){
   }); //document.ready
   
   function loadPage(dest, title) {
-     var id = $(this).attr("id");
+    var id = $(this).attr("id");
+
+    $(window).unbind('scroll.users');
+
     $(main_menu_id).each(function(index, item){
        if(id==item){
          setTab(item);
