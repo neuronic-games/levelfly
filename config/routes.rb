@@ -13,8 +13,12 @@ Oncapus::Application.routes.draw do
              # :sessions => 'sessions'
            # }
   
-  resources :users
-  
+  resources :users do
+    collection do
+      get "load_users/:id/:page", :action => 'load_users', :as => 'load_users'
+    end
+  end
+
   get "system/alert"
   
   get "system/new_user"
@@ -326,9 +330,7 @@ Oncapus::Application.routes.draw do
   get "users/index"
   
   get "users/show"
-  
-  post "users/load_users"
-  
+    
   post "users/save"
   
   post "users/login_as"
