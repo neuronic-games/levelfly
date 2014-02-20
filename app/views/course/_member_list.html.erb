@@ -1,26 +1,17 @@
 <div id="div_6" class="tab_content">
   <%if (@courseMaster and !@courseMaster.nil? and @course.parent_type=="C") || (@course and @course.parent_type=="G")%> 
     </br></br>
-    <div style = "margin-left:27px;font-size:14px;" class="people_name"><h3>Invite a New Member</h3></div>
+    <div style = "margin-left:27px;font-size:16px;" class="people_name"><h3>Invite a New Member</h3></div>
     </br>
     <div class="titleTextParticipants">
       <span><input type="text" name="add_people_email[]" class="dd_select brown_bg" style="width:300px; padding:2px;margin-left:15px;" id="add_course_people" placeholder="Enter email..."  /></span>
-      <span style="float:right; margin-right:358px;"><a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="blue_bt19px btn_add">Invite</a></span>
+      <span style="float:right; margin-right:350px;"><a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="blue_bt19px btn_add">Invite</a></span>
     </div> 
   <%end%>
 
-  <div style="padding:10px;">
-    <% if @courseMaster and @course.parent_type != "F"%>
-      <a style = "margin-left;margin-left:19px;font-size:14px;" class="people_name"><h3><%= @course.parent_type == "G" ? "Members in Your Group" : "Members in Your Course" %></h3></a>
-      </br></br>
-      <span style="float:left; margin-left:34px;">
-        <a href="javascript:void(0)" name="btn_email_all" id="btn_email_all" class="blue_bt19px btn_add">Send Email to All</a>
-      </span>
-    <% elsif @course.parent_type != "F" %>
-      </br>
-      <a style = "margin-left;margin-left:19px;font-size:14px;" class="people_name"><h3><%= @course.parent_type == "G" ? "Members in this Group" : "Members in this Course" %></h3></a>
-    <% elsif @courseMaster.nil? and @course.parent_type == "F" %>
-      <a style = "margin-left;margin-left:19px;font-size:14px;" class="people_name"><h3>Members in this Forum</h3></a>
+  <div>
+    <% if @courseMaster.nil? and @course.parent_type == "F" %>
+      <a style = "margin-left:19px;font-size:14px; margin: 10px" class="people_name"><h3>Members in this Forum</h3></a>
     <% end %>
   </div>
   
@@ -203,16 +194,17 @@
 							partcipant_html += '<div class="people_name" style="width:27%; margin:7px 8px;">' + data.user.email +'</div>';
 						}
 						partcipant_html += '<div class="field_label3" style="width:30%;margin:7px 8px;"><a>'+data.user.email+ '</a></div>';
-						partcipant_html += '</br><span class="participant_type" style="font-size:10px; font-weight:normal;margin:9px -421px;">Pending</span>';
+						partcipant_html += '<br /><br /><span class="participant_type" style="font-size:10px; font-weight:normal;margin:0px 0px 0px 10px;">Pending</span>';
 						partcipant_html += '<div class="FloatR" style="width:20%"><div class="list_hover" style="margin-top:10px;width:10%;">';
 						partcipant_html += '<a href="javascript:void(0)" style=" margin-left: -32px;" class="people_resend blue_bt19px FloatL" rel='+data.profile.id+' value='+data.user.email+'>Resend Invite</a>';
 						partcipant_html += '<a href="javascript:void(0)" class="people_delete blue_bt19px FloatR" rel='+data.profile.id+'  >Remove</a></div></div>';
 						partcipant_html += '<div class="clear"></div>';
 						participant_node.append(partcipant_html);
-						$("#course_people ul:first").prepend(participant_node);
+						$("#course_people ul:last").prepend(participant_node);
+						$("#course_people ul:last").prev('div').fadeIn();
 						$("#course_participant_list").hide();
 						$("#hdn_is_page_change").val(true);
-						$('.blackboard_list').first().hover(a,b);
+						$('#course_people ul:last .blackboard_list').first().hover(a,b);
 						show_alert_message("An invitation email has been sent to " + email_id, true);
 					} else {
 						show_alert_message('',false);
@@ -309,6 +301,12 @@
         success: function(data) {
           if (data) {
             $("#"+profile_id).remove();
+          	if ($("#people_node_pending li").length == 0){
+               $("#people_node_pending").prev().fadeOut();
+             }
+            if ($("#people_node_member li").length == 0){
+               $("#people_node_member").prev().fadeOut();
+             }
           } else {
             alert("ERROR");
           }
