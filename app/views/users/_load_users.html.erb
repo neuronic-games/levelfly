@@ -1,25 +1,9 @@
-<div id="rows" class="LB_table">
-  <div class="LB_tableheader">
-    <div class="LBT_ava"> &nbsp;</div>
-    <div class="LBT_name">&nbsp;</div>
-    <div class="LBT_level">Email</div>
-    <div class="LBT_xp">Joined On</div>
-    <div class="LBT_badges">Last Login</div>
-  </div>
-  <%if @users and !@users.nil?%>
-    <% @users.each do |p|%>
-      <%if p.user%>
-        <div class="LB_tablecontent <%= cycle("even", "odd") %>">
-          <div class="LBT_ava">
-            <div class="avatarWbdr"><img src="<%= p.image_file_name%>" class="profile" profile_id="<%= p.id %>" /></div>
-          </div>
-          <div class="LBT_name view_user user" rel="/users/show/<%=p.id%>" id="<%=p.id%>" > 
-            <span class="name_txt "><%= p.full_name %> </span><br />
-            <span class="course_txt"><%= p.major_school %></span> 
-          </div>
-          <div class="LBT_level view_user" rel="/users/show/<%=p.id%>" style="font-size:12px;"><%= p.user.email %></div>
-          <div class="LBT_xp view_user" rel="/users/show/<%=p.id%>" style="font-size:12px;"><%= change_date_format(p.user.created_at) %></div>
-          <div class="LBT_badges view_user" rel="/users/show/<%=p.id%>" style="font-size:12px;"><%= change_date_format(p.user.last_sign_in_at) %></div>
+<%if @users and !@users.nil?%>
+  <% @users.each do |p|%>
+    <%if p.user%>
+      <div class="LB_tablecontent <%= cycle("even", "odd") %>">
+        <div class="LBT_ava">
+          <div class="avatarWbdr"><img src="<%= p.image_file_name%>" class="profile" profile_id="<%= p.id %>" /></div>
         </div>
         <div class="LBT_name view_user user" rel="/users/show/<%=p.id%>" id="<%=p.id%>" > 
           <span class="name_txt "><%= p.full_name %> </span><br />
