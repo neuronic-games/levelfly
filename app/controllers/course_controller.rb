@@ -336,7 +336,7 @@ class CourseController < ApplicationController
                content = "Please join #{course.name} (#{course.code_section})."
              end
             @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
-						send_email(@user.id,params[:course_id],@message.id,new_user)     
+						send_email(@user,params[:course_id],@message.id,new_user)     
             status = true           
           end
         else 
@@ -350,7 +350,7 @@ class CourseController < ApplicationController
 							content = "Please join #{course.name} (#{course.code_section})."
 						end
 						@message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
-						send_email(@user.id,params[:course_id],@message.id,new_user)
+						send_email(@user,params[:course_id],@message.id,new_user)
 						resend = true
 					else
 						already_added = true
@@ -361,14 +361,14 @@ class CourseController < ApplicationController
    end
   end
   
-  def send_email(email,course,message_id,new_user)
+  def send_email(user,course,message_id,new_user)
      @course = Course.find(course)
      @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
      @school = School.find(@current_user.school_id)
-     link = "#{email}&#{message_id}"
+     link = "#{user.id}&#{message_id}"
      @link = Course.hexdigest_to_string(link)
      #@link = OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('md5'), "123456", link)
-     UserMailer.registration_confirmation(email,@current_user,@course,@school,message_id,@link,new_user).deliver
+     UserMailer.registration_confirmation(user.email,@current_user,@course,@school,message_id,@link,new_user).deliver
   end
 	
 	# Send email to all participants via course group and forum memberlist
