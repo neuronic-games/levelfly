@@ -3,6 +3,8 @@ class Profile < ActiveRecord::Base
   belongs_to :major
   belongs_to :school
   belongs_to :user
+  belongs_to :role_name
+  
   has_many :participants
 	has_many :task_participants
   has_many :profile_actions
@@ -20,11 +22,11 @@ class Profile < ActiveRecord::Base
       profile = new_profile.dup
       profile.user_id = user_id
       profile.code = nil
+      profile.role_name = RoleName.find_by_name('Student')
       profile.save
       avatar = new_profile.avatar.dup
       avatar.profile_id = profile.id
       avatar.save
-      Role.set_user_role(profile.id)
     end
     return profile
   end
