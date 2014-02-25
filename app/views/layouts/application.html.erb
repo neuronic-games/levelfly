@@ -20,13 +20,8 @@
   <script type="text/javascript">
     
     var _gaq = _gaq || [];
-     <% if (ENV['APP_NAME'] == 'Levelfly') %>
-      _gaq.push(['_setAccount', 'UA-44679323-1']);
-      _gaq.push(['_trackPageview']);
-     <% elsif (ENV['APP_NAME'] == 'oncampus') %>
-      _gaq.push(['t._setAccount', 'UA-45153089-1']);
-      _gaq.push(['t._trackPageview']);
-    <% end %>
+    _gaq.push(['t._setAccount', '<%= ENV['GA_ACCOUNT'] %>']);
+    _gaq.push(['t._trackPageview']);
     
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
