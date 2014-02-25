@@ -25,16 +25,15 @@ class Role < ActiveRecord::Base
   @@modify_settings = 'modify_settings'
   cattr_accessor :modify_settings
   
-  def self.set_user_role(profile_id)
-    user_role = Role.find(:first, :conditions => ["profile_id = ? and (name = ? or name = ?)", profile_id,Role.create_group,Role.create_task])
-    if user_role.nil?
-       Role.create(:profile_id => profile_id, :name =>Role.create_group)     
-    end  
-  end
+  # def self.set_user_role(profile_id)
+  #   user_role = Role.find(:first, :conditions => ["profile_id = ? and (name = ? or name = ?)", profile_id,Role.create_group,Role.create_task])
+  #   if user_role.nil?
+  #      Role.create(:profile_id => profile_id, :name =>Role.create_group)     
+  #   end  
+  # end
   
   def self.check_permission(profile_id,type)
-    @permission = []
-    Role.where("profile_id = ?",profile_id).each do |role|
+    Profile.find(profile_id).role_name.permissions.each do |role|
       if (type == "G" and role.name == Role.create_group)
         return true
         break

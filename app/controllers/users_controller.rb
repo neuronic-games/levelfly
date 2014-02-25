@@ -41,7 +41,6 @@ class UsersController < ApplicationController
       @profile = Profile.find(params[:id])
       @avatar = @profile.avatar.to_json
       if @profile
-        @role = Role.where("profile_id = ?", @profile.id)
         respond_to do |wants|
           wants.html do
             if request.xhr?
@@ -120,34 +119,21 @@ class UsersController < ApplicationController
      end
   end
   if @profile
-     @user = User.find(@profile.user_id) 
-      if params[:roles_assign] and !params[:roles_assign].nil?
-        asign_role = params[:roles_assign].split(",")
-        role_names = params[:roles_name].split(",")
-        asign_role.each_with_index do |role,i|
-          if role == "false"
-            @role = Role.find(:first, :conditions=>["profile_id = ? and name = ?",@profile.id,role_names[i]])
-            if @role
-              @role.delete
-            end
-          elsif role == "true"
-            @role = Role.find(:first, :conditions=>["profile_id = ? and name = ?",@profile.id,role_names[i]])
-            if !@role
-              Role.create(:profile_id => @profile.id, :name =>role_names[i])
-            end
-          end    
-        end
-      end
-      @profile.full_name = params[:name] if params[:name]
-      #@user.update_attribute("email",params[:email])
-      @user.email = params[:email] if params[:email]
-      @user.status = params[:status] if params[:status]
-      @user.password = params[:user_password] if params[:user_password]
-      @user.save
-      @profile.save
-      status = true
+    @user = User.find(@profile.user_id) 
+    @profile.full_name = params[:name] if params[:name]
+
+    if current_user.profile.has_role(Role.modify_settings) || (@profile.role_name.name != 'Levelfly Admin' && RoleName.find(params[:role_name_id]).name != 'Levelfly Admin')
+      @profile.role_name_id = params[:role_name_id]
     end
-    render :text => {:status=>status, :email_exist =>email_exist}.to_json  
+
+    @user.email = params[:email] if params[:email]
+    @user.status = params[:status] if params[:status]
+    @user.password = params[:user_password] if params[:user_password]
+    @user.save
+    @profile.save
+    status = true
+  end
+  render :text => {:status=>status, :email_exist =>email_exist}.to_json  
  end
  
  def login_as
