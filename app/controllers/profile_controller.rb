@@ -6,7 +6,17 @@ class ProfileController < ApplicationController
     @profile = Profile.find(user_session[:profile_id])
     if params[:search_text]
       search_text =  "%#{params[:search_text]}%"
-      @profiles = Profile.find(:all, :include => [:user], :conditions=>["school_id = ? and lower(full_name) LIKE ? and user_id is not null and users.status != 'D'",@profile.school_id, search_text.downcase], :order => "full_name")
+      @profiles = Profile.find(
+        :all,
+        :include => [:user],
+        :conditions => [
+          "school_id = ? and (lower(full_name) LIKE ? OR lower(users.email) LIKE ?) and user_id is not null and users.status != 'D'",
+          @profile.school_id,
+          search_text.downcase,
+          search_text.downcase
+        ],
+        :order => "full_name"
+      )
     end
     respond_to do |wants|
       wants.html do
