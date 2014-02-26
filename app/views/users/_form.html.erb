@@ -74,10 +74,10 @@
               
               <div class="course_viewfield color_b field_label">This user's role:
                 <div class=""></br>
-                  <select name="profile[role_name_id]" <% if @profile.has_role(Role.modify_settings) && !current_user.profile.has_role(Role.modify_settings) %>disabled="true"<% end %>>
+                  <select name="profile[role_name_id]" <% if @profile && @profile.has_role(Role.modify_settings) && !current_user.profile.has_role(Role.modify_settings) %>disabled="true"<% end %>>
                     <% RoleName.all.each do |role_name| %>
-                      <% if current_user.profile.has_role(Role.modify_settings) || @profile.has_role(Role.modify_settings) || role_name.name != 'Levelfly Admin' %>
-                      <option value="<%= role_name.id %>" <%= (@profile.role_name_id == role_name.id) ? 'selected="selected"' : "" %>><%= role_name.name %></option>
+                      <% if current_user.profile.has_role(Role.modify_settings) || (@profile && @profile.has_role(Role.modify_settings)) || role_name.name != 'Levelfly Admin' %>
+                      <option value="<%= role_name.id %>" <%= (@profile && @profile.role_name_id == role_name.id) ? 'selected="selected"' : "" %>><%= role_name.name %></option>
                       <% end %>
                     <% end %>
                   </select>
