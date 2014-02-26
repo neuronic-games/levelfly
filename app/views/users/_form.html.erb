@@ -84,15 +84,17 @@
                 </div>
               </div>
               <div class="clear"></div>
+              <% if @profile %>
               </br>
               <div class="course_viewfield color_b field_label">This user is:
-                 <div class=""></br>
+                <div class=""></br>
                   <input type="radio" name="user_status[]" checked="true" value="" rel="A" /><span> Active 
                   </span>
                   &nbsp; &nbsp;
-                  <input type="radio" name="user_status[]" <%if @profile and @profile.user.status=="S" %>checked="true"<%end%>  rel="S" value=""/><span> Suspended</span>
+                  <input type="radio" name="user_status[]" <%if @profile.user.status=="S" %>checked="true"<%end%>  rel="S" value=""/><span> Suspended</span>
                 </div> 
-            </div>   
+              </div>
+              <% end %>
             </div>          
           </div>  
         </div>
