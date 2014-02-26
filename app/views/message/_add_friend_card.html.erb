@@ -4,6 +4,7 @@
   <div>
     <div class="avatar_green_bdr">
       <img onClick="user_profile(<%=profile.id%>);" src="<%=profile.image_file_name%>" id="<%=profile.id%>" class="profile"/>
+      <% if current_user.has_role(Role.edit_user) %><a class="blue_bt19px" onclick="user_profile(<%=profile.id%>)">EDIT</a><% end %>
     </div>
     <div class="txt"> <span class="pop_name"><b><%=profile.full_name%></b><br />
       <span style="width:91px;float:left;"><%= "#{profile.major.name}, " if profile.major%><%=profile.school.code%></span><a id="view_participant_profile" class="blue_bt19px view_profile" style="float:inherit"rev="" rel="<%=profile.id%>" data="" href="javascript:void(0)">VIEW</a></span>
@@ -196,5 +197,15 @@ $(document).click(function (e)
 $(document).ready(function(){
     $('textarea#message').autosize();
 });
+
+function user_profile(id) {
+  <% if current_user.has_role(Role.edit_user) %>
+  showSpinner(true);
+  $('#avatar_card').hide();
+  $("#container").load('/users/show/' + id, function(){
+    showSpinner(false);
+  });
+  <% end %>
+}
 
 </script>
