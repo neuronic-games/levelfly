@@ -628,7 +628,15 @@ a.blue_bt19px2 {
   -moz-box-shadow:inset 0px 0px 2px 1px #000000;
   -webkit-box-shadow:inset 0px 0px 2px 1px #000000;
   box-shadow:inset 0px 0px 2px 1px #000000;
+  position: relative;
   }
+
+.popup_box1 .avatar_green_bdr .blue_bt19px {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
 .popup_box1 .txt {
   float:left;
   padding-left:10px;
