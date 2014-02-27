@@ -183,4 +183,14 @@ class UsersController < ApplicationController
    render :partial => "/users/form"
  end
  
+  def set_invite_codes
+    @school = current_user.profile.school
+
+    @school.student_code = params[:student_code]
+    @school.teacher_code = params[:teacher_code]
+
+    @school.save
+
+    render :json => {:status => true}
+  end
 end
