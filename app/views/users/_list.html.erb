@@ -79,6 +79,36 @@
                   <a class="big_blue_btn inlineblock" id="send_btn" href="javascript:void(0)">Send</a>
                 </div>
               </div>
+              <div id="invite_code" class="add_task_popup" style="display: none">
+                <div class="heading">Invite Code</div>
+                <div class="boxadnt">
+                  <p>Use these unique codes to allow students and teachers to become members of your school. The codes may be letters or numbers, 5 to 15 characters in length. It is not case sensitive. Leave blank to disable the invite code.</p>
+                  <div class="spacebar10px"></div>
+                  <label class="heading02" for="student_code">Student Invite Code</label>
+                  <div class="heading02_field">
+                    <div class="dd_bg brown_bg02">
+                      <input name="student_code" pattern="[A-Za-z0-9]{5,15}" maxlength="15" value="<%= @profile.school.student_code %>">
+                    </div>
+                    <div class="validation_msg">&nbsp;</div>
+                  </div>                  
+                  <div class="clear"></div>
+                  <div class="spacebar10px"></div>
+                  <label class="heading02" for="teacher_code">Teacher Invite Code</label>
+                  <div class="heading02_field">
+                    <div class="dd_bg brown_bg02">
+                      <input name="teacher_code" pattern="[A-Za-z0-9]{5,15}" maxlength="15" value="<%= @profile.school.teacher_code %>">
+                    </div>
+                    <div class="validation_msg">&nbsp;</div>
+                  </div>
+                </div>
+                <div class="clear"></div>
+                <div class="spacebar10px"></div>
+                <div class="spacebar10px"></div>
+                <div align="right" style="margin-right:20px;">
+                  <a class="big_blue_btn inlineblock" id="dont_save_btn" href="javascript:void(0)">Don't Save</a> 
+                  <a class="big_blue_btn inlineblock" id="save_btn" href="javascript:void(0)">Save</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>         
@@ -92,6 +122,7 @@
     <div class="course_side_buttons">
         <a class="big_blue_btn" name="create_new_user" id="create_new_user" href="javascript:void(0)">ADD USER</a>
         <a class="big_blue_btn" name="message_to_user" id="message_to_user" href="javascript:void(0)">EMAIL ALL</a>
+        <a class="big_blue_btn" id="invite_code_btn" href="javascript:void(0)">INVITE CODE</a>
     </div><!-- crud_level -->
   </div>
 
@@ -138,6 +169,52 @@ $("#send_btn").click(function() {
       }
     });
   } 
+});
+
+$('#invite_code_btn').click(function() {
+  $('#invite_code').show();
+});
+
+$('#dont_save_btn').click(function() {
+  $('#invite_code').hide();
+});
+
+$('#save_btn').click(function() {
+  var $student_code = $('#invite_code input[name="student_code"]'),
+      $teacher_code = $('#invite_code input[name="teacher_code"]'),
+      student_code_valid = $student_code[0].value.length == 0 || $student_code[0].checkValidity(),
+      teacher_code_valid = $teacher_code[0].value.length == 0 || $teacher_code[0].checkValidity();
+
+  if (student_code_valid && teacher_code_valid) {
+    showSpinner(true);
+    $.ajax({
+      type: "POST",
+      url: "users/set_invite_codes",
+      data: {
+        student_code: $('#invite_code input[name="student_code"]').val(),
+        teacher_code: $('#invite_code input[name="teacher_code"]').val(),
+      },
+      success: function(data) {
+        if (data) {
+          $('#invite_code').hide();
+          var success_html = '<div class="error_message">Your invite codes have been updated.</div>';
+          showSpinner(false);
+          $('.alert').html(success_html);
+        }
+      }
+    });
+  }
+});
+
+var $codeFields = $('#invite_code input[name="student_code"], #invite_code input[name="teacher_code"]');
+
+$codeFields.blur(function() { 
+  if (this.value.length && this.checkValidity()) {
+  $(this).closest('.heading02_field').find('.validation_msg').html('&nbsp;');
+  }
+}).bind('invalid', function() {
+  console.log(this.validity);
+  $(this).closest('.heading02_field').find('.validation_msg').html('Codes must be 5 to 15 letters and/or numbers.');
 });
 
 $(document).ready(function(){
