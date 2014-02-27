@@ -1057,6 +1057,15 @@ margin-top:-20px;
 .big_blue_btn:hover {
   background:#6aa5bd;
 }
+
+#invite_code button.big_blue_btn {
+  padding-bottom: 11px;
+  height: 37px;
+  border-width: 0;
+  position: relative;
+  top: 1px;
+}
+
 .big_orange_btn {
   background:#ad895a;
   width:90px;
@@ -3743,6 +3752,16 @@ div .frm_input2 {
 .add_task_popup .heading02_field {
 	padding-left:95px;
 }
+
+#invite_code .heading02_field {
+  float: left;
+  padding-left: 0;
+}
+
+#invite_code .heading02_field div.left { float: left; }
+#invite_code .heading02_field input { width: 300px; }
+#invite_code .validation_msg { color: red; }
+
 .add_task_popup .boxadnt {
 	padding:20px 20px 0;
 	font-weight:bold;
