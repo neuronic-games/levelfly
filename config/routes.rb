@@ -16,6 +16,7 @@ Oncapus::Application.routes.draw do
   resources :users do
     collection do
       get "load_users/:id/:page", :action => 'load_users', :as => 'load_users'
+      post "set_invite_codes", :action => 'set_invite_codes'
     end
   end
 
