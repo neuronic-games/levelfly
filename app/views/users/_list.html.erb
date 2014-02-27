@@ -141,17 +141,18 @@ $("#send_btn").click(function() {
 });
 
 $(document).ready(function(){
-  var $window = $(window);
+  var $window = $(window),
+      $end_of_page = $('.end_of_page'),
+      loading = false;
 
   setPageTitle("People");
 
   $window.bind('scroll.users', function() {
-    var $end_of_page = $('.end_of_page');
-
-    if ($end_of_page.length && $window.scrollTop() + $window.height() >= $end_of_page.offset().top) {
+    if (!loading && $end_of_page.length && $window.scrollTop() + $window.height() >= $end_of_page.offset().top) {
       var next_page_href = $('#load_users #rows input[name="next_page"]').eq(-1).val();
 
       if (next_page_href != 'done') {
+        loading = true;
         $('.load_more', $end_of_page).show('fast');
 
         $.ajax({
@@ -160,6 +161,7 @@ $(document).ready(function(){
           success: function(data) {
             $("#load_users #rows").append(data);
             $('.load_more', $end_of_page).hide('fast');
+            loading = false;
           }
         });
       }
