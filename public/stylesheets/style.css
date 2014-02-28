@@ -3758,8 +3758,8 @@ div .frm_input2 {
   padding-left: 0;
 }
 
+#invite_code .heading02_field .brown_bg02 { width: 200px; }
 #invite_code .heading02_field div.left { float: left; }
-#invite_code .heading02_field input { width: 300px; }
 #invite_code .validation_msg { color: red; }
 
 .add_task_popup .boxadnt {
@@ -3778,9 +3778,9 @@ div .frm_input2 {
 	background-color:rgba(0, 0, 0, 0.85);
 	max-width:58%;
 	/*height:50%;*/
-	margin:-25% 0 0 -32%;
+	margin:0 0 0 -32%;
 	left:50%;
-	top:50%;
+	top:60px;
 	padding:20px 20px;
 	position:fixed;
 	z-index:9999;

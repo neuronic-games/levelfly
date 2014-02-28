@@ -98,23 +98,11 @@
     </div>
     <div class="profile_item ">
       <div class="caption">Contact info</div>
-      <% if user_session[:profile_id] != profile.id %>
-				<div class="readonly_text" style="height:100px; width:256px;">
-					<%= formatted_html_content(profile.contact_info) %>
-				</div>
-			<% else %> 
-				<textarea name="contact_info" id="contact_info" class="" style="height:100px; width:256px;" <% if (user_session[:profile_id] == profile.id)%>placeholder="Enter your contact info" <% end %>><%=profile.contact_info %></textarea> 
-			<% end %>
-    </div>
+				<textarea name="contact_info" id="contact_info" class="" style="height:100px; width:256px;" <% if (user_session[:profile_id] == profile.id)%>placeholder="Enter your contact info" <% end %> <%= user_session[:profile_id] != profile.id ? 'disabled': ''  %> ><%=profile.contact_info %></textarea>
+      </div>
      <div class="profile_item ">
       <div class="caption" style="margin-left:12px;">Interests</div>
-			<% if user_session[:profile_id] != profile.id %>
-				<div class="readonly_text" style="height:100px; width:300px; margin-left:12px;">
-					<%= formatted_html_content(h profile.interests) %>
-				</div>
-			<% else %> 
-				<textarea name="interests" id="interests" class="" style="height:100px; width:300px; margin-left:12px;" <% if (user_session[:profile_id] == profile.id)%>placeholder="Enter your interests, separated by commas (e.g. apples, bananas, oranges)" <% end %>><%=h profile.interests %></textarea> 
-			<% end %> 
+				<textarea name="interests" id="interests" class="" style="height:100px; width:300px; margin-left:12px;" <% if (user_session[:profile_id] == profile.id)%>placeholder="Enter your interests, separated by commas (e.g. apples, bananas, oranges)" <% end %> <%= user_session[:profile_id] != profile.id ? 'disabled': ''  %>><%=h profile.interests %></textarea> 
     </div>
   </div>
 
@@ -295,6 +283,10 @@ $(document).ready(function(){
   $("#progress_stats_1").html(_xp + " XP");
   $("#progress_stats_2").html(_level_meter[_level] - _xp + " more for level " + _level);
   $("#progressbar").animate({width :  widthLevel+"px"}, 1000);
+  
+  // resize Contact info and Interests fields
+  $("#contact_info").autosize();
+  $("#interests").autosize();
   
   <% if user_session[:profile_id] != profile.id %>
     // If viewing another user, some fields are readonly. We also need to protect in the controller
