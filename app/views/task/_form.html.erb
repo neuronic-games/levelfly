@@ -121,13 +121,7 @@ function addNode(element) {
                 <div class="field_box2 font_12px"> Description
                   <fieldset>
                     <div class="dd_bg ">
-											<% if @task %>
-												<div class="dd_textarea">
-													<%=formatted_html_content(@task.descr) if @task%>
-												</div>
-											<% else %>
-												<textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea" readonly="<%= @task ? true : false %>"><%=@task.descr if @task%></textarea>
-											<% end %>
+                      <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea task_desc" readonly="<%= @task ? true : false %>" disabled><%= @task.descr if @task%></textarea>
                       
                     </div>
                   </fieldset>
@@ -358,7 +352,7 @@ function addNode(element) {
                 <div class="field_box2 font_12px"> Description
                   <fieldset>
                     <div class="dd_bg">
-                      <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea"><%=@task.descr if @task %></textarea>
+                      <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea task_descr_edit"><%=@task.descr if @task %></textarea>
                     </div>
                   </fieldset>
                 </div>
@@ -491,6 +485,10 @@ $(document).ready(function(){
   else {
     final_remaining_points = parseInt(remaining_points) + parseInt(task_points);
   }  
+  
+  // resize description boxes
+  $(".task_desc").autosize();
+  
   var max_points = 100;
   if (final_remaining_points < max_points) {
     max_points = final_remaining_points;
@@ -627,6 +625,8 @@ $(document).ready(function(){
 		//---- Selected menu will highlighted
 		document.getElementById("menu" + idx).className = "tab_open";
 		$("#div_" + idx).fadeIn();
+		$(".task_descr_edit").autosize().trigger('autosize.resize');
+		
 	}
   });
   
