@@ -185,9 +185,21 @@ class UsersController < ApplicationController
  
   def set_invite_codes
     @school = current_user.profile.school
+    student_code = params[:student_code].upcase
+    teacher_code = params[:teacher_code].upcase
 
-    @school.student_code = params[:student_code]
-    @school.teacher_code = params[:teacher_code]
+    if School.find(:first, :conditions => ['id != :id AND (student_code = :code OR teacher_code = :code)', {:id => @school.id, :code => student_code}])
+      render :json => {:status => false, :field => 'student_code'}
+      return
+    end
+
+    if School.find(:first, :conditions => ['id != :id AND (student_code = :code OR teacher_code = :code)', {:id => @school.id, :code => teacher_code}])
+      render :json => {:status => false, :field => 'teacher_code'}
+      return
+    end
+
+    @school.student_code = student_code
+    @school.teacher_code = teacher_code
 
     @school.save
 

@@ -185,6 +185,11 @@ $('#save_btn').click(function() {
       student_code_valid = $student_code[0].value.length == 0 || $student_code[0].checkValidity(),
       teacher_code_valid = $teacher_code[0].value.length == 0 || $teacher_code[0].checkValidity();
 
+  if ($student_code.val() == $teacher_code.val()) {
+    $student_code.closest('.heading02_field').find('.validation_msg').html('Codes should be different.');
+    return;
+  }
+
   if (student_code_valid && teacher_code_valid) {
     showSpinner(true);
     $.ajax({
@@ -196,10 +201,13 @@ $('#save_btn').click(function() {
       },
       success: function(data) {
         if (data) {
-          $('#invite_code').hide();
-          var success_html = '<div class="error_message">Your invite codes have been updated.</div>';
+          if (data.status) {
+            $('#invite_code').hide();
+            $('.alert').html('<div class="error_message">Your invite codes have been updated.</div>');
+          } else {
+            $('#invite_code input[name="' + data.field + '"]').closest('.heading02_field').find('.validation_msg').html('This code is already used by another school. Enter a different one.');
+          }
           showSpinner(false);
-          $('.alert').html(success_html);
         }
       }
     });
@@ -210,10 +218,9 @@ var $codeFields = $('#invite_code input[name="student_code"], #invite_code input
 
 $codeFields.blur(function() { 
   if (this.value.length && this.checkValidity()) {
-  $(this).closest('.heading02_field').find('.validation_msg').html('&nbsp;');
+    $(this).closest('.heading02_field').find('.validation_msg').html('&nbsp;');
   }
 }).bind('invalid', function() {
-  console.log(this.validity);
   $(this).closest('.heading02_field').find('.validation_msg').html('Codes must be 5 to 15 letters and/or numbers.');
 });
 
