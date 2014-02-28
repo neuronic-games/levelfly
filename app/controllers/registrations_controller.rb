@@ -12,12 +12,18 @@ class RegistrationsController < Devise::RegistrationsController
     else
       @school = school
       @role = nil
+      school_code = params[:school][:code].upcase
+
+      if params[:user][:full_name].length == 0
+        flash[:notice] = ['Enter your full name.']
+        return redirect_to new_registration_path(resource_name)
+      end
 
       if params[:school][:code].length > 0
-        if @school = School.find_by_teacher_code(params[:school][:code])
+        if @school = School.find_by_teacher_code(school_code)
           @role = RoleName.find_by_name('Teacher')
         else
-          unless @school = School.find_by_student_code(params[:school][:code])
+          unless @school = School.find_by_student_code(school_code)
             flash[:notice] = ['That school invite code does not exist.']
             return redirect_to new_registration_path(resource_name)
           end
