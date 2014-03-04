@@ -154,7 +154,7 @@ $("#send_btn").click(function() {
   $(".user").each(function(n,i){ids.push(this.id)});
   var mail_msg = $('#mail_msg').val();
   if(ids) {
-    var dataString = {ids:ids, mail_msg:escape(mail_msg)};
+    var dataString = {ids:ids, mail_msg:encodeURIComponent(mail_msg)};
     $.ajax({
       type: "POST",
       url: "users/send_message_to_all_users",
