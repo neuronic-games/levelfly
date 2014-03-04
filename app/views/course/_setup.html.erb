@@ -186,8 +186,17 @@
 			<input type="checkbox" name ="show_grade"  <%= @course && @course.show_grade ? "checked='checked'" : "" %> value="" id="show_grade"/> Allow members to view their grades
 		</span>
 		<span class="field_notes" style="font-size:10px;padding-left:17px;">(From the "Stats" page, a student can view his or her running course grade</br>and task grades you enter in the Grade Book.)</span>
+      &nbsp;
+    <span class="field_title">FILE UPLOADING PRIVILEGES</span>
+      &nbsp;
+    <span class="field_notes">
+      <input type="radio" name="allow_uploads" <% if @course && @course.allow_uploads != true %>checked="true"<%end%> value="false" id="allow_uploads_no" /> Only the organizer can upload course files
+    </span>
+      &nbsp;
+    <span class="field_notes">
+      <input type="radio" name="allow_uploads" <% if @course && @course.allow_uploads==true %> checked="true"<%end%>  value="true" id="allow_uploads_yes" /> Members can also upload course files
+    </span>
   </div>
-	
 </div>
 <div class="spacebar30px"></div>
   <input type="hidden" value="" id="outcome_index">
