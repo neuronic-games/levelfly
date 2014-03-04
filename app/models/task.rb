@@ -105,7 +105,9 @@ class Task < ActiveRecord::Base
       :conditions => ["tasks.course_id = ? and task_participants.profile_id = ? and categories.course_id = ? and tasks.archived = ?",course_id,profile_id,course_id,false], 
       :order => "percent_value,categories.name,due_date,tasks.created_at"
     ).map(&:id)
-    task_ids.concat(categorised_task_ids)
+    
+    grade_tasks_ids = TaskGrade.sort_tasks_grade(profile_id, course_id)
+    task_ids = task_ids.concat(categorised_task_ids).concat(grade_tasks_ids).uniq
     task_ids.each do |task_id|
       @tasks.push(Task.find(task_id))
     end
