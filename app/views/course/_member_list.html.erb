@@ -236,7 +236,7 @@
 		var post_message = $('#chk_message_post').is(':checked');
 		//alert(post_message);
 		if(course_id) {
-			var dataString = {id:course_id, mail_msg:escape(mail_msg), post_message:post_message, section_type:section_type};
+			var dataString = {id:course_id, mail_msg:encodeURIComponent(mail_msg), post_message:post_message, section_type:section_type};
 			$.ajax({
 				type: "POST",
 				url: "course/send_email_to_all_participants",
