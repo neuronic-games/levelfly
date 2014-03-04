@@ -1255,8 +1255,7 @@ function save_task(channel) {
       k++;
     });*/
     
-      var dataString = 'id='+ task_id +'&task='+ escape(task) + '&descr=' + escape(descr) + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&task_xp=' +task_xp + '&people_id=' + _taskPeopleObject + '&remove_people_ids=' + _taskRemovePeople + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id +'&extra_credit='+extra_credit.checked + '&all_members='+all_members;  
-
+      var dataString = 'id='+ task_id +'&task='+ escape(task) + '&descr=' + encodeURIComponent(descr) + '&course_id=' + course_id + '&category_id=' + category_id + '&due_date=' + due_date + '&outcomes=' +outcomeObject + '&task_xp=' +task_xp + '&people_id=' + _taskPeopleObject + '&remove_people_ids=' + _taskRemovePeople + '&people_email=' + _addTaskPeopleEmailObject + '&school_id=' +school_id +'&extra_credit='+extra_credit.checked + '&all_members='+all_members;  
 
     //alert(dataString); return false;
     if( changed == true){
