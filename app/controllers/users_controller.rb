@@ -123,7 +123,7 @@ class UsersController < ApplicationController
     @profile.full_name = params[:name] if params[:name]
 
     if current_user.profile.has_role(Role.modify_settings) || (@profile.role_name.name != 'Levelfly Admin' && RoleName.find(params[:role_name_id]).name != 'Levelfly Admin')
-      @profile.role_name_id = params[:role_name_id]
+      @profile.role_name = RoleName.find(params[:role_name_id])
     end
 
     @user.email = params[:email] if params[:email]
