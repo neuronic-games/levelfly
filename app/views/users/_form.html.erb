@@ -123,8 +123,11 @@
   var _avatar;
   $(document).ready(function(){
     $("#save_user_btn").click(function(){
-      var valid = false
-      valid = validate_form()
+      var valid = false,
+          user_status = 'A';
+
+      valid = validate_form();
+
       if(valid==true){
          $.each($('input[name="user_status[]"]'), function(){
           /*status = $(this).is(":checked");*/
