@@ -68,6 +68,14 @@
              <input type="radio" name="post_messages" <% if @course && @course.post_messages==true %> checked="true"<%end%>  value="true" id="post_messages" /><span>Members can also post</span>
            </div><br />
          </div>
+         <div class="group_privacy">FILE UPLOADING PRIVILEGES
+            <div class="privacy_setting">
+             <input type="radio" name="allow_uploads" <% if @course && @course.allow_uploads != true %>checked="true"<%end%> value="false" id="allow_uploads_no" /><span>Only the organizer can upload group files</span>
+            </div>
+            <div class="privacy_setting">
+             <input type="radio" name="allow_uploads" <% if @course && @course.allow_uploads==true %> checked="true"<%end%>  value="true" id="allow_uploads_yes" /><span>Members can also upload group files</span>
+           </div><br />
+         </div>
         
          <div class="clear"></div>  
          
