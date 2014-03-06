@@ -296,6 +296,19 @@ a.icon_users_active {
   box-shadow:inset 0px 0px 2px 1px #000000;
 }
 
+.small_avatar_white_bdr {
+  border:#eaebeb 2px solid;
+  width: 36px;
+  height: 36px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background:url(../images/avatar_bg.jpg) no-repeat center;
+  -moz-box-shadow:inset 0px 0px 2px 1px #000000;
+  -webkit-box-shadow:inset 0px 0px 2px 1px #000000;
+  box-shadow:inset 0px 0px 2px 1px #000000;
+}
+
 /*.message_wrapper_group{
     float:right;
     width:404px;
@@ -318,12 +331,20 @@ a.icon_users_active {
   width:80px;
   height:80px;
 }
+
 .forum_avatar_white_bdr  img{
   margin-top: -9px;
   margin-left: -10px;
   width:80px;
   height:80px;
 }
+
+.small_avatar_white_bdr img {
+  margin: -5px 0 0 -5px;
+  width: 40px;
+  height: 40px;
+}
+
 .msg_big_box .msg_big_box_arrow {
   /*float:right;
   padding:30px 0 0 0;*/
@@ -3002,12 +3023,12 @@ input[type="button"].grading_Btn4 {
 .Grade_left_panel{
 	float:left;
 	height:auto;
-	width:53%;/*60*/
+	width: 69%;/*60*/
 }
 .Grade_right_panel{
 	float:left;
 	height:auto;
-	max-width:47%;/*40*/
+	max-width: 31%;/*40*/
 	position:relative;
 	overflow-x: scroll; 
 	overflow: -moz-scrollbars-horizontal;
