@@ -379,7 +379,7 @@ class CourseController < ApplicationController
 		post_message = params[:post_message] == "true" ? true : false if params[:post_message]
 		@course = Course.find(params[:id])
 		if @course
-			@peoples = Profile.find(
+			@people = Profile.find(
          :all, 
          :include => [:participants], 
          :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type in ('S', 'M')", @course.id,section_type]
@@ -405,14 +405,12 @@ class CourseController < ApplicationController
         end
 			end
 			
-			if @peoples
+			if @people
 				@msg_content = CGI::unescape(params[:mail_msg])
 				@current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
 				#threads = []
-				@peoples.each do |people|
-					#threads << Thread.new do
-          Message.save_message(@current_user,people,"Profile",@msg_content,"Message",@course)
-          #end
+				@people.each do |person|
+          UserMailer.course_private_message(person.user.email, @current_user, @current_user.school, @course, @msg_content).deliver
 				end
 				#threads.each(&:join)
 				status = true
