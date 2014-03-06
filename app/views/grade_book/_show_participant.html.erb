@@ -22,6 +22,9 @@
         <%if !@participant.nil?%><!--Data load for each paticipants-->
         <% @participant.each do |p|%>
           <tr class="<%= cycle("GB_odd","")%>">
+            <td class="avatar_box td_align">
+              <div class="small_avatar_white_bdr profile" profile_id="<%= p.profile_id %>"><img width="35" src="<%= p.profile.image_file_name %>"></div>
+            </td>
             <td width="63%" class="Name_box td_align"><%= p.full_name%></td><!-- td_align-->
             <%participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, @course_id,@school_id)%>
             <%val = participant_grade[@course_id]%>
@@ -39,6 +42,7 @@
         <%if @count && @count<10%><!--load empty rows if participants less then 10-->
           <%for i in (@count..9)%>
             <tr class="<%= cycle("GB_odd","")%>">
+            <td class="avatar_box td_align"></td>
             <td width="63%" class="Name_box td_align"></td><!-- td_align-->
             
             <td class="td_align"> 
