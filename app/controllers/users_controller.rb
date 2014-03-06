@@ -39,6 +39,7 @@ class UsersController < ApplicationController
  def show
     if params[:id] and !params[:id].nil?
       @profile = Profile.find(params[:id])
+      @disable_edit = @profile && @profile.has_role(Role.modify_settings) && !current_user.profile.has_role(Role.modify_settings)
       @avatar = @profile.avatar.to_json
       if @profile
         respond_to do |wants|
@@ -119,18 +120,20 @@ class UsersController < ApplicationController
      end
   end
   if @profile
-    @user = User.find(@profile.user_id) 
+    @user = @profile.user
     @profile.full_name = params[:name] if params[:name]
 
-    if current_user.profile.has_role(Role.modify_settings) || (@profile.role_name.name != 'Levelfly Admin' && RoleName.find(params[:role_name_id]).name != 'Levelfly Admin')
-      @profile.role_name = RoleName.find(params[:role_name_id])
+    @can_edit = current_user.profile.has_role(Role.modify_settings) || !@profile.has_role(Role.modify_settings)
+
+    if @can_edit
+      @profile.role_name = RoleName.find(params[:role_name_id]) if params[:role_name_id]
+      @user.email = params[:email] if params[:email]
+      @user.status = params[:status] if params[:status]
+      @user.password = params[:user_password] if params[:user_password]
+      @user.save
+      @profile.save
     end
 
-    @user.email = params[:email] if params[:email]
-    @user.status = params[:status] if params[:status]
-    @user.password = params[:user_password] if params[:user_password]
-    @user.save
-    @profile.save
     status = true
   end
   render :text => {:status=>status, :email_exist =>email_exist}.to_json  
