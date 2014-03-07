@@ -20,7 +20,7 @@ class School < ActiveRecord::Base
   end
 
   def default_school?
-    self.handle == "bmcc"
+    self.handle == "demo"
   end
   
   def self.new_school(school_name, code, handle)

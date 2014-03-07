@@ -5,7 +5,7 @@ class SessionsController < Devise::SessionsController
   private
   
   def identify_school
-    default_school = School.find_by_handle("bmcc")
+    default_school = School.find_by_handle("demo")
     session[:school_id] = default_school.id
     session[:slug] = params[:slug] ? params[:slug] : ""
     school = School.find_by_handle(params[:slug])
