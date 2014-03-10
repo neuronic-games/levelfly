@@ -207,35 +207,35 @@ Y,1,,Legs,Casual,bottom,Black Skinny Jeans,,bottoms,black_tight_jean.png,bottoms
 ,1,,Legs,Dressy,bottom,Grey Trousers,Gray Trousers,bottoms,gray_brown_long_trouser.png,bottoms,gray_brown_long_trouser_icon.png
 ,1,,Legs,Dressy,bottom,Short Brown Skirt,,bottoms,skirt_short_brown.png,bottoms,skirt_short_brown_icon.png
 ,1,,Legs,Dressy,bottom,Short Pink Skirt,,bottoms,skirt_short_pink.png,bottoms,skirt_short_pink_icon.png
-Y,2,BMCC,Body,Casual,top,BMCC 1,,tops,bmcc_blue.png,tops,bmcc_blue_icon.png
+Y,2,BMCC T-shirts,Body,Casual,top,BMCC 1,,tops,bmcc_blue.png,tops,bmcc_blue_icon.png
 Y,2,,Body,Casual,top,BMCC 2,,tops,bmcc_light_gray.png,tops,bmcc_light_gray_icon.png
 Y,2,,Body,Casual,top,BMCC 3,,tops,bmcc_small_logo.png,tops,bmcc_small_logo_icon.png
 Y,2,,Body,Casual,top,BMCC 4,,tops,bmcc_yellow_small_logo.png,tops,bmcc_yellow_small_logo_icon.png
-Y,3,Basketball,Body,Sporty,top,,,tops_sporty,basketball_dress.png,tops_sporty,basketball_dress_icon.png
+Y,3,Basketball Uniform,Body,Sporty,top,,,tops_sporty,basketball_dress.png,tops_sporty,basketball_dress_icon.png
 Y,3,,Body,Sporty,top,Basketball Jersey,,tops,basketball_t_shirt.png,tops,basketball_t_shirt_icon.png
 Y,3,,Feet,Sporty,shoes,Basketball Shoes,,shoes,basketball_shoe.png,shoes,basketball_shoe_icon.png
 Y,3,,Legs,Sporty,bottom,Basketball Shorts,,bottoms,basketball_short.png,bottoms,basketball_short_icon.png
-,4,Urban Chic,Accessories,Jewelry,earrings,Nosestud,Nose Stud,earrings,nose_stud.png,earrings,nose_stud_icon.png
+,4,Urban Chic Accessories,Accessories,Jewelry,earrings,Nosestud,Nose Stud,earrings,nose_stud.png,earrings,nose_stud_icon.png
 Y,4,,Accessories,Misc,prop,Sunglasses,,glasses,shade_black.png,glasses,shade_black_icon.png
-,5,Superhero,Body,Misc,top,Purple Power,Superhero,tops,purple_superhero_top.png,tops,purple_superhero_top_icon.png
+,5,Superhero Costume,Body,Misc,top,Purple Power,Superhero,tops,purple_superhero_top.png,tops,purple_superhero_top_icon.png
 Y,5,,Body,Misc,top,,,tops_misc,purple_superhero_dress.png,tops_misc,purple_superhero_dress_icon.png
-Y,6,Cowboy,Body,Misc,top,Cowboy Vest,,tops,cowboy_top_without_court.png,tops,cowboy_top_without_court_icon.png
+Y,6,Cowboy Outfit,Body,Misc,top,Cowboy Vest,,tops,cowboy_top_without_court.png,tops,cowboy_top_without_court_icon.png
 Y,6,,Body,Misc,top,,,tops_misc,cowboy_dress.png,tops_misc,cowboy_dress_icon.png
 ,6,,Head,Misc,hat,Cowboy,Cowboy Hat,hats,cowboy_hat.png,hats,cowboy_hat_icon.png
 Y,6,,Legs,Misc,bottom,Cowboy Chaps,,bottoms,cowboy_bottom.png,bottoms,cowboy_bottom_icon.png
-Y,7,Skater,Accessories,Hobbies,prop,Skateboard,,props,skateboard.png,props,skateboard_icon.png
+Y,7,Skater Accessories,Accessories,Hobbies,prop,Skateboard,,props,skateboard.png,props,skateboard_icon.png
 ,7,,Accessories,Gadgets,prop,Headphones,,props,headphone.png,props,headphone_icon.png
-Y,8,Doctor,Accessories,Misc,prop,Stethoscope,,props,stethoscope.png,props,stethoscope_icon.png
+Y,8,Doctor Accessories,Accessories,Misc,prop,Stethoscope,,props,stethoscope.png,props,stethoscope_icon.png
 Y,8,,Body,Career,top,,,tops_career,doctor_dress.png,tops_career,doctor_dress_icon.png
-Y,9,Business,Body,Dressy,top,Red Tie,,tops,red_tie_shirt_long_sleeve.png,tops,red_tie_shirt_long_sleeve_icon.png
+Y,9,Business Outfits,Body,Dressy,top,Red Tie,,tops,red_tie_shirt_long_sleeve.png,tops,red_tie_shirt_long_sleeve_icon.png
 Y,9,,Body,Dressy,top,Argyle Sweater,,tops,shirt_long_sleeve_with_jacket.png,tops,shirt_long_sleeve_with_jacket_icon.png
 Y,9,,Body,Dressy,top,Blue Tie,,tops,tie_shirt_long_sleeve_yellow.png,tops,tie_shirt_long_sleeve_yellow_icon.png
 Y,9,,Legs,Dressy,bottom,Black Trousers,,bottoms,trousers_long_black.png,bottoms,
 Y,9,,Legs,Dressy,bottom,Brown Trousers,,bottoms,trousers_long_brown.png,bottoms,trousers_long_brown_icon.png
-Y,10,Army,Body,Career,top,,,tops_career,army_dress.png,tops_career,army_dress_icon.png
+Y,10,Army Uniform,Body,Career,top,,,tops_career,army_dress.png,tops_career,army_dress_icon.png
 Y,10,,Body,Career,top,Army Shirt 1,,tops,shirt_army.png,tops,shirt_army_icon.png
 Y,10,,Body,Career,top,Army Shirt 2,,tops,t_shirt_army.png,tops,t_shirt_army_icon.png
-Y,11,Jewelry,Accessories,Jewelry,earrings,Sapphire Earrings,,earrings,earring_blue.png,earrings,earring_blue_icon.png
+Y,11,New Jewelry,Accessories,Jewelry,earrings,Sapphire Earrings,,earrings,earring_blue.png,earrings,earring_blue_icon.png
 Y,11,,Accessories,Jewelry,earrings,Ruby Earrings,,earrings,earring_red.png,earrings,earring_red_icon.png
 Y,11,,Accessories,Jewelry,earrings,Silver Drop Earrings,,earrings,earring_silver_1.png,earrings,earring_silver_1_icon.png
 Y,11,,Accessories,Jewelry,earrings,Silver Stud Earrings,,earrings,earring_silver_2.png,earrings,earring_silver_2_icon.png
@@ -243,17 +243,17 @@ Y,11,,Accessories,Jewelry,necklace,Silver Necklace 1,,necklace,necklace_silver_1
 Y,11,,Accessories,Jewelry,necklace,Silver Necklace 2,,necklace,necklace_silver_2.png,necklace,necklace_silver_2_icon.png
 Y,11,,Accessories,Jewelry,necklace,Diamond Necklace 1,,necklace,necklace_diamond_1.png,necklace,necklace_diamond_1_icon.png
 Y,11,,Accessories,Jewelry,necklace,Diamond Necklace 2,,necklace,necklace_diamond_2.png,necklace,necklace_diamond_2_icon.png
-Y,12,Pirate,Legs,Misc,bottom,Pirate Bottom,,bottoms,pirate_bottom.png,bottoms,pirate_bottom_icon.png
+Y,12,Pirate Costume,Legs,Misc,bottom,Pirate Bottom,,bottoms,pirate_bottom.png,bottoms,pirate_bottom_icon.png
 Y,12,,Feet,Misc,shoes,Pirate Boots,,shoes,pirate_boot.png,shoes,pirate_boot_icon.png
 Y,12,,Body,Misc,top,Pirate Top,,tops,pirate_top.png,tops,pirate_top_icon.png
 Y,12,,Body,Misc,top,,,tops_misc,pirates_dress.png,tops_misc,pirates_dress_icon.png
 Y,12,,Head,Misc,hat,Pirate Hat 1,,hats,jolly_roger_pirate_hat.png,hats,
 Y,12,,Head,Misc,hat,Pirate Hat 2,,hats,pirate_hat.png,hats,pirate_hat_icon.png
-Y,13,Shirt,Body,Casual,top,Pink Flower Print,,tops,pink_sleeveless_shirt.png,tops,pink_sleeveless_shirt_icon.png
+Y,13,New Shirts,Body,Casual,top,Pink Flower Print,,tops,pink_sleeveless_shirt.png,tops,pink_sleeveless_shirt_icon.png
 Y,13,,Body,Casual,top,Gray Polo,,tops,short_sleeve_gray.png,tops,short_sleeve_gray_icon.png
-Y,14,Referee,Body,Career,top,,,tops_career,referee_dress.png,tops_career,referee_dress_icon.png
+Y,14,Referee Uniform,Body,Career,top,,,tops_career,referee_dress.png,tops_career,referee_dress_icon.png
 Y,14,,Body,Career,top,Referee Shirt,,tops,referee_t_shirt.png,tops,referee_t_shirt_icon.png
-Y,15,Golfer,Body,Sporty,top,Golf Shirt Blue,,tops,golf_t_shirt_blue.png,tops,golf_t_shirt_blue_icon.png
+Y,15,Golfer Outfit,Body,Sporty,top,Golf Shirt Blue,,tops,golf_t_shirt_blue.png,tops,golf_t_shirt_blue_icon.png
 Y,15,,Body,Sporty,top,Golf Shirt Pink,,tops,golf_t_shirt_pink.png,tops,golf_t_shirt_pink_icon.png
 Y,15,,Body,Sporty,top,,,tops_sporty,golf_dress.png,tops_sporty,golf_dress_icon.png
 Y,15,,Feet,Sporty,shoes,Golf Shoes,,shoes,golf_shoe.png,shoes,golf_shoe_icon.png
@@ -263,30 +263,30 @@ Y,16,Sports Equipment,Accessories,Hobbies,prop,Football,,props,american_football
 Y,16,,Accessories,Hobbies,prop,Baseball Bat,,props,baseball_bat.png,props,baseball_bat_icon.png
 Y,16,,Accessories,Hobbies,prop,Basketball,,props,basketball.png,props,basketball_icon.png
 Y,16,,Accessories,Hobbies,prop,Golf Stick,,props,golf_stick.png,props,golf_stick.png
-Y,17,Policeman,Body,Career,top,Police Top,,tops,police_top.png,tops,police_top_icon.png
+Y,17,Policeman Uniform,Body,Career,top,Police Top,,tops,police_top.png,tops,police_top_icon.png
 Y,17,,Body,Career,top,,,tops_career,policeman_dress.png,tops_career,policeman_dress_icon.png
 Y,17,,Head,Misc,hat,Police Hat,,hats,police_hat.png,hats,
 Y,17,,Legs,Career,bottom,Police Bottom,,bottoms,police_trouser.png,bottoms,
-Y,18,Farmer,Body,Career,top,Farmer Overalls,,tops,farmer_tops.png,tops,farmer_tops_icon.png
+Y,18,Farmer Outfit,Body,Career,top,Farmer Overalls,,tops,farmer_tops.png,tops,farmer_tops_icon.png
 Y,18,,Body,Career,top,,,tops_career,farmer_dress.png,tops_career,farmer_dress_icon.png
 Y,18,,Head,Misc,hat,Calypso Hat,,hats,calypso_hat.png,hats,
-Y,19,Tees,Body,Casual,top,Purple T,,tops,short_sleeve_purple.png,tops,short_sleeve_purple_icon.png
+Y,19,Cool T-shirts,Body,Casual,top,Purple T,,tops,short_sleeve_purple.png,tops,short_sleeve_purple_icon.png
 Y,19,,Body,Casual,top,Gray T,,tops,short_sleeve_tattoo.png,tops,short_sleeve_tattoo_icon.png
 Y,19,,Body,Casual,top,Skinny Black T,,tops,skinny_black.png,tops,skinny_black_icon.png
-Y,20,Hiker,Body,Sporty,top,Hiker Top,,tops,hiking_jacket_red.png,tops,hiking_jacket_red_icon.png
+Y,20,Hiker Gear,Body,Sporty,top,Hiker Top,,tops,hiking_jacket_red.png,tops,hiking_jacket_red_icon.png
 Y,20,,Body,Sporty,top,,,tops_sporty,hiking_dress.png,tops_sporty,hiking_dress_icon.png
 Y,20,,Feet,Sporty,shoes,Hiking Shoes,,shoes,hiking_shoe.png,shoes,hiking_shoe_icon.png
 Y,20,,Legs,Sporty,bottom,Hiker Bottom,,bottoms,hiking_short.png,bottoms,
-Y,21,Spanish Dancer,Body,Dressy,top,,,tops_dressy,spanish_dress.png,tops_dressy,spanish_dress_icon.png
+Y,21,Spanish Dancer Outfit,Body,Dressy,top,,,tops_dressy,spanish_dress.png,tops_dressy,spanish_dress_icon.png
 Y,21,,Body,Misc,top,Dancer Jacket,,tops,spanish_top.png,tops,spanish_top_icon.png
 Y,21,,Body,Misc,top,Dancer Blouse,,tops,spanish_women_red_top.png,tops,spanish_women_red_top.png
 Y,21,,Feet,Misc,shoes,Dancer Shoes,,shoes,black_spanish_shoe.png,shoes,
 Y,21,,Legs,Misc,bottom,Dancer Trousers,,bottoms,black_spanish_trouser.png,bottoms,
 Y,21,,Legs,Misc,bottom,Long Red Skirt,,bottoms,spanish_long_red_skirt.png,bottoms,
-Y,22,Instrument,Accessories,Hobbies,prop,Bongo Drum,,props,bongo_drum.png,props,bongo_drum_icon.png
+Y,22,Instruments,Accessories,Hobbies,prop,Bongo Drum,,props,bongo_drum.png,props,bongo_drum_icon.png
 Y,22,,Accessories,Hobbies,prop,Acoustic Guitar,,props,guitar_brown.png,props,guitar_brown_icon.png
 Y,22,,Accessories,Hobbies,prop,Saxophone,,props,saxophone.png,props,saxophone_icon.png
-Y,23,Devil,Accessories,Misc,prop,Red Gloves,,glove,devil_glove.png,glove,devil_glove_icon.png
+Y,23,Devil Costume,Accessories,Misc,prop,Red Gloves,,glove,devil_glove.png,glove,devil_glove_icon.png
 ,23,,Accessories,Misc,prop,Pitchfork,,props,pitchfork.png,props,pitchfork_icon.png
 Y,23,,Body,Misc,top,Devil Vest,,tops,devil_shirt.png,tops,devil_shirt_icon.png
 Y,23,,Body,Misc,top,,,tops_misc,devil_dress.png,tops_misc,devil_dress_icon.png
@@ -294,13 +294,13 @@ Y,23,,Body,Misc,top,Devil Dress,,tops_misc,devil_short_dress.png,tops_misc,devil
 Y,23,,Feet,Misc,shoes,Devil Boots,,shoes,devil_boot.png,shoes,devil_boot_icon.png
 Y,23,,Head,Misc,hat,Devil Horns,,hats,devil_horns.png,hats,devil_horns_icon.png
 Y,23,,Legs,Misc,bottom,Devil Trousers,,bottoms,trouser_devil.png,bottoms,trouser_devil_icon.png
-Y,24,Witch,Accessories,Misc,prop,Broom,,props,broom.png,props,broom_icon.png
+Y,24,Witch Costume,Accessories,Misc,prop,Broom,,props,broom.png,props,broom_icon.png
 Y,24,,Body,Misc,top,Witch Dress,,tops_misc,witch_black_dress.png,tops_misc,witch_black_dress_icon.png
 Y,24,,Head,Misc,hat,Witch Hat,,hats,witch_black_hat.png,hats,
 Y,25,Body Art,Accessories,Misc,prop,Tattoo,,tattoo,tattoo.png,tattoo,tattoo_icon.png
 Y,25,,Head,Misc,prop,Mole,,facial_marks,mole.png,facial_marks,mole_icon.png
 Y,25,,Head,Misc,prop,Red Lipstick,,makeup,makeup_red_lips.png,makeup,makeup_red_lips_icon.png
-,26,Santa,Body,Misc,top,Santa,Santa Top,tops,santa_top.png,tops,santa_top_icon.png
+,26,Santa Costume,Body,Misc,top,Santa,Santa Top,tops,santa_top.png,tops,santa_top_icon.png
 ,26,,Body,Misc,top,,,tops_misc,santa_dress.png,tops_misc,santa_dress_icon.png
 Y,26,,Head,Misc,hat,Santa Hat,,hats,santa_hat.png,hats,santa_hat_icon.png
 ,26,,Legs,Misc,bottom,Santa,Santa Bottom,bottoms,santa_trouser.png,bottoms,santa_trouser_icon.png
