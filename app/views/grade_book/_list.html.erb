@@ -864,6 +864,7 @@ $(document).ready(function(){
    {
     var id = $(this).attr("id");
     if($(this).attr("rel")=="grade_column"){
+      arr_profile = [];
       var values = [];
       entire_column = true;
       last_fills=[];
@@ -885,12 +886,12 @@ $(document).ready(function(){
         grades = [];
         var ids= click_id.split("_");
         var profile_id = ids[1];
+        arr_profile.push(profile_id);
         arr_rel.push(rel);
         arr_ids.push(click_id);
       });
       pg = last_fills;
       arr_rel2 = arr_rel;
-      arr_profile = [profile_id];
       save_grade(values,click_id,arr_rel,arr_profile,pg,entire_column,id)
      } 
    }
@@ -965,6 +966,11 @@ $(document).ready(function(){
       $("#"+next_profile_id).focus();
       return false;
     }
+  });
+
+  // stop Chrome from de-selecting an input field
+  $(".grade_book_content").delegate("input", "mouseup", function(e) {
+    return false;
   });
   
   //Save grade on click

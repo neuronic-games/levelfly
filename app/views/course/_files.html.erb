@@ -82,7 +82,7 @@ $(document).ready(function(){
     <% end %>
   
      <% if @courseMaster %>
-       <% if @courseMaster.id != user_session[:profile_id] %>
+       <% if @courseMaster.id != user_session[:profile_id] && !@course.allow_uploads %>
        $("#show_file").css("display","none");
        <%end%>
      <%end%>

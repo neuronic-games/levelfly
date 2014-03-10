@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Levelfly</title>
+  <title>Levelfly<% if (ENV['APP_ENV'] != 'production') %> [TESTING]<% end %></title>
 
+	<meta name="description" content="Levelup learning with Levelfly." />
+	
   <meta name="viewport" content="width=device-width;" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -20,13 +22,8 @@
   <script type="text/javascript">
     
     var _gaq = _gaq || [];
-     <% if (ENV['APP_NAME'] == 'Levelfly') %>
-      _gaq.push(['_setAccount', 'UA-44679323-1']);
-      _gaq.push(['_trackPageview']);
-     <% elsif (ENV['APP_NAME'] == 'oncampus') %>
-      _gaq.push(['t._setAccount', 'UA-45153089-1']);
-      _gaq.push(['t._trackPageview']);
-    <% end %>
+    _gaq.push(['t._setAccount', '<%= ENV['GA_ACCOUNT'] %>']);
+    _gaq.push(['t._trackPageview']);
     
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -44,6 +41,6 @@
 
   <div id="dialog" class="dialog"></div>
   <div id="waiting" class="waiting"><img src="/images/ajax-loader.gif"></div>
-
+  <script>$(function() { $.jStorage.publish('logout', true); });</script>
 </body>
 </html>

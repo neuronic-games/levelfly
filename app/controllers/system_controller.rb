@@ -14,25 +14,29 @@ class SystemController < ApplicationController
   end
   
   def new_user
-  if params[:link] and !params[:link].nil?
-     invitation_link = Course.hexdigest_to_digest(params[:link])
-     links = invitation_link.split("&")
-     @user = User.find(:first, :conditions=>["email = ?",links[0]])
-     @message = links[1]
-     if @user.nil? or @user.sign_in_count > 0
-       session[:email] = @user.email
-       profile = Profile.find(:first, :conditions=>["user_id = ?",@user.id])
-       accept_course_invitation(@message,profile)
-       redirect_to root_path
-     end
-   else
+    if params[:link] and !params[:link].nil?
+      invitation_link = Course.hexdigest_to_digest(params[:link])
+      links = invitation_link.split("&")
+      @user = User.find(:first, :conditions=>["email = ? OR id = ?", links[0], links[0].to_i])
+      @message = links[1]
+      if @user.nil? 
+        flash[:notice] = "This invitation is no longer valid. Please contact the person who sent you the invite and ask them to send you a new invite."
+        redirect_to new_user_session_url
+      elsif @user.sign_in_count > 0
+        session[:email] = @user.email
+        profile = Profile.find(:first, :conditions=>["user_id = ?",@user.id])
+        accept_course_invitation(@message,profile)
+        redirect_to root_path
+      end
+    else
       redirect_to root_path
-   end
+    end
   end
   
   def edit
     @user = User.find(:first, :conditions=>["id = ?",params[:id]])
     @user.password=params[:user][:password]
+    @user.skip_confirmation!
     if @user.save
       profile = Profile.find(:first, :conditions=>["user_id = ?",@user.id])
       profile.full_name = params[:user][:full_name]

@@ -13,7 +13,7 @@
   </div>
   <div class="positn_rtlv"><div class="msg_big_box_arrow"><img src="/images/blue_arrow.png" width="15px" height="21px" /></div></div>
     <div class="msg_box_txt blue_bg_msg_txt">
-    <div class ="topic_div" id ="topic_<%=message.id%>" rel ="<%=message.id%>">
+    <div class ="topic_div" id ="topic_<%=message.id%>" rel ="<%=message.id%>" >
       <div class="FloatL"><h3 class="name"><%=h message.profile.full_name%></h3></div>
         <!--message topic-->
         <% @message_page=false%>
@@ -28,12 +28,12 @@
            <% @message_page=true%>
         <%end%>
         <%if (message.profile_id == user_session[:profile_id]) %>
-          <div class="FloatL <%if message.topic and message.topic.length>0 %>hide<%else%>edit_topic_btn<%end%>" id ="at_<%=message.id%>" style="padding:0 0 0 10px;">
+          <div class="FloatL <%if message.topic and message.topic.length>0 %>hide<%else%>edit_topic_btn<%end%>" id ="at_<%=message.id%>" style="padding:0 0 0 5px;">
             <a href="javascript:void(0);" class="blue_bt19px add_topic" id="add_topic_<%=message.id%>" rel="<%=message.id%>">ADD TOPIC</a>
           </div>
           <%end%>  
-          <div class="FloatL" style="padding:0 0 0 10px; width:65%">
-            <input type="text" name="topic_content" id="topic_content_<%=message.id%>" class="topic_input <%if message.topic.blank?%>hide<%end%>" style="width: 100%;" maxlength="65" value="<%=message.topic%>" readonly="readonly" rel="<%=message.id%>"/>
+          <div class="FloatL message_topic" style="padding:0 0 0 5px; width: 60%; overflow: hidden; text-overflow: ellipsis;">
+            <input type="text" name="topic_content" id="topic_content_<%=message.id%>" class="topic_input <%if message.topic.blank?%>hide<%end%>" style="width: 100%; overflow: hidden; text-overflow: ellipsis;" maxlength="60" value="<%=message.topic%>" readonly="readonly" rel="<%=message.id%>"/>
           </div>
          <%if message.profile_id == user_session[:profile_id]%>
           <div class="FloatR <%if !message.topic.blank?%>edit_topic_btn<%else%>hide<%end%>" id ="et_<%=message.id%>">
@@ -67,7 +67,7 @@
             <%end%>
           </span>
          <%end%> 
-          <%if (message.profile_id == user_session[:profile_id] or @course_owner==true) and session[:controller] != 'message'%>
+          <%if (message.profile_id == user_session[:profile_id] or @course_owner==true) or (session[:controller] == 'message') %>
              <span id="delete_<%=message.id%>">
              <a href="javascript:void(0);" class="message_del blue_bt19px" rev ="message" rel="<%=message.id %>">DELETE</a>
              </span>
@@ -117,6 +117,15 @@
 
 <!-- comments ends -->
 <script type="text/javascript">
+$(function(){
+	if (show_post_date =="D"){
+		$(".words").removeClass("hide");
+	    $(".dates").addClass("hide");
+	}else{
+		$(".dates").removeClass("hide");
+		$(".words").addClass("hide");
+	}
+});
 function view_all_comment(message_id){
    $("#comment_box_"+message_id+".msg_small_box").show();
    $("#show_all_coments_"+message_id).css("display","none");

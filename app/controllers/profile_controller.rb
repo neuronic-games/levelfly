@@ -6,7 +6,17 @@ class ProfileController < ApplicationController
     @profile = Profile.find(user_session[:profile_id])
     if params[:search_text]
       search_text =  "%#{params[:search_text]}%"
-      @profiles = Profile.find(:all, :include => [:user], :conditions=>["school_id = ? and lower(full_name) LIKE ? and user_id is not null and users.status != 'D'",@profile.school_id, search_text.downcase], :order => "full_name")
+      @profiles = Profile.find(
+        :all,
+        :include => [:user],
+        :conditions => [
+          "school_id = ? and (lower(full_name) LIKE ? OR lower(users.email) LIKE ?) and user_id is not null and users.status != 'D'",
+          @profile.school_id,
+          search_text.downcase,
+          search_text.downcase
+        ],
+        :order => "full_name"
+      )
     end
     respond_to do |wants|
       wants.html do
@@ -245,6 +255,19 @@ class ProfileController < ApplicationController
     @profile.all_comments = params[:show]== "true" ? true : false
     @profile.save
     render :json => {:message => @profile.all_comments, :status => true}
+  end
+  
+  def update_show_date
+    if params[:id] and params[:update]
+      @profile = Profile.find(params[:id])
+      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id]) unless @profile
+      @profile.post_date_format = @profile.post_date_format == "D" ? "E" : "D"
+      if @profile.save
+        render :json =>{:status =>true, :show => @profile.post_date_format}
+      else
+        render :json =>{:status =>false}
+      end 
+    end
   end
   
 end

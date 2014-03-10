@@ -10,15 +10,17 @@
     <div class="left_content_box">	
       <h1 style="color:white;">Game your learning. Game your life.</h1>
         <div class="clear"></div>
-        Coming to your web browsers everywhere.
+        <span class="blue">Version <%= APP_VERSION %></span>
          <div class="clear"></div>
           <div class="Divider_15"></div>
         </div><!--left_content_box-->
   </div><!--Panel_Left-->
    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <div class="Panel_Rirght">
-  	<div><h3 style="color:white;margin-top:0px;"> <%= session[:slug].blank? ? "" : school.name %> </h3></div>
-	<div class="Divider_70"></div>
+		<div>
+			<img src="/images/levelfly_tag.png" alt="Levelfly" width="392" height="171"><br>
+			<h3 style="color:white;margin-top:0px;"><%= session[:slug].blank? ? "" : school.name %></h3></div>
+		<div class="Divider_90"></div>
     <div class="Sign_in_wp">
         <div class="sign_in_box"><h1>Register </h1></div><!--sign_in-box-->
         <div class="creat_text">
@@ -29,7 +31,7 @@
         <div class="Divider_15"></div>
         <div class="clear"></div>
          <div class="text_box_wp">
-             <%= f.text_field :full_name, :class=>"txt_box",:style=>"width:378px;" , :placeholder=>"Full Name"%>
+             <%= f.text_field :full_name, :class=>"txt_box", :style=>"width:378px;", :placeholder=>"Full Name", :required => true %>
         </div><!--text_box_wp-->
          <div class="Divider_15"></div>
         <div class="clear"></div>
@@ -43,8 +45,8 @@
         </div><!--text_box_wp-->
          <div class="Divider_15"></div>
         <div class="clear"></div>
-         <div class="text_box_wp">
-             <%= f.password_field :password_confirmation, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Confirm Password" %>
+        <div class="text_box_wp">
+          <input name="school[code]" id="school_code" placeholder="School Invite Code" type="text" class="txt_box" style="width: 378px">
         </div><!--text_box_wp-->
         <div class="Divider_15"></div>
         <div class="clear"></div>

@@ -104,5 +104,13 @@ class TaskGrade < ActiveRecord::Base
     return average,previous_grade if flag
     return nil,previous_grade
   end
+  
+  def self.sort_tasks_grade(profile_id, course_id)
+    graded_tasks_ids = TaskGrade.find(:all, 
+    :include => [:task],
+    :conditions => ["task_grades.course_id = ? and task_grades.profile_id = ? and task_grades.grade IS NOT NULL and tasks.archived = 'false'", course_id, profile_id]).map(&:task_id)
+    return graded_tasks_ids
+  end
+  
 
 end

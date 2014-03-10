@@ -3,6 +3,8 @@ class Profile < ActiveRecord::Base
   belongs_to :major
   belongs_to :school
   belongs_to :user
+  belongs_to :role_name
+  
   has_many :participants
 	has_many :task_participants
   has_many :profile_actions
@@ -20,11 +22,11 @@ class Profile < ActiveRecord::Base
       profile = new_profile.dup
       profile.user_id = user_id
       profile.code = nil
+      profile.role_name = RoleName.find_by_name('Student')
       profile.save
       avatar = new_profile.avatar.dup
       avatar.profile_id = profile.id
       avatar.save
-      Role.set_user_role(profile.id)
     end
     return profile
   end
@@ -82,11 +84,49 @@ class Profile < ActiveRecord::Base
     level_reward = Reward.find(:first, :conditions => ["xp <= ? and target_type = 'level'",  self.xp], :order => "xp DESC")
     wardrobe_reward = Reward.find(:first, :conditions => ["xp <= ? and target_type = 'wardrobe'",  self.xp], :order => "xp DESC")
     self.level = level_reward.target_id if level_reward
+    # It is assumed that the wardrobe IDs are in ascending order of how they are unlocked. e.g. 5 is unlocked after 4
+    # This is a bug, but for now we will follow this assumption until this can be fixed. This is okay as long as
+    # the entire wardrobe is reloaded using the load_wardrobe.rake script.
     self.wardrobe = wardrobe_reward.target_id if wardrobe_reward
     self.save
     
     wardrobe = Wardrobe.find(wardrobe_reward.target_id)
     
     puts "Profile #{self.id} >> Level: #{self.level}, Wardrobe: #{wardrobe.name}"
-  end  
+  end
+  
+  def make_email_safe
+    if self.email.match(/@neuronicgames.com$/)
+    elsif !self.email.match(/^test-/)
+      self.email = "test-#{self.email}"
+      self.save
+    end
+  end
+
+  def recently_messaged
+    Profile.find_by_sql(
+      <<-SQL 
+        SELECT 
+          profiles.*, 
+          MAX(messages.updated_at) AS latest_message_date,
+          COUNT(message_viewers.id) AS unread_message_count
+        FROM profiles 
+        INNER JOIN messages ON (messages.parent_id = profiles.id OR messages.profile_id = profiles.id)
+        LEFT JOIN message_viewers ON (
+          message_viewers.message_id = messages.id
+          AND (message_viewers.poster_profile_id = profiles.id AND message_viewers.viewer_profile_id = #{self.id})
+          AND (message_viewers.archived = false OR message_viewers.archived IS NULL)
+          AND message_viewers.viewed = false
+        ) WHERE (messages.parent_id = #{self.id} OR messages.profile_id = #{self.id})
+          AND (messages.archived = false OR messages.archived IS NULL) 
+          AND messages.message_type = 'Message' 
+          AND messages.target_type = 'Profile' 
+          AND messages.parent_type = 'Profile'
+          AND profiles.id != #{self.id}
+        GROUP BY profiles.id
+        ORDER BY unread_message_count DESC, latest_message_date DESC
+      SQL
+    ).uniq
+  end
+  
 end

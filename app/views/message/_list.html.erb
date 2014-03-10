@@ -29,7 +29,7 @@
       <% end %>
      <!-- Message -->
    <h2><!-- Post Message --></h2>
-   <h2 style="font-size:16px;"><%= friend_id && !friend_id.nil? ? "PRIVATE MESSAGES WITH #{@friend.full_name.upcase}" : "MESSAGES WITH FRIENDS"%>
+   <h2 style="font-size:16px;"><%= friend_id && !friend_id.nil? ? "PRIVATE MESSAGES WITH #{@friend.full_name.nil? ? @friend.email :  @friend.full_name}" : "MESSAGE BOARD"%>
    </h2>
     <div id="" class="message_wrapper">
       <div style="margin-left: 90px; text-align:right;">
@@ -76,9 +76,9 @@
   <!-- Friend List -->
   <div class="friend_list" id="friend_list">
     <% if @users %>
-      <h2>RECENTLY MESSAGED</h2>
+      <h2>PRIVATE MESSAGES</h2>
       <% @users.each do |friend| %>
-        <%= render :partial => "/message/friend_list", :locals => {:friend=>friend} %>
+        <%= render :partial => "/message/friend_list", :locals => {:friend => friend} %>
       <% end %>
     <% end %>
     <% if @show_more_users %>

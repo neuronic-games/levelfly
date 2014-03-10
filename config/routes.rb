@@ -3,6 +3,8 @@ Oncapus::Application.routes.draw do
   devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions"} do
     match '/users/sign_in/:slug' => 'sessions#new'
     match '/users/sign_up/:slug' => 'registrations#new'
+    match 'confirm/:confirmation_token', :controller => 'confirmations', :action => 'show', :as => 'confirmation'
+    match 'confirm', :controller => 'confirmations', :action => 'new', :as => 'new_confirmation'
   end
   
   #devise_for :users
@@ -11,8 +13,13 @@ Oncapus::Application.routes.draw do
              # :sessions => 'sessions'
            # }
   
-  resources :users
-  
+  resources :users do
+    collection do
+      get "load_users/:id/:page", :action => 'load_users', :as => 'load_users'
+      post "set_invite_codes", :action => 'set_invite_codes'
+    end
+  end
+
   get "system/alert"
   
   get "system/new_user"
@@ -62,6 +69,8 @@ Oncapus::Application.routes.draw do
   post "profile/account_setup"
   
   post "profile/show_comments"
+  
+  post "profile/update_show_date"
   
   get "task/index"
 
@@ -322,9 +331,7 @@ Oncapus::Application.routes.draw do
   get "users/index"
   
   get "users/show"
-  
-  post "users/load_users"
-  
+    
   post "users/save"
   
   post "users/login_as"
