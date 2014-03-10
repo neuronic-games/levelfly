@@ -61,7 +61,7 @@ module ApplicationHelper
   
   def school
     current_school = School.find(session[:school_id]) if session[:school_id]
-    current_school = School.find_by_handle("bmcc") unless session[:school_id]
+    current_school = School.find_by_handle("demo") unless session[:school_id]
     return current_school
   end
   

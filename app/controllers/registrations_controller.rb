@@ -54,7 +54,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def identify_school
-    default_school = School.find_by_handle("bmcc")
+    default_school = School.find_by_handle("demo")
     school = School.find_by_handle(params[:slug])
     session[:slug] = params[:slug] ? params[:slug] : ""
     session[:school_id] = school ? school.id : default_school.id
