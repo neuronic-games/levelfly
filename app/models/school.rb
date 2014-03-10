@@ -20,7 +20,7 @@ class School < ActiveRecord::Base
   end
 
   def default_school?
-    self.handle == "bmcc"
+    self.handle == "demo"
   end
   
   def self.new_school(school_name, code, handle)
@@ -40,7 +40,9 @@ class School < ActiveRecord::Base
       admin_user = User.find(:first, :conditions => ["email like ?", email])
       if admin_user.nil?
         admin_user, admin_profile = User.new_user(email, school.id, "LetMeIn!")
-        Role.create(:name => Role.edit_user, :profile => admin_profile)
+        admin_profile.role_name = RoleName.find_by_name('School Admin')
+        admin_profile.save
+        
         return admin_user
       end
     end

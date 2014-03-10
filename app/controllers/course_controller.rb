@@ -199,6 +199,7 @@ class CourseController < ApplicationController
     @course.tasks_medium = params[:task_medium] if params[:task_medium]
     @course.tasks_high = params[:task_high] if params[:task_high]
     @course.post_messages = params[:post_messages] if params[:post_messages]
+    @course.allow_uploads = params[:allow_uploads] if params[:allow_uploads]
 		@course.show_grade = params[:show_grade] if params[:show_grade]
 		@course.semester = params[:semester] if params[:semester]
 		@course.year = params[:year] if params[:year]
@@ -296,7 +297,7 @@ class CourseController < ApplicationController
 		message_type = nil
     content = nil
 		resend = false
-    if params[:email] && params[:email]
+    if params[:email]
       #if params[:section_type] == 'G'
        #    section_type = 'Group'
       #end   
@@ -336,7 +337,7 @@ class CourseController < ApplicationController
                content = "Please join #{course.name} (#{course.code_section})."
              end
             @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
-						send_email(params[:email],params[:course_id],@message.id,new_user)     
+						send_email(@user,params[:course_id],@message.id,new_user)     
             status = true           
           end
         else 
@@ -350,7 +351,7 @@ class CourseController < ApplicationController
 							content = "Please join #{course.name} (#{course.code_section})."
 						end
 						@message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
-						send_email(params[:email],params[:course_id],@message.id,new_user)
+						send_email(@user,params[:course_id],@message.id,new_user)
 						resend = true
 					else
 						already_added = true
@@ -361,36 +362,55 @@ class CourseController < ApplicationController
    end
   end
   
-  def send_email(email,course,message_id,new_user)
+  def send_email(user,course,message_id,new_user)
      @course = Course.find(course)
      @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
      @school = School.find(@current_user.school_id)
-     link = "#{email}&#{message_id}"
+     link = "#{user.id}&#{message_id}"
      @link = Course.hexdigest_to_string(link)
      #@link = OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('md5'), "123456", link)
-     UserMailer.registration_confirmation(email,@current_user,@course,@school,message_id,@link,new_user).deliver
+     UserMailer.registration_confirmation(user.email,@current_user,@course,@school,message_id,@link,new_user).deliver
   end
 	
 	# Send email to all participants via course group and forum memberlist
 	def send_email_to_all_participants
 		status = false
 		section_type = 'Course' #TO DO : Need to done for forum and groups also
+		post_message = params[:post_message] == "true" ? true : false if params[:post_message]
 		@course = Course.find(params[:id])
 		if @course
-			@peoples = Profile.find(
+			@people = Profile.find(
          :all, 
          :include => [:participants], 
-         :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type = 'S'", @course.id,section_type]
+         :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type in ('S', 'M')", @course.id,section_type]
        )
 			
-			if @peoples
+			if post_message and post_message == true
+  			wall_id = Wall.get_wall_id(params[:id], params[:section_type]) #params[:wall_id]
+        @message = Message.new
+        @message.profile_id = user_session[:profile_id]
+        @message.parent_id = params[:id] #params[:target_id]
+        @message.parent_type = params[:section_type] 
+        @message.content = CGI::unescape(params[:mail_msg]) if params[:mail_msg]
+        @message.target_id = params[:id]
+        @message.target_type = params[:section_type]
+        @message.message_type = params[:message_type] if params[:message_type]
+        @message.wall_id = wall_id
+        @message.post_date = DateTime.now
+        @message.save
+        @message_viewer = MessageViewer.add(user_session[:profile_id],@message.id,params[:section_type],params[:id])
+        @feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",user_session[:profile_id],wall_id])
+        if @feed.nil?
+          Feed.create(:profile_id => user_session[:profile_id],:wall_id =>wall_id)
+        end
+			end
+			
+			if @people
 				@msg_content = CGI::unescape(params[:mail_msg])
 				@current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
 				#threads = []
-				@peoples.each do |people|
-					#threads << Thread.new do
-          Message.save_message(@current_user,people,"Profile",@msg_content,"Message",@course)
-          #end
+				@people.each do |person|
+          UserMailer.course_private_message(person.user.email, @current_user, @current_user.school, @course, @msg_content).deliver
 				end
 				#threads.each(&:join)
 				status = true

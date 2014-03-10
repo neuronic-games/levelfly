@@ -368,17 +368,11 @@ $(document).ready(function(){
         });
     }); 
     
- $('.right_form_containerr').delegate('.time', 'click', function(){
+ /*$('.right_form_containerr').delegate('.time', 'click', function(){
     var id = $(this).attr("rel");
-    if($("#word_"+id).hasClass("hide")){
-      $("#word_"+id).removeClass("hide");
-      $("#date_"+id).addClass("hide");
-      }
-    else{
-      $("#date_"+id).removeClass("hide");
-      $("#word_"+id).addClass("hide");
-      }
-   });   
+    var profile_id = $("#hdn_profile_id").val();
+    update_show_date(profile_id);
+   });   */
 
   //Upload doc file
 });
@@ -426,7 +420,6 @@ function save_course(channel) {
   semester_change = selected_semester == "<%=@course.semester%>"
   course_change = selected_year == "<%=@course.year%>"
 
-  var post_messages = document.getElementById('post_messages');
   var show_grade = document.getElementById('show_grade');
   if(!show_grade){
     var show_grade_checked = true; 
@@ -473,8 +466,18 @@ function save_course(channel) {
     _outcomes_shareObject[n] = $(this).is(":checked");
     n++;
   });
+  
+  var post_messages = true;
+  if ($('input:radio[name=post_messages]:checked').val()){
+  	post_messages = $('input:radio[name=post_messages]:checked').val();
+  }
+  
+  var allow_uploads = false;
+  if ($('input:radio[name="allow_uploads"]:checked').val()){
+    allow_uploads = $('input:radio[name="allow_uploads"]:checked').val();
+  }
 
-  var dataString = {id:id , course:name , descr:descr , section_type:section_type , code:code , section:section , school_id:school_id , outcomes:_outcomesObject , outcomes_descr:_outcomes_descrObject , categories:_categoriesObject , wall_id:wall_id , percent_value:_categories_persentObject , outcome_share:_outcomes_shareObject , post_messages:post_messages.checked , show_grade:show_grade_checked , semester:selected_semester , year:selected_year}
+  var dataString = {id:id , course:name , descr:descr , section_type:section_type , code:code , section:section , school_id:school_id , outcomes:_outcomesObject , outcomes_descr:_outcomes_descrObject , categories:_categoriesObject , wall_id:wall_id , percent_value:_categories_persentObject , outcome_share:_outcomes_shareObject , post_messages: post_messages, allow_uploads: allow_uploads, show_grade:show_grade_checked , semester:selected_semester , year:selected_year}
   
 	//alert(dataString);  return false;
 if((changed==true || semester_change != true || course_change != true) && name_blank == false){

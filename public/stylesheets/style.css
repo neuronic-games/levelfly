@@ -1,5 +1,9 @@
 /* NOTE: This CSS file is for all modules in the system. Main layout CSS goes into mail_layout.css */
 
+.load_more { text-align: center; font-weight: bold; padding-top: 10px; line-height: 50px; }
+.load_more img { position: relative; top: 10px; }
+#rows { width: 100%; }
+
 /****icon msg****/
 a.icon_msg {
   background:url(../images/messages_icon.png) no-repeat 20px 8px;
@@ -292,6 +296,19 @@ a.icon_users_active {
   box-shadow:inset 0px 0px 2px 1px #000000;
 }
 
+.small_avatar_white_bdr {
+  border:#eaebeb 2px solid;
+  width: 36px;
+  height: 36px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background:url(../images/avatar_bg.jpg) no-repeat center;
+  -moz-box-shadow:inset 0px 0px 2px 1px #000000;
+  -webkit-box-shadow:inset 0px 0px 2px 1px #000000;
+  box-shadow:inset 0px 0px 2px 1px #000000;
+}
+
 /*.message_wrapper_group{
     float:right;
     width:404px;
@@ -314,12 +331,20 @@ a.icon_users_active {
   width:80px;
   height:80px;
 }
+
 .forum_avatar_white_bdr  img{
   margin-top: -9px;
   margin-left: -10px;
   width:80px;
   height:80px;
 }
+
+.small_avatar_white_bdr img {
+  margin: -5px 0 0 -5px;
+  width: 40px;
+  height: 40px;
+}
+
 .msg_big_box .msg_big_box_arrow {
   /*float:right;
   padding:30px 0 0 0;*/
@@ -624,7 +649,15 @@ a.blue_bt19px2 {
   -moz-box-shadow:inset 0px 0px 2px 1px #000000;
   -webkit-box-shadow:inset 0px 0px 2px 1px #000000;
   box-shadow:inset 0px 0px 2px 1px #000000;
+  position: relative;
   }
+
+.popup_box1 .avatar_green_bdr .blue_bt19px {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
 .popup_box1 .txt {
   float:left;
   padding-left:10px;
@@ -989,6 +1022,10 @@ margin-top:-20px;
   font-size:0px;
   height:0px;
 }
+
+.clearfix:before, .clearfix:after { content: " "; display: table; }
+.clearfix:after { clear: both; }
+
 .end_of_page {
   height:100px;
 }
@@ -1041,6 +1078,15 @@ margin-top:-20px;
 .big_blue_btn:hover {
   background:#6aa5bd;
 }
+
+#invite_code button.big_blue_btn {
+  padding-bottom: 11px;
+  height: 37px;
+  border-width: 0;
+  position: relative;
+  top: 1px;
+}
+
 .big_orange_btn {
   background:#ad895a;
   width:90px;
@@ -1592,7 +1638,7 @@ background-color:#FFFFFF;
 .profile_row > .gap {
   margin-left:100px;
 }
-.profile_row > .dif{ margin-left: 66px;}
+.profile_row > .dif{ margin-left: 25px;}
 .profile_top_btn{float: right; margin-top: -67px;}
 .profile_row input, .profile_row textarea, .profile_row .readonly_text {
   color: #ffffff;
@@ -1610,6 +1656,10 @@ background-color:#FFFFFF;
 .profile_item {
   float:left;
   display:block;
+}
+
+.profile_reward_info{
+	text-align:center !important;
 }
 
 .profile_item_empty {
@@ -2165,6 +2215,7 @@ div .taskmsg_bgc2 {
   font-weight:bold;
   color:#AAAAA;
   font-size: 15px;
+  float: left;
 }
 .titleTextParticipants{
   font-weight:bold;
@@ -2972,12 +3023,12 @@ input[type="button"].grading_Btn4 {
 .Grade_left_panel{
 	float:left;
 	height:auto;
-	width:53%;/*60*/
+	width: 69%;/*60*/
 }
 .Grade_right_panel{
 	float:left;
 	height:auto;
-	max-width:47%;/*40*/
+	max-width: 31%;/*40*/
 	position:relative;
 	overflow-x: scroll; 
 	overflow: -moz-scrollbars-horizontal;
@@ -3567,7 +3618,7 @@ filter:alpha(opacity="0");
 	font-family:Arial, Helvetica, sans-serif;
 	text-align:left !important;
 }
-.LBT_name .name_txt {
+.LBT_name .name_txt, .titleCountPeople {
 	font-size:16px;
 	font-weight:bold;
 	display:inline-block;
@@ -3575,6 +3626,11 @@ filter:alpha(opacity="0");
 	overflow:hidden;
 	text-overflow:ellipsis;
 	width:165px;
+}
+.titleCountPeople {
+  float: right;
+  margin-right: 10px;
+  width: auto;
 }
 .long_name {
 	display:inline-block;
@@ -3717,6 +3773,16 @@ div .frm_input2 {
 .add_task_popup .heading02_field {
 	padding-left:95px;
 }
+
+#invite_code .heading02_field {
+  float: left;
+  padding-left: 0;
+}
+
+#invite_code .heading02_field .brown_bg02 { width: 200px; }
+#invite_code .heading02_field div.left { float: left; }
+#invite_code .validation_msg { color: red; }
+
 .add_task_popup .boxadnt {
 	padding:20px 20px 0;
 	font-weight:bold;
@@ -3733,9 +3799,9 @@ div .frm_input2 {
 	background-color:rgba(0, 0, 0, 0.85);
 	max-width:58%;
 	/*height:50%;*/
-	margin:-25% 0 0 -32%;
+	margin:0 0 0 -32%;
 	left:50%;
-	top:50%;
+	top:60px;
 	padding:20px 20px;
 	position:fixed;
 	z-index:9999;

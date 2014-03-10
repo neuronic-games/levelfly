@@ -106,12 +106,13 @@ $(document).ready(function(){
     
     if (model.image_file) {
       // Clicked on an option that can be applied
-       m_image =  model.image_file.substr(0, model.image_file.length-1)
+       m_image =  model.image_file
        if (_avatar[model.item_type] != undefined){
-          av_image =  _avatar[model.item_type].substr(0, _avatar[model.item_type].length-1)
+          av_image =  _avatar[model.item_type]
         }else{
           av_image="";
         }
+
       if ( m_image == av_image) {
         // Already applied? Remove this item, unless it is a required item
         if (_itemRequired.indexOf(model.item_type) == -1) {

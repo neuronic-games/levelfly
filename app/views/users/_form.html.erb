@@ -55,45 +55,46 @@
              
               <div class="course_viewfield color_b field_label" style="margin-bottom: 30px;">Full name
                 <div class="dd_bg brown_bg">
-                  <input type="text" name="user_name" id="user_name" value="<%=@profile.full_name if @profile%>" class="dd_input brown_bg prompted" style="width:100%;"/>
+                  <input type="text" name="user_name" id="user_name" value="<%=@profile.full_name if @profile%>" class="dd_input brown_bg prompted" style="width:100%;" <% if @disable_edit %>disabled="true"<% end %>>
                 </div>
               </div>
                
               <div class="course_viewfield color_b field_label" style="margin-bottom: 30px;">Email
                 <div class="dd_bg brown_bg">
-                  <input type="text" name="user_email" id="user_email" value="<%=@profile.user.email if @profile%>" class="dd_input brown_bg prompted" style="width:100%;"/>
+                  <input type="text" name="user_email" id="user_email" value="<%=@profile.user.email if @profile%>" class="dd_input brown_bg prompted" style="width:100%;" <% if @disable_edit %>disabled="true"<% end %>>
                 </div>
               </div>
               
               <div class="course_viewfield color_b field_label" style="margin-bottom: 30px;">Password
                 <div class="dd_bg brown_bg">
-                  <input  name="user_password" id="user_password" value="" class="dd_input brown_bg prompted" type="password" style="width:100%;"/>
+                  <input  name="user_password" id="user_password" value="" class="dd_input brown_bg prompted" type="password" style="width:100%;" <% if @disable_edit %>disabled="true"<% end %>>
                 </div>
               </div>
               <div style="height:20px;"></div>
               
-              <div class="course_viewfield color_b field_label">This user may:
+              <div class="course_viewfield color_b field_label">This user's role:
                 <div class=""></br>
-                  <input type="checkbox" name ="user_role[]" class="check_box" id="create_course" <%= @profile && Role.check_permission(@profile.id, "C") ? "checked='checked'" : "" %>value=""/> Modify Courses</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="create_group" <%=@profile && Role.check_permission(@profile.id, "G") ? "checked='checked'" : "" %>value=""/> Modify Groups</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="create_task" <%=@profile && Role.check_permission(@profile.id, "T") ? "checked='checked'" : "" %>value=""/> Modify Tasks</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="edit_grade" <%=@profile && Role.check_permission(@profile.id, Role.edit_grade) ? "checked='checked'" : "" %>value=""/> Modify Grades</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="edit_user" <%=@profile && Role.check_permission(@profile.id, Role.edit_user) ? "checked='checked'" : "" %>value=""/> Modify Users</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="modify_rewards" <%=@profile && Role.check_permission(@profile.id, Role.modify_rewards) ? "checked='checked'" : "" %>value=""/> Modify Rewards</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="modify_wardrobe" <%=@profile && Role.check_permission(@profile.id, Role.modify_wardrobe) ? "checked='checked'" : "" %>value=""/> Modify Wardrobe</br></br>
-                  <input type="checkbox" class="check_box" name ="user_role[]" id="modify_settings" <%=@profile && Role.check_permission(@profile.id, Role.modify_settings) ? "checked='checked'" : "" %>value=""/> Modify Settings</br></br>
+                  <select name="profile[role_name_id]" <% if @disable_edit %>disabled="true"<% end %>>
+                    <% RoleName.all.each do |role_name| %>
+                      <% if current_user.profile.has_role(Role.modify_settings) || (@profile && @profile.has_role(Role.modify_settings)) || role_name.name != 'Levelfly Admin' %>
+                      <option value="<%= role_name.id %>" <%= (@profile && @profile.role_name_id == role_name.id) ? 'selected="selected"' : "" %>><%= role_name.name %></option>
+                      <% end %>
+                    <% end %>
+                  </select>
                 </div>
               </div>
               <div class="clear"></div>
+              <% if @profile %>
               </br>
               <div class="course_viewfield color_b field_label">This user is:
-                 <div class=""></br>
-                  <input type="radio" name="user_status[]" checked="true" value="" rel="A" /><span> Active 
+                <div class=""></br>
+                  <input type="radio" name="user_status[]" checked="true" value="" rel="A" <% if @disable_edit %>disabled="true"<% end %>><span> Active 
                   </span>
                   &nbsp; &nbsp;
-                  <input type="radio" name="user_status[]" <%if @profile and @profile.user.status=="S" %>checked="true"<%end%>  rel="S" value=""/><span> Suspended</span>
+                  <input type="radio" name="user_status[]" <%if @profile.user.status=="S" %>checked="true"<%end%>  rel="S" value="" <% if @disable_edit %>disabled="true"<% end %>><span> Suspended</span>
                 </div> 
-            </div>   
+              </div>
+              <% end %>
             </div>          
           </div>  
         </div>
@@ -107,7 +108,7 @@
     
     </div>
   </div>
-
+  <% if !@disable_edit %>
   <div id="sidebar_right">
     <div class="course_side_buttons">
         <a class="big_blue_btn" name="login_as_btn" id="login_as_btn" href="javascript:void(0)">LOGIN AS</a>
@@ -115,17 +116,19 @@
         <a class="big_blue_btn" name="save_user_btn" id="save_user_btn" href="javascript:void(0)">SAVE</a>
     </div><!-- crud_level -->
   </div>
+  <% end %>
 <input type="hidden" name="user_id" id="user_id_hdn" value="<%=@profile.id if @profile%>" />
 <input type="hidden" name="avtr" id="avtr" value="<%=@avatar if @avatar%>" />
 <%= render :partial => "users/invalid_email_popup"%>
 <script type="text/javascript">
-  var roles_assign = [];
-  var roles_name = [];
   var _avatar;
   $(document).ready(function(){
     $("#save_user_btn").click(function(){
-      var valid = false
-      valid = validate_form()
+      var valid = false,
+          user_status = 'A';
+
+      valid = validate_form();
+
       if(valid==true){
          $.each($('input[name="user_status[]"]'), function(){
           /*status = $(this).is(":checked");*/
@@ -134,19 +137,15 @@
           }
         });
         var id = $("#user_id_hdn").val();
-        var email = $("#user_email").val();
+        var email = encodeURIComponent($("#user_email").val());
         var name = $("#user_name").val();
         var user_password = $("#user_password").val();
-         j = 0;
-        $.each($('input[name="user_role[]"]'), function() {
-           roles_assign[j] = this.checked;
-           roles_name[j] = this.id;
-           j++;   
-        });
+        var role_name_id = $('select[name="profile[role_name_id]"]').val();
+
         if (user_password =="")
-          var datastring = "id="+id+"&name="+name+"&email="+email+"&roles_assign="+roles_assign+"&roles_name="+roles_name+"&status="+user_status
+          var datastring = "id="+id+"&name="+name+"&email="+email+"&role_name_id="+role_name_id+"&status="+user_status
         else
-          var datastring = "id="+id+"&name="+name+"&email="+email+"&user_password="+user_password+"&roles_assign="+roles_assign+"&roles_name="+roles_name+"&status="+user_status
+          var datastring = "id="+id+"&name="+name+"&email="+email+"&user_password="+user_password+"&role_name_id="+role_name_id+"&status="+user_status
         showSpinner(true);
         $.ajax({
         type:"POST",

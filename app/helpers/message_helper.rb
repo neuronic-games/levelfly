@@ -1,11 +1,7 @@
 module MessageHelper
 
   def comment_list(message_id)
-    comment_ids = Message.find(:all, :select => "id" ,:conditions=>["parent_id = ? AND parent_type='Message'", message_id]).collect(&:id)
-   
-    message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ? and message_id in(?)", user_session[:profile_id],comment_ids]).collect(&:message_id)
-    
-    @comment = Message.find(:all, :conditions=>["id in(?)", message_ids], :order => 'created_at ASC')
+    @comment = Message.find(:all, :conditions => ["parent_id = ? AND parent_type = 'Message'", message_id], :order => 'created_at ASC')
     @comments = @comment.reverse.reverse
     return @comments
   end
@@ -68,38 +64,20 @@ module MessageHelper
     return nil
   end
   
-  def messages_viewed(profile_id,current_user)
-    messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and target_type = 'Profile' and parent_type = 'Profile' and ((profile_id = ? and parent_id = ?) or (profile_id = ? and parent_id = ?))",false,profile_id,current_user,current_user,profile_id],:order => "created_at DESC")
-    message_ids = messages.map(&:id)
-    if messages
-      message_viewers = MessageViewer.count(:conditions => {
-        :archived => false,
-        :message_id => message_ids,
-        :poster_profile_id => profile_id,
-        :viewer_profile_id => current_user,
-        :viewed => false
-      }, :order => "created_at DESC")
-      return false if message_viewers > 0
-
-      comment_ids = Message.find(:all, :select => "id" ,:conditions => {:parent_id => message_ids, :parent_type => 'Message'}).collect(&:id)
-      message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ? and message_id in(?)", user_session[:profile_id],comment_ids]).collect(&:message_id)
-      comment_list = Message.find(:all, :conditions=>["id in(?)", message_ids], :order => 'created_at ASC')
-      comments = comment_list.collect(&:id)
-
-      if comments
-        comment_message_viewers = MessageViewer.count(
-          :conditions => {
-            :archived => false,
-            :message_id => comments,
-            :poster_profile_id => profile_id,
-            :viewer_profile_id => current_user,
-            :viewed => false
-        }, :order => "created_at DESC")
-        return false if comment_message_viewers > 0
-      end
-      return true
-    end
-    return nil
+  def messages_viewed(profile_ids,current_user)
+    Message.active.interesting.between(profile_ids, current_user).find(
+      :all,
+      :select => 'distinct message_viewers.poster_profile_id',
+      :joins => :message_viewers,
+      :conditions => {
+        :message_viewers => {
+          :archived => false,
+          :poster_profile_id => profile_ids,
+          :viewer_profile_id => current_user,
+          :viewed => false
+        }
+      }
+    ).map(&:poster_profile_id).map(&:to_i)
   end
   
   def message_content(text) 

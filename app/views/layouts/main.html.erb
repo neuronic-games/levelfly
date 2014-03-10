@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Levelfly</title>
+  <title>Levelfly<% if (ENV['APP_ENV'] != 'production') %> [TESTING]<% end %></title>
+
+	<meta name="description" content="Levelup learning with Levelfly." />
+
   <!-- <meta name="viewport" content="width=device-width;" /> -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
-	<meta name="description" content="Levelfly is a gamified Learning Management System (LMS) and private social network for fully online or hybrid use. Students can keep track of their course stats in real-time, earn points for completing tasks, and level up as they learn.">
 	<meta name="robots" content="index, nofollow">
   <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   
@@ -33,12 +35,26 @@
   <script src="/assets/ui/jquery.thumbnailScroller.js"></script>
   <script src="/assets/ui/jquery-ui-1.8.13.custom.min.js"></script>
   <script src="/assets/jstorage.js"></script>
+  <script>window.jStorage = $.jStorage;</script>
   <script type="text/javascript" src="/assets/fileupload/plupload.js"></script>
   <script type="text/javascript" src="/assets/fileupload/plupload.html5.js"></script>
   <script type="text/javascript" src="/assets/fileupload/jquery.plupload.queue.js"></script>
 	<script type="text/javascript" src="/assets/fileupload/plupload.flash.js"></script>
   <script type="text/javascript" src="/assets/ui/jquery.autosize.js"></script>
   <script src="/assets/pusher.min.js"></script>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['t._setAccount', '<%= ENV['GA_ACCOUNT'] %>']);
+    _gaq.push(['t._trackPageview']);
+    
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    
+  </script>
   
   <%= csrf_meta_tags %>
 </head>
@@ -204,29 +220,46 @@
 
 <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=user_session[:profile_id] %>"/>
 
+  <div id="server_error_div" class="hide">
+    <%= render :partial => "/layouts/server_error" %>
+  </div>
+
 </body>
 <script type="text/javascript">
 
 <!--
   //jQuery.noConflict(); 
   (function($){
-  window.onload=function(){ 
-    $("#root_level").thumbnailScroller({ 
-      scrollerType:"clickButtons", 
-      scrollerOrientation:"vertical", 
-      scrollSpeed:2, 
-      scrollEasing:"easeOutCirc", 
-      scrollEasingAmount:800, 
-      acceleration:4, 
-      scrollSpeed:800, 
-      noScrollCenterSpace:10, 
-      autoScrolling:0, 
-      autoScrollingSpeed:2000, 
-      autoScrollingEasing:"easeInOutQuad", 
-      autoScrollingDelay:500 
+    $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
+      if (jqXHR.status == 401) {
+        window.location.reload();
+      } else {
+        showSpinner(false);
+        $('#server_error_div').show();
+      }
     });
-  }
-})(jQuery);
+
+    $.jStorage.subscribe('logout', function() {
+      window.location.reload();
+    })
+
+    window.onload=function() { 
+      $("#root_level").thumbnailScroller({ 
+        scrollerType:"clickButtons", 
+        scrollerOrientation:"vertical", 
+        scrollSpeed:2, 
+        scrollEasing:"easeOutCirc", 
+        scrollEasingAmount:800, 
+        acceleration:4, 
+        scrollSpeed:800, 
+        noScrollCenterSpace:10, 
+        autoScrolling:0, 
+        autoScrollingSpeed:2000, 
+        autoScrollingEasing:"easeInOutQuad", 
+        autoScrollingDelay:500 
+      });
+    }
+  })(jQuery);
 
 var h = new Object(); 
  var ie_browser = false;
@@ -260,6 +293,7 @@ var h = new Object();
 	<% else %>
 	var all_comments = true;
 	<% end %>
+	var show_post_date = "<%= @profile.post_date_format.to_s %>;"
 	
   //Set CSRF Token (Required for ajax request (post))
   $(document).ajaxSend(function(e, xhr, options) {
@@ -462,14 +496,8 @@ $('#container').delegate('.add_topic', 'click', function(){
   //For toggle date time of messages
  $('#container').delegate('.time', 'click', function(){ 
     var id = $(this).attr("rel");
-    if($(".words").hasClass("hide")){
-      $(".words").removeClass("hide");
-      $(".dates").addClass("hide");
-      }
-    else{
-      $(".dates").removeClass("hide");
-      $(".words").addClass("hide");
-      }
+    var profile_id = $("#hdn_profile_id").val();
+    update_show_date(profile_id);
    }); 
   
   $("#container").delegate('.topic_input','change', function(){
@@ -507,7 +535,7 @@ $('#container').delegate('.add_topic', 'click', function(){
          //show_btn(id)
         }
       },
-      error: function(){alert("ERROR")}
+      error: function(){}
     });
   });
     
@@ -517,7 +545,10 @@ $('#container').delegate('.add_topic', 'click', function(){
   }); //document.ready
   
   function loadPage(dest, title) {
-     var id = $(this).attr("id");
+    var id = $(this).attr("id");
+
+    $(window).unbind('scroll.users');
+
     $(main_menu_id).each(function(index, item){
        if(id==item){
          setTab(item);
@@ -583,7 +614,11 @@ $('#container').delegate('.add_topic', 'click', function(){
 
   function setTab(item){
     if(document.getElementById("msg")!=null){
-      document.getElementById("msg").className = "icon_msg menu_btn";
+      if ($('#msg').hasClass('notification_badge') || $('#msg').hasClass('notification_badge_active')) {
+        document.getElementById("msg").className = "notification_badge menu_btn";
+      } else {
+        document.getElementById("msg").className = "icon_msg menu_btn";
+      }
     }
     if(document.getElementById("courses")!=null){
       document.getElementById("courses").className = "icon_courses menu_btn";
@@ -619,7 +654,11 @@ $('#container').delegate('.add_topic', 'click', function(){
     if(selectted_menu=="courses"){
       $("#courses").addClass("icon_courses_active ");
     } else if(selectted_menu=="msg"){
-	    $("#msg").addClass("icon_msg_active");
+      if ($('#msg').hasClass('notification_badge')) {
+        $("#msg").addClass("notification_badge_active");
+      } else {
+  	    $("#msg").addClass("icon_msg_active");
+      }
     } 
     else if(selectted_menu=="tasks"){
       $("#tasks").addClass("icon_tasks_active");
@@ -690,6 +729,33 @@ $('#container').delegate('.add_topic', 'click', function(){
 	 $('#root_level.nav_box').css("height",height);
 	 
     }
+   //Update shown date and time format
+   function update_show_date(id){
+   	if (id){
+   		showSpinner(true);
+	   	$.ajax({
+	      type:"POST",
+	      url:"/profile/update_show_date",
+	      dataType:"json",
+	      data:{id:id, update:true},
+	      success: function(data){
+	      	showSpinner(false);
+	        if(data.status){
+	         if(data.show=="D"){
+	      		$(".words").removeClass("hide");
+	      		$(".dates").addClass("hide");
+	      		show_post_date = "D";
+	      	 }
+	    	 else{
+		      	$(".dates").removeClass("hide");
+		      	$(".words").addClass("hide");
+		      	show_post_date = "E";
+	      	 }
+	        }
+	      }
+	    });
+    }
+   }
 -->
 </script>
 </html>
