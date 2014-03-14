@@ -41,7 +41,7 @@ class MessageController < ApplicationController
     @show_more_btn = (count > messages_limit)
 
     @users = @profile.recently_messaged[0..users_limit - 1]
-    @show_more_users = @users.length > users_limit
+    @show_more_users = @profile.recently_messaged.length > users_limit
 
     @profile.delete_action
     @profile.record_action('last', 'message')
