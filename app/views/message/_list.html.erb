@@ -109,15 +109,13 @@ $(document).ready(function() {
       dataType: "json",
       data:{id:profile_id},
       success: function(data) {
-		if (data.alert_badge == false){
-			document.getElementById("msg").className = "notification_badge_active menu_btn";
-		}
-		else{
-			document.getElementById("msg").className = "icon_msg_active menu_btn";
-		}
-   	  },
-	  error: function()
-      {
+    		if (data.alert_badge == false){
+    			document.getElementById("msg").className = "notification_badge_active menu_btn";
+    		}
+    		else{
+    			document.getElementById("msg").className = "icon_msg_active menu_btn";
+    		}
+   	  }, error: function() {
         alert("An Error has occured");
       },
 	});
