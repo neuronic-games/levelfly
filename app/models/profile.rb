@@ -117,12 +117,25 @@ class Profile < ActiveRecord::Base
           AND (message_viewers.poster_profile_id = profiles.id AND message_viewers.viewer_profile_id = #{self.id})
           AND (message_viewers.archived = false OR message_viewers.archived IS NULL)
           AND message_viewers.viewed = false
-        ) WHERE (messages.parent_id = #{self.id} OR messages.profile_id = #{self.id})
-          AND (messages.archived = false OR messages.archived IS NULL) 
+        ) WHERE (messages.archived = false OR messages.archived IS NULL) 
           AND messages.message_type = 'Message' 
-          AND messages.target_type = 'Profile' 
-          AND messages.parent_type = 'Profile'
-          AND profiles.id != #{self.id}
+          AND (
+            (
+              messages.target_type = 'Profile' 
+              AND messages.parent_type = 'Profile'
+              AND (messages.parent_id = #{self.id} OR messages.profile_id = #{self.id})
+            ) OR (
+              messages.target_type = 'Message'
+              AND messages.parent_type = 'Message'
+              AND messages.parent_id IN (
+                SELECT id FROM messages 
+                WHERE target_type = 'Profile' 
+                AND parent_type = 'Profile' 
+                AND (parent_id = #{self.id} OR profile_id = #{self.id})
+                AND (archived = false OR archived IS NULL) 
+              )
+            )
+          ) AND profiles.id != #{self.id}
         GROUP BY profiles.id
         ORDER BY unread_message_count DESC, latest_message_date DESC
       SQL
