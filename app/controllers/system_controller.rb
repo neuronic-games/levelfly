@@ -18,14 +18,18 @@ class SystemController < ApplicationController
       invitation_link = Course.hexdigest_to_digest(params[:link])
       links = invitation_link.split("&")
       @user = User.find(:first, :conditions=>["email = ? OR id = ?", links[0], links[0].to_i])
-      @message = links[1]
+      @message = links.count > 1 ? links[1] : nil
       if @user.nil? 
         flash[:notice] = "This invitation is no longer valid. Please contact the person who sent you the invite and ask them to send you a new invite."
         redirect_to new_user_session_url
       elsif @user.sign_in_count > 0
         session[:email] = @user.email
         profile = Profile.find(:first, :conditions=>["user_id = ?",@user.id])
-        accept_course_invitation(@message,profile)
+
+        if @message
+          accept_course_invitation(@message,profile)
+        end
+
         redirect_to root_path
       end
     else
@@ -42,8 +46,12 @@ class SystemController < ApplicationController
       profile.full_name = params[:user][:full_name]
       profile.save
       session[:school_id] = profile.school_id
-      message_id = params[:user][:message_id]
-      accept_course_invitation(message_id,profile)
+
+      if params[:user][:message_id].to_i > 0
+        message_id = params[:user][:message_id]
+        accept_course_invitation(message_id,profile)
+      end
+
       #@user.update_attributes('password',params[:user][:password])
       sign_in @user
       redirect_to root_path
