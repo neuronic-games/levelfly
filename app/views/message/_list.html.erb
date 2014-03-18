@@ -109,47 +109,45 @@ $(document).ready(function() {
       dataType: "json",
       data:{id:profile_id},
       success: function(data) {
-		if (data.alert_badge == false){
-			document.getElementById("msg").className = "notification_badge_active menu_btn";
-		}
-		else{
-			document.getElementById("msg").className = "icon_msg_active menu_btn";
-		}
-   	  },
-	  error: function()
-      {
+    		if (data.alert_badge == false){
+    			document.getElementById("msg").className = "notification_badge_active menu_btn";
+    		}
+    		else{
+    			document.getElementById("msg").className = "icon_msg_active menu_btn";
+    		}
+   	  }, error: function() {
         alert("An Error has occured");
       },
 	});
     $.ajaxSetup({ cache: false }); 
-    setInterval(function() {
-      $.ajax({
-        type: "POST",  
-        url: "/message/check_request",  
-        success: function(data){
-         if(data!=""){
-            if ($("#invites_title").length > 0){
-              $("#course_requests").prepend(data);
-            }else{
-              $("#course_requests").html("<div id='invites_title'><h2>INVITES</h2></div>");
-              $("#course_requests").append(data);
-            }
-            var invites = parseInt($("#invitation_count").val());
-            $("#invitation_count").attr("value",invites+1); 
+    // setInterval(function() {
+    //   $.ajax({
+    //     type: "POST",  
+    //     url: "/message/check_request",  
+    //     success: function(data){
+    //      if(data!=""){
+    //         if ($("#invites_title").length > 0){
+    //           $("#course_requests").prepend(data);
+    //         }else{
+    //           $("#course_requests").html("<div id='invites_title'><h2>INVITES</h2></div>");
+    //           $("#course_requests").append(data);
+    //         }
+    //         var invites = parseInt($("#invitation_count").val());
+    //         $("#invitation_count").attr("value",invites+1); 
               
-         }
-        }
-     });
-     $.ajax({
-        type: "POST",  
-        url: "/message/check_messages",  
-        success: function(data){
-         if(data!=""){
-          $("#message_wrapper").prepend(data);
-         }
-        }
-      });
-    }, 10000*20); 
+    //      }
+    //     }
+    //  });
+    //  $.ajax({
+    //     type: "POST",  
+    //     url: "/message/check_messages",  
+    //     success: function(data){
+    //      if(data!=""){
+    //       $("#message_wrapper").prepend(data);
+    //      }
+    //     }
+    //   });
+    // }, 10000*20); 
 	 $('textarea#msg_content').autosize();
 	 
 	 $('#all_cmnts').click(function(){

@@ -112,12 +112,13 @@ class UsersController < ApplicationController
   if params[:id] and !params[:id].blank?
     @profile = Profile.find(params[:id])
   else
-     @email = User.find(:first, :conditions => ["email = ? ",params[:email]])
-     if @email and !@email.nil?
-       email_exist = true
-     else
+    @email = User.find(:first, :conditions => ["email = ? ",params[:email]])
+    if @email and !@email.nil?
+      email_exist = true
+    else
       @user, @profile = User.new_user(params[:email],school.id)
-     end
+      UserMailer.school_invite(@user, current_user.profile).deliver
+    end
   end
   if @profile
     @user = @profile.user

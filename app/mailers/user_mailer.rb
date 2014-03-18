@@ -16,6 +16,20 @@ class UserMailer < ActionMailer::Base
           :to => user, 
           :subject => @subject)
   end
+
+  def school_invite(user, current_profile)
+    @user = user
+    @sender = current_profile
+    @school = current_profile.school
+    hash = Course.hexdigest_to_string("#{user.id}")
+    @link = "http://#{Oncapus::Application.config.action_mailer.default_url_options[:host]}/system/new_user/?link=#{hash}"
+    @subject = "[Levelfly] Your invitation to join #{@school.code}"
+    recipients user.email
+    sent_on Time.now
+    mail(:from => "#{@sender.full_name} (Do Not Reply) <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>",
+         :to => user.email, 
+         :subject => @subject)
+  end
   
   def private_message(user,sender,school,message_content)
     @user = user
