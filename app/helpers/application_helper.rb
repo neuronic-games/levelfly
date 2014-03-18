@@ -29,6 +29,9 @@ module ApplicationHelper
   end 
   
   def notification_badge(profile)
+    recently_messaged = profile.recently_messaged
+    return false if recently_messaged.count > 0 && recently_messaged.first.unread_message_count.to_i > 0
+
     recently_messaged = Message.active.involving(profile.id).find(
       :all, 
       :joins => :message_viewers,
