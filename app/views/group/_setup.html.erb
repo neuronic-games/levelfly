@@ -39,50 +39,62 @@
             <% end %>
           </div>
          <div class="clear"></div>
-          
-         <div class="group_privacy">JOINING PRIVILEGES
-            <div class="privacy_setting">
-            <input type="radio" name="joinning_group[]" checked="true" value="I"/><span>Invitation requests must be approved by the organizer
-            </span></div> 
-            <div class="privacy_setting">
-            <input type="radio" name="joinning_group[]" <% if @course.join_type == "R" %> checked="true" <% end %> value="R"/><span>No one can request to join the group (but the organizer can still send invitation requests)</span>
-            </div> 
-         </div>
-         <div class="group_privacy">VIEWING PRIVILEGES
-            <div class="privacy_setting">
-            <input type="radio" name="viewing_group[]" checked="true" value="A"/><span>Anyone can view content</span>
-            </div> 
-            <div class="privacy_setting">
-            <input type="radio" name="viewing_group[]" <% if @course.visibility_type == "M" %> checked="true" <% end %> value="M"/><span>Only members can view content</span>
-            </div>
-         </div>
-         <div class="group_privacy">POSTING PRIVILEGES
-         	<!--div class="privacy_setting">
-              <input type="checkbox" name ="post_messages"  <%= @course && @course.post_messages ? "checked='checked'" : "" %> value="" id="post_messages"/>
-             <span>Members can post messages (you can always post messages)</span>
-            </div-->
-            <div class="privacy_setting">
-             <input type="radio" name="post_messages" <% if @course && @course.post_messages != true %>checked="true"<%end%> value="false" id="post_messages" /><span>Only the organizer can post</span>
-            </div>
-            <div class="privacy_setting">
-             <input type="radio" name="post_messages" <% if @course && @course.post_messages==true %> checked="true"<%end%>  value="true" id="post_messages" /><span>Members can also post</span>
-           </div><br />
-         </div>
-         <div class="group_privacy">FILE UPLOADING PRIVILEGES
-            <div class="privacy_setting">
-             <input type="radio" name="allow_uploads" <% if @course && @course.allow_uploads != true %>checked="true"<%end%> value="false" id="allow_uploads_no" /><span>Only the organizer can upload group files</span>
-            </div>
-            <div class="privacy_setting">
-             <input type="radio" name="allow_uploads" <% if @course && @course.allow_uploads==true %> checked="true"<%end%>  value="true" id="allow_uploads_yes" /><span>Members can also upload group files</span>
-           </div><br />
-         </div>
-        
-         <div class="clear"></div>  
-         
       </div>
       <div class="clear"></div>
     </div>
 </div>
+<div class="page_block">
+	<div class="page_block_left">
+		<span class="field_title">Privacy</span>
+	</div>
+	<div class="page_block_right" style="margin-top:5px;">
+		<span class="field_title font_15px">Joining Privileges</span>
+		&nbsp;
+		<span class="field_notes spaceleft5px">
+			<input type="radio" name="joinning_group[]" checked="true" value="I"/> Invitation requests must be approved by the organizer
+		</span>
+		&nbsp;
+		<span class="field_notes spaceleft5px">
+			<input type="radio" name="joinning_group[]" <% if @course.join_type == "R" %> checked="true" <% end %> value="R"/> No one can request to join the group 
+			<span class="field_notes " style="font-size:10px;padding-left:17px;font-style: italic;"> (The organizer can still send invitation requests)</span>
+		</span>
+		&nbsp;
+		<div class="spacebar10px">&nbsp;</div>
+		<span class="field_title font_15px">Viewing Privileges</span>
+		&nbsp;
+		<span class="field_notes spaceleft5px">
+			<input type="radio" name="viewing_group[]" checked="true" value="A"/> Anyone can view content
+		</span>
+		&nbsp;
+		<span class="field_notes spaceleft5px">
+			<input type="radio" name="viewing_group[]" <% if @course.visibility_type == "M" %> checked="true" <% end %> value="M"/> Only members can view content
+		</span>
+		&nbsp;
+		<div class="spacebar10px">&nbsp;</div>
+		<span class="field_title font_15px">Posting Privileges</span>
+		&nbsp;
+		<span class="field_notes spaceleft5px">
+			<input type="radio" name="post_messages" <% if @course && @course.post_messages != true %>checked="true"<%end%> value="false" id="post_messages" /> Only the organizer can post
+		</span>
+		&nbsp;
+		<span class="field_notes spaceleft5px">
+			<input type="radio" name="post_messages" <% if @course && @course.post_messages==true %> checked="true"<%end%>  value="true" id="post_messages" /> Members can also post
+		</span>
+		&nbsp;
+		<div class="spacebar10px">&nbsp;</div>
+		<span class="field_title font_15px">File Uploading Privileges</span>
+		&nbsp;
+		<span class="field_notes spaceleft5px">
+			<input type="radio" name="allow_uploads" <% if @course && @course.allow_uploads != true %>checked="true"<%end%> value="false" id="allow_uploads_no" /> Only the organizer can upload group files
+		</span>
+		&nbsp;
+		<span class="field_notes spaceleft5px">
+			<input type="radio" name="allow_uploads" <% if @course && @course.allow_uploads==true %> checked="true"<%end%>  value="true" id="allow_uploads_yes" /> Members can also upload group files
+		</span>
+		&nbsp;
+		<div class="spacebar30px">&nbsp;</div>
+		<div class="spacebar30px">&nbsp;</div>
+	</div>
 </div>
 
 <script type="text/javascript">
