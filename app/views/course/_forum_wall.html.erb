@@ -6,7 +6,6 @@
     </div>
   </div>
   <div class="group_right" >
-  
     <% if @courseMaster %>
     <% if @courseMaster.id == user_session[:profile_id] %>
     <div class="clickable" id="forum_setup_icon" style="position:absolute; right:250px;">
@@ -26,9 +25,8 @@
       </div>  
       <div class="group_field_box group_input">
         <div class="field_label desc_width" >Description
-          <div class="group_descr descr_transform">
-            <%=formatted_html_content(@course.descr) if @course%>
-            <!--<textarea name="group_descr" id="group_descr" style="width:100%;height:90px" class="group_descr" rows="2" cols="34" <%if @course %> value="<%=@course.descr if @course%>" readonly="readonly" <%end%> onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'><%=@course.descr if @course%></textarea>-->
+          <div style="width:100%; min-height: 88px;">
+            <textarea name="group_descr" id="group_descr" style="width:100%;height:90px" class="group_descr" rows="2" cols="34" value="<%=@course.descr if @course%>" readonly="readonly" onBlur='javascript:setStorage("group_descr", $(this).val());$("#hdn_is_page_change").val(true);'> <%=@course.descr if @course%></textarea>
           </div>
         </div>
       </div>
@@ -38,22 +36,20 @@
             <div class="avatar_name"><%=@courseMaster.full_name%></div>
            <% end %>
         </div>
- 
         <div class="clear"></div>
-        
-        <div class="menu_container1 view_group_member">
-          <div class="CAL_01"><span class="field_label" style="margin-top:3px;"> 
+      <div class="spacebar10px">&nbsp;</div>
+      <div class="clear"></div>
+    </div>
+    <div class="menu_container1 view_group_member">
+          <div ><span class="field_label" style="margin-top:3px;"> 
           <% if !@member_count.nil? %><%= @member_count %><%else%>0<%end%> FORUM MEMBERS <% if !@pending_count.nil? %><% "(#{@pending_count} PENDING)" %><%end%></span>
 
           <a href="javascript:void(0)" id="btn_member"  class="green_bt19px" rel="<%=@course.id%>">VIEW</a></div>
         </div>
-      <div class="spacebar10px"></div><div class="spacebar10px"></div>
-
-      
-      <div class="clear"></div>
-    </div>
   </div>
+  <div class="spacebar10px">&nbsp;</div>
   <div class="clear"></div>
+  
 
   <% if @course %>
   <!-- Message -->
@@ -106,6 +102,7 @@
 	<% end %>
 	
   $(document).ready(function(){
+  	$('#group_descr').autosize();
     $("#btn_course").addClass("hide");
     $("#btn_course_remove").addClass("hide");
     $("textarea#msg_content").autosize();
