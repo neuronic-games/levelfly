@@ -585,6 +585,10 @@ a.blue_bt19px2 {
 .course_tab_content .bdr_dotted {
   border-bottom:3px dotted #777;
 }
+
+.spaceleft5px{
+	padding:0px 0px 0px 5px;
+}
 /***friend list**/
 .friend_list {
   float:right;
