@@ -52,12 +52,12 @@
 		&nbsp;
 		<span class="field_notes spaceleft5px">
 			<input type="radio" name ="forum_post_messages"  <% if @course && @course.post_messages != true %>checked="true"<%end%> value="false" id="forum_post_messages"/>
-			<label style="vertical-align: top;">Only the organizer can post to this forum</label>
+			<label class="radio-label">Only the organizer can post to this forum</label>
 		</span>
 		<div class="spacebar10px">&nbsp;</div>
 		<span class="field_notes spaceleft5px">
 			<input type="radio" name ="forum_post_messages" <% if @course && @course.post_messages == true %> checked="true"<%end%>  value="true" id="forum_post_messages"/>
-			<label style="vertical-align: top;">Members can also post to this forum</label>
+			<label class="radio-label">Members can also post to this forum</label>
 		</span>
 	</div>
 </div>
