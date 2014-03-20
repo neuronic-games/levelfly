@@ -40,16 +40,16 @@
 <tr>
 	<td width="105">&nbsp;</td>
 	<td width="612" valign="top" align="left">
-		<div class="text" style="font-size: 16px; font-family: 'Lucida Grande'; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; ">We have received a request to create a Levelfly account with your email <%= @resource.email %>. Please click the link below to do this.</span></font>
+		<div class="text" style="font-size: 16px; font-family: 'Lucida Grande'; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; ">A request has been made to change your email address to <%= @resource.unconfirmed_email %> for your account on Levelfly. If you had made this request, please click the link below to complete the change.</span></font>
 			
 		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; "><br></span></font></div>
 				
 		<div style="line-height: 20px; "><font face="Verdana" color="#bbf9ff"><span style="font-size: 14px; line-height: 20px; ">
-			<a href="<%= url_for :controller => 'confirmations', :action => 'show', :confirmation_token => @resource.confirmation_token, :only_path => false %>" style="color:#bbf9ff; text-decoration:none;">Create My Account</a></span></font></div>
+			<a href="<%= url_for :controller => 'confirmations', :action => 'show', :confirmation_token => @resource.confirmation_token, :only_path => false %>" style="color:#bbf9ff; text-decoration:none;">Change my email address</a></span></font></div>
 		
 		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="font-size: 14px; line-height: 20px; "><br></span></font></div>
 
-		<div class="text" style="font-size: 16px; font-family: 'Lucida Grande'; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; ">If you don’t want to create an account, please ignore this email. 
+		<div class="text" style="font-size: 16px; font-family: 'Lucida Grande'; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; ">If you did not make the request, please ignore this email.
 		</span></font>
 			
 		<div style="line-height: 20px; "><font color="#ffffff" face="Verdana"><span style="line-height: 20px; font-size: 14px; "><br></span></font></div>
