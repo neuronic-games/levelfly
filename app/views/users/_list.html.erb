@@ -109,6 +109,38 @@
                   <a class="big_orange_btn inlineblock" id="save_btn" href="javascript:void(0)">Save</a>
                 </div>
               </div>
+              <div id="add_user" class="add_task_popup" style="display:none">
+                <div class="heading">Add User</div>
+                <div class="boxadnt">
+                  <form id="add_user_form">
+                    <label class="heading02" for="user_email">Email</label>
+                    <div class="heading02_field">
+                      <div class="dd_bg brown_bg">
+                        <input type="email" name="user_email" id="user_email" style="width: 100%;" required>
+                      </div>
+                      <div class="form_error"></div>
+                    </div>
+                    <div class="spacebar10px"></div>
+                    <label class="heading02" for="profile[role_name_id]">Role</label>
+                    <div class="heading02_field">
+                      <select name="profile[role_name_id]">
+                        <% RoleName.all.each do |role_name| %>
+                          <% if current_user.profile.has_role(Role.modify_settings) || (@profile && @profile.has_role(Role.modify_settings)) || role_name.name != 'Levelfly Admin' %>
+                          <option value="<%= role_name.id %>"><%= role_name.name %></option>
+                          <% end %>
+                        <% end %>
+                      </select>
+                    </div>
+                  </form>
+                </div>
+                <div class="clear"></div>
+                <div class="spacebar10px"></div>
+                <div class="spacebar10px"></div>
+                <div align="right" style="margin-right:20px;">
+                  <a class="big_blue_btn inlineblock" id="dont_add_btn" href="javascript:void(0)">Don't Add</a> 
+                  <a class="big_orange_btn inlineblock" id="add_btn" href="javascript:void(0)">Add</a>
+                </div>                
+              </div>
             </div>
           </div>
         </div>         
@@ -145,6 +177,52 @@ $("#message_to_user").click(function(){
 
 $("#dont_send_btn").click(function(){
   $('#send_email_all').hide();
+});
+
+$("#create_new_user").click(function(){
+  $('#add_user').show();
+});
+
+$('#dont_add_btn').click(function() {
+  $('#add_user').hide();
+});
+
+$('#add_btn').click(function() {
+  var $form = $('#add_user_form');
+  if ($form[0].checkValidity()) {
+    $('.form_error', $form).html("");
+    showSpinner(true);
+
+    var raw_email = $("#user_email").val(),
+        email = encodeURIComponent(raw_email),
+        role_name_id = $('select[name="profile[role_name_id]"]', $form).val(),
+        datastring = "email=" + email + "&role_name_id=" + role_name_id;
+
+    $.ajax({
+      type: "POST",
+      dataType: "json",
+      url: "/users/save/",
+      data: datastring,
+      success: function(data){
+
+        if (data.status==true) {
+          $form[0].reset();
+          $("#alert").html('A confirmation email has been sent to ' + raw_email);
+          $('#add_user').hide();
+        } else if (data.email_exist == true) {
+          $('.form_error', $form).html("A member with this email already exists.");
+        }
+
+        showSpinner(false);
+      }, error : function(){
+        alert("ERROR");
+        showSpinner(false);
+      }
+    });
+
+  } else {
+    $('.form_error', $form).html("Invalid email address format.");
+  }
 });
 
 // For sending message to all
@@ -250,13 +328,6 @@ $(document).ready(function(){
         });
       }
     }
-  });
-
-  $("#create_new_user").click(function(){
-    showSpinner(true);
-    $("#container").load("users/new", function(){
-      showSpinner(false);
-    }); 
   });
 });
   
