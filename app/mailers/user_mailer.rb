@@ -17,6 +17,11 @@ class UserMailer < ActionMailer::Base
           :subject => @subject)
   end
 
+  def welcome_email(user)
+    @resource = user
+    mail(:to => user.email, :subject => "Confirmation instructions")
+  end
+
   def school_invite(user, current_profile)
     @user = user
     @sender = current_profile
