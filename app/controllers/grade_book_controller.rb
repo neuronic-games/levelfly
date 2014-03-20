@@ -102,7 +102,7 @@ class GradeBookController < ApplicationController
       @outcomes = @course.outcomes.order('name')
       @participant = Participant.all( :joins => [:profile],
         :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course'", params[:course_id]],
-        :select => ["profiles.full_name,participants.id,participants.profile_id"],
+        :select => ["profiles.full_name,participants.id,participants.profile_id, profiles.image_file_name"],
         :order => "full_name")
       @tasks =  Course.sort_course_task(params[:course_id])
         if not @participant.nil?

@@ -1489,13 +1489,16 @@ $(document).ready(function(){
       table3.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
       table3.attr("id","heading_task");
       table3.addClass("heading_task");
-      $(participant).each(function(p, value){
+      $(participant).each(function(p, value) {
         var zero_outcome = false;
         if(outcomes.length==0){
           zero_outcome = true;
         }
         var count =0;
         var rows =$("<tr></tr>");
+        var avatar_col = $('<td class="avatar_box td_align"></td>');
+        var avatar_border = $('<div class="small_avatar_white_bdr profile" profile_id="' + value.profile_id + '"></div>');
+        var avatar_img = $('<img width="35" src="' + value.image_file_name + '">');
         var cols =$("<td></td>");
         var col2 =$("<td></td>");
         var div = $("<div></div>");
@@ -1508,6 +1511,10 @@ $(document).ready(function(){
         var cols2 =$("<td></td>");
         cols.attr('width','63%');
         var text = '';
+
+        avatar_border.html(avatar_img);
+        avatar_col.html(avatar_border);
+
         div2.addClass("GB_outcomment rotate_text");
         div2.html("WRITING USING A QUILL");
         div.addClass("b_box");
@@ -1519,8 +1526,9 @@ $(document).ready(function(){
         var  text = $("<input type ='text' value = '"+value.grade+"' id = '"+ value.profile_id +"' maxlength='1' readonly='readonly' size='5'/>")         
         text.addClass("task_grade")         
         div.html(text);        
-        col2.html(div);        
-        rows.html(cols);
+        col2.html(div);
+        rows.html(avatar_col);        
+        rows.append(cols);
         rows.append(col2);
         if(outcomes.length>0){
           $(outcomes).each(function(i, outcomes){
@@ -1679,6 +1687,7 @@ $(document).ready(function(){
      if(data.count<10){
        for (p=data.count; p<10; p++){
         var rows =$("<tr></tr>");
+        var avatar_col = $('<td class="avatar_box td_align"></td>');
         var cols =$("<td></td>");
         var col2 =$("<td></td>");
         var div = $("<div></div>");
@@ -1701,8 +1710,9 @@ $(document).ready(function(){
         var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='5'/>")         
         text.addClass("task_grade")         
         div.html(text);        
-        col2.html(div);        
-        rows.html(cols);
+        col2.html(div);
+        rows.html(avatar_col);   
+        rows.append(cols);
         rows.append(col2);
         if(outcomes.length>0){
           $(outcomes).each(function(i, outcomes){
