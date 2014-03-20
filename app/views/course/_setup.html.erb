@@ -173,32 +173,37 @@
   		<span class="field_title font_15px">Posting Privileges</span>
   		&nbsp;
 		<span class="field_notes spaceleft5px">
-			<input type="radio" name ="post_messages" <% if @course && @course.post_messages==true %> checked="true"<%end%>  value="true" id="post_messages"/> Allow members to post to the course's home page
+			<input type="radio" name ="post_messages"  <% if @course && @course.post_messages != true %>checked="true"<%end%> value="false" id="post_messages"/>
+			<label style="vertical-align: top;"> Only the organizer can post to the course's home page</label>
 		</span>
-		&nbsp;
-		<span class="field_notes spaceleft5px">
-			<input type="radio" name ="post_messages"  <% if @course && @course.post_messages != true %>checked="true"<%end%> value="false" id="post_messages"/> Only the organizer can post to the course's home page
-		</span>
-		&nbsp;
 		<div class="spacebar10px">&nbsp;</div>
+		<span class="field_notes spaceleft5px">
+			<input type="radio" name ="post_messages" <% if @course && @course.post_messages==true %> checked="true"<%end%>  value="true" id="post_messages"/>
+			<label style="vertical-align: top;"> Members can also post to the course's home page</label>
+		</span>
+		<div class="spacebar30px">&nbsp;</div>
 		<span class="field_title font_15px">Grading Privileges</span>
   		&nbsp;
 		<span class="field_notes spaceleft5px">
-			<input type="checkbox" name ="show_grade"  <%= @course && @course.show_grade ? "checked='checked'" : "" %> value="" id="show_grade"/> Allow members to view their grades
+			<input type="checkbox" name ="show_grade"  <%= @course && @course.show_grade ? "checked='checked'" : "" %> value="" id="show_grade"/>
+			<label style="vertical-align: top;"> Members can view their grades</label>
 		</span>
-		<span class="field_notes " style="font-size:10px;padding-left:17px;font-style: italic;">(From the "Stats" page, a student can view his or her running course grade</br>and task grades you enter in the Grade Book.)</span>
-      &nbsp;
-      <div class="spacebar10px">&nbsp;</div>
+		<span class="field_notes " style="font-size:10px;padding-left:20px;font-style: italic;"> From the "Stats" page, a student can view his or her running course grade</br>and task grades you enter in the Grade Book</span>
+      <div class="spacebar30px">&nbsp;</div>
     <span class="field_title font_15px">File uploading Privileges</span>
       &nbsp;
     <span class="field_notes spaceleft5px">
-      <input type="radio" name="allow_uploads" <% if @course && @course.allow_uploads != true %>checked="true"<%end%> value="false" id="allow_uploads_no" /> Only the organizer can upload course files
+      <input type="radio" name="allow_uploads" <% if @course && @course.allow_uploads != true %>checked="true"<%end%> value="false" id="allow_uploads_no" />
+      <label style="vertical-align: top;"> Only the organizer can upload course files</label>
     </span>
-      &nbsp;
+    <div class="spacebar10px">&nbsp;</div>
     <span class="field_notes spaceleft5px">
-      <input type="radio" name="allow_uploads" <% if @course && @course.allow_uploads==true %> checked="true"<%end%>  value="true" id="allow_uploads_yes" /> Members can also upload course files
+      <input type="radio" name="allow_uploads" <% if @course && @course.allow_uploads==true %> checked="true"<%end%>  value="true" id="allow_uploads_yes" />
+      <label style="vertical-align: top;"> Members can also upload course files</label>
     </span>
     <div class="spacebar30px">&nbsp;</div>
+    <div class="spacebar10px">&nbsp;</div>
+    <div class="spacebar10px">&nbsp;</div>
     <div class="spacebar30px">&nbsp;</div>
   </div>
 </div>
