@@ -589,6 +589,11 @@ a.blue_bt19px2 {
 .spaceleft5px{
 	padding:0px 0px 0px 5px;
 }
+
+.radio-label{
+	vertical-align: top;
+	padding-left: 3px;
+}
 /***friend list**/
 .friend_list {
   float:right;
