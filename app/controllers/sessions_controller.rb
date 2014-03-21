@@ -1,12 +1,11 @@
 class SessionsController < Devise::SessionsController
-  before_filter :identify_school, :only => :new
+  # before_filter :identify_school, :only => :new
   after_filter :active_admin, :only => :destroy
   
   private
   
   def identify_school
-    default_school = School.find_by_handle("demo")
-    session[:school_id] = default_school.id
+    session[:school_id] = school.id
     session[:slug] = params[:slug] ? params[:slug] : ""
     school = School.find_by_handle(params[:slug])
     if school

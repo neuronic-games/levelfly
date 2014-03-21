@@ -11,7 +11,7 @@ class CourseController < ApplicationController
       section_type = "C"
     end
     
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = Profile.find(:first, :conditions => ["user_id = ? and school_id = ?", current_user.id, school.id])
     
     if params[:search_text]
       search_text =  "%#{params[:search_text]}%"
