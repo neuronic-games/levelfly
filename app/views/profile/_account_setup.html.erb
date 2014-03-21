@@ -17,7 +17,7 @@
    <div>
     <input type ="text" class = "dd_input brown_bg02" id ="email" value="<%=@current_user.user.email%>">
    </div>
- </br>
+   <div class="form_error">&nbsp;</div>
    
    <div class="heading02">Password
      &nbsp;&nbsp;
@@ -81,6 +81,16 @@ $(document).click(function (e)
       }); 
     }   
  });
+
+ $('#account_dialog #email').change(function() {
+  $('#change_btn').attr('disabled', validateForm());
+
+  $.post('/profile/check_email', {email: this.value}, function(data) {
+    if (data.exists) {
+      $('#account_dialog .form_error').html('Someone is already using this email');
+    }
+  });
+ });
 function validateForm(){
 
   var user_password = document.getElementById("user_password");
@@ -90,13 +100,15 @@ function validateForm(){
   var dotpos=email.lastIndexOf(".");
  
   if (email==""){
-      alert('Enter Email Address');
+      $('#account_dialog .form_error').html('Enter Email Address');
       return false;
   }
   else if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length)
   {
-    alert("Not a valid e-mail address");
+    $('#account_dialog .form_error').html("Invalid email format");
     return false;
+  } else {
+    $('#account_dialog .form_error').html("&nbsp;");
   }
   
   if(user_password.value.length < 6 && user_password.value!=""){
