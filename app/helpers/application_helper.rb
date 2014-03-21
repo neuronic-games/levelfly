@@ -63,11 +63,11 @@ module ApplicationHelper
 	end
   
   def school
-    if session[:school_id]
-      School.find(session[:school_id])
-    elsif current_user && current_user.default_school
+    if current_user
       session[:school_id] = current_user.default_school.id
       current_user.default_school
+    elsif session[:school_id]
+      School.find(session[:school_id])
     else
       School.find_by_handle("demo")
     end

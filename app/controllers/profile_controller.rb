@@ -274,8 +274,6 @@ class ProfileController < ApplicationController
     current_user.default_school = School.find(params[:school_id])
     current_user.save
 
-    session[:school_id] = params[:school_id]
-
     render :json => {:status => true}
   end
   
