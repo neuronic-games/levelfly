@@ -33,18 +33,15 @@ class RegistrationsController < Devise::RegistrationsController
     end
 
     if @user
-      if @school && Profile.find_by_user_id_and_school_id(@user.id, @school.id)
-        flash[:notice] = ['That email address has already been taken']
-        return redirect_to new_registration_path(resource_name)
-      end
-
       unless @user.valid_password? params[:user][:password]
-        flash[:notice] = ["An account with this email already exist. Enter the correct password or click \"Forgot your password?\" above."]
+        flash[:notice] = ["An account with this email already exists. Enter the correct password or click \"Forgot your password?\" above."]
         return redirect_to new_registration_path(resource_name)
       end
     else
       @user = User.new(params[:user])
     end
+
+    @user.default_school = @school
 
     if @user.save
       profile = Profile.create_for_user(@user.id, @school.id)
