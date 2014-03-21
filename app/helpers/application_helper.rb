@@ -63,9 +63,17 @@ module ApplicationHelper
 	end
   
   def school
-    current_school = School.find(session[:school_id]) if session[:school_id]
-    current_school = School.find_by_handle("demo") unless session[:school_id]
-    return current_school
+    if session[:school_id]
+      School.find(session[:school_id])
+    elsif current_user && current_user.default_school
+      session[:school_id] = current_user.default_school.id
+      current_user.default_school
+    else
+      School.find_by_handle("demo")
+    end
   end
   
+  def current_profile
+    Profile.find_by_user_id_and_school_id(current_user.id, school.id)
+  end
 end
