@@ -279,4 +279,7 @@ class ProfileController < ApplicationController
     render :json => {:status => true}
   end
   
+  def check_email
+    render :json => {:exists => params[:email] != current_user.email && User.where(:email => params[:email]).count > 0}
+  end
 end
