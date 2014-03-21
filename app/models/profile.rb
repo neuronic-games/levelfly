@@ -15,7 +15,7 @@ class Profile < ActiveRecord::Base
   end
   
   def self.create_for_user(user_id, school_id, default = "DEFAULT")
-    profile = Profile.find(:first, :conditions => ["user_id = ?", user_id])
+    profile = Profile.find(:first, :conditions => ["user_id = ? and school_id = ?", user_id, school_id])
     if profile.nil?
       new_profile = Profile.find(:first, :conditions => ["code = ? and school_id = ?", default, school_id], :include => [:avatar])
 
