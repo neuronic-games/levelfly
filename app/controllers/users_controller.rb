@@ -39,7 +39,7 @@ class UsersController < ApplicationController
  def show
     if params[:id] and !params[:id].nil?
       @profile = Profile.find(params[:id])
-      @disable_edit = @profile && @profile.has_role(Role.modify_settings) && !current_user.profile.has_role(Role.modify_settings)
+      @disable_edit = @profile && @profile.has_role(Role.modify_settings) && !current_profile.has_role(Role.modify_settings)
       @avatar = @profile.avatar.to_json
       if @profile
         respond_to do |wants|
@@ -117,14 +117,14 @@ class UsersController < ApplicationController
       email_exist = true
     else
       @user, @profile = User.new_user(params[:email],school.id)
-      UserMailer.school_invite(@user, current_user.profile).deliver
+      UserMailer.school_invite(@user, current_profile).deliver
     end
   end
   if @profile
     @user = @profile.user
     @profile.full_name = params[:name] if params[:name]
 
-    @can_edit = current_user.profile.has_role(Role.modify_settings) || !@profile.has_role(Role.modify_settings)
+    @can_edit = current_profile.has_role(Role.modify_settings) || !@profile.has_role(Role.modify_settings)
 
     if @can_edit
       @profile.role_name = RoleName.find(params[:role_name_id]) if params[:role_name_id]
@@ -188,7 +188,7 @@ class UsersController < ApplicationController
  end
  
   def set_invite_codes
-    @school = current_user.profile.school
+    @school = current_profile.school
     student_code = params[:student_code].upcase
     teacher_code = params[:teacher_code].upcase
 

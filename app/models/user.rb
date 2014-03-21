@@ -18,8 +18,17 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :remember_me
  
-  has_one :profile
-  
+  has_many :profiles
+
+  def default_school
+    @_default_school ||= School.find_by_id(self.default_school_id) || self.profiles.first.school
+  end
+
+  def default_school=(school)
+    self.default_school_id = school.id
+    @_default_school = school
+  end
+
   def friends
     profiles = Participant.find(:all, :conditions=>["target_id = ? AND target_type = 'User' AND profile_type = 'F'", self.id]).collect! {|x| x.profile}
     return profiles
