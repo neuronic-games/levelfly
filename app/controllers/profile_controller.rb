@@ -274,9 +274,10 @@ class ProfileController < ApplicationController
     current_user.default_school = School.find(params[:school_id])
     current_user.save
 
-    session[:school_id] = params[:school_id]
-
     render :json => {:status => true}
   end
   
+  def check_email
+    render :json => {:exists => params[:email] != current_user.email && User.where(:email => params[:email]).count > 0}
+  end
 end
