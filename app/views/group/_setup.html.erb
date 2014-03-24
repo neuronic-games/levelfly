@@ -82,7 +82,7 @@
 		<div class="spacebar10px">&nbsp;</div>
 		<span class="field_notes spaceleft5px">
 			<input type="radio" name="post_messages" <% if @course && @course.post_messages==true %> checked="true"<%end%>  value="true" id="post_messages" />
-			<label style="vertical-align: top;"> Members can also post to the group's home page</label>
+			<label class="radio-label"> Members can also post to the group's home page</label>
 		</span>
 		<div class="spacebar30px">&nbsp;</div>
 		<span class="field_title font_15px">File Uploading Privileges</span>
@@ -117,6 +117,7 @@ $(document).ready(function(){
   $(".group_setup_edit").delegate("textarea","change",function(){
     changed=true;
   });
+  $("#group_descr").autosize();
 });
 
  //For image uploads
