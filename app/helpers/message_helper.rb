@@ -1,7 +1,7 @@
 module MessageHelper
 
   def comment_list(message_id)
-    @comment = Message.find(:all, :conditions => ["parent_id = ? AND parent_type = 'Message'", message_id], :order => 'created_at ASC')
+    @comment = Message.find(:all, :conditions => ["archived = ? AND parent_id = ? AND parent_type = 'Message'", false, message_id], :order => 'created_at ASC')
     @comments = @comment.reverse.reverse
     return @comments
   end
