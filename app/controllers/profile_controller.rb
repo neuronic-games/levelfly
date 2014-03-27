@@ -230,6 +230,13 @@ class ProfileController < ApplicationController
   def change_password
     if params[:id] and not params[:id].nil?
       @user = User.find(params[:id])
+
+      if params[:email] == @user.email
+        msg = "You updated your account successfully."
+      else
+        msg = "You updated your account successfully, but we need to verify your new email address. Please check your email and click on the confirm link."
+      end
+
       @user.email = params[:email] if params[:email]
       if params[:password] and !params[:password].blank?
         @user.password = params[:password]
@@ -239,7 +246,7 @@ class ProfileController < ApplicationController
         profile.full_name = params[:full_name]
         profile.save
         sign_in(@user, :bypass => true)
-        render :json =>{:text =>"Account detail changed successfully",:status =>true}
+        render :json =>{:text => msg, :status => true}
       else
         render :json =>{:text =>"ERROR",:status =>false}
       end
