@@ -1761,18 +1761,14 @@ margin-left:33px;
     width: 209px;
 }
 
-#add_user_form {
-  position: relative;
-}
-
 #add_user_form .heading02_field {
   width: 200px;
 }
 
 #add_user_form .form_error {
   position: absolute;
-  right: 0;
-  top: 0;
+  left: 25px;
+  bottom: 38px;
   width: 200px;
   color: red;
 }
