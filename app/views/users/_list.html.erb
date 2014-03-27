@@ -160,6 +160,20 @@
 
 <script type="text/javascript">
 
+function validate_form() {
+  var email = document.getElementById("user_email").value;
+  var atpos = email.indexOf("@");
+  var dotpos = email.lastIndexOf(".");
+ 
+  if (email == "") {
+    return 'Enter Email Address';
+  } else if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= email.length) {
+    return "Not a valid e-mail address";
+  }
+
+  return '';
+}
+
 $(document).ready(function(){
   $("#load_users").delegate(".view_user", "click", function() {
     showSpinner(true);
@@ -188,8 +202,11 @@ $('#dont_add_btn').click(function() {
 });
 
 $('#add_btn').click(function() {
-  var $form = $('#add_user_form');
-  if ($form[0].checkValidity()) {
+  console.log(validate_form);
+  var $form = $('#add_user_form'),
+      error = validate_form();
+
+  if (error == '') {
     $('.form_error', $form).html("");
     showSpinner(true);
 
@@ -221,7 +238,7 @@ $('#add_btn').click(function() {
     });
 
   } else {
-    $('.form_error', $form).html("Invalid email address format.");
+    $('.form_error', $form).html(error);
   }
 });
 
