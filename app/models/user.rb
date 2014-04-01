@@ -42,17 +42,21 @@ class User < ActiveRecord::Base
   end
   
   def self.new_user(email, school_id, password = nil)
-    @user = User.new do |u|
-      u.email = email
-      u.password = password ? password : "defaultpassword"
-      #u.reset_password_token= User.reset_password_token 
-    end
-    @user.skip_confirmation!
-    @user.save(:validate => false)
+    if @user = find_by_email(email)
+      
+    else
+      @user = User.new do |u|
+        u.email = email
+        u.password = password ? password : "defaultpassword"
+        #u.reset_password_token= User.reset_password_token 
+      end
+      @user.skip_confirmation!
+      @user.save(:validate => false)
 
-    @user.confirmed_at = nil
-    @user.confirmation_sent_at = Time.now
-    @user.save(:validate => false)
+      @user.confirmed_at = nil
+      @user.confirmation_sent_at = Time.now
+      @user.save(:validate => false)
+    end
     
     if @user
       @profile = Profile.create_for_user(@user.id,school_id)
@@ -62,6 +66,10 @@ class User < ActiveRecord::Base
   end
   
   def full_name
+  end
+
+  def self.find_by_email_and_school_id(email, school_id)
+    User.joins(:profiles).find(:first, :conditions => ["users.email = ? AND profiles.school_id = ?", email, school_id])
   end
   
   # Delete User who is not register their acoount yet.

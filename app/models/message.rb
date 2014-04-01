@@ -1,6 +1,7 @@
 class Message < ActiveRecord::Base
   belongs_to :profile
-  belongs_to :parent, :polymorphic=>true
+  belongs_to :parent, :polymorphic => true
+  belongs_to :target, :polymorphic => true
   belongs_to :wall
   has_many :message_viewers
 
@@ -36,21 +37,42 @@ class Message < ActiveRecord::Base
   def self.send_course_request(profile_id, parent_id, wall_id, target_id,section_type,message_type,content)
     course = Course.find(target_id)
     @message = Message.new
-    @message.profile_id = profile_id 
+    @message.profile_id = profile_id
     @message.parent_id = parent_id
     @message.target_id = target_id
     @message.target_type = section_type
     @message.parent_type = section_type
     @message.message_type = message_type
     @message.content = content
-    @message.wall_id = wall_id#Wall.get_wall_id(parent_id, "Course") 
+    @message.wall_id = wall_id#Wall.get_wall_id(parent_id, "Course")
     @message.archived = false
     @message.post_date = DateTime.now
     @message.save
     MessageViewer.invites(profile_id, @message.id,parent_id)
     return @message
   end
-  
+
+  def self.send_school_invitations(user, sender)
+    @message = Message.new
+    @message.parent = @message.profile = sender
+    @message.target = sender.school
+    @message.message_type = 'school_invite'
+    @message.content = "Please join #{sender.school.code} (#{sender.school.name})"
+    @message.archived = false
+    @message.post_date = DateTime.now
+    @message.save
+
+    user.profiles.each do |profile|
+      MessageViewer.create(
+        :message_id => @message.id,
+        :poster_profile_id => sender.id,
+        :viewer_profile_id => profile.id,
+        :archived => false,
+        :viewed => false
+      )
+    end
+  end
+
   def self.respond_to_course_invitation(parent_id,profile_id,target_id,content,section_type)
     course = Course.find(target_id)
     @message = Message.new
