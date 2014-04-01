@@ -1,7 +1,6 @@
 class ConfirmationsController < Devise::ConfirmationsController
-
   def show
-    reconfirmed = current_user.pending_reconfirmation?
+    reconfirmed = current_user && current_user.pending_reconfirmation?
     super
 
     if reconfirmed
