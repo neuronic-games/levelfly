@@ -11,7 +11,7 @@ class CourseController < ApplicationController
       section_type = "C"
     end
     
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = Profile.find(:first, :conditions => ["user_id = ? and school_id = ?", current_user.id, school.id])
     
     if params[:search_text]
       search_text =  "%#{params[:search_text]}%"
@@ -113,7 +113,7 @@ class CourseController < ApplicationController
   end
   
   def new
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = current_profile
     # TODO: There is a bug in the view that occurs if a blank course is not saved first.
     # We need to make sure that the id is sent back to the view and the view updated with the id.
     @course = Course.create
@@ -130,7 +130,7 @@ class CourseController < ApplicationController
   
   def show
     @course = Course.find_by_id(params[:id])
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = current_profile
     @wall = Wall.find(:first,:conditions=>["parent_id = ? AND parent_type='Course'", @course.id])
     if !@profile.nil?
     @badges = AvatarBadge.where("profile_id = ? and course_id = ?",@profile.id,@course.id).count

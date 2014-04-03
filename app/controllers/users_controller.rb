@@ -39,7 +39,7 @@ class UsersController < ApplicationController
  def show
     if params[:id] and !params[:id].nil?
       @profile = Profile.find(params[:id])
-      @disable_edit = @profile && @profile.has_role(Role.modify_settings) && !current_user.profile.has_role(Role.modify_settings)
+      @disable_edit = @profile && @profile.has_role(Role.modify_settings) && !current_profile.has_role(Role.modify_settings)
       @avatar = @profile.avatar.to_json
       if @profile
         respond_to do |wants|
@@ -105,26 +105,27 @@ class UsersController < ApplicationController
    end
    render :text => {"status" => status}
  end
- 
+
  def save
   status = false
   email_exist = false
   if params[:id] and !params[:id].blank?
     @profile = Profile.find(params[:id])
   else
-    @email = User.find(:first, :conditions => ["email = ? ",params[:email]])
+    @email = User.find_by_email_and_school_id(params[:email], current_profile.school_id)
     if @email and !@email.nil?
       email_exist = true
     else
       @user, @profile = User.new_user(params[:email],school.id)
-      UserMailer.school_invite(@user, current_user.profile).deliver
+      Message.send_school_invitations(@user, current_profile)
+      UserMailer.school_invite(@user, current_profile).deliver
     end
   end
   if @profile
     @user = @profile.user
     @profile.full_name = params[:name] if params[:name]
 
-    @can_edit = current_user.profile.has_role(Role.modify_settings) || !@profile.has_role(Role.modify_settings)
+    @can_edit = current_profile.has_role(Role.modify_settings) || !@profile.has_role(Role.modify_settings)
 
     if @can_edit
       @profile.role_name = RoleName.find(params[:role_name_id]) if params[:role_name_id]
@@ -164,6 +165,7 @@ class UsersController < ApplicationController
      @user = profile.user
      check = @user.email.downcase.scan(/del\-[0-9]*\-/)
      unless !check.empty?
+       @user.skip_confirmation!
        @user.status = "D"
        # this only allows you to delete 1 user with the same email per day
        @user.email = "DEL-#{timestamp}-#{@user.email}"
@@ -188,7 +190,7 @@ class UsersController < ApplicationController
  end
  
   def set_invite_codes
-    @school = current_user.profile.school
+    @school = current_profile.school
     student_code = params[:student_code].upcase
     teacher_code = params[:teacher_code].upcase
 
