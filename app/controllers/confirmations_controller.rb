@@ -7,6 +7,8 @@ class ConfirmationsController < Devise::ConfirmationsController
     yield resource if block_given?
 
     if resource.errors.empty?
+      sign_in self.resource
+
       if reconfirmed
         flash[:notice] = "Your account email has been successfully changed."
         flash[:email_confirmation] = true
