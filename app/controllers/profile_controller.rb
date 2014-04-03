@@ -31,7 +31,7 @@ class ProfileController < ApplicationController
 
   def show
     if params[:id].blank?
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      @profile = current_profile
       publish_profile(@profile)
     else
       @profile = Profile.find(params[:id])
@@ -183,7 +183,7 @@ class ProfileController < ApplicationController
   def user_profile
     previous_level = nil
     if params[:profile_id].blank?
-      @profile = Profile.find(user_session[:profile_id])
+      @profile = current_profile
       @badge = Badge.badge_count(@profile.id)
     else
       @profile = Profile.find(params[:profile_id])
@@ -268,6 +268,15 @@ class ProfileController < ApplicationController
         render :json =>{:status =>false}
       end 
     end
+  end
+
+  def change_school
+    current_user.default_school = School.find(params[:school_id])
+    current_user.save
+
+    session[:school_id] = params[:school_id]
+
+    render :json => {:status => true}
   end
   
 end

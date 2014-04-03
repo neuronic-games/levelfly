@@ -83,7 +83,12 @@
             <% end %>
           </div>
           
-          <h2 id="major_school_name"><%= @profile.major_school %></h2>
+          <h2 id="major_school_name">
+            <%= @profile.major_school %>
+            <% if current_user.profiles.count > 1 %>
+              <strong class="school_picker">&#9660;</strong>
+            <% end %>
+          </h2>
         </div>
          <div class="hide" style="margin-left:90px;">
            <a href="javascript:void(0);"><img src="/images//back_btn.png" /></a>
@@ -239,6 +244,7 @@
       <% end %>
     </ul>
   </div>
+
 </body>
 <script type="text/javascript">
 
@@ -278,6 +284,27 @@
         autoScrollingDelay:500 
       });
     }
+
+    $('#major_school_name').click(function() {
+      var $major_school_name = $(this),
+          offset = $major_school_name.offset();
+
+      $('#school_dropdown').css({
+        'position': 'absolute',
+        'top': offset.top + $major_school_name.height() + 8,
+        'left': offset.left - 16
+      }).toggleClass('hide');
+    });
+
+    $('#school_dropdown li').click(function() {
+      showSpinner(true);
+      $.post('/profile/change_school', {school_id: $(this).data('school-id')}, function(data) {
+        if (data.status) {
+          showSpinner(false);
+          window.location.reload();
+        }
+      });
+    });
   })(jQuery);
 
 var h = new Object(); 

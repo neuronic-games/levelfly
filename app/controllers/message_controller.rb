@@ -22,16 +22,17 @@ class MessageController < ApplicationController
     if params[:search_text]
       search_text =  "%#{params[:search_text]}%"
       @comment_ids = Message.find(:all,
-        :select => "parent_id", 
+        :select => "parent_id",
         :conditions => ["(archived is NULL or archived = ?) AND parent_type = 'Message' AND lower(content) LIKE ? ", false, search_text.downcase]).collect(&:parent_id)
       conditions = ["id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend' AND (lower(content) LIKE ? OR id in (?) or lower(topic) LIKE ? )", message_ids, false, search_text.downcase, @comment_ids,search_text.downcase]
       order = nil
     elsif params[:friend_id]
       conditions = ["(archived is NULL or archived = ?) AND profile_id = ? AND message_type ='Message' AND parent_type='Profile' and id in (?)", false, params[:friend_id], message_ids]
-      order = nil 
-    else 
+      order = nil
+    else
       conditions = ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type in ('')", false, message_ids]
       order = 'created_at DESC'
+      @school_invites = Message.find(:all, :conditions => ["message_type = 'school_invite' AND (archived is NULL OR archived = ?) AND id IN (?)", false, message_ids], :order => "created_at DESC")
       @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite', 'group_request','group_invite') AND parent_id = ? AND (archived is NULL or archived = ?) and id in(?)", @profile.id, false, message_ids],:order => 'created_at DESC')
       @respont_to_course = Message.find(:all,:conditions=>["target_type in('Course','Notification') AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived = ? and id in(?)", @profile.id,false,message_ids], :order => 'created_at DESC')
     end
