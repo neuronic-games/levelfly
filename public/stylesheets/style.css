@@ -1761,18 +1761,14 @@ margin-left:33px;
     width: 209px;
 }
 
-#add_user_form {
-  position: relative;
-}
-
 #add_user_form .heading02_field {
   width: 200px;
 }
 
 #add_user_form .form_error {
   position: absolute;
-  right: 0;
-  top: 0;
+  left: 25px;
+  bottom: 38px;
   width: 200px;
   color: red;
 }
@@ -4316,6 +4312,9 @@ border:solid 0px #000000;
   height:20px;
   font-size:17px;
   font-weight:bold;
+}
+#account_dialog .form_error {
+  color: red;
 }
 .message_warning_box{
 border:solid 0px #000000;
