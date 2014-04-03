@@ -55,13 +55,20 @@ $(document).click(function (e)
     }
 });
  $("#change_btn").click(function(){
-    if (!$(this).data('disabled')) {
+    var $this = $(this);
+
+    if ($this.data('disabled')) {
+      if ($this.data('checking')) {
+        $this.data('clicked', true);
+      }
+    } else {
       var id = $("#hdn_user_id").val(),
           password = $("#user_password").val(),
           full_name = $("#user_full_name").val(),
           email = $("#email").val();
 
       showSpinner(true);
+
       $.ajax({
         type: "POST",
         url: "/profile/change_password",
@@ -72,7 +79,7 @@ $(document).click(function (e)
             showSpinner(false);
             $("#account_setup").hide();
             $("#alert").html(resp.text)
-            if(resp.status ==true){
+            if(resp.status == true) {
               $("#tool_bar_full_name").html(full_name);
             }
             //$("#account_setup").fadeOut(5000);
@@ -83,13 +90,22 @@ $(document).click(function (e)
  });
 
  $('#account_dialog #email').change(function() {
-  $('#change_btn').data('disabled', true);
+  var $change_btn = $('#change_btn');
+
+  $change_btn.data('disabled', true);
+  $change_btn.data('checking', true);
 
   $.post('/profile/check_email', {email: this.value}, function(data) {
     if (data.exists) {
       $('#account_dialog .form_error').html('Someone is already using this email');
     } else {
-      $('#change_btn').data('disabled', !validateForm());
+      $change_btn.data('disabled', !validateForm());
+      $change_btn.data('checking', false);
+
+      if ($change_btn.data('clicked')) {
+        $change_btn.data('clicked', false);
+        $change_btn.click();
+      }
     }
   });
  });

@@ -1,17 +1,27 @@
 <div class="messages_content load_messages">
   <div class="msg_content_left">
-    
+
+    <!-- School invites -->
+
+    <% if @school_invites and not @school_invites.empty? %>
+      <div id="school_invites_title"><h2 style="font-size:16px;">INVITES</h2></div>
+      <div id="school_invites">
+       <% @school_invites.each do |school_invite| %>
+         <%= render :partial => "/message/friend_requests", :locals => {:friend_request => school_invite} %>
+       <% end %>
+      </div>
+    <% end %>
+
     <!-- Invites -->
-   
+
     <% if @friend_requests and not @friend_requests.empty? %>
      <div id="invites_title"><h2 style="font-size:16px;">INVITES</h2></div>
      <div id="course_requests">
       <% @friend_requests.each do |friend_request| %>
         <%= render :partial => "/message/friend_requests", :locals => {:friend_request=>friend_request} %>
       <% end %>
-     </div>     
+     </div>
     <% end %>
-  
 
      <!-- Respond -->
        <% if @respont_to_course and not @respont_to_course.empty? %>
