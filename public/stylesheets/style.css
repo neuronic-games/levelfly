@@ -1773,6 +1773,14 @@ margin-left:33px;
   color: red;
 }
 
+.task_content .form_error {
+  color: red;
+  text-align: left;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 10px 0 0 5px;
+}
+
 /*new*/
 
 .GB_outcommentTab {
