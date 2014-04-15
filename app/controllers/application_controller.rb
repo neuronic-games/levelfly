@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   private
   
   def set_current_profile()
-    if current_user and user_session[:profile_id].blank?
+    if current_user
       profile = Profile.create_for_user(current_user.id, school.id)
       publish_profile(profile)
       if current_user.status == "S"

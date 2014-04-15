@@ -105,18 +105,19 @@ class UsersController < ApplicationController
    end
    render :text => {"status" => status}
  end
- 
+
  def save
   status = false
   email_exist = false
   if params[:id] and !params[:id].blank?
     @profile = Profile.find(params[:id])
   else
-    @email = User.find(:first, :conditions => ["email = ? ",params[:email]])
+    @email = User.find_by_email_and_school_id(params[:email], current_profile.school_id)
     if @email and !@email.nil?
       email_exist = true
     else
       @user, @profile = User.new_user(params[:email],school.id)
+      Message.send_school_invitations(@user, current_profile)
       UserMailer.school_invite(@user, current_profile).deliver
     end
   end
@@ -164,6 +165,7 @@ class UsersController < ApplicationController
      @user = profile.user
      check = @user.email.downcase.scan(/del\-[0-9]*\-/)
      unless !check.empty?
+       @user.skip_confirmation!
        @user.status = "D"
        # this only allows you to delete 1 user with the same email per day
        @user.email = "DEL-#{timestamp}-#{@user.email}"

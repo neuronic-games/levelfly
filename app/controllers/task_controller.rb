@@ -193,6 +193,10 @@ class TaskController < ApplicationController
     @task.all_members = false if (params[:all_members] == "Some")
     # Has something changed on the task that could change it's points value?
     # FIXME: We may want to recalculate points if the task raiting or course settings change
+
+    if @task.course_id == 0 || @task.course_id == nil
+      render :text => { "status" => false, "task" => nil }.to_json and return
+    end
     
     if params[:file]
       @task.image.destroy if @task.image
