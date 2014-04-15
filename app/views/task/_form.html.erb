@@ -245,6 +245,7 @@ function addNode(element) {
                         <option value="<%= c.id %>" <%=@task.course_id==c.id ? "Selected" : ""  if @task %>><%= c.name %></option>
                         <% end %>
                       </select>
+                      <div class="form_error hide">Select a course.</div>
                     </div>
                     
                     <div class="catagory_task_viewfield" >
@@ -660,6 +661,8 @@ $(document).ready(function(){
  
   
   $("#course").unbind('change').bind( "change", function(){
+    $('#course + .form_error').addClass('hide');
+
     showSpinner(true);
     courseId = $(this).val();
     //To fill out the categories
@@ -1227,6 +1230,12 @@ function save_task(channel) {
     school_id = $("#task_school_id_hdn").val();
     category_id = getStorage("task_category");
     all_members = $('input[name="assign_task[]"]:checked').attr("value");
+
+    if (!course_id) {
+      $('#course + .form_error').removeClass('hide');
+      return;
+    }
+
     //For outcome data object (gather values from dynamic created nodes)
     var outcomeObject = [];
     i = 0;
@@ -1267,7 +1276,7 @@ function save_task(channel) {
       data: dataString,
       dataType:"json",
       success: function(data) {
-        if (data) {
+        if (data && data.status) {
           $("#task_id_hdn").val(data.task.id);
           $("#task").val(data.task.name);
           $("#task_date").val(data.task.due_date);
