@@ -468,7 +468,7 @@ class TaskController < ApplicationController
   end
   
   def view_task
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = current_profile
     @courses = Course.find(
         :all, 
         :select => "distinct *",
