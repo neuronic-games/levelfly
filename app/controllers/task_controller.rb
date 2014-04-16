@@ -3,7 +3,7 @@ class TaskController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_role,:only=>[:new, :save]
   def index
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = current_profile
     if @profile
       @courses = Course.find(
         :all, 
@@ -39,7 +39,7 @@ class TaskController < ApplicationController
   end
   
   def new
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = current_profile
     @courses = Course.find(
       :all, 
       :include => [:participants], 
@@ -133,7 +133,7 @@ class TaskController < ApplicationController
   end
   
   def get_task
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = current_profile
     tasks = Task.filter_by(@profile.id, params[:show], params[:filter])
     logger.info tasks
     render :partial => "/task/task_list", :locals => {:@tasks =>tasks}
@@ -472,7 +472,7 @@ class TaskController < ApplicationController
   end
   
   def view_task
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = current_profile
     @courses = Course.find(
         :all, 
         :select => "distinct *",
