@@ -6,7 +6,7 @@ class GradeBookController < ApplicationController
   
   def index
     @enable_palette = false
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = current_profile
     if @profile
       setting = Setting.find(:first, :conditions=>["target_id = ? and value = 'true' and target_type ='school' and name ='enable_grade_palette' ",@profile.school_id])
       if setting and !setting.nil?
@@ -44,7 +44,7 @@ class GradeBookController < ApplicationController
     else
       archived = false
     end
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      @profile = current_profile
       @courses = [];
       @people =[];
       @tasks = [];
