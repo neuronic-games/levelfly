@@ -3,6 +3,7 @@ require 'csv'
 class GradeBookController < ApplicationController
   layout 'main'
   before_filter :authenticate_user!
+  include GradeBookHelper
   
   def index
     @enable_palette = false
@@ -161,13 +162,8 @@ class GradeBookController < ApplicationController
         if not @tasks.nil?
           @tasks.each do |t|
             t["task_outcomes"] = t.outcomes.sort_by{|m| m.name.downcase}
-             task = Task.find(t.id)
-              if task.category
-               t["task_category"] = "(#{task.category.name})"
-              else
-               t["task_category"] = "(Uncategorized)" 
-              end
-             
+            task = Task.find(t.id)
+            t["task_category"] = load_caregory_name(t.id)
           end
         end
        @count = @participant.count  
