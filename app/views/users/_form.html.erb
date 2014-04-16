@@ -85,15 +85,18 @@
               </div>
               <div class="clear"></div>
               <% if @profile %>
-              </br>
+              <br>
               <div class="course_viewfield color_b field_label">This user is:
-                <div class=""></br>
+                <div class=""><br>
                   <input type="radio" name="user_status[]" checked="true" value="" rel="A" <% if @disable_edit %>disabled="true"<% end %>><span> Active 
                   </span>
                   &nbsp; &nbsp;
                   <input type="radio" name="user_status[]" <%if @profile.user.status=="S" %>checked="true"<%end%>  rel="S" value="" <% if @disable_edit %>disabled="true"<% end %>><span> Suspended</span>
                 </div> 
               </div>
+              <div class="clear"></div>
+              <br>Last logged in <%= time_ago_in_words(@profile.user.last_sign_in_at) %> ago (<%= @profile.user.last_sign_in_at.strftime('%-m/%-d/%Y %l:%M%P') %>)
+              <br>Created <%= time_ago_in_words(@profile.created_at) %> ago (<%= @profile.created_at.strftime('%-m/%-d/%Y %l:%M%P') %>)
               <% end %>
             </div>          
           </div>  
