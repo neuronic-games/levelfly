@@ -42,7 +42,7 @@ class Admin < ActiveRecord::Base
   
   def self.list_members(from_date, school_code)
     school = School.find(:first, :conditions => ["code = ?", school_code])
-    courses = Course.find(:all, :conditions => ["created_at > ? and school_code = ?", from_date, school.code])
+    courses = Course.find(:all, :conditions => ["created_at > ? and school_id = ?", from_date, school.id])
     courses.each do |course|
       participants = Participant.find(:all, :conditions => ["target_type = ? and target_id = ?", 'Course', course.id])
       puts "#{course.name}, #{course.id}, #{participants.count}"
