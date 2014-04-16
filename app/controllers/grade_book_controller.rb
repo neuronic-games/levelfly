@@ -3,10 +3,11 @@ require 'csv'
 class GradeBookController < ApplicationController
   layout 'main'
   before_filter :authenticate_user!
+  include GradeBookHelper
   
   def index
     @enable_palette = false
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = current_profile
     if @profile
       setting = Setting.find(:first, :conditions=>["target_id = ? and value = 'true' and target_type ='school' and name ='enable_grade_palette' ",@profile.school_id])
       if setting and !setting.nil?
@@ -44,7 +45,7 @@ class GradeBookController < ApplicationController
     else
       archived = false
     end
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      @profile = current_profile
       @courses = [];
       @people =[];
       @tasks = [];
@@ -161,13 +162,8 @@ class GradeBookController < ApplicationController
         if not @tasks.nil?
           @tasks.each do |t|
             t["task_outcomes"] = t.outcomes.sort_by{|m| m.name.downcase}
-             task = Task.find(t.id)
-              if task.category
-               t["task_category"] = "(#{task.category.name})"
-              else
-               t["task_category"] = "(Uncategorized)" 
-              end
-             
+            task = Task.find(t.id)
+            t["task_category"] = load_caregory_name(t.id)
           end
         end
        @count = @participant.count  

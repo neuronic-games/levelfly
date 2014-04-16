@@ -73,6 +73,15 @@ class UsersController < ApplicationController
      elsif params[:id] == "members_of_groups"
        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, "G"], :order => "name").collect(&:id)
        profile_ids = Participant.find(:all, :conditions => ["target_id IN (?)",course_ids]).collect(&:profile_id).uniq
+     elsif params[:id] == "organizers_of_courses"
+       course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, "C"], :order => "name").collect(&:id)
+       profile_ids = Participant.find(:all, :conditions => ["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).uniq
+     elsif params[:id] == "organizers_of_groups"
+       course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, "G"], :order => "name").collect(&:id)
+       profile_ids = Participant.find(:all, :conditions => ["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).uniq
+     elsif params[:id] == "organizers_of_courses_and_groups"
+       course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and name is not null", false, false], :order => "name").collect(&:id)
+       profile_ids = Participant.find(:all, :conditions => ["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).uniq
      else
        profile_ids = Participant.find(:all, :conditions => ["target_id = ?",params[:id]]).collect(&:profile_id).uniq
      end
