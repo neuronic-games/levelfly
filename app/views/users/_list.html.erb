@@ -162,12 +162,10 @@
 
 function validate_form() {
   var email = document.getElementById("user_email").value;
-  var atpos = email.indexOf("@");
-  var dotpos = email.lastIndexOf(".");
  
   if (email == "") {
     return 'Enter Email Address';
-  } else if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= email.length) {
+  } else if (!OnCampus.Validation.validateEmail(email)) {
     return "Not a valid e-mail address";
   }
 
@@ -202,7 +200,6 @@ $('#dont_add_btn').click(function() {
 });
 
 $('#add_btn').click(function() {
-  console.log(validate_form);
   var $form = $('#add_user_form'),
       error = validate_form();
 
