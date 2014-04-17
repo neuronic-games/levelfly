@@ -436,6 +436,7 @@ $(document).ready(function(){
       select_points = false
       select_alphabet = true;
       select_symbol = true;
+      reset = false;
       var first = true; 
       $.each(arr_id, function(index, id) { 
         if (id == "letest1")
@@ -468,6 +469,7 @@ $(document).ready(function(){
     undo_select = false;
     select_alphabet = true;
     select_symbol = true;
+    reset = false;
     final_value = ''
     alphabet = "" ;
     sign = "";
@@ -548,7 +550,8 @@ $(document).ready(function(){
   //Selection of alphabets for gradeing
   $('.alphabet').click(function(){
     undo_select = false;
-    select_points = false
+    select_points = false;
+    reset = false;
     var previous = $("#clicked_id").val();
     $("#clicked_id").val($(this).attr("id"));
     $.each(arr_id, function(index, id) { 
@@ -806,7 +809,7 @@ $(document).ready(function(){
     select_points = false
     select_alphabet = true;
     select_symbol = true;
-    reset = false
+    reset = false;
     alphabet = "" ;
     sign = "";
     final_value = "";
