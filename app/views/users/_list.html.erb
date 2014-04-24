@@ -29,6 +29,9 @@
                   <option value="all_active" class="brown_bg">All Registered Users</option>
                   <option value="members_of_courses" class="brown_bg">Members of Courses</option>
                   <option value="members_of_groups" class="brown_bg">Members of Groups</option>
+                  <option value="organizers_of_courses" class="brown_bg">Organizers of Courses</option>
+                  <option value="organizers_of_groups" class="brown_bg">Organizers of Groups</option>
+                  <option value="organizers_of_courses_and_groups" class="brown_bg">Organizers of Courses &amp; Groups</option>
                   <optgroup label="Courses">
                     <%courses = all_course("C")%>
                     <% if courses and !courses.nil?%>
@@ -162,12 +165,10 @@
 
 function validate_form() {
   var email = document.getElementById("user_email").value;
-  var atpos = email.indexOf("@");
-  var dotpos = email.lastIndexOf(".");
  
   if (email == "") {
     return 'Enter Email Address';
-  } else if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= email.length) {
+  } else if (!OnCampus.Validation.validateEmail(email)) {
     return "Not a valid e-mail address";
   }
 
@@ -202,7 +203,6 @@ $('#dont_add_btn').click(function() {
 });
 
 $('#add_btn').click(function() {
-  console.log(validate_form);
   var $form = $('#add_user_form'),
       error = validate_form();
 
