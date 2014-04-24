@@ -100,5 +100,15 @@ module TaskHelper
     end
     return title
   end
+
+  def no_course(school_id)
+    unless @no_course = Course.find_by_code_and_school_id('', school_id)
+      @no_course = Course.new(:name => 'No Course', :code => '', :school_id => school_id)
+      @no_course.owner = Profile.find_by_code('DEFAULT')
+      @no_course.save
+    end
+
+    @no_course
+  end
   
 end
