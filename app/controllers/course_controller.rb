@@ -301,7 +301,6 @@ class CourseController < ApplicationController
       emails = params[:email].split(/[ ,;]+/)
 
       emails.each do |email|
-        logger.info ":#{email}:"
         # Change 'Group' to 'Course' because of query include `participants`.`target_type` = 'Course' when load group or course! Change by vaibhav
         section_type = 'Course'
         @user = User.find(:first, :conditions => ["lower(email) = ?", email.downcase])
