@@ -42,7 +42,7 @@ class TaskController < ApplicationController
   
   def new
     @profile = current_profile
-    @no_course = no_course(@profile.school_id)
+    @no_course = Course.find_by_code('')
 
     @courses = Course.find(
       :all, 
@@ -78,7 +78,7 @@ class TaskController < ApplicationController
     @task = Task.find_by_id(params[:id])
     @course = @task.course
     @profile = current_profile
-    @no_course = no_course(@profile.school_id)
+    @no_course = Course.find_by_code('')
 		## Below query seems wrong as it is taking profile_id as a check but if we take current users profile_id then it
 		## will always return current users record only (if the current user is a task owner) It may be written to check if the
 		## current user is the task owner or not. I am (Vaibhav) now commenting this and will impose a new boolean  check to see
