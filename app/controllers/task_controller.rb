@@ -1,4 +1,6 @@
 class TaskController < ApplicationController
+  include TaskHelper
+
   layout 'main'
   before_filter :authenticate_user!
   before_filter :check_role,:only=>[:new, :save]
@@ -40,6 +42,8 @@ class TaskController < ApplicationController
   
   def new
     @profile = current_profile
+    @no_course = Course.find_by_code('')
+
     @courses = Course.find(
       :all, 
       :include => [:participants], 
@@ -73,7 +77,8 @@ class TaskController < ApplicationController
   def show
     @task = Task.find_by_id(params[:id])
     @course = @task.course
-		@profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = current_profile
+    @no_course = Course.find_by_code('')
 		## Below query seems wrong as it is taking profile_id as a check but if we take current users profile_id then it
 		## will always return current users record only (if the current user is a task owner) It may be written to check if the
 		## current user is the task owner or not. I am (Vaibhav) now commenting this and will impose a new boolean  check to see
@@ -116,7 +121,7 @@ class TaskController < ApplicationController
     participant = TaskParticipant.find(:first,
       :include => [:profile, :task],
       :conditions => ["task_id = ? and profile_id = ?", @task.id, @profile.id])
-    @check_complete_task = true if participant.status == Task.status_complete
+    @check_complete_task = true if participant and participant.status == Task.status_complete
     
     @profile.record_action('last', 'task')
     @profile.record_action('task', @task.id)
@@ -193,17 +198,13 @@ class TaskController < ApplicationController
     @task.all_members = false if (params[:all_members] == "Some")
     # Has something changed on the task that could change it's points value?
     # FIXME: We may want to recalculate points if the task raiting or course settings change
-
-    if @task.course_id == 0 || @task.course_id == nil
-      render :text => { "status" => false, "task" => nil }.to_json and return
-    end
     
     if params[:file]
       @task.image.destroy if @task.image
       @task.image = params[:file]
     end
     
-    if course != @task.course_id && @task.image.to_s != "/images/original/missing.png" && @task.course_id != 0
+    if course != 0 && course != @task.course_id && @task.image.to_s != "/images/original/missing.png"
       school_id = @task.school_id ? @task.school_id : 1
       filename = @task.image_file_name
       bucket = "#{ENV['S3_PATH']}/schools/#{school_id}/courses/#{course}/tasks/#{@task.id}"
