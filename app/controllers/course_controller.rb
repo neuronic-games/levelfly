@@ -298,64 +298,63 @@ class CourseController < ApplicationController
     content = nil
 		resend = false
     if params[:email]
-      #if params[:section_type] == 'G'
-       #    section_type = 'Group'
-      #end   
-      #if params[:section_type] == 'C'
-       #  section_type = 'Course'
-      #end 
-      # Change 'Group' to 'Course' because of query include `participants`.`target_type` = 'Course' when load group or course! Change by vaibhav
-      section_type = 'Course'
-      @user = User.find(:first, :conditions => ["lower(email) = ?", params[:email].downcase])
-      if @user 
-        @profile = Profile.find_by_user_id(@user.id)
-      else  
-        @user, @profile = User.new_user(params[:email],school.id)
-        new_user = true
-      end
-      if @profile
-        participant_exist = Participant.find(:first, :conditions => ["target_id = ? AND target_type= ? AND profile_id = ?", params[:course_id], section_type, @profile.id])
-        course = Course.find(params[:course_id])
-        if !participant_exist
-          @participant = Participant.new
-          @participant.target_id = params[:course_id]
-          @participant.target_type = section_type
-          @participant.profile_id = @profile.id
-          @participant.profile_type = "P"
-          if @participant.save
-            wall_id = Wall.get_wall_id(params[:course_id],"Course")
-            Feed.create(
-              :profile_id => @profile.id,
-              :wall_id =>wall_id
-            )
-            # Send a message. It may also send an email.
-             if params[:section_type] == 'G'
-               message_type = "group_invite"
-               content = "You are invited to join the group: #{course.name}."
-             elsif params[:section_type] == 'C'
-               message_type = "course_invite"
-               content = "Please join #{course.name} (#{course.code_section})."
-             end
-            @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
-						send_email(@user,params[:course_id],@message.id,new_user)     
-            status = true           
+      emails = params[:email].split(/[ ,;]+/)
+
+      emails.each do |email|
+        logger.info ":#{email}:"
+        # Change 'Group' to 'Course' because of query include `participants`.`target_type` = 'Course' when load group or course! Change by vaibhav
+        section_type = 'Course'
+        @user = User.find(:first, :conditions => ["lower(email) = ?", email.downcase])
+        if @user 
+          @profile = Profile.find_by_user_id(@user.id)
+        else  
+          @user, @profile = User.new_user(email,school.id)
+          new_user = true
+        end
+        if @profile
+          participant_exist = Participant.find(:first, :conditions => ["target_id = ? AND target_type= ? AND profile_id = ?", params[:course_id], section_type, @profile.id])
+          course = Course.find(params[:course_id])
+          if !participant_exist
+            @participant = Participant.new
+            @participant.target_id = params[:course_id]
+            @participant.target_type = section_type
+            @participant.profile_id = @profile.id
+            @participant.profile_type = "P"
+            if @participant.save
+              wall_id = Wall.get_wall_id(params[:course_id],"Course")
+              Feed.create(
+                :profile_id => @profile.id,
+                :wall_id =>wall_id
+              )
+              # Send a message. It may also send an email.
+               if params[:section_type] == 'G'
+                 message_type = "group_invite"
+                 content = "You are invited to join the group: #{course.name}."
+               elsif params[:section_type] == 'C'
+                 message_type = "course_invite"
+                 content = "Please join #{course.name} (#{course.code_section})."
+               end
+              @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
+  						send_email(@user,params[:course_id],@message.id,new_user)     
+              status = true           
+            end
+          else 
+  					if participant_exist.profile_type == "P"
+  						wall_id = Wall.get_wall_id(params[:course_id],"Course")
+  						if params[:section_type] == 'G'
+  							message_type = "group_invite"
+  							content = "You are invited to join the group: #{course.name}."
+  						elsif params[:section_type] == 'C'
+  							message_type = "course_invite"
+  							content = "Please join #{course.name} (#{course.code_section})."
+  						end
+  						@message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
+  						send_email(@user,params[:course_id],@message.id,new_user)
+  						resend = true
+  					else
+  						already_added = true
+  					end
           end
-        else 
-					if participant_exist.profile_type == "P"
-						wall_id = Wall.get_wall_id(params[:course_id],"Course")
-						if params[:section_type] == 'G'
-							message_type = "group_invite"
-							content = "You are invited to join the group: #{course.name}."
-						elsif params[:section_type] == 'C'
-							message_type = "course_invite"
-							content = "Please join #{course.name} (#{course.code_section})."
-						end
-						@message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
-						send_email(@user,params[:course_id],@message.id,new_user)
-						resend = true
-					else
-						already_added = true
-					end
         end
       end
       render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user,"new_user"=>new_user, "resend"=>resend}.to_json
@@ -364,12 +363,11 @@ class CourseController < ApplicationController
   
   def send_email(user,course,message_id,new_user)
      @course = Course.find(course)
-     @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-     @school = School.find(@current_user.school_id)
+     @school = School.find(current_profile.school_id)
      link = "#{user.id}&#{message_id}"
      @link = Course.hexdigest_to_string(link)
      #@link = OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('md5'), "123456", link)
-     UserMailer.registration_confirmation(user.email,@current_user,@course,@school,message_id,@link,new_user).deliver
+     UserMailer.registration_confirmation(user.email, current_profile, @course, @school, message_id, @link, new_user).deliver
   end
 	
 	# Send email to all participants via course group and forum memberlist
