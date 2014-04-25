@@ -97,9 +97,11 @@
       </div>
       <div class="header_mid_box">
         <div id="alert" class="alert">
-           <% flash.each do |name, msg| %>
-             <div class="error_message"><%= msg %></div>
-           <% end %>
+          <% flash.each do |name, msg| %>
+            <% if msg.respond_to? :length %>
+            <div class="error_message"><%= msg %></div>
+            <% end %>
+          <% end %>
         </div>
       </div>
       <div class="header_search_box">
@@ -229,6 +231,10 @@
     <%= render :partial => "/layouts/server_error" %>
   </div>
 
+  <div id="email_confirmation_div" class="hide">
+    <%= render :partial => "/layouts/email_confirmation" %>
+  </div>
+
   <div id="school_dropdown" class="hide">
     <ul>
       <% current_user.profiles.each do |profile| %>
@@ -253,6 +259,10 @@
         $('#server_error_div').show();
       }
     });
+
+    <% if flash[:email_confirmation] %>
+    $('#email_confirmation_div').removeClass('hide');
+    <% end %>
 
     $.jStorage.subscribe('logout', function() {
       window.location.reload();
@@ -317,6 +327,7 @@ var h = new Object();
     "/task/" : "Find Task", 
     "/message/" : "Find Message", 
     "/group/" : "Find Group",
+    "/users/" : "Find People",
     "/profile/" : "Find People"
   };
   var search_url = "/course/";

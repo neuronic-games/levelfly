@@ -445,7 +445,7 @@ class MessageController < ApplicationController
       @message = Message.find(params[:id])
       if course_master and !course_master.nil?
         if course_master.to_i != user_session[:profile_id]
-          comments_ids = Message.find(:all, :select => "distinct profile_id", :conditions=>["parent_id = ?",params[:id]]).collect(&:profile_id)
+          comments_ids = Message.find(:all, :select => "distinct profile_id", :conditions=>["parent_id = ? AND archived = ?", params[:id], false]).collect(&:profile_id)
           comments_ids.each do |c|
             if c != user_session[:profile_id]
               @del = true

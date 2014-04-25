@@ -29,6 +29,9 @@
                   <option value="all_active" class="brown_bg">All Registered Users</option>
                   <option value="members_of_courses" class="brown_bg">Members of Courses</option>
                   <option value="members_of_groups" class="brown_bg">Members of Groups</option>
+                  <option value="organizers_of_courses" class="brown_bg">Organizers of Courses</option>
+                  <option value="organizers_of_groups" class="brown_bg">Organizers of Groups</option>
+                  <option value="organizers_of_courses_and_groups" class="brown_bg">Organizers of Courses/Groups</option>
                   <optgroup label="Courses">
                     <%courses = all_course("C")%>
                     <% if courses and !courses.nil?%>
@@ -160,6 +163,18 @@
 
 <script type="text/javascript">
 
+function validate_form() {
+  var email = document.getElementById("user_email").value;
+ 
+  if (email == "") {
+    return 'Enter Email Address';
+  } else if (!OnCampus.Validation.validateEmail(email)) {
+    return "Not a valid e-mail address";
+  }
+
+  return '';
+}
+
 $(document).ready(function(){
   $("#load_users").delegate(".view_user", "click", function() {
     showSpinner(true);
@@ -188,8 +203,10 @@ $('#dont_add_btn').click(function() {
 });
 
 $('#add_btn').click(function() {
-  var $form = $('#add_user_form');
-  if ($form[0].checkValidity()) {
+  var $form = $('#add_user_form'),
+      error = validate_form();
+
+  if (error == '') {
     $('.form_error', $form).html("");
     showSpinner(true);
 
@@ -221,7 +238,7 @@ $('#add_btn').click(function() {
     });
 
   } else {
-    $('.form_error', $form).html("Invalid email address format.");
+    $('.form_error', $form).html(error);
   }
 });
 
