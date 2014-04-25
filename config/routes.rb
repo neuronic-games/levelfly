@@ -74,6 +74,8 @@ Oncapus::Application.routes.draw do
   post "profile/update_show_date"
 
   post "profile/change_school"
+
+  post "profile/check_email"
   
   get "task/index"
 
