@@ -1,4 +1,4 @@
-task :report => :environment, :message do |t, args| do
+task :report, [:message] => :environment do |t, args|
 
   args.with_defaults(:message => "Thanks for logging on")
   puts ":message = #{:message}"

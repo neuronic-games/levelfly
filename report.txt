@@ -1,0 +1,22 @@
+Running `rake report` attached to terminal... up, run.8997
+rake aborted!
+/app/lib/tasks/report.rake:1: syntax error, unexpected keyword_do_block, expecting tASSOC
+task :report => :environment, :message do |t, args| do
+                                         ^
+/app/lib/tasks/report.rake:1: syntax error, unexpected '|', expecting '='
+task :report => :environment, :message do |t, args| do
+                                                   ^
+/app/lib/tasks/report.rake:7: syntax error, unexpected keyword_end, expecting $end
+/app/.bundle/gems/ruby/1.9.1/gems/activesupport-3.1.10/lib/active_support/dependencies.rb:234:in `load'
+/app/.bundle/gems/ruby/1.9.1/gems/activesupport-3.1.10/lib/active_support/dependencies.rb:234:in `block in load'
+/app/.bundle/gems/ruby/1.9.1/gems/activesupport-3.1.10/lib/active_support/dependencies.rb:223:in `block in load_dependency'
+/app/.bundle/gems/ruby/1.9.1/gems/activesupport-3.1.10/lib/active_support/dependencies.rb:640:in `new_constants_in'
+/app/.bundle/gems/ruby/1.9.1/gems/activesupport-3.1.10/lib/active_support/dependencies.rb:223:in `load_dependency'
+/app/.bundle/gems/ruby/1.9.1/gems/activesupport-3.1.10/lib/active_support/dependencies.rb:234:in `load'
+/app/.bundle/gems/ruby/1.9.1/gems/railties-3.1.10/lib/rails/engine.rb:398:in `block in load_tasks'
+/app/.bundle/gems/ruby/1.9.1/gems/railties-3.1.10/lib/rails/engine.rb:398:in `each'
+/app/.bundle/gems/ruby/1.9.1/gems/railties-3.1.10/lib/rails/engine.rb:398:in `load_tasks'
+/app/.bundle/gems/ruby/1.9.1/gems/railties-3.1.10/lib/rails/application.rb:103:in `load_tasks'
+/app/.bundle/gems/ruby/1.9.1/gems/railties-3.1.10/lib/rails/railtie/configurable.rb:30:in `method_missing'
+/app/Rakefile:7:in `<top (required)>'
+(See full trace by running task with --trace)
