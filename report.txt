@@ -1,5 +1,5 @@
-Running `rake report 2014-01-01 BMCC` attached to terminal... up, run.5571
-:message = {}
+Running `rake report['2014-01-01','BMCC']` attached to terminal... up, run.9274
+:message = 2014-01-01
 REPORT, 2014-01-01, BMCC
 
 COURSE, 3. The Blog Forum, 494, 22
@@ -1987,7 +1987,3 @@ COURSE, , 610, 1
 SUMMARY, All people, 477
 SUMMARY, People in courses, 334
 SUMMARY, People not in courses, 143
-rake aborted!
-Don't know how to build task '2014-01-01'
-
-(See full trace by running task with --trace)
