@@ -1,7 +1,7 @@
 class Report < ActiveRecord::Base
 
-  def self.list_members(from_date, school_code)
-    puts "REPORT, #{from_date}, #{school_code}"
+  def self.all_members(from_date, school_code)
+    puts "REPORT, Members In Detail, #{from_date}, #{school_code}"
     puts
     
     school = School.find(:first, :conditions => ["code = ?", school_code])
@@ -30,8 +30,8 @@ class Report < ActiveRecord::Base
     puts "SUMMARY, People in groups, #{people_in_groups.length}"
   end
 
-  def self.summary(from_date, school_code)
-    puts "REPORT, #{from_date}, #{school_code}"
+  def self.course_members(from_date, school_code)
+    puts "REPORT, Course Members, #{from_date}, #{school_code}"
     puts
 
     school = School.find(:first, :conditions => ["code = ?", school_code])
