@@ -35,8 +35,11 @@ class Report < ActiveRecord::Base
     courses.each do |course|
       participants = Participant.find(:all, 
         :conditions => ["target_type = ? and target_id = ?", 'Course', course.id])
-      people_in_courses.add(participant.profile_id)
       puts "COURSE, #{course.name}, #{course.id}, #{course.code}, #{course.semister}, #{course.year}, #{participants.count}"
+
+      participants.each do |participant|
+        people_in_courses.add(participant.profile_id)
+      end
     end
 
     all_people = Profile.count(:all, :include => [:user],
