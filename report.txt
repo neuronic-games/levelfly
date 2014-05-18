@@ -1,9 +1,10 @@
-Running `rake report['summary','2014-01-01','BMCC']` attached to terminal... up, run.1872
+Running `rake report['summary','2014-01-01','BMCC']` attached to terminal... up, run.5762
 REPORT, 2014-01-01, BMCC
 
 rake aborted!
-undefined local variable or method `participant' for Report(Table doesn't exist):Class
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/base.rb:1099:in `method_missing'
+undefined method `semister' for #<Course:0x00000003231c68>
+/app/.bundle/gems/ruby/1.9.1/gems/activemodel-3.1.10/lib/active_model/attribute_methods.rb:385:in `method_missing'
+/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/attribute_methods.rb:60:in `method_missing'
 /app/app/models/report.rb:38:in `block in summary'
 /app/app/models/report.rb:35:in `each'
 /app/app/models/report.rb:35:in `summary'

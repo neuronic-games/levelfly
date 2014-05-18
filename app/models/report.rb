@@ -10,7 +10,7 @@ class Report < ActiveRecord::Base
     courses.each do |course|
       participants = Participant.find(:all, :include => [:profile], 
         :conditions => ["target_type = ? and target_id = ?", 'Course', course.id], :order => "profiles.full_name")
-      puts "COURSE, #{course.name}, #{course.id}, #{course.code}, #{course.semister}, #{course.year}, #{participants.count}"
+      puts "COURSE, #{course.name}, #{course.id}, #{course.code}, #{course.semester}, #{course.year}, #{participants.count}"
       puts
       i = 0
       participants.each do |participant|
@@ -35,7 +35,7 @@ class Report < ActiveRecord::Base
     courses.each do |course|
       participants = Participant.find(:all, 
         :conditions => ["target_type = ? and target_id = ?", 'Course', course.id])
-      puts "COURSE, #{course.name}, #{course.id}, #{course.code}, #{course.semister}, #{course.year}, #{participants.count}"
+      puts "COURSE, #{course.name}, #{course.id}, #{course.code}, #{course.semester}, #{course.year}, #{participants.count}"
 
       participants.each do |participant|
         people_in_courses.add(participant.profile_id)
