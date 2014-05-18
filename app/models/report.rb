@@ -9,8 +9,8 @@ class Report < ActiveRecord::Base
     people_in_courses = Set.new
     people_in_groups = Set.new
     courses.each do |course|
-      participants = Participant.find(:all, :include => [:profile], 
-        :conditions => ["target_type = ? and target_id = ?", 'Course', course.id], :order => "profiles.full_name")
+      participants = Participant.find(:all, :include => [:profile, :profile => [:user]],
+        :conditions => ["target_type = ? and target_id = ? and users.status = ?", 'Course', course.id, User.status_active], :order => "profiles.full_name")
       puts "#{course.parent_type == Course.parent_type_course ? 'COURSE' : 'GROUP'}, #{course.name}, #{course.id}, #{course.code}, #{course.semester}, #{course.year}, #{participants.count}"
       puts
       i = 0
@@ -40,17 +40,18 @@ class Report < ActiveRecord::Base
     courses = Course.find(:all, :conditions => ["parent_type = ? and created_at > ? and school_id = ? and archived = ?", Course.parent_type_course, from_date, school.id, false], :order => "name")
     people_in_courses = Set.new
     courses.each do |course|
-      participants = Participant.find(:all, 
-        :conditions => ["target_type = ? and target_id = ?", 'Course', course.id])
-      puts "COURSE, #{course.name}, #{course.id}, #{course.code}, #{course.semester}, #{course.year}, #{participants.count}"
-
+      participants = Participant.find(:all, :include => [:profile, :profile => [:user]],
+        :conditions => ["target_type = ? and target_id = ? and users.status = ?", 'Course', course.id, User.status_active])
       participants.each do |participant|
         people_in_courses.add(participant.profile_id)
       end
+
+      puts "COURSE, #{course.name}, #{course.id}, #{course.code}, #{course.semester}, #{course.year}, #{participants.count}"
+
     end
 
     all_people = Profile.count(:all, :include => [:user],
-      :conditions => ["users.last_sign_in_at > ? and school_id = ? and users.archived = ?", from_date, school.id, false])
+      :conditions => ["users.last_sign_in_at > ? and school_id = ? and users.status = ?", from_date, school.id, User.status_active])
       
     puts
     puts "SUMMARY, All people, #{all_people}"
