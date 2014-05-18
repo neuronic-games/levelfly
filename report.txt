@@ -1,13 +1,60 @@
-Running `rake report['summary','2014-01-01','BMCC']` attached to terminal... up, run.5762
-REPORT, 2014-01-01, BMCC
+Running `rake report['summary','2014-02-01','BMCC']` attached to terminal... up, run.1493
+REPORT, 2014-02-01, BMCC
 
-rake aborted!
-undefined method `semister' for #<Course:0x00000003231c68>
-/app/.bundle/gems/ruby/1.9.1/gems/activemodel-3.1.10/lib/active_model/attribute_methods.rb:385:in `method_missing'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/attribute_methods.rb:60:in `method_missing'
-/app/app/models/report.rb:38:in `block in summary'
-/app/app/models/report.rb:35:in `each'
-/app/app/models/report.rb:35:in `summary'
-/app/lib/tasks/report.rake:7:in `block in <top (required)>'
-Tasks: TOP => report
-(See full trace by running task with --trace)
+COURSE, Academic & Critical Reading 2, 622, ACR095, Spring, 2014, 2
+COURSE, Algebra, 602, MAT051, Spring, 2014, 2
+COURSE, Algebra Weekly Virtual Office Hours, 606, , , , 1
+COURSE, Car around border2, 649, , , , 4
+COURSE, CATW Walk through, 614, , , , 22
+COURSE, Course Name, 680, COURSE CODE, , , 1
+COURSE, Crime and Justice in the Urban Environment, 598, CRJ204, Spring, 2014, 3
+COURSE, Design1, 644, CSE101, Fall, 2014, 4
+COURSE, February 5th, 605, , , , 2
+COURSE, First group, 642, NULL, , , 1
+COURSE, Forum chapter 1, 633, , , , 4
+COURSE, Fundamentals of Mathematics I, 630, MAT100, Fall, 2014, 2
+COURSE, Harjinder, 652, NULL, , , 1
+COURSE, Help Desk, 592, , , , 1
+COURSE, hi, 674, COURSE CODE, Fall, 2014, 1
+COURSE, Hindi, 654, HIN123, Fall, 2014, 3
+COURSE, Hindi, 668, NULL, , , 2
+COURSE, Intelligent, 655, NULL, , , 2
+COURSE, Introductions, 634, , , , 2
+COURSE, Introductory Spanish I, 632, SPN105, Fall, 2014, 9
+COURSE, JAVA, 666, JAVA145, Summer I, 2015, 4
+COURSE, Khan Academy Math Members, 609, , , , 2
+COURSE, MATHS, 657, MAT, Spring, 2015, 1
+COURSE, My Group, 641, NULL, , , 1
+COURSE, News, 679, NULL, , , 5
+COURSE, No Course, 651, , , , 1
+COURSE, null, 669, NULL, , , 1
+COURSE, null, 675, NULL, , , 1
+COURSE, null, 673, NULL, , , 1
+COURSE, null, 671, NULL, , , 4
+COURSE, null, 672, NULL, , , 4
+COURSE, null, 670, NULL, , , 3
+COURSE, NYC Math Tutors (Tensai Academy), 616, NAN, , , 2
+COURSE, Obama Vocabulary, 624, , , , 2
+COURSE, Photography advance, 648, ART101, Fall, 2014, 1
+COURSE, Photography basics, 646, ART101, Fall, 2014, 4
+COURSE, Photography - intermediate, 650, ART101, Fall, 2014, 5
+COURSE, PYTHON, 665, PY, Winter, 2015, 3
+COURSE, Reading Forum, 626, , , , 20
+COURSE, ruby, 664, RBY, Summer I, 2014, 2
+COURSE, science, 658, COURSE CODE, Fall, 2014, 2
+COURSE, Spanish I Introductory, 639, NULL, , , 3
+COURSE, Spring 2014 Developmental Writing, 588, ENG095, Spring, 2014, 22
+COURSE, Thesis Proposal for the Final Essay, 593, , , , 1
+COURSE, Ubuntu Forum., 613, NAN, , , 2
+COURSE, Undergrad CRJ-Social Researchers, 608, , , , 1
+COURSE, WEB DEVSS, 640, WEB101, Summer I, 2014, 4
+COURSE, Week 1: The Tempest and Its Critics, 594, , , , 1
+COURSE, Week 2: Basho and Thoreau, 595, , , , 1
+COURSE, Week 3: Things Fall Apart, 596, , , , 1
+COURSE, Week 4: Persepolis and A Room of One's Own, 597, , , , 1
+COURSE, World Literature 2 WI Summer COPY, 591, ENG392, Fall, 2014, 1
+COURSE, , 610, , , , 1
+
+SUMMARY, All people, 325
+SUMMARY, People in courses, 88
+SUMMARY, People not in courses, 237

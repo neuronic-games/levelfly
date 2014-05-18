@@ -5,24 +5,31 @@ class Report < ActiveRecord::Base
     puts
     
     school = School.find(:first, :conditions => ["code = ?", school_code])
-    courses = Course.find(:all, :conditions => ["created_at > ? and school_id = ?", from_date, school.id], :order => "name")
+    courses = Course.find(:all, :conditions => ["created_at > ? and school_id = ?", from_date, school.id], :order => "name, parent_type")
     people_in_courses = Set.new
+    people_in_groups = Set.new
     courses.each do |course|
       participants = Participant.find(:all, :include => [:profile], 
         :conditions => ["target_type = ? and target_id = ?", 'Course', course.id], :order => "profiles.full_name")
-      puts "COURSE, #{course.name}, #{course.id}, #{course.code}, #{course.semester}, #{course.year}, #{participants.count}"
+      puts "#{course.parent_type == Course.parent_type_course ? 'COURSE' : 'GROUP'}, #{course.name}, #{course.id}, #{course.code}, #{course.semester}, #{course.year}, #{participants.count}"
       puts
       i = 0
       participants.each do |participant|
         i += 1
         profile = participant.profile
-        people_in_courses.add(profile.id)
+        case course.parent_type
+        when Course.parent_type_course
+          people_in_courses.add(profile.id)
+        when Course.parent_type_group
+          people_in_groups.add(profile.id)
+        end
         puts "  MEMBER, #{i}, #{profile.full_name}, #{profile.user.id}, #{Setting.default_date_format(profile.user.created_at)}, #{Setting.default_date_time_format(profile.user.last_sign_in_at)}"
       end
       puts
     end
     
     puts "SUMMARY, People in courses, #{people_in_courses.length}"
+    puts "SUMMARY, People in courses, #{people_in_groups.length}"
   end
 
   def self.summary(from_date, school_code)
@@ -30,7 +37,7 @@ class Report < ActiveRecord::Base
     puts
 
     school = School.find(:first, :conditions => ["code = ?", school_code])
-    courses = Course.find(:all, :conditions => ["created_at > ? and school_id = ?", from_date, school.id], :order => "name")
+    courses = Course.find(:all, :conditions => ["parent_type = ? and created_at > ? and school_id = ?", Course.parent_type_course, from_date, school.id], :order => "name")
     people_in_courses = Set.new
     courses.each do |course|
       participants = Participant.find(:all, 
