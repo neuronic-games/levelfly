@@ -41,6 +41,9 @@ class Admin < ActiveRecord::Base
   end
   
   def self.list_members(from_date, school_code)
+    puts "REPORT, #{Setting.default_date_format(from_date)}, #{school_code}"
+    puts
+    
     school = School.find(:first, :conditions => ["code = ?", school_code])
     courses = Course.find(:all, :conditions => ["created_at > ? and school_id = ?", from_date, school.id])
     people_in_courses = Set.new
@@ -50,10 +53,10 @@ class Admin < ActiveRecord::Base
       puts
       i = 0
       participants.each do |participant|
-        i.next
+        i += 1
         profile = participant.profile
         people_in_courses.add(profile.id)
-        puts "  MEMBER, #{i},#{profile.full_name}, #{profile.user.id}, #{Setting.default_date_format(profile.user.created_at)}, #{Setting.default_date_time_format(profile.user.last_sign_in_at)}"
+        puts "  MEMBER, #{i}, #{profile.full_name}, #{profile.user.id}, #{Setting.default_date_format(profile.user.created_at)}, #{Setting.default_date_time_format(profile.user.last_sign_in_at)}"
       end
       puts
     end
