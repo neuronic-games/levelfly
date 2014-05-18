@@ -1,5 +1,5 @@
-Running `rake report[members,2014-02-01,BMCC]` attached to terminal... up, run.5506
-REPORT, 2014-02-01, BMCC
+Running `rake report[all_members,2014-02-01,BMCC]` attached to terminal... up, run.8243
+REPORT, Members In Detail, 2014-02-01, BMCC
 
 COURSE, Academic & Critical Reading 2, 622, ACR095, Spring, 2014, 2
 
