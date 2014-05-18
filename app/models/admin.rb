@@ -43,14 +43,18 @@ class Admin < ActiveRecord::Base
   def self.list_members(from_date, school_code)
     school = School.find(:first, :conditions => ["code = ?", school_code])
     courses = Course.find(:all, :conditions => ["created_at > ? and school_id = ?", from_date, school.id])
+    people_in_courses = Set.new
     courses.each do |course|
       participants = Participant.find(:all, :conditions => ["target_type = ? and target_id = ?", 'Course', course.id])
       puts "#{course.name}, #{course.id}, #{participants.count}"
       participants.each do |participant|
         profile = participant.profile
-        puts "  #{profile.full_name}, #{profile.user.id}, #{profile.user.created_at}"
+        people_in_courses.add(profile.id)
+        puts "  #{profile.full_name}, #{profile.user.id}, #{change_date_format(profile.user.created_at)}, #{change_date_time_format(profile.user.last_sign_in_at)}"
       end
     end
+    
+    puts "People in courses: #{people_in_courses.length}"
   end
   
 end
