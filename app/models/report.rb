@@ -5,7 +5,7 @@ class Report < ActiveRecord::Base
     puts
     
     school = School.find(:first, :conditions => ["code = ?", school_code])
-    courses = Course.find(:all, :conditions => ["created_at > ? and school_id = ? and archived = ?", from_date, school.id, false], :order => "name, parent_type")
+    courses = Course.find(:all, :conditions => ["created_at > ? and school_id = ? and archived = ?", from_date, school.id, false], :order => "parent_type, name, code, year, semester")
     people_in_courses = Set.new
     people_in_groups = Set.new
     courses.each do |course|
@@ -29,7 +29,7 @@ class Report < ActiveRecord::Base
     end
     
     puts "SUMMARY, People in courses, #{people_in_courses.length}"
-    puts "SUMMARY, People in courses, #{people_in_groups.length}"
+    puts "SUMMARY, People in groups, #{people_in_groups.length}"
   end
 
   def self.summary(from_date, school_code)
