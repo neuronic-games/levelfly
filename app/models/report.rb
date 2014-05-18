@@ -28,6 +28,12 @@ class Report < ActiveRecord::Base
     
     puts "SUMMARY, People in courses, #{people_in_courses.length}"
     puts "SUMMARY, People in groups, #{people_in_groups.length}"
+    
+    puts
+    puts "KEY-COURSE, Course Name, ID, Course Code, Semester, Year, Count"
+    puts "KEY-GROUP, Group Name, ID, N/A, N/A, N/A, Count"
+    puts "KEY-ORGANIZER, Name, ID, Joined, Last Logged"
+    puts "KEY-MEMBER, Name, ID, Joined, Last Logged"
   end
 
   def self.course_members(from_date, school_code)
@@ -55,6 +61,8 @@ class Report < ActiveRecord::Base
     puts "SUMMARY, All people, #{all_people}"
     puts "SUMMARY, People in courses, #{people_in_courses.length}"
     puts "SUMMARY, People not in courses, #{all_people - people_in_courses.length}"
+    puts
+    puts "KEY-COURSE, Course Name, ID, Course Code, Semester, Year, Count"
   end
 
 end
