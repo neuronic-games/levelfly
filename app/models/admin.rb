@@ -46,12 +46,16 @@ class Admin < ActiveRecord::Base
     people_in_courses = Set.new
     courses.each do |course|
       participants = Participant.find(:all, :conditions => ["target_type = ? and target_id = ?", 'Course', course.id])
-      puts "#{course.name}, #{course.id}, #{participants.count}"
+      puts "COURSE, #{course.name}, #{course.id}, #{participants.count}"
+      puts
+      i = 0
       participants.each do |participant|
+        i.next
         profile = participant.profile
         people_in_courses.add(profile.id)
-        puts "  #{profile.full_name}, #{profile.user.id}, #{change_date_format(profile.user.created_at)}, #{change_date_time_format(profile.user.last_sign_in_at)}"
+        puts "  MEMBER, #{i},#{profile.full_name}, #{profile.user.id}, #{Setting.default_date_format(profile.user.created_at)}, #{Setting.default_date_time_format(profile.user.last_sign_in_at)}"
       end
+      puts
     end
     
     puts "People in courses: #{people_in_courses.length}"
