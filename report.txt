@@ -1,50 +1,26 @@
-Running `rake report['summary','2014-02-01','BMCC']` attached to terminal... up, run.6474
+Running `rake report['summary','2014-02-01','BMCC']` attached to terminal... up, run.5226
 REPORT, 2014-02-01, BMCC
 
-COURSE, Academic & Critical Reading 2, 622, ACR095, Spring, 2014, 2
-COURSE, Algebra, 602, MAT051, Spring, 2014, 2
-COURSE, Course Name, 680, COURSE CODE, , , 1
-COURSE, Crime and Justice in the Urban Environment, 598, CRJ204, Spring, 2014, 3
-COURSE, Fundamentals of Mathematics I, 630, MAT100, Fall, 2014, 2
-COURSE, hi, 674, COURSE CODE, Fall, 2014, 1
-COURSE, Hindi, 654, HIN123, Fall, 2014, 3
-COURSE, Introductory Spanish I, 632, SPN105, Fall, 2014, 9
-COURSE, JAVA, 666, JAVA145, Summer I, 2015, 4
-COURSE, MATHS, 657, MAT, Spring, 2015, 1
-COURSE, Photography advance, 648, ART101, Fall, 2014, 1
-COURSE, Photography - intermediate, 650, ART101, Fall, 2014, 5
-COURSE, PYTHON, 665, PY, Winter, 2015, 3
-COURSE, ruby, 664, RBY, Summer I, 2014, 2
-COURSE, science, 658, COURSE CODE, Fall, 2014, 2
-COURSE, Spring 2014 Developmental Writing, 588, ENG095, Spring, 2014, 22
-COURSE, WEB DEVSS, 640, WEB101, Summer I, 2014, 4
-COURSE, World Literature 2 WI Summer COPY, 591, ENG392, Fall, 2014, 1
-COURSE, , 610, , , , 1
-rake aborted!
-PG::Error: ERROR:  column users.archived does not exist
-LINE 1: ...t_sign_in_at > '2014-02-01' and school_id = 1 and users.arch...
-                                                             ^
-: SELECT COUNT(DISTINCT "profiles"."id") FROM "profiles" LEFT OUTER JOIN "users" ON "users"."id" = "profiles"."user_id" WHERE (users.last_sign_in_at > '2014-02-01' and school_id = 1 and users.archived = 'f')
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/connection_adapters/postgresql_adapter.rb:1061:in `async_exec'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/connection_adapters/postgresql_adapter.rb:1061:in `exec_no_cache'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/connection_adapters/postgresql_adapter.rb:615:in `block in exec_query'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/connection_adapters/abstract_adapter.rb:245:in `block in log'
-/app/.bundle/gems/ruby/1.9.1/gems/activesupport-3.1.10/lib/active_support/notifications/instrumenter.rb:21:in `instrument'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/connection_adapters/abstract_adapter.rb:240:in `log'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/connection_adapters/postgresql_adapter.rb:614:in `exec_query'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/connection_adapters/postgresql_adapter.rb:1156:in `select'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/connection_adapters/abstract/database_statements.rb:20:in `select_all'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/connection_adapters/abstract/query_cache.rb:63:in `select_all'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/connection_adapters/abstract/database_statements.rb:26:in `select_one'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/connection_adapters/abstract/database_statements.rb:32:in `select_value'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/relation/calculations.rb:222:in `execute_simple_calculation'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/relation/calculations.rb:187:in `perform_calculation'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/relation/calculations.rb:155:in `calculate'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/relation/calculations.rb:153:in `calculate'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/relation/calculations.rb:147:in `calculate'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/relation/calculations.rb:58:in `count'
-/app/.bundle/gems/ruby/1.9.1/gems/activerecord-3.1.10/lib/active_record/base.rb:445:in `count'
-/app/app/models/report.rb:52:in `summary'
-/app/lib/tasks/report.rake:7:in `block in <top (required)>'
-Tasks: TOP => report
-(See full trace by running task with --trace)
+COURSE, Academic & Critical Reading 2, 622, ACR095, Spring, 2014, 0
+COURSE, Algebra, 602, MAT051, Spring, 2014, 0
+COURSE, Course Name, 680, COURSE CODE, , , 0
+COURSE, Crime and Justice in the Urban Environment, 598, CRJ204, Spring, 2014, 0
+COURSE, Fundamentals of Mathematics I, 630, MAT100, Fall, 2014, 0
+COURSE, hi, 674, COURSE CODE, Fall, 2014, 0
+COURSE, Hindi, 654, HIN123, Fall, 2014, 0
+COURSE, Introductory Spanish I, 632, SPN105, Fall, 2014, 0
+COURSE, JAVA, 666, JAVA145, Summer I, 2015, 0
+COURSE, MATHS, 657, MAT, Spring, 2015, 0
+COURSE, Photography advance, 648, ART101, Fall, 2014, 0
+COURSE, Photography - intermediate, 650, ART101, Fall, 2014, 0
+COURSE, PYTHON, 665, PY, Winter, 2015, 0
+COURSE, ruby, 664, RBY, Summer I, 2014, 0
+COURSE, science, 658, COURSE CODE, Fall, 2014, 0
+COURSE, Spring 2014 Developmental Writing, 588, ENG095, Spring, 2014, 0
+COURSE, WEB DEVSS, 640, WEB101, Summer I, 2014, 0
+COURSE, World Literature 2 WI Summer COPY, 591, ENG392, Fall, 2014, 0
+COURSE, , 610, , , , 0
+
+SUMMARY, All people, 2
+SUMMARY, People in courses, 0
+SUMMARY, People not in courses, 2
