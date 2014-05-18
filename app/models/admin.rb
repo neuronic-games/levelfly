@@ -49,7 +49,7 @@ class Admin < ActiveRecord::Base
     people_in_courses = Set.new
     courses.each do |course|
       participants = Participant.find(:all, :include => [:profile], 
-        :conditions => ["target_type = ? and target_id = ?", 'Course', course.id], :order => "profile.full_name")
+        :conditions => ["target_type = ? and target_id = ?", 'Course', course.id], :order => "profiles.full_name")
       puts "COURSE, #{course.name}, #{course.id}, #{participants.count}"
       puts
       i = 0
