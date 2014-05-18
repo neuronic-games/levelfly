@@ -5,7 +5,7 @@ class Report < ActiveRecord::Base
     puts
     
     school = School.find(:first, :conditions => ["code = ?", school_code])
-    courses = Course.find(:all, :conditions => ["created_at > ? and school_id = ?", from_date, school.id], :order => "name, parent_type")
+    courses = Course.find(:all, :conditions => ["created_at > ? and school_id = ? and archived = ?", from_date, school.id, false], :order => "name, parent_type")
     people_in_courses = Set.new
     people_in_groups = Set.new
     courses.each do |course|
@@ -37,7 +37,7 @@ class Report < ActiveRecord::Base
     puts
 
     school = School.find(:first, :conditions => ["code = ?", school_code])
-    courses = Course.find(:all, :conditions => ["parent_type = ? and created_at > ? and school_id = ?", Course.parent_type_course, from_date, school.id], :order => "name")
+    courses = Course.find(:all, :conditions => ["parent_type = ? and created_at > ? and school_id = ? and archived = ?", Course.parent_type_course, from_date, school.id, false], :order => "name")
     people_in_courses = Set.new
     courses.each do |course|
       participants = Participant.find(:all, 
@@ -50,7 +50,7 @@ class Report < ActiveRecord::Base
     end
 
     all_people = Profile.count(:all, :include => [:user],
-      :conditions => ["users.last_sign_in_at > ? and school_id = ?", from_date, school.id])
+      :conditions => ["users.last_sign_in_at > ? and school_id = ? and users.archived = ?", from_date, school.id, false])
       
     puts
     puts "SUMMARY, All people, #{all_people}"
