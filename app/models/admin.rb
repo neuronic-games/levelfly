@@ -41,7 +41,7 @@ class Admin < ActiveRecord::Base
   end
   
   def self.list_members(from_date, school_code)
-    puts "REPORT, #{Setting.default_date_format(Date.new(from_date))}, #{school_code}"
+    puts "REPORT, #{from_date}, #{school_code}"
     puts
     
     school = School.find(:first, :conditions => ["code = ?", school_code])
