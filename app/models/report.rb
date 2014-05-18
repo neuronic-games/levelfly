@@ -10,12 +10,10 @@ class Report < ActiveRecord::Base
     people_in_groups = Set.new
     courses.each do |course|
       participants = Participant.find(:all, :include => [:profile, :profile => [:user]],
-        :conditions => ["target_type = ? and target_id = ? and users.status = ?", 'Course', course.id, User.status_active], :order => "profiles.full_name")
+        :conditions => ["target_type = ? and target_id = ? and users.status = ?", 'Course', course.id, User.status_active], :order => "profile_type, profiles.full_name")
       puts "#{course.parent_type == Course.parent_type_course ? 'COURSE' : 'GROUP'}, #{course.name}, #{course.id}, #{course.code}, #{course.semester}, #{course.year}, #{participants.count}"
       puts
-      i = 0
       participants.each do |participant|
-        i += 1
         profile = participant.profile
         case course.parent_type
         when Course.parent_type_course
@@ -23,7 +21,7 @@ class Report < ActiveRecord::Base
         when Course.parent_type_group
           people_in_groups.add(profile.id)
         end
-        puts "  #{participant.profile_type == Participant.profile_type_master ? 'OWNER' : 'MEMBER'}, #{i}, #{profile.full_name}, #{profile.user.id}, #{Setting.default_date_format(profile.user.created_at)}, #{Setting.default_date_time_format(profile.user.last_sign_in_at)}"
+        puts "  #{participant.profile_type == Participant.profile_type_master ? 'ORGANIZER' : 'MEMBER'}, #{profile.full_name}, #{profile.user.id}, #{Setting.default_date_format(profile.user.created_at)}, #{Setting.default_date_time_format(profile.user.last_sign_in_at)}"
       end
       puts
     end
