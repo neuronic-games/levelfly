@@ -1,6 +1,5 @@
-task :report, [:message] => :environment do |t, args|
+task :report, [:from_date, :school_code] => :environment do |t, args|
 
-  puts ":message = #{args.message}"
-    
-  Admin.list_members('2014-01-01', 'BMCC')
+  Report.list_members(args.from_date, args.school_code)
+  
 end
