@@ -63,7 +63,7 @@ class Admin < ActiveRecord::Base
     end
     
     all_people = Profile.count(:all, :include => [:user],
-      :conditions => ["user.created_at > ? and school_id = ?", from_date, school.id])
+      :conditions => ["users.created_at > ? and school_id = ?", from_date, school.id])
       
     puts "SUMMARY, All people, #{all_people}"
     puts "SUMMARY, People in courses, #{people_in_courses.length}"
