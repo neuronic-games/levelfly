@@ -23,7 +23,7 @@ class Report < ActiveRecord::Base
         when Course.parent_type_group
           people_in_groups.add(profile.id)
         end
-        puts "  MEMBER, #{i}, #{profile.full_name}, #{profile.user.id}, #{Setting.default_date_format(profile.user.created_at)}, #{Setting.default_date_time_format(profile.user.last_sign_in_at)}"
+        puts "  #{participant.profile_type == Participant.profile_type_master ? 'OWNER' : 'MEMBER'}, #{i}, #{profile.full_name}, #{profile.user.id}, #{Setting.default_date_format(profile.user.created_at)}, #{Setting.default_date_time_format(profile.user.last_sign_in_at)}"
       end
       puts
     end
