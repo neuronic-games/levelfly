@@ -25,9 +25,14 @@ class Report < ActiveRecord::Base
       end
       puts
     end
+
+    all_people = Profile.count(:all, :include => [:user],
+      :conditions => ["users.last_sign_in_at > ? and school_id = ? and users.status = ?", from_date, school.id, User.status_active])
     
+    puts "SUMMARY, All people, #{all_people}"
     puts "SUMMARY, People in courses, #{people_in_courses.length}"
     puts "SUMMARY, People in groups, #{people_in_groups.length}"
+    puts "SUMMARY, People not in courses or groups, #{all_people - (people_in_courses.length + people_in_groups.length)}"
     
     puts
     puts "KEY-COURSE, Course Name, ID, Course Code, Semester, Year, Count"
