@@ -1,0 +1,322 @@
+,Script will only process rows that has a numeric unlock level,,,,"hat, hair, facial_hair, head, earrings, necklace, top, bottom, shoes, prop",,,,,,
+Needs to be added?,Unlock Level ,Reward Set,Wardrobe Top Folder in Levelfly,Wardrobe Subfolder in Levelfly,Type,Unique Name,New Name,Image Folder Name,Image File Name,Icon Folder Name,Icon File Name
+Y,1,Basic,Accessories,Jewelry,earrings,Hoop Earrings,,earrings,earring_large_ring.png,earrings,earring_large_ring_icon.png
+Y,1,,Accessories,Jewelry,earrings,Pearl Earrings,,earrings,earring_white.png,earrings,earring_white_icon.png
+,1,,Accessories,Jewelry,earrings,Orange Earrings,Gold Earrings,earrings,earring_orange.png,earrings,earring_orange_icon.png
+,1,,Accessories,Jewelry,necklace,Orange Necklace,Gold Necklace,necklace,necklace_orange.png,necklace,necklace_orange_icon.png
+,1,,Accessories,Hobbies,prop,Guitar,Electric Guitar,props,guitar_black.png,props,guitar_black_icon.png
+Y,1,,Accessories,Misc,prop,Gray Gloves,,glove,glove_gray.png,glove,glove_gray_icon.png
+Y,1,,Accessories,Misc,prop,Pink Teddy Bear,,props,pink_teddy.png,props,pink_teddy_icon.png
+,1,,Accessories,Gadgets,prop,Camera,,props,camera.png,props,camera_icon.png
+Y,1,,Accessories,Bags,prop,Handbag,,props,hand_bag.png,props,hand_bag_icon.png
+,1,,Accessories,Bags,prop,Leather Bag,Leather Briefcase,props,leather_bag.png,props,leather_bag_icon.png
+,1,,Accessories,Bags,prop,Messenger Bag,,props,side_bag.png,props,side_bag_icon.png
+,1,,Body,Body,,,,body,body_1.png,body,NA
+,1,,Body,Body,,,,body,body_2.png,body,NA
+,1,,Body,Body,,,,body,body_3.png,body,NA
+,1,,Body,Body,,,,body,body_4.png,body,NA
+,1,,Body,Body,,,,body,body_5.png,body,NA
+,1,,Body,Casual,top,Black-T,Black T,tops,black_t.png,tops,black_t_icon.png
+,1,,Body,Casual,top,Blue Polo,,tops,polo_short_sleeve_blue.png,tops,polo_short_sleeve_blue_icon.png
+Y,1,,Body,Casual,top,Short Buttoned Blue Shirt,Blue Button Up,tops,shirt_short_sleeve_cyan.png,tops,shirt_short_sleeve_cyan_icon.png
+Y,1,,Body,Casual,top,Short Buttoned Pink Shirt,Pink Button Up,tops,shirt_short_sleeve_pink.png,tops,shirt_short_sleeve_pink_icon.png
+,1,,Body,Career,top,Lab Coat,,tops,doctor_white_top.png,tops,doctor_white_top_icon.png
+,1,,Body,Dressy,top,Black Tux,,tops_dressy,black_bow.png,tops_dressy,black_bow_icon.png
+,1,,Body,Dressy,top,Black Suit,Dark Gray Suit,tops_dressy,dark_gray_tie.png,tops_dressy,dark_gray_tie_icon.png
+,1,,Body,Dressy,top,Black Dress,Black Maroon Dress,tops_dressy,black_maroon_short_dress.png,tops_dressy,black_maroon_short_dress_icon.png
+,1,,Body,Dressy,top,Brown Dress,,tops_dressy,brown_dress.png,tops_dressy,brown_dress_icon.png
+,1,,Body,Dressy,top,Orange Dress,,tops_dressy,orange_short_dress.png,tops_dressy,orange_short_dress_icon.png
+,1,,Body,Dressy,top,Red Dress,,tops_dressy,red_long_dress.png,tops_dressy,red_long_dress_icon.png
+,1,,Body,Dressy,top,White Dress 3,White Dress 1,tops_dressy,white_short_dress.png,tops_dressy,white_short_dress_icon.png
+,1,,Body,Dressy,top,White Dress 2,,tops_dressy,white_dress.png,tops_dressy,white_dress_icon.png
+,1,,Body,Dressy,top,White Dress,White Dress 3,tops_dressy,black_white_long_dress.png,tops_dressy,black_white_long_dress_icon.png
+,1,,Body,Misc,top,Cowboy,Cowboy Jacket,tops,cowboy_top_with_court.png,tops,cowboy_top_with_court_icon.png
+Y,1,,Body,Sporty,top,,,tops_sporty,american_football_dress.png,tops_sporty,american_football_dress_icon.png
+Y,1,,Body,Sporty,top,,,tops_sporty,baseball_dress.png,tops_sporty,baseball_dress_icon.png
+,1,,Body,Sporty,top,Football,Football Top,tops,american_football_top.png,tops,american_football_top_icon.png
+,1,,Body,Sporty,top,Baseball,Baseball Top,tops,baseball_t_shirt.png,tops,baseball_t_shirt_icon.png
+,1,,Feet,Career,shoes,Army,Army Boots,shoes,army_boot.png,shoes,army_boot_icon.png
+,1,,Feet,Sporty,shoes,Football,Football Cleats,shoes,american_football_shoe.png,shoes,american_football_shoe_icon.png
+,1,,Feet,Sporty,shoes,Baseball,Baseball Cleats,shoes,baseball_shoe.png,shoes,baseball_shoe_icon.png
+,1,,Feet,Misc,shoes,Cowboy,Cowboy Boots,shoes,cowboy_boot.png,shoes,cowboy_boot_icon.png
+,1,,Feet,Misc,shoes,Purple Power,Black Boots,shoes,purple_superhero_boot.png,shoes,purple_superhero_boot_icon.png
+,1,,Feet,Dressy,shoes,Black,Black Shoes,shoes,black_shoe.png,shoes,black_shoe_icon.png
+Y,1,,Feet,Dressy,shoes,Black Heels,Black Heels 1,shoes,shoe_black.png,shoes,
+,1,,Feet,Dressy,shoes,Black Heels,Black Heels 2,shoes,black_heels.png,shoes,black_heels_icon.png
+,1,,Feet,Dressy,shoes,White Heels,White Heels 1,shoes,white_heels_1.png,shoes,white_heels_1_icon.png
+,1,,Feet,Dressy,shoes,White Heels 2,,shoes,white_heels_2.png,shoes,white_heels_2_icon.png
+,1,,Feet,Dressy,shoes,Red Heels,,shoes,red_heels.png,shoes,red_heels_icon.png
+,1,,Feet,Dressy,shoes,Pink Heels,,shoes,shoe_pink.png,shoes,shoe_pink_icon.png
+,1,,Feet,Casual,shoes,Brown Slippers,,shoes,slippers_brown.png,shoes,slippers_brown_icon.png
+,1,,Feet,Casual,shoes,Purple Slippers,,shoes,slippers_purple.png,shoes,slippers_purple_icon.png
+,1,,Feet,Casual,shoes,Grey Sneakers,Gray Sneakers,shoes,sneakers_gray.png,shoes,sneakers_gray_icon.png
+,1,,Feet,Casual,shoes,Purple Sneakers,,shoes,sports_shoe_purple.png,shoes,sports_shoe_purple_icon.png
+,1,,Head,Face,face,Face 1,,face,asian_male.png,face,asian_male_icon.png
+,1,,Head,Face,face,Face 2,,face,asian_female.png,face,asian_female_icon.png
+,1,,Head,Face,face,Face 3,,face,chinese_male.png,face,chinese_male_icon.png
+,1,,Head,Face,face,Face 4,,face,chinese_female.png,face,chinese_female_icon.png
+,1,,Head,Face,face,Face 5,,face,african_male.png,face,african_male_icon.png
+,1,,Head,Face,face,Face 6,,face,african_female.png,face,african_female_icon.png
+,1,,Head,Face,face,Face 7,,face,latin_male.png,face,latin_male_icon.png
+,1,,Head,Face,face,Face 8,,face,latin_female.png,face,latin_female_icon.png
+Y,1,,Head,Face,face,Face 9,,expression,angry_1.png,expression,angry_1_icon.png
+Y,1,,Head,Face,face,Face 10,,expression,angry_2.png,expression,angry_2_icon.png
+Y,1,,Head,Face,face,Face 11,,expression,angry_3.png,expression,angry_3_icon.png
+Y,1,,Head,Face,face,Face 12,,expression,angry_4.png,expression,angry_4_icon.png
+Y,1,,Head,Face,face,Face 13,,expression,smile_1.png,expression,smile_1_icon.png
+Y,1,,Head,Face,face,Face 14,,expression,smile_2.png,expression,smile_2_icon.png
+Y,1,,Head,Face,face,Face 15,,expression,smile_3.png,expression,smile_3_icon.png
+Y,1,,Head,Face,face,Face 16,,expression,smile_4.png,expression,smile_4_icon.png
+Y,1,,Head,Face,face,Face 17,,expression,winking_1.png,expression,winking_1_icon.png
+Y,1,,Head,Face,face,Face 18,,expression,winking_2.png,expression,winking_2_icon.png
+Y,1,,Head,Face,face,Face 19,,expression,winking_3.png,expression,winking_3_icon.png
+Y,1,,Head,Face,face,Face 20,,expression,winking_4.png,expression,winking_4_icon.png
+,1,,Head,Facial Hair,facial_hair,,,facial_hair,handlebar_chin_puff_1.png,facial_hair,handlebar_chin_puff_4_icon.png
+,1,,Head,Facial Hair,facial_hair,,,facial_hair,handlebar_chin_puff_2.png,facial_hair,handlebar_chin_puff_4_icon.png
+,1,,Head,Facial Hair,facial_hair,,,facial_hair,handlebar_chin_puff_3.png,facial_hair,handlebar_chin_puff_4_icon.png
+,1,,Head,Facial Hair,facial_hair,,,facial_hair,handlebar_chin_puff_4.png,facial_hair,handlebar_chin_puff_4_icon.png
+,1,,Head,Facial Hair,facial_hair,,,facial_hair,handlebar_chin_puff_5.png,facial_hair,handlebar_chin_puff_4_icon.png
+,1,,Head,Facial Hair,facial_hair,,,facial_hair,la_souvarov_1.png,facial_hair,la_souvarov_4_icon.png
+,1,,Head,Facial Hair,facial_hair,,,facial_hair,la_souvarov_2.png,facial_hair,la_souvarov_4_icon.png
+,1,,Head,Facial Hair,facial_hair,,,facial_hair,la_souvarov_3.png,facial_hair,la_souvarov_4_icon.png
+,1,,Head,Facial Hair,facial_hair,,,facial_hair,la_souvarov_4.png,facial_hair,la_souvarov_4_icon.png
+,1,,Head,Facial Hair,facial_hair,,,facial_hair,la_souvarov_5.png,facial_hair,la_souvarov_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_1_back.png,hair,long_curly_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_1.png,hair,long_curly_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_2_back.png,hair,long_curly_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_2.png,hair,long_curly_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_3_back.png,hair,long_curly_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_3.png,hair,long_curly_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_4_back.png,hair,long_curly_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_4.png,hair,long_curly_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_5_back.png,hair,long_curly_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_5.png,hair,long_curly_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_tail_1_back.png,hair,long_curly_tail_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_tail_1.png,hair,long_curly_tail_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_tail_2_back.png,hair,long_curly_tail_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_tail_2.png,hair,long_curly_tail_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_tail_3_back.png,hair,long_curly_tail_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_tail_3.png,hair,long_curly_tail_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_tail_4_back.png,hair,long_curly_tail_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_tail_4.png,hair,long_curly_tail_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_tail_5_back.png,hair,long_curly_tail_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,long_curly_tail_5.png,hair,long_curly_tail_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_straight_1_back.png,hair,long_straight_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_straight_1.png,hair,long_straight_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_straight_2_back.png,hair,long_straight_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_straight_2.png,hair,long_straight_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_straight_3_back.png,hair,long_straight_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_straight_3.png,hair,long_straight_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_straight_4_back.png,hair,long_straight_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_straight_4.png,hair,long_straight_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_straight_5_back.png,hair,long_straight_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_straight_5.png,hair,long_straight_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_wavy_1_back.png,hair,long_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_wavy_1.png,hair,long_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_wavy_2_back.png,hair,long_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_wavy_2.png,hair,long_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_wavy_3_back.png,hair,long_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_wavy_3.png,hair,long_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_wavy_4_back.png,hair,long_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_wavy_4.png,hair,long_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_wavy_5_back.png,hair,long_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,long_wavy_5.png,hair,long_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_curly_1_back.png,hair,short_curly_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_curly_1.png,hair,short_curly_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_curly_2_back.png,hair,short_curly_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_curly_2.png,hair,short_curly_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_curly_3_back.png,hair,short_curly_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_curly_3.png,hair,short_curly_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_curly_4_back.png,hair,short_curly_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_curly_4.png,hair,short_curly_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_curly_5_back.png,hair,short_curly_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_curly_5.png,hair,short_curly_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,short_normal_1_back.png,hair,short_normal_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,short_normal_1.png,hair,short_normal_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,short_normal_2_back.png,hair,short_normal_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,short_normal_2.png,hair,short_normal_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,short_normal_3_back.png,hair,short_normal_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,short_normal_3.png,hair,short_normal_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,short_normal_4_back.png,hair,short_normal_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,short_normal_4.png,hair,short_normal_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,short_normal_5_back.png,hair,short_normal_4_icon.png
+Y,1,,Head,Hair,hair,,,hair,short_normal_5.png,hair,short_normal_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_side_1_back.png,hair,short_side_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_side_1.png,hair,short_side_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_side_2_back.png,hair,short_side_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_side_2.png,hair,short_side_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_side_3_back.png,hair,short_side_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_side_3.png,hair,short_side_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_side_4_back.png,hair,short_side_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_side_4.png,hair,short_side_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_side_5_back.png,hair,short_side_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_side_5.png,hair,short_side_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_straight_1_back.png,hair,short_straight_2_icon.png
+,1,,Head,Hair,hair,,,hair,short_straight_1.png,hair,short_straight_2_icon.png
+,1,,Head,Hair,hair,,,hair,short_straight_2_back.png,hair,short_straight_2_icon.png
+,1,,Head,Hair,hair,,,hair,short_straight_2.png,hair,short_straight_2_icon.png
+,1,,Head,Hair,hair,,,hair,short_straight_3_back.png,hair,short_straight_2_icon.png
+,1,,Head,Hair,hair,,,hair,short_straight_3.png,hair,short_straight_2_icon.png
+,1,,Head,Hair,hair,,,hair,short_straight_4_back.png,hair,short_straight_2_icon.png
+,1,,Head,Hair,hair,,,hair,short_straight_4.png,hair,short_straight_2_icon.png
+,1,,Head,Hair,hair,,,hair,short_straight_5_back.png,hair,short_straight_2_icon.png
+,1,,Head,Hair,hair,,,hair,short_straight_5.png,hair,short_straight_2_icon.png
+,1,,Head,Hair,hair,,,hair,short_wavy_1_back.png,hair,short_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_wavy_1.png,hair,short_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_wavy_2_back.png,hair,short_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_wavy_2.png,hair,short_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_wavy_3_back.png,hair,short_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_wavy_3.png,hair,short_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_wavy_4_back.png,hair,short_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_wavy_4.png,hair,short_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_wavy_5_back.png,hair,short_wavy_4_icon.png
+,1,,Head,Hair,hair,,,hair,short_wavy_5.png,hair,short_wavy_4_icon.png
+,1,,Head,Misc,hat,Black Cap,,hats,hat_red_black.png,hats,hat_red_black_icon.png
+,1,,Head,Shape,head,,,head,diamond_1.png,head,diamond_3_icon.png
+,1,,Head,Shape,head,,,head,diamond_2.png,head,diamond_3_icon.png
+,1,,Head,Shape,head,,,head,diamond_3.png,head,diamond_3_icon.png
+,1,,Head,Shape,head,,,head,diamond_4.png,head,diamond_3_icon.png
+,1,,Head,Shape,head,,,head,diamond_5.png,head,diamond_3_icon.png
+,1,,Head,Shape,head,,,head,heart_1.png,head,heart_3_icon.png
+,1,,Head,Shape,head,,,head,heart_2.png,head,heart_3_icon.png
+,1,,Head,Shape,head,,,head,heart_3.png,head,heart_3_icon.png
+,1,,Head,Shape,head,,,head,heart_4.png,head,heart_3_icon.png
+,1,,Head,Shape,head,,,head,heart_5.png,head,heart_3_icon.png
+,1,,Head,Shape,head,,,head,oval_1.png,head,oval_3_icon.png
+,1,,Head,Shape,head,,,head,oval_2.png,head,oval_3_icon.png
+,1,,Head,Shape,head,,,head,oval_3.png,head,oval_3_icon.png
+,1,,Head,Shape,head,,,head,oval_4.png,head,oval_3_icon.png
+,1,,Head,Shape,head,,,head,oval_5.png,head,oval_3_icon.png
+,1,,Head,Shape,head,,,head,round_1.png,head,round_3_icon.png
+,1,,Head,Shape,head,,,head,round_2.png,head,round_3_icon.png
+,1,,Head,Shape,head,,,head,round_3.png,head,round_3_icon.png
+,1,,Head,Shape,head,,,head,round_4.png,head,round_3_icon.png
+,1,,Head,Shape,head,,,head,round_5.png,head,round_3_icon.png
+,1,,Head,Shape,head,,,head,square_1.png,head,square_3_icon.png
+,1,,Head,Shape,head,,,head,square_2.png,head,square_3_icon.png
+,1,,Head,Shape,head,,,head,square_3.png,head,square_3_icon.png
+,1,,Head,Shape,head,,,head,square_4.png,head,square_3_icon.png
+,1,,Head,Shape,head,,,head,square_5.png,head,square_3_icon.png
+,1,,Legs,Sporty,bottom,Football,Football Bottom,bottoms,american_football_pant.png,bottoms,american_football_pant_icon.png
+,1,,Legs,Sporty,bottom,Baseball,Baseball Bottom,bottoms,baseball_pant.png,bottoms,baseball_pant_icon.png
+,1,,Legs,Misc,bottom,Purple Power,Purple Tights,bottoms,purple_superhero_bottom.png,bottoms,purple_superhero_bottom_icon.png
+Y,1,,Legs,Casual,bottom,Black Skinny Jeans,,bottoms,black_tight_jean.png,bottoms,black_tight_jean_icon.png
+,1,,Legs,Casual,bottom,Long Denim,Blue Jeans,bottoms,trousers_long_denim_blue.png,bottoms,trousers_long_denim_blue_icon.png
+,1,,Legs,Casual,bottom,Short Denim,Denim Shorts,bottoms,trousers_short_denim_blue.png,bottoms,trousers_short_denim_blue_icon.png
+,1,,Legs,Career,bottom,Army,Army Fatigues,bottoms,trouser_army.png,bottoms,trouser_army_icon.png
+,1,,Legs,Dressy,bottom,Grey Trousers,Gray Trousers,bottoms,gray_brown_long_trouser.png,bottoms,gray_brown_long_trouser_icon.png
+,1,,Legs,Dressy,bottom,Short Brown Skirt,,bottoms,skirt_short_brown.png,bottoms,skirt_short_brown_icon.png
+,1,,Legs,Dressy,bottom,Short Pink Skirt,,bottoms,skirt_short_pink.png,bottoms,skirt_short_pink_icon.png
+Y,2,BMCC T-shirts,Body,Casual,top,BMCC 1,,tops,bmcc_blue.png,tops,bmcc_blue_icon.png
+Y,2,,Body,Casual,top,BMCC 2,,tops,bmcc_light_gray.png,tops,bmcc_light_gray_icon.png
+Y,2,,Body,Casual,top,BMCC 3,,tops,bmcc_small_logo.png,tops,bmcc_small_logo_icon.png
+Y,2,,Body,Casual,top,BMCC 4,,tops,bmcc_yellow_small_logo.png,tops,bmcc_yellow_small_logo_icon.png
+Y,3,Basketball Uniform,Body,Sporty,top,,,tops_sporty,basketball_dress.png,tops_sporty,basketball_dress_icon.png
+Y,3,,Body,Sporty,top,Basketball Jersey,,tops,basketball_t_shirt.png,tops,basketball_t_shirt_icon.png
+Y,3,,Feet,Sporty,shoes,Basketball Shoes,,shoes,basketball_shoe.png,shoes,basketball_shoe_icon.png
+Y,3,,Legs,Sporty,bottom,Basketball Shorts,,bottoms,basketball_short.png,bottoms,basketball_short_icon.png
+,4,Urban Chic Accessories,Accessories,Jewelry,earrings,Nosestud,Nose Stud,earrings,nose_stud.png,earrings,nose_stud_icon.png
+Y,4,,Accessories,Misc,prop,Sunglasses,,glasses,shade_black.png,glasses,shade_black_icon.png
+,5,Superhero Costume,Body,Misc,top,Purple Power,Superhero,tops,purple_superhero_top.png,tops,purple_superhero_top_icon.png
+Y,5,,Body,Misc,top,,,tops_misc,purple_superhero_dress.png,tops_misc,purple_superhero_dress_icon.png
+Y,6,Cowboy Outfit,Body,Misc,top,Cowboy Vest,,tops,cowboy_top_without_court.png,tops,cowboy_top_without_court_icon.png
+Y,6,,Body,Misc,top,,,tops_misc,cowboy_dress.png,tops_misc,cowboy_dress_icon.png
+,6,,Head,Misc,hat,Cowboy,Cowboy Hat,hats,cowboy_hat.png,hats,cowboy_hat_icon.png
+Y,6,,Legs,Misc,bottom,Cowboy Chaps,,bottoms,cowboy_bottom.png,bottoms,cowboy_bottom_icon.png
+Y,7,Skater Accessories,Accessories,Hobbies,prop,Skateboard,,props,skateboard.png,props,skateboard_icon.png
+,7,,Accessories,Gadgets,prop,Headphones,,props,headphone.png,props,headphone_icon.png
+Y,8,Doctor Accessories,Accessories,Misc,prop,Stethoscope,,props,stethoscope.png,props,stethoscope_icon.png
+Y,8,,Body,Career,top,,,tops_career,doctor_dress.png,tops_career,doctor_dress_icon.png
+Y,9,Business Outfits,Body,Dressy,top,Red Tie,,tops,red_tie_shirt_long_sleeve.png,tops,red_tie_shirt_long_sleeve_icon.png
+Y,9,,Body,Dressy,top,Argyle Sweater,,tops,shirt_long_sleeve_with_jacket.png,tops,shirt_long_sleeve_with_jacket_icon.png
+Y,9,,Body,Dressy,top,Blue Tie,,tops,tie_shirt_long_sleeve_yellow.png,tops,tie_shirt_long_sleeve_yellow_icon.png
+Y,9,,Legs,Dressy,bottom,Black Trousers,,bottoms,trousers_long_black.png,bottoms,
+Y,9,,Legs,Dressy,bottom,Brown Trousers,,bottoms,trousers_long_brown.png,bottoms,trousers_long_brown_icon.png
+Y,10,Army Uniform,Body,Career,top,,,tops_career,army_dress.png,tops_career,army_dress_icon.png
+Y,10,,Body,Career,top,Army Shirt 1,,tops,shirt_army.png,tops,shirt_army_icon.png
+Y,10,,Body,Career,top,Army Shirt 2,,tops,t_shirt_army.png,tops,t_shirt_army_icon.png
+Y,11,New Jewelry,Accessories,Jewelry,earrings,Sapphire Earrings,,earrings,earring_blue.png,earrings,earring_blue_icon.png
+Y,11,,Accessories,Jewelry,earrings,Ruby Earrings,,earrings,earring_red.png,earrings,earring_red_icon.png
+Y,11,,Accessories,Jewelry,earrings,Silver Drop Earrings,,earrings,earring_silver_1.png,earrings,earring_silver_1_icon.png
+Y,11,,Accessories,Jewelry,earrings,Silver Stud Earrings,,earrings,earring_silver_2.png,earrings,earring_silver_2_icon.png
+Y,11,,Accessories,Jewelry,necklace,Silver Necklace 1,,necklace,necklace_silver_1.png,necklace,necklace_silver_1_icon.png
+Y,11,,Accessories,Jewelry,necklace,Silver Necklace 2,,necklace,necklace_silver_2.png,necklace,necklace_silver_2_icon.png
+Y,11,,Accessories,Jewelry,necklace,Diamond Necklace 1,,necklace,necklace_diamond_1.png,necklace,necklace_diamond_1_icon.png
+Y,11,,Accessories,Jewelry,necklace,Diamond Necklace 2,,necklace,necklace_diamond_2.png,necklace,necklace_diamond_2_icon.png
+Y,12,Pirate Costume,Legs,Misc,bottom,Pirate Bottom,,bottoms,pirate_bottom.png,bottoms,pirate_bottom_icon.png
+Y,12,,Feet,Misc,shoes,Pirate Boots,,shoes,pirate_boot.png,shoes,pirate_boot_icon.png
+Y,12,,Body,Misc,top,Pirate Top,,tops,pirate_top.png,tops,pirate_top_icon.png
+Y,12,,Body,Misc,top,,,tops_misc,pirates_dress.png,tops_misc,pirates_dress_icon.png
+Y,12,,Head,Misc,hat,Pirate Hat 1,,hats,jolly_roger_pirate_hat.png,hats,
+Y,12,,Head,Misc,hat,Pirate Hat 2,,hats,pirate_hat.png,hats,pirate_hat_icon.png
+Y,13,New Shirts,Body,Casual,top,Pink Flower Print,,tops,pink_sleeveless_shirt.png,tops,pink_sleeveless_shirt_icon.png
+Y,13,,Body,Casual,top,Gray Polo,,tops,short_sleeve_gray.png,tops,short_sleeve_gray_icon.png
+Y,14,Referee Uniform,Body,Career,top,,,tops_career,referee_dress.png,tops_career,referee_dress_icon.png
+Y,14,,Body,Career,top,Referee Shirt,,tops,referee_t_shirt.png,tops,referee_t_shirt_icon.png
+Y,15,Golfer Outfit,Body,Sporty,top,Golf Shirt Blue,,tops,golf_t_shirt_blue.png,tops,golf_t_shirt_blue_icon.png
+Y,15,,Body,Sporty,top,Golf Shirt Pink,,tops,golf_t_shirt_pink.png,tops,golf_t_shirt_pink_icon.png
+Y,15,,Body,Sporty,top,,,tops_sporty,golf_dress.png,tops_sporty,golf_dress_icon.png
+Y,15,,Feet,Sporty,shoes,Golf Shoes,,shoes,golf_shoe.png,shoes,golf_shoe_icon.png
+Y,15,,Head,Misc,hat,Golf Hat,,hats,golf_hat_white.png,hats,golf_hat_white_icon.png
+Y,15,,Legs,Sporty,bottom,Golf Shorts,,bottoms,golf_short.png,bottoms,golf_short_icon.png
+Y,16,Sports Equipment,Accessories,Hobbies,prop,Football,,props,american_football.png,props,american_football_icon.png
+Y,16,,Accessories,Hobbies,prop,Baseball Bat,,props,baseball_bat.png,props,baseball_bat_icon.png
+Y,16,,Accessories,Hobbies,prop,Basketball,,props,basketball.png,props,basketball_icon.png
+Y,16,,Accessories,Hobbies,prop,Golf Stick,,props,golf_stick.png,props,golf_stick.png
+Y,17,Policeman Uniform,Body,Career,top,Police Top,,tops,police_top.png,tops,police_top_icon.png
+Y,17,,Body,Career,top,,,tops_career,policeman_dress.png,tops_career,policeman_dress_icon.png
+Y,17,,Head,Misc,hat,Police Hat,,hats,police_hat.png,hats,
+Y,17,,Legs,Career,bottom,Police Bottom,,bottoms,police_trouser.png,bottoms,
+Y,18,Farmer Outfit,Body,Career,top,Farmer Overalls,,tops,farmer_tops.png,tops,farmer_tops_icon.png
+Y,18,,Body,Career,top,,,tops_career,farmer_dress.png,tops_career,farmer_dress_icon.png
+Y,18,,Head,Misc,hat,Calypso Hat,,hats,calypso_hat.png,hats,
+Y,19,Cool T-shirts,Body,Casual,top,Purple T,,tops,short_sleeve_purple.png,tops,short_sleeve_purple_icon.png
+Y,19,,Body,Casual,top,Gray T,,tops,short_sleeve_tattoo.png,tops,short_sleeve_tattoo_icon.png
+Y,19,,Body,Casual,top,Skinny Black T,,tops,skinny_black.png,tops,skinny_black_icon.png
+Y,20,Hiker Gear,Body,Sporty,top,Hiker Top,,tops,hiking_jacket_red.png,tops,hiking_jacket_red_icon.png
+Y,20,,Body,Sporty,top,,,tops_sporty,hiking_dress.png,tops_sporty,hiking_dress_icon.png
+Y,20,,Feet,Sporty,shoes,Hiking Shoes,,shoes,hiking_shoe.png,shoes,hiking_shoe_icon.png
+Y,20,,Legs,Sporty,bottom,Hiker Bottom,,bottoms,hiking_short.png,bottoms,
+Y,21,Spanish Dancer Outfit,Body,Dressy,top,,,tops_dressy,spanish_dress.png,tops_dressy,spanish_dress_icon.png
+Y,21,,Body,Misc,top,Dancer Jacket,,tops,spanish_top.png,tops,spanish_top_icon.png
+Y,21,,Body,Misc,top,Dancer Blouse,,tops,spanish_women_red_top.png,tops,spanish_women_red_top.png
+Y,21,,Feet,Misc,shoes,Dancer Shoes,,shoes,black_spanish_shoe.png,shoes,
+Y,21,,Legs,Misc,bottom,Dancer Trousers,,bottoms,black_spanish_trouser.png,bottoms,
+Y,21,,Legs,Misc,bottom,Long Red Skirt,,bottoms,spanish_long_red_skirt.png,bottoms,
+Y,22,Instruments,Accessories,Hobbies,prop,Bongo Drum,,props,bongo_drum.png,props,bongo_drum_icon.png
+Y,22,,Accessories,Hobbies,prop,Acoustic Guitar,,props,guitar_brown.png,props,guitar_brown_icon.png
+Y,22,,Accessories,Hobbies,prop,Saxophone,,props,saxophone.png,props,saxophone_icon.png
+Y,23,Devil Costume,Accessories,Misc,prop,Red Gloves,,glove,devil_glove.png,glove,devil_glove_icon.png
+,23,,Accessories,Misc,prop,Pitchfork,,props,pitchfork.png,props,pitchfork_icon.png
+Y,23,,Body,Misc,top,Devil Vest,,tops,devil_shirt.png,tops,devil_shirt_icon.png
+Y,23,,Body,Misc,top,,,tops_misc,devil_dress.png,tops_misc,devil_dress_icon.png
+Y,23,,Body,Misc,top,Devil Dress,,tops_misc,devil_short_dress.png,tops_misc,devil_short_dress_icon.png
+Y,23,,Feet,Misc,shoes,Devil Boots,,shoes,devil_boot.png,shoes,devil_boot_icon.png
+Y,23,,Head,Misc,hat,Devil Horns,,hats,devil_horns.png,hats,devil_horns_icon.png
+Y,23,,Legs,Misc,bottom,Devil Trousers,,bottoms,trouser_devil.png,bottoms,trouser_devil_icon.png
+Y,24,Witch Costume,Accessories,Misc,prop,Broom,,props,broom.png,props,broom_icon.png
+Y,24,,Body,Misc,top,Witch Dress,,tops_misc,witch_black_dress.png,tops_misc,witch_black_dress_icon.png
+Y,24,,Head,Misc,hat,Witch Hat,,hats,witch_black_hat.png,hats,
+Y,25,Body Art,Accessories,Misc,prop,Tattoo,,tattoo,tattoo.png,tattoo,tattoo_icon.png
+Y,25,,Head,Misc,prop,Mole,,facial_marks,mole.png,facial_marks,mole_icon.png
+Y,25,,Head,Misc,prop,Red Lipstick,,makeup,makeup_red_lips.png,makeup,makeup_red_lips_icon.png
+,26,Santa Costume,Body,Misc,top,Santa,Santa Top,tops,santa_top.png,tops,santa_top_icon.png
+,26,,Body,Misc,top,,,tops_misc,santa_dress.png,tops_misc,santa_dress_icon.png
+Y,26,,Head,Misc,hat,Santa Hat,,hats,santa_hat.png,hats,santa_hat_icon.png
+,26,,Legs,Misc,bottom,Santa,Santa Bottom,bottoms,santa_trouser.png,bottoms,santa_trouser_icon.png
+,na,,Head,Misc,hat,,,hats,hat_mask.png,hats,
+Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,balbo_4.png,facial_hair,balbo_4_icon.png
+Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,chin_curtain_4.png,facial_hair,chin_curtain_4_icon.png
+Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,french_fork_4.png,facial_hair,french_fork_4_icon.png
+Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,friendily_mutton_chop_4.png,facial_hair,friendily_mutton_chop_4_icon.png
+Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,goatee_4.png,facial_hair,goatee_4_icon.png
+Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,hollywoodian_4.png,facial_hair,hollywoodian_4_icon.png
+Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,hulihee_4.png,facial_hair,hulihee_4_icon.png
+Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,mustache_goatee_4.png,facial_hair,mustache_goatee_4_icon.png
+Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,mutton_chop_4.png,facial_hair,mutton_chop_4_icon.png
+Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,santa_facial_hair.png,facial_hair,santa_facial_hair_1_icon.png
+Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,short_boxed_beard_4.png,facial_hair,short_boxed_beard_4_icon.png
+Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,short_mustache_4.png,facial_hair,short_mustache_4_icon.png
+Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,sideburns_long_4.png,facial_hair,sideburns_long_4_icon.png
+Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,sideburns_short_4.png,facial_hair,sideburns_short_4_icon.png
+Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,van_dyke_4.png,facial_hair,van_dyke_4_icon.png
