@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="/stylesheets/fileupload/css/jquery.plupload.queue.css" type="text/css" media="screen" />
   <%= javascript_include_tag "application" %>
   <script src="/assets/jquery.highlight.js"></script>
+  <script src="/assets/jquery.idletimeout.js"></script>
   <script src="/assets/ui/jquery.ui.core.js"></script>
   <script src="/assets/ui/jquery.ui.widget.js"></script>
   <script src="/assets/ui/jquery.ui.mouse.js"></script>
@@ -234,6 +235,9 @@
   <div id="email_confirmation_div" class="hide">
     <%= render :partial => "/layouts/email_confirmation" %>
   </div>
+  <div id="session_timeout_div" class="hide">
+    <%= render :partial => "/layouts/session_timeout" %>
+  </div>
 
 <!--   <div id="school_dropdown" class="hide">
     <ul>
@@ -254,9 +258,34 @@
     $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
       if (jqXHR.status == 401) {
         window.location.reload();
-      } else {
+      } else if (jqXHR.status != 0) {
         showSpinner(false);
         $('#server_error_div').show();
+      }
+    });
+
+    // start the idle timer plugin
+    var $countdown = $('#session_timeout_countdown');
+
+    $.idleTimeout('#session_timeout_div', '#session_resume_btn', {
+      idleAfter: 3, // 30 * 60,
+      pollingInterval: 2,
+      keepAliveURL: '/profile/ping',
+      serverResponseEquals: 'OK',
+      warningLength: 60,
+      onTimeout: function() {
+        $.post('/users/sign_out', {_method: 'delete'}, function() {
+          window.location = '/';
+        });
+      },
+      onIdle: function() {
+        $(this).removeClass('hide');
+      },
+      onCountdown: function(counter) {
+        $countdown.html(counter); // update the counter
+      },
+      onResume: function(warning) {
+        $('#session_timeout_div').addClass('hide');
       }
     });
 
