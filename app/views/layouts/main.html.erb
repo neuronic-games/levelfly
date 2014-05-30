@@ -85,9 +85,9 @@
           
           <h2 id="major_school_name">
             <%= @profile.major_school %>
-            <% if current_user.profiles.count > 1 %>
-              <strong class="school_picker">&#9660;</strong>
-            <% end %>
+            <% #if current_user.profiles.count > 1 %>
+              <!--<strong class="school_picker">&#9660;</strong>-->
+            <% #end %>
           </h2>
         </div>
          <div class="hide" style="margin-left:90px;">
@@ -235,7 +235,7 @@
     <%= render :partial => "/layouts/email_confirmation" %>
   </div>
 
-  <div id="school_dropdown" class="hide">
+<!--   <div id="school_dropdown" class="hide">
     <ul>
       <% current_user.profiles.each do |profile| %>
       <li data-school-id="<%= profile.school.id %>" <% if profile.school == school %>class="current_school"<% end %>>
@@ -243,7 +243,7 @@
       </li>
       <% end %>
     </ul>
-  </div>
+  </div> -->
 
 </body>
 <script type="text/javascript">
@@ -285,26 +285,26 @@
       });
     }
 
-    $('#major_school_name').click(function() {
-      var $major_school_name = $(this),
-          offset = $major_school_name.offset();
+    // $('#major_school_name').click(function() {
+    //   var $major_school_name = $(this),
+    //       offset = $major_school_name.offset();
 
-      $('#school_dropdown').css({
-        'position': 'absolute',
-        'top': offset.top + $major_school_name.height() + 8,
-        'left': offset.left - 16
-      }).toggleClass('hide');
-    });
+    //   $('#school_dropdown').css({
+    //     'position': 'absolute',
+    //     'top': offset.top + $major_school_name.height() + 8,
+    //     'left': offset.left - 16
+    //   }).toggleClass('hide');
+    // });
 
-    $('#school_dropdown li').click(function() {
-      showSpinner(true);
-      $.post('/profile/change_school', {school_id: $(this).data('school-id')}, function(data) {
-        if (data.status) {
-          showSpinner(false);
-          window.location.reload();
-        }
-      });
-    });
+    // $('#school_dropdown li').click(function() {
+    //   showSpinner(true);
+    //   $.post('/profile/change_school', {school_id: $(this).data('school-id')}, function(data) {
+    //     if (data.status) {
+    //       showSpinner(false);
+    //       window.location.reload();
+    //     }
+    //   });
+    // });
   })(jQuery);
 
 var h = new Object(); 

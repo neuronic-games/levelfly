@@ -978,6 +978,8 @@ $(document).ready(function(){
   
   //Save grade on click
   $(".grade_book_content").delegate("input","click",function(){
+    if ($(this).attr('readonly')) return;
+
     entire_column = false
     previous_values.push($(this).val())
     id = $(this).attr("id");
