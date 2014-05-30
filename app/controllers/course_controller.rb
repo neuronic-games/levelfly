@@ -299,6 +299,8 @@ class CourseController < ApplicationController
 		resend = false
     if params[:email]
       emails = params[:email].split(/[ ,;]+/)
+      profiles = []
+      users = []
 
       emails.each do |email|
         # Change 'Group' to 'Course' because of query include `participants`.`target_type` = 'Course' when load group or course! Change by vaibhav
@@ -355,8 +357,10 @@ class CourseController < ApplicationController
   					end
           end
         end
+        profiles.push @profile
+        users.push @user
       end
-      render :text => {"status"=>status, "already_added" => already_added,"profile" =>@profile,"user"=>@user,"new_user"=>new_user, "resend"=>resend}.to_json
+      render :text => {"status"=>status, "already_added" => already_added, "profiles" => profiles, "users" => users, "new_user"=>new_user, "resend"=>resend}.to_json
    end
   end
   
