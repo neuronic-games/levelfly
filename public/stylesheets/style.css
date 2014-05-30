@@ -1195,6 +1195,7 @@ margin-top:-20px;
   resize:none;
   font-family:Arial, Helvetica, sans-serif;
   color:#334274;
+  -webkit-text-fill-color: #334274;
   font-size:12px;
   font-weight:bold;
 /*  width:415px;*/
