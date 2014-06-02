@@ -318,7 +318,7 @@ class Course < ActiveRecord::Base
 
     duplicate = self.dup
     duplicate.owner = self.owner
-    duplicate.wall = self.wall.dup
+    duplicate.wall = self.wall.dup if self.wall
 
     if params[:name_ext]
       name = "#{duplicate.name} #{params[:name_ext]}"

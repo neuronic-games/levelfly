@@ -2,6 +2,7 @@
 
 .load_more { text-align: center; font-weight: bold; padding-top: 10px; line-height: 50px; }
 .load_more img { position: relative; top: 10px; }
+.right { float: right; margin-left: 5px !important; }
 #rows { width: 100%; }
 
 /****icon msg****/
@@ -1084,6 +1085,10 @@ margin-top:-20px;
   padding:13px 0 0 0  !important;
   height:24px !important;
 }
+.two_line_btn {
+  padding-top: 5px;
+  height: 32px !important;
+}
 .big_blue_btn:hover {
   background:#6aa5bd;
 }
@@ -1195,6 +1200,7 @@ margin-top:-20px;
   resize:none;
   font-family:Arial, Helvetica, sans-serif;
   color:#334274;
+  -webkit-text-fill-color: #334274;
   font-size:12px;
   font-weight:bold;
 /*  width:415px;*/
