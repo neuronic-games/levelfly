@@ -68,5 +68,10 @@ Oncapus::Application.configure do
     :user_name            => ENV['MANDRILL_USERNAME'],
     :password             => ENV['MANDRILL_APIKEY'],
     :authentication       => "plain"
-  }  
+  }
+  
+  Pusher.app_id = '64377'
+  Pusher.key = 'c8fb9a955828496c8ed2'
+  Pusher.secret = '0be4a588118c56c95029'
+
 end
