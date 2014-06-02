@@ -344,7 +344,7 @@ Oncapus::Application.routes.draw do
   post "users/remove"
   
   get "users/new"
-  
+
   get "reward/new"
   
   get "reward/show"
@@ -414,7 +414,7 @@ Oncapus::Application.routes.draw do
   match 'task/show/:id' => 'task#show'
   
   match 'users/show/:id' => 'users#show'
-  
+
   match 'group/show/:id' => 'group#show'
   
   match 'reward/show/:id' => 'reward#show'

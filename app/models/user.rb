@@ -20,6 +20,15 @@ class User < ActiveRecord::Base
  
   has_many :profiles
 
+  @@status_active = 'A'
+  cattr_accessor :status_active
+
+  @@status_deleted = 'D'
+  cattr_accessor :status_deleted
+
+  @@status_suspended = 'S'
+  cattr_accessor :status_suspended
+
   def default_school
     @_default_school ||= School.find_by_id(self.default_school_id) || self.profiles.first.school
   end
