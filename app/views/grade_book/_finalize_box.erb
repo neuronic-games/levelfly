@@ -3,7 +3,7 @@
     <div class="clear"></div>
     <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
-     <div >Have you finished grading all tasks for the semester in your grade book? This will assign your students any remaining experience points (XP) and award gold medals for course outcomes.</div>
+    <p >Have you finished grading all tasks for the semester in your grade book? This will assign your students any remaining experience points (XP) and award gold medals for course outcomes.</p>
     
     <div class="spacebar10px"></div>
   <div align="right">
@@ -19,23 +19,27 @@
     });
     
     $("#btn_done_grading").click(function(){
-      var course_id = $("#course_id").val();
-      showSpinner(true);
-     $.ajax({  
-          type: "POST",  
-          url: "/grade_book/grading_complete",
-          dataType: "json",
-          data:{id:course_id},
-          success: function(data) {
-            showSpinner(false);
-            $("#finalize_div").hide();
-          },
-          error: function()
-          {
-            alert("An Error has occured");
-            showSpinner(false);
-          },
-        }); 
+      var course_id = $("#course_id").val(),
+          channel_name = 'course-finalize-<%= current_user.id %>',
+          pusher = new Pusher('<%= Pusher.key %>'),
+          channel = pusher.subscribe(channel_name);
+      console.log(channel_name);
+      channel.bind('complete', function(data) {
+        showSpinner(false);
+        $("#finalize_div").hide();
       });
-    });  
+
+      showSpinner(true);
+      $.ajax({  
+        type: "POST",  
+        url: "/grade_book/grading_complete",
+        dataType: "json",
+        data: { id: course_id },
+        success: function(data) {
+          $('#finalize_div p').html('<%= @latest_course.name %> is being finalized. This could take several minutes.  Have a cup of joe.');
+          $('#finalize_div .big_blue_btn').hide();
+        }
+      }); 
+    });
+  });  
 </script>

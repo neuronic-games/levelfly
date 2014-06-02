@@ -40,25 +40,26 @@
         <input type="hidden" name="new_course_id" id="new_course_id" value="<%=@course.id if @course%>">
       </div>
       <div class="clear"></div>
-			
-	  <div class="page_block">
-        <div class="page_block_left" style="margin-top:5px;">
-          <span class="field_title">Privacy</span>
-        </div>
-        <div class="page_block_right" style="margin-top:5px;">
-		  <span class="field_title">POSTING PRIVILEGES</span>
-	  	  &nbsp;
-		  <span class="field_notes">
-			<input type="radio" name ="forum_post_messages" <% if @course && @course.post_messages == true %> checked="true"<%end%>  value="true" id="forum_post_messages"/> All members can post to the home page
-		  </span>
-		  &nbsp;
-		  <span class="field_notes">
-			<input type="radio" name ="forum_post_messages"  <% if @course && @course.post_messages != true %>checked="true"<%end%> value="false" id="forum_post_messages"/> Only the organizer can post to the home page
-		  </span>
-		  &nbsp;
-        </div>
-      </div>
     </div>
+</div>
+<div class="spacebar30px">&nbsp;</div>
+<div class="page_block">
+	<div class="page_block_left" style="margin-top:5px;">
+		<span class="field_title">Privacy</span>
+	</div>
+	<div class="page_block_right" style="margin-top:5px;">
+		<span class="field_title font_15px">Posting Privileges</span>
+		&nbsp;
+		<span class="field_notes spaceleft5px">
+			<input type="radio" name ="forum_post_messages"  <% if @course && @course.post_messages != true %>checked="true"<%end%> value="false" id="forum_post_messages"/>
+			<label class="radio-label">Only the organizer can post to this forum</label>
+		</span>
+		<div class="spacebar10px">&nbsp;</div>
+		<span class="field_notes spaceleft5px">
+			<input type="radio" name ="forum_post_messages" <% if @course && @course.post_messages == true %> checked="true"<%end%>  value="true" id="forum_post_messages"/>
+			<label class="radio-label" >Members can also post to this forum</label>
+		</span>
+	</div>
 </div>
 <div id="sidebar_right_forum">
   <div class="course_side_buttons">

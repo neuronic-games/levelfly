@@ -199,11 +199,59 @@ body {
   font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
   font-size:16px;
   color:#e1e7cc;
-  padding: -1px 0 0 4px;
+  padding: 1px 3px 1px 4px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 250px;
+  max-width: 250px;
+  cursor: pointer;
+  display: inline-block;
+  height: 18px;
+  line-height: 20px;
+  position: relative;
+  bottom: 2px;
+}
+.header .avatar_detail h2 .school_picker {
+  font-size: 12px;
+  color: #839400;
+  position: relative;
+  bottom: 1px;
+}
+.header .avatar_detail h2:hover .school_picker {
+  color: #748402;
+}
+.header .avatar_detail h2:hover {
+  background-color: #849602;
+  border-radius: 5px;
+}
+#school_dropdown {
+  box-shadow: 1px -1px 4px rgba(0, 0, 0, 0.3), -1px 1px 2px rgba(0, 0, 0, 0.2);
+  background-color: #97ac00;
+  color: white;
+  z-index: 1000;
+  padding: 10px 10px 10px 15px;
+  width: 175px;
+  border: 1px solid #758501;
+}
+#school_dropdown li.current_school:before {
+  content: "▶";
+  position: absolute;
+  left: 2px;
+  font-size: 10px;
+  color: #839400;
+}
+#school_dropdown li {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 2px inset #869901;
+  cursor: pointer;
+}
+#school_dropdown li:first-child {
+  padding-top: 0;
+}
+#school_dropdown li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
 }
 .header .avatar_detail .full_name {
   font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
@@ -725,7 +773,7 @@ table.blackboard_list tr {
 }
 .page_block_left {
   float:left;
-  width:200px;
+  width:180px;
   margin-left:5px;
 }
 .page_block_right {

@@ -1,17 +1,27 @@
 <div class="messages_content load_messages">
   <div class="msg_content_left">
-    
+
+    <!-- School invites -->
+
+    <% if @school_invites and not @school_invites.empty? %>
+      <div id="school_invites_title"><h2 style="font-size:16px;">INVITES</h2></div>
+      <div id="school_invites">
+       <% @school_invites.each do |school_invite| %>
+         <%= render :partial => "/message/friend_requests", :locals => {:friend_request => school_invite} %>
+       <% end %>
+      </div>
+    <% end %>
+
     <!-- Invites -->
-   
+
     <% if @friend_requests and not @friend_requests.empty? %>
      <div id="invites_title"><h2 style="font-size:16px;">INVITES</h2></div>
      <div id="course_requests">
       <% @friend_requests.each do |friend_request| %>
         <%= render :partial => "/message/friend_requests", :locals => {:friend_request=>friend_request} %>
       <% end %>
-     </div>     
+     </div>
     <% end %>
-  
 
      <!-- Respond -->
        <% if @respont_to_course and not @respont_to_course.empty? %>
@@ -109,47 +119,45 @@ $(document).ready(function() {
       dataType: "json",
       data:{id:profile_id},
       success: function(data) {
-		if (data.alert_badge == false){
-			document.getElementById("msg").className = "notification_badge_active menu_btn";
-		}
-		else{
-			document.getElementById("msg").className = "icon_msg_active menu_btn";
-		}
-   	  },
-	  error: function()
-      {
+    		if (data.alert_badge == false){
+    			document.getElementById("msg").className = "notification_badge_active menu_btn";
+    		}
+    		else{
+    			document.getElementById("msg").className = "icon_msg_active menu_btn";
+    		}
+   	  }, error: function() {
         alert("An Error has occured");
       },
 	});
     $.ajaxSetup({ cache: false }); 
-    setInterval(function() {
-      $.ajax({
-        type: "POST",  
-        url: "/message/check_request",  
-        success: function(data){
-         if(data!=""){
-            if ($("#invites_title").length > 0){
-              $("#course_requests").prepend(data);
-            }else{
-              $("#course_requests").html("<div id='invites_title'><h2>INVITES</h2></div>");
-              $("#course_requests").append(data);
-            }
-            var invites = parseInt($("#invitation_count").val());
-            $("#invitation_count").attr("value",invites+1); 
+    // setInterval(function() {
+    //   $.ajax({
+    //     type: "POST",  
+    //     url: "/message/check_request",  
+    //     success: function(data){
+    //      if(data!=""){
+    //         if ($("#invites_title").length > 0){
+    //           $("#course_requests").prepend(data);
+    //         }else{
+    //           $("#course_requests").html("<div id='invites_title'><h2>INVITES</h2></div>");
+    //           $("#course_requests").append(data);
+    //         }
+    //         var invites = parseInt($("#invitation_count").val());
+    //         $("#invitation_count").attr("value",invites+1); 
               
-         }
-        }
-     });
-     $.ajax({
-        type: "POST",  
-        url: "/message/check_messages",  
-        success: function(data){
-         if(data!=""){
-          $("#message_wrapper").prepend(data);
-         }
-        }
-      });
-    }, 10000*20); 
+    //      }
+    //     }
+    //  });
+    //  $.ajax({
+    //     type: "POST",  
+    //     url: "/message/check_messages",  
+    //     success: function(data){
+    //      if(data!=""){
+    //       $("#message_wrapper").prepend(data);
+    //      }
+    //     }
+    //   });
+    // }, 10000*20); 
 	 $('textarea#msg_content').autosize();
 	 
 	 $('#all_cmnts').click(function(){

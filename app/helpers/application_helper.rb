@@ -29,6 +29,9 @@ module ApplicationHelper
   end 
   
   def notification_badge(profile)
+    recently_messaged = profile.recently_messaged
+    return false if recently_messaged.count > 0 && recently_messaged.first.unread_message_count.to_i > 0
+
     recently_messaged = Message.active.involving(profile.id).find(
       :all, 
       :joins => :message_viewers,
@@ -60,9 +63,17 @@ module ApplicationHelper
 	end
   
   def school
-    current_school = School.find(session[:school_id]) if session[:school_id]
-    current_school = School.find_by_handle("demo") unless session[:school_id]
-    return current_school
+    if current_user
+      session[:school_id] = current_user.default_school.id
+      current_user.default_school
+    elsif session[:school_id]
+      School.find(session[:school_id])
+    else
+      School.find_by_handle("demo")
+    end
   end
   
+  def current_profile
+    Profile.find_by_user_id_and_school_id(current_user.id, school.id)
+  end
 end
