@@ -71,16 +71,8 @@ Y,1,,Head,Face,face,Face 17,,expression,winking_1.png,expression,winking_1_icon.
 Y,1,,Head,Face,face,Face 18,,expression,winking_2.png,expression,winking_2_icon.png
 Y,1,,Head,Face,face,Face 19,,expression,winking_3.png,expression,winking_3_icon.png
 Y,1,,Head,Face,face,Face 20,,expression,winking_4.png,expression,winking_4_icon.png
-,1,,Head,Facial Hair,facial_hair,,,facial_hair,handlebar_chin_puff_1.png,facial_hair,handlebar_chin_puff_4_icon.png
-,1,,Head,Facial Hair,facial_hair,,,facial_hair,handlebar_chin_puff_2.png,facial_hair,handlebar_chin_puff_4_icon.png
-,1,,Head,Facial Hair,facial_hair,,,facial_hair,handlebar_chin_puff_3.png,facial_hair,handlebar_chin_puff_4_icon.png
-,1,,Head,Facial Hair,facial_hair,,,facial_hair,handlebar_chin_puff_4.png,facial_hair,handlebar_chin_puff_4_icon.png
-,1,,Head,Facial Hair,facial_hair,,,facial_hair,handlebar_chin_puff_5.png,facial_hair,handlebar_chin_puff_4_icon.png
-,1,,Head,Facial Hair,facial_hair,,,facial_hair,la_souvarov_1.png,facial_hair,la_souvarov_4_icon.png
-,1,,Head,Facial Hair,facial_hair,,,facial_hair,la_souvarov_2.png,facial_hair,la_souvarov_4_icon.png
-,1,,Head,Facial Hair,facial_hair,,,facial_hair,la_souvarov_3.png,facial_hair,la_souvarov_4_icon.png
-,1,,Head,Facial Hair,facial_hair,,,facial_hair,la_souvarov_4.png,facial_hair,la_souvarov_4_icon.png
-,1,,Head,Facial Hair,facial_hair,,,facial_hair,la_souvarov_5.png,facial_hair,la_souvarov_4_icon.png
+,,,,,,,,,,,
+,,,,,,,,,,,
 Y,1,,Head,Hair,hair,,,hair,long_curly_1_back.png,hair,long_curly_4_icon.png
 Y,1,,Head,Hair,hair,,,hair,long_curly_1.png,hair,long_curly_4_icon.png
 Y,1,,Head,Hair,hair,,,hair,long_curly_2_back.png,hair,long_curly_4_icon.png
@@ -171,6 +163,23 @@ Y,1,,Head,Hair,hair,,,hair,short_normal_5.png,hair,short_normal_4_icon.png
 ,1,,Head,Hair,hair,,,hair,short_wavy_4.png,hair,short_wavy_4_icon.png
 ,1,,Head,Hair,hair,,,hair,short_wavy_5_back.png,hair,short_wavy_4_icon.png
 ,1,,Head,Hair,hair,,,hair,short_wavy_5.png,hair,short_wavy_4_icon.png
+Y,1,,Head,Facial Hair,facial_hair,Handlebar,,facial_hair,handlebar_chin_puff_#.png,facial_hair,handlebar_chin_puff_icon.png
+Y,1,,Head,Facial Hair,facial_hair,La Sauvarov,,facial_hair,la_souvarov_#.png,facial_hair,la_souvarov_icon.png
+Y,1,,Head,Facial Hair,facial_hair,Balbo,,facial_hair,balbo_#.png,facial_hair,balbo_icon.png
+Y,1,,Head,Facial Hair,facial_hair,Chin Curtain,,facial_hair,chin_curtain_#.png,facial_hair,chin_curtain_icon.png
+Y,1,,Head,Facial Hair,facial_hair,French Fork,,facial_hair,french_fork_#.png,facial_hair,french_fork_icon.png
+Y,1,,Head,Facial Hair,facial_hair,Friendly Mutton Chop,,facial_hair,friendily_mutton_chop_#.png,facial_hair,friendily_mutton_chop_icon.png
+Y,1,,Head,Facial Hair,facial_hair,Goatee,,facial_hair,goatee_#.png,facial_hair,goatee_icon.png
+Y,1,,Head,Facial Hair,facial_hair,Holywoodian,,facial_hair,hollywoodian_#.png,facial_hair,hollywoodian_icon.png
+Y,1,,Head,Facial Hair,facial_hair,Hulihee,,facial_hair,hulihee_#.png,facial_hair,hulihee_icon.png
+Y,1,,Head,Facial Hair,facial_hair,Mustache Goatee,,facial_hair,mustache_goatee_#.png,facial_hair,mustache_goatee_icon.png
+Y,1,,Head,Facial Hair,facial_hair,Mutton Chop,,facial_hair,mutton_chop_#.png,facial_hair,mutton_chop_icon.png
+Y,1,,Head,Facial Hair,facial_hair,Santa,,facial_hair,santa_facial_hair_#.png,facial_hair,santa_facial_hair_icon.png
+Y,1,,Head,Facial Hair,facial_hair,Short Boxed Beard,,facial_hair,short_boxed_beard_#.png,facial_hair,short_boxed_beard_icon.png
+Y,1,,Head,Facial Hair,facial_hair,Short Mustache,,facial_hair,short_mustache_#.png,facial_hair,short_mustache_icon.png
+Y,1,,Head,Facial Hair,facial_hair,Sideburns Long,,facial_hair,sideburns_long_#.png,facial_hair,sideburns_long_icon.png
+Y,1,,Head,Facial Hair,facial_hair,Sideburns Short,,facial_hair,sideburns_short_#.png,facial_hair,sideburns_short_icon.png
+Y,1,,Head,Facial Hair,facial_hair,Van Dyke,,facial_hair,van_dyke_#.png,facial_hair,van_dyke_icon.png
 ,1,,Head,Misc,hat,Black Cap,,hats,hat_red_black.png,hats,hat_red_black_icon.png
 ,1,,Head,Shape,head,,,head,diamond_1.png,head,diamond_3_icon.png
 ,1,,Head,Shape,head,,,head,diamond_2.png,head,diamond_3_icon.png
@@ -305,18 +314,3 @@ Y,25,,Head,Misc,prop,Red Lipstick,,makeup,makeup_red_lips.png,makeup,makeup_red_
 Y,26,,Head,Misc,hat,Santa Hat,,hats,santa_hat.png,hats,santa_hat_icon.png
 ,26,,Legs,Misc,bottom,Santa,Santa Bottom,bottoms,santa_trouser.png,bottoms,santa_trouser_icon.png
 ,na,,Head,Misc,hat,,,hats,hat_mask.png,hats,
-Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,balbo_4.png,facial_hair,balbo_4_icon.png
-Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,chin_curtain_4.png,facial_hair,chin_curtain_4_icon.png
-Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,french_fork_4.png,facial_hair,french_fork_4_icon.png
-Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,friendily_mutton_chop_4.png,facial_hair,friendily_mutton_chop_4_icon.png
-Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,goatee_4.png,facial_hair,goatee_4_icon.png
-Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,hollywoodian_4.png,facial_hair,hollywoodian_4_icon.png
-Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,hulihee_4.png,facial_hair,hulihee_4_icon.png
-Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,mustache_goatee_4.png,facial_hair,mustache_goatee_4_icon.png
-Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,mutton_chop_4.png,facial_hair,mutton_chop_4_icon.png
-Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,santa_facial_hair.png,facial_hair,santa_facial_hair_1_icon.png
-Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,short_boxed_beard_4.png,facial_hair,short_boxed_beard_4_icon.png
-Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,short_mustache_4.png,facial_hair,short_mustache_4_icon.png
-Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,sideburns_long_4.png,facial_hair,sideburns_long_4_icon.png
-Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,sideburns_short_4.png,facial_hair,sideburns_short_4_icon.png
-Y,na,,Head,Facial Hair,facial_hair,,,facial_hair,van_dyke_4.png,facial_hair,van_dyke_4_icon.png

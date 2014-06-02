@@ -19,4 +19,21 @@ class Setting < ActiveRecord::Base
     setting.save
     return setting
   end
+
+  def self.default_date_format(date)
+     if not date.blank?
+       date.strftime("%m-%d-%Y")
+     else
+       ''
+     end
+   end
+
+   def self.default_date_time_format(date)
+     if not date.blank?
+       date.strftime("%m-%d-%Y %I:%M %p")
+     else
+       ''
+     end
+   end 
+
 end
