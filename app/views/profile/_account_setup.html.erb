@@ -17,7 +17,7 @@
    <div>
     <input type ="text" class = "dd_input brown_bg02" id ="email" value="<%=@current_user.user.email%>">
    </div>
- </br>
+   <div class="form_error">&nbsp;</div>
    
    <div class="heading02">Password
      &nbsp;&nbsp;
@@ -55,13 +55,20 @@ $(document).click(function (e)
     }
 });
  $("#change_btn").click(function(){
-    var valid = validateForm();
-    if (valid == true){
-       id = $("#hdn_user_id").val();
-       password = $("#user_password").val();
-       full_name = $("#user_full_name").val();
-       email = $("#email").val();
-       showSpinner(true);
+    var $this = $(this);
+
+    if ($this.data('disabled')) {
+      if ($this.data('checking')) {
+        $this.data('clicked', true);
+      }
+    } else {
+      var id = $("#hdn_user_id").val(),
+          password = $("#user_password").val(),
+          full_name = $("#user_full_name").val(),
+          email = $("#email").val();
+
+      showSpinner(true);
+
       $.ajax({
         type: "POST",
         url: "/profile/change_password",
@@ -69,17 +76,38 @@ $(document).click(function (e)
         data:{id:id,password:password,full_name:full_name,email:email},
         success: function(resp){
           if (resp){
-             showSpinner(false);
-             $("#account_setup").hide();
-             $("#account_dialog").html(resp.text)
-             if(resp.status ==true){
+            showSpinner(false);
+            $("#account_setup").hide();
+            $("#alert").html(resp.text)
+            if(resp.status == true) {
               $("#tool_bar_full_name").html(full_name);
-             }
-             //$("#account_setup").fadeOut(5000);
+            }
+            //$("#account_setup").fadeOut(5000);
           }
         }
       }); 
     }   
+ });
+
+ $('#account_dialog #email').change(function() {
+  var $change_btn = $('#change_btn');
+
+  $change_btn.data('disabled', true);
+  $change_btn.data('checking', true);
+
+  $.post('/profile/check_email', {email: this.value}, function(data) {
+    if (data.exists) {
+      $('#account_dialog .form_error').html('Someone is already using this email');
+    } else {
+      $change_btn.data('disabled', !validateForm());
+      $change_btn.data('checking', false);
+
+      if ($change_btn.data('clicked')) {
+        $change_btn.data('clicked', false);
+        $change_btn.click();
+      }
+    }
+  });
  });
 function validateForm(){
 
@@ -90,13 +118,15 @@ function validateForm(){
   var dotpos=email.lastIndexOf(".");
  
   if (email==""){
-      alert('Enter Email Address');
+      $('#account_dialog .form_error').html('Enter Email Address');
       return false;
   }
   else if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length)
   {
-    alert("Not a valid e-mail address");
+    $('#account_dialog .form_error').html("Invalid email format");
     return false;
+  } else {
+    $('#account_dialog .form_error').html("&nbsp;");
   }
   
   if(user_password.value.length < 6 && user_password.value!=""){

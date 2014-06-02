@@ -318,7 +318,7 @@ class Course < ActiveRecord::Base
 
     duplicate = self.dup
     duplicate.owner = self.owner
-    duplicate.wall = self.wall.dup
+    duplicate.wall = self.wall.dup if self.wall
 
     if params[:name_ext]
       name = "#{duplicate.name} #{params[:name_ext]}"
@@ -435,5 +435,30 @@ class Course < ActiveRecord::Base
     else
       duplicate
     end
+  end
+
+  def finalize(current_profile)
+    status = false
+    grading_completed_at = Time.now
+    save
+    @outcomes = outcomes.order('name')
+    @participant = Participant.all( :joins => [:profile], :conditions => ["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'", id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
+    @participant.each do |p|
+      TaskGrade.bonus_points(p.profile.school_id, self, p.profile.id, current_profile.id)
+      outcomes_grade = []
+      if !@outcomes.nil?
+        @outcomes.each do |o|
+          outcome_grade = CourseGrade.load_outcomes(p.profile_id, id, o.id, current_profile.school_id)
+          if !outcome_grade.blank? and outcome_grade >= 2.5
+            @badge = Badge.gold_outcome_badge(o.name, current_profile)
+            avatar_badge = AvatarBadge.find(:first, :conditions => ["profile_id = ? and badge_id = ? and course_id = ? and giver_profile_id = ?",p.profile_id,@badge.id,id,current_profile.id]) if @badge
+            if avatar_badge.nil?
+              status = AvatarBadge.add_badge(p.profile_id, @badge.id, id, current_profile.id)
+            end
+          end
+        end
+      end
+    end 
+    Pusher["course-finalize-#{current_profile.user.id}"].trigger('complete', {:status => status})
   end
 end

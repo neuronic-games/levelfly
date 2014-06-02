@@ -2,6 +2,7 @@
 
 .load_more { text-align: center; font-weight: bold; padding-top: 10px; line-height: 50px; }
 .load_more img { position: relative; top: 10px; }
+.right { float: right; margin-left: 5px !important; }
 #rows { width: 100%; }
 
 /****icon msg****/
@@ -585,6 +586,15 @@ a.blue_bt19px2 {
 .course_tab_content .bdr_dotted {
   border-bottom:3px dotted #777;
 }
+
+.spaceleft5px{
+	padding:0px 0px 0px 5px;
+}
+
+.radio-label{
+	vertical-align: top;
+	padding-left: 3px;
+}
 /***friend list**/
 .friend_list {
   float:right;
@@ -1075,6 +1085,10 @@ margin-top:-20px;
   padding:13px 0 0 0  !important;
   height:24px !important;
 }
+.two_line_btn {
+  padding-top: 5px;
+  height: 32px !important;
+}
 .big_blue_btn:hover {
   background:#6aa5bd;
 }
@@ -1186,6 +1200,7 @@ margin-top:-20px;
   resize:none;
   font-family:Arial, Helvetica, sans-serif;
   color:#334274;
+  -webkit-text-fill-color: #334274;
   font-size:12px;
   font-weight:bold;
 /*  width:415px;*/
@@ -1750,6 +1765,26 @@ margin-left:33px;
     height: 580px;
     position: absolute;
     width: 209px;
+}
+
+#add_user_form .heading02_field {
+  width: 200px;
+}
+
+#add_user_form .form_error {
+  position: absolute;
+  left: 25px;
+  bottom: 38px;
+  width: 200px;
+  color: red;
+}
+
+.task_content .form_error {
+  color: red;
+  text-align: left;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 10px 0 0 5px;
 }
 
 /*new*/
@@ -4291,6 +4326,9 @@ border:solid 0px #000000;
   height:20px;
   font-size:17px;
   font-weight:bold;
+}
+#account_dialog .form_error {
+  color: red;
 }
 .message_warning_box{
 border:solid 0px #000000;
