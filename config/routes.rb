@@ -369,7 +369,8 @@ Oncapus::Application.routes.draw do
   
   post "course/view_forum_setup"
   
-  
+  get "profile/ping"
+
   match 'reward' => 'reward#index'
 
   match 'csv' => 'grade_book#export_csv', :as => 'csv'
