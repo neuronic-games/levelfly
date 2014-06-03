@@ -46,7 +46,8 @@ class Admin < ActiveRecord::Base
       email = user.email.downcase.strip
       if user.email != email
         user.lower_email
-        user.save
+        user.skip_confirmation!
+        user.save!
       end
     end
   end
