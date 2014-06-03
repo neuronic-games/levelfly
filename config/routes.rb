@@ -2,7 +2,6 @@ Oncapus::Application.routes.draw do
 
   devise_for :users, :controllers => {:registrations => "registrations", :sessions => "sessions"} do
     match '/users/sign_in/:slug' => 'sessions#new'
-    match '/users/sign_up/:slug' => 'registrations#new'
     match 'confirm/:confirmation_token', :controller => 'confirmations', :action => 'show', :as => 'confirmation'
     match 'confirm', :controller => 'confirmations', :action => 'new', :as => 'new_confirmation'
   end
