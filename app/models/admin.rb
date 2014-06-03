@@ -45,9 +45,7 @@ class Admin < ActiveRecord::Base
     users.each do |user|
       email = user.email.downcase.strip
       if user.email != email
-        user.lower_email
-        user.skip_confirmation!
-        user.save!
+        user.update_column(:email, user.email.downcase.strip)
       end
     end
   end
