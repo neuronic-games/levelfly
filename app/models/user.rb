@@ -29,6 +29,13 @@ class User < ActiveRecord::Base
   @@status_suspended = 'S'
   cattr_accessor :status_suspended
 
+  before_create :lower_email
+  before_save :lower_email
+
+  def lower_email
+    self.email = self.email.downcase.strip
+  end
+
   def default_school
     @_default_school ||= School.find_by_id(self.default_school_id) || self.profiles.first.school
   end
