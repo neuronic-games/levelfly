@@ -20,8 +20,10 @@
               Uploaded by <%=h a.owner.full_name%><br />
             </p>
           </div>
+          <% if a.resource_file_size && a.updated_at %>
           <div class="titleTextRight"> <%= show_kilo_byte(a.resource_file_size) %>KB</div>
           <div class="titleTextRightC2"><%= change_date_time_format(a.updated_at) %></div>
+          <% end %>
           <div class="clear"></div>
           <div id="files_hover" class="msg_bottom_linksC2" style="display:none;">
               <div class="like_cmt"> 
