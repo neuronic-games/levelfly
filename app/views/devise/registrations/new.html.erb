@@ -30,7 +30,7 @@
         <div class="Divider_15"></div>
         <div class="clear"></div>
          <div class="text_box_wp">
-             <%= f.text_field :full_name, :class=>"txt_box", :style=>"width:378px;", :placeholder=>"Full Name", :required => true %>
+             <%= f.text_field :full_name, :class=>"txt_box", :style=>"width:378px;", :placeholder=>"Full Name", :required => true, :title => "You must enter your name." %>
         </div><!--text_box_wp-->
          <div class="Divider_15"></div>
         <div class="clear"></div>
@@ -40,7 +40,7 @@
         <div class="Divider_15"></div>
         <div class="clear"></div>
         <div class="text_box_wp">
-             <%= f.password_field :password, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Password", :required => true%>
+             <%= f.password_field :password, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Password", :required => true, :pattern => ".{6,}", :title => "6 characters minimum"%>
         </div><!--text_box_wp-->
          <div class="Divider_15"></div>
         <div class="clear"></div>
