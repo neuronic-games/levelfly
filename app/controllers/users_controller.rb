@@ -141,6 +141,7 @@ class UsersController < ApplicationController
       @user.email = params[:email] if params[:email]
       @user.status = params[:status] if params[:status]
       @user.password = params[:user_password] if params[:user_password]
+      @user.skip_reconfirmation!
       @user.save
       profile.save
     end
@@ -174,7 +175,7 @@ class UsersController < ApplicationController
      @user = profile.user
      check = @user.email.downcase.scan(/del\-[0-9]*\-/)
      unless !check.empty?
-       @user.skip_confirmation!
+       @user.skip_reconfirmation!
        @user.status = "D"
        # this only allows you to delete 1 user with the same email per day
        @user.email = "DEL-#{timestamp}-#{@user.email}"
