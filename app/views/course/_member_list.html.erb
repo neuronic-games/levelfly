@@ -155,7 +155,7 @@
 		if(section_type == "G")
 			section = "group";
 		
-		email_id = $("#add_course_people").val();
+		email_id = $("#add_course_people").val().trim();
 		node_class = "even";
 		dataString = {course_id:course_id, email:email_id,section_type:section_type};
 		if (course_id && email_id) {
