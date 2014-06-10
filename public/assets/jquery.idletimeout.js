@@ -237,6 +237,7 @@ $.idleTimer = function f(newTimeout){
      */
 
     checkIdleState = function() {
+      console.log($.jStorage.get('lastActivity'), timeout, +new Date);
       if ($.jStorage.get('lastActivity') + timeout < +new Date) {
         toggleIdleState();
       }
@@ -308,6 +309,12 @@ $.idleTimer = function f(newTimeout){
     //assign appropriate event handlers
     $(document).bind($.trim((events+' ').split(' ').join('.idleTimer ')),handleUserEvent);
     
+    window.addEventListener('storage', function(e) {
+      if (e.timeStamp != $.jStorage.get('lastActivity')) {
+        $.jStorage.set('lastActivity', e.timeStamp);
+      }
+    }, true);
+
     //set a timeout to watch for state
     $.idleTimer.tId = setInterval(checkIdleState, 2000);
     
