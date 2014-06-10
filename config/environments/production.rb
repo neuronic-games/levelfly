@@ -64,7 +64,7 @@ Oncapus::Application.configure do
   config.active_support.deprecation = :notify
 
   # Used for password reminder emails
-  config.action_mailer.default_url_options = { :host => 'oncampus.heroku.com' }
+  config.action_mailer.default_url_options = { :host => 'oncampus.herokuapp.com' }
 
   ActionMailer::Base.delivery_method = :smtp
 
