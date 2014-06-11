@@ -77,12 +77,12 @@
       user_password = document.getElementById('user_password'),
       user_password_confirmation = document.getElementById('user_password_confirmation');
 
-function validateForm() {
-  if (user_password_confirmation.value && user_password.value != user_password_confirmation.value) {
-    user_password_confirmation.setCustomValidity('The two passwords must match.');
-  } else {
-    user_password_confirmation.setCustomValidity('');
+  function validateForm() {
+    if (user_password_confirmation.value && user_password.value != user_password_confirmation.value) {
+      user_password_confirmation.setCustomValidity('The two passwords must match.');
+    } else {
+      user_password_confirmation.setCustomValidity('');
+    }
+    return true;
   }
-  return true;
-}
 </script>
