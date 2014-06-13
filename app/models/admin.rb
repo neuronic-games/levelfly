@@ -40,4 +40,13 @@ class Admin < ActiveRecord::Base
     end
   end
   
+  def self.clean_bad_emails
+    users = User.find(:all)
+    users.each do |user|
+      email = user.email.downcase.strip
+      if user.email != email
+        user.update_column(:email, user.email.downcase.strip)
+      end
+    end
+  end
 end

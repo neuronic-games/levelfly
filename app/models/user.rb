@@ -29,8 +29,8 @@ class User < ActiveRecord::Base
   @@status_suspended = 'S'
   cattr_accessor :status_suspended
 
-  before_create :lower_email
-  before_save :lower_email
+  # before_create :lower_email
+  # before_save :lower_email
 
   def lower_email
     self.email = self.email.downcase.strip
@@ -100,5 +100,9 @@ class User < ActiveRecord::Base
     end
   end
   
+  def self.find_first_by_auth_conditions(warden_conditions)
+    conditions = warden_conditions.dup
+    where(conditions).where("email !~* '^del-'").first
+  end
   
 end
