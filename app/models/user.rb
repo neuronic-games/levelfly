@@ -102,6 +102,7 @@ class User < ActiveRecord::Base
   
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
+    conditions[:email].downcase!
     where(conditions).where("email !~* '^del-'").first
   end
   
