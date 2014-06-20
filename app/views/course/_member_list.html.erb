@@ -52,7 +52,7 @@
       		</div>
       		<div class="spacebar10px"></div>
         	<input type="checkbox" name="message_post_on_wall" id="chk_message_post" />
-        	<span>Send to <%= @course.name.to_s%> - This posts the message to the <%= @course && @course.parent_type == "C" ? "Course":"Group" %> home page</span>
+        	<span>Post the message to the home page for <%= @course.name.to_s.strip %>.</span>
     	</div>
     	<div class="clear"></div>
 		<div class="spacebar10px"></div>
