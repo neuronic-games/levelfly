@@ -403,6 +403,48 @@ class GradeBookController < ApplicationController
       end  
     end
   end
+
+  def export_course_sectioned_csv
+    @course = Course.find(params[:course_id])
+
+    user_csv = CSV.generate do |csv|
+      csv << ['Student Name']
+
+      @courses = Course.where(:code => @course.code).order(:section)
+      @courses.each do |course|
+        @outcomes = course.outcomes.order('name')
+
+        csv << Array.new(@outcomes.count + 1, '')
+        csv << (["<b>#{course.code_section}</b>"] + @outcomes.map(&:name))
+
+        @profiles = Profile.all(
+          :include => [:participants],
+          :conditions => {:participants => {:target_id => course.id, :profile_type => 'S'}},
+          :order => "full_name"
+        )
+
+        @profiles.each do |profile|
+          row = [profile.full_name]
+
+          @outcomes.each do |outcome|
+            @outcome_grade = OutcomeGrade.find(:first, :conditions => {
+              :course_id => course.id,
+              :outcome_id => outcome.id,
+              :profile_id => profile.id
+            })
+            logger.info @outcome_grade
+
+            row.push @outcome_grade ? @outcome_grade.grade : '-'
+          end
+
+          csv << row
+        end
+      end
+    end
+
+    filename = "#{@course.code}-#{Date.today.strftime('%Y%m%d')}.csv"
+    send_data(user_csv, :type => 'text/csv', :filename => filename)      
+  end
   
   def export_csv
     x = []
