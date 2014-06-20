@@ -20,10 +20,11 @@
     
     $("#btn_done_grading").click(function(){
       var course_id = $("#course_id").val(),
+          course_name = $('#course_id option:selected').text(),
           channel_name = 'course-finalize-<%= current_user.id %>',
           pusher = new Pusher('<%= Pusher.key %>'),
           channel = pusher.subscribe(channel_name);
-      console.log(channel_name);
+
       channel.bind('complete', function(data) {
         showSpinner(false);
         $("#finalize_div").hide();
@@ -36,7 +37,7 @@
         dataType: "json",
         data: { id: course_id },
         success: function(data) {
-          $('#finalize_div p').html('<%= @latest_course.name %> is being finalized. This could take several minutes.  Have a cup of joe.');
+          $('#finalize_div p').html(course_name + ' is being finalized. This could take several minutes.  Have a cup of joe.');
           $('#finalize_div .big_blue_btn').hide();
         }
       }); 
