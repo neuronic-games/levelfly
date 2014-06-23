@@ -237,21 +237,31 @@ $.idleTimer = function f(newTimeout){
      */
 
     checkIdleState = function() {
-      console.log($.jStorage.get('lastActivity'), timeout, +new Date);
-      if ($.jStorage.get('lastActivity') + timeout < +new Date) {
-        toggleIdleState();
+      console.log($.jStorage.get('idle'));
+      if (idle && !$.jStorage.get('idle')) {
+        endIdleState();
+      } else if ($.jStorage.get('idle') && !idle) {
+        startIdleState();
+      } else if ($.jStorage.get('lastActivity') + timeout < +new Date) {
+        startIdleState();
       }
     },
 
+    startIdleState = function() {
+      $.jStorage.set('idle', true);
+      idle = true;
+      $(document).trigger($.data(document, 'idleTimer', "idle")  + '.idleTimer');
+    },
+
+    endIdleState = function() {
+      $.jStorage.set('idle', false);
+      idle = false;
+      $(document).trigger($.data(document, 'idleTimer', "active")  + '.idleTimer');
+      $.idleTimeout.options.onResume();
+    },
+
     toggleIdleState = function(){
-      //toggle the state
-      idle = !idle;
-      
-      // reset timeout counter
-      $.jStorage.set('lastActivity', +new Date);
-      
-      //fire appropriate event
-      $(document).trigger(  $.data(document,'idleTimer', idle ? "idle" : "active" )  + '.idleTimer');            
+      endIdleState();
     },
 
     /**
@@ -293,6 +303,7 @@ $.idleTimer = function f(newTimeout){
      * @static
      */ 
     
+    $.jStorage.subscribe("endIdleState", endIdleState);
     
     $.jStorage.set('lastActivity', +new Date);
     
@@ -308,15 +319,10 @@ $.idleTimer = function f(newTimeout){
     
     //assign appropriate event handlers
     $(document).bind($.trim((events+' ').split(' ').join('.idleTimer ')),handleUserEvent);
-    
-    window.addEventListener('storage', function(e) {
-      if (e.timeStamp != $.jStorage.get('lastActivity')) {
-        $.jStorage.set('lastActivity', e.timeStamp);
-      }
-    }, true);
 
     //set a timeout to watch for state
     $.idleTimer.tId = setInterval(checkIdleState, 2000);
+    $.jStorage.set('lastActivity', +new Date);
     
     // assume the user is active for the first x seconds.
     $.data(document,'idleTimer',"active");
