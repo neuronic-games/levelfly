@@ -50,9 +50,11 @@
       <%joined, p_type = already_join(c.id,user_session[:profile_id])%>
       <div class="list_hover">
         <% if defined?(section_type) and section_type == "G" and c.owner.id != user_session[:profile_id] and (joined==false or p_type=="P")%>
-        <a href="javascript:void(0);" class="<%=p_type == "P" ? "light_blue" : "join_btn blue_bt19px"%>" course_id="<%= c.id %>">
-          <%=p_type == "P" ? " Invite Pending " : "Join"%>
-        </a>
+          <% if c.join_type == 'I' %>
+          <a href="javascript:void(0);" class="<%=p_type == "P" ? "light_blue" : "join_btn blue_bt19px"%>" course_id="<%= c.id %>">
+            <%=p_type == "P" ? " Invite Pending " : "Join"%>
+          </a>
+          <% end %>
         <% elsif defined?(section_type) and section_type == "G" and c.owner.id == user_session[:profile_id]%>
         <a href="javascript:void(0);" class="remove_btn blue_bt19px" course_id="<%= c.id %>">
           Remove
