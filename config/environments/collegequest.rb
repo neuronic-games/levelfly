@@ -60,4 +60,18 @@ Oncapus::Application.configure do
 
   # Used for password reminder emails
   config.action_mailer.default_url_options = { :host => 'www.levelflylearning.com' }
+  
+  ActionMailer::Base.smtp_settings = {
+    :address              => "smtp.mandrillapp.com",
+    :port                 => 587,
+    :domain               => "heroku.com",
+    :user_name            => ENV['MANDRILL_USERNAME'],
+    :password             => ENV['MANDRILL_APIKEY'],
+    :authentication       => "plain"
+  }
+  
+  Pusher.app_id = '64377'
+  Pusher.key = 'c8fb9a955828496c8ed2'
+  Pusher.secret = '0be4a588118c56c95029'
+
 end

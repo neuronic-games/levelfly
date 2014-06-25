@@ -22,7 +22,14 @@ class Profile < ActiveRecord::Base
       profile = new_profile.dup
       profile.user_id = user_id
       profile.code = nil
-      profile.role_name = RoleName.find_by_name('Student')
+
+      demo_school = School.find_by_code('DEMO')
+      if school_id == demo_school.id
+        profile.role_name = RoleName.find_by_name('Teacher')
+      else
+        profile.role_name = RoleName.find_by_name('Student')
+      end
+
       profile.save
       avatar = new_profile.avatar.dup
       avatar.profile_id = profile.id

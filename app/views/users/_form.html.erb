@@ -95,7 +95,11 @@
                 </div> 
               </div>
               <div class="clear"></div>
+              <% if @profile.user.last_sign_in_at %>
               <br>Last logged in <%= time_ago_in_words(@profile.user.last_sign_in_at) %> ago (<%= @profile.user.last_sign_in_at.strftime('%-m/%-d/%Y %l:%M%P') %>)
+              <% else %>
+              <br>Never logged in
+              <% end %>
               <br>Created <%= time_ago_in_words(@profile.created_at) %> ago (<%= @profile.created_at.strftime('%-m/%-d/%Y %l:%M%P') %>)
               <% end %>
             </div>          

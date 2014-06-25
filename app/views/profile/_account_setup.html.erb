@@ -1,40 +1,44 @@
 
 <div class="account_detail" id="account_dialog"> 
 <%if @current_user and !@current_user.nil?%>
-<div class="heading">Account Setup</div>
-  </br>
-   <div class="heading02">Full Name
-    &nbsp;&nbsp;
-  </div> 
-  <div>
-   <input type ="text" class = "dd_input brown_bg02" id ="user_full_name" value="<%=@current_user.full_name%>">
-  </div>
-</br>
-  
-   <div class="heading02">Email
-     &nbsp;&nbsp;
-   </div> 
-   <div>
-    <input type ="text" class = "dd_input brown_bg02" id ="email" value="<%=@current_user.user.email%>">
+  <div class="heading">Account Setup</div>
+  <div class="dialog_body">
+    </br>
+     <div class="heading02">Full Name
+      &nbsp;&nbsp;
+    </div> 
+    <div>
+     <input type ="text" class = "dd_input brown_bg02" id ="user_full_name" value="<%=@current_user.full_name%>">
+    </div>
+    </br>
+    
+     <div class="heading02">Email
+       &nbsp;&nbsp;
+     </div> 
+     <div>
+      <input type ="text" class = "dd_input brown_bg02" id ="email" value="<%=@current_user.user.email%>">
+     </div>
+     <div class="form_error">&nbsp;</div>
+     
+     <div class="heading02">Password
+       &nbsp;&nbsp;
+     </div>
+     <div>
+      <input type ="password" class = "dd_input brown_bg02" id ="user_password" value="" placeholder="******" >
+     </div>
+     <div class="heading02">Confirm Password
+       &nbsp;&nbsp;
+     </div>
+     <div>
+      <input type ="password" class = "dd_input brown_bg02" id ="user_confirm_password" value="" placeholder="******">
+     </div>
+     </br>
    </div>
-   <div class="form_error">&nbsp;</div>
-   
-   <div class="heading02">Password
-     &nbsp;&nbsp;
+   <div align="right" class="button_row">
+    <a class="smaller_text big_blue_btn inlineblock" id="dont_change_btn" href="javascript:void(0)">Don't Change</a>
+    <a class="big_orange_btn inlineblock" id = "change_btn" href="javascript:void(0)">Change</a>
    </div>
-   <div>
-    <input type ="password" class = "dd_input brown_bg02" id ="user_password" value="" placeholder="******" >
-   </div>
-   <div class="heading02">Confirm Password
-     &nbsp;&nbsp;
-   </div>
-   <div>
-    <input type ="password" class = "dd_input brown_bg02" id ="user_confirm_password" value="" placeholder="******">
-   </div>
-   </br>
-   <div align="right">
-  <a class="smaller_text big_blue_btn inlineblock" id = "dont_change_btn" href="javascript:void(0)">Don't Change</a> <a class="big_orange_btn inlineblock" id = "change_btn" href="javascript:void(0)">Change</a></div>
-  <input type="hidden" name="hdn_user_id" id="hdn_user_id" value="<%=@current_user.user_id %>"/>
+   <input type="hidden" name="hdn_user_id" id="hdn_user_id" value="<%=@current_user.user_id %>"/>
 <%end%>  
 </div>
 
@@ -77,8 +81,10 @@ $(document).click(function (e)
         success: function(resp){
           if (resp){
             showSpinner(false);
-            $("#account_setup").hide();
-            $("#alert").html(resp.text)
+            $("#account_setup .dialog_body").html($('<div class="heading02">').html('<br>' + resp.text + '<br><br>'));
+            $("#account_setup #change_btn").hide();
+            $("#account_setup #dont_change_btn").html('Close');
+            $("#alert").html(resp.alert);
             if(resp.status == true) {
               $("#tool_bar_full_name").html(full_name);
             }

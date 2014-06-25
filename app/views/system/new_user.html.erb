@@ -32,7 +32,7 @@
           <div class="Divider_15"></div>
           <div class="clear"></div>
            <div class="text_box_wp">
-               <%= f.text_field :full_name, :class=>"txt_box",:style=>"width:378px;" , :placeholder=>"Full Name"%>
+               <%= f.text_field :full_name, :class=>"txt_box",:style=>"width:378px;" , :placeholder=>"Full Name", :required => "required", :title => "You must enter a name."%>
           </div><!--text_box_wp-->
            <div class="Divider_15"></div>
           <div class="clear"></div>
@@ -42,12 +42,7 @@
           <div class="Divider_15"></div>
           <div class="clear"></div>
           <div class="text_box_wp">
-               <%= f.password_field :password, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Password"%>
-          </div><!--text_box_wp-->
-           <div class="Divider_15"></div>
-          <div class="clear"></div>
-           <div class="text_box_wp">
-               <%= f.password_field :password_confirmation, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Confirm password"%>
+               <%= f.password_field :password, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Password", :pattern => ".{6,}", :required => "required", :title => "6 characters minimum"%>
           </div><!--text_box_wp-->
           <div class="Divider_15"></div>
           <div class="clear"></div>
@@ -71,34 +66,18 @@
 
 
 <script type="text/javascript">
-jQuery.noConflict();
+  jQuery.noConflict();
 
-function validateForm(){
-  if(user_password.value==""){
-    message = "<li>Password can't be blank</li>"
-    $("#error_div").html(message);
-    user_password.focus();
-    return false;
-  }
-  else if(user_password.value.length < 6 ){
-    message = "<li>Password have minimum 6 characters</li>"
-    $("#error_div").html(message);
-    user_password_confirmation.focus();
-    return false;
-  }
-  else if(user_password_confirmation.value == "" ){
-    message = "<li>Please enter confirm Password</li>"
-    $("#error_div").html(message);
-    user_password_confirmation.focus();
-    return false;
-  }
+  var user_full_name = document.getElementById('user_full_name'),
+      user_password = document.getElementById('user_password'),
+      user_password_confirmation = document.getElementById('user_password_confirmation');
 
-  if(user_password.value!= user_password_confirmation.value){
-     message = "<li>Password not match</li>"
-    $("#error_div").html(message);
-    user_password_confirmation.focus();
-    return false;
+  function validateForm() {
+    if (user_password_confirmation.value && user_password.value != user_password_confirmation.value) {
+      user_password_confirmation.setCustomValidity('The two passwords must match.');
+    } else {
+      user_password_confirmation.setCustomValidity('');
+    }
+    return true;
   }
-  return true;
-}
 </script>

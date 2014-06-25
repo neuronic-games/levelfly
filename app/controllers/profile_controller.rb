@@ -232,9 +232,10 @@ class ProfileController < ApplicationController
       @user = User.find(params[:id])
 
       if params[:email] == @user.email
-        msg = "You updated your account successfully."
+        msg = alert = "You updated your account successfully."
       else
         msg = "You updated your account successfully, but we need to verify your new email address. Please check your email and click on the confirm link."
+        alert = "Email verification sent."
       end
 
       @user.email = params[:email] if params[:email]
@@ -246,9 +247,9 @@ class ProfileController < ApplicationController
         profile.full_name = params[:full_name]
         profile.save
         sign_in(@user, :bypass => true)
-        render :json =>{:text => msg, :status => true}
+        render :json =>{:text => msg, :alert => alert, :status => true}
       else
-        render :json =>{:text =>"ERROR",:status =>false}
+        render :json =>{:text =>"ERROR", :alert => "ERROR", :status =>false}
       end
     end
   end
