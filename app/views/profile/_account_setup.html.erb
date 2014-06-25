@@ -84,7 +84,7 @@ $(document).click(function (e)
             $("#account_setup .dialog_body").html($('<div class="heading02">').html('<br>' + resp.text + '<br><br>'));
             $("#account_setup #change_btn").hide();
             $("#account_setup #dont_change_btn").html('Close');
-            $("#alert").html("You updated your account successfully.");
+            $("#alert").html(resp.alert);
             if(resp.status == true) {
               $("#tool_bar_full_name").html(full_name);
             }
