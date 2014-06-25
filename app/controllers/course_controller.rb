@@ -678,14 +678,14 @@ class CourseController < ApplicationController
        @people_pending = Profile.find(
        :all, 
        :include => [:participants, :user], 
-       :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('P')", @course.id,section_type],
+       :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('P') AND users.status != 'D'", @course.id,section_type],
        :order => "full_name, email"
        )
      end
      @peoples = Profile.find(
        :all, 
        :include => [:participants, :user], 
-       :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('S')", @course.id,section_type],
+       :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('S') AND users.status != 'D'", @course.id,section_type],
        :order => "full_name, email"
        )
      #ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}") 

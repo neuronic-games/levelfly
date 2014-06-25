@@ -365,6 +365,7 @@ class Course < ActiveRecord::Base
         a.target = duplicate
         a.school = attachment.school
         a.owner = attachment.owner
+        a.starred = attachment.starred
 
         begin
           a.resource = attachment.resource
@@ -404,6 +405,7 @@ class Course < ActiveRecord::Base
           a.target = t
           a.school = attachment.school
           a.owner = attachment.owner
+          a.starred = attachment.starred
 
           begin
             a.resource = attachment.resource
