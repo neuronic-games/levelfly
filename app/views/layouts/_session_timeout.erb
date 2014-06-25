@@ -20,10 +20,6 @@
    </div>        
 </div>
 <script type="text/javascript">
-  $("#logout_btn, #session_resume_btn").click(function() {
-    console.log($('#private_computer_checkbox').prop('checked'));
-  });
-
   $("#logout_btn").click(function(){
     $.post('/users/sign_out', {_method: 'delete'}, function() {
       window.location = '/';
