@@ -52,7 +52,7 @@
       		</div>
       		<div class="spacebar10px"></div>
         	<input type="checkbox" name="message_post_on_wall" id="chk_message_post" />
-        	<span>Send to <%= @course.name.to_s%> - This posts the message to the <%= @course && @course.parent_type == "C" ? "Course":"Group" %> home page</span>
+        	<span>Post the message to the home page for <%= @course.name.to_s.strip %>.</span>
     	</div>
     	<div class="clear"></div>
 		<div class="spacebar10px"></div>
@@ -155,7 +155,7 @@
 		if(section_type == "G")
 			section = "group";
 		
-		email_id = $("#add_course_people").val();
+		email_id = $("#add_course_people").val().trim();
 		node_class = "even";
 		dataString = {course_id:course_id, email:email_id,section_type:section_type};
 		if (course_id && email_id) {
@@ -180,31 +180,34 @@
 					}
 					
 					if (data.status) {
-						participant_node = $('<li id="'+ data.profile.id + '" class="msg_big_boxC2 blackboard_list '+node_class+'" style="width:88%; height:88px;"></li>');
-						participant_node.className = node_class;
-						participant_node.id = data.profile.full_name;
-						partcipant_html = '<div class="avatar_white_bdr floatL"><img src='+data.profile.image_file_name+'></div>';
-						if(data.new_user){
-							partcipant_html += '<div class="people_name" style="width:27%; margin:7px 8px;">' + data.user.email +'</div>';
-						//partcipant_html += '<div style="font-size:10px; font-weight:normal;">' + email_id + '</div>';
-						} else if(data.profile.full_name){
-							partcipant_html += '<div class="people_name" style="width:27%; margin:7px 8px;">' + data.profile.full_name +'</div>';
-							// partcipant_html += '<div style="font-size:10px; font-weight:normal;">' + email_id + '</div>';
-						} else {
-							partcipant_html += '<div class="people_name" style="width:27%; margin:7px 8px;">' + data.user.email +'</div>';
-						}
-						partcipant_html += '<div class="field_label3" style="width:30%;margin:7px 8px;"><a>'+data.user.email+ '</a></div>';
-						partcipant_html += '<br /><br /><span class="participant_type" style="font-size:10px; font-weight:normal;margin:0px 0px 0px 10px;">Pending</span>';
-						partcipant_html += '<div class="FloatR" style="width:20%"><div class="list_hover" style="margin-top:10px;width:10%;">';
-						partcipant_html += '<a href="javascript:void(0)" style=" margin-left: -32px;" class="people_resend blue_bt19px FloatL" rel='+data.profile.id+' value='+data.user.email+'>Resend Invite</a>';
-						partcipant_html += '<a href="javascript:void(0)" class="people_delete blue_bt19px FloatR" rel='+data.profile.id+'  >Remove</a></div></div>';
-						partcipant_html += '<div class="clear"></div>';
-						participant_node.append(partcipant_html);
-						$("#course_people ul:last").prepend(participant_node);
-						$("#course_people ul:last").prev('div').fadeIn();
+            for (var i = 0; i < data.profiles.length; i++) {
+  						participant_node = $('<li id="'+ data.profiles[i].id + '" class="msg_big_boxC2 blackboard_list '+node_class+'" style="width:88%; height:88px;"></li>');
+  						participant_node.className = node_class;
+  						participant_node.id = data.profiles[i].full_name;
+  						partcipant_html = '<div class="avatar_white_bdr floatL"><img src='+data.profiles[i].image_file_name+'></div>';
+  						if(data.new_user){
+  							partcipant_html += '<div class="people_name" style="width:27%; margin:7px 8px;">' + data.users[i].email +'</div>';
+  						//partcipant_html += '<div style="font-size:10px; font-weight:normal;">' + email_id + '</div>';
+  						} else if(data.profiles[i].full_name){
+  							partcipant_html += '<div class="people_name" style="width:27%; margin:7px 8px;">' + data.profiles[i].full_name +'</div>';
+  							// partcipant_html += '<div style="font-size:10px; font-weight:normal;">' + email_id + '</div>';
+  						} else {
+  							partcipant_html += '<div class="people_name" style="width:27%; margin:7px 8px;">' + data.users[i].email +'</div>';
+  						}
+  						partcipant_html += '<div class="field_label3" style="width:30%;margin:7px 8px;"><a>'+data.users[i].email+ '</a></div>';
+  						partcipant_html += '<br /><br /><span class="participant_type" style="font-size:10px; font-weight:normal;margin:0px 0px 0px 10px;">Pending</span>';
+  						partcipant_html += '<div class="FloatR" style="width:20%"><div class="list_hover" style="margin-top:10px;width:10%;">';
+  						partcipant_html += '<a href="javascript:void(0)" style=" margin-left: -32px;" class="people_resend blue_bt19px FloatL" rel='+data.profiles[i].id+' value='+data.users[i].email+'>Resend Invite</a>';
+  						partcipant_html += '<a href="javascript:void(0)" class="people_delete blue_bt19px FloatR" rel='+data.profiles[i].id+'  >Remove</a></div></div>';
+  						partcipant_html += '<div class="clear"></div>';
+  						participant_node.append(partcipant_html);
+  						$("#course_people ul:last").prepend(participant_node);
+  						$("#course_people ul:last").prev('div').fadeIn();
+              $('#course_people ul:last .blackboard_list').first().hover(a,b);
+            }
+
 						$("#course_participant_list").hide();
 						$("#hdn_is_page_change").val(true);
-						$('#course_people ul:last .blackboard_list').first().hover(a,b);
 						show_alert_message("An invitation email has been sent to: " + email_id.split(/[ ,;]+/).join(', '), true);
 					} else {
 						show_alert_message('',false);

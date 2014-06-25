@@ -20,6 +20,22 @@ class User < ActiveRecord::Base
  
   has_many :profiles
 
+  @@status_active = 'A'
+  cattr_accessor :status_active
+
+  @@status_deleted = 'D'
+  cattr_accessor :status_deleted
+
+  @@status_suspended = 'S'
+  cattr_accessor :status_suspended
+
+  # before_create :lower_email
+  # before_save :lower_email
+
+  def lower_email
+    self.email = self.email.downcase.strip
+  end
+
   def default_school
     @_default_school ||= School.find_by_id(self.default_school_id) || self.profiles.first.school
   end
@@ -84,5 +100,10 @@ class User < ActiveRecord::Base
     end
   end
   
+  def self.find_first_by_auth_conditions(warden_conditions)
+    conditions = warden_conditions.dup
+    conditions[:email].downcase! if conditions[:email]
+    where(conditions).where("email !~* '^del-'").first
+  end
   
 end

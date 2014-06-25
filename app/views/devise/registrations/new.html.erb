@@ -19,7 +19,6 @@
   <div class="Panel_Rirght">
 		<div>
 			<img src="/images/levelfly_tag.png" alt="Levelfly" width="392" height="171"><br>
-			<h3 style="color:white;margin-top:0px;"><%= session[:slug].blank? ? "" : school.name %></h3></div>
 		<div class="Divider_90"></div>
     <div class="Sign_in_wp">
         <div class="sign_in_box"><h1>Register </h1></div><!--sign_in-box-->
@@ -31,7 +30,7 @@
         <div class="Divider_15"></div>
         <div class="clear"></div>
          <div class="text_box_wp">
-             <%= f.text_field :full_name, :class=>"txt_box", :style=>"width:378px;", :placeholder=>"Full Name", :required => true %>
+             <%= f.text_field :full_name, :class=>"txt_box", :style=>"width:378px;", :placeholder=>"Full Name", :required => true, :title => "You must enter your name." %>
         </div><!--text_box_wp-->
          <div class="Divider_15"></div>
         <div class="clear"></div>
@@ -41,7 +40,7 @@
         <div class="Divider_15"></div>
         <div class="clear"></div>
         <div class="text_box_wp">
-             <%= f.password_field :password, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Password", :required => true%>
+             <%= f.password_field :password, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Password", :required => true, :pattern => ".{6,}", :title => "6 characters minimum"%>
         </div><!--text_box_wp-->
          <div class="Divider_15"></div>
         <div class="clear"></div>

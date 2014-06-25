@@ -40,17 +40,13 @@ class Admin < ActiveRecord::Base
     end
   end
   
-  def self.list_members(from_date, school_code)
-    school = School.find(:first, :conditions => ["code = ?", school_code])
-    courses = Course.find(:all, :conditions => ["created_at > ? and school_id = ?", from_date, school.id])
-    courses.each do |course|
-      participants = Participant.find(:all, :conditions => ["target_type = ? and target_id = ?", 'Course', course.id])
-      puts "#{course.name}, #{course.id}, #{participants.count}"
-      participants.each do |participant|
-        profile = participant.profile
-        puts "  #{profile.full_name}, #{profile.user.id}, #{profile.user.created_at}"
+  def self.clean_bad_emails
+    users = User.find(:all)
+    users.each do |user|
+      email = user.email.downcase.strip
+      if user.email != email
+        user.update_column(:email, user.email.downcase.strip)
       end
     end
   end
-  
 end

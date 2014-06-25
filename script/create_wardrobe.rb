@@ -44,7 +44,7 @@ out.write "task :load_wardrobe => :environment do\n\n"
 
 out.write "  Reward.delete_all(\"target_type = 'wardrobe'\")\n"  # Remove existing wardrobe rewards because they will be re-added
 # We need to support different hair colors, so ignore this for now
-out.write "  WardrobeItem.delete_all(\"depth = 2 and item_type <> 'head' and item_type <> 'hair' and item_type <> 'facial_hair'\")\n"
+out.write "  WardrobeItem.delete_all(\"depth = 2 and item_type <> 'head' and item_type <> 'hair'\")\n"
 out.write "  Wardrobe.delete_all(\"name <> 'Basic'\")\n"
 
 csv_data.tr("\r", "\n").each_line do | line |
@@ -54,8 +54,8 @@ csv_data.tr("\r", "\n").each_line do | line |
   data.collect! { |x| x ? x.strip : x } 
   status, level, reward, wardrobe_top, wardrobe_sub, item_type, item_name, new_name, img_folder, img_file, icon_folder, icon_file = data
 
-  # We assume that a data row will have a level unlock
-  next if level.to_i == 0
+  # Only upload records with Y in the 1st column
+  next if status != "Y"
 
   sort_order["#{wardrobe_top},#{wardrobe_sub}"] = 0 unless sort_order["#{wardrobe_top},#{wardrobe_sub}"]
   
@@ -63,23 +63,19 @@ csv_data.tr("\r", "\n").each_line do | line |
     if reward_name != reward
       # Update the unlock level at the end of the wardrobe item block
       out.write "\n  # === #{reward} ===\n"
-      out.write "  Wardrobe.unlock_lvl('#{reward}', #{level})\n"
+      out.write "  Wardrobe.unlock_lvl('#{reward}', #{level})\n" if level.to_i > 0
       wardrobe_count += 1
     end
     reward_name = reward
     reward_level = level
   end
-  reward_folder = reward_name.downcase.strip.sub(/\s+/, '_')
+  reward_folder = reward_name.to_s.downcase.strip.sub(/\s+/, '_')
 
   next if item_name.nil?  # Key field
   if item_names.include?(item_name)
     puts "ERROR: #{item_name} must be unique"
     next
   end
-  
-  item_name, item_seq = item_name.split(',')
-  next if item_seq  # This script can't handle hair and facial_hair yet
-  item_name.strip!
   
   next if item_type.nil?
   next if icon_file.nil?
@@ -90,7 +86,17 @@ csv_data.tr("\r", "\n").each_line do | line |
   # Wardrobe image
   target_path = "#{target_root}/#{reward_folder}/#{img_folder}"
   FileUtils.mkdir_p(target_path)
-  FileUtils.cp("#{source_path}/avatar/#{img_folder}/#{img_file}", target_path)
+  if img_file.match(/\#/)
+    # Hair and facial hair sequence files. e.g. gotee_#.png => gotee_1.png .. gotee_5.png
+    (1..5).each do |i|
+      temp_img_file = img_file.sub(/\#/, i.to_s)
+      FileUtils.cp("#{source_path}/avatar/#{img_folder}/#{temp_img_file}", target_path)
+    end
+    temp_img_file = img_file.sub(/\#/, '4')
+    basename = File.basename(temp_img_file, extname)
+  else
+    FileUtils.cp("#{source_path}/avatar/#{img_folder}/#{img_file}", target_path)
+  end
 
   # Wardrobe icon
   target_path = "#{target_root}/icon/#{reward_folder}/#{img_folder}" # folder should be the same as img_folder
