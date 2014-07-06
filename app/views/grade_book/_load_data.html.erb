@@ -24,6 +24,9 @@
   <div id="finalize_div" class="finalize_box hide" >
     <%= render :partial=>"/grade_book/finalize_box"%>
   </div>
+  <div id="export_csv_div" class="add_task hide">
+    <%= render :partial => "/grade_book/export_csv", :locals => {:course_id => @course_id} %>
+  </div>
   <div id="load_task_setup" class="load_task_setup hide" >
   </div>
   <div class="clear"></div>

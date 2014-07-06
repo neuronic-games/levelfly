@@ -1317,6 +1317,10 @@ $(document).ready(function(){
     });
   });
   
+  $('#export_csv').click(function() {
+    $('#export_csv_div').show();
+    return false;
+  });
   
 });
 //function for scroll scrollbar 
@@ -1402,7 +1406,8 @@ $(document).ready(function(){
             $('.show_hide_outcomes').attr("show","false");
             $('.show_hide_outcomes').html("hide outcomes");
       }
-      $('#export_csv').attr("href","/csv?course_id="+course_id);
+      $('#btn_outcome_by_section').attr('href', '/export_course_sectioned_csv/' + course_id);
+      $('#btn_course_grades').attr('href', '/export_course_grade_csv/' + course_id);
       //$('.GB_right_table').replaceWith($("<table></table>"));
       $('#outcome_note').val(1);
       $('#outcome_note').parent().find('.fakebox').html("OUTCOMES" );
