@@ -12,7 +12,7 @@ class RegistrationsController < Devise::RegistrationsController
 
     if @user && !@user.confirmed?
       @user.send_confirmation_instructions
-      flash[:notice] = 'You must confirm your account before continuing. Your confirmation link has just been emailed to you.'
+      flash[:notice] = 'You must confirm your email address before continuing. Your confirmation link has just been emailed to you.'
       return redirect_to new_user_session_url
     end
 
