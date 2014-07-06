@@ -445,7 +445,7 @@ def task_setup
   send_data(user_csv, :type => 'text/csv', :filename => filename)      
 end
 
-def export_csv
+def export_course_grade_csv
   x = []
   y = []
   if params[:course_id] && !params[:course_id].blank?
