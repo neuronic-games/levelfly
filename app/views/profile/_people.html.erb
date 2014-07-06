@@ -43,6 +43,7 @@
 					  <div class="avatarWbdr"><img src="<%= p.image_file_name%>" class="profile" profile_id="<%= p.id %>" /></div>
 				    </div>
 				    <div class="LBT_name view_user" rel="/profile/user_profile?profile_id=<%=p.id%>"> <span class="name_txt"><%= p.full_name %> </span><br />
+              <span class="course_txt"><%= p.user.email %></span><br>
 					  <span class="course_txt"><%= p.major_school %></span> </div>
 					<div class="LBT_level view_user" rel="/profile/user_profile?profile_id=<%=p.id%>"><%= p.level %></div>
 					<div class="LBT_xp view_user" rel="/profile/user_profile?profile_id=<%=p.id%>"><%= p.xp %></div>
