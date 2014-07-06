@@ -1,7 +1,9 @@
 <div style = "margin-left:25px;font-size:16px;" class="people_name"><h3> Members of this Forum</h3></div>
 </br></br></br>
+<% if @course.owner && @course.owner == current_profile %>
 <a href="javascript:void(0)" name="btn_email_all" id="btn_email_all" style="margin-left: 45px" class="blue_bt19px btn_add">Send Message to All</a>
 </br></br>
+<% end %>
 <ul class="forum_people_node">
   <% if !peoples.empty? %>
     <% if mode == "list" %>

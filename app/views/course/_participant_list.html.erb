@@ -1,8 +1,10 @@
 <div style="padding:10px; display: none; width: 94%;%">
    <a style = "margin-left:19px;font-size:16px;" class="people_name"><h3>Active Members</h3></a>
+   <% if @course.owner && @course.owner == current_profile %>
    <span style="float:right; ">
       <a href="javascript:void(0)" name="btn_email_all" id="btn_email_all" class="blue_bt19px btn_add">Send Email to All</a>
    </span>
+   <% end %>
    </br>
 </div>
 <ul class="people_node" id="people_node_member">
