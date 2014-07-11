@@ -130,6 +130,17 @@
 <script type="text/javascript">
   var _avatar;
   $(document).ready(function(){
+    $('#root_level .icon_box a.menu_btn[class*="_active"]').each(function() {
+      var classes = this.className.split(' ');
+      console.log(classes);
+      for (var i = 0; i < classes.length; i++) {
+        var matches = classes[i].match(/([a-z_]+)_active/);
+        if (matches) {
+          $(this).removeClass(matches[0]).addClass(matches[1]);
+        }
+      }
+    });
+
     $("#save_user_btn").click(function(){
       var valid = false,
           user_status = 'A';

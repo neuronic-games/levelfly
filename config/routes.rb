@@ -75,6 +75,8 @@ Oncapus::Application.routes.draw do
   post "profile/change_school"
 
   post "profile/check_email"
+
+  post "profile/change_extended_logout_preference"
   
   get "task/index"
 
@@ -367,7 +369,6 @@ Oncapus::Application.routes.draw do
   post "course/save_forum"
   
   post "course/view_forum_setup"
-  
   
   match 'reward' => 'reward#index'
 
