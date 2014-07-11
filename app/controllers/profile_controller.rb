@@ -289,7 +289,12 @@ class ProfileController < ApplicationController
     render :json => {:exists => params[:email] != current_user.email && User.where(:email => params[:email]).count > 0}
   end
 
-  def ping
-    render :json => {:logged_in => !!current_user}
+  def change_extended_logout_preference
+    profile = Profile.find(current_profile.id)
+    profile.extended_logout = params[:extended_logout]
+    if profile.save
+      render :json => {:success => true} and return
+    end
+    render :json => {:success => false}
   end
 end

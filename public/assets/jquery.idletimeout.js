@@ -49,10 +49,10 @@
       this.resume.bind("click", function(e){
         e.preventDefault();
         
+        $.jStorage.set('idle', false);
         win.clearInterval(self.countdown); // stop the countdown
         self.countdownOpen = false; // stop countdown
         self._startTimer(); // start up the timer again
-        self._keepAlive( false ); // ping server
         options.onResume.call( self.warning ); // call the resume callback
       });
     },
@@ -71,7 +71,11 @@
       
       // create a timer that runs every second
       this.countdown = win.setInterval(function(){
-        if(--counter === 0){
+        if (!$.jStorage.get('idle')) {
+          window.clearInterval(self.countdown);
+          self.countdownOpen = false; // stop countdown
+          self._startTimer(); // start up the timer again
+        } else if(--counter === 0) {
           window.clearInterval(self.countdown);
           options.onTimeout.call(warning);
         } else {
@@ -85,7 +89,6 @@
       var self = this;
 
       this.timer = win.setTimeout(function(){
-        self._keepAlive();
       }, this.options.pollingInterval * 1000);
     },
     
@@ -93,44 +96,6 @@
       // reset the failed requests counter
       this.failedRequests = this.options.failedRequests;
       win.clearTimeout(this.timer);
-    },
-    
-    _keepAlive: function( recurse ){
-      var self = this,
-        options = this.options;
-        
-      //Reset the title to what it was.
-      document.title = self.title;
-      
-      // assume a startTimer/keepAlive loop unless told otherwise
-      if( typeof recurse === "undefined" ){
-        recurse = true;
-      }
-      
-      // if too many requests failed, abort
-      if( !this.failedRequests ){
-        this._stopTimer();
-        options.onAbort.call( this.warning[0] );
-        return;
-      }
-      
-      $.ajax({
-        timeout: options.AJAXTimeout,
-        url: options.keepAliveURL,
-        error: function(){
-          self.failedRequests--;
-        },
-        success: function(response){
-          if($.trim(response) !== options.serverResponseEquals){
-            self.failedRequests--;
-          }
-        },
-        complete: function(){
-          if( recurse ){
-            self._startTimer();
-          }
-        }
-      });
     }
   };
   
@@ -144,9 +109,6 @@
   $.idleTimeout.options = {
     // number of seconds after user is idle to show the warning
     warningLength: 30,
-    
-    // url to call to keep the session alive while the user is active
-    keepAliveURL: "",
     
     // the response from keepAliveURL must equal this text:
     serverResponseEquals: "OK",
@@ -237,12 +199,11 @@ $.idleTimer = function f(newTimeout){
      */
 
     checkIdleState = function() {
-      console.log($.jStorage.get('idle'));
       if (idle && !$.jStorage.get('idle')) {
         endIdleState();
       } else if ($.jStorage.get('idle') && !idle) {
         startIdleState();
-      } else if ($.jStorage.get('lastActivity') + timeout < +new Date) {
+      } else if ($.jStorage.get('lastActivity') && ($.jStorage.get('lastActivity') + timeout < +new Date)) {
         startIdleState();
       }
     },
@@ -256,6 +217,7 @@ $.idleTimer = function f(newTimeout){
     endIdleState = function() {
       $.jStorage.set('idle', false);
       idle = false;
+      $.jStorage.set('lastActivity', +new Date);
       $(document).trigger($.data(document, 'idleTimer', "active")  + '.idleTimer');
       $.idleTimeout.options.onResume();
     },
@@ -302,11 +264,7 @@ $.idleTimer = function f(newTimeout){
      * @method $.idleTimer
      * @static
      */ 
-    
-    $.jStorage.subscribe("endIdleState", endIdleState);
-    
-    $.jStorage.set('lastActivity', +new Date);
-    
+            
     //assign a new timeout if necessary
     if (typeof newTimeout == "number"){
         timeout = newTimeout;
@@ -322,8 +280,7 @@ $.idleTimer = function f(newTimeout){
 
     //set a timeout to watch for state
     $.idleTimer.tId = setInterval(checkIdleState, 2000);
-    $.jStorage.set('lastActivity', +new Date);
-    
+
     // assume the user is active for the first x seconds.
     $.data(document,'idleTimer',"active");
 }; // end of $.idleTimer()
