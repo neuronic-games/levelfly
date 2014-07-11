@@ -236,7 +236,7 @@
     <%= render :partial => "/layouts/email_confirmation" %>
   </div>
   <div id="session_timeout_div" class="hide">
-    <%= render :partial => "/layouts/session_timeout" %>
+    <%= render :partial => "/layouts/session_timeout", :locals => {:extended_logout => @profile.extended_logout} %>
   </div>
 
 <!--   <div id="school_dropdown" class="hide">
@@ -268,7 +268,7 @@
     var $countdown = $('#session_timeout_countdown');
 
     $.idleTimeout('#session_timeout_div', '#session_resume_btn', {
-      idleAfter: 10, // 30 * 60,
+      idleAfter: <%= @profile.extended_logout ? 36 * 3600 : 30 * 60 %>,
       pollingInterval: 2,
       keepAliveURL: '/profile/ping',
       serverResponseEquals: 'OK',
@@ -286,7 +286,6 @@
       },
       onResume: function(warning) {
         $('#session_timeout_div').addClass('hide');
-        $.jStorage.publish("endIdleState");
       }
     });
 

@@ -7,7 +7,7 @@
      You will be logged out in <span id="session_timeout_countdown">60</span> seconds.
    </div>
    <div class="boxadnt"> 
-    <input type="checkbox" id="private_computer_checkbox"> This is a private computer. We won't log you out as frequently 
+    <input type="checkbox" id="private_computer_checkbox" <% if extended_logout %>checked<% end %>> This is a private computer. We won't log you out as frequently 
     if this is your personal computer, or a computer located in 
     a private location. However, we still recommend that you log
     out when your work is done.
@@ -26,4 +26,10 @@
     });
     return false;
   });
+  $('#private_computer_checkbox').change(function() {
+    var checked = $(this).is(':checked');
+    $.post('/profile/change_extended_logout_preference', {extended_logout: checked});
+    $.idleTimer(checked ? 36 * 3600 : 30 * 60);
+    return false;
+  })
 </script>
