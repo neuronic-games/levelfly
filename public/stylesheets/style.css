@@ -4599,3 +4599,8 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
   overflow: -moz-scrollbars-vertical;
   max-height:475px;
 }
+
+#export_csv_div a.big_blue_btn {
+  float: right;
+  margin-left: 10px;
+}
