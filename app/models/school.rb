@@ -40,7 +40,7 @@ class School < ActiveRecord::Base
       admin_user = User.find(:first, :conditions => ["email like ?", email])
       if admin_user.nil?
         admin_user, admin_profile = User.new_user(email, school.id, "LetMeIn!")
-        admin_profile.role_name = RoleName.find_by_name('School Admin')
+        admin_profile.role_name = RoleName.find_by_name('Community Admin')
         admin_profile.save
         
         return admin_user
