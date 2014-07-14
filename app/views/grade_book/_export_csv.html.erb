@@ -4,11 +4,22 @@
     <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
     <p>Which spreadsheet do you want?</p>
-    
+    <div class="spacebar10px"></div>
+    <input type="radio" name="export_type" value="grades" checked>
+    Grades - Show grades and outcome scores for
+    <% @courses.each do |course| %>
+    <span class="course_title hide" id="grades_course_title_<%= course.id %>"><%= course.name %> (<%= course.code_section %>)</span>
+    <% end %>
+    <br>
+    <input type="radio" name="export_type" value="sections">
+    Sections - Shows outcome scores for all sections of
+    <% @courses.each do |course| %>
+    <span class="course_title hide" id="sections_course_title_<%= course.id %>"><%= course.name %> (<%= course.code %>)</span>
+    <% end %>
+    </p>
     <div class="spacebar10px"></div>
     <div align="right">
-      <a class="big_blue_btn inlineblock two_line_btn" id = "btn_outcome_by_section" href="/export_course_sectioned_csv/<%= course_id %>">Outcome By Section</a>
-      <a class="big_blue_btn inlineblock clr_reds two_line_btn" id = "btn_course_grades" href="/export_course_grade_csv/<%= course_id %>">Course Grades</a> 
+      <a class="big_blue_btn inlineblock clr_reds" id = "btn_export" href="javascript:void(0)">Export</a> 
       <a class="big_blue_btn inlineblock clr_reds two_line_btn" id = "btn_dont_export" href="javascript:void(0)">Don't<br>Export</a> 
     </div>
   </div>
@@ -16,13 +27,29 @@
 
 <script type="text/javascript">
 <!--
-  
-  $("#save_task_btn").click(function(){
-    $("#warning_msg").hide();
-    save_new_task();
+
+  $(function() {
+    $('#grades_course_title_' + $('#course_id').val()).removeClass('hide');
+    $('#sections_course_title_' + $('#course_id').val()).removeClass('hide');
   });
 
-  $("#btn_outcome_by_section, #btn_course_grades, #btn_dont_export").click(function(){
+  $('#course_id').change(function() {
+    $('.course_title').addClass('hide');
+    $('#grades_course_title_' + $(this).val()).removeClass('hide');
+    $('#sections_course_title_' + $(this).val()).removeClass('hide');
+  });
+
+  $("#btn_dont_export").click(function(){
+    $("#export_csv_div").hide();
+  });
+
+  $('#btn_export').click(function() {
+    if ($('input[name="export_type"]:checked').val() == 'grades') {
+      window.location = '/export_course_grade_csv/' + $('#course_id').val();
+    } else {
+      window.location = '/export_course_sectioned_csv/' + $('#course_id').val();
+    }
+
     $("#export_csv_div").hide();
   });
 
