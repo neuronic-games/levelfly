@@ -408,14 +408,13 @@ def task_setup
   @course = Course.find(params[:course_id])
 
   user_csv = CSV.generate do |csv|
-    csv << ['Student Name']
 
     @courses = Course.where(:code => @course.code).order(:section)
     @courses.each do |course|
       @outcomes = course.outcomes.order('name')
 
       csv << Array.new(@outcomes.count + 1, '')
-      csv << ([course.code_section] + @outcomes.map(&:name))
+      csv << ([course.code_section, ''] + @outcomes.map(&:name))
 
       @profiles = Profile.all(
         :include => [:participants],
