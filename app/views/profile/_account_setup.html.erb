@@ -18,15 +18,15 @@
      <div>
       <input type ="text" class = "dd_input brown_bg02" id ="email" value="<%=@current_user.user.email%>">
      </div>
-     <div class="form_error">&nbsp;</div>
+     <div class="form_error" id="email_form_error">&nbsp;</div>
      
-     <div class="heading02">Password
+     <div class="heading02">Password <span class="form_error" id="password_form_error"></span>
        &nbsp;&nbsp;
      </div>
      <div>
       <input type ="password" class = "dd_input brown_bg02" id ="user_password" value="" placeholder="******" >
      </div>
-     <div class="heading02">Confirm Password
+     <div class="heading02">Confirm Password <span class="form_error" id="password_confirmation_form_error"></span>
        &nbsp;&nbsp;
      </div>
      <div>
@@ -60,6 +60,10 @@ $(document).click(function (e)
 });
  $("#change_btn").click(function(){
     var $this = $(this);
+
+    if (!validateForm()) {
+      return;
+    }
 
     if ($this.data('disabled')) {
       if ($this.data('checking')) {
@@ -116,7 +120,6 @@ $(document).click(function (e)
   });
  });
 function validateForm(){
-
   var user_password = document.getElementById("user_password");
   var email=document.getElementById("email").value;
   var user_confirm_password =document.getElementById("user_confirm_password");
@@ -129,28 +132,31 @@ function validateForm(){
   }
   else if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length)
   {
-    $('#account_dialog .form_error').html("Invalid email format");
+    $('#email_form_error').html("Invalid email format");
     return false;
   } else {
-    $('#account_dialog .form_error').html("&nbsp;");
+    $('#email_form_error').html("&nbsp;");
   }
   
   if(user_password.value.length < 6 && user_password.value!=""){
-    alert("Password have minimum 6 character");
+    $('#password_form_error').html("Passwords have a minimum of 6 character");
     user_confirm_password.focus();
     return false;
-  }
-  else if(user_confirm_password.value == "" && user_password.value!=""){
-    alert("Please enter confirm Password");
+  } else $('#password_form_error').html('');
+  
+  if(user_confirm_password.value == "" && user_password.value!=""){
+    $('#password_confirmation_form_error').html("Please confirm your Password");
     user_confirm_password.focus();
     return false;
-  }
+  } else $('#password_confirmation_form_error').html('');
 
   if(user_password.value!= user_confirm_password.value){
-    alert("Password not match");
+    $('#password_confirmation_form_error').html("Passwords do not match");
     user_confirm_password.focus();
     return false;
-  }
+  } else $('#password_confirmation_form_error').html('');
+
+
   return true;
 }
 
