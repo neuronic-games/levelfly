@@ -11,11 +11,12 @@ class RegistrationsController < Devise::RegistrationsController
     school_code = params[:school][:code].upcase
 
     if @user && !@user.confirmed?
-      # if @user.unconfirmed_email
+      if @user.unconfirmed_email
         @user.send_confirmation_instructions
-      # else
-      #   @user.send_on_create_confirmation_instructions
-      # end
+      else
+        @user.regenerate_confirmation_token
+        @user.send_on_create_confirmation_instructions
+      end
 
       flash[:notice] = 'You must confirm your email address before continuing. Your confirmation link has just been emailed to you.'
       return redirect_to new_user_session_url
