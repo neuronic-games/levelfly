@@ -1,0 +1,35 @@
+<div class="add_task_popup" style="position:fixed;">
+   <div class="heading">Are you still there?</div>
+   <div class="boxadnt"> 
+     For your protection, you will logged out of Levelfly due to inactivity.
+   </div>
+   <div class="boxadnt"> 
+     You will be logged out in <span id="session_timeout_countdown">60</span> seconds.
+   </div>
+   <div class="boxadnt"> 
+    <input type="checkbox" id="private_computer_checkbox" <% if extended_logout %>checked<% end %>> This is a private computer. We won't log you out as frequently 
+    if this is your personal computer, or a computer located in 
+    a private location. However, we still recommend that you log
+    out when your work is done.
+   </div>
+   <div class="spacebar10px"></div>
+   <div class="spacebar10px"></div>
+   <div align="right">
+     <a class="big_blue_btn inlineblock dialog_btn" id="logout_btn">Logout</a>
+     <a class="big_orange_btn inlineblock dialog_btn" id="session_resume_btn">Continue</a>
+   </div>        
+</div>
+<script type="text/javascript">
+  $("#logout_btn").click(function(){
+    $.post('/users/sign_out', {_method: 'delete'}, function() {
+      window.location = '/';
+    });
+    return false;
+  });
+  $('#private_computer_checkbox').change(function() {
+    var checked = $(this).is(':checked');
+    $.post('/profile/change_extended_logout_preference', {extended_logout: checked});
+    $.idleTimer(checked ? 36 * 3600 : 30 * 60);
+    return false;
+  })
+</script>

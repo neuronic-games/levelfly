@@ -1,0 +1,57 @@
+<div class="add_task_popup" style="width:500px;top:320px;position:absolute;" id="export_csv_div">
+  <div class="heading">Export CSV</div>
+    <div class="clear"></div>
+    <div class="spacebar10px"></div>
+    <div class="spacebar10px"></div>
+    <p>Which spreadsheet do you want?</p>
+    <div class="spacebar10px"></div>
+    <input type="radio" name="export_type" value="grades" checked>
+    Grades - Show grades and outcome scores for
+    <% @courses.each do |course| %>
+    <span class="course_title hide" id="grades_course_title_<%= course.id %>"><%= course.name %> (<%= course.code_section %>)</span>
+    <% end %>
+    <br>
+    <input type="radio" name="export_type" value="sections">
+    Sections - Shows outcome scores for all sections of
+    <% @courses.each do |course| %>
+    <span class="course_title hide" id="sections_course_title_<%= course.id %>"><%= course.name %> (<%= course.code %>)</span>
+    <% end %>
+    </p>
+    <div class="spacebar10px"></div>
+    <div align="right">
+      <a class="big_blue_btn inlineblock clr_reds" id = "btn_export" href="javascript:void(0)">Export</a> 
+      <a class="big_blue_btn inlineblock clr_reds two_line_btn" id = "btn_dont_export" href="javascript:void(0)">Don't<br>Export</a> 
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+<!--
+
+  $(function() {
+    $('#grades_course_title_' + $('#course_id').val()).removeClass('hide');
+    $('#sections_course_title_' + $('#course_id').val()).removeClass('hide');
+  });
+
+  $('#course_id').change(function() {
+    $('.course_title').addClass('hide');
+    $('#grades_course_title_' + $(this).val()).removeClass('hide');
+    $('#sections_course_title_' + $(this).val()).removeClass('hide');
+  });
+
+  $("#btn_dont_export").click(function(){
+    $("#export_csv_div").hide();
+  });
+
+  $('#btn_export').click(function() {
+    if ($('input[name="export_type"]:checked').val() == 'grades') {
+      window.location = '/export_course_grade_csv/' + $('#course_id').val();
+    } else {
+      window.location = '/export_course_sectioned_csv/' + $('#course_id').val();
+    }
+
+    $("#export_csv_div").hide();
+  });
+
+//-->
+</script>

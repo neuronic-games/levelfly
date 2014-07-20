@@ -11,8 +11,13 @@ class RegistrationsController < Devise::RegistrationsController
     school_code = params[:school][:code].upcase
 
     if @user && !@user.confirmed?
-      @user.send_confirmation_instructions
-      flash[:notice] = 'You must confirm your account before continuing. Your confirmation link has just been emailed to you.'
+      # if @user.unconfirmed_email
+        @user.send_confirmation_instructions
+      # else
+      #   @user.send_on_create_confirmation_instructions
+      # end
+
+      flash[:notice] = 'You must confirm your email address before continuing. Your confirmation link has just been emailed to you.'
       return redirect_to new_user_session_url
     end
 
@@ -26,7 +31,7 @@ class RegistrationsController < Devise::RegistrationsController
         @role = RoleName.find_by_name('Teacher')
       else
         unless @school = School.find_by_student_code(school_code)
-          flash[:notice] = ['That school invite code does not exist.']
+          flash[:notice] = ['That community invite code does not exist.']
           return redirect_to new_registration_path(resource_name)
         end
       end
