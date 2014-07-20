@@ -56,6 +56,10 @@ class User < ActiveRecord::Base
       Participant.create(:target_id => self.id, :target_type => 'User', :profile_id => profile_id, :profile_type => 'F')
     end
   end
+
+  def regenerate_confirmation_token
+    self.generate_confirmation_token
+  end
   
   def self.new_user(email, school_id, password = nil)
     if @user = find_by_email(email)
