@@ -11,20 +11,20 @@ Oncapus::Application.routes.draw do
              # :registrations => 'registrations',
              # :sessions => 'sessions'
            # }
-  
-  resources :users do
-    collection do
-      get "load_users/:id/:page", :action => 'load_users', :as => 'load_users'
-      post "set_invite_codes", :action => 'set_invite_codes'
-    end
-  end
+
+           resources :users do
+            collection do
+              get "load_users/:id/:page", :action => 'load_users', :as => 'load_users'
+              post "set_invite_codes", :action => 'set_invite_codes'
+            end
+          end
 
 
-  get "system/alert"
-  
-  get "system/new_user"
-  
-  post "system/edit"
+          get "system/alert"
+
+          get "system/new_user"
+
+          post "system/edit"
 
   post "task/view_task"#for get task related to course
   
@@ -33,7 +33,7 @@ Oncapus::Application.routes.draw do
   get "task/list"
   
   get "task/view_setup"
-   
+
   get "profile/index"
 
   get "profile/show"
@@ -75,6 +75,8 @@ Oncapus::Application.routes.draw do
   post "profile/change_school"
 
   post "profile/check_email"
+
+  post "profile/change_extended_logout_preference"
   
   get "task/index"
 
@@ -135,7 +137,7 @@ Oncapus::Application.routes.draw do
   post "course/show_course"
   
   post "course/set_archive"
-   
+
   post "course/toggle_priority_file"
   
   post "course/toggle_priority_message"
@@ -197,8 +199,8 @@ Oncapus::Application.routes.draw do
   post "course/removed"
   
   post "course/forum_member_unchecked"
-	
-	post "course/send_email_to_all_participants"
+
+  post "course/send_email_to_all_participants"
 
   post "course/duplicate"
   
@@ -335,7 +337,7 @@ Oncapus::Application.routes.draw do
   get "users/index"
   
   get "users/show"
-    
+
   post "users/save"
   
   post "users/login_as"
@@ -368,10 +370,10 @@ Oncapus::Application.routes.draw do
   
   post "course/view_forum_setup"
   
-  
   match 'reward' => 'reward#index'
 
-  match 'csv' => 'grade_book#export_csv', :as => 'csv'
+  match 'export_course_grade_csv/:course_id' => 'grade_book#export_course_grade_csv', :as => 'csv'
+  match 'export_course_sectioned_csv/:course_id' => 'grade_book#export_course_sectioned_csv', :as => 'csv'
   
   match 'profile' => 'profile#index'
   
@@ -380,7 +382,7 @@ Oncapus::Application.routes.draw do
   match 'grade_book' => 'grade_book#index'
   
   match 'leader_board' => 'leader_board#index'
-    
+
   match 'main' => 'course#index'
   
   match 'course' => 'course#index'
@@ -401,11 +403,11 @@ Oncapus::Application.routes.draw do
   match 'message/friends_only/:friend_id' => 'message#friends_only'
   
    # start added for new notes funtionalites >>>  lmit>>> frinds messages
-  match 'message/notes/:friend_id' => 'message#notes'
-  
-  
-  match 'message/friends_only_all/:friend_id' => 'message#friends_only_all'
-  
+   match 'message/notes/:friend_id' => 'message#notes'
+
+
+   match 'message/friends_only_all/:friend_id' => 'message#friends_only_all'
+
   # end  added for new message funtionalites >>>  lmit>>> frinds messages
   
   match 'course/show/:id' => 'course#show'

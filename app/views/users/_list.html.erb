@@ -85,7 +85,7 @@
               <div id="invite_code" class="add_task_popup" style="display: none">
                 <div class="heading">Invite Code</div>
                 <div class="boxadnt">
-                  <p>Use these unique codes to allow students and teachers to become members of your school. The codes may be letters or numbers, 5 to 15 characters in length. It is not case sensitive. Leave blank to disable the invite code.</p>
+                  <p>Use these unique codes to allow students and teachers to become members of your community. The codes may be letters or numbers, 5 to 15 characters in length. It is not case sensitive. Leave blank to disable the invite code.</p>
                   <div class="spacebar10px"></div>
                   <label class="heading02" for="student_code">Student Invite Code</label>
                   <div class="heading02_field">
@@ -300,7 +300,7 @@ $('#save_btn').click(function() {
             $('#invite_code').hide();
             $('.alert').html('<div class="error_message">Your invite codes have been updated.</div>');
           } else {
-            $('#invite_code input[name="' + data.field + '"]').closest('.heading02_field').find('.validation_msg').html('This code is already used by another school. Enter a different one.');
+            $('#invite_code input[name="' + data.field + '"]').closest('.heading02_field').find('.validation_msg').html('This code is already used by another community. Enter a different one.');
           }
           showSpinner(false);
         }
