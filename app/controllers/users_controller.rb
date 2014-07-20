@@ -155,7 +155,6 @@ class UsersController < ApplicationController
    status = nil
    if params[:email] and !params[:email].blank?
      @user = User.find_by_email(params[:email])
-     logger.info @user
      if @user and !@user.nil?
        cookies[:active_admin] = current_user.email
        sign_out current_user
