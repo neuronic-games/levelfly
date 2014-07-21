@@ -15,17 +15,18 @@
           <div class="Divider_15"></div>
         </div><!--left_content_box-->
   </div><!--Panel_Left-->
-   <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <div class="Panel_Rirght">
 		<div>
 			<img src="/images/levelfly_tag.png" alt="Levelfly" width="392" height="171"><br>
 		<div class="Divider_90"></div>
-    <div class="Sign_in_wp">
+      <div class="Sign_in_wp">
         <div class="sign_in_box"><h1>Register </h1></div><!--sign_in-box-->
         <div class="creat_text">
         <span class="blue">
         </span></div>
-        </div>
+      </div>
+      <div class="clear"></div>
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:id => 'invite_code_form'}) do |f| %>
         <div class="clear"></div>
         <div class="Divider_15"></div>
         <div class="clear"></div>
@@ -44,34 +45,63 @@
         </div><!--text_box_wp-->
          <div class="Divider_15"></div>
         <div class="clear"></div>
-        <div class="text_box_wp" id="school_code_box">
+        <div class="text_box_wp">
           <input name="school[code]" id="school_code" placeholder="Community Invite Code (optional)" type="text" class="txt_box" style="width: 378px">
         </div><!--text_box_wp-->
         <div class="Divider_15"></div>
         <div class="clear"></div>
-        <div id="evaluate_checkbox_box">
-          <div class="check_box_wp"><input type="checkbox"></div>
-          I am a teacher and I would like to evaluate Levelfly for teaching my course.<br><br>
-          Your demo account and courses you create will not be part of any specific community or school, and may be removed at any time.
-          <div class="Divider_15"></div>
-        </div>
-        <div id="btn_wrapper_box">
-          <a href="javascript:void(0)" class="big_bluebtn menu_btn long_btn two_line_btn" id="existing_course_btn">
-            Join an existing course or community
-          </a>
-          <a href="javascript:void(0)" class="big_bluebtn menu_btn long_btn two_line_btn" id="demo_course_btn">
-            Evaluate Levelfly<br>for teaching a course
-          </a>
-          <div class="Divider_15"></div>
-        </div>
         <div class="remember_box_wp">
              <div class="sign_in_button_wp">
                  <%= f.submit "Register", :class=>"big_bluebtn" %>
               </div><!--sign_in_button-->
-              <div class="forgot_your_pass_wp">
-                 <%= render :partial => "devise/shared/links" %>
-              </div><!--forgot_your_pass_wp-->
         </div><!--remember_box_wp-->
+      <% end %>
+      <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:id => 'demo_school_form'}) do |f| %>
+          <div class="clear"></div>
+          <div class="Divider_15"></div>
+          <div class="clear"></div>
+           <div class="text_box_wp">
+               <%= f.text_field :full_name, :class=>"txt_box", :style=>"width:378px;", :placeholder=>"Full Name", :required => true, :title => "You must enter your name." %>
+          </div><!--text_box_wp-->
+           <div class="Divider_15"></div>
+          <div class="clear"></div>
+          <div class="text_box_wp">
+               <%= f.email_field :email, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Email", :required => true %>
+          </div><!--text_box_wp-->
+          <div class="Divider_15"></div>
+          <div class="clear"></div>
+          <div class="text_box_wp">
+               <%= f.password_field :password, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Password", :required => true, :pattern => ".{6,}", :title => "6 characters minimum"%>
+          </div><!--text_box_wp-->
+           <div class="Divider_15"></div>
+          <div class="clear"></div>
+          <div class="Divider_15"></div>
+          <div class="clear"></div>
+          <div class="text_box_wp">
+            <div class="check_box_wp"><input type="checkbox"></div>
+            I am a teacher and I would like to evaluate Levelfly for teaching my course.<br><br>
+            Your demo account and courses you create will not be part of any specific community or school, and may be removed at any time.
+            <div class="Divider_15"></div>
+          </div>
+          <div class="remember_box_wp">
+               <div class="sign_in_button_wp">
+                   <%= f.submit "Register", :class=>"big_bluebtn" %>
+                </div><!--sign_in_button-->
+          </div><!--remember_box_wp-->
+        <% end %>
+        <div id="btn_wrapper_box">
+          <div class="Divider_15"></div>
+          <a href="javascript:void(0)" class="big_bluebtn menu_btn long_btn two_line_btn" id="existing_course_btn">
+            Join an existing course or community
+          </a>
+          <a href="javascript:void(0)" class="big_bluebtn menu_btn long_btn two_line_btn" id="demo_school_btn">
+            Evaluate Levelfly<br>for teaching a course
+          </a>
+          <div class="Divider_15"></div>
+        </div>
+        <div class="forgot_your_pass_wp">
+           <%= render :partial => "devise/shared/links" %>
+        </div><!--forgot_your_pass_wp-->
 		<div class="error_message">
 		  <% if flash[:notice]%>
 		    <h2><%=flash[:notice].count%> errors prohibited this user from being saved:</h2>
@@ -81,17 +111,16 @@
 		  <% end %>
 		</div>
     </div><!--Panel_Right-->
-   <% end %>
   </div><!--Content_Wp-->
   <div class="clear"></div>
 </div><!--Main_Wp-->
 <script>
-  $('#demo_course_btn').click(function() {
-    $('#evaluate_checkbox_box').show();
+  $('#demo_school_btn').click(function() {
+    $('#demo_school_form').show();
     $('#btn_wrapper_box').hide();
   });
   $('#existing_course_btn').click(function() {
-    $('#school_code_box').show();
+    $('#invite_code_form').show();
     $('#btn_wrapper_box').hide();
   });
 </script>
