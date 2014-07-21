@@ -483,9 +483,6 @@ html{
   padding-bottom: 10px;
   height: 32px !important;
 }
-#btn_wrapper_box {
-  text-align: center;
-}
 #invite_code_form, #demo_school_form {
   display: none;
 }
