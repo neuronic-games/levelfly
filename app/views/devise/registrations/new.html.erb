@@ -44,11 +44,26 @@
         </div><!--text_box_wp-->
          <div class="Divider_15"></div>
         <div class="clear"></div>
-        <div class="text_box_wp">
+        <div class="text_box_wp" id="school_code_box">
           <input name="school[code]" id="school_code" placeholder="Community Invite Code (optional)" type="text" class="txt_box" style="width: 378px">
         </div><!--text_box_wp-->
         <div class="Divider_15"></div>
         <div class="clear"></div>
+        <div id="evaluate_checkbox_box">
+          <div class="check_box_wp"><input type="checkbox"></div>
+          I am a teacher and I would like to evaluate Levelfly for teaching my course.<br><br>
+          Your demo account and courses you create will not be part of any specific community or school, and may be removed at any time.
+          <div class="Divider_15"></div>
+        </div>
+        <div id="btn_wrapper_box">
+          <a href="javascript:void(0)" class="big_bluebtn menu_btn long_btn two_line_btn" id="existing_course_btn">
+            Join an existing course or community
+          </a>
+          <a href="javascript:void(0)" class="big_bluebtn menu_btn long_btn two_line_btn" id="demo_course_btn">
+            Evaluate Levelfly<br>for teaching a course
+          </a>
+          <div class="Divider_15"></div>
+        </div>
         <div class="remember_box_wp">
              <div class="sign_in_button_wp">
                  <%= f.submit "Register", :class=>"big_bluebtn" %>
@@ -70,3 +85,13 @@
   </div><!--Content_Wp-->
   <div class="clear"></div>
 </div><!--Main_Wp-->
+<script>
+  $('#demo_course_btn').click(function() {
+    $('#evaluate_checkbox_box').show();
+    $('#btn_wrapper_box').hide();
+  });
+  $('#existing_course_btn').click(function() {
+    $('#school_code_box').show();
+    $('#btn_wrapper_box').hide();
+  });
+</script>
