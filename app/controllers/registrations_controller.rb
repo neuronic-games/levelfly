@@ -8,8 +8,13 @@ class RegistrationsController < Devise::RegistrationsController
     @user = User.find_by_email(params[:user][:email])
     @school = school
     @role = nil
-    school_code = params[:school][:code].upcase
 
+    if params[:school]
+      school_code = params[:school][:code].upcase
+    else 
+      school_code = ''
+    end
+    
     if @user && !@user.confirmed?
       if @user.unconfirmed_email
         @user.send_confirmation_instructions
