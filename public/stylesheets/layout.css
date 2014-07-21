@@ -479,13 +479,13 @@ html{
   display: inline-block;
 }
 .two_line_btn {
-  padding-top: 15px;
+  padding-top: 10px;
   padding-bottom: 10px;
-  height: 32px !important;
+  height: 60px !important;
 }
 #btn_wrapper_box {
   text-align: center;
 }
-#invite_code_form, #demo_school_form {
+#school_code_box, #evaluate_checkbox_box {
   display: none;
 }
