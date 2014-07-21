@@ -474,3 +474,17 @@ html{
   background:#6aa5bd;
   cursor: pointer;
 }
+.long_btn {
+  width: 180px;
+  display: inline-block;
+}
+.two_line_btn {
+  padding-top: 5px;
+  height: 32px !important;
+}
+#btn_wrapper_box {
+  text-align: center;
+}
+#school_code_box, #evaluate_checkbox_box {
+  display: none;
+}
