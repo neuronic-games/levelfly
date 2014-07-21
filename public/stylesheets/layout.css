@@ -486,3 +486,7 @@ html{
 #invite_code_form, #demo_school_form {
   display: none;
 }
+.left {
+  float: left;
+  width: 380px;
+}
