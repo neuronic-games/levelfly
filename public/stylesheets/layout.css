@@ -296,6 +296,11 @@ html{
 	line-height:0px;
 }
 
+.clearfix:after {
+  display: table;
+  content: " ";
+}
+
 .Main_Wp{
   background:url(../images/body_bg.png) repeat;
 	width: 1000px;
@@ -583,6 +588,9 @@ html{
 }
 
 #page_footer #learn_more {
+  display: block;
+  width: 140px;
+  margin: 0 auto;
   text-decoration: none;
   color: #fdcb64;
   font-size: 16px;
@@ -590,8 +598,14 @@ html{
   text-transform: uppercase;
 }
 
-#page_footer #learn_more_chevron {
-  font-size: 30px;
-  position: relative;
-  top: 2px;
+#page_footer #learn_more span {
+  float: left;
+}
+
+#page_footer #learn_more img {
+  float: right;
+}
+
+#page_footer img {
+  display: inline;
 }
