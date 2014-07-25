@@ -477,16 +477,23 @@ html{
 .long_btn {
   width: 180px;
   display: inline-block;
+  border: 0;
 }
 .two_line_btn {
-  padding-top: 15px;
+  padding-top: 10px;
   padding-bottom: 10px;
-  height: 32px !important;
+  height: 60px !important;
 }
-#invite_code_form, #demo_school_form {
+#btn_wrapper_box {
+  text-align: center;
+}
+#school_code_box, #evaluate_checkbox_box, #register_button, #reset_button, #error_pane {
   display: none;
 }
 .left {
   float: left;
   width: 380px;
+}
+#height_thing {
+  height: 135px;
 }
