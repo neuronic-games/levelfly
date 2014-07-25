@@ -8,10 +8,8 @@
 		<div class="Panel_Left">
 			<img src="/images/login_splash.png" class="Panel_Left_img"/>
 			<div class="left_content_box">	
-				<h1 style="color:white;">Game your learning.</h1>
-        <div class="clear"></div>
-        <span class="blue">Version <%= APP_VERSION %></span>
-        <div class="clear"></div>
+<!-- 				<h1 style="color:white;">Game your learning.</h1>
+ -->        <div class="clear"></div>
         <div class="Divider_15"></div>
 			</div><!--left_content_box-->
 		</div><!--Panel_Left-->
@@ -77,6 +75,10 @@
 		</div><!--Panel_Right-->
   </div><!--Content_Wp-->
   <div class="clear"></div>
+  <div id="page_footer">
+  	<span id="version">Version <%= APP_VERSION %></span>
+  	<a href="#feature_top" id="learn_more">Learn More <span id="learn_more_chevron">&#8964;</span></a>
+  </div>
 </div><!--Main_Wp-->
 <div id="browser_warning" class="warning_popup" style="display:none">
 	<div class="heading">YOUR BROWSER IS NOT SUPPORTED</div>
@@ -96,7 +98,38 @@
     </div>
 </div>
 
+<div id="feature_splash">
+	<a name="feature_top"></a>
+	<div id="feature_hero">The achievement-based learning management system and social network</div>
+	<div id="feature_1">
+		<h2>Gamification</h2>
+		<p>Boost engagement with cutting-edge gamification features like avatars, badges, leaderboards, experience points, achievements, and rewards.</p>
+	</div>
+	<div id="feature_2">
+		<h2>Learning Management</h2>
+		<p>Design robust courses with announcements, notifications, forums, file storage, tasks, and gradebooks.</p>
+	</div>
+	<div id="feature_3">
+		<h2>Task Organizer</h2>
+		<p>Stay organized with an integrated to do list for course work and timely notifications for tasks and announcements.</p>
+	</div>
+	<div id="feature_4">
+		<h2>Learning Analytics</h2>
+		<p>Improve learning with detailed feedback on course outcomes and grades, personalized statistics for each course, and recommendations for peer mentoring.</p>
+	</div>
+	<div id="feature_5">
+		<h2>Social Media</h2>
+		<p>Build community and increase retention with social media features like profiles, groups, friends, status updates, and messaging.</p>
+	</div>
+	<a href="/users/sign_up" class="big_orangebtn">Try a demo</a>
+	<div id="copyright">(c) Copyright <%= Time.now.strftime("%Y") %> Levelfly Learning LLC. All rights reserved.</div>
+</div>
+
 <script type="text/javascript">
+	$(function() {
+		$('.Main_Wp').css('min-height', $('html').height());
+		$('#feature_splash').show();
+	});
 
 	if ( $.browser.msie ) {
 		if( parseInt($.browser.version, 10) < 10 ) {
@@ -117,4 +150,16 @@
 		$("#popup_warning").hide();
 	});
 
+	$('#learn_more').click(function() {
+		var height = $('html').height();
+		var interval = setInterval(function() {
+			if ($(document).scrollTop() >= height) {
+				clearInterval(interval);
+			} else {
+				$(document).scrollTop($(document).scrollTop() + 50);
+			}
+		}, 10);
+
+		return false;
+	});
 </script>       
