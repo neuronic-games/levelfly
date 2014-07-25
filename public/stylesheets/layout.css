@@ -477,6 +477,7 @@ html{
 .long_btn {
   width: 180px;
   display: inline-block;
+  border: 0;
 }
 .two_line_btn {
   padding-top: 10px;
@@ -486,10 +487,13 @@ html{
 #btn_wrapper_box {
   text-align: center;
 }
-#school_code_box, #evaluate_checkbox_box {
+#school_code_box, #evaluate_checkbox_box, .sign_in_button_wp {
   display: none;
 }
 .left {
   float: left;
   width: 380px;
+}
+#height_thing {
+  height: 135px;
 }
