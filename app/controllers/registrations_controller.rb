@@ -37,9 +37,14 @@ class RegistrationsController < Devise::RegistrationsController
         @role = RoleName.find_by_name('Teacher')
       else
         unless @school = School.find_by_student_code(school_code)
-          flash[:notice] = ['That community invite code does not exist.']
+          flash[:invalid] = 'You have entered an invalid Invite Code.'
           return redirect_to new_registration_path(resource_name)
         end
+      end
+    else
+      unless @user || params[:evaluate_confirm]
+        flash[:invalid] = 'The email address you entered is not registered with Levelfly.'
+        return redirect_to new_registration_path(resource_name)
       end
     end
 
