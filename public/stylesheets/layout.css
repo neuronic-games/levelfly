@@ -296,15 +296,21 @@ html{
 	line-height:0px;
 }
 
+.clearfix:after {
+  display: table;
+  content: " ";
+}
+
 .Main_Wp{
   background:url(../images/body_bg.png) repeat;
 	width: 1000px;
 	height:auto;
 	margin:0 auto;
   color:#FFFFFF;
+  position: relative;
 }
 
-.Content_Wp h1 {
+.Content_Wp h1, #feature_splash h2 {
   font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
   color: white;
 }
@@ -496,4 +502,110 @@ html{
 }
 #height_thing {
   height: 135px;
+}
+
+#feature_hero {
+  font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+  font-size: 27.5px;
+  line-height: 50px;
+  text-align: center;
+  width: 410px;
+  margin: 0 auto;
+  padding: 50px 0 60px;
+  color: #333b07;
+}
+
+#feature_splash {
+  background: #93ad00;
+  background: -webkit-linear-gradient(top, #93ad00, #687b00); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom, #93ad00, #687b00); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom, #93ad00, #687b00); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom, #93ad00 , #687b00); /* Standard syntax */
+  display: none;
+}
+
+#feature_splash h2 {
+  font-size: 40px;
+  text-shadow: 2px 5px black;
+  padding-top: 10px;
+}
+
+#feature_splash p {
+  font-size: 18px;
+  color: #333b07;
+  margin-top: 15px;
+  width: 410px;
+  font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
+#feature_1, #feature_2, #feature_3, #feature_4, #feature_5 {
+  height: 246px;
+  margin-bottom: 38px;
+  padding-left: 560px;
+}
+
+#feature_1 { background: url(/images/feature_1.jpg) top left no-repeat;}
+#feature_2 { background: url(/images/feature_2.jpg) top left no-repeat;}
+#feature_3 { background: url(/images/feature_3.jpg) top left no-repeat;}
+#feature_4 { background: url(/images/feature_4.jpg) top left no-repeat;}
+#feature_5 { background: url(/images/feature_5.jpg) top left no-repeat;}
+
+.big_orangebtn {
+  width: 255px;
+  display: block;
+  margin: 0 auto 38px;
+  background-color: #eb8133;
+  border-radius: 5px;
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 25px;
+  line-height: 82px;
+}
+
+#copyright {
+  text-align: center;
+  padding-bottom: 38px;
+  font-size: 16px;
+  color: #40432a;
+}
+
+#page_footer {
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  line-height: 30px;
+  width: 100%;
+  padding-bottom: 38px;
+}
+
+#page_footer #version {
+  float: left;
+  color: #a5a0a0;
+  font-size: 16px;
+  font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+
+#page_footer #learn_more {
+  display: block;
+  width: 140px;
+  margin: 0 auto;
+  text-decoration: none;
+  color: #fdcb64;
+  font-size: 16px;
+  font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+  text-transform: uppercase;
+}
+
+#page_footer #learn_more span {
+  float: left;
+}
+
+#page_footer #learn_more img {
+  float: right;
+}
+
+#page_footer img {
+  display: inline;
 }
