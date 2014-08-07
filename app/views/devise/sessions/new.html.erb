@@ -7,7 +7,7 @@
   <div class="Content_Wp">
 		<div class="Panel_Left">
 			<img src="/images/login_splash.png" class="Panel_Left_img"/>
-			<div class="left_content_box">	
+			<div class="left_content_box">
 <!-- 				<h1 style="color:white;">Game your learning.</h1>
  -->        <div class="clear"></div>
         <div class="Divider_15"></div>
@@ -70,13 +70,18 @@
       </div><!--remember_box_wp-->
 			<% flash.each do |name, msg| %>
 			<div class="error_message"><h2><%if msg !="You need to sign in or register before continuing."%><%= msg %><%end%></h2></div>
-			<% end %> 
+			<% end %>
 			<% end %>
 		</div><!--Panel_Right-->
   </div><!--Content_Wp-->
   <div class="clear"></div>
+  <div class="left_content_box" id="version_box">
+      <div class="clear"></div>
+      <span class="blue">Version <%= APP_VERSION %></span>
+       <div class="clear"></div>
+        <div class="Divider_15"></div>
+      </div><!--left_content_box-->
   <div id="page_footer">
-  	<span id="version">Version <%= APP_VERSION %></span>
   	<a href="#feature_top" id="learn_more" class="clearfix"><span>Learn More</span> <img src="/images/homepage_chevron.png"></a>
   </div>
 </div><!--Main_Wp-->
@@ -94,7 +99,7 @@
 		 This software works best on Firefox or Chrome. You can still use Internet Explorer but you will experience problems.
 	</div>
 	<div align="right" style="margin-right:20px;">
-      <a class="big_bluebtn" id="hide_pop_up" style="padding:6px 0 6px;height: 18px;width: 55px;font: 13px;" href="javascript:void(0);">Ok</a> 
+      <a class="big_bluebtn" id="hide_pop_up" style="padding:6px 0 6px;height: 18px;width: 55px;font: 13px;" href="javascript:void(0);">Ok</a>
     </div>
 </div>
 
@@ -122,6 +127,7 @@
 		<p>Build community and increase retention with social media features like profiles, groups, friends, status updates, and messaging.</p>
 	</div>
 	<a href="/users/sign_up" class="big_orangebtn">Try a demo</a>
+  <img src='/images/contact_email.png'/ class='contact_info'>
 	<div id="copyright">(c) Copyright <%= Time.now.strftime("%Y") %> Levelfly Learning LLC. All rights reserved.</div>
 </div>
 
@@ -139,13 +145,13 @@
 		else if( parseInt($.browser.version) > 9 ) {
 			$('#popup_warning').show();
 		}
-	} 
+	}
 	if ( $.browser.mozilla ) {
 		if( parseInt($.browser.version) < 10 ) {
 			$('#signin_frm').remove();
 			$('#browser_warning').show();
 		}
-	} 
+	}
 	$("#hide_pop_up").click(function(){
 		$("#popup_warning").hide();
 	});
@@ -162,4 +168,4 @@
 
 		return false;
 	});
-</script>       
+</script>
