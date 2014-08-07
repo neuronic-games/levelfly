@@ -36,7 +36,7 @@ body{
   background-repeat: no-repeat;
   height: 117px;
   margin-left: 10px;
-  
+
 }
 .wrapper .avat {
   margin-left: 0px;
@@ -257,7 +257,7 @@ body{
   visibility: hidden;
 }
 .error_message{
-  color: #BD6F49; 
+  color: #BD6F49;
   background:url(../images/body_bg.png) repeat;
   padding: 30px 0;
   width: 84%;
@@ -272,7 +272,7 @@ body, div, table, tr, td, input, form, ul, li, dl, ol, b, strong, h1, h2, h3, h4
 html{
 	height:100%;
 	 }
-	 
+
 /*body{
 	height:100%;
 	font-family:Verdana, Geneva, sans-serif;
@@ -331,7 +331,7 @@ html{
 	height:auto;
 	width:167px;
 	padding:16px 0 0 0;
-  
+
 }
 
 .Panel_Left{
@@ -447,12 +447,13 @@ html{
 .creat_text a{
 	color:#3f92df;
 	font-size:14px;
-	text-decoration:none;  
+	text-decoration:none;
 }
 
 .forgot_your_pass_wp{
 	width:100%;
 	height:auto;
+  padding-top:10px;
 }
 
 .forgot_your_pass_wp a{
@@ -492,6 +493,8 @@ html{
 }
 #btn_wrapper_box {
   text-align: center;
+  padding-right:10px;
+  padding-top:10px;
 }
 #school_code_box, #evaluate_checkbox_box, #register_button, #reset_button, #error_pane {
   display: none;
@@ -536,6 +539,7 @@ html{
   margin-top: 15px;
   width: 410px;
   font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+  line-height: 30px;
 }
 
 #feature_1, #feature_2, #feature_3, #feature_4, #feature_5 {
@@ -608,4 +612,24 @@ html{
 
 #page_footer img {
   display: inline;
+}
+
+#version_box{
+  position: absolute;
+  top: 580px;
+  left: -50px;
+}
+#existing_course_btn{
+  width:190px;
+  margin-right:3px;
+}
+#demo_course_btn{
+  width:190px;
+  margin-left:3px;
+}
+.contact_info{
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 100px;
+  display: block;
 }
