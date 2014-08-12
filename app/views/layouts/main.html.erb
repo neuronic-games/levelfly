@@ -832,6 +832,30 @@ $('#container').delegate('.add_topic', 'click', function(){
 	    });
     }
    }
+  $(".page_switcher").click(function(){
+    counter = false
+    $(".icon_box a").each(function(){
+      if(counter == false){
+        counter = true
+        a = $(this)[0].className.split(" ")[0].split("_")
+
+        if(a[a.length - 1] == "active"){
+          $(this).removeClass($(this)[0].className.split(" ")[0])
+          a.pop()
+          $(this).addClass(a.join("_"))
+        }
+      }else{
+        a = $(this)[0].className.split(" ")
+        a = a[a.length-1].split("_")
+
+        if(a[a.length - 1] == "active"){
+          $(this).removeClass($(this)[0].className.split(" ")[2])
+          a.pop()
+          $(this).addClass(a.join("_"))
+        }
+      }
+    })
+  })
 -->
 </script>
 </html>
