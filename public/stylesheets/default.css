@@ -376,3 +376,16 @@
 	padding-top:10px;
 	color:#3C68A3;
 }
+.invalid input:required:invalid {
+    /*background: white;*/
+    border-color: red;
+}
+
+.invalid input:required:valid {
+    border-color: #17D654 ;
+}
+
+input {
+  display: block;
+  margin-bottom: 10px;
+}
