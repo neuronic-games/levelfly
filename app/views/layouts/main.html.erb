@@ -71,7 +71,7 @@
       </div>
       <div class="avatar_box">
         <div class="avatar">
-          <a href="javascript:void(0);" rel="/profile/user_profile" class="page_switcher" rev="/profile/"><img id="my_avatar_image" src="<%= @profile.image_file_name %>" /></a>
+          <a href="javascript:void(0);" rel="/profile/user_profile" class="page_switcher users_profile" rev="/profile/"><img id="my_avatar_image" src="<%= @profile.image_file_name %>" /></a>
         </div>
         <div class="avatar_detail">
           <div class="sign_out_btn"><a href="/users/sign_out" data-method="delete" rel="nofollow"><img class="sign_out_img" src="/images/signout_btn.png" /></a>
@@ -832,11 +832,12 @@ $('#container').delegate('.add_topic', 'click', function(){
 	    });
     }
    }
-  $(".page_switcher").click(function(){
-    counter = false
+  var message_flag = false
+  var courses_flag = false
+  $(".users_profile").click(function(){
     $(".icon_box a").each(function(){
-      if(counter == false){
-        counter = true
+      if (($(this).text() == "messages") && (message_flag == false)) {
+        message_flag = true
         a = $(this)[0].className.split(" ")[0].split("_")
 
         if(a[a.length - 1] == "active"){
@@ -844,15 +845,27 @@ $('#container').delegate('.add_topic', 'click', function(){
           a.pop()
           $(this).addClass(a.join("_"))
         }
-      }else{
-        a = $(this)[0].className.split(" ")
-        a = a[a.length-1].split("_")
 
-        if(a[a.length - 1] == "active"){
-          $(this).removeClass($(this)[0].className.split(" ")[2])
-          a.pop()
-          $(this).addClass(a.join("_"))
-        }
+      }else{
+        if (($(this).text() == "courses") && (courses_flag == false)) {
+          courses_flag = true
+          a = $(this)[0].className.split(" ")[0].split("_")
+
+          if(a[a.length - 1] == "active"){
+            $(this).removeClass($(this)[0].className.split(" ")[0])
+            a.pop()
+            $(this).addClass(a.join("_"))
+          }
+        }else{
+          a = $(this)[0].className.split(" ")
+          a = a[a.length-1].split("_")
+
+          if(a[a.length - 1] == "active"){
+            $(this).removeClass($(this)[0].className.split(" ")[2])
+            a.pop()
+            $(this).addClass(a.join("_"))
+          }
+        };        
       }
     })
   })
