@@ -832,12 +832,10 @@ $('#container').delegate('.add_topic', 'click', function(){
 	    });
     }
    }
-  var message_flag = false
   var courses_flag = false
   $(".users_profile").click(function(){
     $(".icon_box a").each(function(){
-      if (($(this).text() == "messages") && (message_flag == false)) {
-        message_flag = true
+      if (($(this).text() == "messages")) {
         a = $(this)[0].className.split(" ")[0].split("_")
 
         if(a[a.length - 1] == "active"){

@@ -10,7 +10,7 @@ class CourseController < ApplicationController
     else
       section_type = "C"
     end
-    
+
     @profile = Profile.find(:first, :conditions => ["user_id = ? and school_id = ?", current_user.id, school.id])
     
     if params[:search_text]
@@ -645,9 +645,9 @@ class CourseController < ApplicationController
     #@totaltask = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
     if params[:value] && !params[:value].nil?  
       if (params[:section_type] == "G" && params[:value] == "1")
-        render:partial => "/group/group_wall" 
+        render :partial => "/group/group_wall"
       elsif params[:value] == "1" 
-        render:partial => "/course/show_course"  
+        render :partial => "/course/show_course"
       elsif params[:value] == "3" 
         render :partial => "/course/forum",:locals=>{:@groups=>@groups, :enable_forum => enable_forum}
       elsif params[:value] == "4"
