@@ -4604,3 +4604,17 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
   float: right;
   margin-left: 10px;
 }
+
+.left_nav_box{
+    min-width: 100px;
+}
+.heading_messages{
+    right: auto !important;
+    margin-left: -178px;
+}
+.Main_content{
+    min-width: 1017px;
+}
+.right_box{
+    min-width: 40px;
+}
