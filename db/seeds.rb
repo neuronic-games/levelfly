@@ -29,13 +29,33 @@ Role.create(:name => "modify_wardrobe", :profile => admin_profile)
 Role.create(:name => "modify_settings", :profile => admin_profile)
 
 role_name = RoleName.create(name: 'superadmin')
-permision = Permission.create(name: 'create_group')
+permision = Permission.create(name: 'create_course')
 permision.role_names << role_name
 role_name.permissions << permision
-role_name.permissions << Permission.create('create_course')
 role_name.profiles << admin_profile
 admin_profile.role_name = role_name
 admin_profile.save
+
+#================================================================================
+
+admin = User.create(:email => "user@user.com", :password => "111111", password_confirmation: "111111", :status => 'A', default_school_id: demo.id)
+
+admin_profile = Profile.create(:user => admin, :school => school, :full_name => "Neuronic user", :image_file_name => Profile.default_avatar_image)
+Role.create(:name => "edit_user", :profile => admin_profile)
+Role.create(:name => "modify_rewards", :profile => admin_profile)
+Role.create(:name => "modify_wardrobe", :profile => admin_profile)
+Role.create(:name => "modify_settings", :profile => admin_profile)
+
+role_name = RoleName.create(name: 'user')
+permision = Permission.create(name: 'create_group')
+permision.role_names << role_name
+role_name.permissions << permision
+role_name.profiles << admin_profile
+admin_profile.role_name = role_name
+admin_profile.save
+
+#================================================================================
+
 basic = Wardrobe.create(:name => 'Basic', :visible_level => 1, :available_level => 1, :available_date => Date.today, :visible_date => Date.today)
 
 # item_type_list = WardrobeItemType.create([{:name => 'head'}, {:name => 'body'}, {:name => 'legs'}, {:name => 'feet'}, {:name => 'prop'}, {:name => 'head_shape'}, {:name => 'face'}, {:name => 'hair'}, {:name => 'facial_hair'}, {:name => 'hat'}, {:name => 'top'}])
