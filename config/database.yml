@@ -12,12 +12,15 @@
 #   host: localhost
 
 development:
-  adapter: mysql
+  #adapter: mysql
+  adapter: postgresql
   database: oncampus
-  username: root
-  password: 
+  #username: root
+  username: oncampus
+  password: password
   encoding: UTF8
   host: localhost
+  pool: 5
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

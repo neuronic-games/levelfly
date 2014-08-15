@@ -109,5 +109,26 @@ class User < ActiveRecord::Base
     conditions[:email].downcase! if conditions[:email]
     where(conditions).where("email !~* '^del-'").first
   end
+
+  def self.to_csv(school_id)
+    profiles = Profile.includes(:user)
+      .where("school_id = ? and user_id is not null and users.status != 'D'", school_id)
+      .order("last_sign_in_at DESC NULLS LAST, full_name")
+    CSV.generate do |csv|
+      csv << ['id', 'full_name', 'email', 'created_at', 'last_sign_in_at', 'xp', 'level']
+      profiles.each do |p|
+        arr = [
+            p.id,
+            p.full_name,
+            p.user.email,
+            p.created_at,
+            p.user.last_sign_in_at,
+            p.xp,
+            p.level
+        ]
+        csv << arr
+      end
+    end
+  end
   
 end

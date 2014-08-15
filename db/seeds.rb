@@ -6,7 +6,7 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
 demo = School.create(:name => 'Borough of Manhattan Community College', :code => 'BMCC', :handle => 'demo')
-admin = User.create(:email => "admin@neuronicgames.com", :password => "111111", password_confirmation: "111111", :status => 'A', default_school_id: demo.id)
+admin = User.create(:email => "admin@neuronicgames.com", :password => "111111", password_confirmation: "111111", :status => 'A', default_school_id: demo.id, confirmed_at: DateTime.current)
 
 
 
@@ -23,15 +23,28 @@ default = Avatar.create(:profile => profile, :skin => 3, :body => 'avatar/body/b
 
 #admin = User.create(:email => "admin@neuronicgames.com", :encrypted_password => "$2a$10$TiAmvGek1xbUTy8SoHPgk.ThpFZYivP411xYKhYV1g2qUYMpSRryu", :status => 'A')
 admin_profile = Profile.create(:user => admin, :school => school, :full_name => "Neuronic Admin", :image_file_name => Profile.default_avatar_image)
+
 Role.create(:name => "edit_user", :profile => admin_profile)
 Role.create(:name => "modify_rewards", :profile => admin_profile)
 Role.create(:name => "modify_wardrobe", :profile => admin_profile)
 Role.create(:name => "modify_settings", :profile => admin_profile)
+Role.create(:name => "create_task", :profile => admin_profile)
+Role.create(:name => "create_group", :profile => admin_profile)
+Role.create(:name => "create_course", :profile => admin_profile)
+Role.create(:name => "edit_grade", :profile => admin_profile)
 
 role_name = RoleName.create(name: 'superadmin')
-permision = Permission.create(name: 'create_course')
-permision.role_names << role_name
-role_name.permissions << permision
+roles = [Role.create_group, Role.create_course, Role.create_task, Role.edit_grade, Role.edit_user,
+Role.modify_rewards, Role.modify_settings, Role.modify_wardrobe]
+
+roles.each do |role|
+  permision = Permission.create(name: role)
+  permision.role_names << role_name
+  role_name.permissions << permision
+end
+
+temp_profile = Profile.create(:user => admin, :school => school, :full_name => "Neuronic asdasd", :image_file_name => Profile.default_avatar_image)
+
 role_name.profiles << admin_profile
 admin_profile.role_name = role_name
 admin_profile.save
