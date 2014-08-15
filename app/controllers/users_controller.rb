@@ -98,6 +98,12 @@ class UsersController < ApplicationController
      render :partial => "/users/load_users", :locals => { :@users => @users, :@page => @page, :@id => params[:id] }
    end
  end
+
+ def load_csv
+   send_data User.to_csv(Profile.find(user_session[:profile_id]).school_id),
+             :type => 'text/csv; charset=iso-8859-1; header=present',
+             :disposition => "attachment; filename=users.csv"
+ end
  
  def send_message_to_all_users
    status = false
