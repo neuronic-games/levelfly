@@ -57,50 +57,15 @@ class UsersController < ApplicationController
  end
  
  def load_users
-   @profile = Profile.find(user_session[:profile_id])
    @page = params[:page].to_i
-
    if params[:id] and !params[:id].blank?
-     if params[:id] == "all_active"
-       @users = Profile
-        .includes(:user)
-        .where("school_id = ? and user_id is not null and users.status != 'D'", @profile.school_id)
-        .paginate(:page => @page, :per_page => Setting.cut_off_number)
-        .order("last_sign_in_at DESC NULLS LAST, full_name")
-     elsif params[:id] == "members_of_courses"
-       course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, "C"], :order => "name").collect(&:id)
-       profile_ids = Participant.find(:all, :conditions => ["target_id IN (?)",course_ids]).collect(&:profile_id).uniq
-     elsif params[:id] == "members_of_groups"
-       course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, "G"], :order => "name").collect(&:id)
-       profile_ids = Participant.find(:all, :conditions => ["target_id IN (?)",course_ids]).collect(&:profile_id).uniq
-     elsif params[:id] == "organizers_of_courses"
-       course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, "C"], :order => "name").collect(&:id)
-       profile_ids = Participant.find(:all, :conditions => ["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).uniq
-     elsif params[:id] == "organizers_of_groups"
-       course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, "G"], :order => "name").collect(&:id)
-       profile_ids = Participant.find(:all, :conditions => ["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).uniq
-     elsif params[:id] == "organizers_of_courses_and_groups"
-       course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and name is not null", false, false], :order => "name").collect(&:id)
-       profile_ids = Participant.find(:all, :conditions => ["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).uniq
-     else
-       profile_ids = Participant.find(:all, :conditions => ["target_id = ?",params[:id]]).collect(&:profile_id).uniq
-     end
-
-     unless @users
-       @users = Profile
-        .includes(:user)
-        .where("school_id = ? and user_id is not null and profiles.id IN (?) and users.status != 'D'", @profile.school_id, profile_ids)
-        .paginate(:page => @page, :per_page => Setting.cut_off_number)
-        .order("last_sign_in_at DESC NULLS LAST, full_name")
-     end
-
-     @profile.record_action('last', 'users')
+     @users = User.find_with_filters(params[:id], user_session[:profile_id], @page)
      render :partial => "/users/load_users", :locals => { :@users => @users, :@page => @page, :@id => params[:id] }
    end
  end
 
  def load_csv
-   send_data User.to_csv(Profile.find(user_session[:profile_id]).school_id),
+   send_data User.to_csv(params[:id], user_session[:profile_id]),
              :type => 'text/csv; charset=iso-8859-1; header=present',
              :disposition => "attachment; filename=users.csv"
  end
