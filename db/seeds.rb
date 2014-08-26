@@ -43,8 +43,6 @@ roles.each do |role|
   role_name.permissions << permision
 end
 
-temp_profile = Profile.create(:user => admin, :school => school, :full_name => "Neuronic asdasd", :image_file_name => Profile.default_avatar_image)
-
 role_name.profiles << admin_profile
 admin_profile.role_name = role_name
 admin_profile.save
