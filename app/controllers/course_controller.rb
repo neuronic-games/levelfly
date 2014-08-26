@@ -12,7 +12,7 @@ class CourseController < ApplicationController
     end
 
     @profile = Profile.find(:first, :conditions => ["user_id = ? and school_id = ?", current_user.id, school.id])
-    
+
     if params[:search_text]
       search_text =  "%#{params[:search_text]}%"
       if section_type == "C"
@@ -316,7 +316,7 @@ class CourseController < ApplicationController
           if @profile
             participant_exist = Participant.find(:first, :conditions => ["target_id = ? AND target_type= ? AND profile_id = ?", params[:course_id], section_type, @profile.id])
             course = Course.find(params[:course_id])
-            if !participant_exist
+            unless participant_exist
               @participant = Participant.new
               @participant.target_id = params[:course_id]
               @participant.target_type = section_type

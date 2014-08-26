@@ -19,6 +19,7 @@ class UserMailer < ActionMailer::Base
   end
 
   def welcome_email(user)
+    user.save
     @resource = user
     mail(:to => user.email, :subject => "Confirmation instructions")
   end
