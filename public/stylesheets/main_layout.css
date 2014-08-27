@@ -888,3 +888,15 @@ img.image_icon_drop_target {
 }
 
 .note_btn,.msg_btn,.root_btn {width:225px;text-align:right;}
+#invites{
+    border-width: 5px;
+    -moz-border-radius: 5px; /* Firefox */
+    -webkit-border-radius: 5px; /* Safari, Chrome */
+    -khtml-border-radius: 5px; /* KHTML */
+    border-radius: 5px; /* CSS3 */
+    border-style: solid;
+    border-color: #FFF;
+    padding: 10px;
+    padding-bottom: 20px;
+    margin-bottom: 35px;
+}

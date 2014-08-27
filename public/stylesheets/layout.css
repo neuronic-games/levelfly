@@ -258,9 +258,10 @@ body{
 }
 .error_message{
   color: #BD6F49;
-  background:url(../images/body_bg.png) repeat;
+  /*background:url(../images/body_bg.png) repeat;*/
   padding: 30px 0;
   width: 84%;
+  padding-left: 15px;
   }
 /*New CSS for new login page layout*/
 body, div, table, tr, td, input, form, ul, li, dl, ol, b, strong, h1, h2, h3, h4, h5, h6, p, th, textarea, select, img, label {
@@ -494,7 +495,7 @@ html{
 #btn_wrapper_box {
   text-align: center;
   padding-right:10px;
-  padding-top:10px;
+  padding-top:26px;
 }
 #school_code_box, #evaluate_checkbox_box, #register_button, #reset_button, #error_pane {
   display: none;
