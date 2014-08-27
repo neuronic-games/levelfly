@@ -5,10 +5,12 @@ class Message < ActiveRecord::Base
   belongs_to :wall
   has_many :message_viewers
 
+  scope :invites, lambda {|type, profile_id, message_ids| where("message_type = ? AND parent_id = ? AND (archived is NULL or archived = ?) and id in(?)", type, profile_id, false, message_ids).order('created_at DESC')}
   scope :starred, :conditions => ['starred = ?', true]
   scope :active, :conditions => {:archived => [false, nil]}
   scope :involving, lambda {|profile_id| where('profile_id = ? or parent_id = ?', profile_id, profile_id)}
   scope :interesting, :conditions => ["(message_type = 'Message' and target_type = 'Profile' and parent_type = 'Profile') or parent_type = 'Message'"]
+  scope :respond_to_course, lambda {|profile_id, message_ids|where("target_type in('Course','Notification') AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived = ? and id in(?)", profile_id ,false,message_ids).order('created_at DESC') }
 
   scope :between, (lambda do |ids, id2|
     snippets = ids.map do |id|
