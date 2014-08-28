@@ -10,9 +10,9 @@ class CourseController < ApplicationController
     else
       section_type = "C"
     end
-    
+
     @profile = Profile.find(:first, :conditions => ["user_id = ? and school_id = ?", current_user.id, school.id])
-    
+
     if params[:search_text]
       search_text =  "%#{params[:search_text]}%"
       if section_type == "C"
@@ -29,12 +29,15 @@ class CourseController < ApplicationController
 
       # Check if the user was working on a details page before, and redirect if so
       return if redirect_to_last_action(@profile, 'course', '/course/show')
-      
-      if !section_type.nil?
+      unless section_type.nil?
         if section_type == 'C'
+          message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
+          @invites = Message.invites('course_invite', @profile.id, message_ids)
           @courses = Course.course_filter(@profile.id,"")
         end
         if section_type == 'G'
+          message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
+          @invites = Message.invites('group_invite', @profile.id, message_ids)
           @user_group = false
           @courses = Course.all_group(@profile,"M")
         end
@@ -316,7 +319,7 @@ class CourseController < ApplicationController
           if @profile
             participant_exist = Participant.find(:first, :conditions => ["target_id = ? AND target_type= ? AND profile_id = ?", params[:course_id], section_type, @profile.id])
             course = Course.find(params[:course_id])
-            if !participant_exist
+            unless participant_exist
               @participant = Participant.new
               @participant.target_id = params[:course_id]
               @participant.target_type = section_type
@@ -645,9 +648,9 @@ class CourseController < ApplicationController
     #@totaltask = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
     if params[:value] && !params[:value].nil?  
       if (params[:section_type] == "G" && params[:value] == "1")
-        render:partial => "/group/group_wall" 
+        render :partial => "/group/group_wall"
       elsif params[:value] == "1" 
-        render:partial => "/course/show_course"  
+        render :partial => "/course/show_course"
       elsif params[:value] == "3" 
         render :partial => "/course/forum",:locals=>{:@groups=>@groups, :enable_forum => enable_forum}
       elsif params[:value] == "4"

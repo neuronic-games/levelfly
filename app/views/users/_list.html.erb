@@ -158,6 +158,7 @@
         <a class="big_blue_btn" name="create_new_user" id="create_new_user" href="javascript:void(0)">ADD USER</a>
         <a class="big_blue_btn" name="message_to_user" id="message_to_user" href="javascript:void(0)">EMAIL ALL</a>
         <a class="big_blue_btn" id="invite_code_btn" href="javascript:void(0)">INVITE CODE</a>
+      <a class="big_blue_btn" id="download_code_btn" href='<%= load_csv_users_path(id: 'all_active') %>'>DOWNLOAD</a>
     </div><!-- crud_level -->
   </div>
 
@@ -351,6 +352,7 @@ $(document).ready(function(){
 $("#filter_files").change(function(){
     var id = $("#filter_files").val(),
         $header = $('#rows .LB_tableheader');
+    $('#download_code_btn').attr('href', "/users/load_csv/" + id)
     if (id) {
       showSpinner(true);
       $.ajax({
