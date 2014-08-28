@@ -121,7 +121,7 @@ function addNode(element) {
                 <div class="field_box2 font_12px"> Description
                   <fieldset>
                     <div class="dd_bg ">
-                      <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea task_desc" readonly="<%= @task ? true : false %>" disabled><%= @task.descr if @task%></textarea>
+                      <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea task_desc" readonly="<%= @task ? true : false %>"><%= @task.descr if @task%></textarea>
                       
                     </div>
                   </fieldset>
