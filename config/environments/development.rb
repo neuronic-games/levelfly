@@ -32,22 +32,22 @@ Oncapus::Application.configure do
   config.active_record.observers = :participant_observer
 
   # Used for password reminder emails
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.default_url_options = { :host => '0.0.0.0:3000' }
   
   config.logger = Logger.new(STDOUT)
   config.log_level = :debug #:warn
   
   #Expands the lines which load the assets
   config.assets.debug = true
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_deliveries = false #true
+  config.action_mailer.raise_delivery_errors = false #true
   config.action_mailer.delivery_method = :smtp
   #ActionMailer::Base.delivery_method = :smtp
-  config.action_mailer.default_url_options = "localhost:3000"
-  ActionMailer::Base.smtp_settings = {
+  #config.action_mailer.default_url_options = "localhost:3000"
+  config.action_mailer.smtp_settings = {
    :address              => "smtp.gmail.com",
    :port                 => 587,
-   :domain               => "gmail.com",
+   :domain               => "", #set by your ip:port
    :user_name            => "rohitcdn@gmail.com",
    :password             => "rohitcdn123",
    :authentication       => "plain",
@@ -55,5 +55,5 @@ Oncapus::Application.configure do
   }
 
   ActionMailer::Base.default :content_type => "text/html"
-  config.log_level = :warn
+  #config.log_level = :warn
 end

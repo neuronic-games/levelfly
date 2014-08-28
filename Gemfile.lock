@@ -50,6 +50,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.4.0)
+    deep_cloneable (2.0.0)
+      activerecord (>= 3.1.0, < 5.0.0)
     delayed_job (4.0.0)
       activesupport (>= 3.0, < 4.1)
     delayed_job_active_record (4.0.0)
@@ -163,6 +165,7 @@ DEPENDENCIES
   acts-as-taggable-on (~> 2.2.0)
   aws-s3
   coffee-rails (~> 3.1.1)
+  deep_cloneable
   delayed_job_active_record
   devise
   jquery-rails

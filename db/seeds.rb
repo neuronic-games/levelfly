@@ -5,9 +5,15 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
+demo = School.create(:name => 'Borough of Manhattan Community College', :code => 'BMCC', :handle => 'demo')
+admin = User.new(:email => "admin@neuronicgames.com", :password => "111111", password_confirmation: "111111", :status => 'A', default_school_id: demo.id)
+admin.skip_confirmation!
+admin.save
+
 
 # School setting
 school = School.create(:name => 'Borough of Manhattan Community College', :code => 'BMCC', :handle => 'bmcc')
+
 vault = Vault.create(:vault_type => 'AWS S3', :target_id => school.id, :target_type => 'School', :account => ENV['S3_KEY'], :secret => ENV['S3_SECRET'], :folder => ENV['S3_PATH'])
 
 profile = Profile.create(:code => 'DEFAULT', :school => school, :image_file_name => Profile.default_avatar_image, :level => 1)
@@ -16,12 +22,52 @@ default = Avatar.create(:profile => profile, :skin => 3, :body => 'avatar/body/b
 # admin = User.create(:email => 'admin@neuronicgames.com', :encrypted_password => '$2a$10$RvALTroqUHXm4oE2ID8O5OU/napTft9S6EzCWaAww7G6nIkZPe1Au')
 # Profile.create(:user => admin, :school => school, :image_file_name => Profile.default_avatar_image, :level => 1, :full_name => "Admin")
 
-admin = User.create(:email => "admin@neuronicgames.com", :encrypted_password => "$2a$10$r6oanIl6wuvMUDoyMeF7NeMfMQBkAPSLMEYseOm0mmiz...", :status => 'A')
+#admin = User.create(:email => "admin@neuronicgames.com", :encrypted_password => "$2a$10$TiAmvGek1xbUTy8SoHPgk.ThpFZYivP411xYKhYV1g2qUYMpSRryu", :status => 'A')
 admin_profile = Profile.create(:user => admin, :school => school, :full_name => "Neuronic Admin", :image_file_name => Profile.default_avatar_image)
+
 Role.create(:name => "edit_user", :profile => admin_profile)
 Role.create(:name => "modify_rewards", :profile => admin_profile)
 Role.create(:name => "modify_wardrobe", :profile => admin_profile)
 Role.create(:name => "modify_settings", :profile => admin_profile)
+Role.create(:name => "create_task", :profile => admin_profile)
+Role.create(:name => "create_group", :profile => admin_profile)
+Role.create(:name => "create_course", :profile => admin_profile)
+Role.create(:name => "edit_grade", :profile => admin_profile)
+
+role_name = RoleName.create(name: 'superadmin')
+roles = [Role.create_group, Role.create_course, Role.create_task, Role.edit_grade, Role.edit_user,
+Role.modify_rewards, Role.modify_settings, Role.modify_wardrobe]
+
+roles.each do |role|
+  permision = Permission.create(name: role)
+  permision.role_names << role_name
+  role_name.permissions << permision
+end
+
+role_name.profiles << admin_profile
+admin_profile.role_name = role_name
+admin_profile.save
+
+#================================================================================
+
+admin = User.new(:email => "user@user.com", :password => "111111", password_confirmation: "111111", :status => 'A', default_school_id: demo.id)
+admin.skip_confirmation!
+admin.save
+admin_profile = Profile.create(:user => admin, :school => school, :full_name => "Neuronic user", :image_file_name => Profile.default_avatar_image)
+Role.create(:name => "edit_user", :profile => admin_profile)
+Role.create(:name => "modify_rewards", :profile => admin_profile)
+Role.create(:name => "modify_wardrobe", :profile => admin_profile)
+Role.create(:name => "modify_settings", :profile => admin_profile)
+
+role_name = RoleName.create(name: 'user')
+permision = Permission.create(name: 'create_group')
+permision.role_names << role_name
+role_name.permissions << permision
+role_name.profiles << admin_profile
+admin_profile.role_name = role_name
+admin_profile.save
+
+#================================================================================
 
 basic = Wardrobe.create(:name => 'Basic', :visible_level => 1, :available_level => 1, :available_date => Date.today, :visible_date => Date.today)
 

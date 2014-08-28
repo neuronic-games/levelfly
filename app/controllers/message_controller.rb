@@ -34,7 +34,7 @@ class MessageController < ApplicationController
       order = 'created_at DESC'
       @school_invites = Message.find(:all, :conditions => ["message_type = 'school_invite' AND (archived is NULL OR archived = ?) AND id IN (?)", false, message_ids], :order => "created_at DESC")
       @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite', 'group_request','group_invite') AND parent_id = ? AND (archived is NULL or archived = ?) and id in(?)", @profile.id, false, message_ids],:order => 'created_at DESC')
-      @respont_to_course = Message.find(:all,:conditions=>["target_type in('Course','Notification') AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived = ? and id in(?)", @profile.id,false,message_ids], :order => 'created_at DESC')
+      @respont_to_course = Message.respond_to_course( @profile.id,message_ids)
     end
 
     @messages = Message.find(:all, :conditions => conditions, :order => order, :limit => messages_limit)
@@ -205,7 +205,8 @@ class MessageController < ApplicationController
           else
             profile_id = @message.parent_id
           end
-					
+					puts '============================='
+          puts params.inspect
           @course_participant = Participant.where("target_type = ? AND target_id = ? AND profile_id = ? AND profile_type='P'",params[:section_type],@message.target_id,profile_id).first
           tasks = Task.find(:all, :conditions => ["course_id = ? and archived = ? and all_members = ?", @message.target_id, false, true])
           if tasks and !tasks.blank?
