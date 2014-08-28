@@ -2767,6 +2767,10 @@ float:left; height:800px;
 	position:absolute;
 	margin:-14px 0 0 30px;
 }
+.alert_on_avatar  img{
+    position:absolute;
+    margin:-14px 0 0 80px;
+}
 .msg_box_fullwidth2_task {
 	padding:0 10px 0 0px;
 }
@@ -4617,4 +4621,8 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
 }
 .right_box{
     min-width: 40px;
+}
+a.send{
+    display: inline-block !important;
+    margin-top: 5px;
 }
