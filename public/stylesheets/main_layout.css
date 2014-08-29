@@ -900,3 +900,7 @@ img.image_icon_drop_target {
     padding-bottom: 20px;
     margin-bottom: 35px;
 }
+
+tr#without_background{
+    background: none !important;
+}
