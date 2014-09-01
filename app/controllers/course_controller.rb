@@ -136,7 +136,7 @@ class CourseController < ApplicationController
     @profile = current_profile
     @wall = Wall.find(:first,:conditions=>["parent_id = ? AND parent_type='Course'", @course.id])
     if !@profile.nil?
-    @badges = AvatarBadge.where("profile_id = ? and course_id = ?",@profile.id,@course.id).count
+      @badges = AvatarBadge.where("profile_id = ? and course_id = ?",@profile.id,@course.id).count
     end
     xp = TaskGrade.select("sum(points) as total").where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course.id,@profile.id)
     @course_xp = xp.first.total
@@ -1006,9 +1006,16 @@ class CourseController < ApplicationController
   
   def duplicate
     if params[:id]
-      if course = Course.find(params[:id])
+      courseMaster = Profile.find(
+          :first,
+          :include => [:participants],
+          :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]]
+      )
+      if course = Course.find(params[:id]) and courseMaster.id == current_profile.id
         course.delay.duplicate({:name_ext => "COPY"}, current_user)
         render :nothing => true, :status => 200
+      else
+        render :nothing => true, :status => 401
       end
     end
   end
