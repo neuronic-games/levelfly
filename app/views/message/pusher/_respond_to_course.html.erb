@@ -1,0 +1,7 @@
+<%= {
+        event: chanel,
+        target_id: request.id,
+        course_id: course_id,
+        message:   render(partial: 'message/friend_requests', locals: {friend_request: request})
+    }.to_json.html_safe
+%>

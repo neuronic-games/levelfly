@@ -685,12 +685,7 @@ class CourseController < ApplicationController
        :order => "full_name, email"
        )
      end
-     @peoples = Profile.find(
-       :all, 
-       :include => [:participants, :user], 
-       :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('S') AND users.status != 'D'", @course.id,section_type],
-       :order => "full_name, email"
-       )
+     @peoples = Profile.course_participants(@course.id, section_type)
      #ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}") 
      render :partial => "/course/member_list",:locals=>{:course=>@course}         
    end

@@ -1,0 +1,10 @@
+<%= {
+        event: chanel,
+        target_id: message.id,
+        course_id: course_id,
+        message: "#{render partial: "message/messages", :locals => {
+                :message => message,
+                course_master_pusher: course_master,
+                profile_id_pusher: user_session_profile_id,
+                control_name: 'message'}}"
+    }.to_json.html_safe %>

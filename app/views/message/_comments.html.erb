@@ -1,4 +1,8 @@
 <!--box 2nd-->
+<% user_profile_id = defined?(user_session[:profile_id]) ? user_session[:profile_id] : user_session_profile_id
+    course_owner_param = defined?(course_owner) ? course_owner : false
+    control_name = defined?(session[:controller]) ? session[:controller] : controll
+%>
 <div class="msg_small_box comments_lists_box" id ="messsage_box_<%=comment.id%>" rel="<%=comment.id%>">
 	<div class="avatar_green_bdr_upper">
 		<div class="avatar_green_bdr">
@@ -15,9 +19,9 @@
 				<div class="like_cmt"><span class="fav_icon"><img src="/images/fav.png" align="absbottom" /><span id="count_<%=comment.id%>"><%=comment.like%></span></span> 
 				<span class="comments_lists" id="c_<%=comment.id%>">
 				<span id="link_<%=comment.id%>">
-					<a href="javascript:void(0)" class="blue_bt19px like" rev ="<%=course_id%>" rel="<%=user_like(user_session[:profile_id], comment.id) ? "unlike" : "like" %>" id="<%=comment.id%>"><%=user_like(user_session[:profile_id], comment.id) ? "UNLIKE" : "LIKE" %></a>
+					<a href="javascript:void(0)" class="blue_bt19px like" rev ="<%=course_id%>" rel="<%=user_like(user_profile_id, comment.id) ? "unlike" : "like" %>" id="<%=comment.id%>"><%=user_like(user_profile_id, comment.id) ? "UNLIKE" : "LIKE" %></a>
 				</span>
-				<%if (comment.profile_id == user_session[:profile_id] or course_owner == true) and session[:controller] != 'message'%>
+				<%if (comment.profile_id == user_profile_id or course_owner_param == true) and control_name != 'message'%>
 					 <span id="delete_<%=comment.id%>">
 					 <a href="javascript:void(0);" class="message_del blue_bt19px" rel="<%=comment.id %>" rev="comment">DELETE</a>
 					 </span>

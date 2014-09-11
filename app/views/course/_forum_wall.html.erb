@@ -1,4 +1,6 @@
 <%if @course and !@course.nil?%>
+    <%= hidden_field_tag :action_name, action_name %>
+    <%= hidden_field_tag :controller_name, controller_name %>
 <div id="div_1" class="tab_content">
   <div class="group_left">
     <div class="group_profile_image" id="group_image">
@@ -168,7 +170,7 @@
         {
           alert("An Error has occured");
           showSpinner(false);
-        },
+        }
       }); 
     });
 
