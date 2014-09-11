@@ -4626,3 +4626,7 @@ a.send{
     display: inline-block !important;
     margin-top: 5px;
 }
+
+a.like{
+    text-transform: uppercase;
+}

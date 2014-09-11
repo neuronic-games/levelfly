@@ -1,0 +1,9 @@
+<%= {
+        event: chanel,
+     target_id: comment.target_id,
+     course_id: course_id,
+     message: "#{render partial: 'message/comments', :locals => {:comment => comment,
+                                                                :course_id=>course_id,
+                                                                user_session_profile_id: user_session_profile_id,
+                                                                :controll=> 'message'} }"
+    }.to_json.html_safe %>

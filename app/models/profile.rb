@@ -10,6 +10,15 @@ class Profile < ActiveRecord::Base
   has_many :profile_actions
   acts_as_taggable
 
+  scope :course_participants, (lambda do |course_id, section_type|
+    find(
+      :all,
+      :include => [:participants, :user],
+      :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('S') AND users.status != 'D'", course_id,section_type],
+      :order => "full_name, email"
+  )
+  end)
+
   def self.default_avatar_image
     return '/images/wardrobe/null_profile.png'
   end

@@ -1,6 +1,7 @@
 class ProfileController < ApplicationController
   layout 'main'
   before_filter :authenticate_user!
+  protect_from_forgery :except => :auth
   
   def index
     @profile = Profile.find(user_session[:profile_id])
@@ -296,5 +297,14 @@ class ProfileController < ApplicationController
       render :json => {:success => true} and return
     end
     render :json => {:success => false}
+  end
+
+  def auth
+    if current_profile
+      response = Pusher[params[:channel_name]].authenticate(params[:socket_id])
+      render :json => response
+    else
+      render :text => "Forbidden", :status => '403'
+    end
   end
 end

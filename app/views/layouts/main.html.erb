@@ -54,7 +54,183 @@
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-    
+    var messagePusher = new Pusher('<%= Pusher.key %>', { authEndpoint: '/auth' });
+    var messageChanel = messagePusher.subscribe('private-my-channel-<%= current_profile.id %>');
+    messageChanel.bind('message', pusherEventHandler);
+    //===================================================
+
+
+    function pusherEventHandler(data){
+        switch(data.event)
+        {
+            case 'private_message':{
+                getMessageHandler(data);
+                break;
+            }
+            case 'private_comment':{
+                getCommentHandler(data);
+                break;
+            }
+            case 'forum_message': {//
+                forumMessagesHandler(data);
+                break;
+            }
+            case 'group_message':{
+                groupMessageHandler(data);
+                break;
+            }
+            case 'course_message':{
+                courseMessageHandler(data);
+                break;
+            }
+            case 'new_friend':{
+                newFriendHandler(data);
+                break;
+            }
+            case 'school_request':{
+                schoolRequestHandler(data);
+                break;
+            }
+            case 'course_request':{
+                respondToCourseHandler(data);
+                break;
+            }
+            case 'board_message':{
+                boardMessagesHandler(data);
+                break;
+            }
+        }
+    }
+
+    function notificationHandler(data){
+        if(checkPage('message', 'index')){
+            checkContainerExistence('notification')
+            readMessage(data.target_id, data.course_id);
+            $('#course_requset_respond').prepend(data.message)
+        }
+    }
+
+    function courseMessageHandler(data){
+        if(checkPage('course', 'show') && $('#section_type').val() == 'C'){
+            $('#message_wrapper_course').prepend(data.message);
+        }
+    }
+    function checkPage(controller_name,action_name){
+        return ($('#controller_name').length > 0 && $('#controller_name').val() == controller_name &&
+                $('#action_name').val() == action_name)
+    }
+
+    function readMessage(message_id, friend_id){
+        $.get(
+                'message/read_message',
+                {profile_id: $('#hdn_profile_id').val(), message_id: message_id, friend_id:friend_id}
+        );
+    }
+
+    function forumMessagesHandler(data){
+        if(checkPage('course','show_forum') && $('#section_type').val() == 'C'){
+            $('#message_wrapper_forum').prepend(data.message)
+        }
+    }
+    function groupMessageHandler(data){
+        if(checkPage('course','show') && $('#section_type').val() == 'G' ){
+            $('#message_wrapper_group').prepend(data.message);
+        }
+    }
+    /*function newFriendHandler(data){
+        $('#message_wrapper_course').prepend(data.message);
+    }*/
+
+    function newFriendHandler(data){
+        if(checkPage('message', 'index')){
+            readMessage(data.target_id, data.course_id);
+            checkContainerExistence('course');
+            $('#course_requests').prepend(data.message);
+        }
+    }
+    function schoolRequestHandler(data){
+        if(checkPage('message', 'index')){
+            readMessage(data.target_id, data.course_id);
+            checkContainerExistence('school');
+            $('#school_invites').prepend(data.message);
+        }
+    }
+
+    function respondToCourseHandler(data){
+        if(checkPage('message', 'index')){
+            readMessage(data.target_id, data.course_id);
+            checkContainerExistence('course');
+            $('#course_requests').prepend(data.message);
+        }
+    }
+
+    function boardMessagesHandler(data){
+        if(checkPage('message','index')){
+            readMessage(data.target_id, data.course_id);;
+            checkContainerExistence('board');
+            $('#message_wrapper').prepend(data.message);
+        }
+    }
+
+
+
+    function checkContainerExistence(type){
+        switch (type)
+        {
+            case 'course': {
+                if ($('#course_request').length == 0 ){
+                    $('.msg_content_left').prepend(
+                            '<div id="invites_title"><h2 style="font-size:16px;">INVITES</h2></div>' +
+                                    '<div id="course_requests"></div>');
+                }
+                break;
+            }
+            case 'school': {
+                if( $('#school_invites').length == 0){
+                    $('.msg_content_left').prepend(
+                            '<div id="school_invites_title"><h2 style="font-size:16px;">INVITES</h2></div>' +
+                                    '<div id="school_invites"></div>');
+                }
+                break;
+            }
+            case 'notification': {
+                if($('#notification_title').length == 0){
+                    $('.msg_content_left').prepend(
+                            '<div id="notification_title"><h2 style="font-size:16px;">NOTIFICATIONS' +
+                                    '<span style="float: right;" class="like_cmt">' +
+                                    '<a href="javascript:void(0);" class="all_notification_del blue_bt19px">Clear All Notifications</a>' +
+                                    '</span></h2></div>'+
+                                    '<div id="course_requset_respond"></div>')
+                }
+                break;
+            }
+            case 'board': {
+                if($('#show_all_cmnts_div').length == 0){
+                    $('#message_wrapper').before(
+                            '<div id="show_all_cmnts_div" class="linkcolour">' +
+                                    '<a href="javascript:void(0)" id="all_cmnts">Show All Comments</a>' +
+                                    '</div><div id="show_only_cmnts_div" class="hide linkcolour">' +
+                                    '<a href="javascript:void(0)" id="only_cmnts">Show Only Last 2 Comments</a></div>')
+                }
+                break;
+            }
+
+        }
+
+    }
+    function getCommentHandler(data){
+        if($("#messsage_box_"+data.target_id).length > 0){
+            readMessage(data.target_id, data.course_id);
+            $("#messsage_box_"+data.target_id).append(data.message);
+        }
+    }
+    function getMessageHandler(data){
+        if(checkPage('message', 'friends_only') && $('.sbmt_msg[rel="Profile"]').attr('id') == data.course_id.toString()){
+            readMessage(data.target_id, data.course_id);
+            $("#message_wrapper").prepend(data.message);
+        }
+
+    }
   </script>
   
   <%= csrf_meta_tags %>
@@ -249,7 +425,7 @@
     </ul>
   </div> -->
 
-</body>
+
 <script type="text/javascript">
 
 <!--
@@ -365,9 +541,9 @@ var h = new Object();
 	// These booleans are set for show / hide all comments on walls & messages
 	<% @profile = @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id]) %>
 	<% if @profile && @profile.all_comments == false %>
-	var all_comments = false;
+	    var all_comments = false;
 	<% else %>
-	var all_comments = true;
+	    var all_comments = true;
 	<% end %>
 	var show_post_date = "<%= @profile.post_date_format.to_s %>;"
 	
@@ -869,4 +1045,5 @@ $('#container').delegate('.add_topic', 'click', function(){
   })
 -->
 </script>
+</body>
 </html>

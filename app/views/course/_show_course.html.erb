@@ -1,3 +1,5 @@
+<%= hidden_field_tag :action_name, action_name %>
+<%= hidden_field_tag :controller_name, controller_name %>
 <div id="div_1" class="form_container1">
   <div class="course_left">
     <div class="course_profile_image" id="course_image">
@@ -6,13 +8,13 @@
   </div>
   <div class="course_right" >
     <% if @courseMaster %>
-    <% if @courseMaster.id == user_session[:profile_id] %>
-    <div class="clickable" id="setup_icon" value="2" style="position:absolute; right:250px;">
-    <a href="javascript:void(0)" id="menu2"  value="2" >
-      <img src="/images/setting_icon_gray.png">
-     </a>
-     </div>
-    <% end %>
+        <% if @courseMaster.id == user_session[:profile_id] %>
+            <div class="clickable" id="setup_icon" value="2" style="position:absolute; right:250px;">
+            <a href="javascript:void(0)" id="menu2"  value="2" >
+              <img src="/images/setting_icon_gray.png">
+             </a>
+             </div>
+        <% end %>
     <% end %>
     <!--list box-->
     <div class="course_detailbox">
@@ -197,7 +199,7 @@
         {
           alert("An error has occurred");
           showSpinner(false);
-        },
+        }
       }); 
     });
     
@@ -226,7 +228,7 @@
         {
           alert("An Error has occured");
           showSpinner(false);
-        },
+        }
       }); 
     });
  </script>

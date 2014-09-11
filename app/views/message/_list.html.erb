@@ -1,4 +1,6 @@
 <div class="messages_content load_messages">
+  <%= hidden_field_tag :action_name, action_name %>
+  <%= hidden_field_tag :controller_name, controller_name %>
   <div class="msg_content_left">
 
     <!-- School invites -->
@@ -110,11 +112,12 @@ var message_show_array = [];
 		message_show_array.push(<%=message.id%>);
 	<% end %>
 <% end %>
-				
+
 $(document).ready(function() {
+
 	profile_id = $("#hdn_profile_id").val();
 	$.ajax({ 
-	  type: "POST",  
+	  type: "GET",
       url: "/message/alert_badge",
       dataType: "json",
       data:{id:profile_id},
@@ -127,7 +130,7 @@ $(document).ready(function() {
     		}
    	  }, error: function() {
         alert("An Error has occured");
-      },
+      }
 	});
     $.ajaxSetup({ cache: false }); 
     // setInterval(function() {
@@ -179,7 +182,6 @@ $(document).ready(function() {
 	 
 });
 
-
    var request = "";
    var message = "";
 $('.message_list').click(function(){  
@@ -210,7 +212,7 @@ $('.message_list').click(function(){
   });
     
   setPageTitle("My Messages");
-  
+
   //Post Message
   $('.message_wrapper').delegate('.sbmt_msg', 'click', function(){
     showSpinner(true);
@@ -360,7 +362,6 @@ $('.message_list').click(function(){
              showSpinner(false);
              }
         });
-    }); 
-  
-  
+    });
+
 </script>

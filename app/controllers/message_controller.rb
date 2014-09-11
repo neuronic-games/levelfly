@@ -3,7 +3,7 @@ class MessageController < ApplicationController
   before_filter :authenticate_user!
   
  def index
-   
+
     user_session[:last_check_time] = DateTime.now
     @profile = Profile.find(user_session[:profile_id])
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?", @profile.id]).collect(&:wall_id)
@@ -32,7 +32,7 @@ class MessageController < ApplicationController
     else
       conditions = ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type in ('')", false, message_ids]
       order = 'created_at DESC'
-      @school_invites = Message.find(:all, :conditions => ["message_type = 'school_invite' AND (archived is NULL OR archived = ?) AND id IN (?)", false, message_ids], :order => "created_at DESC")
+      @school_invites = Message.school_invites(message_ids)
       @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite', 'group_request','group_invite') AND parent_id = ? AND (archived is NULL or archived = ?) and id in(?)", @profile.id, false, message_ids],:order => 'created_at DESC')
       @respont_to_course = Message.respond_to_course( @profile.id,message_ids)
     end
@@ -60,14 +60,14 @@ class MessageController < ApplicationController
   
   def check_request
     @friend_requests = Message.find(:all, :conditions=>["message_type in ('Friend', 'course_invite') AND parent_id = ? AND (archived is NULL or archived = ?) AND created_at > ?", user_session[:profile_id], false,user_session[:last_check_time]])
-    render:partial=>"message/friend_request_show",:locals=>{:friend_request => @friend_requests}
+    render :partial=>"message/friend_request_show",:locals=>{:friend_request => @friend_requests}
     user_session[:last_check_time] = DateTime.now
   end
   
   def check_messages
     message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", user_session[:profile_id]]).collect(&:message_id)
     @messages = Message.find(:all, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and id in (?) and target_type in('C','','G') and created_at > ?",false,message_ids,user_session[:last_check_time]], :order => 'created_at DESC')
-    render:partial=>"message/message_load",:locals=>{:friend_request => @friend_requests}
+    render :partial=>"message/message_load",:locals=>{:friend_request => @friend_requests}
     user_session[:last_check_time] = DateTime.now
   end
   
@@ -88,7 +88,7 @@ class MessageController < ApplicationController
      
       Message.transaction do
         if @message.save
-          if params[:parent_id] && !params[:parent_id].nil?
+          if params[:parent_id] && !params[:parent_id].nil? && ['C', 'G'].include?(@message.parent_type)
             @courseMaster = Profile.find(
               :first, 
               :include => [:participants], 
@@ -96,6 +96,9 @@ class MessageController < ApplicationController
               )
           end
           @message_viewer = MessageViewer.add(user_session[:profile_id],@message.id,params[:parent_type],params[:parent_id])
+          send_if_board_message(@message.id)
+          Message.send_if_board_comment(@message.id)
+          Message.send_to_forum(@message.id)
           case params[:parent_type]
             when "Message"
               @msg = Message.find(params[:parent_id])
@@ -205,8 +208,7 @@ class MessageController < ApplicationController
           else
             profile_id = @message.parent_id
           end
-					puts '============================='
-          puts params.inspect
+
           @course_participant = Participant.where("target_type = ? AND target_id = ? AND profile_id = ? AND profile_type='P'",params[:section_type],@message.target_id,profile_id).first
           tasks = Task.find(:all, :conditions => ["course_id = ? and archived = ? and all_members = ?", @message.target_id, false, true])
           if tasks and !tasks.blank?
@@ -401,19 +403,10 @@ class MessageController < ApplicationController
     profile.record_action('message', @friend.id)
     profile.record_action('last', 'message')
     if @messages and !@messages.blank?
-      @messages.each do |message|
-        message_viewer =MessageViewer.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?",false,message.id,params[:friend_id],user_session[:profile_id]], :order => "created_at DESC")
-        message_viewer.update_attribute("viewed",true) if message_viewer
-        comments = comment_list(message.id).collect(&:id)
-        if comments
-          comments.each do |comment_id|
-            comment_message_viewer = MessageViewer.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?",false,comment_id,params[:friend_id],user_session[:profile_id]], :order => "created_at DESC")
-            comment_message_viewer.update_attribute("viewed",true) if comment_message_viewer
-          end
-        end
-      end
+      @messages.each { |message| message.set_as_viewed(params[:friend_id],user_session[:profile_id]) }
     end
-    render :partial => "list",:locals => {:friend_id =>params[:friend_id], :messages_length => messages_limit, :users_length => nil}
+    render :partial => "list",:locals =>
+        {:friend_id =>params[:friend_id], :messages_length => messages_limit, :users_length => nil}
   end 
   
   
@@ -501,12 +494,24 @@ class MessageController < ApplicationController
       end
     end
   end
+
+  def read_message
+    messages = Message.where(id: params[:message_id])
+    messages.each{ |m| m.set_as_viewed(params[:friend_id],user_session[:profile_id]) } unless messages.empty?
+    render nothing: true
+  end
   
   private
   
   def delete_notification(message_id)
     @message = MessageViewer.find(:first, :conditions=>["viewer_profile_id = ? and message_id = ?", user_session[:profile_id], message_id])
     @message.delete if @message
+  end
+
+  def send_if_board_message(message_id)
+    if Message.board_message?(message_id)
+      Message.push_board_message(message_id)
+    end
   end
   
 end

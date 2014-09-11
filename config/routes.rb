@@ -5,7 +5,8 @@ Oncapus::Application.routes.draw do
     match 'confirm/:confirmation_token', :controller => 'confirmations', :action => 'show', :as => 'confirmation'
     match 'confirm', :controller => 'confirmations', :action => 'new', :as => 'new_confirmation'
   end
-  
+  post 'auth' => 'profile#auth'
+  get 'message/read_message' => 'message#read_message'
   #devise_for :users
    #devise_for :users, :controllers  => {
              # :registrations => 'registrations',
@@ -297,7 +298,7 @@ Oncapus::Application.routes.draw do
   
   post "message/unlike"
   
-  post "message/alert_badge"
+  get "message/alert_badge"
   
   post "message/add_friend_card"
   
@@ -424,6 +425,8 @@ Oncapus::Application.routes.draw do
   match 'setting/show/:id' => 'setting#show' 
   
   match 'course/show_forum/:id' => 'course#show_forum'
+
+
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
