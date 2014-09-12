@@ -17,7 +17,7 @@ group :development, :test do
   gem 'pg'
   # gem 'mysql2', '>= 0.2.7'
 end
-
+gem 'em-http-request'
 gem 'rake' , '>= 0.9.2'
 gem 'json'
 gem 'devise'
