@@ -73,6 +73,7 @@ class MessageController < ApplicationController
   
   
   def save
+    puts params.inspect
     if params[:parent_id] && !params[:parent_id].nil?
       wall_id = Wall.get_wall_id(params[:parent_id], params[:parent_type]) #params[:wall_id]
       @message = Message.new
