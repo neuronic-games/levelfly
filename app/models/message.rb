@@ -230,6 +230,7 @@ class Message < ActiveRecord::Base
   private
 
   def push
+    puts 'push_callback'
     if parent_type == Message.to_s and message_type == Message.to_s
       push_comment()
     elsif parent_type == Profile.to_s and message_type == Message.to_s
@@ -263,6 +264,7 @@ class Message < ActiveRecord::Base
           user_session_profile_id: receiver_id,
           course_master: courseMaster,
           chanel: channel})
+      puts 'rendered'
       Pusher.trigger("private-my-channel-#{receiver_id}", 'message', pusher_content)
     end
   end
@@ -365,6 +367,7 @@ class Message < ActiveRecord::Base
   end
 
   def self.get_view
+    puts 'get_view'
     view = ActionView::Base.new('app/views', {}, ActionController::Base.new)
     view.extend(MessageHelper)
     return view
