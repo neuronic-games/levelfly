@@ -164,10 +164,10 @@ class Message < ActiveRecord::Base
     channel = 'board_message'
 
     ids.each do |push_id|
-      locals = {:message => msg, :course_id=> msg.profile_id, user_session_profile_id: push_id, course_master: courseMaster, chanel: channel}
+      locals = {:message => msg, :course_id=> msg.profile_id, user_session_profile_id: push_id, course_master_of: courseMaster, chanel: channel}
       pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
-      Pusher.trigger("private-my-channel-#{push_id}", 'message', pusher_content)
-      Pusher.trigger("private-my-channel-#{push_id}", 'new_message',{})
+      Pusher.trigger_async("private-my-channel-#{push_id}", 'message', pusher_content)
+      Pusher.trigger_async("private-my-channel-#{push_id}", 'new_message',{})
     end
   end
 
@@ -188,8 +188,8 @@ class Message < ActiveRecord::Base
         ids.each do |push_id|
           locals = {:comment => msg, :course_id=> msg.profile_id, user_session_profile_id: push_id, chanel: channel}
           pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
-          Pusher.trigger("private-my-channel-#{push_id}", 'message', pusher_content)
-          Pusher.trigger("private-my-channel-#{push_id}", 'new_message',{})
+          Pusher.trigger_async("private-my-channel-#{push_id}", 'message', pusher_content)
+          Pusher.trigger_async("private-my-channel-#{push_id}", 'new_message',{})
         end
       end
     end
@@ -207,9 +207,9 @@ class Message < ActiveRecord::Base
       partial = 'message/pusher/message'
       channel = 'forum_message'
       ids.each do |push_id|
-        locals = {:message => msg, :course_id=> msg.profile_id, user_session_profile_id: push_id, course_master: courseMaster, chanel: channel}
+        locals = {:message => msg, :course_id=> msg.profile_id, user_session_profile_id: push_id, course_master_of: courseMaster, chanel: channel}
         pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
-        Pusher.trigger("private-my-channel-#{push_id}", 'message', pusher_content)
+        Pusher.trigger_async("private-my-channel-#{push_id}", 'message', pusher_content)
       end
     elsif msg.parent_type == Message.to_s and msg.message_type == Message.to_s and msg.target_type == Message.to_s
       parent = find(msg.parent_id)
@@ -221,7 +221,7 @@ class Message < ActiveRecord::Base
         ids.each do |push_id|
           locals = {:comment => msg, :course_id=> msg.profile_id, user_session_profile_id: push_id, chanel: channel}
           pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
-          Pusher.trigger("private-my-channel-#{push_id}", 'message', pusher_content)
+          Pusher.trigger_async("private-my-channel-#{push_id}", 'message', pusher_content)
         end
       end
     end
@@ -230,7 +230,6 @@ class Message < ActiveRecord::Base
   private
 
   def push
-    puts 'push_callback'
     if parent_type == Message.to_s and message_type == Message.to_s
       push_comment()
     elsif parent_type == Profile.to_s and message_type == Message.to_s
@@ -250,13 +249,14 @@ class Message < ActiveRecord::Base
 
   def push_course_message
     courseMaster = Profile.find(
-        :first,
-        :include => [:participants],
-        :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", parent_id]
-    )
-    receivers = Profile.course_participants(parent_id, 'Course').map(&:id) - [profile_id]
+            :first,
+            :include => [:participants],
+            :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", parent_id]
+        )
+    receivers = Profile.course_participants(parent_id, 'Course').map(&:id) + [courseMaster.id] - [profile_id]
     partial = 'message/pusher/message'
     channel = target_type == 'C' ? "course_message" : 'group_message'
+    return if receivers.nil? or receivers.empty?
     receivers.each do |receiver_id|
       pusher_content = Message.get_view.render(partial: partial, :locals =>{
           :message => self,
@@ -264,8 +264,7 @@ class Message < ActiveRecord::Base
           user_session_profile_id: receiver_id,
           course_master: courseMaster,
           chanel: channel})
-      puts 'rendered'
-      Pusher.trigger("private-my-channel-#{receiver_id}", 'message', pusher_content)
+      Pusher.trigger_async("private-my-channel-#{receiver_id}", 'message', pusher_content)
     end
   end
 
@@ -278,8 +277,8 @@ class Message < ActiveRecord::Base
 
     pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
 
-    Pusher.trigger("private-my-channel-#{receiver}", 'message', pusher_content)
-    Pusher.trigger("private-my-channel-#{receiver}", 'new_message',{})
+    Pusher.trigger_async("private-my-channel-#{receiver}", 'message', pusher_content)
+    Pusher.trigger_async("private-my-channel-#{receiver}", 'new_message',{})
   end
 
   def push_private_message
@@ -293,12 +292,12 @@ class Message < ActiveRecord::Base
     #)
     partial = 'message/pusher/message'
     channel = "private_message"
-    locals = {:message => self, :course_id=> friend, user_session_profile_id: receiver, course_master: courseMaster, chanel: channel}
+    locals = {:message => self, :course_id=> friend, user_session_profile_id: receiver, course_master_of: courseMaster, chanel: channel}
 
     pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
 
-    Pusher.trigger("private-my-channel-#{receiver}", 'message', pusher_content)
-    Pusher.trigger("private-my-channel-#{receiver}", 'new_message',{})
+    Pusher.trigger_async("private-my-channel-#{receiver}", 'message', pusher_content)
+    Pusher.trigger_async("private-my-channel-#{receiver}", 'new_message',{})
   end
 
   def push_comment
@@ -313,8 +312,8 @@ class Message < ActiveRecord::Base
 
     pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
 
-    Pusher.trigger("private-my-channel-#{receiver}", 'message', pusher_content)
-    Pusher.trigger("private-my-channel-#{receiver}", 'new_message',{})
+    Pusher.trigger_async("private-my-channel-#{receiver}", 'message', pusher_content)
+    Pusher.trigger_async("private-my-channel-#{receiver}", 'new_message',{})
   end
 
   def push_friend_request
@@ -328,8 +327,8 @@ class Message < ActiveRecord::Base
 
     pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
 
-    Pusher.trigger("private-my-channel-#{receiver}", 'message', pusher_content)
-    Pusher.trigger("private-my-channel-#{receiver}", 'new_message',{})
+    Pusher.trigger_async("private-my-channel-#{receiver}", 'message', pusher_content)
+    Pusher.trigger_async("private-my-channel-#{receiver}", 'new_message',{})
 
   end
 
@@ -348,8 +347,8 @@ class Message < ActiveRecord::Base
 
     pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
 
-    Pusher.trigger("private-my-channel-#{receiver}", 'message', pusher_content)
-    Pusher.trigger("private-my-channel-#{receiver}", 'new_message',{})
+    Pusher.trigger_async("private-my-channel-#{receiver}", 'message', pusher_content)
+    Pusher.trigger_async("private-my-channel-#{receiver}", 'new_message',{})
   end
 
   def push_course_request
@@ -362,12 +361,11 @@ class Message < ActiveRecord::Base
 
     pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
 
-    Pusher.trigger("private-my-channel-#{receiver}", 'message', pusher_content)
-    Pusher.trigger("private-my-channel-#{receiver}", 'new_message',{})
+    Pusher.trigger_async("private-my-channel-#{receiver}", 'message', pusher_content)
+    Pusher.trigger_async("private-my-channel-#{receiver}", 'new_message',{})
   end
 
   def self.get_view
-    puts 'get_view'
     view = ActionView::Base.new('app/views', {}, ActionController::Base.new)
     view.extend(MessageHelper)
     return view
