@@ -18,6 +18,13 @@ class Profile < ActiveRecord::Base
       :order => "full_name, email"
   )
   end)
+  scope :course_master_of, (lambda do |targ_id|
+      find(
+          :first,
+          :include => [:participants],
+          :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", targ_id]
+      )
+  end)
 
   def self.default_avatar_image
     return '/images/wardrobe/null_profile.png'
