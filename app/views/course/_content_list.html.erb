@@ -36,7 +36,7 @@
     <input type="hidden" id="section_type" value="<%=section_type%>"/>
     <% end %>
   </tr>
-  <% unless @invites.empty? %>
+  <% if !@invites.nil? and !@invites.empty? %>
       <tr id="without_background"><td colspan="2"><h2>You Have Course Invitations Waiting...</h2></td></tr>
       <% @invites.each do |invite| %>
           <% c = invite.target %>

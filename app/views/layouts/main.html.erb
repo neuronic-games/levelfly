@@ -596,26 +596,34 @@ var h = new Object();
     });
     
     // Search form post when enter pressed
-    $('#frm_search').submit(function() {
+    $('#frm_search').submit(function(event) {
+        event.preventDefault();
       search_text = $("#search_input").val();
       if(search_url && search_text !="") {
+        var section_type = "";
+        var filter = "";
+        if($('.tab_group').length != 0)
+            search_url = "/group/";
         if(search_url=="/group/"){
           search_url ="/course/"
-          var section_type = "G"
+          section_type = "G"
+          filter = $('.side_tab_open').attr('filter')
         }
         else if(search_url=="/course/")
-          var section_type = "C"
-        else
-          var section_type = ""
+          section_type = "C"
         showSpinner(true);
-        dataString = {search_text:search_text,section_type:section_type}
+        dataString = {search_text: search_text,section_type: section_type, filter: filter}
         $.ajax({
           type: "GET",  
           url: search_url,
           data: dataString,
           success: function(data) {
             if (data) {
-              $("#container").html(data);
+              if(filter == 'A' || filter == 'M'){
+                  $('#content_list').html(data);
+              }
+              else
+                  $("#container").html(data);
               $("#container").highlight(search_text);
               $("#clear_search").show();
               $("#clear_search").attr("rel", search_url);
