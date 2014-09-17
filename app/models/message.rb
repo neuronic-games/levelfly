@@ -292,7 +292,7 @@ class Message < ActiveRecord::Base
     #)
     partial = 'message/pusher/message'
     channel = "private_message"
-    locals = {:message => self, :course_id=> friend, user_session_profile_id: receiver, course_master_of: courseMaster, chanel: channel}
+    locals = {:message => self, :course_id=> friend, user_session_profile_id: receiver, course_master: courseMaster, chanel: channel}
 
     pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
 
