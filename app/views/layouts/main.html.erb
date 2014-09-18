@@ -909,7 +909,17 @@ $('#container').delegate('.add_topic', 'click', function(){
     }
     
   }
-  
+  function unselectAll(){
+      var buttons = {courses : 'icon_courses', msg: 'icon_msg', tasks: 'icon_tasks', networks: 'icon_networks',
+          leader_board: 'icon_leader', grade: 'icon_grade', wardrobe: 'icon_wardrobe', users: 'icon_people_setting',
+          reward: 'icon_reward'};
+      $.each(buttons, function(key, value){
+          if($('#' + key).hasClass(value + '_active')){
+              $('#' + key).removeClass(value + '_active');
+              $('#' + key).addClass(value)
+          }
+      })
+  }
   function show_selected(selectted_menu){
     if(selectted_menu=="courses"){
       $("#courses").addClass("icon_courses_active ");

@@ -168,11 +168,12 @@ $('#give_badges').click(function(){
           url: "/profile/user_profile",
           data:{profile_id:profile_id},
           success: function(data) {
-             $('#avatar_card').html("");
-            $("#container").html(data);
-            //$("#page_title").html("BADGES")
-            $("#alert").html("Loading /Profile/")
-            showSpinner(false);
+              unselectAll();
+              $('#avatar_card').html("");
+              $("#container").html(data);
+              //$("#page_title").html("BADGES")
+              $("#alert").html("Loading /Profile/")
+              showSpinner(false);
           },
           error: function()
           {
