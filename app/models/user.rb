@@ -137,15 +137,15 @@ class User < ActiveRecord::Base
     if id == "all_active"
       if page > -1
         @users = Profile
-        .includes(:user)
-        .where("school_id = ? and user_id is not null and users.status != 'D'", @profile.school_id)
-        .paginate(:page => page, :per_page => Setting.cut_off_number)
-        .order("last_sign_in_at DESC NULLS LAST, full_name")
+          .includes(:user)
+          .where("school_id = ? and user_id is not null and users.status != 'D'", @profile.school_id)
+          .paginate(:page => page, :per_page => Setting.cut_off_number)
+          .order("last_sign_in_at DESC NULLS LAST, full_name")
       else
         @users = Profile
-        .includes(:user)
-        .where("school_id = ? and user_id is not null and users.status != 'D'", @profile.school_id)
-        .order("last_sign_in_at DESC NULLS LAST, full_name")
+          .includes(:user)
+          .where("school_id = ? and user_id is not null and users.status != 'D'", @profile.school_id)
+          .order("last_sign_in_at DESC NULLS LAST, full_name")
       end
     elsif id == "members_of_courses"
       course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null", false, false, "C"], :order => "name").collect(&:id)
@@ -168,11 +168,9 @@ class User < ActiveRecord::Base
 
     unless @users
       if page > -1
-        @users = Profile
-        .includes(:user)
-        .where("school_id = ? and user_id is not null and profiles.id IN (?) and users.status != 'D'", @profile.school_id, profile_ids)
-        .paginate(:page => page, :per_page => Setting.cut_off_number)
-        .order("last_sign_in_at DESC NULLS LAST, full_name")
+        @users = Profile.includes(:user).where("school_id = ? and user_id is not null and profiles.id IN (?) and users.status != 'D'",
+                                               @profile.school_id, profile_ids).paginate(:page => page, :per_page => Setting.cut_off_number)
+                                        .order("last_sign_in_at DESC NULLS LAST, full_name")
       else
         @users = Profile
         .includes(:user)

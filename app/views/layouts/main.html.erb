@@ -602,15 +602,21 @@ var h = new Object();
       if(search_url && search_text !="") {
         var section_type = "";
         var filter = "";
-        if($('.tab_group').length != 0)
+        if($('.tab_group').length != 0){
             search_url = "/group/";
+        }
         if(search_url=="/group/"){
           search_url ="/course/"
           section_type = "G"
           filter = $('.side_tab_open').attr('filter')
         }
-        else if(search_url=="/course/")
-          section_type = "C"
+        else if(search_url=="/course/"){
+            section_type = "C";
+            filter = $('.side_tab_open').attr('filter')
+        }
+        else if(search_url == "/task/"){
+            filter = $('.tab_open').attr('filter');
+        }
         showSpinner(true);
         dataString = {search_text: search_text,section_type: section_type, filter: filter}
         $.ajax({
@@ -619,8 +625,11 @@ var h = new Object();
           data: dataString,
           success: function(data) {
             if (data) {
-              if(filter == 'A' || filter == 'M'){
-                  $('#content_list').html(data);
+              if($.inArray(filter, ['A', 'M', 'active', 'current', 'past']) != -1){
+                  if($('#content_list').length != 0)
+                      $('#content_list').html(data);
+                  else if($('#task_show_list_data').length !=0 )
+                      $('#task_show_list_data').html(data);
               }
               else
                   $("#container").html(data);
