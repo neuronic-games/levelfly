@@ -15,6 +15,7 @@ class CourseController < ApplicationController
 
     if params[:search_text]
       search_text =  "%#{params[:search_text]}%"
+      find_render = true
       if section_type == "C"
         @courses = Course.find(
           :all,
@@ -22,8 +23,8 @@ class CourseController < ApplicationController
           :conditions => ["(lower(courses.name) LIKE ? OR lower(courses.code) LIKE ?) and parent_type = ? and school_id = ? and removed = ?", search_text.downcase, search_text.downcase, Course.parent_type_course, @profile.school_id, false])
       
       elsif section_type == "G"
-        group_find_render = true
-        @courses = Course.find(:all, :conditions=>["(lower(courses.name) LIKE ? OR lower(courses.code) LIKE ?) and parent_type = ? and school_id = ? and removed = ?",search_text.downcase,search_text.downcase, Course.parent_type_group, @profile.school_id, false])
+        @courses = Course.find(:all, :conditions=>["(lower(courses.name) LIKE ? OR lower(courses.code) LIKE ?) and parent_type = ? and school_id = ? and removed = ?",
+                                                   search_text.downcase,search_text.downcase, Course.parent_type_group, @profile.school_id, false])
       end
     else
 
@@ -51,7 +52,7 @@ class CourseController < ApplicationController
     respond_to do |wants|  
       wants.html do
         if request.xhr?
-          if group_find_render
+          if find_render
             render :partial => "/course/content_list",:locals=>{:section_type=>section_type}
           else
             render :partial => "/course/list",:locals=>{:section_type=>section_type}

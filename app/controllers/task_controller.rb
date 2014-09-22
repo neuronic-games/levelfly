@@ -22,17 +22,23 @@ class TaskController < ApplicationController
           :include => [:task_participants], 
           :conditions => ["task_participants.profile_id = ? AND (lower(tasks.name) LIKE ? OR lower(tasks.descr) LIKE ?) AND archived = ?", @profile.id, search_text.downcase, search_text.downcase, false]
         )
+        search_render = true
       else 
 
         # Check if the user was working on a details page before, and redirect if so
         return if redirect_to_last_action(@profile, 'task', '/task/show')
         @tasks = Task.filter_by(@profile.id, "", "current")
+        puts @tasks.to_yaml
       end
     end
     respond_to do |wants|
       wants.html do
         if request.xhr?
-          render :partial => "/task/list"
+          if search_render
+            render :partial => "/task/task_list", :locals => {:t=>@tasks}
+          else
+            render :partial => "/task/list"
+          end
         else
           render
         end
@@ -42,7 +48,7 @@ class TaskController < ApplicationController
   
   def new
     @profile = current_profile
-    @no_course = Course.find_by_code('')
+    @no_course = Course.find_by_code('') || Course.find_by_code(nil)
 
     @courses = Course.find(
       :all, 
@@ -78,7 +84,7 @@ class TaskController < ApplicationController
     @task = Task.find_by_id(params[:id])
     @course = @task.course
     @profile = current_profile
-    @no_course = Course.find_by_code('')
+    @no_course = Course.find_by_code('') ||Course.find_by_code(nil)
 		## Below query seems wrong as it is taking profile_id as a check but if we take current users profile_id then it
 		## will always return current users record only (if the current user is a task owner) It may be written to check if the
 		## current user is the task owner or not. I am (Vaibhav) now commenting this and will impose a new boolean  check to see
@@ -198,7 +204,7 @@ class TaskController < ApplicationController
     @task.all_members = false if (params[:all_members] == "Some")
     # Has something changed on the task that could change it's points value?
     # FIXME: We may want to recalculate points if the task raiting or course settings change
-    
+
     if params[:file]
       @task.image.destroy if @task.image
       @task.image = params[:file]
@@ -217,7 +223,7 @@ class TaskController < ApplicationController
     if @task.course_id != 0 && @task.image.to_s == "/images/original/missing.png"
       @task.image = @task.course.image if @task.course.image_file_name.present?
     end
-    
+
     if @task.save
       #get wall id
       wall_id = Wall.get_wall_id(@task.id,"Task")

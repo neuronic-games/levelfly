@@ -14,7 +14,8 @@ class Profile < ActiveRecord::Base
     find(
       :all,
       :include => [:participants, :user],
-      :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('S') AND users.status != 'D'", course_id,section_type],
+      :conditions => ["participants.target_id = ? AND participants.target_type= ?
+                      AND participants.profile_type IN ('S') AND users.status != 'D'", course_id,section_type],
       :order => "full_name, email"
   )
   end)

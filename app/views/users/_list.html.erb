@@ -293,7 +293,7 @@ $('#save_btn').click(function() {
       url: "users/set_invite_codes",
       data: {
         student_code: $('#invite_code input[name="student_code"]').val(),
-        teacher_code: $('#invite_code input[name="teacher_code"]').val(),
+        teacher_code: $('#invite_code input[name="teacher_code"]').val()
       },
       success: function(data) {
         if (data) {
