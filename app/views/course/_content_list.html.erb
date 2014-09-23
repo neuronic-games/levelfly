@@ -37,7 +37,7 @@
     <% end %>
   </tr>
   <% if !@invites.nil? and !@invites.empty? %>
-      <tr id="without_background"><td colspan="2"><h2>You Have Course Invitations Waiting</h2></td></tr>
+      <tr id="without_background"><td colspan="2"><h2>You Have <%= @section_type == 'C' ? 'Course' : 'Group'%> Invitations Waiting</h2></td></tr>
       <% @invites.each do |invite| %>
           <% c = invite.target %>
           <tr class="course_row">
