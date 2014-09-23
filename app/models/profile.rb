@@ -27,6 +27,11 @@ class Profile < ActiveRecord::Base
       )
   end)
 
+  def self.demo_profile
+    demo = School.where(handle: 'demo').first
+    Profile.find(:first, :conditions => ["code = ? and school_id = ?", 'DEFAULT', demo.id], :include => [:avatar])
+  end
+
   def self.default_avatar_image
     return '/images/wardrobe/null_profile.png'
   end
@@ -36,6 +41,10 @@ class Profile < ActiveRecord::Base
     if profile.nil?
       new_profile = Profile.find(:first, :conditions => ["code = ? and school_id = ?", default, school_id], :include => [:avatar])
 
+      if default == 'DEFAULT' and new_profile.nil?
+        new_profile = Profile.demo_profile()
+        new_profile.school_id = school_id
+      end
       profile = new_profile.dup
       profile.user_id = user_id
       profile.code = nil
