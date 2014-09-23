@@ -31,6 +31,14 @@ class Role < ActiveRecord::Base
   #      Role.create(:profile_id => profile_id, :name =>Role.create_group)     
   #   end  
   # end
+
+  def self.course_master?(profile_id, course_id)
+    @courseMaster = Profile.find(
+        :first,
+        :include => [:participants],
+        :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", course_id]
+    ).id == profile_id
+  end
   
   def self.check_permission(profile_id,type)
     role = Profile.find(profile_id).role_name
