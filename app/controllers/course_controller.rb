@@ -161,7 +161,7 @@ class CourseController < ApplicationController
       :include => [:participants], 
       :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", @course.id]
       )
-    @course_owner = Participant.find(:first, :conditions=>["target_id = ? AND profile_type = 'M' AND target_type='Course'",params[:id]])   
+    @course_owner = Participant.find(:first, :conditions=>["target_id = ? AND profile_type = 'M' AND target_type='Course'",params[:id]])
     #@totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @totaltask = @tasks = Task.filter_by(user_session[:profile_id], @course.id, "current")
     @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
