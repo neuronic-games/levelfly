@@ -33,7 +33,9 @@ class Role < ActiveRecord::Base
   # end
   
   def self.check_permission(profile_id,type)
-    Profile.find(profile_id).role_name.permissions.each do |role|
+    role = Profile.find(profile_id).role_name
+    return false if role.nil? or role.permissions.nil? or role.permissions.empty?
+    role .permissions.each do |role|
       if (type == "G" and role.name == Role.create_group)
         return true
         break
