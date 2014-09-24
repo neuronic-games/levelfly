@@ -5,6 +5,25 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
+
+def generate_users(count, u_school, p_school, role_name)
+  count.times do |i|
+    user = User.new(:email => "user#{i}@user.com", :password => "111111", password_confirmation: "111111", :status => 'A', default_school_id: u_school.id)
+    user.skip_confirmation!
+    user.save
+    user_profile = Profile.create(:user => user, :school => p_school, :full_name => "Neuronic user", :image_file_name => Profile.default_avatar_image)
+    Role.create(:name => "edit_user", :profile => user_profile)
+    Role.create(:name => "modify_rewards", :profile => user_profile)
+    Role.create(:name => "modify_wardrobe", :profile => user_profile)
+    Role.create(:name => "modify_settings", :profile => user_profile)
+
+
+    role_name.profiles << user_profile
+    user_profile.role_name = role_name
+    user_profile.save
+  end
+end
+
 demo = School.create(:name => 'Borough of Manhattan Community College', :code => 'BMCC', :handle => 'demo')
 admin = User.new(:email => "admin@neuronicgames.com", :password => "111111", password_confirmation: "111111", :status => 'A', default_school_id: demo.id)
 admin.skip_confirmation!
@@ -36,7 +55,7 @@ Role.create(:name => "edit_grade", :profile => admin_profile)
 
 role_name = RoleName.create(name: 'superadmin')
 roles = [Role.create_group, Role.create_course, Role.create_task, Role.edit_grade, Role.edit_user,
-Role.modify_rewards, Role.modify_settings, Role.modify_wardrobe]
+         Role.modify_rewards, Role.modify_settings, Role.modify_wardrobe]
 
 roles.each do |role|
   permision = Permission.create(name: role)
@@ -50,22 +69,12 @@ admin_profile.save
 
 #================================================================================
 
-admin = User.new(:email => "user@user.com", :password => "111111", password_confirmation: "111111", :status => 'A', default_school_id: demo.id)
-admin.skip_confirmation!
-admin.save
-admin_profile = Profile.create(:user => admin, :school => school, :full_name => "Neuronic user", :image_file_name => Profile.default_avatar_image)
-Role.create(:name => "edit_user", :profile => admin_profile)
-Role.create(:name => "modify_rewards", :profile => admin_profile)
-Role.create(:name => "modify_wardrobe", :profile => admin_profile)
-Role.create(:name => "modify_settings", :profile => admin_profile)
-
 role_name = RoleName.create(name: 'user')
-permision = Permission.create(name: 'create_group')
+permision = Permission.create(name: 'create_course')
 permision.role_names << role_name
 role_name.permissions << permision
-role_name.profiles << admin_profile
-admin_profile.role_name = role_name
-admin_profile.save
+
+generate_users(3,demo,school,role_name)
 
 #================================================================================
 
