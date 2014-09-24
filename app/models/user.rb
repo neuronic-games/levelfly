@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
   before_save :lower_email
 
   def lower_email
+    puts self.to_yaml
     self.email = self.email.downcase.strip
   end
 
