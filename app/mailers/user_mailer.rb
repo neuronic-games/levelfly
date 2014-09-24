@@ -21,9 +21,10 @@ class UserMailer < ActionMailer::Base
   end
 
   def welcome_email(user)
-    puts 'a'
+    puts '!!'
     puts user.to_yaml
     user.save
+    puts 'pp'
     UserMailer.thready do
       @resource = user
       mail(:to => user.email, :subject => "Confirmation instructions")
