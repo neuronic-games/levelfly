@@ -36,7 +36,9 @@ class User < ActiveRecord::Base
     puts '5'
     puts self.to_yaml
     puts email.nil?
+    puts self.email.downcase.strip
     self.email = self.email.downcase.strip
+    puts email
     puts '5.1'
   end
 
