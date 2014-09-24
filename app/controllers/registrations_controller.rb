@@ -5,6 +5,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def create
+    puts params.inspect
     @user = User.find_by_email(params[:user][:email])
     @school = school
     @role = nil
@@ -47,7 +48,7 @@ class RegistrationsController < Devise::RegistrationsController
         return redirect_to new_registration_path(resource_name)
       end
     end
-
+    puts @user.to_yaml
     if @user
       unless @user.valid_password? params[:user][:password]
         flash[:notice] = ["An account with this email already exists. Enter the correct password or click \"Forgot your password?\" above."]
