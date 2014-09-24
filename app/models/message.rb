@@ -35,7 +35,7 @@ class Message < ActiveRecord::Base
     @message.parent_type = "Course"
     @message.message_type = "course_invite"
     @message.content = "I'd like to be your friend. Please accept my invite."
-    @message.wall_id = Wall.get_wall_id(parent_id, "Course") 
+    @message.wall_id = Wall.get_wall_id(parent_id, "Course")
     @message.archived = false
     @message.post_date = DateTime.now
     @message.save
@@ -72,11 +72,11 @@ class Message < ActiveRecord::Base
 
     user.profiles.each do |profile|
       MessageViewer.create(
-        :message_id => @message.id,
-        :poster_profile_id => sender.id,
-        :viewer_profile_id => profile.id,
-        :archived => false,
-        :viewed => false
+          :message_id => @message.id,
+          :poster_profile_id => sender.id,
+          :viewer_profile_id => profile.id,
+          :archived => false,
+          :viewed => false
       )
     end
   end
@@ -98,11 +98,11 @@ class Message < ActiveRecord::Base
     MessageViewer.invites(parent_id, @message.id,profile_id)
     return @message
   end
-  
+
   def formatted_content
-     return self.content.gsub(/\n/, '<br/>').html_safe
+    return self.content.gsub(/\n/, '<br/>').html_safe
   end
-  
+
   def self.send_notification(current_user,content,profile_id)
     @message = Message.new
     @message.profile_id = current_user
@@ -116,7 +116,7 @@ class Message < ActiveRecord::Base
     @message.post_date = DateTime.now
     @message.save
     MessageViewer.invites(current_user, @message.id,profile_id)
-  
+
   end
 
   def self.save_message(current_profile,parent,parent_type,content,message_type,course = nil)
@@ -124,14 +124,14 @@ class Message < ActiveRecord::Base
     message = Message.new
     message.profile_id = current_profile.id
     message.parent_id = parent.id
-    message.parent_type = parent_type 
+    message.parent_type = parent_type
     message.content = content
     message.target_id = parent.id
     message.target_type = parent_type
     message.message_type = message_type
     message.wall_id = wall_id
     message.post_date = DateTime.now
-    
+
     if message.save
       MessageViewer.add(current_profile.id,message.id,parent_type,parent.id)
       UserMailer.private_message(parent.user.email,current_profile,current_profile.school,content).deliver unless course
@@ -241,7 +241,7 @@ class Message < ActiveRecord::Base
     elsif ['Course'].include?(target_type) and ['course_invite', 'group_invite'].include?(message_type) and parent_type == 'Course'
       push_course_request()
     elsif  ['C', 'G'].include?(parent_type) and message_type == Message.to_s and ['C', 'G'].include?(target_type)
-       push_course_message()
+      push_course_message()
     elsif parent_type == Profile.to_s and message_type == Message.to_s and target_type == 'Notification'
       push_notification()
     end
@@ -249,10 +249,10 @@ class Message < ActiveRecord::Base
 
   def push_course_message
     courseMaster = Profile.find(
-            :first,
-            :include => [:participants],
-            :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", parent_id]
-        )
+        :first,
+        :include => [:participants],
+        :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", parent_id]
+    )
     receivers = Profile.course_participants(parent_id, 'Course').map(&:id) + [courseMaster.id] - [profile_id]
     partial = 'message/pusher/message'
     channel = target_type == 'C' ? "course_message" : 'group_message'
@@ -297,7 +297,7 @@ class Message < ActiveRecord::Base
     pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
 
     Pusher.trigger_async("private-my-channel-#{receiver}", 'message', pusher_content)
-    Pusher.trigger_async("private-my-channel-#{receiver}", 'new_message',{})
+    Pusher.trigger_async("private-my-channel-#{receiver}", 'new_message',{sender: profile_id})
   end
 
   def push_comment
@@ -311,9 +311,10 @@ class Message < ActiveRecord::Base
     locals = {:comment => self, :course_id=> friend, user_session_profile_id: receiver, chanel: channel}
 
     pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
-
+    new_message_hash = {}
+    new_message_hash = {sender: msg.profile_id} if msg.target_type == Profile.to_s
     Pusher.trigger_async("private-my-channel-#{receiver}", 'message', pusher_content)
-    Pusher.trigger_async("private-my-channel-#{receiver}", 'new_message',{})
+    Pusher.trigger_async("private-my-channel-#{receiver}", 'new_message',new_message_hash)
   end
 
   def push_friend_request

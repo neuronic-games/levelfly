@@ -57,8 +57,20 @@
     var messagePusher = new Pusher('<%= Pusher.key %>', { authEndpoint: '/auth' });
     var messageChanel = messagePusher.subscribe('private-my-channel-<%= current_profile.id %>');
     messageChanel.bind('message', pusherEventHandler);
+    messageChanel.bind('new_message', bipEventHandler);
     //===================================================
+    function bipEventHandler(data){
+        if(data && data["sender"] && $('#action_name').length != 0 && $('#action_name').val() == 'friends_only')
+        {
+            var ids = $.unique($("img.profile").map(function(){return $(this).attr("profile_id");}).get());
+            if(ids.length != 0 && $.inArray(data.sender.toString(),ids) > -1)
+            {
+                return;
+            }
 
+        }
+        document.getElementById("msg").className = "notification_badge_active menu_btn";
+    }
 
     function pusherEventHandler(data){
         switch(data.event)
@@ -431,6 +443,11 @@
 <!--
   //jQuery.noConflict(); 
   (function($){
+      Pusher.log = function(message) {
+          if (window.console && window.console.log) {
+              window.console.log(message);
+          }
+      };
     $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
       if (jqXHR.status == 401) {
         window.location.reload();
