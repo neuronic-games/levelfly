@@ -25,10 +25,10 @@ class UserMailer < ActionMailer::Base
     puts user.to_yaml
     user.save
     puts 'pp'
-    UserMailer.thready do
-      @resource = user
-      mail(:to => user.email, :subject => "Confirmation instructions")
-    end
+    #UserMailer.thready do
+    #  @resource = user
+    #  mail(:to => user.email, :subject => "Confirmation instructions")
+    #end
   end
 
   def school_invite(user, current_profile)
