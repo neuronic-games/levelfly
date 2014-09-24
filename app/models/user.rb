@@ -33,8 +33,9 @@ class User < ActiveRecord::Base
   before_save :lower_email
 
   def lower_email
-    puts self.to_yaml
+    puts '5'
     self.email = self.email.downcase.strip
+    puts '5.1'
   end
 
   def default_school

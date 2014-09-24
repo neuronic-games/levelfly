@@ -38,10 +38,13 @@ class Profile < ActiveRecord::Base
   
   def self.create_for_user(user_id, school_id, default = "DEFAULT")
     profile = Profile.find(:first, :conditions => ["user_id = ? and school_id = ?", user_id, school_id])
+    puts 6
     if profile.nil?
+      puts 7
       new_profile = Profile.find(:first, :conditions => ["code = ? and school_id = ?", default, school_id], :include => [:avatar])
 
       if default == 'DEFAULT' and new_profile.nil?
+        puts 8
         new_profile = Profile.demo_profile()
         new_profile.school_id = school_id
       end
@@ -57,6 +60,7 @@ class Profile < ActiveRecord::Base
       end
 
       profile.save
+      puts 9
       avatar = new_profile.avatar.dup
       avatar.profile_id = profile.id
       avatar.save
