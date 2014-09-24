@@ -60,9 +60,9 @@ class RegistrationsController < Devise::RegistrationsController
       puts '2'
       @user = User.new(params[:user])
     end
-
+    puts 'cr1'
     @user.default_school = @school
-
+    puts 'cr2'
     if @user.save
       puts '3'
       profile = Profile.create_for_user(@user.id, @school.id)
