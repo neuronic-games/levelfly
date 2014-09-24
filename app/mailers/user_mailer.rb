@@ -21,6 +21,7 @@ class UserMailer < ActionMailer::Base
   end
 
   def welcome_email(user)
+    puts 'a'
     puts user.to_yaml
     user.save
     UserMailer.thready do
