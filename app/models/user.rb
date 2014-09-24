@@ -34,6 +34,8 @@ class User < ActiveRecord::Base
 
   def lower_email
     puts '5'
+    puts email
+    puts email.nil?
     self.email = self.email.downcase.strip
     puts '5.1'
   end
