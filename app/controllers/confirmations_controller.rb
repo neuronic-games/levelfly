@@ -1,5 +1,6 @@
 class ConfirmationsController < Devise::ConfirmationsController
   def show
+    puts '!!!!!!!!!!!!!!!!'
     u = User.find_by_confirmation_token(params[:confirmation_token])
     reconfirmed = u.pending_reconfirmation? if u
 
