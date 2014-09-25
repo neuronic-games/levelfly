@@ -33,10 +33,11 @@ Oncapus::Application.configure do
 
   # Used for password reminder emails
   config.action_mailer.default_url_options = { :host => '0.0.0.0:3000' }
-  
-  config.logger = Logger.new(STDOUT)
-  config.log_level = :debug #:warn
-  
+
+  # Commented for development because causing error on local
+  # config.logger = Logger.new(STDOUT)
+  # config.log_level = :debug #:warn
+
   #Expands the lines which load the assets
   config.assets.debug = true
   config.action_mailer.perform_deliveries = false #true
@@ -59,4 +60,14 @@ Oncapus::Application.configure do
   Pusher.app_id = '64377'
   Pusher.key = 'c8fb9a955828496c8ed2'
   Pusher.secret = '0be4a588118c56c95029'
+
+  # Load AWS keys for development
+  config.before_configuration do
+    aws_env_file = Rails.root.join('config', 'application.yml').to_s
+    if File.exists?(aws_env_file)
+      YAML.load_file(aws_env_file).each do |k, v|
+        ENV[k.to_s] = v
+      end
+    end
+  end
 end
