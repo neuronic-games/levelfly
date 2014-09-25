@@ -10,11 +10,10 @@ gem 'rails', '3.1.10'
 gem 'sqlite3'
 
 # Database drivers for different environments
-group :production do
+group :production, :development, :test do
   gem 'pg'
 end
 group :development, :test do
-  gem 'pg'
   # gem 'mysql2', '>= 0.2.7'
 end
 gem 'em-http-request'
