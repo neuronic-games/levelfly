@@ -421,7 +421,7 @@ class CourseController < ApplicationController
 				@current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
 				#threads = []
 				@people.each do |person|
-          UserMailer.course_private_message(person.user.email, @current_user, @current_user.school, @course, @msg_content).deliver
+          UserMailer.delay.course_private_message(person.user.email, @current_user, @current_user.school, @course, @msg_content)
 				end
 				#threads.each(&:join)
 				status = true
