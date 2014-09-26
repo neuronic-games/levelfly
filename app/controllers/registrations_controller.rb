@@ -56,9 +56,9 @@ class RegistrationsController < Devise::RegistrationsController
     end
     puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
     puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-    puts @user
+    puts @user.inspect
     puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-    puts @user.errors
+    puts @user.errors.inspect
     puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
     puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
     @user.default_school = @school
