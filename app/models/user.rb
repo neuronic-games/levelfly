@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   # has_many :friends, :as => :participant, :conditions => ['profile_type = ?', 'F']
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :remember_me
+  # attr_accessible :email, :password, :remember_me
 
   has_many :profiles
 
