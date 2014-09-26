@@ -134,8 +134,8 @@ class Message < ActiveRecord::Base
 
     if message.save
       MessageViewer.add(current_profile.id,message.id,parent_type,parent.id)
-      UserMailer.private_message(parent.user.email,current_profile,current_profile.school,content).deliver unless course
-      UserMailer.course_private_message(parent.user.email,current_profile,current_profile.school,course,content).deliver if course
+      UserMailer.delay.private_message(parent.user.email,current_profile,current_profile.school,content) unless course
+      UserMailer.delay.course_private_message(parent.user.email,current_profile,current_profile.school,course,content) if course
       feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",current_profile.id,wall_id])
       if feed.nil?
         Feed.create(:profile_id => current_profile.id,:wall_id =>wall_id)
