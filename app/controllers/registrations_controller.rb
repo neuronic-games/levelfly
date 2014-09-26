@@ -63,14 +63,15 @@ class RegistrationsController < Devise::RegistrationsController
       @user = User.new(params[:user])
     end
     puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-    puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
     puts @user.inspect
-    puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
     puts @user.errors.inspect
-    puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
     puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
     @user.default_school = @school
     if @user.save
+      puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! USER SAVED'
+      puts @user.inspect
+      puts @user.errors.inspect
+      puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
       profile = Profile.create_for_user(@user.id, @school.id)
       profile.full_name = params[:user][:full_name]
 
@@ -82,6 +83,10 @@ class RegistrationsController < Devise::RegistrationsController
       #set_current_profile()
       sign_in_and_redirect(resource_name, resource)
     else
+      puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! USER IS NOT SAVED'
+      puts @user.inspect
+      puts @user.errors.inspect
+      puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
       flash[:notice] = resource.errors.full_messages.uniq
       redirect_to new_registration_path(resource_name)
     end
