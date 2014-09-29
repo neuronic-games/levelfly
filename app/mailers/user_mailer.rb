@@ -21,13 +21,12 @@ class UserMailer < ActionMailer::Base
   end
 
   def welcome_email(user)
-  #   puts '!!'
-  #   puts user.to_yaml
-  #   user.save
-  #   puts 'pp'
     UserMailer.thready do
       @resource = user
-      mail(:to => user.email, :subject => "Confirmation instructions")
+      mail( :from => "Do Not Reply <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>",
+            :to => user.email,
+            :subject => "Confirmation instructions",
+            :content_type => "text/html")
     end
   end
 
