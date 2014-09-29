@@ -22,7 +22,6 @@ class RegistrationsController < Devise::RegistrationsController
         puts '!!!!!!!!!!!!!!!!!!! RESEND CONFIRMATION TO USER:'
         puts @user.inspect
         puts "EMAIL: #{@user.email}"
-        puts '!!!!!!!!!!!!!!!!!!!'
         @user.regenerate_confirmation_token
         UserMailer.welcome_email(@user).deliver
       end
