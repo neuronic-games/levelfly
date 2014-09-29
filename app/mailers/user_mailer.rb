@@ -24,7 +24,6 @@ class UserMailer < ActionMailer::Base
     puts '!!!!!!!!!!!!!!!!!!! INSIDE MAILER, BEFORE THREAD:'
     puts user.inspect
     puts "EMAIL: #{user.email}"
-    UserMailer.thready do
       puts '!!!!!!!!!!!!!!!!!!! INSIDE THREAD:'
       puts user.inspect
       puts "EMAIL: #{user.email}"
@@ -34,7 +33,6 @@ class UserMailer < ActionMailer::Base
       mail( :from => "Do Not Reply <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>",
             :to => user.email,
             :subject => "Confirmation instructions")
-    end
   end
 
   def school_invite(user, current_profile)
