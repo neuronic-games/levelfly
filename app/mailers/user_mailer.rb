@@ -26,11 +26,6 @@ class UserMailer < ActionMailer::Base
   #   user.save
   #   puts 'pp'
     UserMailer.thready do
-      if user.nil?
-        puts '!!!!!! MAILER !!!!!!!'
-        puts user
-        puts '!!!!!!!!!!!!!!!!!!!!!'
-      end
       @resource = user
       mail(:to => user.email, :subject => "Confirmation instructions")
     end
