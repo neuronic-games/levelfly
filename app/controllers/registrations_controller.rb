@@ -19,9 +19,6 @@ class RegistrationsController < Devise::RegistrationsController
       if @user.unconfirmed_email
         @user.send_confirmation_instructions
       else
-        puts '!!!!!!!!!!!!!!!!!!!!!!!'
-        puts '!!!!!!!!!!!!!!!!!!!!!!!'
-        puts '!!!!!!!!!!!!!!!!!!!!!!!'
         @user.regenerate_confirmation_token
         UserMailer.welcome_email(@user).deliver
       end
