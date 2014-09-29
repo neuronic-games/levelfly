@@ -19,7 +19,7 @@ class RegistrationsController < Devise::RegistrationsController
       if @user.unconfirmed_email
         @user.send_confirmation_instructions
       else
-        @user.send_confirmation_instructions
+        UserMailer.welcome_email(@user).deliver
       end
 
       flash[:notice] = 'You must confirm your email address before continuing. Your confirmation link has just been emailed to you.'
