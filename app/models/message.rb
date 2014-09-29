@@ -164,7 +164,7 @@ class Message < ActiveRecord::Base
     channel = 'board_message'
 
     ids.each do |push_id|
-      locals = {:message => msg, :course_id=> msg.profile_id, user_session_profile_id: push_id, course_master_of: courseMaster, chanel: channel}
+      locals = {:message => msg, :course_id=> msg.profile_id, user_session_profile_id: push_id, course_master: courseMaster, chanel: channel} # course_master_of changed to course_master because of message/pusher/_message template
       pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
       Pusher.trigger_async("private-my-channel-#{push_id}", 'message', pusher_content)
       Pusher.trigger_async("private-my-channel-#{push_id}", 'new_message',{})
@@ -207,7 +207,7 @@ class Message < ActiveRecord::Base
       partial = 'message/pusher/message'
       channel = 'forum_message'
       ids.each do |push_id|
-        locals = {:message => msg, :course_id=> msg.profile_id, user_session_profile_id: push_id, course_master_of: courseMaster, chanel: channel}
+        locals = {:message => msg, :course_id=> msg.profile_id, user_session_profile_id: push_id, course_master: courseMaster, chanel: channel} # course_master_of changed to course_master because of message/pusher/_message template
         pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
         Pusher.trigger_async("private-my-channel-#{push_id}", 'message', pusher_content)
       end
