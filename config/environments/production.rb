@@ -79,7 +79,8 @@ Oncapus::Application.configure do
     :password             => ENV['MANDRILL_APIKEY'],
     :authentication       => "plain"
   }
-  
+
   ActionMailer::Base.delivery_method = :smtp
+  ActionMailer::Base.default :content_type => "text/html"
 
 end
