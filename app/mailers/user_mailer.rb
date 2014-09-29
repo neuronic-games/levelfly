@@ -25,8 +25,7 @@ class UserMailer < ActionMailer::Base
       @resource = user
       mail( :from => "Do Not Reply <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>",
             :to => user.email,
-            :subject => "Confirmation instructions",
-            :content_type => "text/html")
+            :subject => "Confirmation instructions")
     end
   end
 
