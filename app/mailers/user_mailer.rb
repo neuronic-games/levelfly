@@ -22,13 +22,13 @@ class UserMailer < ActionMailer::Base
 
   def welcome_email(user)
     puts '!!!!!!!!!!!!!!!!!!! INSIDE MAILE, BEFORE THREAD:'
-    puts @user.inspect
-    puts "EMAIL: #{@user.email}"
+    puts user.inspect
+    puts "EMAIL: #{user.email}"
     puts '!!!!!!!!!!!!!!!!!!!'
     UserMailer.thready do
       puts '!!!!!!!!!!!!!!!!!!! INSIDE THREAD:'
-      puts @user.inspect
-      puts "EMAIL: #{@user.email}"
+      puts user.inspect
+      puts "EMAIL: #{user.email}"
       puts '!!!!!!!!!!!!!!!!!!!'
       @resource = user
       mail( :from => "Do Not Reply <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>",
