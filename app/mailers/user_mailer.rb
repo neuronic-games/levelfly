@@ -21,18 +21,10 @@ class UserMailer < ActionMailer::Base
   end
 
   def welcome_email(user)
-    puts '!!!!!!!!!!!!!!!!!!! INSIDE MAILER, BEFORE THREAD:'
-    puts user.inspect
-    puts "EMAIL: #{user.email}"
-      puts '!!!!!!!!!!!!!!!!!!! INSIDE THREAD:'
-      puts user.inspect
-      puts "EMAIL: #{user.email}"
-      @resource = user
-      puts '!!!!!!!!!!!!!!!!!!! RESOURCE'
-      puts @resource.inspect
-      mail( :from => "Do Not Reply <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>",
-            :to => user.email,
-            :subject => "Confirmation instructions")
+    @resource = user
+    mail( :from => "Do Not Reply <donotreply@#{Oncapus::Application.config.action_mailer.default_url_options[:host]}>",
+          :to => user.email,
+          :subject => "Confirmation instructions")
   end
 
   def school_invite(user, current_profile)
