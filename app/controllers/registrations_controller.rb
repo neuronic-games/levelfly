@@ -68,10 +68,6 @@ class RegistrationsController < Devise::RegistrationsController
       #set_current_profile()
       sign_in_and_redirect(resource_name, resource)
     else
-      puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! USER IS NOT SAVED'
-      puts @user.inspect
-      puts @user.errors.inspect
-      puts '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
       flash[:notice] = resource.errors.full_messages.uniq
       redirect_to new_registration_path(resource_name)
     end
