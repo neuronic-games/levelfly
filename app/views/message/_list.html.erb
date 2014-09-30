@@ -70,21 +70,21 @@
          <a href="javascript:void(0);" load="messages" <%if friend_id && !friend_id.nil? %>id="friend_page" friend_id="<%=friend_id%>"<%else%>id="main_messages_page" friend_id=""<%end%> class="blue_bt19px">MORE</a>
        </span>
      <% end %>
-    
+
       <div class="end_of_page"></div>
-       
+
     <!-- Notes -->
     <div id="notes">
       <% if @notes %>
-      <h2 style="font-size:16px;">NOTES</h2>      
+      <h2 style="font-size:16px;">NOTES</h2>
          <% @notes.each do |note| %>
            <%= render :partial => "/message/notes", :locals => {:note=>note} %>
          <% end %>
       <% end %>
     </div>
-    
+
   </div>
-  
+
   <!-- Friend List -->
   <div class="friend_list" id="friend_list">
     <% if @users %>
@@ -100,8 +100,8 @@
   <div class ="hide" id ="div_message_delete">
   </div>
 </div>
- <input type="hidden" name="notification_count" id="notification_count" value="<%=@respont_to_course.count if @respont_to_course%>"> 
-  <input type="hidden" name="invitation_count" id="invitation_count" value="<%=@friend_requests.count if @friend_requests%>"> 
+ <input type="hidden" name="notification_count" id="notification_count" value="<%=@respont_to_course.count if @respont_to_course%>">
+  <input type="hidden" name="invitation_count" id="invitation_count" value="<%=@friend_requests.count if @friend_requests%>">
   <input type="hidden" name="all_notifications" id="all_notifications" value="<%=message_ids%>">
   <input type="hidden" name="messages_length" id="messages_length" value="<%=messages_length%>">
   <input type="hidden" name="users_length" id="users_length" value="<%=users_length%>">
@@ -116,7 +116,7 @@ var message_show_array = [];
 $(document).ready(function() {
 
 	profile_id = $("#hdn_profile_id").val();
-	$.ajax({ 
+	$.ajax({
 	  type: "GET",
       url: "/message/alert_badge",
       dataType: "json",
@@ -132,11 +132,11 @@ $(document).ready(function() {
         alert("An Error has occured");
       }
 	});
-    $.ajaxSetup({ cache: false }); 
+    $.ajaxSetup({ cache: false });
     // setInterval(function() {
     //   $.ajax({
-    //     type: "POST",  
-    //     url: "/message/check_request",  
+    //     type: "POST",
+    //     url: "/message/check_request",
     //     success: function(data){
     //      if(data!=""){
     //         if ($("#invites_title").length > 0){
@@ -146,71 +146,71 @@ $(document).ready(function() {
     //           $("#course_requests").append(data);
     //         }
     //         var invites = parseInt($("#invitation_count").val());
-    //         $("#invitation_count").attr("value",invites+1); 
-              
+    //         $("#invitation_count").attr("value",invites+1);
+
     //      }
     //     }
     //  });
     //  $.ajax({
-    //     type: "POST",  
-    //     url: "/message/check_messages",  
+    //     type: "POST",
+    //     url: "/message/check_messages",
     //     success: function(data){
     //      if(data!=""){
     //       $("#message_wrapper").prepend(data);
     //      }
     //     }
     //   });
-    // }, 10000*20); 
+    // }, 10000*20);
 	 $('textarea#msg_content').autosize();
-	 
+
 	 $('#all_cmnts').click(function(){
 		update_show_comments(message_show_array,true);
 		all_comments = true;
 	 });
-	 
+
 	 $('#only_cmnts').click(function(){
 		update_show_comments(message_show_array,false);
 		all_comments = false;
 	 });
-	 
+
 	 // See the last setting of user or the default setting in main.html
 	 if(all_comments) {
 		arrange_comments(message_show_array,true);
 	 } else {
 		arrange_comments(message_show_array,false);
 	 }
-	 
+
 });
 
    var request = "";
    var message = "";
-$('.message_list').click(function(){  
+$('.message_list').click(function(){
     var rel = $(this).attr("rel");
    // var ids = id.split("_");
     if($("#m_"+rel).hasClass("show")){
       $("#m_"+rel).removeClass("show")
     }
     else{
-      $("#m_"+rel).addClass("show")   
+      $("#m_"+rel).addClass("show")
     }
   });
-  
-  $('.request_message').click(function(){  
+
+  $('.request_message').click(function(){
     var rel = $(this).attr("rel");
     if($("#rq_"+rel).hasClass("show"))
       $("#rq_"+rel).removeClass("show")
     else
-      $("#rq_"+rel).addClass("show")  
+      $("#rq_"+rel).addClass("show")
   });
-  
-  $('.comments_lists_box').click(function(){  
+
+  $('.comments_lists_box').click(function(){
     var rel = $(this).attr("rel");
     if($("#c_"+rel).hasClass("show"))
       $("#c_"+rel).removeClass("show")
     else
-      $("#c_"+rel).addClass("show")  
+      $("#c_"+rel).addClass("show")
   });
-    
+
   setPageTitle("My Messages");
 
   //Post Message
@@ -221,9 +221,9 @@ $('.message_list').click(function(){
     text = $(this).attr("title");
     message = $("#"+text).val();
     var dataString = {parent_id:parent_id, parent_type:parent_type, content: message};
-    $.ajax({  
-      type: "POST",  
-      url: "/message/save",  
+    $.ajax({
+      type: "POST",
+      url: "/message/save",
       data: dataString,
       success: function(data) {
         $("#"+text).val("");
@@ -237,9 +237,9 @@ $('.message_list').click(function(){
         $('#msg_content').css('height','');
         showSpinner(false);
       }
-    });  
+    });
   });
-  
+
   //Like/Unlike a message or comment
   $('.message_wrapper').delegate('.like', 'click', function(){
     showSpinner(true);
@@ -247,8 +247,8 @@ $('.message_list').click(function(){
       action = $(this).attr('rel');
       course_id = $(this).attr('rev');
       controller = this;
-      $.ajax({  
-        type: "POST",  
+      $.ajax({
+        type: "POST",
         url: "/message/"+action,
         dataType: 'json',
         data: {message_id:this.id,course_id:course_id},
@@ -263,7 +263,7 @@ $('.message_list').click(function(){
       });
     }
   });
-  
+
   //Load more messages
   $('#main_messages_page, .more_users').click(function(){
     showSpinner(true);
@@ -277,8 +277,8 @@ $('.message_list').click(function(){
       var dataString = 'messages_length='+messages_length+'&users_length='+users_length+'&load='+load+'&search_text='+search_text;
     }
     $.ajax({
-       type: "POST",  
-       url: "/message/",  
+       type: "POST",
+       url: "/message/",
        data: dataString,
        success: function(data) {
          $("#container").html(data);
@@ -286,15 +286,15 @@ $('.message_list').click(function(){
        }
     });
   });
-  
+
   $('#friend_page').click(function(){
     showSpinner(true);
     messages_length = $("#messages_length").val();
     friend_id = $(this).attr("friend_id");
     var dataString = 'messages_length='+messages_length+'&friend_id='+friend_id;
     $.ajax({
-       type: "POST",  
-       url: "/message/friends_only/"+friend_id,  
+       type: "POST",
+       url: "/message/friends_only/"+friend_id,
        data: dataString,
        success: function(data) {
          $("#container").html(data);
@@ -302,14 +302,14 @@ $('.message_list').click(function(){
        }
     });
   });
-  
+
    $(".notification_del").click(function(){
         showSpinner(true);
         id=$(this).attr("rel");
         var dataString = 'id='+id;
         $.ajax({
-           type: "POST",  
-           url: "/message/remove_request_message",  
+           type: "POST",
+           url: "/message/remove_request_message",
            data: dataString,
            dataType:"json",
            success: function(data) {
@@ -323,15 +323,15 @@ $('.message_list').click(function(){
              }
         });
      });
-	 
+
 	 $(".all_notification_del").click(function(){
         showSpinner(true);
         id=$("#all_notifications").val();
         var dataString
 		dataString = {id: id};
         $.ajax({
-           type: "POST",  
-           url: "/message/remove_request_message",  
+           type: "POST",
+           url: "/message/remove_request_message",
            data: dataString,
            dataType:"json",
            success: function(data) {
@@ -342,7 +342,7 @@ $('.message_list').click(function(){
              }
         });
      });
-     
+
     $(".msg_content_left").delegate('.message_del', 'click', function(){
       showSpinner(true);
       id = $(this).attr("rel");
@@ -350,8 +350,8 @@ $('.message_list').click(function(){
       var position = $(this).position();
       var dataString = 'id='+id+'&message_type='+message_type;
       $.ajax({
-           type: "POST",  
-           url: "/message/confirm",  
+           type: "POST",
+           url: "/message/confirm",
            data: dataString,
            success: function(data) {
              $("#div_message_delete").html(data);

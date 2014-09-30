@@ -4,7 +4,7 @@ class Profile < ActiveRecord::Base
   belongs_to :school
   belongs_to :user
   belongs_to :role_name
-  
+
   has_many :participants
 	has_many :task_participants
   has_many :profile_actions
@@ -35,7 +35,7 @@ class Profile < ActiveRecord::Base
   def self.default_avatar_image
     return '/images/wardrobe/null_profile.png'
   end
-  
+
   def self.create_for_user(user_id, school_id, default = "DEFAULT")
     profile = Profile.find(:first, :conditions => ["user_id = ? and school_id = ?", user_id, school_id])
     if profile.nil?
@@ -63,11 +63,11 @@ class Profile < ActiveRecord::Base
     end
     return profile
   end
-  
+
   def last_action(action_type)
     return ProfileAction.find(:first, :conditions => ["profile_id = ? and action_type = ?", self.id, action_type])
   end
-  
+
   def record_action(action_type, params)
     profile_action = self.last_action(action_type)
     if profile_action.nil?
@@ -76,23 +76,23 @@ class Profile < ActiveRecord::Base
     profile_action.action_param = params
     profile_action.save
   end
-  
+
   def delete_action
     ProfileAction.delete_all(["profile_id = ? and action_type = ?",self.id, "message"])
   end
-  
+
   def major_school
     info = []
     info << self.major.name if self.major
     info << self.school.code if self.school
     return info.join(", ")
   end
-  
+
   def friends
     profiles = Participant.find(:all, :conditions=>["target_id = ? AND target_type = 'User' AND profile_type = 'F'", self.id])#.collect! {|x| x.profile}
     return profiles
   end
-  
+
   def sports_reward
     basic = Wardrobe.find(:first, :conditions=>["name = 'Basic'"])
     ids = [];
@@ -122,12 +122,12 @@ class Profile < ActiveRecord::Base
     # the entire wardrobe is reloaded using the load_wardrobe.rake script.
     self.wardrobe = wardrobe_reward.target_id if wardrobe_reward
     self.save
-    
+
     wardrobe = Wardrobe.find(wardrobe_reward.target_id)
-    
+
     puts "Profile #{self.id} >> Level: #{self.level}, Wardrobe: #{wardrobe.name}"
   end
-  
+
   def make_email_safe
     if self.email.match(/@neuronicgames.com$/)
     elsif !self.email.match(/^test-/)
@@ -138,34 +138,34 @@ class Profile < ActiveRecord::Base
 
   def recently_messaged
     Profile.find_by_sql(
-      <<-SQL 
-        SELECT 
-          profiles.*, 
+      <<-SQL
+        SELECT
+          profiles.*,
           MAX(messages.updated_at) AS latest_message_date,
           COUNT(message_viewers.id) AS unread_message_count
-        FROM profiles 
+        FROM profiles
         INNER JOIN messages ON (messages.parent_id = profiles.id OR messages.profile_id = profiles.id)
         LEFT JOIN message_viewers ON (
           message_viewers.message_id = messages.id
           AND (message_viewers.poster_profile_id = profiles.id AND message_viewers.viewer_profile_id = #{self.id})
           AND (message_viewers.archived = false OR message_viewers.archived IS NULL)
           AND message_viewers.viewed = false
-        ) WHERE (messages.archived = false OR messages.archived IS NULL) 
-          AND messages.message_type = 'Message' 
+        ) WHERE (messages.archived = false OR messages.archived IS NULL)
+          AND messages.message_type = 'Message'
           AND (
             (
-              messages.target_type = 'Profile' 
+              messages.target_type = 'Profile'
               AND messages.parent_type = 'Profile'
               AND (messages.parent_id = #{self.id} OR messages.profile_id = #{self.id})
             ) OR (
               messages.target_type = 'Message'
               AND messages.parent_type = 'Message'
               AND messages.parent_id IN (
-                SELECT id FROM messages 
-                WHERE target_type = 'Profile' 
-                AND parent_type = 'Profile' 
+                SELECT id FROM messages
+                WHERE target_type = 'Profile'
+                AND parent_type = 'Profile'
                 AND (parent_id = #{self.id} OR profile_id = #{self.id})
-                AND (archived = false OR archived IS NULL) 
+                AND (archived = false OR archived IS NULL)
               )
             )
           ) AND profiles.id != #{self.id}
@@ -174,5 +174,5 @@ class Profile < ActiveRecord::Base
       SQL
     ).uniq
   end
-  
+
 end
