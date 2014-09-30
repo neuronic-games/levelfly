@@ -11,16 +11,16 @@ class RegistrationsController < Devise::RegistrationsController
 
     if params[:school]
       school_code = params[:school][:code].upcase
-    else 
+    else
       school_code = ''
     end
-    
+
     if @user && !@user.confirmed?
       if @user.unconfirmed_email
         @user.send_confirmation_instructions
       else
         @user.regenerate_confirmation_token
-        @user.send_on_create_confirmation_instructions
+        UserMailer.welcome_email(@user).deliver
       end
 
       flash[:notice] = 'You must confirm your email address before continuing. Your confirmation link has just been emailed to you.'
@@ -47,7 +47,6 @@ class RegistrationsController < Devise::RegistrationsController
         return redirect_to new_registration_path(resource_name)
       end
     end
-
     if @user
       unless @user.valid_password? params[:user][:password]
         flash[:notice] = ["An account with this email already exists. Enter the correct password or click \"Forgot your password?\" above."]
@@ -56,9 +55,7 @@ class RegistrationsController < Devise::RegistrationsController
     else
       @user = User.new(params[:user])
     end
-
     @user.default_school = @school
-
     if @user.save
       profile = Profile.create_for_user(@user.id, @school.id)
       profile.full_name = params[:user][:full_name]
@@ -84,5 +81,5 @@ class RegistrationsController < Devise::RegistrationsController
     default_school = School.find_by_handle("demo")
     session[:school_id] = default_school.id
   end
-  
-end 
+
+end
