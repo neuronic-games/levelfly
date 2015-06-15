@@ -5,10 +5,6 @@ gem 'rails', '~> 3.2'
 gem 'pg'
 gem 'thin'
 
-# We don't really need sqlite for the project, but if we don't add it
-# the "RAILS_ENV=production bundle exec rake assets:precompile" commands errors.
-gem 'sqlite3'
-
 gem 'em-http-request'
 gem 'rake' , '>= 0.9.2'
 gem 'json'
