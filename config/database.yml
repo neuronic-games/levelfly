@@ -14,10 +14,10 @@
 development:
   #adapter: mysql
   adapter: postgresql
-  database: oncampus
+  database: collegequest_dev
   #username: root
-  username: oncampus
-  password: password
+  username: danny
+  password: psswrd
   encoding: UTF8
   host: localhost
   pool: 5
