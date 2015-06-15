@@ -28,7 +28,9 @@ Oncapus::Application.routes.draw do
 
            resources :users do
             collection do
+              get 'load_permissions',     :action => 'load_permissions'
               get "load_users/:id/:page", :action => 'load_users', :as => 'load_users'
+              get "load_user_emails/:id", :action => 'load_user_emails', :as => 'load_user_emails'
               post "set_invite_codes", :action => 'set_invite_codes'
               get 'load_csv/:id', action: 'load_csv', as: 'load_csv'
             end
@@ -367,7 +369,7 @@ Oncapus::Application.routes.draw do
 
   post "reward/save"
 
-  post "reward/delete/"
+  post "reward/delete"
 
   get "setting/new"
 
@@ -375,7 +377,7 @@ Oncapus::Application.routes.draw do
 
   post "setting/save"
 
-  post "setting/delete/"
+  post "setting/delete"
 
   get "course/show_forum"
 

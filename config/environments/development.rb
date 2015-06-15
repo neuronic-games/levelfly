@@ -26,7 +26,7 @@ Oncapus::Application.configure do
   config.assets.compress = false
 
   # Expands the lines which load the assets
-  config.assets.debug = true
+  # config.assets.debug = true
 
   #Activate observers that should always be running
   config.active_record.observers = :participant_observer
