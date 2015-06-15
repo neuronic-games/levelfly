@@ -4,6 +4,10 @@ log/*.log
 tmp/
 .sass-cache/
 db/schema.rb
+.ruby-version
+.ruby-gemset
+.env
+/config/database.yml
 
 # Compiled source
 *.com
