@@ -1,5 +1,5 @@
 <div>
-  <div id="confirm_upload" class="add_file" style="display:none;">   
+  <div id="confirm_upload" class="add_file" style="display:none;">
     <div class="c_upload">Confirm Upload</div>
     <div id="container">
         <a class="big_blue_btn" id="pickfiles" href="javascript:void(0)">Browse</a>
@@ -12,20 +12,20 @@
         continue uploading?</p>
       </div>
       <div class="display_data">Task:<span id="file_task"></span></div>
-      <div class="display_data">Original Uploaded By:<span id="file_uploaded_by"></span></div>   
+      <div class="display_data">Original Uploaded By:<span id="file_uploaded_by"></span></div>
       <div class="display_data">Original Uploaded On:<span id="file_uploaded_on"></span></div>
       <div class="display_data">Revision:<span id="file_revision"></span></div>
       <div style="float:right">
         <a class="big_blue_btn" id="file_upload" href="javascript:void(0)">Upload</a>
         <a class="big_blue_btn" onClick="javascript:$('#confirm_upload').hide();" href="javascript:void(0)">Close</a>
-      </div>                                
-    </div>                  
+      </div>
+    </div>
   </div>
   <br/>
   <% if @course and !@task %>
    <div class="titleTextShow">Show:&nbsp;&nbsp;
    <span>
-   
+
      <select class="dd_input brown_bg" id="filter_files">
        <option value="all"><%if @course.parent_type=="C"%>All Course Files<%elsif @course.parent_type=="G"%>All Group Files<%end%></option>
        <%if @course.parent_type=="C"%><optgroup label="By Task"><%end%>
@@ -34,21 +34,21 @@
           <% if task and !task.nil?%>
              <% task.each do |t| %>
               <option value="<%=t.id%>"><%=t.name%></option>
-             <% end %> 
+             <% end %>
           <% end %>
         <% end %>
-        <%if @course.parent_type=="C"%></optgroup><%end%>  
+        <%if @course.parent_type=="C"%></optgroup><%end%>
      </select>
    </span>
    </div>
-  <% end %>   
-  
+  <% end %>
+
    <div class="titleTextKind">Size</div>
    <div class="titleTextUpdated">Updated</div><br/><br/>
    <div id="all_files">
 		<div id="show_file" class="btn_drop_file" style="<%= @task ? "color:#9ab0b9;" : "" %>">
 			<span id="drop_text_container">
-				<span id="drop_file_span">DROP FILE OR </span><a href="javascript:void(0)" name="browse_btn" id="browse_btn">CLICK HERE</a> 
+				<span id="drop_file_span">DROP FILE OR </span><a href="javascript:void(0)" name="browse_btn" id="browse_btn">CLICK HERE</a>
 			</span>
 			<span id="uploading_text_container" style="display:none">
 				Uploading...
@@ -58,9 +58,9 @@
 			<%= render :partial => "/course/load_files", :locals => {:files=>@files} %>
 		</div>
 		</div>
-	<div id="file_download" class="hide"><%=render :partial => "/course/download_dialog" %></div> 
+	<div id="file_download" class="hide"><%=render :partial => "/course/download_dialog" %></div>
   <input type="hidden" name="current_course" id="current_course" value="<%=@course.id if @course%>">
-  <input type="hidden" name="target_type_hdn" id="target_type_hdn" <% if @task %>value="Task" <%else%>value="Course"<%end%>> 
+  <input type="hidden" name="target_type_hdn" id="target_type_hdn" <% if @task %>value="Task" <%else%>value="Course"<%end%>>
   <input type="hidden" name="target_id_hdn" id="target_id_hdn" <%if @task %>value="<%=@task.id%>" <%else%>value="<%=@course.id%>" <%end%> >
   <input type="hidden" name="current_profile" id="current_profile" value="<%=@profile.id%>">
   <div class="clear"></div>
@@ -69,7 +69,7 @@
 
 if ( $.browser.msie ) {
   $('#drop_file_span').remove();
-} 
+}
 $(document).ready(function(){
     var target_id;
     var target_type;
@@ -80,20 +80,20 @@ $(document).ready(function(){
      target_id = $("#course_id_hdn").val();
      target_type = 'Course';
     <% end %>
-  
-     <% if @courseMaster %>
-       <% if @courseMaster.id != user_session[:profile_id] && !@course.allow_uploads %>
-       $("#show_file").css("display","none");
-       <%end%>
-     <%end%>
-       //Remove files
-    $("#all_files").delegate('.files_del', 'click', function(){       
+
+    // Upload files permissions
+    <% unless (@courseMaster && @courseMaster.id == user_session[:profile_id]) || (@course && @course.allow_uploads) %>
+      $("#show_file").css("display","none");
+    <% end %>
+
+    //Remove files
+    $("#all_files").delegate('.files_del', 'click', function(){
       showSpinner(true);
       file_id=$(this).attr("rel");
       var dataString = 'files='+file_id;
       $.ajax({
-         type: "POST",  
-         url: "/course/remove_course_files",  
+         type: "POST",
+         url: "/course/remove_course_files",
          data: dataString,
          dataType:"json",
          success: function(data) {
@@ -102,13 +102,13 @@ $(document).ready(function(){
          }
       });
     });
-    $("#all_files").delegate('.file_pri_toggle', 'click', function(){ 
+    $("#all_files").delegate('.file_pri_toggle', 'click', function(){
     //$(".file_pri_toggle").click(function(event){
     showSpinner(true);
     att_id = $(this).attr("rel");
     $.ajax({
-       type: "POST",  
-       url: "/course/toggle_priority_file",  
+       type: "POST",
+       url: "/course/toggle_priority_file",
        data: {id:att_id},
        dataType: "json",
        success: function(data) {
@@ -127,8 +127,8 @@ $(document).ready(function(){
         }
     });
 
-  });  
-   $("#all_files").delegate('.files_download', 'click', function(){     
+  });
+   $("#all_files").delegate('.files_download', 'click', function(){
      url = $(this).attr("rel");
      request_type = $(this).attr("rev");
      if(request_type=="download"){
@@ -139,34 +139,34 @@ $(document).ready(function(){
       else if(request_type=="share"){
         $("#file_download").show();
         $("#dialog_url").html(url);
-        
+
       }
      /*
      if (id){
       showSpinner(true);
        $.ajax({
-        type: "POST",  
-        url: "/course/download",  
+        type: "POST",
+        url: "/course/download",
         data: {id:id,request_type:request_type},
         success: function(data){
          showSpinner(false);
          $("#file_download").show();
          $("#file_download").html(data);
         }
-       }); 
+       });
       }  */
     });
-    
-  $("#all_files").delegate('.share_file', 'click', function(){    
+
+  $("#all_files").delegate('.share_file', 'click', function(){
     $("#file_dialog_heading").html("Share File");
     $("#dialog_url").html($(this).attr("rev"));
     $("#dialog_btn").html("Share");
     $("#file_download").show();
   });
-      
+
      //For files hover div
-     
-    
+
+
     //Uploader task image upload
     var add_file_uploader = new plupload.Uploader({
       runtimes: 'html5, flash',
@@ -185,26 +185,26 @@ $(document).ready(function(){
         'profile_id' : $("#current_profile").val()
       }
     });
-    
+
     add_file_uploader.init();
-    
+
      add_file_uploader.bind("BeforeUpload", function(up,file) {
       add_file_uploader.settings.multipart_params.id = target_id
       add_file_uploader.settings.multipart_params.target_type = target_type
      });
-    
+
     add_file_uploader.bind('FilesAdded', function(up, files) {
       showSpinner(true);
       add_file_uploader.start();
     });
-    
+
     add_file_uploader.bind('UploadProgress', function(up, file) {
       //$('#show_file').html('<center>Uploading..</center>');
 			$('#drop_text_container').hide();
 			$('#uploading_text_container').show();
     });
-    
-    
+
+
     add_file_uploader.bind('FileUploaded', function(up, file, info) {
       showSpinner(true);
       $("#show_file_list").show();
@@ -218,7 +218,7 @@ $(document).ready(function(){
       $("#no_files").html('');
       showSpinner(false);
     });
-    
+
     var file_uploader = new plupload.Uploader({
         runtimes : 'html5, flash',
         browse_button : 'pickfiles',
@@ -235,7 +235,7 @@ $(document).ready(function(){
       });
 
       file_uploader.init();
-      
+
       file_uploader.bind('FilesAdded', function(up, files) {
          showSpinner(true);
          file_uploader.start();
@@ -244,8 +244,8 @@ $(document).ready(function(){
       file_uploader.bind('UploadProgress', function(up, file) {
         $('#show_file_uploading').html('<center>Uploading..</center>');
 			});
-      
-      
+
+
      file_uploader.bind('FileUploaded', function(up, file, info) {
         showSpinner(true);
         $('#confirm_upload').hide();
@@ -254,7 +254,7 @@ $(document).ready(function(){
         $("#no_files").html('');
         showSpinner(false);
     });
-    
+
   $("#filter_files").change(function(){
     var id = $("#filter_files").val();
     var course_id = $("#current_course").val();
@@ -262,8 +262,8 @@ $(document).ready(function(){
     if(id){
       showSpinner(true);
       $.ajax({
-         type: "POST",  
-         url: "/course/load_files",  
+         type: "POST",
+         url: "/course/load_files",
          data: {id:id,course_id:course_id,profile_id:profile_id},
          success: function(data) {
             if(id == "all"){
@@ -284,8 +284,8 @@ $(document).ready(function(){
       });
     }
   });
-    
-    
-    
+
+
+
   });
 </script>

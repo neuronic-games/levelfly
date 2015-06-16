@@ -1,0 +1,9 @@
+<% @all_permissions.in_groups_of(4).each do |col| %>
+  <div style="width:49%;display:inline-block;">
+    <% col.each do |p| %>
+      <div style="margin: 5px 0px;">
+        <input type="checkbox" disabled="disabled" <% if @user_permissions.include?(p) %>checked="checked"<% end %>> <%= p.titleize  %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

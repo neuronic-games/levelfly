@@ -207,29 +207,65 @@ class Message < ActiveRecord::Base
       partial = 'message/pusher/message'
       channel = 'forum_message'
       ids.each do |push_id|
-        locals = {:message => msg, :course_id=> msg.profile_id, user_session_profile_id: push_id, course_master: courseMaster, chanel: channel} # course_master_of changed to course_master because of message/pusher/_message template
+        locals = {:message => msg, :course_id=> msg.parent_id, user_session_profile_id: push_id, course_master: courseMaster, chanel: channel} # course_master_of changed to course_master because of message/pusher/_message template
         pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
         Pusher.trigger_async("private-my-channel-#{push_id}", 'message', pusher_content)
-      end
-    elsif msg.parent_type == Message.to_s and msg.message_type == Message.to_s and msg.target_type == Message.to_s
-      parent = find(msg.parent_id)
-      if parent.parent_type == 'F' and parent.target_type == 'F'
-        ids = MessageViewer.where(message_id: parent.id).map(&:viewer_profile_id) - [msg.profile_id]
-
-        partial = 'message/pusher/comment'
-        channel = 'private_comment'
-        ids.each do |push_id|
-          locals = {:comment => msg, :course_id=> msg.profile_id, user_session_profile_id: push_id, chanel: channel}
-          pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
-          Pusher.trigger_async("private-my-channel-#{push_id}", 'message', pusher_content)
-        end
       end
     end
   end
 
+
+  def toggle_star
+    update_attribute('starred',(  starred == true ? false : true))
+
+    course_master = Profile.find(
+        :first,
+        :include => [:participants],
+        :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", parent_id]
+    )
+
+    receivers = Profile.course_participants(parent_id, 'Course').map(&:id)
+
+    partial = 'message/pusher/star'
+    channel = "star"
+
+    receivers.each do |receiver_id|
+      pusher_content = Message.get_view.render(partial: partial, :locals =>{
+        message: self,
+        user_profile_id: receiver_id,
+        course_master: course_master,
+        chanel: channel})
+      Pusher.trigger_async("private-my-channel-#{receiver_id}", 'message', pusher_content)
+    end
+
+  end
+
+
+  def send_delete_notification(current_profile)
+    # check if the message is comment (it's comment if parent type = 'Message')
+    parent_message = (parent_type == 'Message') ? Message.find(parent_id) : self
+    course_master = Profile.course_master_of(parent_message.parent_id)
+    receivers = Profile.course_participants(parent_message.parent_id, 'Course').map(&:id)
+    # if current profile is not course owner, send notification to him also
+    receivers += [course_master.id] if course_master != current_profile
+
+    receivers.each do |receiver_id|
+      Pusher.trigger_async("private-my-channel-#{receiver_id}", 'message', {event: 'delete_message', message_id: id})
+    end
+  end
+
+  def send_delete_notification_to_friends(current_profile)
+    receivers = current_profile.friends.map(&:profile_id)
+    receivers.each do |receiver_id|
+      Pusher.trigger_async("private-my-channel-#{receiver_id}", 'message', {event: 'delete_message', message_id: id})
+    end
+  end
+
+
   private
 
   def push
+    # puts "!!!!!!! PUSH PARENT_TYPE: #{parent_type} ///// MESSAGE_TYPE: #{message_type} ///////"
     if parent_type == Message.to_s and message_type == Message.to_s
       push_comment()
     elsif parent_type == Profile.to_s and message_type == Message.to_s
@@ -301,20 +337,36 @@ class Message < ActiveRecord::Base
   end
 
   def push_comment
-    msg = Message.find(parent_id)
-    receiver = msg.profile_id == profile_id ? msg.target_id : msg.profile_id
-    return if ['', 'F'].include?(msg.parent_type) and ['', 'F'].include?(msg.target_type)
-    friend = msg.profile_id == receiver ? msg.target_id : msg.profile_id
+    sender = profile_id
+    parent_message = Message.find(parent_id)
+
+    if parent_message.parent_type == '' || parent_message.parent_type == 'Profile'
+      receivers = Profile.find(sender).friends.map(&:profile_id)
+    else
+      course_id = parent_message.parent_id
+      course_master_id = Course.find(course_id).owner.id
+      receivers = Profile.course_participants(course_id, 'Course').map(&:id) + [course_master_id] - [sender]
+    end
+
+    return if receivers.nil? or receivers.empty?
 
     partial = 'message/pusher/comment'
     channel = "private_comment"
-    locals = {:comment => self, :course_id=> friend, user_session_profile_id: receiver, chanel: channel}
 
-    pusher_content = Message.get_view.render(partial: partial, :locals =>locals)
-    new_message_hash = {}
-    new_message_hash = {sender: msg.profile_id} if msg.target_type == Profile.to_s
-    Pusher.trigger_async("private-my-channel-#{receiver}", 'message', pusher_content)
-    Pusher.trigger_async("private-my-channel-#{receiver}", 'new_message',new_message_hash)
+    receivers.each do |receiver_id|
+      pusher_content = Message.get_view.render(
+        partial: partial, :locals =>{
+        comment: self,
+        course_id: course_id,
+        user_session_profile_id: receiver_id,
+        course_master: course_master_id,
+        chanel: channel}
+      )
+      Pusher.trigger_async("private-my-channel-#{receiver_id}", 'message', pusher_content)
+
+      # if comment is not on the course page, push notification
+      Pusher.trigger_async("private-my-channel-#{receiver_id}", 'new_message',{sender: sender}) if course_id == nil
+    end
   end
 
   def push_friend_request

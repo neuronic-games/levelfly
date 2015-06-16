@@ -137,21 +137,23 @@
 		$('#feature_splash').show();
 	});
 
-	if ( $.browser.msie ) {
+	var ie11 = !!navigator.userAgent.match(/Trident\/7\./);
+	if ( ie11 ) {
+		$('#popup_warning').show();
+	} else if ( $.browser.msie ) {
 		if( parseInt($.browser.version, 10) < 10 ) {
 			$('#signin_frm').remove();
 			$('#browser_warning').show();
-		}
-		else if( parseInt($.browser.version) > 9 ) {
+		}else if( parseInt($.browser.version) > 9 ) {
 			$('#popup_warning').show();
 		}
-	}
-	if ( $.browser.mozilla ) {
+	} else if ( $.browser.mozilla ) {
 		if( parseInt($.browser.version) < 10 ) {
 			$('#signin_frm').remove();
 			$('#browser_warning').show();
 		}
 	}
+
 	$("#hide_pop_up").click(function(){
 		$("#popup_warning").hide();
 	});

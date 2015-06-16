@@ -17,31 +17,31 @@
     <div class="spacebar10px"></div>
     </div>
     <div class="clear"></div>
-    <div class="spacebar30px"></div> 
+    <div class="spacebar30px"></div>
     <div id="msg_input" class="hide">
       <textarea name="message" id="message" class="msg_txt" placeholder="Enter your message..."></textarea>
     </div>
     <div id="note_btn"class="hide note_btn">
-      <a href="javascript:void(0)" rel="switch" id="btn_note_dnt_add" class="blue_bt19px">Don't Add</a> 
-      <a href="javascript:void(0)" rel="add_note" id="Note" class="blue_bt19px send_btn">Add</a> 
+      <a href="javascript:void(0)" rel="switch" id="btn_note_dnt_add" class="blue_bt19px">Don't Add</a>
+      <a href="javascript:void(0)" rel="add_note" id="Note" class="blue_bt19px send_btn">Add</a>
     </div>
     <div id="msg_btn" class="hide msg_btn">
-      <a href="javascript:void(0)" rel="switch" id="btn_msg_dnt_add" class="blue_bt19px">Don't Send</a> 
-      <a href="javascript:void(0)" rel="save" id="Message" class="blue_bt19px send_btn">Send</a> 
+      <a href="javascript:void(0)" rel="switch" id="btn_msg_dnt_add" class="blue_bt19px">Don't Send</a>
+      <a href="javascript:void(0)" rel="save" id="Message" class="blue_bt19px send_btn">Send</a>
     </div>
     <div align="right" id="root_btn">
       <!-- <a href="javascript:void(0)" rel="switch" id="note_root" class="blue_bt19px">Note</a>  -->
-      
+
       <% if user_session[:profile_id] == profile.id %>
-        <!-- Actions for me 
-        <a href="javascript:void(0)" rel="/system/alert/" id ="my_stats" class="blue_bt19px menu_btn">Stats</a> 
-        -->  <div class="spacebar30px"></div> 
+        <!-- Actions for me
+        <a href="javascript:void(0)" rel="/system/alert/" id ="my_stats" class="blue_bt19px menu_btn">Stats</a>
+        -->  <div class="spacebar30px"></div>
       <% else %>
         <!-- Actions for other -->
         <% if @participant && !@participant.nil?%>
-          <a href="javascript:void(0)" data ="<%=@participant.id%>" rel="<%=@participant.target_id%>" rev="<%=profile.id%>" id ="give_badges" class="blue_bt19px give_badges">Give Badge</a> 
+          <a href="javascript:void(0)" data ="<%=@participant.id%>" rel="<%=@participant.target_id%>" rev="<%=profile.id%>" id ="give_badges" class="blue_bt19px give_badges">Give Badge</a>
         <% end %>
-          <a href="javascript:void(0)" rel="switch" id ="message_root" class="blue_bt19px">Message</a> 
+          <a href="javascript:void(0)" rel="switch" id ="message_root" class="blue_bt19px">Message</a>
 
         <% if is_friend(user_session[:profile_id], profile.id) %>
           <a href="javascript:void(0)" id="unfriend" rel ="<%= profile.id%>" class="blue_bt19px">Un-Friend</a>
@@ -53,7 +53,7 @@
             <a href="javascript:void(0)" class="blue_bt19px send_btn" id="Friend" rel="save">Friend</a>
           <% end %>
         <% end %>
-        
+
       <% end %>
     </div>
   </div>
@@ -139,7 +139,7 @@ $('#unfriend').click(function(){
   }
 });
 
-$('#give_badges').click(function(){    
+$('#give_badges').click(function(){
      course_id = $(this).attr("rel");
      profile_id = $(this).attr("rev");
      showSpinner(true);
@@ -158,10 +158,10 @@ $('#give_badges').click(function(){
             alert("An Error has occured");
             showSpinner(false);
           }
-       });  
-  }); 
-  
-  $('#view_participant_profile').click(function(){    
+       });
+  });
+
+  $('#view_participant_profile').click(function(){
      profile_id = $(this).attr("rel");
      $.ajax({
           type: "GET",
@@ -180,8 +180,8 @@ $('#give_badges').click(function(){
             alert("An Error has occured");
             showSpinner(false);
           }
-       });  
-  }); 
+       });
+  });
 
 // Hide the card if clicked outside
 $(document).click(function (e)
@@ -203,9 +203,10 @@ function user_profile(id) {
   <% if current_user.has_role(Role.edit_user) %>
   showSpinner(true);
   $('#avatar_card').hide();
-  $("#container").load('/users/show/' + id, function(){
+  $.get('/users/show/' + id, function(data) {
+    $('body').append(data);
     showSpinner(false);
-  });
+  })
   <% end %>
 }
 

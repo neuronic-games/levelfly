@@ -1,25 +1,25 @@
 
-<div class="account_detail" id="account_dialog"> 
-<%if @current_user and !@current_user.nil?%>
+<div class="account_detail" id="account_dialog">
+<%if @selected_user and !@selected_user.nil?%>
   <div class="heading">Account Setup</div>
   <div class="dialog_body">
     </br>
      <div class="heading02">Full Name
       &nbsp;&nbsp;
-    </div> 
+    </div>
     <div>
-     <input type ="text" class = "dd_input brown_bg02" id ="user_full_name" value="<%=@current_user.full_name%>">
+     <input type ="text" class = "dd_input brown_bg02" id ="user_full_name" value="<%=@selected_user.full_name%>">
     </div>
     </br>
-    
+
      <div class="heading02">Email
        &nbsp;&nbsp;
-     </div> 
+     </div>
      <div>
-      <input type ="text" class = "dd_input brown_bg02" id ="email" value="<%=@current_user.user.email%>">
+      <input type ="text" class = "dd_input brown_bg02" id ="email" value="<%=@selected_user.user.email%>">
      </div>
      <div class="form_error" id="email_form_error">&nbsp;</div>
-     
+
      <div class="heading02">Password <span class="form_error" id="password_form_error"></span>
        &nbsp;&nbsp;
      </div>
@@ -38,14 +38,15 @@
     <a class="smaller_text big_blue_btn inlineblock" id="dont_change_btn" href="javascript:void(0)">Don't Change</a>
     <a class="big_orange_btn inlineblock" id = "change_btn" href="javascript:void(0)">Change</a>
    </div>
-   <input type="hidden" name="hdn_user_id" id="hdn_user_id" value="<%=@current_user.user_id %>"/>
-<%end%>  
+   <input type="hidden" name="hdn_user_id" id="hdn_user_id" value="<%=@selected_user.user_id %>"/>
+   <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=@selected_user.id %>"/>
+<%end%>
 </div>
 
 
 <script type="text/javascript">
   $("#dont_change_btn").click(function(){
-    $("#account_setup").hide();
+    $("#account_setup").hide().empty();
   });
 // Hide the card if clicked outside
 $(document).click(function (e)
@@ -54,7 +55,7 @@ $(document).click(function (e)
 
     if (container.has(e.target).length === 0)
     {
-        container.hide();
+        container.hide().empty();
         $(document).unbind('click');
     }
 });
@@ -71,6 +72,7 @@ $(document).click(function (e)
       }
     } else {
       var id = $("#hdn_user_id").val(),
+          profile_id = $("#hdn_profile_id").val()
           password = $("#user_password").val(),
           full_name = $("#user_full_name").val(),
           email = $("#email").val();
@@ -81,22 +83,24 @@ $(document).click(function (e)
         type: "POST",
         url: "/profile/change_password",
         dataType:"json",
-        data:{id:id,password:password,full_name:full_name,email:email},
+        data:{id:id, profile_id:profile_id, password:password, full_name:full_name, email:email},
         success: function(resp){
           if (resp){
             showSpinner(false);
             $("#account_setup .dialog_body").html($('<div class="heading02">').html('<br>' + resp.text + '<br><br>'));
             $("#account_setup #change_btn").hide();
             $("#account_setup #dont_change_btn").html('Close');
+            $('input[name="full_name"]').val(full_name);
             $("#alert").html(resp.alert);
-            if(resp.status == true) {
+            if (resp.status == true && resp.current_user_profile == profile_id) {
               $("#tool_bar_full_name").html(full_name);
             }
+            $("#account_setup").empty();
             //$("#account_setup").fadeOut(5000);
           }
         }
-      }); 
-    }   
+      });
+    }
  });
 
  $('#account_dialog #email').change(function() {
@@ -125,7 +129,7 @@ function validateForm(){
   var user_confirm_password =document.getElementById("user_confirm_password");
   var atpos=email.indexOf("@");
   var dotpos=email.lastIndexOf(".");
- 
+
   if (email==""){
       $('#account_dialog .form_error').html('Enter Email Address');
       return false;
@@ -137,13 +141,13 @@ function validateForm(){
   } else {
     $('#email_form_error').html("&nbsp;");
   }
-  
+
   if(user_password.value.length < 6 && user_password.value!=""){
     $('#password_form_error').html("Passwords have a minimum of 6 character");
     user_confirm_password.focus();
     return false;
   } else $('#password_form_error').html('');
-  
+
   if(user_confirm_password.value == "" && user_password.value!=""){
     $('#password_confirmation_form_error').html("Please confirm your Password");
     user_confirm_password.focus();

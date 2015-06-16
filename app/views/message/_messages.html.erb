@@ -13,13 +13,9 @@
   </div>
 
   <div class="msg_box_fullwidth">
-  <div class="staronavatar">
-  <%if (course_master and course_master.id == user_profile_id) %>
-    <img src="/images/<%if message.starred == true %>star_up<%else%>star_down<%end%>.png" width="36" height="37" rel="<%=message.id%>" class="msg_pri_toggle msg_pri_toggle_img" />
-  <%elsif message.starred%>
-    <img src="/images/star_up.png" width="36" height="37" />
-  <%end%>
-  </div>
+
+    <%= render :partial => "/message/star", :locals => {:course_master => course_master, :user_profile_id => user_profile_id, :message => message} %>
+
   <div class="positn_rtlv"><div class="msg_big_box_arrow"><img src="/images/blue_arrow.png" width="15px" height="21px" /></div></div>
     <div class="msg_box_txt blue_bg_msg_txt">
     <div class ="topic_div" id ="topic_<%=message.id%>" rel ="<%=message.id%>" >
@@ -61,7 +57,7 @@
           <span class="list_messages" id="m_<%=message.id%>">
           <span id="link_<%=message.id%>">
           	<% unless @member.nil? && @course && @course.parent_type && @course.parent_type == "G" %>
-            <a href="javascript:void(0)" id="<%=message.id%>" rel="<%=user_like(user_profile_id, message.id) ? "unlike" : "like" %>" rev = "<%=message.parent_id%>" class="blue_bt19px like">
+            <a href="javascript:void(0)" id="<%=message.id%>" rel="<%=user_like(user_profile_id, message.id) ? "unlike" : "like" %>" rev="<%=message.parent_id%>" class="blue_bt19px like">
               <%=user_like(user_profile_id, message.id) ? "UNLIKE" : "LIKE" %>
             </a>
             <%end%>
@@ -76,7 +72,8 @@
             <%end%>
           </span>
          <%end%>
-          <%if (message.profile_id == user_profile_id or @course_owner==true) or (control == 'message') %>
+          <% # if (message.profile_id == user_profile_id or @course_owner==true) or (control == 'message') %>
+          <% if (message.profile_id == user_profile_id or @course_owner==true) %>
              <span id="delete_<%=message.id%>">
              <a href="javascript:void(0);" class="message_del blue_bt19px" rev ="message" rel="<%=message.id %>">DELETE</a>
              </span>

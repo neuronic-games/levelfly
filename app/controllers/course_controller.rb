@@ -145,11 +145,10 @@ class CourseController < ApplicationController
     end
     xp = TaskGrade.select("sum(points) as total").where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course.id,@profile.id)
     @course_xp = xp.first.total
-    @member_count = Profile.count(
-      :all,
-      :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'S'", @course.id]
-    )
+
+    section_type = ['Course','Group']
+    @member_count = Profile.course_participants(@course.id, section_type).count
+
     @member = Participant.find( :first, :conditions => ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id])
     @pending_count = Profile.count(
       :all,
@@ -305,6 +304,7 @@ class CourseController < ApplicationController
 		message_type = nil
     content = nil
 		resend = false
+    email_exist = []
     if params[:email]
       emails = params[:email].split(/[ ,;]+/)
       profiles = []
@@ -321,7 +321,9 @@ class CourseController < ApplicationController
             @user, @profile = User.new_user(email,school.id)
             new_user = true
           end
-          if @profile
+          # if @profile
+          # temp fix to not allow invite user of different school
+          if @profile && @profile.school == school
             participant_exist = Participant.find(:first, :conditions => ["target_id = ? AND target_type= ? AND profile_id = ?", params[:course_id], section_type, @profile.id])
             course = Course.find(params[:course_id])
             unless participant_exist
@@ -358,19 +360,41 @@ class CourseController < ApplicationController
   							message_type = "course_invite"
   							content = "Please join #{course.name} (#{course.code_section})."
   						end
-  						@message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
-  						send_email(@user,params[:course_id],@message.id,new_user)
+              # Commented because should not send new notification, but find existing one
+  						# @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id], section_type, message_type, content)
+              @message = Message.where(
+                profile_id:   user_session[:profile_id],
+                parent_id:    @profile.id,
+                parent_type:  section_type,
+                wall_id:      wall_id,
+                target_id:    params[:course_id],
+                target_type:  section_type,
+                message_type: message_type
+              ).first
+  						send_email(@user, params[:course_id], @message.id, new_user)
   						resend = true
-  					 else
+   					 else
   						already_added = true
   					 end
             end
+          else
+            # temp fix to not allow invite user of different school
+            email_exist.push(@user.email)
           end
           profiles.push @profile
           users.push @user
         end
       end
-      render :text => {"status"=>status, "already_added" => already_added, "profiles" => profiles, "users" => users, "new_user"=>new_user, "resend"=>resend}.to_json
+      # temp fix to not allow invite user of different school
+      render :text => {
+        "status" => status,
+        "already_added" => already_added,
+        "profiles" => profiles,
+        "users" => users,
+        "new_user" => new_user,
+        "resend" => resend,
+        "email_exist" => email_exist
+      }.to_json
    end
   end
 
@@ -589,8 +613,8 @@ class CourseController < ApplicationController
      @course = Course.find_by_id(params[:id])
      @member_count = Profile.count(
       :all,
-      :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id]
+      :include => [:participants, :user],
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S') AND users.status != 'D'", @course.id]
       )
       @pending_count = Profile.count(
       :all,
@@ -615,12 +639,11 @@ class CourseController < ApplicationController
     end
     xp = TaskGrade.select("sum(points) as total").where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course.id,@profile.id)
     @course_xp = xp.first.total
-    @peoples = Profile.find(
-      :all,
-      :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type = 'S'", @course.id]
-    )
+
+    section_type = ['Course','Group']
+    @peoples = Profile.course_participants(@course.id, section_type)
     @member_count = @peoples.length
+
     @member = Participant.find(:first, :conditions => ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id]
 )
     @pending_count = Profile.count(
@@ -683,12 +706,7 @@ class CourseController < ApplicationController
       :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M' and profile_id = ? ", @course.id,user_session[:profile_id]]
       )
      unless @courseMaster and @course.course_id != 0
-       @people_pending = Profile.find(
-       :all,
-       :include => [:participants, :user],
-       :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('P') AND users.status != 'D'", @course.id,section_type],
-       :order => "full_name, email"
-       )
+        @people_pending = Profile.includes(:participants, :user).where("participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('P') AND users.status != 'D'", @course.id, section_type).order(:full_name, :email)
      end
      @peoples = Profile.course_participants(@course.id, section_type)
      #ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}")
@@ -782,7 +800,6 @@ class CourseController < ApplicationController
     if params[:id] and !params[:id].blank?
       @att = Attachment.find(params[:id])
       if !@att.nil?
-
         @att.update_attribute('starred',(@att.starred == true ? false : true))
       end
       render :text => {:starred => @att.starred }.to_json
@@ -793,7 +810,7 @@ class CourseController < ApplicationController
     if params[:id] and !params[:id].blank?
       @msg = Message.find(params[:id])
       if !@msg.nil?
-        @msg.update_attribute('starred',(@msg.starred == true ? false : true))
+        @msg.toggle_star
       end
       render :text => {:starred => @msg.starred }.to_json
     end
@@ -876,8 +893,8 @@ class CourseController < ApplicationController
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
       @peoples = Profile.find(
         :all,
-        :include => [:participants],
-        :conditions => ["participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S')", @course.id]
+        :include => [:participants, :user],
+        :conditions => ["participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S') AND users.status != 'D'", @course.id]
       )
       @member = Participant.find( :first, :conditions => ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id])
       @member_count = @peoples.length

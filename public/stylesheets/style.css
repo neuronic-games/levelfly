@@ -62,7 +62,7 @@ a.icon_courses_active {
   background:url(../images/courses_icon_hover.png) no-repeat 18px 7px;
   padding:63px 0 0;
   color:#6a7c28 !important;
- 
+
 }
 .courses_count {
   display:block;
@@ -206,7 +206,7 @@ a.icon_users_active {
 /*  position:relative;*/
 	*height: expression(document.body.clientHeight < 802? "800px" : "100%");
   vertical-align:middle;
- /* position:absolute;*/ 
+ /* position:absolute;*/
   right:0px;
 }
 .heading_messages {
@@ -243,11 +243,11 @@ a.icon_users_active {
     height:100%;
     margin: 0;
     /*padding: 130px 0 0;*/
-    width: 100%;     
+    width: 100%;
 }
 .msg_content {
   width: 300px;
-  background-color: #CCE8F4; 
+  background-color: #CCE8F4;
   color: #4A4F4E;
   padding: 2px;
 }
@@ -743,7 +743,7 @@ a.blue_bt19px2 {
   z-index:1000;
   height:100%;
   padding-right:90px;
-  /* We can't remove this margin setting because it will make the clipboard too low in the page. 
+  /* We can't remove this margin setting because it will make the clipboard too low in the page.
      We need to fix the problem with the short clipboard in another way */
   margin-left:-22px;
 }
@@ -758,20 +758,20 @@ a.blue_bt19px2 {
   background:url(../images/board_left.png) no-repeat scroll left 0px, url("../images/board_left_bottom.png") repeat-y scroll left 100px;
   padding-left:48px;
   height:100%;
-  
-  
+
+
 }
 .board_right {
   background:url("../images/board_right.png") no-repeat scroll right 0px, url("../images/board_right_bottom.png") repeat-y scroll right 100px;
   padding-right:48px;
   height:100%;
-  
+
 }
 .board_center {
   background:url(../images/board_center.png) 0 0px repeat-x, url("../images/board_center_bottom.png") repeat scroll right 100px;
   /*height:732px;*/
   height:100%;
-  
+
 }
 .task_pad_top {
   width:100%;
@@ -1050,7 +1050,7 @@ margin-top:-20px;
   right: 49px;
 }
 /*.course_setup_button {
-  position: absolute; 
+  position: absolute;
   right: 230px;
 }*/
 .course_setup_button {
@@ -1658,7 +1658,7 @@ background-color:#FFFFFF;
 .profile_row input, .profile_row textarea, .profile_row .readonly_text {
   color: #ffffff;
   background-color: #214C69;
-  border-style: none; 
+  border-style: none;
   border-color: transparent;
   padding:8px;
   overflow:auto;
@@ -1904,7 +1904,7 @@ margin-left:33px;
   border: 1px solid #A9A9A9;
   height: 350px;
   margin-left: 115px;
-  padding: 10px; 
+  padding: 10px;
   position: absolute;
   width: 370px;
   z-index: 2;
@@ -1914,7 +1914,7 @@ margin-left:33px;
   border: 1px solid #A9A9A9;
   height: 350px;
   margin-left: 115px;
-  padding: 10px; 
+  padding: 10px;
   position: absolute;
   width: 370px;
   z-index: 2;
@@ -1924,7 +1924,7 @@ margin-left:33px;
   border: 1px solid #A9A9A9;
   height: 350px;
   margin-left: 115px;
-  padding: 10px; 
+  padding: 10px;
   position: absolute;
   width: 370px;
   z-index: 2;
@@ -1988,7 +1988,7 @@ margin-left:33px;
     margin: 100px 0 0 -65px;
     padding: 5px 0 0;
     text-align: center;
-    
+
 }
 .file_list .file_task {
     font-size: 20px;
@@ -2013,9 +2013,9 @@ margin-left:33px;
     padding: 25px;
     position: absolute;
 }
-.on_hover{  
+.on_hover{
   float:left;
-  z-index:2;  
+  z-index:2;
 }
 
 /* For Files ADD CSS */
@@ -2024,7 +2024,7 @@ margin-left:33px;
 	padding-top:7px;
 	width:auto; height:auto;
 }
-.clipboard_header { 
+.clipboard_header {
   overflow:hidden;
   background-color:#B1C4D0;
   color:#E2E4EA;
@@ -2044,13 +2044,13 @@ margin-left:33px;
 .clipboard_list .title, #infscr-loading {
   font-size: 17px;
   font-weight: bold;
-  overflow: hidden; 
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 .clipboard_list .description {
   font-size: 14px;
   font-weight: normal;
-  overflow: hidden; 
+  overflow: hidden;
   text-overflow: ellipsis;
   text-align:justify;
   height: 34px;
@@ -2061,7 +2061,7 @@ margin-left:33px;
   border-bottom: none;
 }
 .list_hover {
-  position: absolute; 
+  position: absolute;
   display: none;
 }
 .list_hover1 {
@@ -2082,13 +2082,13 @@ margin-left:33px;
 .blackboard_list .title {
   font-size: 17px;
   font-weight: bold;
-  overflow: hidden; 
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 .blackboard_list .description {
   font-size: 14px;
   font-weight: normal;
-  overflow: hidden; 
+  overflow: hidden;
   text-overflow: ellipsis;
   text-align:justify;
   height: 34px;
@@ -2211,6 +2211,13 @@ div .taskmsg_bgc2 {
 	position:absolute;
 	margin:-14px 0 0 -20px;
 }
+.star_on_course_owner {
+  position: absolute;
+  width: 15px !important;
+  height: 15px !important;
+  top: 0;
+  left: 5px;
+}
 
 .titleTextheading {
 	float:left;
@@ -2282,13 +2289,13 @@ div .taskmsg_bgc2 {
     width: 288px;
 }
 .avatar_controls {
-  position:absolute; 
+  position:absolute;
   right:15px;
-  top: 115px; 
-  font-family:Arial, Helvetica, sans-serif; 
+  top: 115px;
+  font-family:Arial, Helvetica, sans-serif;
   color:#19546E;
   text-align: center;
-  font-weight:bold; 
+  font-weight:bold;
 }
 .wrapper .selections {
   position: absolute;
@@ -2509,31 +2516,31 @@ div .taskmsg_bgc2 {
 }
 
 .color_palette #color_1, #color_2, #color_3, #color_4, #color_5 , #hair_color_1, #hair_color_2, #hair_color_3, #hair_color_4, #hair_color_5 {
-  width:40px; 
-  height:40px; 
-  float:left; 
-  border:2px solid #1D4D67; 
+  width:40px;
+  height:40px;
+  float:left;
+  border:2px solid #1D4D67;
   margin-left:6px;
 }
 
 .color_palette #color_1 {
-  background-color:#E5E4E2; 
+  background-color:#E5E4E2;
 }
 
 .color_palette #color_2 {
-  background-color:#D8C078; 
+  background-color:#D8C078;
 }
 
 .color_palette #color_3 {
-  background-color:#B28149; 
+  background-color:#B28149;
 }
 
 .color_palette #color_4 {
-  background-color:#8D6331; 
+  background-color:#8D6331;
 }
 
 .color_palette #color_5 {
-  background-color:#553A1C; 
+  background-color:#553A1C;
 }
 
 .color_palette #hair_color_1 {
@@ -2545,15 +2552,15 @@ div .taskmsg_bgc2 {
 }
 
 .color_palette #hair_color_3 {
-  background-color:#A52121; 
+  background-color:#A52121;
 }
 
 .color_palette #hair_color_4 {
-  background-color:#531A1A; 
+  background-color:#531A1A;
 }
 
 .color_palette #hair_color_5 {
-  background-color:#030000; 
+  background-color:#030000;
 }
 
 .user_profile > .input {
@@ -2573,7 +2580,7 @@ div .taskmsg_bgc2 {
 	padding: 23px 0 0;
 }
 .btn_drop_file  a{
-	text-decoration:underline; 
+	text-decoration:underline;
 	color:#9ab0b9;
 }
 
@@ -2586,7 +2593,7 @@ div .taskmsg_bgc2 {
 }
 
 .browse_link_div  a{
-	text-decoration:underline; 
+	text-decoration:underline;
 	color:#9ab0b9;
 }
 
@@ -2660,7 +2667,7 @@ div .taskmsg_bgc2 {
   font-size:18px;
   text-transform:uppercase;
   position:absolute;
-  
+
 }
 
 #level_meter > #progress_stats_1 {
@@ -2677,8 +2684,8 @@ div .taskmsg_bgc2 {
 }
 
 .system_alert {
-  text-align: center; 
-  margin-top: 200px; 
+  text-align: center;
+  margin-top: 200px;
   font-family:'CollegeRegular', Arial, Helvetica, sans-serif;
   font-size:48px;
   color:#8D130D;
@@ -2915,12 +2922,12 @@ filter:alpha(opacity="0");
 	width:137px;
 	position:relative;
 	display:inline-block;
-	
+
 	font-family: 'CollegeRegular';
 	font-size:12px;
 
 	top:0;
-	
+
 }
 
 .selectbg2 select{
@@ -2942,7 +2949,7 @@ filter:alpha(opacity="0");
 .rotate_text {writing-mode:tb-rl;
 	-webkit-transform:rotate(90deg);
 	-moz-transform:rotate(90deg);
-    
+
 	-o-transform: rotate(90deg); filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=90); 	}
 .GB_outcomment { font-family:Arial, Helvetica, sans-serif; font-size:11px; font-weight:bold; color:#6989b5; width:16px; white-space:nowrap; margin:0px 0 0 0;  }/*position:absolute;top:4px;*/
 .GB_outcomment2 { font-family:Arial, Helvetica, sans-serif; font-size:11px; font-weight:bold; color:#6989b5; width:16px; white-space:nowrap; margin:0px 0 0 0; top:34px;/*position:absolute;*/}
@@ -2968,7 +2975,7 @@ filter:alpha(opacity="0");
 .GDingboxinner_outcome {float:left; border-right:#bc917d 1px solid; /*width:114px;*/ height:65px; padding:0 3px;}
 .GDingboxinner_latest {float:left; border-right:#bc917d 1px solid; /*width:58px;*/ height:65px; padding:0 3px;}
 .GDingboxinner_delete {float:left; width:38px; /*height:65px;*/ padding:0 3px;}
-input[type="button"].grading_Btn { 	
+input[type="button"].grading_Btn {
 	background: url(../images/grading_bt.png) repeat scroll 0 0 transparent;
 	cursor: pointer;
 	font-family: verdana;
@@ -2985,7 +2992,7 @@ input[type="button"].grading_Btn {
 	width: 38px;
 	font-family: 'SeanRegular';
 }
-input.grading_Btn2 { 	
+input.grading_Btn2 {
 	cursor: pointer;
 	font-family: verdana;
 	border: medium none;
@@ -3000,7 +3007,7 @@ input.grading_Btn2 {
 
 	font-family: 'SeanRegular';
 	}
-input[type="button"].grading_Btn3 { 	
+input[type="button"].grading_Btn3 {
 	background: url(../images/grading_bt_long.png) repeat scroll 0 0 transparent;
 	cursor: pointer;
 	font-family: verdana;
@@ -3016,9 +3023,9 @@ input[type="button"].grading_Btn3 {
 	padding:0 7px 1px;
 	width: 60px;
 	font-family: 'SeanRegular';
-}  
+}
 
-input[type="button"].grading_Btn4 { 	
+input[type="button"].grading_Btn4 {
 	background: url(../images/grading_bt_long.png) repeat scroll 0 0 transparent;
 	cursor: pointer;
 	font-family: verdana;
@@ -3033,9 +3040,9 @@ input[type="button"].grading_Btn4 {
 	padding:0 7px 1px;
 	width: 60px;
 	font-family: 'SeanRegular';
-}  
-  
-  
+}
+
+
 .Gbtn1 { color:#464646 !important; background: url(../images/grading_bt.png) repeat scroll 0 0 transparent !important;}
 .Gbtn2 { color:#464646 !important; background: url(../images/grading_btout2.png) repeat scroll 0 0 transparent !important;}
 .Gbtn3 { color:#464646 !important; background: url(../images/grading_btout3.png) repeat scroll 0 0 transparent !important;}
@@ -3069,7 +3076,7 @@ input[type="button"].grading_Btn4 {
 	height:auto;
 	max-width: 31%;/*40*/
 	position:relative;
-	overflow-x: scroll; 
+	overflow-x: scroll;
 	overflow: -moz-scrollbars-horizontal;
 }
 
@@ -3130,7 +3137,7 @@ input[type="button"].grading_Btn4 {
 }
 
 .light_row{
-	background:#B7BFD2; 
+	background:#B7BFD2;
 }
 
 .scrollableArea{
@@ -3207,7 +3214,7 @@ filter:alpha(opacity="0");
 	height:auto;
 	max-width:90%;
 	font-family: 'CollegeRegular';
-	overflow-x: scroll; 
+	overflow-x: scroll;
 	overflow: -moz-scrollbars-horizontal;
 }
 
@@ -3238,7 +3245,7 @@ filter:alpha(opacity="0");
 	float:left;
 	height:auto;
 	width:48%;
-	
+
 }
 .clickable #menu3{
   background:none;
@@ -3361,7 +3368,7 @@ filter:alpha(opacity="0");
   font-size: 12px;
   color:#FFFFFF !important;
   word-wrap:break-word;
-  overflow-y: scroll; 
+  overflow-y: scroll;
   overflow: -moz-scrollbars-vertical;
 }
 .descr_transform {
@@ -3647,6 +3654,9 @@ filter:alpha(opacity="0");
 	box-shadow:inset 0px 0px 2px 1px #000000;
 	margin:0 10px 0 0;
 }
+.avatarWbdr {
+  position: relative;
+}
 .avatarWbdr img {
 	width:53px;
 	height:53px;
@@ -3745,7 +3755,7 @@ background-color:#FF4D4D
     height: 20px;
 }
 .task_name_pos{padding: 0 15px 0 38px;}
-input[type="button"].task_btn { 	
+input[type="button"].task_btn {
 	cursor: pointer;
 	font-family: verdana;
 	border: 1px solid black;
@@ -3766,7 +3776,7 @@ div .frm_input2 {
 }
 .msg_content2 {
   width: 80%;
-  background-color: #CCE8F4; 
+  background-color: #CCE8F4;
   color: #4A4F4E;
   padding: 2px;
 }
@@ -4099,7 +4109,7 @@ div .frm_input2 {
 	-moz-box-shadow:inset 0px 0px 2px 1px #000000;
 	-webkit-box-shadow:inset 0px 0px 2px 1px #000000;
 	box-shadow:inset 0px 0px 2px 1px #000000;
-  
+
 }
 .avatar_white_bdr01 img{ margin-left: -7px; }
 .stat_icons_box2 {
@@ -4129,7 +4139,7 @@ div .frm_input2 {
   color:#8ea900;
   font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
   font-size: 18px;
- 
+
 }
 .badgetitlediv{ margin: 0px 0px 0px 16px;}
 
@@ -4140,12 +4150,12 @@ div .frm_input2 {
   margin: 10px 20px 20px 16px;
 }
 
-.badges_box1{ 
+.badges_box1{
   width:660px;
   margin:0px 0px 0px -7px;
 }
 .badge_board_left{
-  overflow-y: scroll; 
+  overflow-y: scroll;
   overflow: -moz-scrollbars-vertical;
   max-height:525px;
 }
@@ -4361,7 +4371,7 @@ border:solid 0px #000000;
 .FloatR {float:right}
 .msg_head_content { height:50px;}
 .topic_input{
-  width:100%; 
+  width:100%;
   height:100%;
   color:#AD4A51;
   font-weight: bold;
@@ -4405,7 +4415,7 @@ border:solid 0px #000000;
 .participant_type
 {
 font-family:Arial, Helvetica, sans-serif;
-font-size:10px; 
+font-size:10px;
 font-weight:normal;
 color:#CAC6C6;
 margin: 24px 90px;
@@ -4414,7 +4424,7 @@ position: absolute;
 .forum_participant_type
 {
 font-family:Arial, Helvetica, sans-serif;
-font-size:10px; 
+font-size:10px;
 font-weight:normal;
 color:#CAC6C6;
 margin: 24px 114px;
@@ -4478,12 +4488,12 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
 	position: relative;
 	display: inline-block;
 	padding:0px 10px 0 0;
-	
-	
+
+
 }
 .ie8 .custom-checkbox_new {
 	zoom: 1;
-	
+
 }
 .custom-checkbox_new > .box {
 	position: relative;
@@ -4504,7 +4514,7 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
 	left: 1px;
 	top: -5px;
 	zoom: 1;
-	
+
 
 
 }
@@ -4551,7 +4561,7 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
 .message_content_link a {
     color:#0000EE;
 }
-.first_row_layout{ 
+.first_row_layout{
     position: relative;
     z-index: 2;
 }
@@ -4575,7 +4585,7 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
 .giveXpToAll{
   margin-left: 145px;
   width: 127px;
-  text-align: center; 
+  text-align: center;
   float: left;
 }
 .removeXp{
@@ -4586,7 +4596,7 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
 }
 
 .XpButtons{
-  float: right; 
+  float: right;
   min-width: 452px;
 }
 .warning_in_red{
@@ -4599,7 +4609,7 @@ font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
 }
 
 .boxadnt_scroll{
-  overflow-y: scroll; 
+  overflow-y: scroll;
   overflow: -moz-scrollbars-vertical;
   max-height:475px;
 }

@@ -1,0 +1,7 @@
+<div class="staronavatar" data-star-for-message-id="<%= message.id %>">
+  <%if (course_master and course_master.id == user_profile_id) %>
+    <img src="/images/<%if message.starred == true %>star_up<%else%>star_down<%end%>.png" width="36" height="37" rel="<%=message.id%>" class="msg_pri_toggle msg_pri_toggle_img" />
+  <%elsif message.starred%>
+    <img src="/images/star_up.png" width="36" height="37" />
+  <%end%>
+</div>

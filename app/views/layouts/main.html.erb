@@ -9,46 +9,27 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="robots" content="index, nofollow">
   <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  
+
   <link rel="apple-touch-icon" href="/images/ios_icon.png">
   <link href='https://fonts.googleapis.com/css?family=Metrophobic' rel='stylesheet' type='text/css'>
   <link type="text/css" rel="stylesheet" href="/stylesheets/style.css">
-  
+
   <link href="/stylesheets/main_layout.css" media="screen" rel="stylesheet" type="text/css">
   <link href="/stylesheets/ui/jquery.ui.all.css" media="screen" rel="stylesheet" type="text/css">
   <link href="/stylesheets/ui/jquery.ui.autocomplete.css" media="screen" rel="stylesheet" type="text/css">
   <link href="/stylesheets/ui/slider.css" media="screen" rel="stylesheet" type="text/css">
   <link href="/stylesheets/ui/tooltip.css" media="screen" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="/stylesheets/fileupload/css/jquery.plupload.queue.css" type="text/css" media="screen" />
-  <%= javascript_include_tag "application" %>
-  <script src="/assets/jquery.highlight.js"></script>
-  <script src="/assets/jquery.idletimeout.js"></script>
-  <script src="/assets/ui/jquery.ui.core.js"></script>
-  <script src="/assets/ui/jquery.ui.widget.js"></script>
-  <script src="/assets/ui/jquery.ui.mouse.js"></script>
-  <script src="/assets/ui/jquery.ui.position.js"></script>
-  <script src="/assets/ui/jquery.ui.autocomplete.js"></script>
-  <script src="/assets/ui/jquery.ui.datepicker.js"></script>
-  <script src="/assets/ui/jquery.ui.tooltip.js"></script>
-  <script src="/assets/ui/jquery.ui.slider.js"></script>
-  <script src="/assets/ui/jquery.dotdotdot-1.5.6.js" type="text/javascript"></script>
-  <script src="/assets/ui/jquery.maskedinput-1.3.min.js"></script>
-  <script src="/assets/ui/jquery.thumbnailScroller.js"></script>
-  <script src="/assets/ui/jquery-ui-1.8.13.custom.min.js"></script>
-  <script src="/assets/jstorage.js"></script>
+
+  <%= javascript_include_tag "vendor" %>
   <script>window.jStorage = $.jStorage;</script>
-  <script type="text/javascript" src="/assets/fileupload/plupload.js"></script>
-  <script type="text/javascript" src="/assets/fileupload/plupload.html5.js"></script>
-  <script type="text/javascript" src="/assets/fileupload/jquery.plupload.queue.js"></script>
-	<script type="text/javascript" src="/assets/fileupload/plupload.flash.js"></script>
-  <script type="text/javascript" src="/assets/ui/jquery.autosize.js"></script>
-  <script src="/assets/pusher.min.js"></script>
+  <%= javascript_include_tag "application" %>
 
   <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['t._setAccount', '<%= ENV['GA_ACCOUNT'] %>']);
     _gaq.push(['t._trackPageview']);
-    
+
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
@@ -83,7 +64,7 @@
                 getCommentHandler(data);
                 break;
             }
-            case 'forum_message': {//
+            case 'forum_message': {
                 forumMessagesHandler(data);
                 break;
             }
@@ -111,7 +92,38 @@
                 boardMessagesHandler(data);
                 break;
             }
+            case 'message_likes':{
+                updateMessageLikes(data);
+                break;
+            }
+            case 'star':{
+                toggleStar(data);
+                break;
+            }
+            case 'delete_message':{
+                deleteMessage(data);
+                break;
+            }
         }
+    }
+
+    function deleteMessage(data) {
+      var id = data.message_id
+      var elem = '#messsage_box_' + id
+      var elem_border = '#border_' + id
+      var elem_comment_box = '#post_comment_' + id
+      $(elem).remove();
+      $(elem_border).remove();
+      $(elem_comment_box).remove();
+    }
+
+    function toggleStar(data) {
+        var elem = '[data-star-for-message-id=' + data.message_id + ']';
+        $(elem).replaceWith(data.message);
+    }
+
+    function updateMessageLikes(data) {
+        $('#count_'+data.message_id).text(data.total_likes);
     }
 
     function notificationHandler(data){
@@ -141,7 +153,10 @@
 
     function forumMessagesHandler(data){
         if(checkPage('course','show_forum') && $('#section_type').val() == 'C'){
-            $('#message_wrapper_forum').prepend(data.message)
+            // $("div.show_group_messages a.sbmt_msg").attr('id')
+            if( data.course_id == $("div.show_group_messages a.sbmt_msg").attr('id') ) {
+              $('#message_wrapper_forum').prepend(data.message);
+            }
         }
     }
     function groupMessageHandler(data){
@@ -232,7 +247,9 @@
     }
     function getCommentHandler(data){
         if($("#messsage_box_"+data.target_id).length > 0){
-            readMessage(data.target_id, data.course_id);
+            if( data.course_id != null) {
+              readMessage(data.target_id, data.course_id);
+            }
             $("#messsage_box_"+data.target_id).append(data.message);
         }
     }
@@ -244,7 +261,7 @@
 
     }
   </script>
-  
+
   <%= csrf_meta_tags %>
 </head>
 <body onresize="resize_function()">
@@ -271,7 +288,7 @@
             <%= @profile.full_name %>
             <% end %>
           </div>
-          
+
           <h2 id="major_school_name">
             <%= @profile.major_school %>
             <% #if current_user.profiles.count > 1 %>
@@ -335,9 +352,9 @@
     <div class="fullheight">
       <div class="left_nav_box">
         <div class="nav_box" id="root_level">
-         
+
           <!--icon-->
-          
+
           <div class="jTscrollerContainer">
             <div class="jTscroller">
               <div class="space_btwn_icon"></div>
@@ -360,26 +377,26 @@
               <!--icon--><%count=0%>
               <%if Role.check_permission(@profile.id,Role.edit_grade) == true%>
                 <div class="icon_box"> <a href="javascript:void(0);" id="grade" rel="/grade_book/" rev = "/grade_book/" class="icon_grade menu_btn">Grade book</a> </div><%count=count+1%>
-                <div class="space_btwn_icon"></div> 
+                <div class="space_btwn_icon"></div>
               <%end%>
                <!--icon-->
-              <%if Role.check_permission(@profile.id,Role.modify_wardrobe) == true%> 
+              <%if Role.check_permission(@profile.id,Role.modify_wardrobe) == true%>
               <div class="icon_box"> <a href="javascript:void(0);" id="wardrobe" rel="/wardrobe/" rev = "/wardrobe/" class="icon_wardrobe menu_btn">Wardrobe</a> </div><%count=count+1%>
                <div class="space_btwn_icon"></div>
              <%end%>
-              <%if Role.check_permission(@profile.id,Role.edit_user) == true%> 
+              <%if Role.check_permission(@profile.id,Role.edit_user) == true%>
                 <div class="icon_box"> <a href="javascript:void(0);" id="users" rel="/users/" rev = "/users/" class="icon_people_setting menu_btn">People</a> </div><%count=count+1%>
                 <div class="space_btwn_icon"></div>
               <%end%>
-              
-             <%if Role.check_permission(@profile.id,Role.modify_rewards) == true%> 
+
+             <%if Role.check_permission(@profile.id,Role.modify_rewards) == true%>
               <div class="icon_box"> <a href="javascript:void(0);" id="reward" rel="/reward/" rev = "/reward/" class="icon_reward menu_btn">Rewards</a> </div><%count=count+1%>
                <div class="space_btwn_icon"></div>
-             <%end%> 
-              <%if Role.check_permission(@profile.id,Role.modify_settings) == true%> 
+             <%end%>
+              <%if Role.check_permission(@profile.id,Role.modify_settings) == true%>
               <div class="icon_box"> <a href="javascript:void(0);" id="setting" rel="/setting/" rev = "/setting/" class="icon_user_setting menu_btn">Setting</a> </div><%count=count+1%>
                <div class="space_btwn_icon"></div>
-             <%end%> 
+             <%end%>
             </div>
           </div>
           <%if count>0%>
@@ -387,11 +404,11 @@
             <div class="uparrow jTscrollerPrevButton"></div>
           <%end%>
           <!-- icon end -->
-          
+
         </div>
-        
+
       </div>
-      
+
       <div class="middle_main_div">
         <div id="container" class="Main_content">
           <%= yield %>
@@ -410,7 +427,7 @@
 <div id="avatar_card" class="popup_box1 hide"></div>
 <div id="badge_popup" class="badge_popup_dialog hide"></div>
 <div id="account_setup" class="hide">
-  
+
 </div>
 <!--popup end-->
 
@@ -441,7 +458,7 @@
 <script type="text/javascript">
 
 <!--
-  //jQuery.noConflict(); 
+  //jQuery.noConflict();
   (function($){
       Pusher.log = function(message) {
           if (window.console && window.console.log) {
@@ -490,20 +507,20 @@
       window.location.reload();
     })
 
-    window.onload=function() { 
-      $("#root_level").thumbnailScroller({ 
-        scrollerType:"clickButtons", 
-        scrollerOrientation:"vertical", 
-        scrollSpeed:2, 
-        scrollEasing:"easeOutCirc", 
-        scrollEasingAmount:800, 
-        acceleration:4, 
-        scrollSpeed:800, 
-        noScrollCenterSpace:10, 
-        autoScrolling:0, 
-        autoScrollingSpeed:2000, 
-        autoScrollingEasing:"easeInOutQuad", 
-        autoScrollingDelay:500 
+    window.onload=function() {
+      $("#root_level").thumbnailScroller({
+        scrollerType:"clickButtons",
+        scrollerOrientation:"vertical",
+        scrollSpeed:2,
+        scrollEasing:"easeOutCirc",
+        scrollEasingAmount:800,
+        acceleration:4,
+        scrollSpeed:800,
+        noScrollCenterSpace:10,
+        autoScrolling:0,
+        autoScrollingSpeed:2000,
+        autoScrollingEasing:"easeInOutQuad",
+        autoScrollingDelay:500
       });
     }
 
@@ -529,9 +546,9 @@
     // });
   })(jQuery);
 
-var h = new Object(); 
+var h = new Object();
  var ie_browser = false;
- window_height = window.innerHeight;   
+ window_height = window.innerHeight;
  height = window_height - 135;
 
  if(navigator.userAgent.toLowerCase().indexOf('msie') > -1){
@@ -545,15 +562,15 @@ var h = new Object();
   var search_arr = {
     "/profile/user_profile" : "Find People",
     "/friend/" : "Find People",
-    "/course/" : "Find Course", 
-    "/task/" : "Find Task", 
-    "/message/" : "Find Message", 
+    "/course/" : "Find Course",
+    "/task/" : "Find Task",
+    "/message/" : "Find Message",
     "/group/" : "Find Group",
     "/users/" : "Find People",
     "/profile/" : "Find People"
   };
   var search_url = "/course/";
-  var section_type = "C"
+  var section_type = "C";
   var search_term = $("#search_input").val();
 	// These booleans are set for show / hide all comments on walls & messages
 	<% @profile = @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id]) %>
@@ -563,19 +580,19 @@ var h = new Object();
 	    var all_comments = true;
 	<% end %>
 	var show_post_date = "<%= @profile.post_date_format.to_s %>;"
-	
+
   //Set CSRF Token (Required for ajax request (post))
   $(document).ajaxSend(function(e, xhr, options) {
     xhr.setRequestHeader("X-CSRF-Token", token);
   });
-  
+
   $(document).ready(function(){
-    
-    $.ajaxSetup({ cache: false }); 
+
+    $.ajaxSetup({ cache: false });
   //   setInterval(function() {
   //     profile_id = $("#hdn_profile_id").val();
-		// $.ajax({  
-  //         type: "POST",  
+		// $.ajax({
+  //         type: "POST",
   //         url: "/message/alert_badge",
   //         dataType: "json",
   //         data:{id:profile_id},
@@ -586,17 +603,17 @@ var h = new Object();
 		// 	else{
 		// 		document.getElementById("msg").className = "icon_msg menu_btn";
 		// 	}
-				
+
 		//   },
 		// });
   //   }, 10000*10);
-    
+
     //Search option settings
     $("#search_options li").bind("click",function(){
       set_search($(this).attr("rel"));
       $("#search_options").toggle();
     });
-    
+
     $("#search_input").bind("focus",function(){
       $.map( search_arr, function(val, i) {
         if(val == $("#search_input").val()) {
@@ -605,17 +622,18 @@ var h = new Object();
         }
       });
     });
-    
+
     $("#search_input").bind("focusout",function(){
       if($("#search_input").val() == "") {
         $("#search_input").val(search_term);
       }
     });
-    
+
     // Search form post when enter pressed
     $('#frm_search').submit(function(event) {
-        event.preventDefault();
+      event.preventDefault();
       search_text = $("#search_input").val();
+      var course_id = "";
       if(search_url && search_text !="") {
         var section_type = "";
         var filter = "";
@@ -633,23 +651,26 @@ var h = new Object();
         }
         else if(search_url == "/task/"){
             filter = $('.tab_open').attr('filter');
+            course_id = $('#course_id').val();
         }
         showSpinner(true);
-        dataString = {search_text: search_text,section_type: section_type, filter: filter}
+        dataString = {search_text: search_text,section_type: section_type, filter: filter, course_id: course_id};
         $.ajax({
-          type: "GET",  
+          type: "GET",
           url: search_url,
           data: dataString,
           success: function(data) {
             if (data) {
               if($.inArray(filter, ['A', 'M', 'active', 'current', 'past']) != -1){
-                  if($('#content_list').length != 0)
-                      $('#content_list').html(data);
-                  else if($('#task_show_list_data').length !=0 )
-                      $('#task_show_list_data').html(data);
+                if($('#content_list').length != 0) {
+                  $('#content_list').html(data);
+                }
+                else if($('#task_show_list_data').length !=0 ) {
+                  $('#task_show_list_data').html(data);
+                }
+              } else {
+                $("#container").html(data);
               }
-              else
-                  $("#container").html(data);
               $("#container").highlight(search_text);
               $("#clear_search").show();
               $("#clear_search").attr("rel", search_url);
@@ -662,18 +683,19 @@ var h = new Object();
       }
       return false;
     });
-    
+
     //Fill up the #container with according call
     $("#frm_search, #root_level, #container").delegate(".menu_btn", "click", loadPage);
     $(".page_switcher").click(loadPage);
-    
+
     $('#container').delegate('.profile', 'click', function(){
       var p = $(this);
       var course_id = p.attr("rel");
-      var position = p.position();
+      var position = p.offset();
+      console.log(this);
       showSpinner(true);
-      $.ajax({  
-        type: "POST",  
+      $.ajax({
+        type: "POST",
         url: "/message/add_friend_card",
         data: {profile_id:p.attr("profile_id"),course_id:course_id},
         success: function(data) {
@@ -692,12 +714,12 @@ var h = new Object();
       });
       return false;
     });
-    
+
     $(".setting_box").click(function(){
       var id = $("#hdn_profile_id").val();
       showSpinner(true);
-      $.ajax({  
-        type: "POST",  
+      $.ajax({
+        type: "POST",
         url: "/profile/account_setup",
         data: {id:id},
         success: function(data) {
@@ -709,24 +731,24 @@ var h = new Object();
         }
       });
     });
-    
-// New topic    
- $('#container').delegate('.topic_div', 'click', function(){   
+
+// New topic
+ $('#container').delegate('.topic_div', 'click', function(){
     var rel = $(this).attr("rel");
     if($("#et_"+rel).hasClass("show")){
       $("#et_"+rel).removeClass("show")
-     } 
+     }
     else{
-      $("#et_"+rel).addClass("show")  
+      $("#et_"+rel).addClass("show")
     }
     if($("#at_"+rel).hasClass("show")){
       $("#at_"+rel).removeClass("show")
-     } 
+     }
     else{
-      $("#at_"+rel).addClass("show")  
+      $("#at_"+rel).addClass("show")
     }
   });
-$('#container').delegate('.edit_topic', 'click', function(){     
+$('#container').delegate('.edit_topic', 'click', function(){
   //$(".edit_topic").click(function(){
     var rel = $(this).attr("rel");
     $("#topic_content_"+rel).show();
@@ -737,17 +759,17 @@ $('#container').delegate('.edit_topic', 'click', function(){
     document.getElementById("topic_content_"+rel).focus();
     $("#et_"+rel).hide();
   });
-  
+
   function show_btn(id)
   {
      if($("#"+id).hasClass("show")){
       $("#"+id).removeClass("show")
-     } 
+     }
     else{
-      $("#"+id).addClass("show")  
+      $("#"+id).addClass("show")
     }
   };
-$('#container').delegate('.add_topic', 'click', function(){    
+$('#container').delegate('.add_topic', 'click', function(){
     var rel = $(this).attr("rel");
     $("#topic_content_"+rel).show();
     document.getElementById("topic_content_"+rel).focus();
@@ -756,10 +778,10 @@ $('#container').delegate('.add_topic', 'click', function(){
     $("#at_"+rel).hide();
     $("#at_"+rel).addClass("hide");
     $("#at_"+rel).removeClass("edit_topic_btn");
-  
+
   });
-  
-  $('#container').delegate('.topic_input', 'blur', function(){ 
+
+  $('#container').delegate('.topic_input', 'blur', function(){
      var message_id = $(this).attr("rel");
      var content = $(this).val();
      if(content==""){
@@ -780,12 +802,12 @@ $('#container').delegate('.add_topic', 'click', function(){
      }
   });
   //For toggle date time of messages
- $('#container').delegate('.time', 'click', function(){ 
+ $('#container').delegate('.time', 'click', function(){
     var id = $(this).attr("rel");
     var profile_id = $("#hdn_profile_id").val();
     update_show_date(profile_id);
-   }); 
-  
+   });
+
   $("#container").delegate('.topic_input','change', function(){
     var message_id = $(this).attr("rel");
     id = $(this).attr("id");
@@ -824,12 +846,12 @@ $('#container').delegate('.add_topic', 'click', function(){
       error: function(){}
     });
   });
-    
-    
-    
-  
+
+
+
+
   }); //document.ready
-  
+
   function loadPage(dest, title) {
     var id = $(this).attr("id");
 
@@ -854,7 +876,7 @@ $('#container').delegate('.add_topic', 'click', function(){
     }
     show_selected($(this).attr("id"));
   }
-  
+
   $(document).keyup(function(e) {
     if (e.keyCode == 27) { // Esc button pressed to clear the search
       //load_data(search_url, section_type)//on cancel load previous page
@@ -862,12 +884,12 @@ $('#container').delegate('.add_topic', 'click', function(){
       $("#search_input").val(search_term);
     }
   });
-  
+
   $("#clear_search").click(function(){
      $("#clear_search").hide();
      $("#search_input").val(search_term);
   })
-  
+
   //Load data for different results like Course listing, Task listing, Add course, Add task, Search results etc.
   function load_data(target, data) {
     if(target) {
@@ -875,7 +897,7 @@ $('#container').delegate('.add_topic', 'click', function(){
       $("#search_input").val(search_term);
       showSpinner(true);
       $.ajax({
-        type: "GET",  
+        type: "GET",
         url: target,
         data: {section_type:data},
         success: function(data) {
@@ -890,7 +912,7 @@ $('#container').delegate('.add_topic', 'click', function(){
       });
     }
   }
-  
+
   function set_search(url) {
     if(url in search_arr) {
        $("#search_input").val(search_arr[url]);
@@ -933,7 +955,7 @@ $('#container').delegate('.add_topic', 'click', function(){
     if(document.getElementById("setting")!=null){
       document.getElementById("setting").className = "icon_user_setting menu_btn";
     }
-    
+
   }
   function unselectAll(){
       var buttons = {courses : 'icon_courses', msg: 'icon_msg', tasks: 'icon_tasks', networks: 'icon_networks',
@@ -955,38 +977,38 @@ $('#container').delegate('.add_topic', 'click', function(){
       } else {
   	    $("#msg").addClass("icon_msg_active");
       }
-    } 
+    }
     else if(selectted_menu=="tasks"){
       $("#tasks").addClass("icon_tasks_active");
-    } 
+    }
     else if(selectted_menu=="networks"){
       $("#networks").addClass("icon_networks_active");
-    } 
+    }
     else if(selectted_menu=="leader_board"){
       $("#leader_board").addClass("icon_leader_active");
-    } 
+    }
     else if(selectted_menu=="grade"){
       $("#grade").addClass("icon_grade_active");
-    } 
+    }
     else if(selectted_menu=="wardrobe"){
       $("#wardrobe").addClass("icon_wardrobe_active");
-    } 
+    }
     else if(selectted_menu=="users"){
       $("#users").addClass("icon_people_setting_active");
-    } 
+    }
     else if(selectted_menu=="reward"){
       $("#reward").addClass("icon_reward_active");
-    } 
+    }
     else if(selectted_menu=="setting"){
       $("#setting").addClass("icon_user_setting_active");
-    } 
-    
+    }
+
   }
-  
+
   function setPageTitle(title) {
     $("#page_title").html(title);
   }
-  
+
   function setAlert(text) {
     // $("#alert").dequeue();
     // $("#alert").html(text);
@@ -999,23 +1021,23 @@ $('#container').delegate('.add_topic', 'click', function(){
     // $("#alert").fadeIn("fast").delay(1000).fadeOut(1000);
   }
    $("#container").delegate('a','click', function(){
-    /* window_height = window.innerHeight;   
+    /* window_height = window.innerHeight;
      height = window_height - 135;
      $('.main_div_height').css("min-height",height);*/
-     
+
    });
    $('#container').ajaxComplete(function() {
-     window_height = window.innerHeight;   
-     height = window_height - 135;  
+     window_height = window.innerHeight;
+     height = window_height - 135;
       if(ie_browser == true) {
          height = window_height
       }
-     $('.main_div_height').css("min-height",height); 
+     $('.main_div_height').css("min-height",height);
 	 $('#root_level.nav_box').css("height",height);
    });
    //Resize window size for IE
    function resize_function(){
-     window_height = window.innerHeight;   
+     window_height = window.innerHeight;
      height = window_height - 135;
      if( navigator.userAgent.toLowerCase().indexOf('msie') > -1){
       ie_browser = true;
@@ -1023,7 +1045,7 @@ $('#container').delegate('.add_topic', 'click', function(){
      }
      $('.main_div_height').css("min-height",height);
 	 $('#root_level.nav_box').css("height",height);
-	 
+
     }
    //Update shown date and time format
    function update_show_date(id){
@@ -1083,7 +1105,7 @@ $('#container').delegate('.add_topic', 'click', function(){
             a.pop()
             $(this).addClass(a.join("_"))
           }
-        };        
+        };
       }
     })
   })

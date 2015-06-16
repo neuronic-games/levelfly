@@ -57,9 +57,9 @@ Oncapus::Application.configure do
 
   ActionMailer::Base.default :content_type => "text/html"
   #config.log_level = :warn
-  Pusher.app_id = '64377'
-  Pusher.key = 'c8fb9a955828496c8ed2'
-  Pusher.secret = '0be4a588118c56c95029'
+  Pusher.app_id = '64378'
+  Pusher.key    = '18acef759a4aa6f53d19'
+  Pusher.secret = '4f9384b33dad44150882'
 
   # Load AWS keys for development
   config.before_configuration do

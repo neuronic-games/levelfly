@@ -4,13 +4,13 @@
     <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
      <div> If the official department shared outcomes do not already appear here, you should add them and mark them as shared.<br /><br />Make sure they are up-to-date and correctly worded, since all faculty who teach this course will automatically be assigned these outcomes, and you will not be able to change this.</div>
-    
+
     <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
   <div align="right">
   <a class="smaller_text big_blue_btn inlineblock" id = "dont_share_btn" href="javascript:void(0)">Don't Share</a>
-  <a class="smaller_text big_orange_btn inlineblock clr_red " style="padding: 13px 8px 0 5px !important;" id="share_outcome_btn" href="javascript:void(0)">Share Outcome</a> 
- 
+  <a class="smaller_text big_orange_btn inlineblock clr_red " style="padding: 13px 8px 0 5px !important;" id="share_outcome_btn" href="javascript:void(0)">Share Outcome</a>
+
   </div>
 </div>
 
@@ -20,31 +20,32 @@
       $("#outcome_share_box").hide();
       _share_outcomes = false;
     });
-    
+
     $("#share_outcome_btn").click(function(){
-        var index = $("#outcome_index").val();      
+        var index = $("#outcome_index").val();
         if (_share_outcomes == true){
-             course_id = $("#course_id_hdn").val();
-            showSpinner(true);
-            $.ajax({
-              type:"POST",
-              dataType: "json",
-              url:"/course/share_outcome",
-              data:{outcome_id:index,course_id:course_id},
-              success:function(data){
-               showSpinner(false);
-               _share_outcomes = false;
-              }
-            });
-         }
-         else{
+          course_id = $("#course_id_hdn").val();
+          showSpinner(true);
+          $.ajax({
+            type:"POST",
+            dataType: "json",
+            url:"/course/share_outcome",
+            data:{outcome_id:index,course_id:course_id},
+            success:function(data){
+              showSpinner(false);
+              _share_outcomes = false;
+              $(".outcomes_share_btn[rel='"+index+"']").css("background-color","#123456");
+            }
+          });
+        }
+        else{
           _outcomes_shareObject[index] = true
+          $("#outcomes_share_"+index).css("background-color","#123456");
         }
         $("#outcome_index").attr("value","");
         $("#outcome_share_box").hide();
-        $("#outcomes_share_"+index).css("background-color","#123456"); 
-        
-       _share_outcomes = false;
+
+        _share_outcomes = false;
       });
     });
 </script>

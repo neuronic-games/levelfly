@@ -1,0 +1,8 @@
+<%= {
+    event: chanel,
+    message_id: message.id,
+    message: "#{
+    render partial: "message/star",
+    :locals => {:course_master => course_master, :user_profile_id => user_profile_id, :message => message}
+  }"
+}.to_json.html_safe %>

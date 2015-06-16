@@ -10,22 +10,16 @@ class Profile < ActiveRecord::Base
   has_many :profile_actions
   acts_as_taggable
 
-  scope :course_participants, (lambda do |course_id, section_type|
-    find(
-      :all,
-      :include => [:participants, :user],
-      :conditions => ["participants.target_id = ? AND participants.target_type= ?
-                      AND participants.profile_type IN ('S') AND users.status != 'D'", course_id,section_type],
-      :order => "full_name, email"
-  )
-  end)
-  scope :course_master_of, (lambda do |targ_id|
-      find(
-          :first,
-          :include => [:participants],
-          :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", targ_id]
-      )
-  end)
+  scope :course_participants, ->(course_id, section_type) {
+    includes(:participants, :user).where("participants.target_id = ? AND participants.target_type IN (?) AND participants.profile_type IN ('S') AND users.status != 'D'", course_id, section_type).order(:full_name, :email)
+  }
+  scope :course_participants_with_master, ->(course_id, section_type) {
+    includes(:participants, :user).where("participants.target_id = ? AND participants.target_type IN (?) AND participants.profile_type IN ('S','M') AND users.status != 'D'", course_id, section_type).order("users.last_sign_in_at DESC, full_name")
+  }
+
+  def self.course_master_of(course_id)
+    includes(:participants).where("participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", course_id).first
+  end
 
   def self.demo_profile
     demo = School.where(handle: 'demo').first

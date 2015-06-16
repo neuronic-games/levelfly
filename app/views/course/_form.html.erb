@@ -7,7 +7,7 @@
     <% if @course%>
       <!--<a href="javascript:void(0)" name="menu_btn_addfile" id="menu_btn_addfile" class="big_blue_btn hide">ADD FILE</a>-->
       <a href="javascript:void(0);" class="big_blue_btn hide" id="btn_course_duplicate">Duplicate</a>
-      <a href="javascript:void(0)" name="btn_category_remove" id="btn_category_remove" class="big_blue_btn hide">REMOVE CAT</a>        
+      <a href="javascript:void(0)" name="btn_category_remove" id="btn_category_remove" class="big_blue_btn hide">REMOVE CAT</a>
       <a href="javascript:void(0)" name="btn_archive" id="btn_archive" class="big_blue_btn hide">ARCHIVE</a>
       <a href="javascript:void(0)" name="btn_course_remove" id="btn_course_remove" style="padding:6px 0 6px" class="big_blue_btn"><%=section_type == "C" ? "Remove Course" : "Remove Group"%></a>
     <% end %>
@@ -26,7 +26,7 @@
 				<div id="permission">
 			   	  <%= render :partial => "/course/permission_required",:locals=>{:course_new =>false,:section_type =>params[:section_type]} %>
 			    </div>
-			  <%else%> 
+			  <%else%>
               <!-- tabs-->
 
             <div class="course_tabs menu_container" align="right">
@@ -78,7 +78,7 @@
       <%= render :partial => "/course/remove_course", :locals => {:section_type=>section_type} %>
     </div>
     <div class ="hide" id ="div_message_delete">
-    
+
     </div>
  </div>
 <script type="text/javascript">
@@ -111,9 +111,13 @@ else {setStorage("course_code", "Course Code");}
 if($("#course_section").val()!="") {setStorage("course_section", $("#course_section").val());}
 else {setStorage("course_section", "Section");}
 
+//set storage for group
+if($("#group_name").val()!="") {setStorage("group_name", $("#group_name").val());} else {setStorage("group_name", "New Group");}
+if($("#group_descr").val()!="") {setStorage("group_descr", $("#group_descr").val());} else {setStorage("group_descr", "New Group Description");}
+
 $(document).ready(function(){
-  
-  
+
+
   <% if defined?(course_new) && course_new == true %>
     $("#menu1").addClass("side_tab_close").removeClass("side_tab_open");
     $(".course_tabs").addClass("hide");
@@ -130,7 +134,7 @@ $(document).ready(function(){
     $("#remove_course_div").hide();
     $("#hdn_forum_id").attr("value","");
     idx = $(this).attr("value");
-    
+
     $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
 
     for(i=0;i<6;i++){
@@ -162,7 +166,7 @@ $(document).ready(function(){
         var msg = "Sorry but there was an error: ";
         alert(msg);
       }
-      
+
     });
 
     is_page_change = $("#hdn_is_page_change").val();
@@ -223,7 +227,7 @@ $(document).ready(function(){
         },
       });
     });*/
-   
+
    $('.course_tab_content').delegate('a', 'click', function(){
    //$("#btn_xp_badges").live('click', function(){
    if($(this).attr("id")=="btn_xp_badges"){
@@ -269,15 +273,15 @@ $(document).ready(function(){
         }
       });
     }
-    
+
   });
-  
-  
+
+
    $("#btn_course_remove").click(function(){
       $("#remove_course_div").show();
    });
-   
-  
+
+
   //Post Message
   $('.right_form_containerr').delegate('.sbmt_msg', 'click', function(){
     showSpinner(true);
@@ -331,8 +335,8 @@ $(document).ready(function(){
       action = $(this).attr('rel');
       course_id = $(this).attr('rev');
       controller = this;
-      $.ajax({  
-        type: "POST",  
+      $.ajax({
+        type: "POST",
         url: "/message/"+action,
         dataType: 'json',
         data: {message_id:this.id,course_id:course_id},
@@ -355,8 +359,8 @@ $(document).ready(function(){
       var position = $(this).position();
       var dataString = 'id='+id+'&message_type='+message_type+"&course_master_id="+course_master_id+"&delete_all=delete_all";
       $.ajax({
-           type: "POST",  
-           url: "/message/confirm",  
+           type: "POST",
+           url: "/message/confirm",
            data: dataString,
            success: function(data) {
              $("#div_message_delete").html(data);
@@ -367,8 +371,8 @@ $(document).ready(function(){
              showSpinner(false);
              }
         });
-    }); 
-    
+    });
+
  /*$('.right_form_containerr').delegate('.time', 'click', function(){
     var id = $(this).attr("rel");
     var profile_id = $("#hdn_profile_id").val();
@@ -401,7 +405,7 @@ function save_course(channel) {
   {
    if (typeof getStorage("course_descr") === 'undefined' || getStorage("course_descr")==null){
       descr = "";
-   } 
+   }
    else {
       descr = getStorage("course_descr");
    }
@@ -423,7 +427,7 @@ function save_course(channel) {
 
   var show_grade = document.getElementById('show_grade');
   if(!show_grade){
-    var show_grade_checked = true; 
+    var show_grade_checked = true;
   }
   else{
   	var show_grade_checked = show_grade.checked;
@@ -435,12 +439,12 @@ function save_course(channel) {
     _outcomesObject[k] = $(this).val().replace(',', '');
     k++;
   });
-  
+
    /*$.each($('input[name="loaded_outcomes[]"]'), function() {
     _outcomesObject[k] = $(this).val().replace(',', '');
     k++;
   });*/
-  
+
 
   //get outcomes description from offline storage
   i = 0;
@@ -467,19 +471,19 @@ function save_course(channel) {
     _outcomes_shareObject[n] = $(this).is(":checked");
     n++;
   });
-  
+
   var post_messages = true;
   if ($('input:radio[name=post_messages]:checked').val()){
   	post_messages = $('input:radio[name=post_messages]:checked').val();
   }
-  
+
   var allow_uploads = false;
   if ($('input:radio[name="allow_uploads"]:checked').val()){
     allow_uploads = $('input:radio[name="allow_uploads"]:checked').val();
   }
 
   var dataString = {id:id , course:name , descr:descr , section_type:section_type , code:code , section:section , school_id:school_id , outcomes:_outcomesObject , outcomes_descr:_outcomes_descrObject , categories:_categoriesObject , wall_id:wall_id , percent_value:_categories_persentObject , outcome_share:_outcomes_shareObject , post_messages: post_messages, allow_uploads: allow_uploads, show_grade:show_grade_checked , semester:selected_semester , year:selected_year}
-  
+
 	//alert(dataString);  return false;
 if((changed==true || semester_change != true || course_change != true) && name_blank == false){
   showSpinner(true);
@@ -490,7 +494,7 @@ if((changed==true || semester_change != true || course_change != true) && name_b
     dataType:"json",
     success: function(data) {
       if (data) {
-        
+
         if(data.course.parent_type == "G")
         {
           $("#group_name").val(data.course.name);

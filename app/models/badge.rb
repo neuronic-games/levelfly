@@ -3,14 +3,15 @@ belongs_to :badge_image
 has_many :avatar_badges
 
   def self.load_all_badges(profile)
-    gold_image_id = BadgeImage.find_by_image_file_name("gold_badge.png").id
+    gold_image_id = BadgeImage.find_by_image_file_name("gold_badge.png")
+    gold_image_id = gold_image_id ? gold_image_id.id : 0
     @badges = Badge.where("school_id = ? and (creator_profile_id = ? or creator_profile_id IS NULL) and badge_image_id not in (?) and archived != true",profile.school_id,profile.id,gold_image_id).order("created_at desc")
     badge_ids = AvatarBadge.find(:all, :select=>"badge_id", :conditions=>["giver_profile_id = ?",profile.id], :order => "created_at desc").collect(&:badge_id)
     badge_ids=badge_ids.uniq
     ids = badge_ids.in_groups_of(4)
     @last_used = Badge.find(:all, :conditions => ["id in (?) and badge_image_id not in (?) and archived != true",ids[0],gold_image_id])
     return @badges,@last_used
-  end 
+  end
 
   def self.check_badge(profile_id,badge_id,course_id)
     @badge = AvatarBadge.find(:first, :conditions=>["profile_id = ? and badge_id = ? and course_id = ?",profile_id,badge_id,course_id])
@@ -20,7 +21,7 @@ has_many :avatar_badges
       return false
     end
   end
-  
+
   def self.badge_count(profile_id)
     @badge = []
     @badge_ids = AvatarBadge.find(:all, :select => "id, badge_id", :conditions =>["profile_id = ? ",profile_id])
@@ -28,12 +29,12 @@ has_many :avatar_badges
     # if @badge_ids and !@badge_ids.nil?
       # @badge_ids.each do |b|
         # badge = Badge.find(:first, :conditions=>["id = ? ",b.badge_id],:order => "created_at DESC")
-        # @badge.push(badge)           
+        # @badge.push(badge)
       # end
     # end
     return @badge_ids
   end
-  
+
   def self.badge_detail(badge_id)
     badge = Badge.find(:first, :conditions=>["id = ? ",badge_id])
     return badge

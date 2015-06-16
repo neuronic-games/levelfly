@@ -16,12 +16,12 @@
           <a href="javascript:void(0);" class="notification_del blue_bt19px" rel="<%=respond_course.id %>">DELETE</a>
         </div>
       </div>
-    
+
     <div class="clear"></div>
   </div>
 </div>
 <script type="text/javascript">
-$(function(){ 
+$(function(){
   if (show_post_date =="D"){
 		$(".words").removeClass("hide");
 	    $(".dates").addClass("hide");
@@ -29,11 +29,11 @@ $(function(){
 		$(".dates").removeClass("hide");
 		$(".words").addClass("hide");
 	}
-	  
+
   $(".request_message").hover(
     function () {
       $(".list_notifications", this).show();
-    }, 
+    },
     function () {
       $(".list_notifications", this).hide();
     }

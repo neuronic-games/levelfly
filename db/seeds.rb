@@ -44,24 +44,16 @@ default = Avatar.create(:profile => profile, :skin => 3, :body => 'avatar/body/b
 #admin = User.create(:email => "admin@neuronicgames.com", :encrypted_password => "$2a$10$TiAmvGek1xbUTy8SoHPgk.ThpFZYivP411xYKhYV1g2qUYMpSRryu", :status => 'A')
 admin_profile = Profile.create(:user => admin, :school => school, :full_name => "Neuronic Admin", :image_file_name => Profile.default_avatar_image)
 
-Role.create(:name => "edit_user", :profile => admin_profile)
-Role.create(:name => "modify_rewards", :profile => admin_profile)
-Role.create(:name => "modify_wardrobe", :profile => admin_profile)
-Role.create(:name => "modify_settings", :profile => admin_profile)
-Role.create(:name => "create_task", :profile => admin_profile)
-Role.create(:name => "create_group", :profile => admin_profile)
-Role.create(:name => "create_course", :profile => admin_profile)
-Role.create(:name => "edit_grade", :profile => admin_profile)
+# Role.create(:name => "edit_user", :profile => admin_profile)
+# Role.create(:name => "modify_rewards", :profile => admin_profile)
+# Role.create(:name => "modify_wardrobe", :profile => admin_profile)
+# Role.create(:name => "modify_settings", :profile => admin_profile)
+# Role.create(:name => "create_task", :profile => admin_profile)
+# Role.create(:name => "create_group", :profile => admin_profile)
+# Role.create(:name => "create_course", :profile => admin_profile)
+# Role.create(:name => "edit_grade", :profile => admin_profile)
 
-role_name = RoleName.create(name: 'superadmin')
-roles = [Role.create_group, Role.create_course, Role.create_task, Role.edit_grade, Role.edit_user,
-         Role.modify_rewards, Role.modify_settings, Role.modify_wardrobe]
-
-roles.each do |role|
-  permision = Permission.create(name: role)
-  permision.role_names << role_name
-  role_name.permissions << permision
-end
+role_name = RoleName.find_by_name('Levelfly Admin')
 
 role_name.profiles << admin_profile
 admin_profile.role_name = role_name
@@ -69,10 +61,7 @@ admin_profile.save
 
 #================================================================================
 
-role_name = RoleName.create(name: 'user')
-permision = Permission.create(name: 'create_course')
-permision.role_names << role_name
-role_name.permissions << permision
+role_name = RoleName.find_by_name('Student')
 
 generate_users(3,demo,school,role_name)
 
@@ -341,7 +330,7 @@ BadgeImage.create(:image_file_name => 'university.png', :image_content_type =>"i
 #Gold_Outcome_Badge
 Badge.create(:name => 'Gold Outcome', :descr => 'For Each Gold Outcome', :school_id => "1", :badge_image_id => "42")
 
-#reward 
+#reward
 Reward.create(:xp => "0", :target_type => 'level', :target_id => "1")
 Reward.create(:xp => "250", :target_type => 'level', :target_id => "2")
 Reward.create(:xp => "500", :target_type => 'level', :target_id => "3")

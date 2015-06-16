@@ -4,7 +4,7 @@ class GradeBookController < ApplicationController
   layout 'main'
   before_filter :authenticate_user!
   include GradeBookHelper
-  
+
   def index
     @enable_palette = false
     @profile = current_profile
@@ -20,8 +20,8 @@ class GradeBookController < ApplicationController
         @data = {
           :tasks => Course.sort_course_task(@course_id),
           :categories => Category.all(:conditions => {:course_id => @course_id, :school_id => @school_id}),
-          :participant => Participant.all( :joins => [:profile],
-            :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course'", @course_id],
+          :participant => Participant.all( :joins => [:profile => :user],
+            :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", @course_id],
             :select => ["profiles.full_name,participants.id,participants.profile_id"],
             :order => "full_name"
             ),
@@ -38,7 +38,7 @@ class GradeBookController < ApplicationController
     end
   end
 
-  
+
   def filter_course(filter)
     if filter =="past"
       archived = true
@@ -50,9 +50,9 @@ class GradeBookController < ApplicationController
     @people =[];
     @tasks = [];
     @course = Course.find(
-      :all, 
+      :all,
       :select => "distinct *",
-      :include => [:participants], 
+      :include => [:participants],
       :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND participants.profile_type = ? AND courses.archived = ?",false, @profile.id, Course.parent_type_course, Course.profile_type_master, archived],
       :order => 'courses.name ASC'
       )
@@ -64,10 +64,10 @@ class GradeBookController < ApplicationController
 
     if @courses.length > 0
       @school_id = @profile.school_id
-      @latest_course = @courses.first    
+      @latest_course = @courses.first
       @course_id = @latest_course.id
       @outcomes = @latest_course.outcomes
-      @participant = Participant.all( :joins => [:profile], :conditions => ["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order => "full_name")
+      @participant = Participant.all( :joins => [:profile => :user], :conditions => ["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order => "full_name")
         #@participant = @courses.first.participants
         @count = @participant.count
         @tasks = Course.sort_course_task(@course_id)
@@ -81,8 +81,8 @@ class GradeBookController < ApplicationController
         @data = {
           :tasks => Course.sort_course_task(@course_id),
           :categories => Category.all(:conditions => {:course_id => @course_id}),
-          :participant => Participant.all( :joins => [:profile],
-            :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course'", @course_id],
+          :participant => Participant.all( :joins => [:profile => :user],
+            :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", @course_id],
             :select => ["profiles.full_name,participants.id,participants.profile_id"],
             :order => "full_name"
             ),
@@ -101,8 +101,8 @@ class GradeBookController < ApplicationController
         @categories = Category.all(:conditions => {:course_id => params[:course_id]})
         show_outcomes = @course.show_outcomes if @course
         @outcomes = @course.outcomes.order('name')
-        @participant = Participant.all( :joins => [:profile],
-          :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course'", params[:course_id]],
+        @participant = Participant.all( :joins => [:profile => :user],
+          :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", params[:course_id]],
           :select => ["profiles.full_name,participants.id,participants.profile_id, profiles.image_file_name"],
           :order => "full_name")
         @tasks =  Course.sort_course_task(params[:course_id])
@@ -114,12 +114,12 @@ class GradeBookController < ApplicationController
             participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, params[:course_id],@profile.school_id)
             if participant_grade.blank?
               p["grade"] = ""
-            else   
+            else
               participant_grade.each do |key, val|
                 grade = val.to_s + " " + GradeType.value_to_letter(val, @profile.school_id) if val
                 p["grade"] = grade if val
                 p["grade"] = "" unless val
-              end  
+              end
             end
             if !@outcomes.nil?
               @outcomes.each do |o|
@@ -127,12 +127,12 @@ class GradeBookController < ApplicationController
                 if outcome_grade.nil?
                   outcome_grade=""
                 end
-                outcomes_grade.push(outcome_grade)                  
+                outcomes_grade.push(outcome_grade)
               end
               p["course_outcomes"] = outcomes_grade
             end
             if not @tasks.nil?
-              @tasks.each do |t| 
+              @tasks.each do |t|
 
                 task_grade = TaskGrade.load_task_grade(@profile.school_id, params[:course_id],t.id,p.profile_id)
                 grade=""
@@ -153,8 +153,8 @@ class GradeBookController < ApplicationController
 
               end
               p["task_grade"] = array_task_grade
-            end  
-            
+            end
+
             p["task_outcome_grade"] = array_task_outcome_grade
           end
         end
@@ -166,13 +166,13 @@ class GradeBookController < ApplicationController
             t["task_category"] = load_caregory_name(t.id)
           end
         end
-        @count = @participant.count  
+        @count = @participant.count
       end
 
       respond_to do |format|
         format.html
         format.json   {
-          render :json =>{ 
+          render :json =>{
             :tasks => @tasks,
             :participant => @participant,
             :outcomes => @outcomes,
@@ -207,21 +207,21 @@ class GradeBookController < ApplicationController
         previous_values.each do |pg|
           num = GradeType.is_num(pg)
           previous_grade=""
-          if num == false     
+          if num == false
             arr_task_grade.push(GradeType.letter_to_value(pg, school_id))
           end
-        end  
+        end
       else
         num = GradeType.is_num(task_grade)
         previous_grade=""
-        if num == false     
+        if num == false
           task_grade = GradeType.letter_to_value(task_grade, school_id)
           task_grade = task_grade.to_f unless task_grade.nil?
         end
       end
 
       # Save the grade
-      if !profile_ids.nil?      
+      if !profile_ids.nil?
         # Calculate the GPA
         sub_arrays = characters.in_groups(p, false)
         profile_ids.each_with_index do |p,j|
@@ -239,11 +239,11 @@ class GradeBookController < ApplicationController
         end
       end
       render :json => {:grade => arr_grade, :previous_grade => arr_previous_grade}
-    end  
+    end
   end
 
-  
-  #save outcome points 
+
+  #save outcome points
   def outcomes_points
     if params[:course_id] && !params[:course_id].blank?
       average = params[:average].split(",") if params[:average]
@@ -265,35 +265,35 @@ class GradeBookController < ApplicationController
          previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, profile_ids,average,task_id,previous_values)
        else
         previous_grade = OutcomeGrade.outcome_points(school_id,course_id,outcome_id, profile_ids,average,task_id,outcome_values)
-      end  
+      end
       render :json => {:average => average,:previous_grade=>previous_grade}
-    end  
-  end   
+    end
+  end
 end
 
   #load Notes
   def load_notes
     if params[:course_id] && !params[:course_id].blank?
       @profile = Profile.find(user_session[:profile_id])
-      @participant = Participant.all( :joins => [:profile], 
-        :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course'", params[:course_id]],
+      @participant = Participant.all( :joins => [:profile => :user],
+        :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", params[:course_id]],
         :select => ["profiles.full_name,participants.id,participants.profile_id"])
       if not @participant.nil?
         @participant.each do |p|
           participant_note = CourseGrade.load_notes(p.profile_id, params[:course_id], @profile.school_id)
           if participant_note.blank?
             p["notes"] = ""
-          else   
-            p["notes"] = participant_note              
+          else
+            p["notes"] = participant_note
           end
         end
       end
-      @count = @participant.count  
+      @count = @participant.count
       render :json => {:participant => @participant,:count => @count}
-    end  
+    end
   end
-  
-  #Save Notes for praticipants 
+
+  #Save Notes for praticipants
   def save_notes
     if params[:course_id] && !params[:course_id].blank?
       school_id = params[:school_id]
@@ -305,14 +305,14 @@ end
       render :json => {:notes => @notes}
     end
   end
-  
+
   def show_outcomes
     show_outcomes = params[:show] == "true" ? true : false
     @latest_course = Course.find(params[:course_id])
     @latest_course.update_attribute("show_outcomes",show_outcomes)
     render :json => {:success => true}
   end
-  
+
   def course_outcomes
    if !params[:course_id].blank?
     @course = Course.find(params[:course_id])
@@ -328,7 +328,7 @@ def load_outcomes
     @course = Course.find(params[:course_id])
     @profile = Profile.find(user_session[:profile_id])
     @outcomes = @course ? @course.outcomes.order('name') : nil
-    @participant = Participant.all( :joins => [:profile], :conditions => ["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order =>"full_name")
+    @participant = Participant.all( :joins => [:profile => :user], :conditions => ["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'",@course.id],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order =>"full_name")
     if not @participant.nil?
       @participant.each do |p|
         outcomes_grade = []
@@ -338,13 +338,13 @@ def load_outcomes
             if outcome_grade.nil?
               outcome_grade=""
             end
-            outcomes_grade.push(outcome_grade)                  
+            outcomes_grade.push(outcome_grade)
           end
           p["course_outcomes"] = outcomes_grade
         end
-      end 
+      end
     end
-    @count = @participant.count  
+    @count = @participant.count
     render :json => {:outcomes => @outcomes, :participants=>@participant, :count=>@count}
   end
 end
@@ -400,7 +400,7 @@ def task_setup
          end
          render :json =>{:status=> true}
        end
-     end  
+     end
    end
  end
 
@@ -441,7 +441,7 @@ def task_setup
   end
 
   filename = "#{@course.code}-#{Date.today.strftime('%Y%m%d')}.csv"
-  send_data(user_csv, :type => 'text/csv', :filename => filename)      
+  send_data(user_csv, :type => 'text/csv', :filename => filename)
 end
 
 def export_course_grade_csv
@@ -451,8 +451,8 @@ def export_course_grade_csv
     @course = Course.find(params[:course_id])
     @outcomes = @course.outcomes.order('name')
     @tasks = Course.sort_course_task(@course.id)
-    @participant = Participant.all( :joins => [:profile], 
-      :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course'", params[:course_id]],
+    @participant = Participant.all( :joins => [:profile => :user],
+      :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", params[:course_id]],
       :select => ["profiles.full_name,participants.id,participants.profile_id"],
       :order => "full_name"
       )

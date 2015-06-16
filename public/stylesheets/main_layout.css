@@ -550,7 +550,7 @@ form {margin:0px;padding:0px;}
   background:#fff;
 }
 
-.screen_title { 
+.screen_title {
   height:40px;
   font-size:20px;
   padding:5px 0 0 20px;
@@ -723,6 +723,10 @@ input[type=file] {
   color:#fff;
   float:left;
 }
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 table .tbl_header {
   background:url(/images/border_dashed.png) repeat-x bottom !important;
   padding-bottom:10px;
@@ -873,7 +877,7 @@ img.image_icon_drop_target {
 
 
 .msg_txt {
-  width:215px; 
+  width:215px;
   padding:5px;
   background-color:#ccc;
   color:#244B6B;
@@ -903,4 +907,30 @@ img.image_icon_drop_target {
 
 tr#without_background{
     background: none !important;
+}
+
+#user-modal {
+  background-color: RGBA(30, 30, 30, 0.9);
+  padding: 1%;
+  border-radius: 10px;
+  color: white;
+  width: 800px;
+  min-height: 480px;
+}
+
+#user-modal h1 {
+  color: #b3c76a;
+}
+#user-modal .row {
+  width: 100%;
+}
+#user-modal .column {
+  display: inline-block;
+  width: 49%;
+}
+.modal-avat {
+  /*float:left;*/
+  position: absolute;
+  top: 0;
+  left: 100px;
 }

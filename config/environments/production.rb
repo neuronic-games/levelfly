@@ -67,9 +67,7 @@ Oncapus::Application.configure do
   # Used for password reminder emails
   config.action_mailer.default_url_options = { :host => 'oncampus.herokuapp.com' }
 
-  Pusher.app_id = '64377'
-  Pusher.key = 'c8fb9a955828496c8ed2'
-  Pusher.secret = '0be4a588118c56c95029'
+  Pusher.url = ENV['PUSHER_URL']
 
   ActionMailer::Base.smtp_settings = {
     :address              => "smtp.mandrillapp.com",

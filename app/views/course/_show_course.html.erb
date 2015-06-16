@@ -34,29 +34,29 @@
            		<input type="text" name="course_section" id="course_section" <%if @course %> value="<%=@course.section%>" readonly="readonly" <%end%> class="small dd_input brown_bg" style="width:30px;" disabled=true />
           	</div>
           </div>
-          
+
           <div class="course_viewfield field_label" id="course_name_show">COURSE NAME
             <div class="dd_bg brown_bg">
               <input type="text" name="course_name" id="course_name" <%if @course %> value="<%=@course.name if @course%>" readonly="readonly" <%end%> class="dd_select brown_bg" style="width: 80%;" />
             </div>
           </div>
-          
+
           <div class="clear"></div>
           <div class="spacebar10px"></div>
           <div class="course_activity_list">
-          
-          
+
+
             <div class="CAL_01"><span class="field_label"> <% if @totaltask %>You have <% total_task = @totaltask.count %><%=total_task%><% else %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW TASKS</a></div>
-             
+
             <% if @courseMaster %>
               <% if (@courseMaster.id != user_session[:profile_id]) %>
-              <div class="CAL_01"> <span class="field_label">You have <%if !@course_xp.nil?%><%=@course_xp%><%else%>0<%end%> XP and <%if @badges && !@badges.nil?%><%=@badges%><%else%>0<%end%> BADGES</span> 
+              <div class="CAL_01"> <span class="field_label">You have <%if !@course_xp.nil?%><%=@course_xp%><%else%>0<%end%> XP and <%if @badges && !@badges.nil?%><%=@badges%><%else%>0<%end%> BADGES</span>
               <a href="javascript:void(0)" id="btn_xp_badges"  class="green_bt19px" >VIEW STATS</a></div>
               <% end %>
             <% end %>
 
             <div class="menu_container1">
-            <div class="CAL_01"><span class="field_label">Your course has <%=@member_count%> members <% "(#{@pending_count} PENDING)" if @pending_count > 0 %></span> 
+            <div class="CAL_01"><span class="field_label">Your course has <%=@member_count%> members <% "(#{@pending_count} PENDING)" if @pending_count > 0 %></span>
             <a href="javascript:void(0)" id="btn_member"  class="green_bt19px">VIEW MEMBERS</a></div>
             </div>
 
@@ -98,7 +98,7 @@
 				</div>
 			<% end %>
       <div id="message_wrapper_course" class="message_wrapper resize_message_box msg_content_left" >
-      
+
       &nbsp;
         <%if @course_messages  && !@course_messages.nil?%>
         <% @course_messages.each do |message| %>
@@ -106,7 +106,7 @@
         <% end %>
       <% end %>
       </div>
-    
+
       <div class="end_of_page"></div>
 
     </div>
@@ -115,7 +115,7 @@
 
 
  </div>
- 
+
 <script type="text/javascript">
 	var message_show_array = [];
 	<% if @course_messages %>
@@ -132,8 +132,8 @@
     showSpinner(true);
     msg_id = $(this).attr("rel");
     $.ajax({
-       type: "POST",  
-       url: "/course/toggle_priority_message",  
+       type: "POST",
+       url: "/course/toggle_priority_message",
        data: {id:msg_id},
        dataType: "json",
        success: function(data) {
@@ -151,8 +151,8 @@
           showSpinner(false);
         }
 			});
-		}); 
-	
+		});
+
 		// When user clicks on Show All Comments
 		$('#all_cmnts').click(function(){
 			update_show_comments(message_show_array,true);
@@ -164,32 +164,32 @@
 			update_show_comments(message_show_array,false);
 			all_comments = false;
 		});
-		
+
 	// See the last setting of user or the default setting in main.html
 	 if(all_comments) {
 		arrange_comments(message_show_array,true);
 	 } else {
 		arrange_comments(message_show_array,false);
 	 }
-	 
+
 	 var w=window.outerWidth;
-	 
+
 	 if (w<1200){
 	 	$("#course_name_show").css("width","40%");
 	 	$(".message_topic").css("width","40%");
 	 }
-	 
-		
+
+
 	});
-  
+
   //For Active Task
    $("#btn_task").click(function(data){
    var course_id=$("#course_id_hdn").val();
    var dataString = {course_id:course_id};
    showSpinner(true);
-   $.ajax({  
-        type: "GET",  
-        url: "/task/view_task",  
+   $.ajax({
+        type: "GET",
+        url: "/task/view_task",
         data: dataString,
         success: function(data) {
 		      $("#container").html(data);
@@ -200,18 +200,18 @@
           alert("An error has occurred");
           showSpinner(false);
         }
-      }); 
+      });
     });
-    
-  
-     
-   // For setup Page 
+
+
+
+   // For setup Page
    $("#setup_icon").click(function(data){
    showSpinner(true);
    course_id = $("#course_id_hdn").val();
-   $.ajax({  
-        type: "GET",  
-        url: "/course/view_setup",  
+   $.ajax({
+        type: "GET",
+        url: "/course/view_setup",
         data:{id:course_id},
         success: function(data) {
 		      $("#load_data").html(data);
@@ -229,7 +229,7 @@
           alert("An Error has occured");
           showSpinner(false);
         }
-      }); 
+      });
     });
  </script>
- 
+

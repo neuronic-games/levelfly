@@ -16,18 +16,18 @@ class Course < ActiveRecord::Base
 
   has_many :forums, :class_name => 'Course', :conditions => {:parent_type => "F"}, :order => :name
   has_one :wall, :as => :parent
-  
+
   after_initialize :init_defaults
   after_save :save_messages
   after_save :save_owner
-  
+
   # Defaults
-  
+
   @@default_points_max = 1000  # Total XP that a course may give out
   cattr_accessor :default_points_max
-  
+
   # These 3 numbers defines the ratio of XP given out by low, medium and high rating tasks
-  
+
   @@default_rating_low = 1
   cattr_accessor :default_rating_low
 
@@ -38,7 +38,7 @@ class Course < ActiveRecord::Base
   cattr_accessor :default_rating_high
 
   # These 3 numbers are the recommended number of tasks for a course
-  
+
   @@default_tasks_low = 10
   cattr_accessor :default_tasks_low
 
@@ -73,16 +73,16 @@ class Course < ActiveRecord::Base
 
   @@profile_type_pending = 'P'
   cattr_accessor :profile_type_pending
-  
+
   @owner = nil
   @messages = nil
-  
+
   def image_file
     return image_file_name ? image.url : Course.default_image_file
   end
-  
-  
-  
+
+
+
   def init_defaults
     self.rating_low = Course.default_rating_low
     self.rating_medium = Course.default_rating_medium
@@ -92,27 +92,27 @@ class Course < ActiveRecord::Base
     self.tasks_medium = self.tasks_medium.blank? ? Course.default_tasks_medium : self.tasks_medium
     self.tasks_high = self.tasks_high.blank? ? Course.default_tasks_high : self.tasks_high
   end
-  
+
   def code_section
     return "#{self.code}#{'-' unless self.section.blank?}#{self.section}"
   end
-  
+
   # The number of points that remains unallocated. Sum up the the points for all tasks associated
   # with this course, plus any extra credit, and minus from the max 1000 points.
   def remaining_points
     total_points = Task.sum(:points,
       :conditions => ["course_id = ? and archived = ?", self.id, false])
-    
+
     # FIXME: What about rainy-day bucket and extra credit tasks?
-    
+
     return Course.default_points_max - total_points
   end
-  
+
   def owner
     if @owner == nil
       @owner = Profile.find(
-      :first, 
-      :include => [:participants], 
+      :first,
+      :include => [:participants],
       :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", self.id]
       )
     end
@@ -164,11 +164,11 @@ class Course < ActiveRecord::Base
       end
     end
   end
-  
+
   def self.get_top_achievers(school_id,course_id,outcome_id)
     member_ids = Profile.find(
-       :all, 
-       :include => [:participants], 
+       :all,
+       :include => [:participants],
        :conditions => ["participants.target_id = ? AND participants.profile_type IN ('P', 'S')", course_id]
      ).map(&:id)
     @students = CourseGrade.where("school_id = ? and course_id = ? and outcome_id = ? and grade >= '2.1' and profile_id in (?)",school_id,course_id,outcome_id,member_ids).order("grade DESC")
@@ -176,7 +176,7 @@ class Course < ActiveRecord::Base
     sorted_total_xp = Course.sort_top_achievers(sorted_gpa,school_id,course_id,"XP")
     return sorted_total_xp.uniq[0..4]
   end
-  
+
   def self.sort_top_achievers(students,school_id,course_id,sort_type)
     sorted_array = []
     outcome_grades = students.map(&:grade)
@@ -210,22 +210,22 @@ class Course < ActiveRecord::Base
     end
     return sorted_array
   end
-  
+
   def self.all_group(profile,filter)
     if filter == "M"
     @courses = Course.find(
-            :all, 
+            :all,
             :select => "distinct *",
-            :include => [:participants], 
+            :include => [:participants],
             :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?", false, profile.id, Course.parent_type_group, Course.profile_type_pending, false],
             :order => 'courses.name'
           )
     else
      @courses = Course.find(:all, :conditions=>["removed = ? AND parent_type = ? AND school_id = ?",false, Course.parent_type_group,profile.school_id], :order => 'courses.name')
-    end    
-    return @courses      
+    end
+    return @courses
   end
-  
+
   def self.course_filter(profile_id,filter)
     if filter == "active" or filter == ""
       archived = false
@@ -233,35 +233,35 @@ class Course < ActiveRecord::Base
       archived = true
     end
      @courses = Course.find(
-            :all, 
+            :all,
             :select => "distinct *",
-            :include => [:participants], 
+            :include => [:participants],
             :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?",false, profile_id, Course.parent_type_course, Course.join_type_invite, Course.profile_type_pending, archived],
             :order => 'courses.name'
             )
-    return @courses      
+    return @courses
   end
-  
+
   def self.hexdigest_to_string(string)
     string.unpack('U'*string.length).collect {|x| x.to_s 16}.join
   end
-  
+
    def self.hexdigest_to_digest(hex)
     hex.unpack('a2'*(hex.size/2)).collect {|i| i.hex.chr }.join
   end
-  
+
   def self.sort_course_task(course_id)
     @tasks = [];
     task_ids = Task.find(
-      :all, 
-      :include => [:category], 
+      :all,
+      :include => [:category],
       :conditions => ["tasks.course_id = ? and tasks.archived = ? and (tasks.category_id is null or tasks.category_id = ?)",course_id,false,0],
       :order => "tasks.due_date,tasks.created_at"
     ).map(&:id)
     categorised_task_ids = Task.find(
       :all,
-      :include => [:category], 
-      :conditions => ["tasks.course_id = ? and categories.course_id = ? and tasks.archived = ?",course_id,course_id,false], 
+      :include => [:category],
+      :conditions => ["tasks.course_id = ? and categories.course_id = ? and tasks.archived = ?",course_id,course_id,false],
       :order => "percent_value,categories.name,due_date,tasks.created_at"
     ).map(&:id)
     task_ids.concat(categorised_task_ids)
@@ -270,22 +270,22 @@ class Course < ActiveRecord::Base
     end
    return @tasks
   end
-  
+
   def self.search(text)
     d = text.downcase
-    Course.find(:all, 
+    Course.find(:all,
       :conditions => ["(lower(courses.name) LIKE ? OR lower(courses.code) LIKE ?) and parent_type = ? and school_id = ? and removed = ?", d, d, Course.parent_type_course, @profile.school_id, false]
     )
   end
-  
+
   def course_forum(profile_id = nil)
     return Course.find(:all,:include => [:participants],:conditions => ["participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?",profile_id,self.id,false, false], :order => 'courses.name')
   end
-  
+
   def join_all(profile)
      @all_members = Profile.find(
-           :all, 
-           :include => [:participants], 
+           :all,
+           :include => [:participants],
            :conditions => ["participants.target_id = ? AND participants.target_type in ('Course','Group') AND participants.profile_type IN ('M', 'S')", self.course_id]
          )
      if @all_members and not@all_members.nil?
@@ -304,14 +304,14 @@ class Course < ActiveRecord::Base
                 :wall_id =>wall_id
               )
               course = Course.find(self.course_id)
-              content = "#{profile.full_name} added you to a new forum in #{course.name} #{course.section}: #{self.name}"   
-              Message.send_notification(profile.id,content,viewer.id) 
+              content = "#{profile.full_name} added you to a new forum in #{course.name} #{course.section}: #{self.name}"
+              Message.send_notification(profile.id,content,viewer.id)
             end
           end
-      end     
+      end
     end
   end
-  
+
   def duplicate(params = {}, current_user = nil)
     categories = {}
     outcomes = {}
@@ -387,7 +387,7 @@ class Course < ActiveRecord::Base
         categories[task.category.id] ||= task.category.dup
         t.category = categories[task.category.id]
       end
-      
+
       t.image = task.image unless task.image_file == Course.default_image_file
 
       task.outcome_tasks.each do |outcome_task|
@@ -460,7 +460,20 @@ class Course < ActiveRecord::Base
           end
         end
       end
-    end 
+    end
     Pusher["course-finalize-#{current_profile.user.id}"].trigger('complete', {:status => status})
   end
+
+  def self.all_archived_courses_by_school(school_id)
+    find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", true, false, 'C', school_id], :order => "name")
+  end
+
+  def self.all_courses_by_school(school_id)
+    find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, 'C', school_id], :order => "name")
+  end
+
+  def self.all_groups_by_school(school_id)
+    find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, 'G', school_id], :order => "name")
+  end
+
 end

@@ -42,13 +42,13 @@ class Task < ActiveRecord::Base
 
   @@status_pending = 'P'
   cattr_accessor :status_pending
-	
+
 	@owner = nil
 
   def init_defaults
     #self.level = 0
   end
-    
+
   def image_file
     return image_file_name ? image.url : Course.default_image_file
   end
@@ -60,12 +60,12 @@ class Task < ActiveRecord::Base
   def outcomes
     return OutcomeTask.find(:all, :conditions => ["task_id = ?", self.id]).collect {|x| x.outcome}
   end
-  
+
   def show_date_format(the_date)
     return the_date.strftime('%d/%m/%Y')
   end
-  
-  
+
+
   def self.filter_by(profile_id, filter, period)
     conditions = ["task_participants.profile_id = ? and archived = ?", profile_id, false]
 
@@ -76,7 +76,7 @@ class Task < ActiveRecord::Base
       conditions[0] += " and course_id = ?"
       conditions << filter.to_i
     end
-    
+
     if period == "current"
       conditions[0] += " and task_participants.complete_date is null"
     elsif period == "past"
@@ -85,27 +85,54 @@ class Task < ActiveRecord::Base
 
     tasks = Task.find(
       :all,
-      :include => [:task_participants], 
+      :include => [:task_participants],
       :conditions => conditions,
       :order => "priority asc,due_date"
     )
   end
-  
+
+
+  def self.search_tasks(profile_id, search_text, filter, course_id)
+    conditions = ["task_participants.profile_id = ? AND (lower(tasks.name) LIKE ? OR lower(tasks.descr) LIKE ?) AND archived = ?", profile_id, search_text.downcase, search_text.downcase, false]
+
+    if course_id == 'starred'
+      conditions[0] += " AND task_participants.priority = ?"
+      conditions << 'H'
+    elsif !course_id.blank?
+      conditions[0] += " AND course_id = ?"
+      conditions << course_id
+    end
+
+    if filter == 'current'
+      conditions[0] += " AND task_participants.complete_date IS NULL"
+    elsif filter == 'past'
+      conditions[0] += " AND task_participants.complete_date IS NOT NULL"
+    end
+
+    Task.find(
+      :all,
+      :include => [:task_participants],
+      :conditions => conditions,
+      :order => "priority asc, due_date"
+    )
+  end
+
+
   def self.sort_tasks(profile_id,course_id)
     @tasks = [];
     task_ids = Task.find(
-      :all, 
-      :include => [:category, :task_participants], 
+      :all,
+      :include => [:category, :task_participants],
       :conditions => ["tasks.course_id = ? and task_participants.profile_id = ? and tasks.archived = ? and (tasks.category_id is null or tasks.category_id = ?)",course_id,profile_id,false,0],
       :order => "tasks.due_date,tasks.created_at"
     ).map(&:id)
     categorised_task_ids = Task.find(
       :all,
-      :include => [:category, :task_participants], 
-      :conditions => ["tasks.course_id = ? and task_participants.profile_id = ? and categories.course_id = ? and tasks.archived = ?",course_id,profile_id,course_id,false], 
+      :include => [:category, :task_participants],
+      :conditions => ["tasks.course_id = ? and task_participants.profile_id = ? and categories.course_id = ? and tasks.archived = ?",course_id,profile_id,course_id,false],
       :order => "percent_value,categories.name,due_date,tasks.created_at"
     ).map(&:id)
-    
+
     grade_tasks_ids = TaskGrade.sort_tasks_grade(profile_id, course_id)
     task_ids = task_ids.concat(categorised_task_ids).concat(grade_tasks_ids).uniq
     task_ids.each do |task_id|
@@ -131,7 +158,7 @@ class Task < ActiveRecord::Base
 
     # Calculate how much one unit is worth in terms of XP
     unit =  self.course.default_points_max / total_units.to_f
-    
+
     # Calculate how much XP this task should be allocated. We will need to track how much points
     # have been allocated to the course over the life of the course. If the allocated points is over
     # the max (1000 points), then no more points can be allocated to tasks for this course.
@@ -144,11 +171,11 @@ class Task < ActiveRecord::Base
     end
     self.points = suggested_points
   end
-  
+
   def rating_icon_file
     return "/images/ui/task_rating_#{self.level}.png"
   end
-  
+
   # Mark the task as complete and give points
   def self.complete_task(task_id, complete, profile_id)
     status = nil
@@ -156,7 +183,7 @@ class Task < ActiveRecord::Base
       :include => [:profile, :task],
       :conditions => ["task_id = ? and profile_id = ?", task_id, profile_id])
     return status if participant.nil?
-    
+
     profile = participant.profile
     task = participant.task
 
@@ -185,10 +212,10 @@ class Task < ActiveRecord::Base
       participant.save
       #profile.save
       status = complete
-    end   
+    end
     return status
-  end  
-  
+  end
+
   def self.task_grade_points(task_id,profile_id,complete,award_points)
     @task = Task.find(task_id)
     @task_grade = TaskGrade.where("task_id = ? and profile_id = ?", task_id ,profile_id)
@@ -200,7 +227,7 @@ class Task < ActiveRecord::Base
       end
     end
   end
-  
+
   def self.award_xp(complete,profile,participant,task,award_points,current_user,course_name = nil)
     previous_level = profile.level
     previous_points = profile.xp
@@ -226,10 +253,10 @@ class Task < ActiveRecord::Base
     if(previous_level != profile.level)
       content = "Congratulations! You have achieved level #{profile.level}."
       Message.send_notification(current_user,content,profile.id)
-    end 
-    Reward.notification_for_new_reward(profile,current_user) if profile.wardrobe > previous_wardrobe 
+    end
+    Reward.notification_for_new_reward(profile,current_user) if profile.wardrobe > previous_wardrobe
   end
-  
+
   def self.points_to_student(task_id, complete, profile_id,current_user)
     status = nil
     participant = TaskParticipant.find(:first,
@@ -239,9 +266,9 @@ class Task < ActiveRecord::Base
       profile = participant.profile
       task = participant.task
       remaining_points = task.remaining_points(profile_id)
-      
+
       return status if (remaining_points <= 0 or participant.xp_award_date) and complete
-      
+
       award_points = task.points if remaining_points > task.points
       award_points = remaining_points unless remaining_points > task.points
       if participant.profile_type == Task.profile_type_member
@@ -254,19 +281,19 @@ class Task < ActiveRecord::Base
     end
     return status
   end
-	
+
   def remaining_points(profile_id)
     total_points = TaskGrade.sum(:points,
       :conditions => ["course_id = ? and profile_id = ?", self.course.id, profile_id])
-    
+
     return Course.default_points_max - total_points
   end
-  
+
 	def task_owner
     if @owner == nil
       @owner = Profile.find(
-				:first, 
-				:include => [:task_participants], 
+				:first,
+				:include => [:task_participants],
 				:conditions => ["task_participants.task_id = ? AND task_participants.profile_type = ?", self.id, Task.profile_type_owner]
       )
     end
