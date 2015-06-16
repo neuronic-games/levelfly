@@ -81,13 +81,13 @@
 }
 
 .avatar_controls {
-  position:absolute; 
-  left: 395px; 
-  top: 780px; 
-  font-family:Arial, Helvetica, sans-serif; 
+  position:absolute;
+  left: 395px;
+  top: 780px;
+  font-family:Arial, Helvetica, sans-serif;
   color:#19546E;
   text-align: center;
-  font-weight:bold; 
+  font-weight:bold;
   width: 205px;
 }
 
@@ -244,31 +244,31 @@
 }
 
 .color_palette #color_1, #color_2, #color_3, #color_4, #color_5 , #hair_color_1, #hair_color_2, #hair_color_3, #hair_color_4, #hair_color_5 {
-  width:40px; 
-  height:40px; 
-  float:left; 
-  border:2px solid #1D4D67; 
+  width:40px;
+  height:40px;
+  float:left;
+  border:2px solid #1D4D67;
   margin-left:6px;
 }
 
 .color_palette #color_1 {
-  background-color:#E5E4E2; 
+  background-color:#E5E4E2;
 }
 
 .color_palette #color_2 {
-  background-color:#D8C078; 
+  background-color:#D8C078;
 }
 
 .color_palette #color_3 {
-  background-color:#B28149; 
+  background-color:#B28149;
 }
 
 .color_palette #color_4 {
-  background-color:#8D6331; 
+  background-color:#8D6331;
 }
 
 .color_palette #color_5 {
-  background-color:#553A1C; 
+  background-color:#553A1C;
 }
 
 .color_palette #hair_color_1 {
@@ -280,15 +280,15 @@
 }
 
 .color_palette #hair_color_3 {
-  background-color:#A52121; 
+  background-color:#A52121;
 }
 
 .color_palette #hair_color_4 {
-  background-color:#531A1A; 
+  background-color:#531A1A;
 }
 
 .color_palette #hair_color_5 {
-  background-color:#030000; 
+  background-color:#030000;
 }*/
 
 .clickable {

@@ -1,7 +1,7 @@
 <div style="position:relative;">
 	<div style="position:absolute; width:100%;">
 		<div class="pr120">
-			<div class="leader_pad_top container_tipshelp"> 
+			<div class="leader_pad_top container_tipshelp">
 				<div class="tops_row">
 					<div class="leftimg panel"></div>
 					<div class="centerimg panel"></div>
@@ -52,26 +52,26 @@
           </div>
           <div style="height:50px;"></div>
            <div id="" class="color_b" style="margin-left: 350px; position: absolute; width: 50%;">
-             
+
               <div class="course_viewfield color_b field_label" style="margin-bottom: 30px;">Full name
                 <div class="dd_bg brown_bg">
                   <input type="text" name="user_name" id="user_name" value="<%=@profile.full_name if @profile%>" class="dd_input brown_bg prompted" style="width:100%;" <% if @disable_edit %>disabled="true"<% end %>>
                 </div>
               </div>
-               
+
               <div class="course_viewfield color_b field_label" style="margin-bottom: 30px;">Email
                 <div class="dd_bg brown_bg">
                   <input type="text" name="user_email" id="user_email" value="<%=@profile.user.email if @profile%>" class="dd_input brown_bg prompted" style="width:100%;" <% if @disable_edit %>disabled="true"<% end %>>
                 </div>
               </div>
-              
+
               <div class="course_viewfield color_b field_label" style="margin-bottom: 30px;">Password
                 <div class="dd_bg brown_bg">
                   <input  name="user_password" id="user_password" value="" class="dd_input brown_bg prompted" type="password" style="width:100%;" <% if @disable_edit %>disabled="true"<% end %>>
                 </div>
               </div>
               <div style="height:20px;"></div>
-              
+
               <div class="course_viewfield color_b field_label">This user's role:
                 <div class=""></br>
                   <select name="profile[role_name_id]" <% if @disable_edit %>disabled="true"<% end %>>
@@ -88,11 +88,11 @@
               <br>
               <div class="course_viewfield color_b field_label">This user is:
                 <div class=""><br>
-                  <input type="radio" name="user_status[]" checked="true" value="" rel="A" <% if @disable_edit %>disabled="true"<% end %>><span> Active 
+                  <input type="radio" name="user_status[]" checked="true" value="" rel="A" <% if @disable_edit %>disabled="true"<% end %>><span> Active
                   </span>
                   &nbsp; &nbsp;
                   <input type="radio" name="user_status[]" <%if @profile.user.status=="S" %>checked="true"<%end%>  rel="S" value="" <% if @disable_edit %>disabled="true"<% end %>><span> Suspended</span>
-                </div> 
+                </div>
               </div>
               <div class="clear"></div>
               <% if @profile.user.last_sign_in_at %>
@@ -102,8 +102,8 @@
               <% end %>
               <br>Created <%= time_ago_in_words(@profile.created_at) %> ago (<%= @profile.created_at.strftime('%-m/%-d/%Y %l:%M%P') %>)
               <% end %>
-            </div>          
-          </div>  
+            </div>
+          </div>
         </div>
         <div class="end_of_page" style="height:600px;"></div>
       </div>
@@ -112,7 +112,7 @@
       <%= render :partial => "/users/remove_user" %>
     </div>
     <div class ="hide" id ="div_message_delete">
-    
+
     </div>
   </div>
   <% if !@disable_edit %>
@@ -189,20 +189,20 @@
         });
       }
   });
-  
+
   $("#remove_user_btn").click(function(){
   	<% if @profile %> $("#remove_user_div").show(); <% else %> $("#invalid_email").show(); <% end %>
-  	
-  	
+
+
   });
-  
+
   $("#login_as_btn").click(function(){
     var email = $("#user_email").val();
     showSpinner(true);
       $.ajax({
          type: "POST",
          dataType :"json",
-         url: "/users/login_as",  
+         url: "/users/login_as",
          data: {email:email},
          success: function(data) {
            showSpinner(false);
@@ -246,7 +246,7 @@ function loadWardrobe() {
         //jStorage.set("j_school",data.school);
         showFullAvatar();
       }
-   ).error(function() { 
+   ).error(function() {
      alert("Showing from stograge");
      _profile = jStorage.get("j_profile");
      _avatar = jStorage.get("j_avatar");
@@ -273,7 +273,7 @@ function showFullAvatar() {
   $("#hair").attr("src", "/images/wardrobe/"+_avatar.hair+".png");
   $("#hat").attr("src", "/images/wardrobe/"+_avatar.hat+".png");
   $("#prop").attr("src", "/images/wardrobe/"+_avatar.prop+".png");
-  
+
 }
 
 function validate_form(){
@@ -281,7 +281,7 @@ function validate_form(){
   var email=document.getElementById("user_email").value;
   var atpos=email.indexOf("@");
   var dotpos=email.lastIndexOf(".");
- 
+
   if (email==""){
       alert('Enter Email Address');
       return false;

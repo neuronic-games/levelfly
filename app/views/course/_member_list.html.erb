@@ -1,12 +1,12 @@
 <div id="div_6" class="tab_content">
-  <%if (@courseMaster and !@courseMaster.nil? and @course.parent_type=="C") || (@course and @course.parent_type=="G")%> 
+  <%if (@courseMaster and !@courseMaster.nil? and @course.parent_type=="C") || (@course and @course.parent_type=="G")%>
     </br></br>
     <div style = "margin-left:27px;font-size:16px;" class="people_name"><h3>Invite a New Member</h3></div>
     </br>
     <div class="titleTextParticipants">
       <span class="pull-left" style="margin-right:20px"><input type="text" name="add_people_email[]" class="dd_select brown_bg" style="width:300px; padding:2px;margin-left:15px;" id="add_course_people" placeholder="Enter email..."  /></span>
       <span class="pull-left"><a href="javascript:void(0)" name="btn_add_people" id="btn_add_people" class="blue_bt19px btn_add">Invite</a></span>
-    </div> 
+    </div>
   <%end%>
 
   <div>
@@ -14,11 +14,11 @@
       <a style = "margin-left:19px;font-size:14px; margin: 10px" class="people_name"><h3>Members in this Forum</h3></a>
     <% end %>
   </div>
-  
+
   <div class="frm_input">
     <div class="frm_input" id="add_people_container"></div>
   </div>
-  
+
   <div class="frm_label small_label">
     &nbsp;
   </div>
@@ -44,7 +44,7 @@
 <!-- send email to all dialog -->
 <div id="send_email_all" class="add_task_popup" style="display:none">
 	<div class="heading">Send Email to All Members</div>
-	<div class="boxadnt"> 
+	<div class="boxadnt">
 		<span class="heading02">Message</span>
     	<div class="heading02_field">
       		<div class="dd_bg brown_bg02">
@@ -59,7 +59,7 @@
 		<div class="spacebar10px"></div>
   	</div>
 	<div align="right" style="margin-right:20px;">
-		<a class="big_blue_btn inlineblock" id="dont_send_btn" href="javascript:void(0)">Don't Send</a> 
+		<a class="big_blue_btn inlineblock" id="dont_send_btn" href="javascript:void(0)">Don't Send</a>
 		<a class="big_blue_btn inlineblock" id="send_btn" href="javascript:void(0)">Send</a>
 	</div>
 </div>
@@ -73,12 +73,12 @@
 	<div class="spacebar10px"></div>
 	<div class="spacebar10px"></div>
 	<div align="right" style="margin-right:20px;">
-		<a class="big_blue_btn inlineblock" id="close_btn" href="javascript:void(0)">Close</a> 
+		<a class="big_blue_btn inlineblock" id="close_btn" href="javascript:void(0)">Close</a>
 	</div>
 </div>
 <!-- Add participant alert message ends -->
 
-	
+
 <script type="text/javascript">
 		//List people (participants)
 
@@ -88,7 +88,7 @@
     course_id = $("#new_course_id").val();
     var id = $(this).attr('id');
     var val = $(this).val();
-      if(course_id){ 
+      if(course_id){
         showSpinner(true);
         $.ajax({
            type:"POST",
@@ -100,17 +100,17 @@
              {
                showSpinner(false);
                 changed=true;
-             } 
-			 
+             }
+
            }
         });
-      }  
+      }
   });
-  
+
   $('#course_people').delegate('input[name="chk_include_all"]', 'change', function(){
   	check_val = $(this).is(':checked');
     course_id = $("#new_course_id").val();
-	
+
 	showSpinner(true);
       $.ajax({
          type:"POST",
@@ -125,11 +125,11 @@
          }
       });
   });
-  
+
   var a,b;
   a = function () {
 		$(".list_hover", this).show();
-	}, 
+	},
 	b = function () {
 		$(".list_hover", this).hide();
 	}
@@ -143,7 +143,7 @@
 
 	$("#btn_add_people").click(function() {
 		course_id = $("#course_id_hdn").val();
-		section_type = $("#section_type").val(); 
+		section_type = $("#section_type").val();
 		section = "course";
 		if($("#hdn_forum_id").val()!="" && $("#hdn_forum_id").val()!= undefined){
 			course_id = $("#hdn_forum_id").val();
@@ -151,34 +151,42 @@
 		} else {
 			course_id = $("#course_id_hdn").val();
 		}
-		
+
 		if(section_type == "G")
 			section = "group";
-		
+
 		email_id = $("#add_course_people").val().trim();
 		node_class = "even";
 		dataString = {course_id:course_id, email:email_id,section_type:section_type};
 		if (course_id && email_id) {
-			showSpinner(true); 
-			$.ajax({  
-				type: "POST",  
-				url: "/course/add_participant",  
+			showSpinner(true);
+			$.ajax({
+				type: "POST",
+				url: "/course/add_participant",
 				data: dataString,
 				dataType: "json",
 				success: function(data) {
-					
+          console.log(data.email_exist)
+          console.log(data.email_exist.length == 0)
+
+          if (data.email_exist.length != 0) {
+            showSpinner(false);
+            show_alert_message("Following emails belongs to different school, can't invite them: " + data.email_exist.join(', '), true);
+            return false;
+          }
+
 					if(data.already_added==true) {
 						showSpinner(false);
 						show_alert_message(data.profile.full_name + " (" + data.user.email + ") is already a member of this "+section+". An invite is not sent.", true);
 						return false;
 					}
-					
+
 					if (data.resend==true) {
 						showSpinner(false);
 						show_alert_message("An invite has been resent to: " + email_id.split(/[ ,;]+/).join(', '), true);
 						return false;
 					}
-					
+
 					if (data.status) {
             for (var i = 0; i < data.profiles.length; i++) {
   						participant_node = $('<li id="'+ data.profiles[i].id + '" class="msg_big_boxC2 blackboard_list '+node_class+'" style="width:88%; height:88px;"></li>');
@@ -186,17 +194,17 @@
   						participant_node.id = data.profiles[i].full_name;
   						partcipant_html = '<div class="avatar_white_bdr floatL"><img src='+data.profiles[i].image_file_name+'></div>';
   						if(data.new_user){
-  							partcipant_html += '<div class="people_name" style="width:27%; margin:7px 8px;">' + data.users[i].email +'</div>';
+  							partcipant_html += '<div class="people_name ellipsis" style="width:27%; margin:7px 8px;">' + data.users[i].email +'</div>';
   						//partcipant_html += '<div style="font-size:10px; font-weight:normal;">' + email_id + '</div>';
   						} else if(data.profiles[i].full_name){
-  							partcipant_html += '<div class="people_name" style="width:27%; margin:7px 8px;">' + data.profiles[i].full_name +'</div>';
+  							partcipant_html += '<div class="people_name ellipsis" style="width:27%; margin:7px 8px;">' + data.profiles[i].full_name +'</div>';
   							// partcipant_html += '<div style="font-size:10px; font-weight:normal;">' + email_id + '</div>';
   						} else {
-  							partcipant_html += '<div class="people_name" style="width:27%; margin:7px 8px;">' + data.users[i].email +'</div>';
+  							partcipant_html += '<div class="people_name ellipsis" style="width:27%; margin:7px 8px;">' + data.users[i].email +'</div>';
   						}
-  						partcipant_html += '<div class="field_label3" style="width:30%;margin:7px 8px;"><a>'+data.users[i].email+ '</a></div>';
+  						partcipant_html += '<div class="field_label3 ellipsis" style="width:30%;margin:7px 8px;"><a>'+data.users[i].email+ '</a></div>';
   						partcipant_html += '<br /><br /><span class="participant_type" style="font-size:10px; font-weight:normal;margin:0px 0px 0px 10px;">Pending</span>';
-  						partcipant_html += '<div class="FloatR" style="width:20%"><div class="list_hover" style="margin-top:10px;width:10%;">';
+  						partcipant_html += '<div class="FloatR" style="width:20%"><div class="list_hover" style="margin-top:10px;width:12%;">';
   						partcipant_html += '<a href="javascript:void(0)" style=" margin-left: -32px;" class="people_resend blue_bt19px FloatL" rel='+data.profiles[i].id+' value='+data.users[i].email+'>Resend Invite</a>';
   						partcipant_html += '<a href="javascript:void(0)" class="people_delete blue_bt19px FloatR" rel='+data.profiles[i].id+'  >Remove</a></div></div>';
   						partcipant_html += '<div class="clear"></div>';
@@ -219,17 +227,17 @@
 			});
 	}
 	});
-  
+
 	// For showing popup of send email to all
 	$("#btn_email_all").click(function(){
 		$('#send_email_all').show();
 	});
-	
+
 	$("#dont_send_btn").unbind('click').bind('click', function(){
 		$("#send_email_all").hide();
 		$('#mail_msg').val('');
 	});
-	
+
 	// For sending email to all
 	$("#send_btn").click(function() {
 		showSpinner(true);
@@ -255,35 +263,35 @@
 					}
 				}
 			});
-		} 
+		}
 	});
-	
+
   // Resend Email to pending user
   $(".people_node").delegate(".people_resend", "click", function(){
     course_id = $("#course_id_hdn").val();
-    section_type = $("#section_type").val(); 
+    section_type = $("#section_type").val();
 		if($("#hdn_forum_id").val()!="" && $("#hdn_forum_id").val()!= undefined){
 			course_id = $("#hdn_forum_id").val();
 			section_type = "G"
 		} else {
 			course_id = $("#course_id_hdn").val();
 		}
-    
+
     email_id = $(this).attr("value");
     dataString = {course_id:course_id, email:email_id,section_type:section_type,resend:true};
-    showSpinner(true); 
-    $.ajax({  
-      type: "POST",  
-      url: "/course/add_participant",  
+    showSpinner(true);
+    $.ajax({
+      type: "POST",
+      url: "/course/add_participant",
       data: dataString,
       dataType: "json",
       success: function(data) {
 				showSpinner(false);
 				show_alert_message("An invite has been resent to: " + email_id.split(/[ ,;]+/).join(', '), true);
-			}	
+			}
 		});
   });
-	
+
   // Delete participant
   $(".people_node").delegate(".people_delete", "click", function(){
     showSpinner(true);
@@ -297,9 +305,9 @@
     }
     dataString = {course_id:course_id, profile_id:profile_id};
     if(profile_id) {
-      $.ajax({  
-        type: "POST",  
-        url: "/course/delete_participant",  
+      $.ajax({
+        type: "POST",
+        url: "/course/delete_participant",
         data: dataString,
         success: function(data) {
           if (data) {
@@ -318,14 +326,14 @@
       });
     }
   });
-  
+
 	$("#btn_task").click(function(data){
 		var course_id=$("#course_id_hdn").val();
 		var dataString = {course_id:course_id};
 		showSpinner(true);
-		$.ajax({  
-			type: "GET",  
-			url: "/task/view_task",  
+		$.ajax({
+			type: "GET",
+			url: "/task/view_task",
 			data: dataString,
 			success: function(data) {
 				$("#container").html(data);
@@ -336,14 +344,14 @@
 				alert("An Error has occured");
 				showSpinner(false);
 			},
-		}); 
+		});
 	});
-	
+
 	$("#close_btn").unbind('click').bind('click', function(){
 		$("#msg_alert_popup").hide();
 		$("#add_course_people").val("");
 	});
-	
+
 	function show_alert_message(content,visible) {
 		$('#msg_cntn').html(content);
 		if (visible)

@@ -11,12 +11,8 @@ gem 'json'
 gem 'devise'
 gem 'taps', '>= 0.3.23'
 gem 'acts-as-taggable-on', '~>2.2.0'
-gem 'rails_autolink'
+gem 'rails_autolink', '1.0.9'
 gem 'newrelic_rpm'
-
-group :development, :test do
-  # gem 'mysql2', '>= 0.2.7'
-end
 
 # Gems used only for assets and not required
 # in production environments by default.

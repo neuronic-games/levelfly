@@ -2,7 +2,7 @@ class ProfileController < ApplicationController
   layout 'main'
   before_filter :authenticate_user!
   protect_from_forgery :except => :auth
-  
+
   def index
     @profile = Profile.find(user_session[:profile_id])
     if params[:search_text]
@@ -37,9 +37,9 @@ class ProfileController < ApplicationController
     else
       @profile = Profile.find(params[:id])
     end
-    
+
     new_profile = nil
-    
+
     if @profile.nil?
       school_id = school.id
       if user_session[:profile_id].blank?
@@ -51,25 +51,25 @@ class ProfileController < ApplicationController
         end
       end
     end
-    
+
     if new_profile
       @profile = Profile.create_for_user(current_user.id,school.id)
       publish_profile(@profile)
     end
-    
+
     render :text => {"profile"=>@profile, "avatar"=>@profile.avatar, "new_profile"=>new_profile, "major"=>@profile.major, "school"=>@profile.school}.to_json
   end
 
   def edit
     profile = Profile.find(user_session[:profile_id])
-    ids = profile.sports_reward   
-    wardrobe_items = WardrobeItem.find(:all, 
+    ids = profile.sports_reward
+    wardrobe_items = WardrobeItem.find(:all,
       :conditions => ["archived = ? and wardrobe_id in (?)", false, ids],
       :order => "depth, sort_order")
-    
+
     render :text => wardrobe_items.to_json
   end
-  
+
   def save_meta
     id = params[:id]
     profile = params[:profile]
@@ -81,12 +81,12 @@ class ProfileController < ApplicationController
     @profile.interests = profile["interests"]
     @profile.contact_info = profile["contact_info"]
     @profile.save
-    
+
     publish_profile(@profile)
-    
+
     render :text => {"profile"=>@profile}.to_json
   end
-  
+
   def save_notes
     id = params[:id]
     @profile = Profile.find(id)
@@ -101,7 +101,7 @@ class ProfileController < ApplicationController
     end
     render :text => {"profile"=>@profile}.to_json
   end
-  
+
   def save
     id = params[:id]
     profile = params[:profile]
@@ -120,7 +120,7 @@ class ProfileController < ApplicationController
     @profile.school_id = profile["school_id"]
     @profile.user_id = current_user.id if current_user
     @profile.save
-    
+
     @avatar.skin = avatar["skin"]
     @avatar.background = avatar["background"]
     @avatar.body = avatar["body"]
@@ -141,7 +141,7 @@ class ProfileController < ApplicationController
     @avatar.prop = avatar["prop"]
     @avatar.profile_id = @profile.id
     @avatar.save
-    
+
     if @avatar.save
      file_name = "avatar_#{@profile.id}_#{@profile.updated_at.strftime('%Y%m%d%H%M%S')}.jpg"
      bucket = "#{ENV['S3_PATH']}/schools/#{@profile.school_id}/avatars"
@@ -150,10 +150,10 @@ class ProfileController < ApplicationController
      Attachment.aws_upload_base64(@profile.school_id, bucket, file_name, Base64.decode64(params[:avatar_img]))
    end
     publish_profile(@profile)
-    
+
     render :text => {"profile"=>@profile, "avatar"=>@avatar}.to_json
   end
-  
+
   def accept_code
     render :partial => "/profile/code_dialog"
   end
@@ -161,14 +161,14 @@ class ProfileController < ApplicationController
   def change_name
     render :partial => "/profile/name_dialog"
   end
-  
+
   def change_major
-    @majors = Major.find(:all, 
+    @majors = Major.find(:all,
       :conditions => ["archived = ?", false],
       :order => "name")
     render :partial => "/profile/major_dialog"
   end
-  
+
   def validate_code
     code = params[:code].to_s.upcase
     access_code = AccessCode.find_by_code(code)
@@ -180,7 +180,7 @@ class ProfileController < ApplicationController
     end
     render :text => {"major"=>major, "school"=>school}.to_json
   end
-  
+
   def user_profile
     previous_level = nil
     if params[:profile_id].blank?
@@ -207,7 +207,7 @@ class ProfileController < ApplicationController
     if(previous_level != @profile.level)
       content = "Congratulations! You have achieved level #{@profile.level}."
       Message.send_notification(@profile.id,content,@profile.id)
-    end  
+    end
     render :partial => "/profile/user_profile", :locals => {:profile => @profile}
   end
 
@@ -220,14 +220,14 @@ class ProfileController < ApplicationController
     @edit = true
     render :partial => "/profile/edit_wardrobe", :locals => {:profile => @profile}
   end
-  
+
   def account_setup
     if params[:id] && !params[:id].nil?
-      @current_user = Profile.find(params[:id])
+      @selected_user = Profile.find(params[:id])
       render :partial => "profile/account_setup"
     end
   end
-  
+
   def change_password
     if params[:id] and not params[:id].nil?
       @user = User.find(params[:id])
@@ -244,17 +244,17 @@ class ProfileController < ApplicationController
         @user.password = params[:password]
       end
       if @user.save
-        profile = Profile.find(user_session[:profile_id])
+        profile = Profile.find(params[:profile_id])
         profile.full_name = params[:full_name]
         profile.save
-        sign_in(@user, :bypass => true)
-        render :json =>{:text => msg, :alert => alert, :status => true}
+        # sign_in(@user, :bypass => true)
+        render :json =>{:text => msg, :alert => alert, :status => true, :current_user_profile => user_session[:profile_id]}
       else
         render :json =>{:text =>"ERROR", :alert => "ERROR", :status =>false}
       end
     end
   end
-  
+
   def show_comments
     if params[:id] and not params[:id].nil?
       @profile = Profile.find(params[:id])
@@ -265,7 +265,7 @@ class ProfileController < ApplicationController
     @profile.save
     render :json => {:message => @profile.all_comments, :status => true}
   end
-  
+
   def update_show_date
     if params[:id] and params[:update]
       @profile = Profile.find(params[:id])
@@ -275,7 +275,7 @@ class ProfileController < ApplicationController
         render :json =>{:status =>true, :show => @profile.post_date_format}
       else
         render :json =>{:status =>false}
-      end 
+      end
     end
   end
 
@@ -285,7 +285,7 @@ class ProfileController < ApplicationController
 
     render :json => {:status => true}
   end
-  
+
   def check_email
     render :json => {:exists => params[:email] != current_user.email && User.where(:email => params[:email]).count > 0}
   end

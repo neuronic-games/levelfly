@@ -245,13 +245,13 @@ $('.message_list').click(function(){
     showSpinner(true);
     if(this.id){
       action = $(this).attr('rel');
-      course_id = $(this).attr('rev');
+      // course_id = $(this).attr('rev');
       controller = this;
       $.ajax({
         type: "POST",
         url: "/message/"+action,
         dataType: 'json',
-        data: {message_id:this.id,course_id:course_id},
+        data: {message_id:this.id},
         success: function(data) {
           if (data) {
             $(controller).attr('rel',data.action);

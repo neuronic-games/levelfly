@@ -5,14 +5,15 @@
 	<meta name="description" content="Levelup learning with Levelfly." />
   <link href="/stylesheets/default.css" media="screen" rel="stylesheet" type="text/css">
   <link href="/stylesheets/mobile.css" media="screen" rel="stylesheet" type="text/css">
+  <%= javascript_include_tag "vendor" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
   <%= yield %>
-  
+
   <div id="dialog" class="dialog"></div>
-  
+
 </body>
 </html>

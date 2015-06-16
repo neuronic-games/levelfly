@@ -7,7 +7,9 @@ class MessageController < ApplicationController
     user_session[:last_check_time] = DateTime.now
     @profile = Profile.find(user_session[:profile_id])
     wall_ids = Feed.find(:all, :select => "wall_id", :conditions =>["profile_id = ?", @profile.id]).collect(&:wall_id)
+
     message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
+
     cut_off_number = Setting.cut_off_number
     if params[:messages_length]
       messages_length = params[:messages_length].to_i
@@ -20,11 +22,16 @@ class MessageController < ApplicationController
     end
 
     if params[:search_text]
+      # Exclude from search messages, if the course they are in, not a users course anymore
+      profile_courses_ids = @profile.participants.select('target_id').where(target_type: 'Course').map(&:target_id)
+      not_avail_messages_ids = Message.select('id').where("target_id NOT IN (?) AND (target_type = 'C' OR target_type = 'Course') AND profile_id = (?) AND archived = false", profile_courses_ids, @profile.id).map(&:id)
+      message_ids -= not_avail_messages_ids
+
       search_text =  "%#{params[:search_text]}%"
       @comment_ids = Message.find(:all,
         :select => "parent_id",
         :conditions => ["(archived is NULL or archived = ?) AND parent_type = 'Message' AND lower(content) LIKE ? ", false, search_text.downcase]).collect(&:parent_id)
-      conditions = ["id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend' AND (lower(content) LIKE ? OR id in (?) or lower(topic) LIKE ? )", message_ids, false, search_text.downcase, @comment_ids,search_text.downcase]
+      conditions = ["id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend' AND (lower(content) LIKE ? OR id in (?) or lower(topic) LIKE ? )", message_ids, false, search_text.downcase, @comment_ids, search_text.downcase]
       order = nil
     elsif params[:friend_id]
       conditions = ["(archived is NULL or archived = ?) AND profile_id = ? AND message_type ='Message' AND parent_type='Profile' and id in (?)", false, params[:friend_id], message_ids]
@@ -88,7 +95,7 @@ class MessageController < ApplicationController
 
       Message.transaction do
         if @message.save
-          if params[:parent_id] && !params[:parent_id].nil? && ['C', 'G'].include?(@message.parent_type)
+          if params[:parent_id] && !params[:parent_id].nil? && ['C', 'G', 'F'].include?(@message.parent_type)
             @courseMaster = Profile.find(
               :first,
               :include => [:participants],
@@ -97,7 +104,7 @@ class MessageController < ApplicationController
           end
           @message_viewer = MessageViewer.add(user_session[:profile_id],@message.id,params[:parent_type],params[:parent_id])
           send_if_board_message(@message.id)
-          Message.send_if_board_comment(@message.id)
+          # Message.send_if_board_comment(@message.id)
           Message.send_to_forum(@message.id)
           case params[:parent_type]
             when "Message"
@@ -456,7 +463,10 @@ class MessageController < ApplicationController
   def delete_message
     if params[:id] && !params[:id].nil? && params[:message_friends].nil?
       comments_ids = Message.find(:all, :select => "id", :conditions=>["parent_id = ?",params[:id]]).collect(&:id)
-      Message.update_all({:archived => true},["id = ?",params[:id]])
+      # Message.update_all({:archived => true},["id = ?",params[:id]])
+      message = Message.find(params[:id])
+      message.update_attributes(archived: true)
+      message.send_delete_notification(current_profile)
       Message.update_all({:archived => true},["id in (?)",comments_ids])
       if params[:delete_all] and params[:delete_all]=="delete_all"
         MessageViewer.delete_all(["message_id = ?", params[:id]])
@@ -473,7 +483,10 @@ class MessageController < ApplicationController
       @message_viewer = MessageViewer.find(:first, :conditions=>["viewer_profile_id = ? and message_id = ?", user_session[:profile_id], params[:id]])
       comments_ids = Message.find(:all, :select => "id", :conditions=>["parent_id = ?",params[:id]]).collect(&:id)
       if @message_viewer and @message_viewer.poster_profile_id == user_session[:profile_id]
-        Message.update_all({:archived => true},["id = ?",params[:id]])
+        # Message.update_all({:archived => true},["id = ?",params[:id]])
+        message = Message.find(params[:id])
+        message.update_attributes(archived: true)
+        message.send_delete_notification_to_friends(current_profile)
         Message.update_all({:archived => true},["id in (?)",comments_ids])
         MessageViewer.delete_all(["message_id = ?", params[:id]])
         MessageViewer.delete_all(["message_id in(?)",comments_ids])

@@ -56,30 +56,30 @@
     <% @people_pending.each do |p| %>
       <li class="blackboard_list" id="<%=p.id%>" style="width:88%; height:88px;">
       <div >
-        <div class="avatar_white_bdr .">
+        <div class="avatar_white_bdr" style="float: left;">
           <img src="<%=p.image_file_name%>" profile_id="<%=p.id%>" rel="<%=@course.id if @course%>" class="profile"/>
-        </div> 
+        </div>
         <div class="people_name" style="width:87%; margin:7px 3px;">
-          <div class="floatL" style="width:33%;margin-left:5px;"><%if p.full_name == nil %><%=p.user.email%><%else%><%=p.full_name%><%end%></div>
+          <div class="floatL ellipsis" style="width:33%;margin:0 5px;"><%if p.full_name == nil %><%=p.user.email%><%else%><%=p.full_name%><%end%></div>
           <%if @courseMaster and !@courseMaster.nil?%>
-          <div class="field_label3" style="width:38%"> <a href="mailto:<%= p.user.email %>"><%= p.user.email %></a></div>
+          <div class="field_label3 ellipsis" style="width:38%"> <a href="mailto:<%= p.user.email %>"><%= p.user.email %></a></div>
           <%if @course.parent_type=="C"%>
           <div class="field_label2" style="width:19%"> <%= active_task(p.id,@course.id) %> ACTIVE TASKS<!--<a href="#" id="btn_task" class="green_bt19px">VIEW TASKS</a>--></div><%end%>
           <div class="FloatR" style="width:20%">
-          	<div class="list_hover" style="margin-top:10px;width:10%;">
-          	  <% if p.participants[0].profile_type == "P" %>
-			    <a href="javascript:void(0)" style=" margin-left: -32px;" class="people_resend blue_bt19px FloatL" rel="<%=p.id%>" value="<%=p.user.email%>">Resend Invite</a>
-			  <% end %>	
+          	<div class="list_hover" style="margin-top:10px;width:12%;">
+              <% if p.participants[0].profile_type == "P" %>
+                <a href="javascript:void(0)" style=" margin-left: -32px;" class="people_resend blue_bt19px FloatL" rel="<%=p.id%>" value="<%=p.user.email%>">Resend Invite</a>
+              <% end %>
           	  <a href="javascript:void(0)" class="people_delete blue_bt19px FloatR" rel="<%=p.id%>"  >Remove</a>
-			</div>
-		  </div>
+            </div>
+          </div>
         </div>
          <%end%>
           </div>
           <div class="participant_type">
             Pending
           </div>
-       
+
         <div class="clear"></div>
       </li>
       <div class="clear"></div>
@@ -96,5 +96,5 @@
 		if($("#people_node_member li").length > 0){
 			$("#people_node_member").prev().fadeIn();
 		}
-	}); 
+	});
 </script>

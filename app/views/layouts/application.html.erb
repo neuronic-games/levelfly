@@ -4,39 +4,40 @@
   <title>Levelfly<% if (ENV['APP_ENV'] != 'production') %> [TESTING]<% end %></title>
 
 	<meta name="description" content="Levelup learning with Levelfly." />
-	
+
   <meta name="viewport" content="width=device-width;" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="apple-touch-icon" href="/images/ios_icon.png">
-  
+
   <link href="/stylesheets/layout.css" media="screen" rel="stylesheet" type="text/css">
   <link href="/stylesheets/default.css" media="screen" rel="stylesheet" type="text/css">
   <link href='https://fonts.googleapis.com/css?family=Amatic+SC:700' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Metrophobic' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Black+Ops+One' rel='stylesheet' type='text/css'>
+  <%= javascript_include_tag "vendor" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 
   <script type="text/javascript">
-    
+
     var _gaq = _gaq || [];
     _gaq.push(['t._setAccount', '<%= ENV['GA_ACCOUNT'] %>']);
     _gaq.push(['t._trackPageview']);
-    
+
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-    
+
   </script>
 
-</head>	
+</head>
 <body>
-  
- 
+
+
   <%= yield %>
 
   <div id="dialog" class="dialog"></div>

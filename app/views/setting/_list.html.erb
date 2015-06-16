@@ -4,7 +4,7 @@
       <div class="leader_board_center main_div_height">
         <div class="leader_pad_top"></div>
         <div class="leader_pad">
-           
+
           <div class="leader_TabCSS">
           <div class="steel_pin"><img src="/images/pin_steel.png" /></div>
           <div class="leader_topselect">
@@ -18,16 +18,16 @@
             <div class="LBT_xp">Name</div>
             <div class="LBT_badges">value</div>
           </div>
-         
+
            <%if @settings and !@settings.nil?%>
             <% @settings.each do |s|%>
               <div class="LB_tablecontent <%= cycle("even", "odd") %>" style="height: 35px;" id="s_<%=s.id%>">
                 <!--<div class="LBT_ava">
                 <div class="avatarWbdr"><img src="" class="profile"  /></div>
                 </div>
-                <div class="LBT_name view_user" rel="/reward/show/<%#=s.id%>" > 
+                <div class="LBT_name view_user" rel="/reward/show/<%#=s.id%>" >
                   <span class="name_txt "> </span><br />
-                  <span class="course_txt"></span> 
+                  <span class="course_txt"></span>
                 </div>-->
                 <div class="LBT_xp view_user" style="width:50%;" rel="/setting/show/<%=s.id%>"><%= s.name %></div>
                 <div class="LBT_badges view_user" style="width:50%;" rel="/setting/show/<%=s.id%>" ><div style=""><%= s.value %></div>
@@ -35,15 +35,15 @@
                     <a class="blue_bt19px remove_btn" style="" rel="<%=s.id%>" id="remove_setting_<%=s.id%>" href="javascript:void(0)">REMOVE</a>
                   </div>
                 </div>
-                
+
                 </div>
             <% end %>
-          <% end %>  
-          
-          </div>    
-          
-          </div>        
-        </div>         
+          <% end %>
+
+          </div>
+
+          </div>
+        </div>
         <div class="end_of_page"></div>
        </div>
       </div>
@@ -66,28 +66,28 @@ $(document).ready(function(){
       $("#modification").show();
       /*$("#create_new_setting").addClass("hide");*/
       showSpinner(false);
-    }); 
+    });
   });
   $(".view_user").click(function(){
     url = $(this).attr("rel");
     if(url){
       showSpinner(true);
-      $("#modification").load(url, function(){
-      $("#modification").show();
+      $.get(url, function(data) {
+        $('body').append(data);
         showSpinner(false);
-      });
-    }    
+      })
+    }
   });
-  
+
   $(".LB_tablecontent").hover(
     function () {
       $(".remove_setting", this).show();
-    }, 
+    },
     function () {
       $(".remove_setting", this).hide();
     }
   );
-  
+
    $(".remove_btn").click(function(event){
     id = $(this).attr("rel");
     var position = $(this).position();
@@ -99,10 +99,10 @@ $(document).ready(function(){
       $("#reward_warning_box").show();
       event.stopPropagation();
     }
-  
+
   });
 });
-  
+
 
 
 </script>

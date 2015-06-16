@@ -16,7 +16,7 @@
 				%></div></p>
 			<div class="msg_bottom_links">
 			 <div class="time" rel ="<%=comment.id%>"><span class="words"><%= time_ago_in_words(comment.created_at) %> ago</span><span class="hide dates" ><%=gdt(comment.created_at)%></span></div>
-				<div class="like_cmt"><span class="fav_icon"><img src="/images/fav.png" align="absbottom" /><span id="count_<%=comment.id%>"><%=comment.like%></span></span> 
+				<div class="like_cmt"><span class="fav_icon"><img src="/images/fav.png" align="absbottom" /><span id="count_<%=comment.id%>"><%=comment.like%></span></span>
 				<span class="comments_lists" id="c_<%=comment.id%>">
 				<span id="link_<%=comment.id%>">
 					<a href="javascript:void(0)" class="blue_bt19px like" rev ="<%=course_id%>" rel="<%=user_like(user_profile_id, comment.id) ? "unlike" : "like" %>" id="<%=comment.id%>"><%=user_like(user_profile_id, comment.id) ? "UNLIKE" : "LIKE" %></a>
@@ -48,7 +48,7 @@ $(function(){
 $(".comments_lists_box").hover(
     function () {
       $(".comments_lists", this).show();
-    }, 
+    },
     function () {
       $(".comments_lists", this).hide();
     }

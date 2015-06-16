@@ -24,6 +24,8 @@ Oncapus::Application.configure do
   # Disable request forgery protection in test environment
   config.action_controller.allow_forgery_protection    = false
 
+  config.action_mailer.default_url_options = { :host => '0.0.0.0:3000' }
+
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
@@ -36,4 +38,8 @@ Oncapus::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  Pusher.app_id = '64378'
+  Pusher.key    = '18acef759a4aa6f53d19'
+  Pusher.secret = '4f9384b33dad44150882'
 end

@@ -43,6 +43,11 @@
                 <%= render :partial => "devise/shared/links" %>
               </div><!--forgot_your_pass_wp-->
       </div><!--remember_box_wp-->
+
+      <% unless @user.errors[:email].blank? %>
+        <div class="error_message"><h2>There is no person in Levelfly with that email.</h2></div>
+      <% end %>
+
       <% flash.each do |name, msg| %>
 		   <div class="error_message"><h2><%= msg %></h2></div>
       <% end %>

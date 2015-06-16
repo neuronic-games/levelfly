@@ -4,11 +4,11 @@
       <img id="c_iamge" class="c_iamge" src="<%= @course.image_file %>" width="156" height="156" alt="Course image" />
       <img class="image_icon_drop_target" src="/images/course_img_drop.png" />
 			<div class="browse_link_div">
-				<a href="javascript:void(0)" id="course_browse_btn">CLICK HERE TO UPLOAD</a> 
+				<a href="javascript:void(0)" id="course_browse_btn">CLICK HERE TO UPLOAD</a>
 			</div>
     </div>
 	</div>
-	
+
   <div class="course_right" >
     <div class="course_detailbox">
 
@@ -46,9 +46,9 @@
           Enter an optional course section, such as 123
         </div>
       </div>
-      
+
       <div class="clear"></div>
-      
+
     </div>
     <div  class="catagory_viewfield field_label" style="margin-top:15px;margin-left:6px;">Semester
       <div>
@@ -73,7 +73,7 @@
         <%= select "date", "year", [["#{Time.now.year}","#{Time.now.year}",{:class =>"brown_bg"}],["#{Time.now.year+1}","#{Time.now.year+1}",{:class =>"brown_bg"}],["#{Time.now.year+2}","#{Time.now.year+2}",{:class =>"brown_bg"}],["#{Time.now.year+3}","#{Time.now.year+3}",{:class =>"brown_bg"}],["#{Time.now.year+4}","#{Time.now.year+4}",{:class =>"brown_bg"}],["#{Time.now.year+5}","#{Time.now.year+5}",{:class =>"brown_bg"}]], {:selected=>!@course.year.blank? ? @course.year : Time.now.year}, {:class=>"brown_bg"} %>
       </div>
     </div>
-    
+
 </div>
 <div class="clear"></div>
 
@@ -86,13 +86,13 @@
       </span>
       </br>
       <div class="add_outcome_bt "><!--course_setup_button-->
-        <a class="blue_bt19px" onclick="addOutcome();">ADD OUTCOME</a> 
+        <a class="blue_bt19px" onclick="addOutcome();">ADD OUTCOME</a>
       </div>
     </div>
-  
+
     <div class="page_block_right">
-      
-      
+
+
       <div id="load_outcomes">
         <% if @course %>
           <%  @course.outcomes.order('name').each do |outcomes| %>
@@ -103,7 +103,7 @@
       <div>
         <div id="add_outcome_container">
           <!-- New outcomes will be added here -->
-        </div> 
+        </div>
       </div>
     </div>
   </div> <!-- End page_block -->
@@ -112,17 +112,17 @@
   <div class="page_block">
     <div class="page_block_left">
       <span class="field_title">Grading Categories</span>
-      <span class="field_notes">       
+      <span class="field_notes">
         Click the "Add Category" button to set up your syllabus grading categories in your Grade Book. You can modify these later.
       </span>
       </br>
       <div class="add_outcome_bt "><!--course_setup_button-->
-        <a class="blue_bt19px" onclick="addCategory();">ADD CATEGORY</a> 
+        <a class="blue_bt19px" onclick="addCategory();">ADD CATEGORY</a>
       </div>
     </div>
-  
+
     <div class="page_block_right">
-      
+
       <% if @course %>
         <% @course.categories.each do |c| %>
         <%= render :partial => "/course/category_list", :locals => {:c=>c} %>
@@ -133,22 +133,22 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Disabled for v1 -->
   <div class="group_privacy" style="display:none;">Privacy
     <div class="privacy_setting">
     <input type="radio" name="joinning_group[]" checked="true" value="I"/><span>Anyone can join
-    </span></div> 
+    </span></div>
     <div class="privacy_setting">
     <input type="radio" name="joinning_group[]" <% if @course.join_type == "R" %> checked="true" <% end %> value="R"/><span>Only invited people can join</span>
-    </div> 
+    </div>
     <br/>
     <div class="privacy_setting">
     <input type="radio" name="viewing_group[]" checked="true" value="A"/><span>Anyone can see group content</span>
-    </div> 
+    </div>
     <div class="privacy_setting">
     <input type="radio" name="viewing_group[]" <% if @course.visibility_type == "M" %> checked="true" <% end %> value="M"/><span>Only members can see group contents</span>
-    </div> 
+    </div>
  </div>
  <div id="confirm_box" class="hide">
    <%= render :partial => "/course/confirm_box" %>
@@ -161,7 +161,7 @@
   </div>
   <div id="blank_course_name_div" class="hide">
     <%= render :partial => "/course/warning_popup"%>
-  </div>  
+  </div>
  <div class="page_block">
   <div class="page_block_left">
     <span class="field_title">Privacy</span>
@@ -222,16 +222,16 @@ $(document).ready(function(){
 });
   $("#course_code_name").mask("aaa?aaaaa", {placeholder:""});
   $("#course_code_num").mask("999?999", {placeholder:""});
-  
+
   var _shared = -1;
   var _share_outcomes = false;
-  // For setup Page 
+  // For setup Page
   /* $("#btn_member").click(function(data){
    showSpinner(true);
-   course_id = $("#course_id_hdn").val();   
-   $.ajax({  
-        type: "GET",  
-        url: "/course/view_member",  
+   course_id = $("#course_id_hdn").val();
+   $.ajax({
+        type: "GET",
+        url: "/course/view_member",
         data:{id:course_id},
         success: function(data) {
 		      $("#load_data").html(data);
@@ -242,7 +242,7 @@ $(document).ready(function(){
           alert("An Error has occured");
           showSpinner(false);
         },
-      }); 
+      });
     });*/
   $(function(){
     // Disable the tabs until the user has entered a name
@@ -251,7 +251,7 @@ $(document).ready(function(){
       $("#menu3").hide();
       $("#menu4").hide();
     }
-    
+
     //Uploader course image upload
     var course_uploader = new plupload.Uploader({
       runtimes: 'html5,flash',
@@ -271,9 +271,9 @@ $(document).ready(function(){
         {title : "Image files", extensions : "jpg,gif,png,JPG,PNG,GIF,JPEG"}
       ]
     });
-    
+
 		course_uploader.init();
-		
+
     course_uploader.bind('FilesAdded', function(up, files) {
       showSpinner(true);
       course_uploader.settings.multipart_params.course = getStorage("course_name");
@@ -283,12 +283,12 @@ $(document).ready(function(){
       course_uploader.settings.multipart_params.parent_type = "C";
       course_uploader.start();
     });
-    
+
     course_uploader.bind('UploadProgress', function(up, file) {
       //$('#course_image_drop').html('<center>Uploading..</center>');
       $(".image_icon_drop_target").fadeOut();
     });
-    
+
     course_uploader.bind('FileUploaded', function(up, file, info) {
       var obj = jQuery.parseJSON( info.response);
       courseImg = $('<img width="156" height="156">').attr('src',obj.image_url);
@@ -301,48 +301,48 @@ $(document).ready(function(){
       showSpinner(false);
        changed=true;
     });
-    
+
     //For outcomes hover div
     $(".outcome_div").hover(
       function () {
         id = $(this).attr("id");
         $("#"+id+" #on_hover").show();
-      }, 
+      },
       function () {
         id = $(this).attr("id");
         $("#"+id+" #on_hover").hide();
       }
     );
-    
+
      //For category hover div
     $(".category_div").hover(
       function () {
         id = $(this).attr("id");
         $("#"+id+" #on_category").show();
-      }, 
+      },
       function () {
         id = $(this).attr("id");
         $("#"+id+" #on_category").hide();
       }
     );
-    
-    
+
+
     //Remove category nodes
   $(".category_del").click(function(){
     showSpinner(true);
     category_id = $(this).attr('rel');
     $("#category_div_"+category_id).remove();
     var dataString = 'categories='+category_id;
-    $.ajax({  
-      type: "POST",  
-      url: "/course/remove_course_categories",  
+    $.ajax({
+      type: "POST",
+      url: "/course/remove_course_categories",
       data: dataString,
       dataType:"json",
       success: function(data) {
         showSpinner(false);
         changed=true;
       }
-    });  
+    });
   });
     //Remove outcome nodes
   $(".outcome_del").click(function(){
@@ -351,9 +351,9 @@ $(document).ready(function(){
     course_id = $("#course_id_hdn").val();
     $("#outcome_div_"+outcome_id).remove();
     var dataString = 'outcomes='+outcome_id+ '&course_id=' + course_id;
-    $.ajax({  
-       type: "POST",  
-       url: "/course/remove_course_outcomes",  
+    $.ajax({
+       type: "POST",
+       url: "/course/remove_course_outcomes",
        data: dataString,
        dataType:"json",
        success: function(data) {
@@ -363,14 +363,14 @@ $(document).ready(function(){
     });
   });
 
-  //For updating outcomes (in course view screen) 
+  //For updating outcomes (in course view screen)
   $('textarea[name="loaded_outcomes_descr[]"]').unbind('blur').bind('blur', function(){
     var outcome_id = $(this).attr('rel');
     var outcome = $(this).val();
     var dataString = {outcome_id:outcome_id, outcome_descr:outcome}
     update_outcomes(dataString,outcome_id)
   });
-  
+
    function update_outcomes(dataString,outcome_id){
      if(outcome_id) {
       showSpinner(true);
@@ -391,7 +391,7 @@ $(document).ready(function(){
       return false;
     }
    }
-   
+
   $('input[name="loaded_outcomes[]"]').unbind('blur').bind('blur', function(){
     var outcome_id = $(this).attr('rel');
     var outcome = $(this).val();
@@ -405,7 +405,7 @@ $(document).ready(function(){
     var category = $(this).val();
     var dataString = 'category_id=' + category_id + '&category=' + category
     update_categries(dataString,category_id)
-    
+
   });
   function update_categries(dataString,category_id){
     if(category_id) {
@@ -425,16 +425,16 @@ $(document).ready(function(){
       });
       return false;
     }
-  
+
   }
-  
+
    $('input[name="loaded_category_val[]"]').unbind('blur').bind('blur', function(){
     var category_id = $(this).attr('rel');
     var category = $(this).val();
     var dataString = 'category_id=' + category_id + '&category_value=' + category
       update_categries(dataString,category_id)
   });
-  
+
   //check outcome as share
   $('#load_outcomes').delegate('input[name="loaded_share[]"]', 'change', function(){
     //check_val = $(this).is(':checked');
@@ -452,21 +452,21 @@ $(document).ready(function(){
          }
       });
   });
-  
+
    $('#add_outcome_container').delegate('.outcomes_share_btn', 'click', function(){
       $("#outcome_share_box").show();
       index = $(this).attr("rel");
       $("#outcome_index").attr("value",index);
    });
-   
-   $('#load_outcomes').delegate('.outcomes_share_btn', 'click', function(){ 
+
+   $('#load_outcomes').delegate('.outcomes_share_btn', 'click', function(){
       $("#outcome_share_box").show();
       outcome_id = $(this).attr("rel");
       $("#outcome_index").attr("value",outcome_id);
       _share_outcomes = true;
    });
-  
-  
+
+
    /* $("#course_code_name").blur(function(){
       var code_name = $(this).val();
       var code_num = $("#course_code_num").val();
@@ -476,9 +476,9 @@ $(document).ready(function(){
       {
         dataString = {code:code, id:course_id};
         showSpinner(true);
-         $.ajax({  
-              type: "POST",  
-              url: "/course/check_outcomes",  
+         $.ajax({
+              type: "POST",
+              url: "/course/check_outcomes",
               data: dataString,
               success: function(data) {
                  $("#load_outcomes").html(data);
@@ -491,17 +491,17 @@ $(document).ready(function(){
                  showSpinner(false);
               },
          	});
-      }  
+      }
 
       $("#menu1").fadeIn();
       $("#menu3").fadeIn();
       $("#menu4").fadeIn();
     });*/
-      
-    
+
+
 
  });
- 
+
  function check_outcomes(){
  	var code_name = $("#course_code_name").val();
     var code_num = $("#course_code_num").val();
@@ -511,9 +511,9 @@ $(document).ready(function(){
     {
       dataString = {code:code, id:course_id};
       showSpinner(true);
-      $.ajax({  
-           type: "POST",  
-           url: "/course/check_outcomes",  
+      $.ajax({
+           type: "POST",
+           url: "/course/check_outcomes",
            data: dataString,
            success: function(data) {
               $("#load_outcomes").html(data);
@@ -526,12 +526,12 @@ $(document).ready(function(){
               showSpinner(false);
            },
       	});
-    }  
+    }
     $("#menu1").fadeIn();
     $("#menu3").fadeIn();
     $("#menu4").fadeIn();
  }
- 
+
   $("#btn_archive").click(function(){
     $("#confirm_box").show();
   });
@@ -563,7 +563,7 @@ $(document).ready(function(){
     $("#hdn_is_page_change").val(true);
     changed=true;
   }
-  
+
   //Adding text field nodes for peoples, outcomes, categories
   function addNode(element) {
      changed=true;
@@ -586,5 +586,5 @@ $(document).ready(function(){
       newNode.appendTo("#add_category_container");
       _counterCategory++;
     }
-  }  
+  }
 </script>

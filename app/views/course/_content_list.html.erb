@@ -10,16 +10,16 @@
     <th width="110">
     </th>
     <% if defined?(section_type) %>
-    
+
     <% if section_type == "C" %>
     <th>
-      Course 
+      Course
     </th>
     <th width="100">
       Course Code
     </th>
     <% end %>
-    
+
     <% if section_type == "G" %>
     <th>
       Name
@@ -28,11 +28,11 @@
       Formed
     </th>
     <% end %>
-    
+
     <th width="60" style="text-align:center;">
       Organizer
     </th>
-    
+
     <input type="hidden" id="section_type" value="<%=section_type%>"/>
     <% end %>
   </tr>
@@ -91,12 +91,12 @@
   <% @courses.each do |c| %>
   <tr class="course_row">
     <td>
-      <a href="/course/show/<%=c.id%>" class="view">
+      <a href="#" data-url="/course/show/<%=c.id%>" class="view">
         <img src='<%= c.image_file %>' width="100" height="100" alt="<%=c.name%>" />
       </a>
     </td>
     <td>
-      <a href="/course/show/<%=c.id%>" class="view">
+      <a href="#" data-url="/course/show/<%=c.id%>" class="view">
         <div class="title"><%=c.name %></div>
         <% if defined?(section_type) && section_type == "G"%><div class="description"><%=c.descr%></div><% end %>
       </a>
@@ -118,7 +118,7 @@
         </a>
         <% end %>
       </div>
- 
+
     </td>
     <td>
       <% if defined?(section_type) && section_type == "G"%>
@@ -127,7 +127,7 @@
       <%=c.code%>-<%=c.section%>
       <% end %>
     </td>
-    
+
     <td style="text-align:center;">
       <% if c.owner %>
       <div class="avatar_white_bdr">
@@ -141,6 +141,7 @@
 </table>
 <% end %>
 <script type="text/javascript">
+var test;
 
 $(document).ready(function(){
     $('a.send').bind('click', function(){
@@ -158,27 +159,27 @@ $(document).ready(function(){
             $(redirect).trigger('click');
                 });
     });
-$('.description').dotdotdot({});          
+$('.description').dotdotdot({});
 $('a.view').click(function() {
     showSpinner(true);
     section_type = $("#section_type").val();
-    url = this.href+"?section_type="+section_type;
+    url = this.dataset.url+"?section_type="+section_type;
     $("#container").load(url, function(){
       $("#menu_btn_dup").show();
        $("#btn_course").addClass("hide");
       showSpinner(false);
-    }); 
-    return false; 
-  });      
-  
-  
+    });
+    return false;
+  });
+
+
   $(".course_row").hover(
     function () {
       $(".list_hover", this).show();
-    }, 
+    },
     function () {
       $(".list_hover", this).hide();
     }
   );
 });
-</script>  
+</script>

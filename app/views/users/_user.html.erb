@@ -1,0 +1,290 @@
+<div id="user-modal">
+  <div>
+    <h1>#<%= @profile.id %></h1>
+  </div>
+
+  <div class="row">
+
+    <div class="column">
+      <% unless @profile && @profile.image_file_name == "/images/wardrobe/null_profile.png" %>
+        <div id="modify" class="modal-avat">
+          <img id="background" class="smaller_full_avatar">
+          <img id="avatar_body" class="smaller_full_avatar">
+          <img id="hair_back" class="smaller_full_avatar">
+          <img id="shoes" class="smaller_full_avatar">
+          <img id="bottom" class="smaller_full_avatar">
+          <img id="necklace" class="smaller_full_avatar">
+          <img id="top" class="smaller_full_avatar">
+          <img id="head" class="smaller_full_avatar">
+          <img id="earrings" class="smaller_full_avatar">
+          <img id="facial_marks" class="smaller_full_avatar">
+          <img id="facial_hair" class="smaller_full_avatar">
+          <img id="face" class="smaller_full_avatar">
+          <img id="glasses" class="smaller_full_avatar">
+          <img id="hair" class="smaller_full_avatar">
+          <img id="hat" class="smaller_full_avatar">
+          <img id="prop" class="smaller_full_avatar">
+        </div>
+      <% end %>
+    </div>
+
+    <div class="column">
+
+      <label for="user_name">FULL NAME</label>
+      <div class="dd_bg brown_bg">
+        <input type="text" name="user_name" id="user_name_modal" value="<%=@profile.full_name if @profile%>" class="dd_input brown_bg prompted" style="width:100%;" <% if @disable_edit %>disabled="true"<% end %>>
+      </div><br>
+
+      <label for="user_email">EMAIL</label>
+      <div class="dd_bg brown_bg">
+        <input type="text" name="user_email" id="user_email_modal" value="<%=@profile.user.email if @profile%>" class="dd_input brown_bg prompted" style="width:100%;" <% if @disable_edit %>disabled="true"<% end %>>
+      </div><br>
+
+      <label for="user_password">PASSWORD</label>
+      <div class="dd_bg brown_bg">
+        <input  name="user_password" id="user_password_modal" value="" class="dd_input brown_bg prompted" type="password" style="width:100%;" <% if @disable_edit %>disabled="true"<% end %>>
+      </div><br>
+
+      <label>ROLE</label>
+      <div class="dd_bg brown_bg">
+      <select name="profile_modal[role_name_id]" <% if @disable_edit %>disabled="true"<% end %> style="width:100%">
+          <% RoleName.all.each do |role_name| %>
+            <% if current_profile.has_role(Role.modify_settings) || (@profile && @profile.has_role(Role.modify_settings)) || role_name.name != 'Levelfly Admin' %>
+            <option value="<%= role_name.id %>" <%= (@profile && @profile.role_name_id == role_name.id) ? 'selected="selected"' : "" %>><%= role_name.name %></option>
+            <% end %>
+          <% end %>
+        </select>
+      </div><br>
+
+      <div id='modal-permissions'>
+        <%= render :partial => "/users/permissions" %>
+      </div><br>
+
+      <% if @profile %>
+        <label>THIS USER IS:</label>
+        <div style="margin-top:5px;">
+          <input type="radio" name="user_status[]" checked="true" value="" rel="A" <% if @disable_edit %>disabled="true"<% end %>><span style="margin-right:10px"> Active</span>
+          <input type="radio" name="user_status[]" <%if @profile.user.status=="S" %>checked="true"<%end%>  rel="S" value="" <% if @disable_edit %>disabled="true"<% end %>><span style="margin-right:10px"> Suspended</span>
+          <input type="radio" name="user_status[]" rel="S" value="" disabled="true"><span> Archived</span>
+        </div>
+      <% end %>
+
+      <br>
+      <div>
+        <a class="big_blue_btn" style='display:inline-block;' name="login_as_btn" id="login_as_btn" href="javascript:void(0)">LOGIN AS</a>
+        <a class="big_blue_btn" style='display:inline-block;' name="remove_user_btn" id="remove_user_btn" href="javascript:void(0)">REMOVE</a>
+        <a class="big_orange_btn right" style='display:inline-block;' name="save_user_btn" id="save_user_btn" href="javascript:void(0)">SAVE</a>
+      </div>
+    </div>
+
+    <div id="remove_user_div" class="hide">
+      <%= render :partial => "/users/remove_user" %>
+    </div>
+
+  </div>
+
+  <input type="hidden" name="user_id" id="user_id_hdn" value="<%=@profile.id if @profile%>" />
+  <input type="hidden" name="avtr" id="avtr" value="<%=@avatar if @avatar%>" />
+  <%= render :partial => "users/invalid_email_popup"%>
+</div>
+
+<script type="text/javascript">
+
+  $(function() {
+    $('#user-modal').easyModal({
+      autoOpen: true,
+      overlayOpacity: 0.5,
+      overlayColor: "#333",
+      overlayClose: true,
+      closeOnEscape: false,
+      onClose: function(modal) {
+        modal.remove();
+        $('.lean-overlay').remove();
+      }
+    });
+  });
+
+  var _avatar;
+  $(document).ready(function(){
+
+    $('select[name="profile_modal[role_name_id]"]').change(function() {
+      var role_name_id = $('select[name="profile_modal[role_name_id]"]').val();
+      showSpinner(true);
+      $.get('users/load_permissions', {role_name_id: role_name_id}, function( data ) {
+        $('#modal-permissions').html(data);
+        showSpinner(false);
+      });
+    });
+
+    $("#save_user_btn").click(function(){
+      var valid = false,
+          user_status = 'A';
+
+      valid = validate_form();
+
+      if(valid==true){
+         $.each($('input[name="user_status[]"]'), function(){
+          /*status = $(this).is(":checked");*/
+          if ($(this).is(":checked")){
+            user_status = $(this).attr("rel");
+          }
+        });
+        var id = $("#user_id_hdn").val();
+        var email = encodeURIComponent($("#user_email_modal").val());
+        var name = $("#user_name_modal").val();
+        var user_password = $("#user_password_modal").val();
+        var role_name_id = $('select[name="profile_modal[role_name_id]"]').val();
+
+        if (user_password =="")
+          var datastring = "id="+id+"&name="+name+"&email="+email+"&role_name_id="+role_name_id+"&status="+user_status
+        else
+          var datastring = "id="+id+"&name="+name+"&email="+email+"&user_password="+user_password+"&role_name_id="+role_name_id+"&status="+user_status
+        showSpinner(true);
+        $.ajax({
+        type:"POST",
+        dataType :"json",
+        url:"/users/save/",
+        data:datastring,
+        success: function(data){
+          console.log(data);
+          if (data.status==true){
+            // $("#container").load('/users/', function(){
+            //   showSpinner(false);
+            // });
+            showSpinner(false);
+            $('#user-modal').trigger('closeModal');
+          }
+          else if(data.email_exist==true){
+             showSpinner(false);
+             alert("emial already exist");
+          }
+          showSpinner(false);
+        },
+        error : function(){
+          alert("ERROR");
+          showSpinner(false);
+        }
+        });
+      }
+  });
+
+  $("#remove_user_btn").click(function(){
+    <% if @profile %> $("#remove_user_div").show(); <% else %> $("#invalid_email").show(); <% end %>
+
+
+  });
+
+  $("#login_as_btn").click(function(){
+    var email = $("#user_email_modal").val();
+    showSpinner(true);
+      $.ajax({
+         type: "POST",
+         dataType :"json",
+         url: "/users/login_as",
+         data: {email:email},
+         success: function(data) {
+           showSpinner(false);
+           if (data.status){
+               window.location = "/";
+           }
+           else {
+               $("#invalid_email").show();
+           }
+         }
+      });
+  });
+  <%if @profile and !@profile.nil?%>
+    loadWardrobe();
+   <% end %>
+});
+
+function loadWardrobe() {
+   jStorage.flush();
+   var profile_user_id = $("#user_id_hdn").val();
+   if (profile_user_id) {
+     data = {id:profile_user_id}
+   } else {
+     data = {}
+   }
+
+  $.getJSON("/profile/show", data,
+      function(data){
+        _profile = data.profile;
+        _avatar = data.avatar;
+        _major = data.major;
+        _school = data.school;
+        h[profile_user_id]=data.avatar;
+        if (data.new_profile == true) {
+          acceptCode();
+        }
+        jStorage.flush()
+        jStorage.set("j_profile",data.profile);
+        jStorage.set("j_avatar",data.avatar);
+        jStorage.set("j_major",data.major);
+        //jStorage.set("j_school",data.school);
+        showFullAvatar();
+      }
+   ).error(function() {
+     alert("Showing from stograge");
+     _profile = jStorage.get("j_profile");
+     _avatar = jStorage.get("j_avatar");
+     _major = jStorage.get("j_major");
+     //_school = jStorage.get("j_school");
+   });
+}
+
+function showFullAvatar() {
+  $("#background").attr("src", "/images/wardrobe/"+_avatar.background+".png");
+  $("#avatar_body").attr("src", "/images/wardrobe/"+_avatar.body+".png"); //Id changed by vaibhav because having id "body" is creating problem with jQuery.position()
+  // $("#hat_back").attr("src", "/images/wardrobe/"+_avatar.hat_back+".png");
+  $("#hair_back").attr("src", "/images/wardrobe/"+_avatar.hair_back+".png");
+  $("#shoes").attr("src", "/images/wardrobe/"+_avatar.shoes+".png");
+  $("#bottom").attr("src", "/images/wardrobe/"+_avatar.bottom+".png");
+  $("#necklace").attr("src", "/images/wardrobe/"+_avatar.necklace+".png");
+  $("#top").attr("src", "/images/wardrobe/"+_avatar.top+".png");
+  $("#head").attr("src", "/images/wardrobe/"+_avatar.head+".png");
+  $("#earrings").attr("src", "/images/wardrobe/"+_avatar.earrings+".png");
+  $("#facial_marks").attr("src", "/images/wardrobe/"+_avatar.facial_marks+".png");
+  $("#facial_hair").attr("src", "/images/wardrobe/"+_avatar.facial_hair+".png");
+  $("#face").attr("src", "/images/wardrobe/"+_avatar.face+".png");
+  $("#glasses").attr("src", "/images/wardrobe/"+_avatar.glasses+".png");
+  $("#hair").attr("src", "/images/wardrobe/"+_avatar.hair+".png");
+  $("#hat").attr("src", "/images/wardrobe/"+_avatar.hat+".png");
+  $("#prop").attr("src", "/images/wardrobe/"+_avatar.prop+".png");
+
+}
+
+function validate_form(){
+  var user_password = document.getElementById("user_password_modal");
+  var email=document.getElementById("user_email_modal").value;
+  var atpos=email.indexOf("@");
+  var dotpos=email.lastIndexOf(".");
+
+  if (email==""){
+      alert('Enter Email Address');
+      return false;
+  }
+  else if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length)
+  {
+  alert("Not a valid e-mail address");
+  return false;
+  }
+
+  if(user_password.value==""){
+    if ($("#user_id_hdn").val()==""){
+      alert("Enter password")
+      user_password.focus();
+     return false;
+     }
+    else
+    return true;
+  }
+  else if(user_password.value.length < 6 ){
+    alert("Password have minimum 6 character");
+    user_password.focus();
+    return false;
+  }
+  return true;
+}
+
+</script>

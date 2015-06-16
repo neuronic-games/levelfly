@@ -2,7 +2,7 @@
 <div style="position:relative;">
 	<div style="position:absolute; width:100%;">
 		<div class="pr120">
-			<div class="leader_pad_top container_tipshelp"> 
+			<div class="leader_pad_top container_tipshelp">
 				<div class="tops_row">
 					<div class="leftimg panel"></div>
 					<div class="centerimg panel"></div>
@@ -19,7 +19,7 @@
       <div class="leader_board_center main_div_height">
         <div class="leader_pad_top"></div>
         <div class="leader_pad">
-           
+
           <div class="leader_TabCSS">
           <div class="steel_pin"><img src="/images/pin_steel.png" /></div>
           <div class="leader_topselect clearfix">
@@ -33,21 +33,27 @@
                   <option value="organizers_of_groups" class="brown_bg">Organizers of Groups</option>
                   <option value="organizers_of_courses_and_groups" class="brown_bg">Organizers of Courses/Groups</option>
                   <optgroup label="Courses">
-                    <%courses = all_course("C")%>
-                    <% if courses and !courses.nil?%>
-                      <% courses.each do |course| %>
-                        <option value="<%=course.id%>" class="brown_bg"><%=course.name%></option>
-                      <% end %> 
+                    <% if @courses and !@courses.nil?%>
+                      <% @courses.each do |course| %>
+                        <option value="<%=course.id%>" class="brown_bg"><%=course.name%> <%= "(#{course.code})" unless course.code.empty? %></option>
+                      <% end %>
                     <% end %>
                   </optgroup>
                   <optgroup label="Groups">
-                     <%courses = all_course("G")%>
-                     <% if courses and !courses.nil?%>
-                       <% courses.each do |course| %>
+                     <% if @groups and !@groups.nil?%>
+                       <% @groups.each do |course| %>
                          <option value="<%=course.id%>" class="brown_bg"><%=course.name%></option>
-                       <% end %> 
+                       <% end %>
                      <% end %>
                    </optgroup>
+                   <optgroup label="Archived Courses">
+                    <% if @archived_courses and !@archived_courses.nil?%>
+                      <% @archived_courses.each do |course| %>
+                        <option value="<%=course.id%>" class="brown_bg"><%=course.name%> <%= "(#{course.code})" unless course.code.empty? %></option>
+                      <% end %>
+                    <% end %>
+                  </optgroup>
+
                 </select>
              </span>
             </div>
@@ -63,10 +69,15 @@
                 <div class="LBT_xp"> Joined On</div>
                 <div class="LBT_badges">Last Login</div>
               </div>
+
               <%= render :partial => "/users/load_users", :locals => { :@users => @users, :@id => 'all_active', :@page => 1 } %>
+
+            </div>
+          </div>
+
               <div id="send_email_all" class="add_task_popup" style="display:none">
                 <div class="heading">Send Email to All Users</div>
-                <div class="boxadnt"> 
+                <div class="boxadnt">
                   <span class="heading02">Message</span>
                   <div class="heading02_field">
                     <div class="dd_bg brown_bg02">
@@ -78,7 +89,7 @@
                   <div class="spacebar10px"></div>
                 </div>
                 <div align="right" style="margin-right:20px;">
-                  <a class="big_blue_btn inlineblock" id="dont_send_btn" href="javascript:void(0)">Don't Send</a> 
+                  <a class="big_blue_btn inlineblock" id="dont_send_btn" href="javascript:void(0)">Don't Send</a>
                   <a class="big_blue_btn inlineblock" id="send_btn" href="javascript:void(0)">Send</a>
                 </div>
               </div>
@@ -93,7 +104,7 @@
                       <input name="student_code" pattern="[A-Za-z0-9]{5,15}" maxlength="15" value="<%= @profile.school.student_code %>">
                     </div>
                     <div class="validation_msg">&nbsp;</div>
-                  </div>                  
+                  </div>
                   <div class="clear"></div>
                   <div class="spacebar10px"></div>
                   <label class="heading02" for="teacher_code">Teacher Invite Code</label>
@@ -108,7 +119,7 @@
                 <div class="spacebar10px"></div>
                 <div class="spacebar10px"></div>
                 <div align="right" style="margin-right:20px;">
-                  <a class="big_blue_btn inlineblock" id="dont_save_btn" href="javascript:void(0)">Don't Save</a> 
+                  <a class="big_blue_btn inlineblock" id="dont_save_btn" href="javascript:void(0)">Don't Save</a>
                   <a class="big_orange_btn inlineblock" id="save_btn" href="javascript:void(0)">Save</a>
                 </div>
               </div>
@@ -140,13 +151,34 @@
                 <div class="spacebar10px"></div>
                 <div class="spacebar10px"></div>
                 <div align="right" style="margin-right:20px;">
-                  <a class="big_blue_btn inlineblock" id="dont_add_btn" href="javascript:void(0)">Don't Add</a> 
+                  <a class="big_blue_btn inlineblock" id="dont_add_btn" href="javascript:void(0)">Don't Add</a>
                   <a class="big_orange_btn inlineblock" id="add_btn" href="javascript:void(0)">Add</a>
-                </div>                
+                </div>
               </div>
-            </div>
-          </div>
-        </div>         
+              <div id="copy_all_emails" class="add_task_popup" style="display:none">
+                <div class="heading">Copy all emails</div>
+                <div class="boxadnt">
+                  <div class="">
+                    <div class="dd_bg brown_bg02">
+                      <textarea class="dd_input brown_bg02" style="height:55px" id="list_of_emails"></textarea>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="spacebar10px"></div>
+                  <div class="spacebar10px"></div>
+                </div>
+
+                <div align="right" style="margin-right:20px;">
+                  <p align="left" style="float:left">
+                    Copy the list of email addresses.<br>CTRL+C (Windows), CMD+C (Mac)<br>
+                    <span id="copied" style="color:green;display:none;">copied to clipboard</span>
+                  </p>
+                  <a class="big_blue_btn inlineblock" id="close_all_emails" href="#">CLOSE</a>
+                </div>
+              </div>
+
+
+        </div>
         <div class="end_of_page"><div class="load_more hide"><img src="/images/ajax-loader.gif"> Loading more users...</div></div>
        </div>
       </div>
@@ -158,7 +190,8 @@
         <a class="big_blue_btn" name="create_new_user" id="create_new_user" href="javascript:void(0)">ADD USER</a>
         <a class="big_blue_btn" name="message_to_user" id="message_to_user" href="javascript:void(0)">EMAIL ALL</a>
         <a class="big_blue_btn" id="invite_code_btn" href="javascript:void(0)">INVITE CODE</a>
-      <a class="big_blue_btn" id="download_code_btn" href='<%= load_csv_users_path(id: 'all_active') %>'>DOWNLOAD</a>
+        <a class="big_blue_btn" id="download_code_btn" href='<%= load_csv_users_path(id: 'all_active') %>'>DOWNLOAD</a>
+        <a class="big_blue_btn" id="copy_emails" href='#'>COPY EMAILS</a>
     </div><!-- crud_level -->
   </div>
 
@@ -166,7 +199,7 @@
 
 function validate_form() {
   var email = document.getElementById("user_email").value;
- 
+
   if (email == "") {
     return 'Enter Email Address';
   } else if (!OnCampus.Validation.validateEmail(email)) {
@@ -180,10 +213,40 @@ $(document).ready(function(){
   $("#load_users").delegate(".view_user", "click", function() {
     showSpinner(true);
     url = $(this).attr("rel");
-    $("#container").load(url, function(){
+    $.get(url, function(data) {
+      $('body').append(data);
       showSpinner(false);
-    });
+    })
   });
+});
+
+// Copy all emails button
+$("#copy_emails").click(function(e) {
+  e.preventDefault();
+  var id = $("#filter_files").val();
+  if (id) {
+    $('#copy_all_emails').show();
+    showSpinner(true);
+    $.ajax({
+      type: "GET",
+      url: "/users/load_user_emails/" + id, // + "/1",
+      success: function(data) {
+        showSpinner(false);
+        var emails = data.users_emails.join(', ');
+        console.log(emails);
+        $('#list_of_emails').val(emails).select();
+      }
+    });
+  }
+});
+$("#close_all_emails").click(function(e) {
+  e.preventDefault();
+  $('#copied').hide();
+  $('#copy_all_emails').hide();
+  $('#list_of_emails').val('');
+});
+$("#list_of_emails")[0].addEventListener('copy', function() {
+  $('#copied').show()
 });
 
 // For showing popup of send email to all
@@ -264,7 +327,7 @@ $("#send_btn").click(function() {
         }
       }
     });
-  } 
+  }
 });
 
 $('#invite_code_btn').click(function() {
@@ -312,7 +375,7 @@ $('#save_btn').click(function() {
 
 var $codeFields = $('#invite_code input[name="student_code"], #invite_code input[name="teacher_code"]');
 
-$codeFields.blur(function() { 
+$codeFields.blur(function() {
   if (this.value.length && this.checkValidity()) {
     $(this).closest('.heading02_field').find('.validation_msg').html('&nbsp;');
   }
@@ -337,8 +400,10 @@ $(document).ready(function(){
 
         $.ajax({
           type: "GET",
-          url: next_page_href,  
+          url: next_page_href,
           success: function(data) {
+            $('[name=user_count]').remove();
+            $('[name=next_page]').remove();
             $("#load_users #rows").append(data);
             $('.load_more', $end_of_page).hide('fast');
             loading = false;
@@ -348,24 +413,25 @@ $(document).ready(function(){
     }
   });
 });
-  
+
 $("#filter_files").change(function(){
     var id = $("#filter_files").val(),
-        $header = $('#rows .LB_tableheader');
+        header = $('#rows .LB_tableheader');
     $('#download_code_btn').attr('href', "/users/load_csv/" + id)
     if (id) {
       showSpinner(true);
       $.ajax({
         type: "GET",
-        url: "/users/load_users/" + id + "/1",  
+        url: "/users/load_users/" + id + "/1",
         success: function(data) {
-          $("#load_users #rows").empty().html($header).append(data);
+          $('#rows.LB_table').empty().append(header).append(data);
+
           showSpinner(false);
 
-          setTimeout(function() { 
+          setTimeout(function() {
           var count = $('#load_users #rows input[name="user_count"]').val(),
               plural = count != 1;
- 
+
           $('.titleCountPeople').html(count + (plural ? ' users' : ' user'));
          }, 0);
         }
