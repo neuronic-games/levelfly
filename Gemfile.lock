@@ -37,6 +37,8 @@ GEM
       mime-types
       xml-simple
     bcrypt (3.1.10)
+    bcrypt-ruby (3.1.5)
+      bcrypt (>= 3.1.3)
     builder (3.0.4)
     climate_control (0.0.3)
       activesupport (>= 3.0)
@@ -58,13 +60,11 @@ GEM
     delayed_job_active_record (4.0.3)
       activerecord (>= 3.0, < 5.0)
       delayed_job (>= 3.0, < 4.1)
-    devise (3.5.1)
-      bcrypt (~> 3.0)
+    devise (2.2.8)
+      bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
-      railties (>= 3.2.6, < 5)
-      responders
-      thread_safe (~> 0.1)
-      warden (~> 1.2.3)
+      railties (~> 3.1)
+      warden (~> 1.2.1)
     em-http-request (1.1.2)
       addressable (>= 2.3.4)
       cookiejar
@@ -135,8 +135,6 @@ GEM
     rake (10.4.2)
     rdoc (3.12.2)
       json (~> 1.4)
-    responders (1.1.2)
-      railties (>= 3.2, < 4.2)
     rest-client (1.6.9)
       mime-types (~> 1.16)
     sass (3.2.19)
@@ -163,7 +161,6 @@ GEM
       eventmachine (~> 1.0)
       rack (~> 1.0)
     thor (0.19.1)
-    thread_safe (0.3.5)
     tilt (1.4.1)
     treetop (1.4.15)
       polyglot
@@ -186,7 +183,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2)
   deep_cloneable
   delayed_job_active_record
-  devise
+  devise (~> 2.2.3)
   em-http-request
   jquery-rails
   json
@@ -206,4 +203,4 @@ DEPENDENCIES
   will_paginate (~> 3.0)
 
 BUNDLED WITH
-   1.10.3
+   1.10.6
