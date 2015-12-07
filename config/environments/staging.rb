@@ -59,7 +59,7 @@ Oncapus::Application.configure do
   config.active_support.deprecation = :notify
 
   # Used for password reminder emails
-  config.action_mailer.default_url_options = { :host => 'www.levelflylearning.com' }
+  config.action_mailer.default_url_options = { :host => 'levelfly-staging.herokuapp.com' }
   
   ActionMailer::Base.smtp_settings = {
     :address              => "smtp.mandrillapp.com",
