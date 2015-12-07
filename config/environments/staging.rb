@@ -1,5 +1,3 @@
-require 'pusher'
-
 Oncapus::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
@@ -22,9 +20,6 @@ Oncapus::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
-  #Activate observers that should always be running
-  #config.active_record.observers = :participant_observer
-
   # Defaults to Rails.root.join("public/assets")
   # config.assets.manifest = YOUR_PATH
 
@@ -33,11 +28,10 @@ Oncapus::Application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
 
   # See everything in the log (default is :info)
-  #config.logger = Logger.new(STDOUT)
-  #config.log_level = :debug
+  # config.log_level = :debug
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
@@ -65,10 +59,8 @@ Oncapus::Application.configure do
   config.active_support.deprecation = :notify
 
   # Used for password reminder emails
-  config.action_mailer.default_url_options = { :host => 'levelfly.bmcc.cuny.com' }
-
-  Pusher.url = ENV['PUSHER_URL']
-
+  config.action_mailer.default_url_options = { :host => 'levelfly-staging.herokuapp.com' }
+  
   ActionMailer::Base.smtp_settings = {
     :address              => "smtp.mandrillapp.com",
     :port                 => 587,
@@ -77,8 +69,9 @@ Oncapus::Application.configure do
     :password             => ENV['MANDRILL_APIKEY'],
     :authentication       => "plain"
   }
-
-  ActionMailer::Base.delivery_method = :smtp
-  ActionMailer::Base.default :content_type => "text/html"
+  
+  Pusher.app_id = '64377'
+  Pusher.key = 'c8fb9a955828496c8ed2'
+  Pusher.secret = '0be4a588118c56c95029'
 
 end
