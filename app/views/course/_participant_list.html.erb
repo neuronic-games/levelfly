@@ -46,6 +46,7 @@
 <% end %>
 </ul>
 
+<% if @people_pending %>
 <div style="padding:10px; display: none;">
    <a style = "margin-left;margin-left:19px;font-size:16px;" class="people_name"><h3>Pending Members</h3></a>
    </br>
@@ -87,6 +88,8 @@
   <% end %>
 <% end %>
 </ul>
+<% end %>
+
 <div style="padding: 10px;"></div>
 <script>
 	$(function() {

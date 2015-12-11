@@ -705,7 +705,8 @@ class CourseController < ApplicationController
       :include => [:participants],
       :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M' and profile_id = ? ", @course.id,user_session[:profile_id]]
       )
-     unless @courseMaster and @course.course_id != 0
+     # Only show pending members to the course owner
+     if @courseMaster
         @people_pending = Profile.includes(:participants, :user).where("participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('P') AND users.status != 'D'", @course.id, section_type).order(:full_name, :email)
      end
      @peoples = Profile.course_participants(@course.id, section_type)
