@@ -186,7 +186,6 @@ class ProfileController < ApplicationController
     if params[:profile_id].blank?
       @profile = current_profile
       @badge = Badge.badge_count(@profile.id)
-      @show_courses = true  # Courses a student has taken should only be shown to the student and not to others due to FERPA
     else
       @profile = Profile.find(params[:profile_id])
       @badge = Badge.badge_count(@profile.id)
@@ -194,11 +193,11 @@ class ProfileController < ApplicationController
       if !notes.nil?
         @notes = notes.content
       end
+      @courses = Course.course_filter(@profile.id,"") # Courses a student has taken should only be shown to the student and not to others due to FERPA
     end
     previous_level = @profile.level
     @current_friends = @profile.friends
     @groups = Course.all_group(@profile,"M")
-    @courses = Course.course_filter(@profile.id,"")
     @major = Major.find(:all, :conditions =>["school_id = ? ",@profile.school_id])
     #@level = Reward.find(:first, :conditions=>["xp <= ? and target_type = 'level'",  @profile.xp], :order=>"xp DESC")
     #puts"#{@level.inspect}"
