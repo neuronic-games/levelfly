@@ -186,6 +186,7 @@ class ProfileController < ApplicationController
     if params[:profile_id].blank?
       @profile = current_profile
       @badge = Badge.badge_count(@profile.id)
+      @show_courses = true  # Courses a student has taken should only be shown to the student and not to others due to FERPA
     else
       @profile = Profile.find(params[:profile_id])
       @badge = Badge.badge_count(@profile.id)

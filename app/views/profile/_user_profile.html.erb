@@ -137,6 +137,7 @@
   </div>
 
   <!--Courses-->
+  <% if @show_courses == true %>
    <div class="profile_row">
     <div class="profile_item profile_share">
       <input type="checkbox" name="share" class="share" value="friends" />
@@ -163,9 +164,8 @@
       </div>
     </div>
   </div>
+  <% end %>
 
-  
-  
   <!-- Groups -->
   <div class="profile_row">
     <div class="profile_item profile_share">
