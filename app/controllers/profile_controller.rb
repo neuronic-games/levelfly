@@ -186,6 +186,7 @@ class ProfileController < ApplicationController
     if params[:profile_id].blank?
       @profile = current_profile
       @badge = Badge.badge_count(@profile.id)
+      @courses = Course.course_filter(@profile.id,"") # Courses a student has taken should only be shown to the student and not to others due to FERPA
     else
       @profile = Profile.find(params[:profile_id])
       @badge = Badge.badge_count(@profile.id)
@@ -193,7 +194,6 @@ class ProfileController < ApplicationController
       if !notes.nil?
         @notes = notes.content
       end
-      @courses = Course.course_filter(@profile.id,"") # Courses a student has taken should only be shown to the student and not to others due to FERPA
     end
     previous_level = @profile.level
     @current_friends = @profile.friends
