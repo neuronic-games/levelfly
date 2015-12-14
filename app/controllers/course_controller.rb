@@ -567,12 +567,13 @@ class CourseController < ApplicationController
   
   # load shared outcomes
   def check_outcomes
-    @outcomes = {}
+    @outcomes_uniq = {}
+    @outcomes
     @course = nil
     @for_course = Course.find(params[:id]) if params[:id] && !params[:id].nil?
     if @for_course && @for_course.outcomes
       @for_course.outcomes.each do |oc|
-        @outcomes[oc.name] = oc
+        @outcomes_uniq[oc.name] = oc
       end
     end
     params[:code] = params[:code].upcase
@@ -585,8 +586,8 @@ class CourseController < ApplicationController
             unless @for_course && @for_course.id == course.id
               course.outcomes.where(["shared = ?", true]).each do |value|
               shared = true
-                if @outcomes.length > 0
-                   @outcomes.each_value do |o|
+                if @outcomes_uniq.length > 0
+                   @outcomes_uniq.each_value do |o|
                     if o.id == value.id
                       shared = false
                       break
@@ -594,13 +595,15 @@ class CourseController < ApplicationController
                   end
                 end
                 if shared==true
-                  @outcomes[value.name] = value
+                  @outcomes_uniq[value.name] = value
                 end
               end
             end
           end
-          render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes.values}
+          @outcomes = @outcomes_uniq.values
+          render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes}
       else
+        @outcomes = @outcomes_uniq.values
         if @for_course && @outcomes
           render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes.values}
         else
