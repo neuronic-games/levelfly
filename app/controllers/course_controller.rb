@@ -233,6 +233,31 @@ class CourseController < ApplicationController
         end
       end
       
+      # Add shared outcomes to tne new course, but don't share those that are duplicates.
+      # Duplicate shared outcomes can happen if a course is Duplicated.
+      if @course.outcomes.count==0
+        @same_code_courses = Course.find(:all, :conditions=>["code = ? AND id != ?",@course.code, @course.id])
+        if @same_code_courses
+          @same_code_courses.each do |same_course|
+            same_course.outcomes.where(["shared = ?", true]).each do |same_outcome|
+              shared = true
+              if @course.outcomes.count>0
+                @course.outcomes.each do |o|
+                  if o.id == same_outcome.id
+                    shared = false
+                    break
+                  end
+                end
+              end
+              if shared==true
+                @course.outcomes << same_outcome
+              end
+            end
+          end
+        end
+
+      end
+
       #Save outcomes
       if params[:outcomes] && !params[:outcomes].empty?
         outcomes_array = params[:outcomes]
