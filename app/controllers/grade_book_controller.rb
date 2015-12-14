@@ -456,7 +456,7 @@ def export_course_grade_csv
       :select => ["profiles.full_name,participants.id,participants.profile_id"],
       :order => "full_name"
       )
-    y << "User ID"
+    y << "Levelfly ID"
     y << "Name"
     y << "Course Code"
     y << "Course Grade (Numerical)"
