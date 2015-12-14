@@ -568,7 +568,7 @@ class CourseController < ApplicationController
   # load shared outcomes
   def check_outcomes
     @outcomes_uniq = {}
-    @outcomes
+    @outcomes = []
     @course = nil
     @for_course = Course.find(params[:id]) if params[:id] && !params[:id].nil?
     if @for_course && @for_course.outcomes
