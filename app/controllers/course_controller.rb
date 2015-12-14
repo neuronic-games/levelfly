@@ -605,7 +605,7 @@ class CourseController < ApplicationController
       else
         @outcomes = @outcomes_uniq.values
         if @for_course && @outcomes
-          render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes.values}
+          render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes}
         else
           render :text=>""
         end
