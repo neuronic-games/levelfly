@@ -232,7 +232,8 @@ class CourseController < ApplicationController
           )
         end
       end
-      #for add shared outcomes to new course have same course code
+      # Add shared outcomes to tne new course, but don't share those that are duplicates.
+      # Duplicate shared outcomes can happen if a course is Duplicated.
       if @course.outcomes.count==0
         @same_code_courses = Course.find(:all, :conditions=>["code = ? AND id != ?",@course.code, @course.id])
         if @same_code_courses
@@ -563,14 +564,15 @@ class CourseController < ApplicationController
       render :text => {"status"=>"true"}.to_json
     end
   end
+  
   # load shared outcomes
   def check_outcomes
-    @outcomes = []
+    @outcomes = {}
     @course = nil
     @for_course = Course.find(params[:id]) if params[:id] && !params[:id].nil?
     if @for_course && @for_course.outcomes
       @for_course.outcomes.each do |oc|
-        @outcomes << oc
+        @outcomes[oc.name] = oc
       end
     end
     params[:code] = params[:code].upcase
@@ -583,8 +585,8 @@ class CourseController < ApplicationController
             unless @for_course && @for_course.id == course.id
               course.outcomes.where(["shared = ?", true]).each do |value|
               shared = true
-                if @outcomes.count>0
-                   @outcomes.each do |o|
+                if @outcomes.length > 0
+                   @outcomes.each_value do |o|
                     if o.id == value.id
                       shared = false
                       break
@@ -592,15 +594,15 @@ class CourseController < ApplicationController
                   end
                 end
                 if shared==true
-                  @outcomes << value
+                  @outcomes[value.name] = value
                 end
               end
             end
           end
-          render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes}
+          render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes.values}
       else
         if @for_course && @outcomes
-          render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes}
+          render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes.values}
         else
           render :text=>""
         end
