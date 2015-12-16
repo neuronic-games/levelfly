@@ -233,6 +233,23 @@ class CourseController < ApplicationController
         end
       end
       
+      #Save outcomes
+      if params[:outcomes] && !params[:outcomes].empty?
+        outcomes_array = params[:outcomes]
+        outcomes_descs_array = params[:outcomes_descr]
+        outcomes_share_array = params[:outcome_share]
+        outcomes_array.each_with_index do |outcome,i|
+          @outcome = Outcome.create(
+            :name=> outcome,
+            :descr=> outcomes_descs_array[i],
+            :school_id=> @course.school_id,
+            :shared=> outcomes_share_array[i],
+            :created_by=> @course.id
+          )
+          @course.outcomes << @outcome
+        end
+      end
+
       # Participant record for master
       participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]])
       if !participant
