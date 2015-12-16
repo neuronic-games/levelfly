@@ -523,54 +523,6 @@ class CourseController < ApplicationController
       render :text => {"status"=>"true"}.to_json
     end
   end
-  
-  # load shared outcomes
-  def check_outcomes
-    @outcomes_uniq = {}
-    @outcomes = []
-    @course = nil
-    @for_course = Course.find(params[:id]) if params[:id] && !params[:id].nil?
-    if @for_course && @for_course.outcomes
-      @for_course.outcomes.each do |oc|
-        @outcomes_uniq[oc.name] = oc
-      end
-    end
-    params[:code] = params[:code].upcase
-    if params[:code] && !params[:code].nil?
-      params[:code] = params[:code].upcase
-      @courses = Course.find(:all, :conditions =>["code = ?", params[:code]], :order => "created_at")
-      if @courses.length > 0
-          @courses.each do |course|
-            @course = course if @course.nil?
-            unless @for_course && @for_course.id == course.id
-              course.outcomes.where(["shared = ?", true]).each do |value|
-              shared = true
-                if @outcomes_uniq.length > 0
-                   @outcomes_uniq.each_value do |o|
-                    if o.id == value.id
-                      shared = false
-                      break
-                    end
-                  end
-                end
-                if shared==true
-                  @outcomes_uniq[value.name] = value
-                end
-              end
-            end
-          end
-          @outcomes = @outcomes_uniq.values
-          render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes}
-      else
-        @outcomes = @outcomes_uniq.values
-        if @for_course && @outcomes
-          render :partial => "/course/show_outcomes",:locals=>{:outcomes=>@outcomes}
-        else
-          render :text=>""
-        end
-      end
-    end
-  end
 
   def view_group_setup
 
