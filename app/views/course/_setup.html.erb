@@ -16,7 +16,6 @@
 
         <div class="catagory_viewfield field_label" style="margin-right: 5px;">COURSE CODE
           <div class="dd_bg brown_bg">
-           <input type="text" name="course_code_name" id="course_code_name" value="<%=@course.code.slice(/[a-zA-Z\s]+/).to_s if @course && @course.code%>" placeholder="ENG" maxlength="8" class="dd_input brown_bg prompted" style="text-transform:uppercase; width:72px;" prompt="course_code_name_prompt" />
            <input type="text" name="course_code_name" id="course_code_name" value="<%=@course.code.slice(/[a-zA-Z\s]+/).to_s if @course && @course.code%>" placeholder="ENG" maxlength="8" class="dd_input brown_bg prompted" style="text-transform:uppercase; width:72px;" prompt="course_code_name_prompt" onBlur='javascript:setStorage("course_code", $(this).val() + $("#course_code_num").val());$("#hdn_is_page_change").val(true);' />
           </div>
        </div>
