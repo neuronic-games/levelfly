@@ -575,7 +575,7 @@ $(document).ready(function(){
       _counterPeople++;
     } else if(element=="outcome"){
       var newNode = $(document.createElement('div')).attr("id", 'outcome_node_div' + _counterOutcome);
-      newNode.html('<div style="margin-top:5px; height:48px; width:560px;" class="outcome_div"><div style="float:left; height:45px; margin-right: 20px;" > <input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="brown_bg medium" placeholder="Enter name" />  </div><div style="float:left;height:68px;margin-right:20px"><textarea class="small dd_input brown_bg" style="width:260px; height:41px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '" placeholder="Enter description" "></textarea></div> <div style=" margin-top: 20px;"><a href="javascript:void(0);" class="blue_bt19px outcomes_share_btn" id="outcomes_share_' + _shared + '" rel='+ _shared + '>Mark as Shared </a></div></div>');
+      newNode.html('<div style="margin-top:5px; height:48px; width:560px;" class="outcome_div"><div style="float:left; height:45px; margin-right: 20px;" > <input type="text" name="outcomes[]" id="outcomes_' + _counterOutcome + '" value="" class="brown_bg medium" placeholder="Enter name" />  </div><div style="float:left;height:68px;margin-right:20px"><textarea class="small dd_input brown_bg" style="width:260px; height:41px;" name="outcomes_descr[]" id="outcomes_descr_' + _counterOutcome + '" placeholder="Enter description" "></textarea></div></div>');
       newNode.appendTo("#add_outcome_container");
       _counterOutcome++;
     } else if(element=="category"){
