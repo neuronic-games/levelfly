@@ -16,12 +16,12 @@
 
         <div class="catagory_viewfield field_label" style="margin-right: 5px;">COURSE CODE
           <div class="dd_bg brown_bg">
-           <input type="text" name="course_code_name" id="course_code_name" value="<%=@course.code.slice(/[a-zA-Z\s]+/).to_s if @course && @course.code%>" placeholder="ENG" maxlength="8" class="dd_input brown_bg prompted" style="text-transform:uppercase; width:72px;" prompt="course_code_name_prompt" onBlur='javascript:setStorage("course_code", $(this).val() + $("#course_code_num").val());$("#hdn_is_page_change").val(true); check_outcomes();' />
+           <input type="text" name="course_code_name" id="course_code_name" value="<%=@course.code.slice(/[a-zA-Z\s]+/).to_s if @course && @course.code%>" placeholder="ENG" maxlength="8" class="dd_input brown_bg prompted" style="text-transform:uppercase; width:72px;" prompt="course_code_name_prompt" />
           </div>
        </div>
        <div class="catagory_viewfield field_label" style="margin-right: 5px;"> &nbsp;
           <div class="dd_bg brown_bg">
-           <input type="text" name="course_code_num" id="course_code_num" value="<%=@course.code.slice(/[0-9]+/).to_s if @course && @course.code%>" placeholder="101" maxlength="6" class="dd_input brown_bg prompted" style="text-transform:uppercase; width:45px;" prompt="course_code_num_prompt" onBlur='javascript:setStorage("course_code", $("#course_code_name").val()+$(this).val());$("#hdn_is_page_change").val(true); check_outcomes();' />
+           <input type="text" name="course_code_num" id="course_code_num" value="<%=@course.code.slice(/[0-9]+/).to_s if @course && @course.code%>" placeholder="101" maxlength="6" class="dd_input brown_bg prompted" style="text-transform:uppercase; width:45px;" prompt="course_code_num_prompt" />
           </div>
        </div>
        <div class="catagory_viewfield field_label" style="margin-right: 5px;"> &nbsp;
@@ -466,87 +466,7 @@ $(document).ready(function(){
       _share_outcomes = true;
    });
 
-
-   /* $("#course_code_name").blur(function(){
-      var code_name = $(this).val();
-      var code_num = $("#course_code_num").val();
-      code = code_name + code_num;
-      course_id = $("#course_id_hdn").val();
-      if(code)
-      {
-        dataString = {code:code, id:course_id};
-        showSpinner(true);
-         $.ajax({
-              type: "POST",
-              url: "/course/check_outcomes",
-              data: dataString,
-              success: function(data) {
-                 $("#load_outcomes").html(data);
-                 showSpinner(false);
-                  changed=true;
-              },
-              error: function()
-              {
-                 alert("An Error has occured");
-                 showSpinner(false);
-              },
-         	});
-      }
-
-      $("#menu1").fadeIn();
-      $("#menu3").fadeIn();
-      $("#menu4").fadeIn();
-    });*/
-
-
-
  });
-
- function check_outcomes(){
- 	var code_name = $("#course_code_name").val();
-    var code_num = $("#course_code_num").val();
-    code = code_name + code_num;
-    course_id = $("#course_id_hdn").val();
-    if(code)
-    {
-      dataString = {code:code, id:course_id};
-      showSpinner(true);
-      $.ajax({
-           type: "POST",
-           url: "/course/check_outcomes",
-           data: dataString,
-           success: function(data) {
-              $("#load_outcomes").html(data);
-              showSpinner(false);
-               changed=true;
-           },
-           error: function()
-           {
-              alert("An Error has occured");
-              showSpinner(false);
-           },
-      	});
-    }
-    $("#menu1").fadeIn();
-    $("#menu3").fadeIn();
-    $("#menu4").fadeIn();
- }
-
-  $("#btn_archive").click(function(){
-    $("#confirm_box").show();
-  });
-  $('#btn_course_duplicate').click(function() {
-    $('#duplicate_course_div').show();
-  });
-  // Field instructions
-  $(".prompted").focus(function() {
-    prompt = $(this).attr("prompt");
-    $("#"+prompt).show();
-  });
-  $(".prompted").blur(function() {
-    prompt = $(this).attr("prompt");
-    $("#"+prompt).hide();
-  });
 
   //Add an outcome
   function addOutcome() {

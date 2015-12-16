@@ -476,45 +476,4 @@ class Course < ActiveRecord::Base
     find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, 'G', school_id], :order => "name")
   end
 
-  # Return a list of shared outcomes by comparing the course code to all matching
-  # courses with the same code. Duplicate shared outcomes are not returned.
-  def load_shared_outcomes
-    @outcomes_uniq = {}
-    @outcomes = []
-    @course = nil
-    
-    # if self.outcomes
-    #   self.outcomes.each do |oc|
-    #     @outcomes_uniq[oc.name] = oc
-    #   end
-    # end
-    #
-    # code = self.code.upcase
-    # if code && !code.nil?
-    #   @courses = Course.find(:all, :conditions => {:code => self.code, :school_id => self.school_id}, :order => "created_at")
-    #   if @courses.length > 0
-    #       @courses.each do |course|
-    #         @course = course if @course.nil?
-    #         unless self.id == course.id
-    #           course.outcomes.where(["shared = ?", true]).each do |value|
-    #             shared = true
-    #             @outcomes_uniq.each_value do |o|
-    #               if o.id == value.id
-    #                 shared = false
-    #                 break
-    #               end
-    #             end
-    #             if shared == true
-    #               @outcomes_uniq[value.name] = value
-    #             end
-    #           end
-    #         end
-    #       end
-    #       @outcomes = @outcomes_uniq.values
-    #     end
-    #   end
-    # end
-    return @outcomes
-  end
-  
 end
