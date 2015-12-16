@@ -233,48 +233,6 @@ class CourseController < ApplicationController
         end
       end
       
-      # Add shared outcomes to tne new course, but don't share those that are duplicates.
-      # Duplicate shared outcomes can happen if a course is Duplicated.
-      if @course.outcomes.count==0
-        @same_code_courses = Course.find(:all, :conditions=>["code = ? AND id != ?",@course.code, @course.id])
-        if @same_code_courses
-          @same_code_courses.each do |same_course|
-            same_course.outcomes.where(["shared = ?", true]).each do |same_outcome|
-              shared = true
-              if @course.outcomes.count>0
-                @course.outcomes.each do |o|
-                  if o.id == same_outcome.id
-                    shared = false
-                    break
-                  end
-                end
-              end
-              if shared==true
-                @course.outcomes << same_outcome
-              end
-            end
-          end
-        end
-
-      end
-
-      #Save outcomes
-      if params[:outcomes] && !params[:outcomes].empty?
-        outcomes_array = params[:outcomes]
-        outcomes_descs_array = params[:outcomes_descr]
-        outcomes_share_array = params[:outcome_share]
-        outcomes_array.each_with_index do |outcome,i|
-          @outcome = Outcome.create(
-            :name=> outcome,
-            :descr=> outcomes_descs_array[i],
-            :school_id=> @course.school_id,
-            :shared=> outcomes_share_array[i],
-            :created_by=> @course.id
-          )
-          @course.outcomes << @outcome
-        end
-      end
-
       # Participant record for master
       participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]])
       if !participant
