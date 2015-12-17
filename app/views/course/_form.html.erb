@@ -192,25 +192,6 @@ $(document).ready(function(){
       $('#btn_course_duplicate').addClass('hide');
     }
 
-    $("#btn_archive").click(function(){
-      $("#confirm_box").show();
-    });
-    
-    $('#btn_course_duplicate').click(function() {
-      $('#duplicate_course_div').show();
-    });
-    
-    // Field instructions
-    $(".prompted").focus(function() {
-      prompt = $(this).attr("prompt");
-      $("#"+prompt).show();
-    });
-    
-    $(".prompted").blur(function() {
-      prompt = $(this).attr("prompt");
-      $("#"+prompt).hide();
-    });
-
   });
 
   //Add File by button
@@ -295,11 +276,29 @@ $(document).ready(function(){
 
   });
 
+  // Context button listners
+  $("#btn_course_remove").click(function(){
+    $("#remove_course_div").show();
+  });
 
-   $("#btn_course_remove").click(function(){
-      $("#remove_course_div").show();
-   });
+  $("#btn_archive").click(function(){
+   $("#confirm_box").show();
+  });
 
+  $('#btn_course_duplicate').click(function() {
+   $('#duplicate_course_div').show();
+  });
+
+  // Field instructions
+  $(".prompted").focus(function() {
+   prompt = $(this).attr("prompt");
+   $("#"+prompt).show();
+  });
+
+  $(".prompted").blur(function() {
+   prompt = $(this).attr("prompt");
+   $("#"+prompt).hide();
+  });
 
   //Post Message
   $('.right_form_containerr').delegate('.sbmt_msg', 'click', function(){
