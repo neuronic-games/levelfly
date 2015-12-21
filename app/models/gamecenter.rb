@@ -1,4 +1,4 @@
-class Gamecenter < ActiveRecord::Base
+class Gamecenter
   
   SUCCESS = 'success'
   FAILURE = 'failure'
