@@ -17,7 +17,7 @@ class GamecenterController < ApplicationController
   # Update the player's progress in the game
   def update
     message = ""
-    status = Gamecenter.SUCCESS
+    status = Gamecenter::SUCCESS
     
     render :text => { 'status' => status, 'message' => message }.to_json
   end
