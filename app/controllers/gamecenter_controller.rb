@@ -19,7 +19,7 @@ class GamecenterController < ApplicationController
     message = ""
     success = true
     
-    return success, message
+    render :text => { "status" => success }.to_json
   end
 
   # Returns the player's progress in the game
