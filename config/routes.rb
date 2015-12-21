@@ -439,7 +439,9 @@ Oncapus::Application.routes.draw do
 
   match 'course/show_forum/:id' => 'course#show_forum'
 
-  resources :gamecenter
+  # Game Center API
+  
+  get 'gamecenter/:app_id/:action' => 'gamecenter#:action'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
