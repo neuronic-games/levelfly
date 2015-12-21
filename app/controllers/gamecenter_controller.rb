@@ -10,6 +10,10 @@ class GamecenterController < ApplicationController
     return success, message
   end
 
+  # Returns 50 top scores for your game
+  def list
+  end
+
   # Update the player's progress in the game
   def update
     message = ""
