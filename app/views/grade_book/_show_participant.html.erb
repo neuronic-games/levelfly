@@ -1,16 +1,16 @@
 <div class="GB_course_box">
 
+  <%if !@latest_course.nil? %>
   <div class="spacebarGbook"></div>
+  
   <div class="GBtable_wrapper">
     <div class="outcome_wp">
       <div class="Grade_left_panel_head"><div class="Grade_box ">GRADE</div></div>
       <div class="Grade_right_panel_head">
         <div class="selectbg2"> <span class="fakebox">OUTCOMES</span>
           <select id="outcome_note">
-            <%if !@latest_course.nil? %>
-             <option value="1">OUTCOMES</option>
-             <option value="2">NOTES</option>
-            <% end %>
+            <option value="1">OUTCOMES</option>
+            <option value="2">NOTES</option>
           </select>
         </div>
       </div>
@@ -108,6 +108,8 @@
       
     </div><!--Grade_right_panel-->
   </div>
+  <% end %>
+
 </div>
 
 <div class="GB_course_box2">
