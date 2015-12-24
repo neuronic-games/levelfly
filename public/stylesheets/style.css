@@ -3740,7 +3740,7 @@ background-color:#FF4D4D
 .hover{cursor: hand;cursor: pointer;}
 .view_user{cursor: hand;cursor: pointer;}
 .cursor_none{cursor:none !important;}
-.gradebook_tab_content2{min-width: 100%; width: 500px;}
+.gradebook_tab_content2{min-width: 100%; width: 500px; min-height: 1000px;}
 .GB_odd2 { background:#c4c8d2;}
 .notes_margin{margin-top: -10px; height: 57px;}
 .red_border{border-right: 1px solid #C06A70; height:20px; }
@@ -4443,7 +4443,7 @@ position: absolute;
 .msg_pos{
   color: #3B67A2;
   font-family: 'CollegeRegular';
-  font-size:24px;
+  font-size: 96px;
   margin-top: 220px;
   text-align: center;
   width: 100%;
