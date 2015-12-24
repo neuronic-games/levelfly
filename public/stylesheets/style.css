@@ -4445,7 +4445,7 @@ position: absolute;
   font-family: 'CollegeRegular';
   font-size:24px;
   margin-top: 220px;
-  align: center;
+  text-align: center;
   width: 100%;
 }
 .task_name_background{background:#7794AC;}
