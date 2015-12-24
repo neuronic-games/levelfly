@@ -5,13 +5,17 @@ class GamecenterController < ApplicationController
   # Login the player to GameCenter
   def authenticate
     message = ""
-    success = true
+    status = Gamecenter::SUCCESS
     
-    return success, message
+    render :text => { 'status' => status, 'message' => message }.to_json
   end
 
   # Returns 50 top scores for your game
   def list
+    message = ""
+    status = Gamecenter::SUCCESS
+    
+    render :text => { 'status' => status, 'message' => message }.to_json
   end
 
   # Update the player's progress in the game
@@ -24,6 +28,12 @@ class GamecenterController < ApplicationController
 
   # Returns the player's progress in the game
   def view
+    message = ""
+    status = Gamecenter::SUCCESS
+    
+    gc = Gamecenter.new
+    
+    render :text => { 'status' => status, 'message' => message, 'progress' => gc }.to_json
   end
   
 end
