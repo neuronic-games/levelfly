@@ -15,10 +15,6 @@
        
         <div <%if !@latest_course.nil? %>class="gradebook_partribbon"<%end%>>
           
-           <%if @latest_course.nil? %>
-           <div class="">There are no courses to display</div>
-           <%end%>
-           
            <%if @enable_palette == true%>
             <div class="GDingbox" >
               <div class="GDingbox_botright" >
