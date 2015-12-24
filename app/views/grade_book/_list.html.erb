@@ -12,8 +12,12 @@
     <div class="gradebook_board_left">
       <div class="gradebook_board_right">
         <div class="gradebook_board_center main_div_height">
-        <% unless false %>
-          <div class="gradebook_partribbon">
+
+        <% if @latest_course.nil? %>
+          <div class="msg_pos">You are currently not in any courses</div>
+        <%end%>
+
+        <div class="gradebook_partribbon">
            <%if @enable_palette == true%>
             <div class="GDingbox" >
               <div class="GDingbox_botright" >
@@ -89,9 +93,7 @@
               <div class="clear"></div>
             </div>
           </div>
-          <%else%>
-          <div class="msg_pos">You are currently not in any courses</div>
-          <%end%>
+
         </div>
       </div>
     </div>
