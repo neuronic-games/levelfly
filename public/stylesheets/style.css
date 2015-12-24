@@ -4444,8 +4444,9 @@ position: absolute;
   color: #3B67A2;
   font-family: 'CollegeRegular';
   font-size:24px;
-  margin: 220px;
-  position: absolute;
+  margin-top: 220px;
+  align: center;
+  width: 100%;
 }
 .task_name_background{background:#7794AC;}
 .white_font{color:#FFF;}
