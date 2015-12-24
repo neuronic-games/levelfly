@@ -12,9 +12,8 @@
     <div class="gradebook_board_left">
       <div class="gradebook_board_right">
         <div class="gradebook_board_center main_div_height">
-
-        <%if !@latest_course.nil? %>
-        <div class="gradebook_partribbon">
+       
+        <div <%if !@latest_course.nil? %>class="gradebook_partribbon"<%end%>>
            <%if @enable_palette == true%>
             <div class="GDingbox" >
               <div class="GDingbox_botright" >
@@ -74,7 +73,7 @@
                 </div>
               </div>
             </div>
-          <%end%>
+           <%end%>
             <div class="gradebook_pad_top"></div>
             <div class="gradebook_pad">
               <!-- tabs-->
@@ -92,7 +91,6 @@
           </div>
 
         </div>
-        <%end%>
         
       </div>
     </div>
