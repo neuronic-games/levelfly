@@ -13,6 +13,7 @@
       <div class="gradebook_board_right">
         <div class="gradebook_board_center main_div_height">
 
+        <%if !@latest_course.nil? %>
         <div class="gradebook_partribbon">
            <%if @enable_palette == true%>
             <div class="GDingbox" >
@@ -91,6 +92,8 @@
           </div>
 
         </div>
+        <%end%>
+        
       </div>
     </div>
 
