@@ -16,7 +16,7 @@
         <div <%if !@latest_course.nil? %>class="gradebook_partribbon"<%end%>>
           
            <%if @latest_course.nil? %>
-           <div class="msg_pos">There are no courses to display</div>
+           <div class="msg_pos"><%=h @latest_course %> : There are no courses to display</div>
            <%end%>
            
            <%if @enable_palette == true%>
