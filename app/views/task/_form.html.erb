@@ -121,8 +121,8 @@ function addNode(element) {
                 <div class="field_box2 font_12px"> Description
                   <fieldset>
                     <div class="dd_bg ">
-                      <%= simple_format(@task.descr).gsub(URI.regexp, '<a href="\0">\0</a>').html_safe if @task %>
-                      <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea task_desc" readonly="<%= @task ? true : false %>"><%= @task.descr if @task%></textarea>
+                      <%= auto_link(@task.descr) if @task %>
+                      <!-- <textarea name="descr" id="descr" onblur='javascript:setStorage("task_descr", $(this).val())' class="dd_textarea task_desc" readonly="<%= @task ? true : false %>"><%= @task.descr if @task%></textarea> -->
 
                     </div>
                   </fieldset>
