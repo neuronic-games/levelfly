@@ -442,6 +442,7 @@ Oncapus::Application.routes.draw do
   # Game Center API
   
   get 'gamecenter/:app_id/:action' => 'gamecenter#:action'
+  match 'gamecenter' => 'gamecenter#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
