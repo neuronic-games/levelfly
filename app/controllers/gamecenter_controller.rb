@@ -35,5 +35,13 @@ class GamecenterController < ApplicationController
     
     render :text => { 'status' => status, 'message' => message, 'progress' => gc }.to_json
   end
+
+  # web UI
+  
+  def index
+    @profile = Profile.find(user_session[:profile_id])
+    render :partial => "/gamecenter/list"
+    @profile.record_action('last', 'gamecenter')
+  end
   
 end

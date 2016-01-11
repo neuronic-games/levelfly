@@ -1,0 +1,101 @@
+<!-- Leader Board Top -->
+<div style="position:relative;">
+	<div style="position:absolute; width:100%;">
+		<div class="pr120">
+			<div class="leader_pad_top container_tipshelp"> 
+				<div class="tops_row">
+					<div class="leftimg panel"></div>
+					<div class="centerimg panel"></div>
+					<div class="rightimg panel"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+                  
+<!-- Leader Board -->
+<div class="leader_content">
+  <div class="leader_board_left">
+    <div class="leader_board_right">
+      <div class="leader_board_center main_div_height">
+        <div class="leader_pad_top"></div>
+        <div class="leader_pad">
+          <!-- tabs-->
+          <div class="leader_tabs" align="right">
+            <a href="javascript:void(0)" class="side_tab side_tab_open" filter="school"><span class="task_tab">All</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close" filter="course"><span class="task_tab"> Archived</span></a>
+          </div>
+
+          <!-- NEW BOX START HERE -->
+          <div class="leader_TabCSS">
+            <div class="steel_pin"><img src="/images/pin_steel.png" /></div>
+            <div class="leader_topselect">
+              <div class="clear"></div>
+            </div>
+
+            <div id="rows" class="LB_table">
+              <!-- Data rows goes here -->
+            </div>
+            
+          </div>
+
+          <div class="end_of_page"></div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="sidebar_right">
+  <div class="course_side_buttons">
+    <a class="big_blue_btn" name="menu_btn_show_me" href="javascript:void(0)" id="show_me">SHOW ME</a>
+  </div><!-- crud_level -->
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+  setPageTitle("Leaderboard");
+  jStorage.flush();
+  getRows();
+
+  // Handler for side-tabs
+  $(".side_tab").unbind('click').bind('click', function(){
+    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
+    $(this).addClass("side_tab_open").removeClass("side_tab_close");
+    getRows();
+  });
+  
+  $("#show_me").unbind('click').bind('click', function(){
+  	showSpinner(true);
+  	var filter = $(".side_tab_open:first").attr("filter");
+  	
+  	$.ajax({
+  		type: "GET",
+  		url: "/leader_board/get_rows",
+  		data: {filter:filter, show:"me"},
+  		success: function(data) {
+       	$("#rows").html(data);
+       	showSpinner(false);
+     }
+  	});
+  });
+});
+
+// Retrieve tasks based on the current filters
+function getRows() {
+  showSpinner(true);
+  var filter = $(".side_tab_open:first").attr("filter");
+
+  $.ajax({
+     type: "GET",  
+     url: "/leader_board/get_rows",  
+     data: {filter:filter},
+     success: function(data) {
+       $("#rows").html(data);
+       showSpinner(false);
+     }
+  });
+}
+</script>
