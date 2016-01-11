@@ -1,4 +1,4 @@
-<!-- Leader Board Top -->
+<!-- GameCenter Top -->
 <div style="position:relative;">
 	<div style="position:absolute; width:100%;">
 		<div class="pr120">
@@ -13,7 +13,7 @@
 	</div>
 </div>
                   
-<!-- Leader Board -->
+<!-- GameCenter -->
 <div class="leader_content">
   <div class="leader_board_left">
     <div class="leader_board_right">
@@ -56,7 +56,7 @@
 
 $(document).ready(function(){
 
-  setPageTitle("Leaderboard");
+  setPageTitle("GameCenter");
   jStorage.flush();
   getRows();
 
@@ -73,7 +73,7 @@ $(document).ready(function(){
   	
   	$.ajax({
   		type: "GET",
-  		url: "/leader_board/get_rows",
+  		url: "/gamecenter/get_rows",
   		data: {filter:filter, show:"me"},
   		success: function(data) {
        	$("#rows").html(data);
@@ -90,7 +90,7 @@ function getRows() {
 
   $.ajax({
      type: "GET",  
-     url: "/leader_board/get_rows",  
+     url: "/gamecenter/get_rows",  
      data: {filter:filter},
      success: function(data) {
        $("#rows").html(data);
