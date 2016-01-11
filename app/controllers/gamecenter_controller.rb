@@ -61,7 +61,7 @@ class GamecenterController < ApplicationController
       conditions << true
     end
         
-    @apps = Apps.find(:all, :conditions => conditions,
+    @apps = App.find(:all, :conditions => conditions,
       :order => "name")
     
     render :partial => "/gamecenter/rows"
