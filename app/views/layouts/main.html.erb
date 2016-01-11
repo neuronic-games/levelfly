@@ -393,10 +393,18 @@
               <div class="icon_box"> <a href="javascript:void(0);" id="reward" rel="/reward/" rev = "/reward/" class="icon_reward menu_btn">Rewards</a> </div><%count=count+1%>
                <div class="space_btwn_icon"></div>
              <%end%>
+             
               <%if Role.check_permission(@profile.id,Role.modify_settings) == true%>
               <div class="icon_box"> <a href="javascript:void(0);" id="setting" rel="/setting/" rev = "/setting/" class="icon_user_setting menu_btn">Setting</a> </div><%count=count+1%>
                <div class="space_btwn_icon"></div>
              <%end%>
+
+              <!-- Game Center Settings -->
+              <%if Role.check_permission(@profile.id,Role.modify_settings) == true%>
+                <div class="icon_box"> <a href="javascript:void(0);" id="gamecenter" rel="/gamecenter/" rev = "/gamecenter/" class="icon_user_setting menu_btn">GameCenter</a> </div><%count=count+1%>
+                <div class="space_btwn_icon"></div>
+              <%end%>
+             
             </div>
           </div>
           <%if count>0%>
