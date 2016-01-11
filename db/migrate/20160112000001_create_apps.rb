@@ -18,7 +18,6 @@ class CreateApps < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :apps, [:archived, :published, :school_id, :app_id]
     add_index :apps, [:archived, :published, :school_id, :app_code]
     add_index :apps, [:archived, :published, :school_id, :name]
   end
