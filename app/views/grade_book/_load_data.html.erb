@@ -1262,7 +1262,8 @@ $(document).ready(function(){
   });
 
   $('#export_csv').click(function() {
-    $('#export_csv_div').show();
+    window.location = '/export_course_grade_csv/' + $('#course_id').val();    
+    // $('#export_csv_div').show();
     return false;
   });
 
