@@ -60,18 +60,7 @@ class GamecenterController < ApplicationController
       conditions[0] += " and apps.archived = ?"
       conditions << true
     end
-    
-    if params[:show] and !params[:show]
-      profiles_temp = Profile.find(:all, :conditions => conditions,
-      :include => [:participants],
-      :order => "xp desc")
-    else
-      profiles_temp = Profile.find(:all, :limit => 50,
-      :conditions => conditions,
-      :include => [:participants],
-      :order => "xp desc")
-    end
-    
+        
     @apps = Apps.find(:all, :conditions => conditions,
       :order => "name")
     
