@@ -9,8 +9,10 @@ class CreateApps < ActiveRecord::Migration
       t.datetime :last_rev_date
       t.integer :player_count
       t.boolean :published
+      t.datetime :first_publish_date
       t.boolean :archived
       t.integer :player_count
+
       t.references :school
 
       t.timestamps
