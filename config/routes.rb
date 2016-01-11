@@ -444,6 +444,7 @@ Oncapus::Application.routes.draw do
   match 'gamecenter' => 'gamecenter#index'
   get 'gamecenter/:app_id/:action' => 'gamecenter#:action'
   get "gamecenter/get_rows"
+  get "gamecenter/add_game"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
