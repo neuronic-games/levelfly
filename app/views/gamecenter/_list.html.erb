@@ -22,8 +22,8 @@
         <div class="leader_pad">
           <!-- tabs-->
           <div class="leader_tabs" align="right">
-            <a href="javascript:void(0)" class="side_tab side_tab_open" filter="school"><span class="task_tab">Active</span></a>
-            <a href="javascript:void(0)" class="side_tab side_tab_close" filter="course"><span class="task_tab">Archived</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_open" filter="active"><span class="task_tab">Active</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close" filter="archived"><span class="task_tab">Archived</span></a>
           </div>
 
           <!-- NEW BOX START HERE -->
@@ -48,7 +48,7 @@
 </div>
 <div id="sidebar_right">
   <div class="course_side_buttons">
-    <a class="big_blue_btn" name="menu_btn_show_me" href="javascript:void(0)" id="show_me">SHOW ME</a>
+    <a class="big_blue_btn" name="menu_btn_add_game" href="javascript:void(0)" id="add_game">ADD GAME</a>
   </div><!-- crud_level -->
 </div>
 
@@ -67,20 +67,21 @@ $(document).ready(function(){
     getRows();
   });
   
-  $("#show_me").unbind('click').bind('click', function(){
+  $("#add_game").unbind('click').bind('click', function(){
   	showSpinner(true);
   	var filter = $(".side_tab_open:first").attr("filter");
   	
   	$.ajax({
   		type: "GET",
-  		url: "/gamecenter/get_rows",
-  		data: {filter:filter, show:"me"},
+  		url: "/gamecenter/add_game",
+  		data: {filter:filter, show:"add_game"},
   		success: function(data) {
        	$("#rows").html(data);
        	showSpinner(false);
      }
   	});
   });
+  
 });
 
 // Retrieve tasks based on the current filters

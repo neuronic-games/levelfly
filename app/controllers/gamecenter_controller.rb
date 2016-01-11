@@ -95,5 +95,9 @@ class GamecenterController < ApplicationController
 
     render :partial => "/gamecenter/rows"
   end
-
+  
+  def add_game
+    render :partial => "/gamecenter/form"
+  end
+  
 end
