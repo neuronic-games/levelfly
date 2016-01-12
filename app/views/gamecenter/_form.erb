@@ -1,2 +1,30 @@
-<!--Add Game -->
-ADD GAME
+<!-- Add Game -->
+<input type="hidden" name="app_id" id="app_id_hdn" value="<%= @app.id if @app %>" />
+<input type="hidden" name="school_id" id="app_school_id_hdn" value="<%= @app.school_id %>" />
+
+<!-- Contextual Side Buttons -->
+<div id="sidebar_right">
+
+  <div class="side_buttons">
+    <a href="javascript:void(0)" name="btn_game_save" id="btn_game_save" class="big_orange_btn">SAVE</a>
+  </div>
+
+</div>
+
+<!-- Main area -->
+
+<input type="text" name="app_name" id="app_name" class="dd_input" value="<%= @app.name if @app %>" maxlength="64" />
+
+<!-- UI control code -->
+
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+
+  $('.btn_game_save').click(function(){
+    alert('.btn_game_save: click');
+  });  // .btn_game_save: click
+  
+});  // document: ready
+-->
+</script>
