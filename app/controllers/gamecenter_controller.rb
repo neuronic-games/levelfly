@@ -69,6 +69,11 @@ class GamecenterController < ApplicationController
   
   def add_game
     @app = App.new
+    
+    @app.name = "Application Name"
+    @app.descr = "Description"
+    @app.last_rev = "v 1.0"
+    
     render :partial => "/gamecenter/form"
   end
   
