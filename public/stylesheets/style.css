@@ -1039,6 +1039,13 @@ margin-top:-20px;
 .end_of_page {
   height:100px;
 }
+
+.side_buttons {
+  bottom: 20px;
+  right: 49px;
+  position: fixed;
+}
+
 .task_side_buttons {
   bottom: 20px;
   position: fixed;
