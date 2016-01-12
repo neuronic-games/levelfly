@@ -68,6 +68,7 @@ class GamecenterController < ApplicationController
   end
   
   def add_game
+    @app = App.new
     render :partial => "/gamecenter/form"
   end
   
