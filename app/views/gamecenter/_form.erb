@@ -1,4 +1,5 @@
 <!-- Add Game -->
+ADD GAME
 <input type="hidden" name="app_id" id="app_id_hdn" value="<%= @app.id %>" />
 <input type="hidden" name="school_id" id="app_school_id_hdn" value="<%= @app.school_id %>" />
 
@@ -14,6 +15,10 @@
 <!-- Main area -->
 
 <input type="text" name="app_name" id="app_name" class="dd_input" value="<%= @app.name %>" maxlength="64" />
+<textarea name="app_descr" id="app_descr" class="dd_input" placeholder="Enter description"><%= @app.descr %></textarea>
+<input type="text" name="app_last_rev" id="app_last_rev" class="dd_input" value="<%= @app.last_rev %>" maxlength="64" />
+<input type="text" name="last_rev_date" id="last_rev_date" class="dd_input" value="<%= @app.last_rev_date %>" maxlength="64" />
+<input type="text" name="first_publish_date" id="first_publish_date" class="dd_input" value="<%= @app.first_publish_date %>" maxlength="64" />
 
 <!-- UI control code -->
 
