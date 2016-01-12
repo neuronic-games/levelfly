@@ -1,5 +1,5 @@
 <!-- Add Game -->
-<input type="hidden" name="app_id" id="app_id_hdn" value="<%= @app.id if @app %>" />
+<input type="hidden" name="app_id" id="app_id_hdn" value="<%= @app.id %>" />
 <input type="hidden" name="school_id" id="app_school_id_hdn" value="<%= @app.school_id %>" />
 
 <!-- Contextual Side Buttons -->
@@ -13,7 +13,7 @@
 
 <!-- Main area -->
 
-<input type="text" name="app_name" id="app_name" class="dd_input" value="<%= @app.name if @app %>" maxlength="64" />
+<input type="text" name="app_name" id="app_name" class="dd_input" value="<%= @app.name %>" maxlength="64" />
 
 <!-- UI control code -->
 
