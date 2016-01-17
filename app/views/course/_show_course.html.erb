@@ -32,9 +32,7 @@
             </div>
           </div>
 
-          <div class="clear"></div>
-          <!-- <div class="spacebar10px"></div> -->
-
+          <!-- Course Period -->
           <div class="course_activity_list">
 
             <div class="CAL_01">
@@ -44,7 +42,12 @@
                	</div>
               </div>
             </div>
-            
+
+          </div>
+          
+          <!-- Course properties -->
+          <div class="course_activity_list">
+
             <div class="CAL_01"><span class="field_label"> <% if @totaltask %>You have <% total_task = @totaltask.count %><%=total_task%><% else %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW TASKS</a></div>
 
             <% if @courseMaster %>
