@@ -55,15 +55,40 @@
 
 <script type="text/javascript">
 <!--
-$(document).ready(function(){
-  alert('document: ready');
+$(document).ready(function() {
 
   $("#add_game").addClass("hide");
 
-  $('.btn_game_save').click(function(){
-    alert('.btn_game_save: click');
+  $('#btn_game_save').click(function() {
+    alert('#btn_game_save: click');
+    saveGame();
   });  // .btn_game_save: click
   
 });  // document: ready
+
+function saveGame() {
+  showSpinner(true);
+  
+  var dataString = {
+    id: id, 
+    name: name, 
+    descr: descr,
+    school_id: school_id
+  }
+    
+  $.ajax({
+    type: "POST",
+    url: "/gamecenter/save_game",
+    data: dataString,
+    dataType: "json",
+    success: function(data) {
+      if (data) {
+      }
+      showSpinner(false);
+    }
+  });
+  
+}
+
 //-->
 </script>
