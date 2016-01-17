@@ -1128,6 +1128,17 @@ margin-top:-20px;
 .big_orange_btn:hover {
   background:#bd996a;
 }
+
+/* static fields on the chalk board layout */
+.chkbd_static_fld {
+	background:#898888 !important;
+	border:#898888 1px solid;
+	color:#FFFFFF !important;
+  padding:2px 2px;
+  font-size:12px;
+  text-transform:none;
+}
+
 .dd_bg {
   border:#b1c4d0 1px solid;
   background:#b1c4d0;

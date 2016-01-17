@@ -19,17 +19,17 @@
     <!--list box-->
     <div class="course_detailbox">
       <div class="course_field_box1">
-          <div class="catagory_viewfield field_label" style="margin-right: 5px;">COURSE CODE</div>
-          <div class="clear"></div>
-          <div class="dd_bg brown_bg">
-            <%= @course.code_section if @course %>
-         	</div>
-
-          <div class="course_viewfield field_label" id="course_name_show">COURSE NAME</div>
-          <div class="clear"></div>
-          <div class="dd_bg brown_bg">
-            <%= @course.name if @course %>
-            <!-- <input type="text" name="course_name" id="course_name" <%if @course %> value="<%=@course.name + " " + @course.semester_year if @course%>" <%end%> readonly="readonly" class="dd_select brown_bg" style="width: 80%;" /> -->
+          <div class="catagory_viewfield field_label" style="margin-right: 5px;">COURSE CODE
+            <div class="chkbd_static_fld">
+              <%= @course.code_section if @course %>
+           	</div>
+          </div>
+          
+          <div class="course_viewfield field_label" id="course_name_show">COURSE NAME
+            <div class="chkbd_static_fld">
+              <%= @course.name if @course %>
+              <!-- <input type="text" name="course_name" id="course_name" <%if @course %> value="<%=@course.name + " " + @course.semester_year if @course%>" <%end%> readonly="readonly" class="dd_select brown_bg" style="width: 80%;" /> -->
+            </div>
           </div>
 
           <div class="clear"></div>
@@ -38,11 +38,11 @@
           <div class="course_activity_list">
 
             <div class="CAL_01">
-              <div class="catagory_viewfield field_label" style="margin-right: 5px;">COURSE PERIOD</div>
-              <div class="clear"></div>
-              <div class="dd_bg brown_bg">
-                <%= @course.semester_year if @course %>
-             	</div>
+              <div class="catagory_viewfield field_label" style="margin-right: 5px;">COURSE PERIOD
+                <div class="chkbd_static_fld">
+                  <%= @course.semester_year if @course %>
+               	</div>
+              </div>
             </div>
             
             <div class="CAL_01"><span class="field_label"> <% if @totaltask %>You have <% total_task = @totaltask.count %><%=total_task%><% else %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW TASKS</a></div>
