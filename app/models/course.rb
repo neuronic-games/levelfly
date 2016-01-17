@@ -81,18 +81,6 @@ class Course < ActiveRecord::Base
     return image_file_name ? image.url : Course.default_image_file
   end
 
-  def code_section
-    data = self.code
-    data = data + '-' + self.section if !self.section.blank?
-    return data
-  end
-
-  def semester_year
-    return "#{self.year}" if self.semester.blank?
-    return "#{self.semester}" if self.year.blank?
-    return "#{self.semester} #{self.year}"
-  end
-  
   def init_defaults
     self.rating_low = Course.default_rating_low
     self.rating_medium = Course.default_rating_medium
@@ -107,6 +95,12 @@ class Course < ActiveRecord::Base
     return "#{self.code}#{'-' unless self.section.blank?}#{self.section}"
   end
 
+  def semester_year
+    return "#{self.year}" if self.semester.blank?
+    return "#{self.semester}" if self.year.blank?
+    return "#{self.semester} #{self.year}"
+  end
+  
   # The number of points that remains unallocated. Sum up the the points for all tasks associated
   # with this course, plus any extra credit, and minus from the max 1000 points.
   def remaining_points

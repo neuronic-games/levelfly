@@ -21,29 +21,29 @@
       <div class="course_field_box1">
           <div class="catagory_viewfield field_label" style="margin-right: 5px;">COURSE CODE
             <div class="dd_bg brown_bg">
-				<input type="text" name="course_code_name" id="course_code_name" value="<%=@course.code.slice(/[a-zA-Z\s]+/).to_s if @course && @course.code%>" placeholder="ENG" maxlength="8" class="dd_input brown_bg prompted" style="text-transform:uppercase; width:70px;" prompt="course_code_name_prompt" disabled=true />
+              <%= @course.code_section if @course %>
            	</div>
-          </div>
-          <div class="catagory_viewfield field_label" style="margin-right: 5px;"> &nbsp;
-           	<div class="dd_bg brown_bg">
-           		<input type="text" name="course_code_num" id="course_code_num" value="<%=@course.code.slice(/[0-9]+/).to_s if @course && @course.code%>" placeholder="101" maxlength="6" class="dd_input brown_bg prompted" style="text-transform:uppercase; width:45px;" prompt="course_code_num_prompt" disabled=true />
-          </div>
-           	</div>
-          <div class="catagory_viewfield field_label" style="margin-right: 10px;"> &nbsp;
-           	<div class="dd_bg brown_bg">
-           		<input type="text" name="course_section" id="course_section" <%if @course %> value="<%=@course.section%>" readonly="readonly" <%end%> class="small dd_input brown_bg" style="width:30px;" disabled=true />
-          	</div>
           </div>
 
           <div class="course_viewfield field_label" id="course_name_show">COURSE NAME
             <div class="dd_bg brown_bg">
-              <input type="text" name="course_name" id="course_name" <%if @course %> value="<%=@course.name + " " + @course.semester_year if @course%>" <%end%> readonly="readonly" class="dd_select brown_bg" style="width: 80%;" />
+              <%= @course.name if @course %>
+              <!-- <input type="text" name="course_name" id="course_name" <%if @course %> value="<%=@course.name + " " + @course.semester_year if @course%>" <%end%> readonly="readonly" class="dd_select brown_bg" style="width: 80%;" /> -->
             </div>
           </div>
 
           <div class="clear"></div>
           <div class="spacebar10px"></div>
+
+          <div class="catagory_viewfield field_label" style="margin-right: 5px;">COURSE PERIOD
+            <div class="dd_bg brown_bg">
+              <%= @course.semester_year if @course %>
+           	</div>
+          </div>
           
+          <div class="clear"></div>
+          <div class="spacebar10px"></div>
+
           <div class="course_activity_list">
 
             <div class="CAL_01"><span class="field_label"> <% if @totaltask %>You have <% total_task = @totaltask.count %><%=total_task%><% else %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW TASKS</a></div>
