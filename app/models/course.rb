@@ -83,13 +83,13 @@ class Course < ActiveRecord::Base
 
   def code_section
     data = self.code
-    data = data + '-' self.section if !self.section.blank?
+    data = data + '-' + self.section if !self.section.blank?
     return data
   end
 
   def semester_year
-    return "#{self.year}" if self.semester.isblank?
-    return "#{self.semester}" if self.year.isblank?
+    return "#{self.year}" if self.semester.blank?
+    return "#{self.semester}" if self.year.blank?
     return "#{self.semester} #{self.year}"
   end
   
