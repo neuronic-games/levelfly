@@ -32,21 +32,16 @@
             </div>
           </div>
 
-          <!-- Course Period -->
           <div class="course_activity_list">
 
-            <div class="CAL_01">
+            <!-- Course Period -->
+            <div class="CAL_01" stlye="padding-bottom:10px;">
               <div class="catagory_viewfield field_label" style="margin-right: 5px;">COURSE PERIOD
                 <div class="chkbd_static_fld" style="width:280px;">
                   <%= @course.semester_year if @course %>
                	</div>
               </div>
             </div>
-
-          </div>
-          
-          <!-- Course properties -->
-          <div class="course_activity_list">
 
             <div class="CAL_01"><span class="field_label"> <% if @totaltask %>You have <% total_task = @totaltask.count %><%=total_task%><% else %><% end %> ACTIVE TASKS</span> <a href="#" id="btn_task" class="green_bt19px">VIEW TASKS</a></div>
 
