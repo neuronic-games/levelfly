@@ -1437,7 +1437,7 @@ a.green_bt19px:hover {
 .course_activity_list {
 	float:left;
 	width:50%;
-	padding:20px 0 0 0;
+	padding:10px 0 0 0;
 }
 .course_activity_list .CAL_01 {
 	height:30px;/*18px;*/
@@ -1451,8 +1451,7 @@ a.green_bt19px:hover {
 	margin-right:5px;
 }
 .course_teacher_name {
-	float:left;/*right*/
-	width:45%;/*50*/
+	float:right;
 }
 .course_page_msg_box {
 	font-family:Arial, Helvetica, sans-serif;
