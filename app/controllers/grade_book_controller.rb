@@ -460,6 +460,7 @@ def export_course_grade_csv
     y << "Levelfly ID"
     y << "Name"
     y << "Course Code"
+    y << "Course Period"
     y << "Course Grade (Numerical)"
     y << "Course Grade (Letter)"
     y << "Notes"
@@ -489,7 +490,8 @@ def export_course_grade_csv
       @participant.each do |p|
         x << p.profile.user_id
         x << p.full_name
-        x << @course.code+" - "+@course.section
+        x << @course.code_section
+        x << @course.semester_year
         participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, @course.id,@course.school_id)
         val = participant_grade[@course.id]
         grade = ""

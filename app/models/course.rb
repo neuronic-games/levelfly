@@ -81,8 +81,18 @@ class Course < ActiveRecord::Base
     return image_file_name ? image.url : Course.default_image_file
   end
 
+  def code_section
+    data = self.code
+    data = data + '-' self.section if !self.section.blank?
+    return data
+  end
 
-
+  def semester_year
+    return "#{self.year}" if self.semester.isblank?
+    return "#{self.semester}" if self.year.isblank?
+    return "#{self.semester} #{self.year}"
+  end
+  
   def init_defaults
     self.rating_low = Course.default_rating_low
     self.rating_medium = Course.default_rating_medium

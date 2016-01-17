@@ -77,4 +77,7 @@ class GamecenterController < ApplicationController
     render :partial => "/gamecenter/form"
   end
   
+  def save_game
+  end
+  
 end
