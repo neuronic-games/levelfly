@@ -756,7 +756,8 @@ class CourseController < ApplicationController
        @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
        if params[:section_type] && ! params[:section_type].nil?
          if  params[:section_type] =="C"
-          @courses = Course.course_filter(@profile.id,params[:filter])
+          course_list = Course.course_filter(@profile.id,params[:filter])
+          @courses = course_list.sort  # Sort by semester sort rules
          elsif params[:section_type] =="G"
           @courses = Course.all_group(@profile,params[:filter])
          end
