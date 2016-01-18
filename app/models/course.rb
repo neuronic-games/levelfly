@@ -79,7 +79,7 @@ class Course < ActiveRecord::Base
   @owner = nil
   @messages = nil
 
-  # Orders by the semester
+  # Orders by the semester, most recent course appearing first
   def <=>(other)
     # Not camparable if year is not defined. Don't want to return nil to prevent breakage, but this should not exist.
     return 1 if year.nil? || other.year.nil?
@@ -88,8 +88,8 @@ class Course < ActiveRecord::Base
     return 1 if semester.blank? && year.blank?
     
     # Different year
-    return -1 if year < other.year
-    return 1 if year > other.year
+    return 1 if year < other.year
+    return -1 if year > other.year
 
     # Same year & semester
     return name <=> other.name if semester == other.semester
