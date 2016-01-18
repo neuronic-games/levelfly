@@ -125,7 +125,8 @@
       <% if defined?(section_type) && section_type == "G"%>
       <%=change_date_format(c.created_at)%>
       <% else %>
-      <%=c.code%>-<%=c.section%>
+      <%=h c.code_section %><br />
+      <%=h c.semester_year %>
       <% end %>
     </td>
 
