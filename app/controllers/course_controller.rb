@@ -34,7 +34,8 @@ class CourseController < ApplicationController
         if section_type == 'C'
           message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
           @invites = Message.invites('course_invite', @profile.id, message_ids)
-          @courses = Course.course_filter(@profile.id,"")
+          course_list = Course.course_filter(@profile.id,"")
+          @courses = course_list.sort  # Sort by semester sort rules
         end
         if section_type == 'G'
           message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)

@@ -1,4 +1,6 @@
 class Course < ActiveRecord::Base
+  include Comparable
+  
   belongs_to :school
   has_many :participants, :as => :target
   has_many :messages, :as => :parent
@@ -77,6 +79,11 @@ class Course < ActiveRecord::Base
   @owner = nil
   @messages = nil
 
+  # Orders by the semester
+  def <=>(other)
+    semester_year <=> other.semester_year
+  end
+  
   def image_file
     return image_file_name ? image.url : Course.default_image_file
   end
@@ -274,7 +281,7 @@ class Course < ActiveRecord::Base
     end
    return @tasks
   end
-
+  
   def self.search(text)
     d = text.downcase
     Course.find(:all,
