@@ -81,7 +81,17 @@ class Course < ActiveRecord::Base
 
   # Orders by the semester
   def <=>(other)
-    semester_year <=> other.semester_year
+
+    # Ordered last if no period defined
+    return 1 if semester.blank? && year.blank?
+    
+    # Different year
+    return -1 if year < other.year
+    return 1 if year > other.year
+
+    # Same year
+    sort_order = ["Fall", "Winter", "Spring", "Summer I", "Summer II"]
+    sort_order.index(semester) <=> sort_order.index(other.semester)
   end
   
   def image_file
