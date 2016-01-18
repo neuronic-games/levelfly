@@ -81,7 +81,9 @@ class Course < ActiveRecord::Base
 
   # Orders by the semester
   def <=>(other)
-
+    # Not camparable if year is not defined
+    return nil if year.nil? || other.year.nil?
+    
     # Ordered last if no period defined
     return 1 if semester.blank? && year.blank?
     
