@@ -460,7 +460,7 @@ def export_course_grade_csv
     y << "Levelfly ID"
     y << "Name"
     y << "Course Code"
-    y << "Course Period"
+    y << "Course Term"
     y << "Course Grade (Numerical)"
     y << "Course Grade (Letter)"
     y << "Notes"
