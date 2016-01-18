@@ -81,7 +81,7 @@ class Course < ActiveRecord::Base
 
   # Orders by the semester
   def <=>(other)
-    # Not camparable if year is not defined
+    # Not camparable if year is not defined. Don't want to return nil to prevent breakage, but this should not exist.
     return 1 if year.nil? || other.year.nil?
     
     # Ordered last if no period defined
@@ -91,9 +91,12 @@ class Course < ActiveRecord::Base
     return -1 if year < other.year
     return 1 if year > other.year
 
+    # Same year & semester
+    return name <=> other.name if semester == other.semester
+
     # Same year
     sort_order = ["Fall", "Winter", "Spring", "Summer I", "Summer II"]
-    sort_order.index(semester) <=> sort_order.index(other.semester)
+    return sort_order.index(semester) <=> sort_order.index(other.semester)
   end
   
   def image_file
