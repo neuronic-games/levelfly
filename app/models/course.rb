@@ -95,7 +95,7 @@ class Course < ActiveRecord::Base
     return name <=> other.name if semester == other.semester
 
     # Same year
-    sort_order = ["Fall", "Winter", "Spring", "Summer I", "Summer II"]
+    sort_order = ["Fall", "Summer II", "Summer I", "Spring", "Winter"]
     return sort_order.index(semester) <=> sort_order.index(other.semester)
   end
   
