@@ -6,7 +6,7 @@
    <select id="course_id">
     <% unless @courses.nil? %>
       <% @courses.each do |c| %>
-        <option value="<%= c.id %>"><%= c.name %></option>
+        <option value="<%= c.id %>"><%=h c.name %> (<%=h c.semester_year %>)</option>
       <% end %>
     <% end %>
    </select>
