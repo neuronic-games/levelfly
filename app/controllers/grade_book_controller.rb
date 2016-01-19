@@ -46,7 +46,7 @@ class GradeBookController < ApplicationController
       archived = false
     end
     @profile = current_profile
-    @courses = [];
+    course_list = [];
     @people =[];
     @tasks = [];
     @latest_course = nil
@@ -59,10 +59,12 @@ class GradeBookController < ApplicationController
       )
     @course.each do |c|
       if c.participants.find(:all, :conditions=>["profile_type in ('M','S')"]).count>1
-        @courses.push(c)
+        course_list.push(c)
       end
     end
 
+    @courses = course_list.sort
+    
     if @courses.length > 0
       @school_id = @profile.school_id
       @latest_course = @courses.first
