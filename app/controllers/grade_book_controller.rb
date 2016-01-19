@@ -50,30 +50,31 @@ class GradeBookController < ApplicationController
     @people =[];
     @tasks = [];
     @latest_course = nil
-    @course = Course.find(
+    course_list = Course.find(
       :all,
       :select => "distinct *",
       :include => [:participants],
       :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND participants.profile_type = ? AND courses.archived = ?",false, @profile.id, Course.parent_type_course, Course.profile_type_master, archived],
       :order => 'courses.name ASC'
       )
-    @course.each do |c|
+    course_list.each do |c|
       if c.participants.find(:all, :conditions=>["profile_type in ('M','S')"]).count>1
-        @courses.push(c)
+        course_list.push(c)
       end
     end
 
-    if @courses.length > 0
+    if course_list.length > 0
       @school_id = @profile.school_id
       @latest_course = @courses.first
       @course_id = @latest_course.id
       @outcomes = @latest_course.outcomes
       @participant = Participant.all( :joins => [:profile => :user], :conditions => ["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order => "full_name")
-        #@participant = @courses.first.participants
-        @count = @participant.count
-        @tasks = Course.sort_course_task(@course_id)
-      end
+      #@participant = @courses.first.participants
+      @count = @participant.count
+      @tasks = Course.sort_course_task(@course_id)
     end
+    @courses = course_list.sort
+  end
 
     def filter
       if params[:filter] && !params[:filter].blank?
