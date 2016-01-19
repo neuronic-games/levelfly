@@ -47,6 +47,7 @@ class GradeBookController < ApplicationController
     end
     @profile = current_profile
     @courses = [];
+    unsorted_courses = [];
     @people =[];
     @tasks = [];
     @latest_course = nil
@@ -63,6 +64,8 @@ class GradeBookController < ApplicationController
       end
     end
 
+    # @courses = unsorted_courses.sort
+    
     if @courses.length > 0
       @school_id = @profile.school_id
       @latest_course = @courses.first
