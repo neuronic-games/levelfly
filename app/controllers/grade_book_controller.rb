@@ -63,7 +63,7 @@ class GradeBookController < ApplicationController
       end
     end
 
-    @courses = course_list.sort
+    @courses = course_list
 
     if @courses.length > 0
       @school_id = @profile.school_id
