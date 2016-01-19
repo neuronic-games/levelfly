@@ -60,11 +60,11 @@ class GradeBookController < ApplicationController
       )
     course_list.each do |c|
       if c.participants.find(:all, :conditions=>["profile_type in ('M','S')"]).count>1
-        @courses.push(c)
+        unsorted_courses.push(c)
       end
     end
 
-    # @courses = unsorted_courses.sort
+    @courses = unsorted_courses.sort
     
     if @courses.length > 0
       @school_id = @profile.school_id
