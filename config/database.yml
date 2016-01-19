@@ -11,16 +11,16 @@
 #   encoding: UTF8
 #   host: localhost
 
-development:
-  #adapter: mysql
-  adapter: postgresql
-  database: levelfly_dev
-  #username: root
-  username: levelfly-user
-  password: levelfly-pass
-  encoding: UTF8
-  host: localhost
-  pool: 5
+# development:
+#   #adapter: mysql
+#   adapter: postgresql
+#   database: levelfly_dev
+#   #username: root
+#   username: levelfly-user
+#   password: levelfly-pass
+#   encoding: UTF8
+#   host: localhost
+#   pool: 5
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
