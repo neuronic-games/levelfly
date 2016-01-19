@@ -63,7 +63,9 @@ class GradeBookController < ApplicationController
       end
     end
 
-    if course_list.length > 0
+    @courses = course_list.sort
+
+    if @courses.length > 0
       @school_id = @profile.school_id
       @latest_course = @courses.first
       @course_id = @latest_course.id
@@ -73,7 +75,6 @@ class GradeBookController < ApplicationController
       @count = @participant.count
       @tasks = Course.sort_course_task(@course_id)
     end
-    @courses = course_list.sort
   end
 
     def filter
