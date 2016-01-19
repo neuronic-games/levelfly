@@ -50,7 +50,7 @@ class GradeBookController < ApplicationController
     @people =[];
     @tasks = [];
     @latest_course = nil
-    @courses = Course.find(
+    course_list = Course.find(
       :all,
       :select => "distinct *",
       :include => [:participants],
