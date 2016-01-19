@@ -69,126 +69,125 @@ class GradeBookController < ApplicationController
       @course_id = @latest_course.id
       @outcomes = @latest_course.outcomes
       @participant = Participant.all( :joins => [:profile => :user], :conditions => ["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'",@course_id],:select => ["profiles.full_name,participants.id,participants.profile_id"], :order => "full_name")
-        #@participant = @courses.first.participants
-        @count = @participant.count
-        @tasks = Course.sort_course_task(@course_id)
-      end
+      #@participant = @courses.first.participants
+      @count = @participant.count
+      @tasks = Course.sort_course_task(@course_id)
     end
     
     @course = course_list.sort
   end
-  
-  def filter
-    if params[:filter] && !params[:filter].blank?
-      filter_course(params[:filter])
+    
+    def filter
+      if params[:filter] && !params[:filter].blank?
+        filter_course(params[:filter])
 
-      @data = {
-        :tasks => Course.sort_course_task(@course_id),
-        :categories => Category.all(:conditions => {:course_id => @course_id}),
-        :participant => Participant.all( :joins => [:profile => :user],
-          :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", @course_id],
-          :select => ["profiles.full_name,participants.id,participants.profile_id"],
-          :order => "full_name"
-          ),
-        :grade_types => GradeType.order("value DESC"),
-        :task_grades => TaskGrade.all(:conditions => { :course_id => @course_id })
-      }
-
-      render :partial => "/grade_book/load_data"
-    end
-  end
-
-  def get_task
-    if params[:course_id] && !params[:course_id].blank?
-      @profile = Profile.find(user_session[:profile_id])
-      @course = Course.find(params[:course_id])
-      @categories = Category.all(:conditions => {:course_id => params[:course_id]})
-      show_outcomes = @course.show_outcomes if @course
-      @outcomes = @course.outcomes.order('name')
-      @participant = Participant.all( :joins => [:profile => :user],
-        :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", params[:course_id]],
-        :select => ["profiles.full_name,participants.id,participants.profile_id, profiles.image_file_name"],
-        :order => "full_name")
-      @tasks =  Course.sort_course_task(params[:course_id])
-      if not @participant.nil?
-        @participant.each do |p|
-          outcomes_grade = []
-          array_task_grade = []
-          array_task_outcome_grade = []
-          participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, params[:course_id],@profile.school_id)
-          if participant_grade.blank?
-            p["grade"] = ""
-          else
-            participant_grade.each do |key, val|
-              grade = val.to_s + " " + GradeType.value_to_letter(val, @profile.school_id) if val
-              p["grade"] = grade if val
-              p["grade"] = "" unless val
-            end
-          end
-          if !@outcomes.nil?
-            @outcomes.each do |o|
-              outcome_grade = CourseGrade.load_outcomes(p.profile_id, params[:course_id],o.id,@profile.school_id)
-              if outcome_grade.nil?
-                outcome_grade=""
-              end
-              outcomes_grade.push(outcome_grade)
-            end
-            p["course_outcomes"] = outcomes_grade
-          end
-          if not @tasks.nil?
-            @tasks.each do |t|
-
-              task_grade = TaskGrade.load_task_grade(@profile.school_id, params[:course_id],t.id,p.profile_id)
-              grade=""
-              if !task_grade.blank?
-                grade = task_grade.to_f if t.course.display_number_grades
-                grade = GradeType.value_to_letter(task_grade, @profile.school_id) unless t.course.display_number_grades
-              end
-              array_task_grade.push(grade)
-              task_outcomes = t.outcomes.sort_by{|a| a.name.downcase}
-              task_outcomes.each do |o|
-                task_outcome_grade = OutcomeGrade.load_task_outcomes(@profile.school_id, params[:course_id],t.id,p.profile_id,o.id)
-                if task_outcome_grade.nil?
-                  task_outcome_grade=""
-                end
-                array_task_outcome_grade.push(task_outcome_grade)
-
-              end
-
-            end
-            p["task_grade"] = array_task_grade
-          end
-
-          p["task_outcome_grade"] = array_task_outcome_grade
-        end
-      end
-      @task_outcomes = []
-      if not @tasks.nil?
-        @tasks.each do |t|
-          t["task_outcomes"] = t.outcomes.sort_by{|m| m.name.downcase}
-          task = Task.find(t.id)
-          t["task_category"] = load_caregory_name(t.id)
-        end
-      end
-      @count = @participant.count
-    end
-
-    respond_to do |format|
-      format.html
-      format.json   {
-        render :json =>{
-          :tasks => @tasks,
-          :participant => @participant,
-          :outcomes => @outcomes,
-          :categories => @categories,
+        @data = {
+          :tasks => Course.sort_course_task(@course_id),
+          :categories => Category.all(:conditions => {:course_id => @course_id}),
+          :participant => Participant.all( :joins => [:profile => :user],
+            :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", @course_id],
+            :select => ["profiles.full_name,participants.id,participants.profile_id"],
+            :order => "full_name"
+            ),
           :grade_types => GradeType.order("value DESC"),
-          :task_grades => TaskGrade.all(:conditions => { :course_id => params[:course_id] }),
-          :profile => @profile,
-          :count => @count,
-          :show_outcomes => show_outcomes}}
-        end
+          :task_grades => TaskGrade.all(:conditions => { :course_id => @course_id })
+        }
 
-   end
+        render :partial => "/grade_book/load_data"
+      end
+    end
+
+    def get_task
+      if params[:course_id] && !params[:course_id].blank?
+        @profile = Profile.find(user_session[:profile_id])
+        @course = Course.find(params[:course_id])
+        @categories = Category.all(:conditions => {:course_id => params[:course_id]})
+        show_outcomes = @course.show_outcomes if @course
+        @outcomes = @course.outcomes.order('name')
+        @participant = Participant.all( :joins => [:profile => :user],
+          :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", params[:course_id]],
+          :select => ["profiles.full_name,participants.id,participants.profile_id, profiles.image_file_name"],
+          :order => "full_name")
+        @tasks =  Course.sort_course_task(params[:course_id])
+        if not @participant.nil?
+          @participant.each do |p|
+            outcomes_grade = []
+            array_task_grade = []
+            array_task_outcome_grade = []
+            participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, params[:course_id],@profile.school_id)
+            if participant_grade.blank?
+              p["grade"] = ""
+            else
+              participant_grade.each do |key, val|
+                grade = val.to_s + " " + GradeType.value_to_letter(val, @profile.school_id) if val
+                p["grade"] = grade if val
+                p["grade"] = "" unless val
+              end
+            end
+            if !@outcomes.nil?
+              @outcomes.each do |o|
+                outcome_grade = CourseGrade.load_outcomes(p.profile_id, params[:course_id],o.id,@profile.school_id)
+                if outcome_grade.nil?
+                  outcome_grade=""
+                end
+                outcomes_grade.push(outcome_grade)
+              end
+              p["course_outcomes"] = outcomes_grade
+            end
+            if not @tasks.nil?
+              @tasks.each do |t|
+
+                task_grade = TaskGrade.load_task_grade(@profile.school_id, params[:course_id],t.id,p.profile_id)
+                grade=""
+                if !task_grade.blank?
+                  grade = task_grade.to_f if t.course.display_number_grades
+                  grade = GradeType.value_to_letter(task_grade, @profile.school_id) unless t.course.display_number_grades
+                end
+                array_task_grade.push(grade)
+                task_outcomes = t.outcomes.sort_by{|a| a.name.downcase}
+                task_outcomes.each do |o|
+                  task_outcome_grade = OutcomeGrade.load_task_outcomes(@profile.school_id, params[:course_id],t.id,p.profile_id,o.id)
+                  if task_outcome_grade.nil?
+                    task_outcome_grade=""
+                  end
+                  array_task_outcome_grade.push(task_outcome_grade)
+
+                end
+
+              end
+              p["task_grade"] = array_task_grade
+            end
+
+            p["task_outcome_grade"] = array_task_outcome_grade
+          end
+        end
+        @task_outcomes = []
+        if not @tasks.nil?
+          @tasks.each do |t|
+            t["task_outcomes"] = t.outcomes.sort_by{|m| m.name.downcase}
+            task = Task.find(t.id)
+            t["task_category"] = load_caregory_name(t.id)
+          end
+        end
+        @count = @participant.count
+      end
+
+      respond_to do |format|
+        format.html
+        format.json   {
+          render :json =>{
+            :tasks => @tasks,
+            :participant => @participant,
+            :outcomes => @outcomes,
+            :categories => @categories,
+            :grade_types => GradeType.order("value DESC"),
+            :task_grades => TaskGrade.all(:conditions => { :course_id => params[:course_id] }),
+            :profile => @profile,
+            :count => @count,
+            :show_outcomes => show_outcomes}}
+          end
+
+        end
 
    #used for caclulation for grade
    def grade_calculate
@@ -272,7 +271,7 @@ class GradeBookController < ApplicationController
       render :json => {:average => average,:previous_grade=>previous_grade}
     end
   end
-
+end
 
   #load Notes
   def load_notes
