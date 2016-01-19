@@ -59,7 +59,7 @@ class GradeBookController < ApplicationController
       )
     course_list.each do |c|
       if c.participants.find(:all, :conditions=>["profile_type in ('M','S')"]).count>1
-        course_list.push(c)
+        @courses.push(c)
       end
     end
 
