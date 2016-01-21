@@ -1,6 +1,13 @@
 class GamecenterController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => [:status]
+
+  def status
+    message = "All ok"
+    status = Gamecenter::SUCCESS
+    
+    render :text => { 'status' => status, 'message' => message }.to_json
+  end
 
   # Login the player to GameCenter
   def authenticate
