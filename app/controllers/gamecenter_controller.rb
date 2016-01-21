@@ -11,14 +11,16 @@ class GamecenterController < ApplicationController
 
   # Login the player to GameCenter
   def authenticate
-    status = Gamecenter::SUCCESS
+    message = ""
+    status = Gamecenter::FAILURE
     
-    user = User.find_by_email(params[:user])
-    
-    sign_out current_user
-    sign_in user
-
-    message = "#{user.full_name} signed in"
+    user = User.find_by_email(params[:username])
+    if user
+      sign_out current_user
+      sign_in user
+      message = "#{user.full_name} signed in"
+      status = Gamecenter::SUCCESS
+    end
 
     render :text => { 'status' => status, 'message' => message }.to_json
   end
