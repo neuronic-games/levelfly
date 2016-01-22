@@ -1,6 +1,6 @@
 class GamecenterController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!, :except => [:status, :authenticate]
+  before_filter :authenticate_user!, :except => [:status, :authenticate, :get_current_user]
 
   def status
     message = "All ok"
