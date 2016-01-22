@@ -16,7 +16,7 @@ class GamecenterController < ApplicationController
     data = {}
     
     user = User.find_by_email(params[:username])
-    if user
+    if user && user.valid_password?(params[:password])
       sign_out current_user
       sign_in user
       status = Gamecenter::SUCCESS
