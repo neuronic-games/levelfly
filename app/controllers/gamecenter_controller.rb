@@ -13,6 +13,7 @@ class GamecenterController < ApplicationController
   def authenticate
     message = ""
     status = Gamecenter::FAILURE
+    data = {}
     
     user = User.find_by_email(params[:username])
     if user
@@ -20,9 +21,11 @@ class GamecenterController < ApplicationController
       sign_in user
       message = "#{user.full_name} signed in"
       status = Gamecenter::SUCCESS
+      profile = user.default_profile
+      data = { 'alias' => profile.full_name, 'image' => profile.image_file_name, 'last_sign_in_at' => user.last_sign_in_at }
     end
 
-    render :text => { 'status' => status, 'message' => message }.to_json
+    render :text => { 'status' => status, 'message' => message, 'data' => data }.to_json
   end
 
   # Returns 50 top scores for your game
