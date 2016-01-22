@@ -19,9 +19,9 @@ class GamecenterController < ApplicationController
     if user
       sign_out current_user
       sign_in user
-      message = "#{user.full_name} signed in"
       status = Gamecenter::SUCCESS
       profile = user.default_profile
+      message = "#{profile.full_name} signed in"
       data = { 'alias' => profile.full_name, 'image' => profile.image_file_name, 'last_sign_in_at' => user.last_sign_in_at }
     end
 
