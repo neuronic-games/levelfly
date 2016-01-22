@@ -3,7 +3,7 @@ class GamecenterController < ApplicationController
   before_filter :authenticate_user!, :except => [:status, :authenticate, :get_current_user]
 
   def status
-    message = "All ok"
+    message = "All OK"
     status = Gamecenter::SUCCESS
     
     render :text => { 'status' => status, 'message' => message }.to_json
@@ -25,9 +25,10 @@ class GamecenterController < ApplicationController
       data = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_file_name, 'last_sign_in_at' => user.last_sign_in_at }
     end
 
-    render :text => { 'status' => status, 'message' => message, 'data' => data }.to_json
+    render :text => { 'status' => status, 'message' => message, 'user' => data }.to_json
   end
   
+  # Returns the current user that was authenticated
   def get_current_user
     message = ""
     status = Gamecenter::FAILURE
@@ -40,7 +41,7 @@ class GamecenterController < ApplicationController
       data = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_file_name, 'last_sign_in_at' => current_user.last_sign_in_at }
     end
 
-    render :text => { 'status' => status, 'message' => message, 'data' => data }.to_json
+    render :text => { 'status' => status, 'message' => message, 'user' => data }.to_json
   end
 
   # Returns 50 top scores for your game
