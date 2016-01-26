@@ -82,6 +82,13 @@ class GamecenterController < ApplicationController
 
   end
   
+  def list_progress
+    game_id = params[:game_id]
+    profile_id = current_user.default_profile.id)
+    
+    feat_list = Feat.find(:all, :conditions => [{:game_id => game_id, :profile_id => profile_id}], :order_by => "created_at desc")
+  end
+  
   # Returns 50 top scores for your game
   def list
     message = ""
