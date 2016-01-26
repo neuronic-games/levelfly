@@ -1,6 +1,6 @@
 class GamecenterController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!, :except => [:status, :connect, :authenticate, :get_current_user]
+  before_filter :authenticate_user!, :except => [:status, :connect, :authenticate, :get_current_user, :update]
 
   def status
     message = "All OK"
@@ -62,6 +62,19 @@ class GamecenterController < ApplicationController
     render :text => { 'status' => status, 'message' => message, 'user' => data }.to_json
   end
 
+  def add_progress
+    game_id = params[:game_id]
+    progress = params[:progress]
+    progress_type = params[:progress_type]    
+    level = params[:level]    
+    
+    feat = Feat.new(:game_id => game_id, :profile_id => current_user.default_profile.id)
+    feat.progress = progress
+    feat.progress_type = progress_type
+    feat.level = level
+    feat.save
+  end
+  
   # Returns 50 top scores for your game
   def list
     message = ""
