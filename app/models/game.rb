@@ -7,6 +7,13 @@ class Game < ActiveRecord::Base
   
   after_create :generate_handle
   
+  def get_score(profile_id)
+    # This assumes that feat records are ordered chronologically
+    feat = Game.where(profile_id: profile_id, game_id: self.id).last
+    return feat.progress if feat
+    return 0
+  end
+  
   private
   
   def generate_handle
