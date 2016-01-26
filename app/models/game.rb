@@ -3,7 +3,7 @@ require 'digest'
 class Game < ActiveRecord::Base
   validates :handle, :uniqueness => true
   
-  after_create :generate_handler
+  after_create :generate_handle
   
   private
   
