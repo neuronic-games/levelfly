@@ -88,7 +88,7 @@ class GamecenterController < ApplicationController
     
     @feats = Feat.select("progress_type, progress, level, created_at")
       .where(game_id: game_id, profile_id: profile_id)
-      # .order(created_at: :desc)
+      .order("created_at desc")
   end
   
   # Returns 50 top scores for your game
