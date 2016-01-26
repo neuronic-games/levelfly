@@ -86,7 +86,7 @@ class GamecenterController < ApplicationController
     game_id = params[:game_id]
     profile_id = current_user.default_profile.id
     
-    @feats = Feat.select(:progress_type, :progress, :level, :created_at)
+    @feats = Feat.select("progress_type, progress, level, created_at")
       .where(game_id: game_id, profile_id: profile_id)
       .order(created_at: :desc)
   end
