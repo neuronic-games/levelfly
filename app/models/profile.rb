@@ -10,7 +10,7 @@ class Profile < ActiveRecord::Base
   has_many :profile_actions
 
   has_many :feats
-  has_many :game_top_leaders
+  has_many :game_score_leaders
 
   acts_as_taggable
 

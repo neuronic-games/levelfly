@@ -4,7 +4,7 @@ class Game < ActiveRecord::Base
   validates :handle, :uniqueness => true
 
   has_many :feats
-  has_many :game_top_leaders
+  has_many :game_score_leaders
   
   after_create :generate_handle
   
@@ -28,7 +28,7 @@ class Game < ActiveRecord::Base
     return 0
   end
   
-  def self.add_top_leaders(feat, count = 50)
+  def self.add_score_leader(feat, count = 50)
     add_new = true
     leaders = GameScoreLeader.where(game_id: feat.game_id).order("score desc")
     last_leader = leaders.last
@@ -42,7 +42,7 @@ class Game < ActiveRecord::Base
     end
 
     if add_new
-      leader = GameTopLeader.new
+      leader = GameScoreLeader.new
       leader.game_id = feat.game_id
       leader.profile_id = feat.profile_id
       leader.full_name = feat.profile.full_name
