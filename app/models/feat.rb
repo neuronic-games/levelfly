@@ -1,4 +1,4 @@
-class Feet < ActiveRecord::Base
+class Feat < ActiveRecord::Base
   belongs_to :game
   belongs_to :profile
 
@@ -23,8 +23,8 @@ class Feet < ActiveRecord::Base
   
   def check_xp
     # xp cannot be more than a 1000
-    if self.xp > 1000
-      self.xp = 1000
+    if self.progress_type == Feat.xp && self.progress > 1000
+      self.progress = 1000
     end
   end
   
