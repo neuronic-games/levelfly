@@ -53,17 +53,19 @@ class GamecenterController < ApplicationController
     status = Gamecenter::FAILURE
     user = {}
     score = 0
+    xp = 0
     
     if current_user
       status = Gamecenter::SUCCESS
       profile = current_user.default_profile
       game = Game.find(game_id)
       score = game.get_score(profile.id)
+      xp = game.get_xp(profile.id)
       message = "#{profile.full_name} signed in"
       user = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_file_name, 'last_sign_in_at' => current_user.last_sign_in_at }
     end
 
-    render :text => { 'status' => status, 'message' => message, 'user' => user, 'score' => score }.to_json
+    render :text => { 'status' => status, 'message' => message, 'user' => user, 'score' => score, 'xp' => xp }.to_json
   end
 
   # Adds a player's progress to a game by creating a Feat record
@@ -72,13 +74,30 @@ class GamecenterController < ApplicationController
     progress = params[:progress]
     progress_type = params[:progress_type]    
     level = params[:level]  # May be nil
+    profile_id = current_user.default_profile.id
     
-    feat = Feat.new(:game_id => game_id, :profile_id => current_user.default_profile.id)
+    feat = Feat.new(:game_id => game_id, :profile_id => profile_id)
     feat.progress = progress
     feat.progress_type = progress_type
     feat.level = level
-    feat.save
 
+    Feat.transaction do
+      if feat.progress_type = Feat.xp
+        # Look up the last XP stored for the game. We will need to update the player's XP
+        # with the difference
+        game = Game.find(game_id)
+        last_xp = game.get_xp(profile_id)
+        delta_xp = feat.progress - last_xp
+        if delta_xp != 0
+          profile = Profile(profile_id)
+          profile.xp += delta_xp
+          profile.save
+        end
+      end
+
+      feat.save
+    end
+    
     message = "Progress recorded for game #{game_id} for user profile #{current_user.default_profile.id}"
     status = Gamecenter::SUCCESS
 
