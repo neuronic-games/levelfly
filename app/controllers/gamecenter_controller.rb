@@ -67,7 +67,7 @@ class GamecenterController < ApplicationController
     game_id = params[:game_id]
     progress = params[:progress]
     progress_type = params[:progress_type]    
-    level = params[:level]    
+    level = params[:level]  # May be nil
     
     feat = Feat.new(:game_id => game_id, :profile_id => current_user.default_profile.id)
     feat.progress = progress
