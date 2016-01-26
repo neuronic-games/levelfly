@@ -95,7 +95,7 @@ class GamecenterController < ApplicationController
         delta_xp = feat.progress - last_xp
         Feat.transaction do
           if delta_xp != 0
-            profile = Profile(profile_id)
+            profile = Profile.find(profile_id)
             profile.xp += delta_xp
             profile.save
           end
