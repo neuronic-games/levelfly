@@ -48,18 +48,22 @@ class GamecenterController < ApplicationController
   
   # Returns the current user that was authenticated
   def get_current_user
+    game_id = params[:game_id]
     message = ""
     status = Gamecenter::FAILURE
-    data = {}
+    user = {}
+    score = 0
     
     if current_user
       status = Gamecenter::SUCCESS
       profile = current_user.default_profile
+      game = Game.find(game_id)
+      score = game.get_score(profile.id)
       message = "#{profile.full_name} signed in"
-      data = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_file_name, 'last_sign_in_at' => current_user.last_sign_in_at }
+      user = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_file_name, 'last_sign_in_at' => current_user.last_sign_in_at }
     end
 
-    render :text => { 'status' => status, 'message' => message, 'user' => data }.to_json
+    render :text => { 'status' => status, 'message' => message, 'user' => user, 'score' => score }.to_json
   end
 
   # Adds a player's progress to a game by creating a Feat record
