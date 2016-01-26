@@ -130,11 +130,19 @@ class GamecenterController < ApplicationController
   
   def list_leaders
     game_id = params[:game_id]
+    if game_id.to_i == 0
+      game_id = Game.select(:id).where(handle: game_id)
+    end
+
     @leaders = GameScoreLeader.where(game_id: game_id).order("score desc")
   end
   
   def list_progress
     game_id = params[:game_id]
+    if game_id.to_i == 0
+      game_id = Game.select(:id).where(handle: game_id)
+    end
+
     profile_id = current_user.default_profile.id
     
     feat_list = Feat.select("progress_type, progress, level, created_at")
