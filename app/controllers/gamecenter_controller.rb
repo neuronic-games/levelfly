@@ -95,14 +95,14 @@ class GamecenterController < ApplicationController
       conditions << true
     end
         
-    @apps = App.find(:all, :conditions => conditions,
+    @apps = Game.find(:all, :conditions => conditions,
       :order => "name")
     
     render :partial => "/gamecenter/rows"
   end
   
   def add_game
-    @app = App.new
+    @app = Game.new
     
     @app.name = "Application Name"
     @app.descr = "Description"
