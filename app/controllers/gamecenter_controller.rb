@@ -110,7 +110,7 @@ class GamecenterController < ApplicationController
       end
       Feat.transaction do
         feat.save
-        Game.add_top_leaders(feat)
+        Game.add_score_leader(feat)
       end
     when Feat.badge
       badge = Badge.find(feat.progress)
