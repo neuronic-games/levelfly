@@ -1,7 +1,7 @@
 class CreateGames < ActiveRecord::Migration
   def change
     create_table :games do |t|
-      t.string :handler
+      t.string :handle
       t.string :name
       t.text :descr
       t.string :image
@@ -16,7 +16,7 @@ class CreateGames < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :games, [:archived, :published, :handler]
+    add_index :games, [:archived, :published, :handle]
     add_index :games, [:archived, :published, :name]
   end
 end
