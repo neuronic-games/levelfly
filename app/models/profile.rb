@@ -8,7 +8,10 @@ class Profile < ActiveRecord::Base
   has_many :participants
 	has_many :task_participants
   has_many :profile_actions
+
   has_many :feats
+  has_many :game_top_leaders
+
   acts_as_taggable
 
   scope :course_participants, ->(course_id, section_type) {
