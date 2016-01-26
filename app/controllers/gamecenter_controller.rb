@@ -28,6 +28,24 @@ class GamecenterController < ApplicationController
     render :text => { 'status' => status, 'message' => message, 'user' => data }.to_json
   end
   
+  def connect
+    message = "Unknown error"
+    status = Gamecenter::FAILURE
+    data = {}
+    
+    handle = params[:handle]
+    game = Game.find_by_handle(handle)
+    if game
+      message = "Connected to #{game.name}"
+      status = Gamecenter::SUCCESS
+      data = { 'name' => game.name, 'id' => game.id, 'player_count' => game.player_count }
+    else
+      message = "Game with handle #{handle} does not exist"
+    end
+    
+    render :text => { 'status' => status, 'message' => message, 'game' => data }.to_json
+  end
+  
   # Returns the current user that was authenticated
   def get_current_user
     message = ""
@@ -85,7 +103,7 @@ class GamecenterController < ApplicationController
     filter = params[:filter]
     
     school_id = @profile.school_id
-    conditions = ["apps.school_id = ?", school_id]
+    conditions = ["apps.handle is not null"]
 
     if filter == "active"
       conditions[0] += " and apps.archived = ?"

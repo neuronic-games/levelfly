@@ -11,7 +11,6 @@ class CreateGames < ActiveRecord::Migration
       t.boolean :published
       t.datetime :first_publish_date
       t.boolean :archived
-      t.integer :player_count
 
       t.timestamps
     end
