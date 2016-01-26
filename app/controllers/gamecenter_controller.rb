@@ -62,6 +62,7 @@ class GamecenterController < ApplicationController
     render :text => { 'status' => status, 'message' => message, 'user' => data }.to_json
   end
 
+  # Adds a player's progress to a game by creating a Feat record
   def add_progress
     game_id = params[:game_id]
     progress = params[:progress]
@@ -73,6 +74,12 @@ class GamecenterController < ApplicationController
     feat.progress_type = progress_type
     feat.level = level
     feat.save
+
+    message = "Progress recorded for game #{game_id} for user profile #{current_user.default_profile.id}"
+    status = Gamecenter::SUCCESS
+
+    render :text => { 'status' => status, 'message' => message }.to_json
+
   end
   
   # Returns 50 top scores for your game
