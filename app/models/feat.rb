@@ -28,7 +28,7 @@ class Feat < ActiveRecord::Base
       return false if self.progress > 1000
       
       # xp cannot go down
-      last_xp = game.get_xp(prodile.id)
+      last_xp = game.get_xp(self.profile_id)
       return false if self.progress < last_xp
     end
 
