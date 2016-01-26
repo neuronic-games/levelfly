@@ -86,7 +86,8 @@ class GamecenterController < ApplicationController
     game_id = params[:game_id]
     profile_id = current_user.default_profile.id
     
-    @feats = Feat.find(:all, :conditions => [{:game_id => game_id, :profile_id => profile_id}], :order_by => "created_at desc")
+    @feats = Feat.find(:all, :select => "progress_type, progress, level, created_at",
+      :conditions => [{:game_id => game_id, :profile_id => profile_id}], :order => "created_at desc")
   end
   
   # Returns 50 top scores for your game
