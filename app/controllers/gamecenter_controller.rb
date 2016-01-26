@@ -89,28 +89,28 @@ class GamecenterController < ApplicationController
     feat_list = Feat.select("progress_type, progress, level, created_at")
       .where(game_id: game_id, profile_id: profile_id)
       .order("created_at desc")
-      
-    
 
     @feats = []
     feat_list.each do |feat|
       case feat.progress_type
       when Feat.login
-        @feats << "#{feat.created_at}: #{current_user.default_profile.full_name} logged in"
+        game = Game.find(game_id)
+        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} logged into #{game.name}"
       when Feat.xp
-        @feats << "#{feat.created_at}: #{current_user.default_profile.full_name} reached #{feat.progress} XP"
+        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} reached #{feat.progress} XP"
       when Feat.score
-        @feats << "#{feat.created_at}: #{current_user.default_profile.full_name} scored #{feat.progress} points in total"
+        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} scored #{feat.progress} points in total"
       when Feat.badge
-        badge = Badge.where(:id => feat.progress)
-        @feats << "#{feat.created_at}: #{current_user.default_profile.full_name} acquired #{badge ? badge.name : 'unknown'} badge"
+        badge = Badge.find(feat.progress)
+        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} acquired #{badge ? badge.name : 'unknown'} badge"
       when Feat.rating
-        @feats << "#{feat.created_at}: #{current_user.default_profile.full_name} acquired #{feat.progress} rating"
+        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} acquired #{feat.progress} rating"
       when Feat.level
-        @feats << "#{feat.created_at}: #{current_user.default_profile.full_name} reached #{feat.level} level"
+        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} reached #{feat.level} level"
       else
-        @feats << "#{feat.created_at}: #{current_user.default_profile.full_name} received feat #{feat.progess} in #{feat.progress.type} on #{feat.level}"
+        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} received feat #{feat.progess} in #{feat.progress.type}"
       end
+      @feats.last << " on #{feat.level}" if !feat.level.nil?
     end
   end
   
