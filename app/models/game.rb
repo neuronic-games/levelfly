@@ -9,7 +9,7 @@ class Game < ActiveRecord::Base
   
   def get_score(profile_id)
     # This assumes that feat records are ordered chronologically
-    feat = self.feats.where(profile_id: profile_id).last
+    feat = self.feats.where(profile_id: profile_id, progress_type: Feat.score).last
     return feat.progress if feat
     return 0
   end
