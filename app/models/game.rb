@@ -30,7 +30,7 @@ class Game < ActiveRecord::Base
   
   def self.add_top_leaders(feat, count = 50)
     add_new = true
-    leaders = GameTopLeader.where(game_id: feat.game_id).order("score desc")
+    leaders = GameScoreLeader.where(game_id: feat.game_id).order("score desc")
     last_leader = leaders.last
     if leaders.length > count 
       if last_leader.score < feat.progress

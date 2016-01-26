@@ -130,9 +130,7 @@ class GamecenterController < ApplicationController
   
   def list
     game_id = params[:game_id]
-    game = Game.find(game_id)
-    
-    
+    @leaders = GameScoreLeader.where(game_id: game_id).order("score desc")
   end
   
   def list_progress
