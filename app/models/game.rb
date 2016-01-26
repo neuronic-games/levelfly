@@ -1,5 +1,7 @@
 require 'digest'
 
+has_many :feats
+
 class Game < ActiveRecord::Base
   validates :handle, :uniqueness => true
   
