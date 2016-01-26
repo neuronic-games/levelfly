@@ -97,16 +97,16 @@ class GamecenterController < ApplicationController
         game = Game.find(game_id)
         @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} logged into #{game.name}"
       when Feat.xp
-        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} reached #{feat.progress} XP"
+        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} has a current XP of #{feat.progress}"
       when Feat.score
-        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} scored #{feat.progress} points in total"
+        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} has a current score of #{feat.progress}"
       when Feat.badge
         badge = Badge.find(feat.progress)
         @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} acquired #{badge ? badge.name : 'unknown'} badge"
       when Feat.rating
         @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} acquired #{feat.progress} rating"
       when Feat.level
-        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} reached #{feat.level} level"
+        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name}"
       else
         @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} received feat #{feat.progess} in #{feat.progress.type}"
       end
