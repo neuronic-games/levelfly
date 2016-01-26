@@ -4,6 +4,7 @@ class Game < ActiveRecord::Base
   validates :handle, :uniqueness => true
 
   has_many :feats
+  has_many :game_top_leaders
   
   after_create :generate_handle
   
@@ -25,6 +26,29 @@ class Game < ActiveRecord::Base
     feat = self.feats.where(profile_id: profile_id, progress_type: Feat.xp).last
     return feat.progress if feat
     return 0
+  end
+  
+  def self.add_top_leaders(feat, count = 50)
+    add_new = true
+    leaders = GameTopLeader.where(game_id: feat.game_id).order("score desc")
+    last_leader = leaders.last
+    if leaders.length > count 
+      if last_leader.score < feat.progress
+        # Remove the last person in the list
+        last_leader.delete
+      else
+        add_new = false
+      end
+    end
+
+    if add_new
+      leader = GameTopLeader.new
+      leader.game_id = feat.game_id
+      leader.profile_id = feat.profile_id
+      leader.full_name = feat.profile.full_name
+      leader.score = feat.progress
+      leader.save
+    end
   end
   
   private

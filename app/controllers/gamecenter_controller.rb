@@ -108,7 +108,10 @@ class GamecenterController < ApplicationController
         last_score = game.get_score(profile_id)
         feat.progress += last_score
       end
-      feat.save
+      Feat.transaction do
+        feat.save
+        Game.add_top_leaders(feat)
+      end
     when Feat.badge
       badge = Badge.find(feat.progress)
       feat.save if badge
@@ -123,6 +126,13 @@ class GamecenterController < ApplicationController
 
     render :text => { 'status' => status, 'message' => message }.to_json
 
+  end
+  
+  def list
+    game_id = params[:game_id]
+    game = Game.find(game_id)
+    
+    
   end
   
   def list_progress
