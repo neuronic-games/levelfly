@@ -1,7 +1,7 @@
-class CreateApps < ActiveRecord::Migration
+class CreateGames < ActiveRecord::Migration
   def change
-    create_table :apps do |t|
-      t.string :app_code
+    create_table :games do |t|
+      t.string :handler
       t.string :name
       t.text :descr
       t.string :image
@@ -13,12 +13,10 @@ class CreateApps < ActiveRecord::Migration
       t.boolean :archived
       t.integer :player_count
 
-      t.references :school
-
       t.timestamps
     end
 
-    add_index :apps, [:archived, :published, :school_id, :app_code]
-    add_index :apps, [:archived, :published, :school_id, :name]
+    add_index :games, [:archived, :published, :handler]
+    add_index :games, [:archived, :published, :name]
   end
 end
