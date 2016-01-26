@@ -1,3 +1,5 @@
+require 'digest'
+
 class Game < ActiveRecord::Base
   validates :handle, :uniqueness => true
   
@@ -5,7 +7,7 @@ class Game < ActiveRecord::Base
   
   private
   
-  def generate_handler
+  def generate_handle
     md5 = Digest::MD5.new
     md5 << "#{self.id}"
     self.handle = md5.hexdigest
