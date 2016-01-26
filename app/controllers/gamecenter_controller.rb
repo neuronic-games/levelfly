@@ -128,7 +128,7 @@ class GamecenterController < ApplicationController
 
   end
   
-  def list
+  def list_leaders
     game_id = params[:game_id]
     @leaders = GameScoreLeader.where(game_id: game_id).order("score desc")
   end
