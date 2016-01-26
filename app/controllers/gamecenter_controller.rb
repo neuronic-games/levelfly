@@ -86,9 +86,32 @@ class GamecenterController < ApplicationController
     game_id = params[:game_id]
     profile_id = current_user.default_profile.id
     
-    @feats = Feat.select("progress_type, progress, level, created_at")
+    feat_list = Feat.select("progress_type, progress, level, created_at")
       .where(game_id: game_id, profile_id: profile_id)
       .order("created_at desc")
+      
+    
+
+    @feats = []
+    feat_list.each do |feat|
+      case feat.progress_type
+      when Feat.login
+        @feats << "#{feat.created_at}: #{current_user.default_profile.full_name} logged in"
+      when Feat.xp
+        @feats << "#{feat.created_at}: #{current_user.default_profile.full_name} reached #{feat.progress} XP"
+      when Feat.score
+        @feats << "#{feat.created_at}: #{current_user.default_profile.full_name} scored #{feat.progress} points in total"
+      when Feat.badge
+        badge = Badge.where(:id => feat.progress)
+        @feats << "#{feat.created_at}: #{current_user.default_profile.full_name} acquired #{badge ? badge.name : 'unknown'} badge"
+      when Feat.rating
+        @feats << "#{feat.created_at}: #{current_user.default_profile.full_name} acquired #{feat.progress} rating"
+      when Feat.level
+        @feats << "#{feat.created_at}: #{current_user.default_profile.full_name} reached #{feat.level} level"
+      else
+        @feats << "#{feat.created_at}: #{current_user.default_profile.full_name} received feat #{feat.progess} in #{feat.progress.type} on #{feat.level}"
+      end
+    end
   end
   
   # Returns 50 top scores for your game
