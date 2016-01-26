@@ -1,9 +1,9 @@
 require 'digest'
 
-has_many :feats
-
 class Game < ActiveRecord::Base
   validates :handle, :uniqueness => true
+
+  has_many :feats
   
   after_create :generate_handle
   
