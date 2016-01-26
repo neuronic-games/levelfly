@@ -21,11 +21,18 @@ class Feat < ActiveRecord::Base
   
   private
   
+  # Make sure the constraints on xp and score are met before saving
   def check_xp
-    # xp cannot be more than a 1000
-    if self.progress_type == Feat.xp && self.progress > 1000
-      self.progress = 1000
+    if self.progress_type == Feat.xp
+      # xp cannot be more than a 1000
+      return false if self.progress > 1000
+      
+      # xp cannot go down
+      last_xp = game.get_xp(prodile.id)
+      return false if self.progress < last_xp
     end
+
+    return true
   end
   
 end
