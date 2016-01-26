@@ -72,7 +72,9 @@ class GamecenterController < ApplicationController
   def add_progress
     game_id = params[:game_id]
     progress = params[:progress]
-    progress_type = params[:progress_type]    
+    progress_type = params[:progress_type]
+    addition = params[:add] == "true"
+    
     level = params[:level]  # May be nil
     profile_id = current_user.default_profile.id
     
@@ -81,20 +83,38 @@ class GamecenterController < ApplicationController
     feat.progress_type = progress_type
     feat.level = level
 
-    Feat.transaction do
-      if feat.progress_type = Feat.xp
-        # Look up the last XP stored for the game. We will need to update the player's XP
-        # with the difference
-        game = Game.find(game_id)
-        last_xp = game.get_xp(profile_id)
+    # Check the value based on type
+    case feat.progress_type
+    when Feat.xp
+      # Look up the last XP stored for the game. We will need to update the player's XP
+      # with the difference
+      game = Game.find(game_id)
+      last_xp = game.get_xp(profile_id)
+      feat.progress += last_xp if addition
+      if feat.progress <= 1000
         delta_xp = feat.progress - last_xp
-        if delta_xp != 0
-          profile = Profile(profile_id)
-          profile.xp += delta_xp
-          profile.save
+        Feat.transaction do
+          if delta_xp != 0
+            profile = Profile(profile_id)
+            profile.xp += delta_xp
+            profile.save
+          end
+          feat.save
         end
       end
-
+    when Feat.score
+      if addition
+        game = Game.find(game_id)
+        last_score = game.get_score(profile_id)
+        feat.progress += last_score
+      end
+      feat.save
+    when Feat.badge
+      badge = Badge.find(feat.progress)
+      feat.save if badge
+    when Feat.rating
+      feat.save if feat.progress.between?(1, 3)
+    else
       feat.save
     end
     
