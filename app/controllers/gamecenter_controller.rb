@@ -123,7 +123,9 @@ class GamecenterController < ApplicationController
           badge = Badge.find_create_game_badge(game_id, name)
           feat.progress = badge.id
         end
+        # It's ok to receive the same badge more than once
         feat.save
+        AvatarBadge.add_badge(profile_id, feat.progress)
       end
     when Feat.rating
       feat.save if feat.progress.between?(1, 3)

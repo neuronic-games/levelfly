@@ -1,7 +1,7 @@
 class AvatarBadge < ActiveRecord::Base
 belongs_to :badges
 
-  def self.add_badge(profile_id,badge_id,course_id,giver_profile_id)
+  def self.add_badge(profile_id,badge_id,course_id = nil,giver_profile_id = nil)
     status = nil
     @student = Profile.find(profile_id)
     @badge = Badge.find(badge_id)
@@ -15,6 +15,11 @@ belongs_to :badges
     end
     @student.badge_count+=1
     @student.save
+    
+    # Game badges do not have a giver or course. We don't send out notifications
+    # because there may be a lot of game badges.
+    return status if giver_profile_id.nil? || course_id.nil?
+    
     @current_user = Profile.find_by_id(giver_profile_id)
     course = Course.find_by_id(course_id)
     content = "Congratulations! You have received a badge: #{@badge.name}"
