@@ -11,7 +11,7 @@
 <% if @avatar_badge.giver_profile_id && @avatar_badge.course_id %>
    <div style="margin-top:82px; font-size: 8pt;">Given by <%=profile_name(@avatar_badge.giver_profile_id)%> on <%=change_date_format(@avatar_badge.created_at)%> for <%=course_detail(@avatar_badge.course_id)%></div>
 <% else %>
-   <div style="margin-top:82px; font-size: 8pt;">Received on <%=h change_date_format(@avatar_badge.created_at)%> for <%=h quest_name(@avatar_badge.quest_id)%></div>
+   <div style="margin-top:82px; font-size: 8pt;">Received on <%=h change_date_format(@avatar_badge.created_at)%></div>
 <% end %>
 </div>
 <%end%>
