@@ -133,10 +133,10 @@ class GamecenterController < ApplicationController
     descr = params[:descr]
     badge_image_id = params[:badge_image_id]
 
-    game = Game.find(game_id)
-    return if game.nil?
+    @game = Game.find(game_id)
+    return if @game.nil?
 
-    descr = "New badge for #{game.name}" if descr.blank?
+    descr = "New badge for #{@game.name}" if descr.blank?
     
     @badge = Badge.where(name: name, quest_id: game_id).first
     if @badge.nil?    
