@@ -8,9 +8,9 @@ class CreateGames < ActiveRecord::Migration
       t.string :last_rev
       t.datetime :last_rev_date
       t.integer :player_count,        :default => 0
-      t.boolean :published
+      t.boolean :published,           :default => false
       t.datetime :first_publish_date
-      t.boolean :archived
+      t.boolean :archived,            :default => false
 
       t.timestamps
     end
