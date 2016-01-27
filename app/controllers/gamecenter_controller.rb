@@ -125,7 +125,26 @@ class GamecenterController < ApplicationController
     status = Gamecenter::SUCCESS
 
     render :text => { 'status' => status, 'message' => message }.to_json
+  end
+  
+  def add_game_badge
+    game_id = params[:game_id]
+    name = params[:name]
+    descr = params[:descr]
+    badge_image_id = params[:badge_image_id]
 
+    game = Game.find(game_id)
+    return if game.nil?
+
+    badge_image_id = 1 if badge_image_id.to_i == 0
+    descr = "New badge for #{game.name}" if descr.blank?
+    
+    @badge = Badge.new
+    @badge.name = name
+    @badge.badge_image_id = 1  # 1st_prize.png
+    @badge.quest_id = game_id  # We can use quest_id for storing game_id for now. But if we want to use if for other purposes, we need quest_type
+    
+    @badge.save
   end
   
   def list_leaders
