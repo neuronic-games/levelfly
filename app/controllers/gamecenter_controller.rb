@@ -136,13 +136,18 @@ class GamecenterController < ApplicationController
     game = Game.find(game_id)
     return if game.nil?
 
-    badge_image_id = 1 if badge_image_id.to_i == 0
     descr = "New badge for #{game.name}" if descr.blank?
     
-    @badge = Badge.new
-    @badge.name = name
-    @badge.badge_image_id = 1  # 1st_prize.png
-    @badge.quest_id = game_id  # We can use quest_id for storing game_id for now. But if we want to use if for other purposes, we need quest_type
+    @badge = Badge.where(name: name, quest_id: game_id).first
+    if @badge.nil?    
+      @badge = Badge.new
+      @badge.name = name
+      badge_image_id = 1 if badge_image_id.to_i == 0
+      @badge.badge_image_id = badge_image_id
+      @badge.quest_id = game_id  # We can use quest_id for storing game_id for now. But if we want to use if for other purposes, we need quest_type
+    else
+      @badge.badge_image_id = badge_image_id unless badge_image_id.to_i == 0
+    end
     
     @badge.save
   end
