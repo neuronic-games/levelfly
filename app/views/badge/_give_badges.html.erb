@@ -35,7 +35,7 @@
               <% @last_used.each do |b|%>
               <div class="badgeselctdiv" id="last_used_<%=b.id%>"> 
                 <div class="supernote-hover-demo1">
-                  <div class="badge_imgdiv given_badge" id="l_<%=b.id%>" ><img src="images/badges/<%=b.badge_image.image_file_name%>"/> </div> 
+                  <div class="badge_imgdiv given_badge" id="l_<%=b.id%>" ><img src="<%=b.badge_image.image_file_path%>"/> </div> 
                     <div class="badge_cont" style="word-break:normal; word-wrap:normal; max-width:150px;"><%=b.name.truncate(40)%></div> 
                   <div class="clear"></div>
                 </div>
@@ -61,7 +61,7 @@
                 <% @badges.each do |b|%>
                 <div class="badgeselctdiv" id="all_<%=b.id%>"> 
                   <div class="supernote-hover-demo1">
-                    <div class="badge_imgdiv given_badge" id="a_<%=b.id%>" ><img src="images/badges/<%=b.badge_image.image_file_name%>"/> </div> 
+                    <div class="badge_imgdiv given_badge" id="a_<%=b.id%>" ><img src="<%=b.badge_image.image_file_path%>"/> </div> 
                       <div class="badge_cont" style="word-break:break-all; word-wrap:break-word; max-width:150px;" ><%=b.name.truncate(40)%></div> 
                     <div class="clear"></div>
                   </div>
