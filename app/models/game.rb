@@ -28,8 +28,20 @@ class Game < ActiveRecord::Base
     return 0
   end
   
+  # Add the score feat to the leaderboard, if the user is not already on it
   def self.add_score_leader(feat, count = 50)
     add_new = true
+    
+    # Update the leader if they are already in the leaderboard
+    leader = GameScoreLeader.where(game_id: feat.game_id, profile_id: feat.profile_id)
+    if leader and leader.score < feat.progress
+      leader.score = feat.progress
+      leader.full_name = feat.profile.full_name  # In case the name has changed
+      leader.save
+      return
+    end
+    
+    # Else, check to see if the person should be added
     leaders = GameScoreLeader.where(game_id: feat.game_id).order("score desc")
     last_leader = leaders.last
     if leaders.length > count 
