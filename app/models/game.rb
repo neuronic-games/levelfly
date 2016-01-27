@@ -33,7 +33,7 @@ class Game < ActiveRecord::Base
     add_new = true
     
     # Update the leader if they are already in the leaderboard
-    leader = GameScoreLeader.where(game_id: feat.game_id, profile_id: feat.profile_id)
+    leader = GameScoreLeader.where(game_id: feat.game_id, profile_id: feat.profile_id).first
     if leader and leader.score < feat.progress
       leader.score = feat.progress
       leader.full_name = feat.profile.full_name  # In case the name has changed
