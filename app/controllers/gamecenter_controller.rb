@@ -71,8 +71,13 @@ class GamecenterController < ApplicationController
   # Adds a player's progress to a game by creating a Feat record
   def add_progress
     game_id = params[:game_id]
+    if game_id.to_i == 0
+      game_id = Game.select(:id).where(handle: game_id)
+    end
+
     progress = params[:progress]
     progress_type = params[:progress_type]
+    name = params[:name]
     addition = params[:add] == "true"
     
     level = params[:level]  # May be nil
@@ -113,8 +118,13 @@ class GamecenterController < ApplicationController
         Game.add_score_leader(feat)
       end
     when Feat.badge
-      badge = Badge.find(feat.progress)
-      feat.save if badge
+      Feat.transaction do
+        if feat.progress.nil?
+          badge = Badge.find_create_game_badge(game_id, name)
+          feat.progress = badge.id
+        end
+        feat.save
+      end
     when Feat.rating
       feat.save if feat.progress.between?(1, 3)
     else
@@ -129,28 +139,15 @@ class GamecenterController < ApplicationController
   
   def add_game_badge
     game_id = params[:game_id]
+    if game_id.to_i == 0
+      game_id = Game.select(:id).where(handle: game_id)
+    end
+
     name = params[:name]
     descr = params[:descr]
     badge_image_id = params[:badge_image_id]
 
-    @game = Game.find(game_id)
-    return if @game.nil?
-
-    @badge = Badge.where(name: name, quest_id: game_id).first
-    if @badge.nil?    
-      @badge = Badge.new
-      @badge.name = name
-      descr = "New badge for #{@game.name}" if descr.blank?
-      @badge.descr = descr
-      badge_image_id = 1 if badge_image_id.to_i == 0
-      @badge.badge_image_id = badge_image_id
-      @badge.quest_id = game_id  # We can use quest_id for storing game_id for now. But if we want to use if for other purposes, we need quest_type
-    else
-      @badge.descr = descr unless descr.blank?
-      @badge.badge_image_id = badge_image_id unless badge_image_id.to_i == 0
-    end
-    
-    @badge.save
+    @badge = Badge.find_create_game_badge(game_id, name, descr, badge_image_id)
   end
   
   def list_leaders
