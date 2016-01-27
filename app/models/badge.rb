@@ -60,6 +60,7 @@ has_many :avatar_badges
     return gold_badge.id
   end
 
+  # Use this to find (and create) a game badge
   def self.find_create_game_badge(game_id, name, descr = nil, badge_image_id = nil)
     game = Game.find(game_id)
     return if game.nil?
