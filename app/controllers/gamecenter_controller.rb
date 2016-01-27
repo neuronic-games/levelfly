@@ -138,6 +138,8 @@ class GamecenterController < ApplicationController
   end
   
   def list_progress
+    limit = params[:count]
+    limit = 100 if limit.nil?
     game_id = params[:game_id]
     if game_id.to_i == 0
       game_id = Game.select(:id).where(handle: game_id)
@@ -148,6 +150,7 @@ class GamecenterController < ApplicationController
     feat_list = Feat.select("progress_type, progress, level, created_at")
       .where(game_id: game_id, profile_id: profile_id)
       .order("created_at desc")
+      .limit(limit)
 
     @feats = []
     feat_list.each do |feat|
