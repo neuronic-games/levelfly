@@ -52,7 +52,7 @@
           <%badge = Badge.badge_detail(b.badge_id)%>
             <% if badge and !badge.nil?%>
             <li>
-             <div class="SI_icon"><img src="images/badges/<%=badge.badge_image.image_file_name%>"class="icon_style_badge hover badge_details" id="<%=b.id%>"/></div>
+             <div class="SI_icon"><img src="<%=badge.badge_image.image_file_path%>"class="icon_style_badge hover badge_details" id="<%=b.id%>"/></div>
               <span class="text_style_badge"><%=badge.name%></span>
             </li>
             <%end%>
