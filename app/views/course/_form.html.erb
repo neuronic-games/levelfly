@@ -295,18 +295,16 @@ $(document).ready(function(){
 
          success : function(data) {
             $("#confirm_box").hide();
-            $("#container").load("/course/?section_type="+section_type, function() {
+            $("#container").load("/course?section_type=" + section_type, function() {
               showSpinner(false);
             });
          },
 
-         error: function()
-         {
+         error: function() {
            alert("An error has occured");
            showSpinner(false);
-         },
+         }
        });
-   });
        
    <% else %>
 
