@@ -1,7 +1,8 @@
 <% if @tasks.nil? %>
   ERROR: Nil @tasks
 <% else %>
-  <%= render :partial => "task_list_page", :locals => { :tasks => @tasks } %>
+  <%= render :partial => "task_list_page" %>
+  <%#= render :partial => "task_list_page", :locals => { :tasks => @tasks } %>
 <% end %>
 <!-- Warning pop for remove task -->
 <div id="warning_msg_remove" class="add_task_popup" style="display:none;position:fixed;z-index:10000">
