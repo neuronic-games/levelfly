@@ -4,8 +4,11 @@ class TaskController < ApplicationController
   layout 'main'
   before_filter :authenticate_user!
   before_filter :check_role,:only=>[:new, :save]
+  
   def index
+    @tasks = []
     @profile = current_profile
+    puts "current_profile: #{current_profile}"
     if @profile
       @courses = Course.find(
         :all,
