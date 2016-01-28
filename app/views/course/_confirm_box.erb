@@ -26,9 +26,13 @@
           url: "/course/set_archive",
           dataType: "json",
           data:{id:course_id},
-          success: function(data) {
-            showSpinner(false);
+
+          success : function(data) {
             $("#confirm_box").hide();
+            $("#container").load("/course/?section_type="+section_type, function() {
+              showSpinner(false);
+            });
+
           },
           error: function()
           {
