@@ -8,7 +8,6 @@ class TaskController < ApplicationController
   def index
     @tasks = []
     @profile = current_profile
-    puts "current_profile: #{current_profile}"
     if @profile
       @courses = Course.find(
         :all,
@@ -26,7 +25,6 @@ class TaskController < ApplicationController
         # Check if the user was working on a details page before, and redirect if so
         return if redirect_to_last_action(@profile, 'task', '/task/show')
         @tasks = Task.filter_by(@profile.id, "", "current")
-        puts @tasks.to_yaml
       end
     end
 
@@ -34,7 +32,7 @@ class TaskController < ApplicationController
       wants.html do
         if request.xhr?
           if search_render
-            render :partial => "/task/task_list", :locals => {:t=>@tasks}
+            render :partial => "/task/task_list" #, :locals => {:t=>@tasks}
           else
             render :partial => "/task/list"
           end
