@@ -1,4 +1,7 @@
+Task Count = <%=h @tasks.count %><br />
+
 <% @tasks.each do |t| %>
+Task = <%=h t %>
   <% participant = t.task_participants[0] %>
   <div class="task_list_content clipboard_list" task_id="<%=t.id%>" style="min-height:100px;">
     <div class="list_hover" style="margin-top:70px; margin-left:150px;">
