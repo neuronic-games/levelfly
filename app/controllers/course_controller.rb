@@ -772,7 +772,7 @@ class CourseController < ApplicationController
       @course = Course.find(params[:id])
       if @course
         
-        if unarchive && @course.parent_type <> Course.parent_type_forum
+        if unarchive && @course.parent_type != Course.parent_type_forum
           @course.update_attribute('archived', false)
         else
           @course.update_attribute('archived', true)
