@@ -10,7 +10,7 @@
   <% @games.each do |game| %> 
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
       <div class="LBT_ava">
-        <div class="avatarWbdr"><img src="<%=h game.image %>" class="app" profile_id="<%=h game.id %>" /></div>
+        <div class="avatarWbdr"><img src="/images/course_img_default.jpg" class="app" profile_id="<%=h game.id %>" /></div>
       </div>
       <div class="LBT_name"> <span class="name_txt"><%=h game.name %> </span><br />
         <span class="course_txt">HANDLE: <%=h game.handle %></span> </div>
