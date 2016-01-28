@@ -273,6 +273,8 @@ class GamecenterController < ApplicationController
     @game.name = "Application Name"
     @game.descr = "Description"
     @game.last_rev = "v 1.0"
+    @game.archived = false
+    @game.published = false
     
     render :partial => "/gamecenter/form"
   end

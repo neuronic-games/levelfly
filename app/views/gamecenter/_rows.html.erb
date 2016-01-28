@@ -10,16 +10,16 @@
 <% unless @games.nil? %>
   <% @games.each do |game| %> 
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
-      <div class="LBT_rank"><%= game.handle %></div>
+      <div class="LBT_rank"><%=h game.handle %></div>
       <div class="LBT_ava">
-        <div class="avatarWbdr"><img src="<%= game.image_file_name%>" class="app" profile_id="<%= game.id %>" /></div>
+        <div class="avatarWbdr"><img src="<%=h game.image %>" class="app" profile_id="<%=h game.id %>" /></div>
       </div>
-      <div class="LBT_name"> <span class="name_txt"><%= game.name %> </span><br />
-        <span class="course_txt"><%= game.descr %></span> </div>
-      <div class="LBT_level"><%= game.first_publish_date %></div>
-      <div class="LBT_xp"><%= game.last_rev_date %></div>
-      <div class="LBT_badges"><%= game.last_rev %></div>
-      <div class="LBT_Likes"><%= game.player_count %></div>
+      <div class="LBT_name"> <span class="name_txt"><%=h game.name %> </span><br />
+        <span class="course_txt"><%=h game.descr %></span> </div>
+      <div class="LBT_level"><%=h game.first_publish_date %></div>
+      <div class="LBT_xp"><%=h game.last_rev_date %></div>
+      <div class="LBT_badges"><%=h game.last_rev %></div>
+      <div class="LBT_Likes"><%=h game.player_count %></div>
     </div>
   <% end %>
 <% end %>  
