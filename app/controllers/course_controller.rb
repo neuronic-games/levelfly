@@ -767,11 +767,18 @@ class CourseController < ApplicationController
   end
 
   def set_archive
+    unarchive = params[:unarchive]
     if params[:id] && !params[:id].blank?
       @course = Course.find(params[:id])
       if @course
-        @course.update_attribute('archived',true)
-        @course.update_attribute('removed',true) if @course.parent_type == 'F'
+        
+        if unarchive && @course.parent_type <> Course.parent_type_forum
+          @course.update_attribute('archived', false)
+        else
+          @course.update_attribute('archived', true)
+          @course.update_attribute('removed', true) if @course.parent_type == Course.parent_type_forum
+        end
+
         render :json => {:status => "Success"}
       end
     end
