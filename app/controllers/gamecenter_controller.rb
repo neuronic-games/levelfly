@@ -251,7 +251,7 @@ class GamecenterController < ApplicationController
     filter = params[:filter]
     
     school_id = @profile.school_id
-    conditions = ["apps.handle is not null"]
+    conditions = ["games.handle is not null"]
 
     if filter == "active"
       conditions[0] += " and apps.archived = ?"
@@ -261,18 +261,18 @@ class GamecenterController < ApplicationController
       conditions << true
     end
         
-    @apps = Game.find(:all, :conditions => conditions,
+    @games = Game.find(:all, :conditions => conditions,
       :order => "name")
     
     render :partial => "/gamecenter/rows"
   end
   
   def add_game
-    @app = Game.new
+    @game = Game.new
     
-    @app.name = "Application Name"
-    @app.descr = "Description"
-    @app.last_rev = "v 1.0"
+    @game.name = "Application Name"
+    @game.descr = "Description"
+    @game.last_rev = "v 1.0"
     
     render :partial => "/gamecenter/form"
   end

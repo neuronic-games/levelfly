@@ -1,5 +1,5 @@
 <div class="LB_tableheader">
-  <div class="LBT_rank">APP ID</div>
+  <div class="LBT_rank">HANDLE</div>
   <div class="LBT_ava"> &nbsp;</div>
   <div class="LBT_name">&nbsp;</div>
   <div class="LBT_level">CREATED</div>
@@ -7,19 +7,19 @@
   <div class="LBT_badges">REVISION</div>
   <div class="LBT_Likes">PLAYERS</div>
 </div>
-<% unless @ppas.nil? %>
-  <% @apps.each do |app| %> 
+<% unless @games.nil? %>
+  <% @games.each do |game| %> 
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
-      <div class="LBT_rank"><%= app.app_code %></div>
+      <div class="LBT_rank"><%= game.handle %></div>
       <div class="LBT_ava">
-        <div class="avatarWbdr"><img src="<%= app.image_file_name%>" class="app" profile_id="<%= app.id %>" /></div>
+        <div class="avatarWbdr"><img src="<%= game.image_file_name%>" class="app" profile_id="<%= game.id %>" /></div>
       </div>
-      <div class="LBT_name"> <span class="name_txt"><%= app.name %> </span><br />
-        <span class="course_txt"><%= app.descr %></span> </div>
-      <div class="LBT_level"><%= app.first_publish_date %></div>
-      <div class="LBT_xp"><%= app.last_rev_date %></div>
-      <div class="LBT_badges"><%= app.last_rev %></div>
-      <div class="LBT_Likes"><%= app.player_count %></div>
+      <div class="LBT_name"> <span class="name_txt"><%= game.name %> </span><br />
+        <span class="course_txt"><%= game.descr %></span> </div>
+      <div class="LBT_level"><%= game.first_publish_date %></div>
+      <div class="LBT_xp"><%= game.last_rev_date %></div>
+      <div class="LBT_badges"><%= game.last_rev %></div>
+      <div class="LBT_Likes"><%= game.player_count %></div>
     </div>
   <% end %>
 <% end %>  
