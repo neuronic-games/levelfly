@@ -292,10 +292,13 @@ $(document).ready(function(){
          url: "/course/set_archive",
          dataType: "json",
          data: { id: course_id, unarchive: true },
-         success: function(data) {
-           showSpinner(false);
-           $("#confirm_box").hide();
-         },
+
+         success : function(data) {
+            $("#confirm_box").hide();
+            $("#container").load("/course/?section_type="+section_type, function() {
+              showSpinner(false);
+            });
+
          error: function()
          {
            alert("An error has occured");
