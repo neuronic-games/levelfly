@@ -9,11 +9,13 @@
 <% unless @games.nil? %>
   <% @games.each do |game| %> 
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
-      <div class="LBT_ava avatar_white_bdrC2task">
-        <img src="/images/course_img_default.jpg" class="app" width="100" height="100" profile_id="<%=h game.id %>" />
+      <div class="LBT_ava">
+        <img src="/images/course_img_default.jpg" class="app" profile_id="<%=h game.id %>" />
       </div>
       <div class="LBT_name"> <span class="name_txt"><%=h game.name %> </span><br />
-        <span class="course_txt">HANDLE: <%=h game.handle %></span> </div>
+        <span class="course_txt"><%=h game.descr %></span><br />
+        <br />
+        <span class="course_txt">HANDLE: <strong><%=h game.handle %></strong></span> </div>
       <div class="LBT_level"><%=h game.first_publish_date %></div>
       <div class="LBT_xp"><%=h game.last_rev_date %></div>
       <div class="LBT_badges"><%=h game.last_rev %></div>
