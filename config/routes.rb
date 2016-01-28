@@ -443,7 +443,7 @@ Oncapus::Application.routes.draw do
   
   match 'gamecenter' => 'gamecenter#index'
 
-  get 'gamecenter/:game_id/:action' => 'gamecenter#:action'
+  get 'gamecenter/:handle/:action' => 'gamecenter#:action'
   get "gamecenter/status"
   get "gamecenter/connect"
   get "gamecenter/get_rows"

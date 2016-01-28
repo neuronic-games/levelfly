@@ -48,7 +48,7 @@ class GamecenterController < ApplicationController
   
   # Returns the current user that was authenticated
   def get_current_user
-    game_id = params[:game_id]
+    handle = params[:handle]
     message = ""
     status = Gamecenter::FAILURE
     user = {}
@@ -58,7 +58,7 @@ class GamecenterController < ApplicationController
     if current_user
       status = Gamecenter::SUCCESS
       profile = current_user.default_profile
-      game = Game.find(game_id)
+      game = Game.find_by_handle(handle)
       score = game.get_score(profile.id)
       xp = game.get_xp(profile.id)
       message = "#{profile.full_name} signed in"
@@ -70,11 +70,16 @@ class GamecenterController < ApplicationController
 
   # Adds a player's progress to a game by creating a Feat record
   def add_progress
-    game_id = params[:game_id]
-    if game_id.to_i == 0
-      game_id = Game.select(:id).where(handle: game_id)
-    end
+    handle = params[:handle]
+    game = Game.find_by_handle(handle)
+    if game.nil?
+      message = "Game with handle #{handle} does not exist"
+      status = Gamecenter::FAILURE
 
+      render :text => { 'status' => status, 'message' => message }.to_json
+      return
+    end
+    
     progress = params[:progress]
     progress_type = params[:progress_type]
     name = params[:name]
@@ -83,7 +88,7 @@ class GamecenterController < ApplicationController
     level = params[:level]  # May be nil
     profile_id = current_user.default_profile.id
     
-    feat = Feat.new(:game_id => game_id, :profile_id => profile_id)
+    feat = Feat.new(:game_id => game.id, :profile_id => profile_id)
     feat.progress = progress
     feat.progress_type = progress_type
     feat.level = level
@@ -93,7 +98,6 @@ class GamecenterController < ApplicationController
     when Feat.xp
       # Look up the last XP stored for the game. We will need to update the player's XP
       # with the difference
-      game = Game.find(game_id)
       last_xp = game.get_xp(profile_id)
       feat.progress += last_xp if addition
       if feat.progress <= 1000
@@ -109,7 +113,6 @@ class GamecenterController < ApplicationController
       end
     when Feat.score
       if addition
-        game = Game.find(game_id)
         last_score = game.get_score(profile_id)
         feat.progress += last_score
       end
@@ -120,7 +123,7 @@ class GamecenterController < ApplicationController
     when Feat.badge
       Feat.transaction do
         if feat.progress.nil?
-          badge = Badge.find_create_game_badge(game_id, name)
+          badge = Badge.find_create_game_badge(game.id, name, "New badge for #{game.name}")
           feat.progress = badge.id
         end
         # It's ok to receive the same badge more than once
@@ -133,54 +136,61 @@ class GamecenterController < ApplicationController
       feat.save
     end
     
-    message = "Progress recorded for game #{game_id} for user profile #{current_user.default_profile.id}"
+    message = "Progress recorded for game #{game.name} for user profile #{current_user.default_profile.id}"
     status = Gamecenter::SUCCESS
 
     render :text => { 'status' => status, 'message' => message }.to_json
   end
   
   def add_game_badge
-    game_id = params[:game_id]
-    if game_id.to_i == 0
-      game_id = Game.select(:id).where(handle: game_id)
+    handle = params[:handle]
+    game = Game.find_by_handle(handle)
+    if game.nil?
+      message = "Game with handle #{handle} does not exist"
+      status = Gamecenter::FAILURE
+
+      render :text => { 'status' => status, 'message' => message }.to_json
+      return
     end
 
     name = params[:name]
     descr = params[:descr]
+    descr = "New badge for #{game.name}" if descr.blank?
     badge_image_id = params[:badge_image_id]
 
-    @badge = Badge.find_create_game_badge(game_id, name, descr, badge_image_id)
+    @badge = Badge.find_create_game_badge(game.id, name, descr, badge_image_id)
   end
   
   def list_leaders
-    game_id = params[:game_id]
-    if game_id.to_i == 0
-      game_id = Game.select(:id).where(handle: game_id)
-    end
+    @leaders = []
+    
+    handle = params[:handle]
+    game = Game.find_by_handle(handle)
+    return if game.nil?
 
-    @leaders = GameScoreLeader.where(game_id: game_id).order("score desc")
+    @leaders = GameScoreLeader.where(game_id: game.id).order("score desc")
   end
   
   def list_progress
+    @feats = []
+
+    handle = params[:handle]
+    game = Game.find_by_handle(handle)
+    return if game.nil?
+
     limit = params[:count]
     limit = 100 if limit.nil?
-    game_id = params[:game_id]
-    if game_id.to_i == 0
-      game_id = Game.select(:id).where(handle: game_id)
-    end
 
     profile_id = current_user.default_profile.id
     
     feat_list = Feat.select("progress_type, progress, level, created_at")
-      .where(game_id: game_id, profile_id: profile_id)
+      .where(game_id: game.id, profile_id: profile_id)
       .order("created_at desc")
       .limit(limit)
 
-    @feats = []
     feat_list.each do |feat|
       case feat.progress_type
       when Feat.login
-        game = Game.find(game_id)
         @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} logged into #{game.name}"
       when Feat.xp
         @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} has a current XP of #{feat.progress}"
