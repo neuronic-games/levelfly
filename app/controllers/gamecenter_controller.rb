@@ -254,10 +254,10 @@ class GamecenterController < ApplicationController
     conditions = ["games.handle is not null"]
 
     if filter == "active"
-      conditions[0] += " and apps.archived = ?"
+      conditions[0] += " and games.archived = ?"
       conditions << false
     elsif filter == "archived"
-      conditions[0] += " and apps.archived = ?"
+      conditions[0] += " and games.archived = ?"
       conditions << true
     end
         
