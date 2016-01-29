@@ -135,7 +135,7 @@ class TaskController < ApplicationController
     respond_to do |wants|
       wants.html do
         if request.xhr?
-          render :partial => "/task/form"
+          render :partial => "/task/form?course_id=<%=h @course.id if @course %>"
         else
           render
         end
