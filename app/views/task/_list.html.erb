@@ -21,7 +21,7 @@
               <optgroup label="By Course">
                 <% unless @courses.nil? %>
                   <% @courses.each do |c| %> 
-                  <option value="<%= c.id %>"  <% if defined?(course_id) %><%if c.id == course_id.to_i %> selected <%end%><%end%>><%= c.name %></option>
+                  <option value="<%= c.id %>"  <% if defined?(course_id) %><%if c.id == course_id.to_i %> selected <%end%><%end%>><%= c.name %> <%=h course_id.to_i %>, <%=h c.id == course_id.to_i %></option>
                   <% end %>
                 <% end %>
               </optgroup>
