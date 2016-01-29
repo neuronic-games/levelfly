@@ -56,7 +56,7 @@ class TaskController < ApplicationController
     respond_to do |wants|
       wants.html do
         if request.xhr?
-          render :partial => "/task/form" ,:locals=>{:task_new => true}
+          render :partial => "/task/form" ,:locals=>{:task_new => true, :course_id => params[:course_id]}
         else
           render
         end
