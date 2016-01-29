@@ -243,7 +243,7 @@ function addNode(element) {
                       <select name="course" id="course" class="clipboard_select width175px">
                         <option value="<%= @no_course.id %>"><%= @no_course.name %></option>
                         <% @courses.each do |c| %>
-                        <option value="<%= c.id %>" <%= "selected" if course_id==c.id %>><%=h c.name %>, <%=h course_id %>, <%=h course_id==c.id %></option>
+                        <option value="<%= c.id %>" <%= "selected" if course_id.to_i==c.id %>><%=h c.name %></option>
                         <% end %>
                       </select>
                       <div class="form_error hide">Select a course.</div>
