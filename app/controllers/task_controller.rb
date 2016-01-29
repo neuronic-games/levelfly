@@ -469,7 +469,10 @@ class TaskController < ApplicationController
         :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'S' AND users.status != 'D'", params[:course_id]],
         :order => "profiles.full_name"
       )
-      all_tasks = Task.filter_by(@course.owner.id,@course.id,"").collect(&:points)
+      all_tasks = []
+      if @course.owner
+        Task.filter_by(@course.owner.id,@course.id,"").collect(&:points)
+      end
       @tasks_created = all_tasks.count
       @allocated_points = all_tasks.sum
       @remaining_points = 1000 - @allocated_points
