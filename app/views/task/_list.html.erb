@@ -57,7 +57,7 @@
 <div id="sidebar_right">
   <div class="task_side_buttons">
    <%if Role.check_permission(@profile.id,"T") == true%>
-      <a class="big_blue_btn menu_btn" name="menu_btn_add" id="menu_btn_add" rel="/task/new<% if !course_id.nil? %>?course_id=<%=h course_id %><% end %>" href="javascript:void(0)">ADD</a>
+      <a class="big_blue_btn menu_btn" name="menu_btn_add" id="menu_btn_add" rel="/task/new" href="javascript:void(0)">ADD</a>
   <%end%>
   </div><!-- crud_level -->
 </div>
