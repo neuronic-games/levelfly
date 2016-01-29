@@ -24,7 +24,7 @@ class TaskController < ApplicationController
       else
         # Check if the user was working on a details page before, and redirect if so
         return if redirect_to_last_action(@profile, 'task', '/task/show')
-        @tasks = Task.filter_by(@profile.id, "", "current")
+        @tasks = Task.filter_by(@profile.id, params[:course_id], "current")
       end
     end
 
