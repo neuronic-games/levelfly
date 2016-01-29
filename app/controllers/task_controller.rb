@@ -95,7 +95,10 @@ class TaskController < ApplicationController
 		else
 			@files = @task.attachments.where("owner_id IN (?)", [@profile.id, @task_owner.id]).order("starred desc")
 		end
-    all_tasks = Task.filter_by(@course.owner.id,@course.id,"").collect(&:points)
+    all_tasks = []
+    if @course.owner
+      all_tasks = Task.filter_by(@course.owner.id,@course.id,"").collect(&:points)
+    end
     @tasks_created = all_tasks.count
     @allocated_points = all_tasks.sum
     @remaining_points = 1000 - @allocated_points
