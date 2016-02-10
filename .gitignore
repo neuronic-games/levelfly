@@ -39,3 +39,6 @@ db/schema.rb
 ehthumbs.db
 Icon?
 Thumbs.db
+
+# Vagrant
+.vagrant
