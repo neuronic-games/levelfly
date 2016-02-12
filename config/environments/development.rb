@@ -5,8 +5,10 @@ Oncapus::Application.configure do
   config.before_configuration do
     aws_env_file = Rails.root.join('config', 'application.yml').to_s
     if File.exists?(aws_env_file)
+      puts "Environment variables loaded from #{aws_env_file}"
       YAML.load_file(aws_env_file).each do |k, v|
         ENV[k.to_s] = v
+        puts "#{k.to_s} = #{v}"
       end
     end
   end
