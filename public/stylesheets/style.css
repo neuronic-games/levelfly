@@ -2977,7 +2977,7 @@ filter:alpha(opacity="0");
 
 .GB_odd .GB_Outcome_tdbg td{ background-image:url(../images/GB_transparentbg.png); padding:0px !important; border-right:2px solid #c4c8d2; }
 .pdgnone { padding:0px !important;}
-.rotate_text {writing-mode:tb-rl;
+.rotate_text {/*writing-mode:tb-rl;*/
 	-webkit-transform:rotate(90deg);
 	-moz-transform:rotate(90deg);
 
