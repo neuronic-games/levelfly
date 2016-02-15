@@ -175,4 +175,13 @@ class Profile < ActiveRecord::Base
     ).uniq
   end
 
+  # Calculates the total xp that can be received for given course
+  def total_xp(course_id)
+    total_xp = 0
+    self.task_participants.each do |tp|
+      total_xp += tp.task.points
+    end
+    return total_xp
+  end
+  
 end
