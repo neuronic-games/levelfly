@@ -306,8 +306,7 @@ end
         :select => ["profiles.full_name,participants.id,participants.profile_id"])
       if not @participant.nil?
         @participant.each do |p|
-          p["xp"] = p.profile.xp
-          p["total_xp"] = p.profile.total_xp(course_id)
+          (p["xp"], p["total_xp"]) = p.profile.total_xp(course_id)
           p["like_received"] = p.profile.total_like(course_id)
           p["badge_count"] = p.profile.avatar_badges.count
           p["badges"] = p.profile.avatar_badges.collect{|x| x.badge.image_url}
