@@ -1149,11 +1149,13 @@ function displayAchievements(data) {
       //rows_note.addClass("");
       rows_note.addClass("light_row")
     }
-    var content = "XP: " + value.xp + "/" + value.total_xp
-    content += "  LIKES: " + value.like_received
+    var content = '<span>'
+    content += '<img src="/images/xp-28.png" height="15" style="vertical-align: middle;"> ' + value.xp + "/" + value.total_xp
+    content += ' <img src="/images/fav.png" height="15" style="vertical-align: middle;"> ' + value.like_received
     for (i = 0; i < value.badges.length; i++) {
-      content += ' <img src="' + value.badges[i] + '" height="30px;">'
+      content += ' <img src="' + value.badges[i] + '" height="32" style="vertical-align: middle;">'
     }
+    content += '</span>'
     
     var div_note = $("<div>"+content+"</div>");
     div_note.addClass("gb_achievement_cell");
