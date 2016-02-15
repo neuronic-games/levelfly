@@ -298,14 +298,16 @@ end
   end
 
   def load_achievements
-    if params[:course_id] && !params[:course_id].blank?
+    course_id = params[:course_id]
+    if course_id && !course_id.blank?
       @profile = Profile.find(user_session[:profile_id])
       @participant = Participant.all( :joins => [:profile => :user],
-        :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", params[:course_id]],
+        :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", course_id],
         :select => ["profiles.full_name,participants.id,participants.profile_id"])
       if not @participant.nil?
         @participant.each do |p|
           p["xp"] = p.profile.xp
+          p["total_xp"] = p.profile.total_xp(course_id)
           p["like_received"] = p.profile.like_received
           p["badge_count"] = p.profile.avatar_badges.count
           p["badges"] = p.profile.avatar_badges.collect{|x| x.badge.image_url}

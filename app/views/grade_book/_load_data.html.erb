@@ -1149,7 +1149,7 @@ function displayAchievements(data) {
       //rows_note.addClass("");
       rows_note.addClass("light_row")
     }
-    var content = "XP: " + value.xp
+    var content = "XP: " + value.xp + "/" + value.total_xp
     content += "  LIKES: " + value.like_received
     for (i = 0; i < value.badges.length; i++) {
       content += ' <img src="' + value.badges[i] + '" height="30px;">'
