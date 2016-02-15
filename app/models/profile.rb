@@ -11,6 +11,8 @@ class Profile < ActiveRecord::Base
 
   has_many :feats
   has_many :game_score_leaders
+  
+  has_many :avatar_badges
 
   acts_as_taggable
 
