@@ -3100,7 +3100,7 @@ input[type="button"].grading_Btn4 {
 .Grade_left_panel{
 	float:left;
 	height:auto;
-	width: 69%;/*60*/
+	width: 300px;
 }
 .Grade_right_panel{
 	float:left;
@@ -3122,6 +3122,15 @@ input[type="button"].grading_Btn4 {
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
+}
+
+.gb_achievement_cell {
+  padding-left: 7px;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
 .GB_left_table{

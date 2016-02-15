@@ -5,7 +5,5 @@
 # below each fixture, per the syntax in the comments below
 #
 admin:
-  email: admin@neuronicgames.com
-  # Default password is "changeme"
-  encrypted_password: $2a$10$4IVf8IrE6nBJ58wFlsYPau9l0Sl/WXMuRGAhAPXm05i0dGT4nRayG
+  email: tam@neuronicgames.com
   

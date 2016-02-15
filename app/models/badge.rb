@@ -78,5 +78,9 @@ has_many :avatar_badges
     
     return badge
   end
+  
+  def image_url
+    return badge_image.image_file_path
+  end
 
 end

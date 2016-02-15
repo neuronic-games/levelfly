@@ -255,6 +255,8 @@ Oncapus::Application.routes.draw do
 
   post "grade_book/load_notes"
 
+  post "grade_book/load_achievements"
+
   post "grade_book/save_notes"
 
   post "grade_book/course_outcomes"

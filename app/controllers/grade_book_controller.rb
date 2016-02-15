@@ -297,6 +297,25 @@ end
     end
   end
 
+  def load_achievements
+    if params[:course_id] && !params[:course_id].blank?
+      @profile = Profile.find(user_session[:profile_id])
+      @participant = Participant.all( :joins => [:profile => :user],
+        :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", params[:course_id]],
+        :select => ["profiles.full_name,participants.id,participants.profile_id"])
+      if not @participant.nil?
+        @participant.each do |p|
+          p["xp"] = p.profile.xp
+          p["like_received"] = p.profile.like_received
+          p["badge_count"] = p.profile.avatar_badges.count
+          p["badges"] = p.profile.avatar_badges.collect{|x| x.badge.image_url}
+        end
+      end
+      @count = @participant.count
+      render :json => {:participant => @participant,:count => @count}
+    end
+  end
+  
   #Save Notes for praticipants
   def save_notes
     if params[:course_id] && !params[:course_id].blank?

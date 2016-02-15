@@ -25,7 +25,7 @@ def generate_users(count, u_school, p_school, role_name)
 end
 
 demo = School.create(:name => 'Borough of Manhattan Community College', :code => 'BMCC', :handle => 'demo')
-admin = User.new(:email => "admin@neuronicgames.com", :password => "111111", password_confirmation: "111111", :status => 'A', default_school_id: demo.id)
+admin = User.new(:email => "admin@neuronicgames.com", :password => "changeme", password_confirmation: "changeme", :status => 'A', default_school_id: demo.id)
 admin.skip_confirmation!
 admin.save
 
