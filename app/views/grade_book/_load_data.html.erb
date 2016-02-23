@@ -1152,8 +1152,10 @@ function displayAchievements(data) {
     var content = '<span>'
     content += '<img src="/images/xp-28.png" height="15" style="vertical-align: middle;"> ' + value.xp + "/" + value.total_xp
     content += ' <img src="/images/fav.png" height="15" style="vertical-align: middle;"> ' + value.like_received
-    for (i = 0; i < value.badges.length; i++) {
-      content += ' <img src="' + value.badges[i] + '" height="32" style="vertical-align: middle;">'
+    for (i = 0; i < value.badge_image_urls.length; i++) {
+      content += ' <img src="' + value.badge_image_urls[i] 
+        + '" height="32" style="vertical-align: middle;" class="badge_icon" avatar_badge_id="' 
+        + value.avatar_badge_ids[i] + '">'
     }
     content += '</span>'
     

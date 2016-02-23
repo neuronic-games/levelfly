@@ -433,6 +433,7 @@
 
 <!--popup start-->
 <div id="avatar_card" class="popup_box1 hide"></div>
+<div id="badge_detail" class="badge_detail hide"></div>
 <div id="badge_popup" class="badge_popup_dialog hide"></div>
 <div id="account_setup" class="hide">
 
@@ -696,6 +697,7 @@ var h = new Object();
     $("#frm_search, #root_level, #container").delegate(".menu_btn", "click", loadPage);
     $(".page_switcher").click(loadPage);
 
+    // Display a profile card
     $('#container').delegate('.profile', 'click', function(){
       var p = $(this);
       var course_id = p.attr("rel");
@@ -716,6 +718,30 @@ var h = new Object();
             card_position = $("#avatar_card").position();
             if ((window_height - card_position.top)<200)
              $('#avatar_card').css("top",position.top-140);
+          }
+          showSpinner(false);
+        }
+      });
+      return false;
+    });
+
+    // Show the badge details dialog
+    $('#container').delegate('.badge_icon', 'click', function(){
+      var p = $(this);
+      var avatar_badge_id = p.attr("avatar_badge_id");
+      var position = p.offset();
+      console.log(this);
+      showSpinner(true);
+      $.ajax({
+        type: "POST",
+        url: "/badge/badge_detail",
+        data: {id: avatar_badge_id},
+        success: function(data) {
+          if (data) {
+            $("#badge_detail").html(data);
+            $("#badge_detail").show();
+
+            showSpinner(false);
           }
           showSpinner(false);
         }
