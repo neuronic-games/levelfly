@@ -3917,6 +3917,9 @@ div .frm_input2 {
 	font-weight:bold;
 	color:#5b5757
 }
+.badge_icon {
+  cursor: pointer;
+}
 .rfw {
 	font-weight:normal;
 	vertical-align: text-top;

@@ -308,8 +308,10 @@ end
         @participant.each do |p|
           (p["xp"], p["total_xp"]) = p.profile.total_xp(course_id)
           p["like_received"] = p.profile.total_like(course_id)
-          p["badge_count"] = p.profile.avatar_badges.count
-          p["badges"] = p.profile.avatar_badges.collect{|x| x.badge.image_url}
+          course_badges = AvatarBadge.where(course_id: course_id, profile_id: p.profile_id)
+          p["badge_count"] = course_badges.count
+          p["badge_image_urls"] = course_badges.collect{|x| x.badge.image_url}
+          p["avatar_badge_ids"] = course_badges.collect{|x| x.id}
         end
       end
       @count = @participant.count
