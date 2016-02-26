@@ -450,7 +450,8 @@ Oncapus::Application.routes.draw do
   get "gamecenter/connect"
   get "gamecenter/get_rows"
   get "gamecenter/add_game"
-  get "gamecenter/save_game"
+  get "gamecenter/add_checkpoint"
+  get "gamecenter/get_checkpoint"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

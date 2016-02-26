@@ -5,6 +5,7 @@ class Game < ActiveRecord::Base
 
   has_many :feats
   has_many :game_score_leaders
+  has_many :checkpoints
   
   after_create :generate_handle
   
@@ -26,6 +27,31 @@ class Game < ActiveRecord::Base
     feat = self.feats.where(profile_id: profile_id, progress_type: Feat.xp).last
     return feat.progress if feat
     return 0
+  end
+
+  # Save a player's checkpoint
+  def save_checkpoint(profile_id, checkpoint)
+    last_checkpoint = self.checkpoints.where(profile_id: profile_id).first
+    if last_checkpoint.nil?
+      last_checkpoint = Checkpoint.new
+      last_checkpoint.game_id = self.id
+      last_checkpoint.profile_id = profile_id
+    end
+
+    # This is stored in a TEXT field
+    last_checkpoint.checkpoint = checkpoint
+    
+    last_checkpoint.save
+  end
+
+  # Read a player's checkpoint
+  def load_checkpoint(profile_id)
+    last_checkpoint = self.checkpoints.where(profile_id: profile_id).first
+    if last_checkpoint.nil?
+      return nil
+    end
+
+    return last_checkpoint.checkpoint
   end
   
   # Add the score feat to the leaderboard, if the user is not already on it

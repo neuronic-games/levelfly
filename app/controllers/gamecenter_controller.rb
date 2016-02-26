@@ -161,6 +161,51 @@ class GamecenterController < ApplicationController
     @badge = Badge.find_create_game_badge(game.id, name, descr, badge_image_id)
   end
   
+  # Save the game state. Only the last game sate is saved.
+  def add_checkpoint
+    handle = params[:handle]
+    game = Game.find_by_handle(handle)
+    if game.nil?
+      message = "Game with handle #{handle} does not exist"
+      status = Gamecenter::FAILURE
+
+      render :text => { 'status' => status, 'message' => message }.to_json
+      return
+    end
+    
+    checkpoint = params[:checkpoint]
+    profile_id = current_user.default_profile.id
+    
+    game.save_checkpoint(profile_id, checkpoint)
+
+    message = "Saved checkpoint for game #{game.name} for user profile #{current_user.default_profile.id}"
+    status = Gamecenter::SUCCESS
+
+    render :text => { 'status' => status, 'message' => message }.to_json
+  end
+  
+  # Retrieve the last checkpoint. null if it doesn;t exist
+  def get_checkpoint
+    handle = params[:handle]
+    game = Game.find_by_handle(handle)
+    if game.nil?
+      message = "Game with handle #{handle} does not exist"
+      status = Gamecenter::FAILURE
+
+      render :text => { 'status' => status, 'message' => message }.to_json
+      return
+    end
+    
+    profile_id = current_user.default_profile.id
+    
+    checkpoint = game.load_checkpoint(profile_id)
+
+    message = "Retrieved last checkpoint for game #{game.name} for user profile #{current_user.default_profile.id}"
+    status = Gamecenter::SUCCESS
+
+    render :text => { 'status' => status, 'message' => message, 'checkpoint' => checkpoint }.to_json
+  end
+  
   def list_leaders
     @leaders = []
     
@@ -277,9 +322,6 @@ class GamecenterController < ApplicationController
     @game.published = false
     
     render :partial => "/gamecenter/form"
-  end
-  
-  def save_game
   end
   
 end
