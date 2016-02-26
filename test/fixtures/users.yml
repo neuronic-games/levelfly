@@ -6,4 +6,10 @@
 #
 admin:
   email: tam@neuronicgames.com
+
+gamedev:
+  email: tam+gamedev@neuronicgames.com
+
+gamer:
+  email: tam+gamer@neuronicgames.com
   

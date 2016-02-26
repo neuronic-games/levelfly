@@ -486,9 +486,9 @@ def export_course_grade_csv
     y << "Name"
     y << "Course Code"
     y << "Course Term"
+    y << "Notes"
     y << "Course Grade (Numerical)"
     y << "Course Grade (Letter)"
-    y << "Notes"
     if @outcomes.length > 0
       if !@outcomes.nil?
         @outcomes.each do|o|
