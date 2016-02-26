@@ -203,7 +203,7 @@ class GamecenterController < ApplicationController
     message = "Retrieved last checkpoint for game #{game.name} for user profile #{current_user.default_profile.id}"
     status = Gamecenter::SUCCESS
 
-    render :text => { 'status' => status, 'message' => message, 'checkpoint' => checkpoint }.to_json
+    render :text => { 'status' => status, 'message' => message, 'checkpoint' => checkpoint.checkpoint, 'saved_at' => checkpoint.updated_at }.to_json
   end
   
   def list_leaders

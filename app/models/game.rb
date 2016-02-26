@@ -51,7 +51,7 @@ class Game < ActiveRecord::Base
       return nil
     end
 
-    return last_checkpoint.checkpoint
+    return last_checkpoint
   end
   
   # Add the score feat to the leaderboard, if the user is not already on it
