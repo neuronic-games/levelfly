@@ -3103,7 +3103,7 @@ input[type="button"].grading_Btn4 {
 	width: 300px;
 }
 .Grade_right_panel{
-	float:left;
+	/*float:left;*/
 	height:auto;
 	max-width: 31%;/*40*/
 	position:relative;
