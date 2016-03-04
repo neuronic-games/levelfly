@@ -5,6 +5,5 @@
 # below each fixture, per the syntax in the comments below
 #
 admin:
-  email: admin@neuronicgames.com
-  encrypted_password: $2a$10$RvALTroqUHXm4oE2ID8O5OU/napTft9S6EzCWaAww7G6nIkZPe1Au
+  email: tam@neuronicgames.com
   

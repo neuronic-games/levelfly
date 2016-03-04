@@ -1,5 +1,8 @@
 class AvatarBadge < ActiveRecord::Base
-belongs_to :badges
+belongs_to :badge
+belongs_to :profile
+belongs_to :giver_profile, :class_name => :Profile
+belongs_to :course
 
   def self.add_badge(profile_id,badge_id,course_id = nil,giver_profile_id = nil)
     status = nil
