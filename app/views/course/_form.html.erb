@@ -435,8 +435,12 @@ $(".download_files").click(function(){
 });
 //Save course
 function save_course(channel) {
+  $("#course_name").blur();
+  $("#course_code_name").blur();
+  $("#course_code_num").blur();
+  $("#course_section").blur();
   section_type = $("#section_type").val();
-   course_id = $("#course_id_hdn").val();
+  course_id = $("#course_id_hdn").val();
   //Get data from offline storage
 	if(section_type == "G")
   {
