@@ -10,7 +10,11 @@
   <% @games.each do |game| %> 
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
       <div class="LBT_ava">
-        <img src="/images/course_img_default.jpg" class="app" profile_id="<%=h game.id %>" />
+
+       <a class="edit_game" href="javascript:void(0)" data-url="<%= gamecenter_edit_game_path(:id => game.id)%>" >
+         <img src="/images/course_img_default.jpg" class="app"> 
+       </a>
+
       </div>
       <div class="LBT_name"> <span class="name_txt"><%=h game.name %> </span><br />
         <span class="course_txt">HANDLE: <strong><%=h game.handle %></strong></span><br />
@@ -24,3 +28,23 @@
   <% end %>
 <% end %>  
 
+
+<script type="text/javascript">
+   $(".edit_game").on('click', function(){
+    var url = $(this).attr('data-url');
+
+    showSpinner(true);
+    var filter = $(".side_tab_open:first").attr("filter");
+    
+    $.ajax({
+      type: "GET",
+      url:  url,
+      data: {filter:filter, show:"add_game"},
+      success: function(data) {
+        $("#rows").html(data);
+        showSpinner(false);
+     }
+    });
+  });
+
+</script>

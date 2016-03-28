@@ -268,18 +268,29 @@ class GamecenterController < ApplicationController
   end
   
   def add_game
-    @game = Game.new
-    
+    @game = Game.new    
     @game.name = "Application Name"
     @game.descr = "Description"
     @game.last_rev = "v 1.0"
     @game.archived = false
     @game.published = false
-    
-    render :partial => "/gamecenter/form"
+    render :partial => "/gamecenter/form",locals: {url: gamecenter_add_game_path}
   end
   
   def save_game
+    @game = Game.new(params[:game]).save
+    render :text => { 'status' => 200, 'message' => 'Game created successfully' }.to_json
+  end
+
+
+  def edit_game
+    @game = Game.find(params[:id])
+    render :partial => "/gamecenter/form",locals: {url: gamecenter_update_game_path(:id =>@game.id)}
+  end
+
+  def update_game
+    @game = Game.find(params[:id]).update_attributes(params[:game])
+    render :text => { 'status' => 200, 'message' => 'Game updated successfully' }.to_json
   end
   
 end
