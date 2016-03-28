@@ -1,7 +1,10 @@
 <!-- Add Game -->
 
-<input type="hidden" name="app_id" id="app_id_hdn" value="<%= @game.id %>" />
-<input type="hidden" name="school_id" id="app_school_id_hdn" value="<%= @game.school_id %>" />
+<%= form_for @game,url: url, :html => { :multipart => true } do |f| %>
+<%#= f.hidden_field :id%>
+<%= f.hidden_field :archived %>
+<%= f.hidden_field :published %>
+<%#= f.hidden_field :school_id%>
 
 <!-- Contextual Side Buttons -->
 <div id="sidebar_right">
@@ -19,37 +22,53 @@
 
     <div class="catagory_viewfield field_label" style="margin-right: 5px;">APP NAME
       <div class="dd_bg brown_bg">
-        <input type="text" name="app_name" id="app_name" class="dd_input" value="<%= @game.name %>" maxlength="64" />
+      <%= f.text_field :name, :class=>"dd_input",:maxlength =>"64" %>
+
       </div>
     </div>
+    <div class="clearfix"></div>
 
     <div class="catagory_viewfield field_label" style="margin-right: 5px;">DESCRIPTION
       <div class="dd_bg brown_bg">
-        <textarea name="app_descr" id="app_descr" class="dd_input" placeholder="Enter description"><%= @game.descr %></textarea>
+        <!-- <textarea name="app_descr" id="app_descr" class="dd_input" placeholder="Enter description"><%= @game.descr %></textarea> -->
+        <%= f.text_area :descr, :class=>"dd_input",:placeholder=>"Enter description",:cols => '62' %>
+      
       </div>
     </div>
+    <div class="clearfix"></div>
 
     <div class="catagory_viewfield field_label" style="margin-right: 5px;">LAST REVISION
       <div class="dd_bg brown_bg">
-        <input type="text" name="app_last_rev" id="app_last_rev" class="dd_input" value="<%= @game.last_rev %>" maxlength="64" />
+        <%= f.text_field :last_rev, :class=>"dd_input", :maxlength =>"64" %>
+        <!-- <input type="text" name="app_last_rev" id="app_last_rev" class="dd_input" value="<%= @game.last_rev %>" maxlength="64" /> -->
       </div>
     </div>
+    <div class="clearfix"></div>
 
     <div class="catagory_viewfield field_label" style="margin-right: 5px;">LAST REVISION DATE
       <div class="dd_bg brown_bg">
-        <input type="text" name="last_rev_date" id="last_rev_date" class="dd_input" value="<%= @game.last_rev_date %>" maxlength="64" />
+        <%= f.text_field :last_rev_date, :class=>"dd_input", :maxlength =>"64" %>
+        <!-- <input type="text" name="last_rev_date" id="last_rev_date" class="dd_input" value="<%= @game.last_rev_date %>" maxlength="64" /> -->
       </div>
     </div>
+    <div class="clearfix"></div>
 
     <div class="catagory_viewfield field_label" style="margin-right: 5px;">PUBLISH DATE
       <div class="dd_bg brown_bg">
-        <input type="text" name="first_publish_date" id="first_publish_date" class="dd_input" value="<%= @game.first_publish_date %>" maxlength="64" />
+        <%= f.text_field :first_publish_date, :class=>"dd_input", :maxlength =>"64" %>
+        <!-- <input type="text" name="first_publish_date" id="first_publish_date" class="dd_input" value="<%= @game.first_publish_date %>" maxlength="64" /> -->
       </div>
     </div>
-
+    <div class="clearfix"></div>
+    <div class="catagory_viewfield field_label" style="margin-right: 5px;">IMAGE
+        <%= f.file_field :image, :class=>"dd_input",:cols => '62' %>
+        <!-- <input type="text" name="first_publish_date" id="first_publish_date" class="dd_input" value="<%= @game.first_publish_date %>" maxlength="64" /> -->
+    </div>
+   <div class="clearfix"></div>
   </div>
 
 </div>
+<% end  %>
 
 <!-- UI control code -->
 
@@ -60,7 +79,6 @@ $(document).ready(function() {
   $("#add_game").addClass("hide");
 
   $('#btn_game_save').click(function() {
-    alert('#btn_game_save: click');
     saveGame();
   });  // .btn_game_save: click
   
@@ -69,22 +87,18 @@ $(document).ready(function() {
 function saveGame() {
   showSpinner(true);
   
-  var dataString = {
-    id: id, 
-    name: name, 
-    descr: descr,
-    school_id: school_id
-  }
+  var dataString = $("form").serialize();
     
   $.ajax({
     type: "POST",
-    url: "/gamecenter/save_game",
+    url: "<%=url%>",
     data: dataString,
     dataType: "json",
     success: function(data) {
       if (data) {
       }
       showSpinner(false);
+      $('#gamecenter').click();
     }
   });
   
@@ -92,3 +106,4 @@ function saveGame() {
 
 //-->
 </script>
+
