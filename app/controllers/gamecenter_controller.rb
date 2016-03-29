@@ -274,7 +274,7 @@ class GamecenterController < ApplicationController
     @game.last_rev = "v 1.0"
     @game.archived = false
     @game.published = false
-    render :partial => "/gamecenter/form",locals: {url: gamecenter_add_game_path}
+    render :partial => "/gamecenter/form",locals: {url: gamecenter_save_game_path}
   end
   
   def save_game
