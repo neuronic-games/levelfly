@@ -4300,7 +4300,7 @@ border:solid 0px #000000;
 .list_messages {display: none;}
 .completed_task {float:right; margin-top:-100px; width:200px;}
 .comments_lists {display: none;}
-.confirm_box_width{width:301px; left:60%;}
+.confirm_box_width{width:500px; left:60%;}
 .tbc{float:right; width:100px; text-align:center; margin-top:23px;}
 .GB_outcomment3 {
     color: #6989B5;

@@ -5,6 +5,13 @@ class Game < ActiveRecord::Base
 
   has_many :feats
   has_many :game_score_leaders
+
+  has_attached_file :image,
+   :storage => :s3,
+   :s3_credentials => { :access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET'] },
+   :path => "games/:id/:filename",
+   :bucket => ENV['S3_PATH'],
+   :s3_protocol => ENV['S3_PROTOCOL']
   
   after_create :generate_handle
   
