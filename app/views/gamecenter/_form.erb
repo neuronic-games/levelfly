@@ -1,109 +1,151 @@
-<!-- Add Game -->
-
 <%= form_for @game,url: url, :html => { :multipart => true } do |f| %>
-<%#= f.hidden_field :id%>
-<%= f.hidden_field :archived %>
-<%= f.hidden_field :published %>
-<%#= f.hidden_field :school_id%>
-
+<%= f.hidden_field :archived, :id => "archived" %>
+<%= f.hidden_field :published, :id => "published" %>
 <!-- Contextual Side Buttons -->
 <div id="sidebar_right">
-
-  <div class="side_buttons">
-    <a href="javascript:void(0)" name="btn_game_save" id="btn_game_save" class="big_orange_btn">SAVE</a>
-  </div>
-
+   <div class="side_buttons">
+      <a href="javascript:void(0)" data-image-attach='false' name="btn_game_save" id="btn_game_save" class="big_orange_btn">SAVE</a>
+   </div>
 </div>
-
 <!-- Main area -->
 <div class="course_detailbox">
-
-  <div class="course_field_box1">
-
-    <div class="catagory_viewfield field_label" style="margin-right: 5px;">APP NAME
-      <div class="dd_bg brown_bg">
-      <%= f.text_field :name, :class=>"dd_input",:maxlength =>"64" %>
-
+   <div class="course_field_box1">
+      <div class="catagory_viewfield field_label" style="margin-right: 5px;">
+         APP NAME
+         <div class="dd_bg brown_bg">
+            <%= f.text_field :name, :class=>"dd_input",:maxlength =>"64", :id => "name" %>
+         </div>
       </div>
-    </div>
-    <div class="clearfix"></div>
-
-    <div class="catagory_viewfield field_label" style="margin-right: 5px;">DESCRIPTION
-      <div class="dd_bg brown_bg">
-        <!-- <textarea name="app_descr" id="app_descr" class="dd_input" placeholder="Enter description"><%= @game.descr %></textarea> -->
-        <%= f.text_area :descr, :class=>"dd_input",:placeholder=>"Enter description",:cols => '62' %>
-      
+      <div class="clearfix"></div>
+      <div class="catagory_viewfield field_label" style="margin-right: 5px;">
+         DESCRIPTION
+         <div class="dd_bg brown_bg">
+            <%= f.text_area :descr, :class=>"dd_input",:placeholder=>"Enter description",:cols => '62', :id => "descr" %>
+         </div>
       </div>
-    </div>
-    <div class="clearfix"></div>
-
-    <div class="catagory_viewfield field_label" style="margin-right: 5px;">LAST REVISION
-      <div class="dd_bg brown_bg">
-        <%= f.text_field :last_rev, :class=>"dd_input", :maxlength =>"64" %>
-        <!-- <input type="text" name="app_last_rev" id="app_last_rev" class="dd_input" value="<%= @game.last_rev %>" maxlength="64" /> -->
+      <div class="clearfix"></div>
+      <div class="catagory_viewfield field_label" style="margin-right: 5px;">
+         LAST REVISION
+         <div class="dd_bg brown_bg">
+            <%= f.text_field :last_rev, :class=>"dd_input", :maxlength =>"64", :id => "last_rev" %>
+         </div>
       </div>
-    </div>
-    <div class="clearfix"></div>
-
-    <div class="catagory_viewfield field_label" style="margin-right: 5px;">LAST REVISION DATE
-      <div class="dd_bg brown_bg">
-        <%= f.text_field :last_rev_date, :class=>"dd_input", :maxlength =>"64" %>
-        <!-- <input type="text" name="last_rev_date" id="last_rev_date" class="dd_input" value="<%= @game.last_rev_date %>" maxlength="64" /> -->
+      <div class="clearfix"></div>
+      <div class="catagory_viewfield field_label" style="margin-right: 5px;">
+         LAST REVISION DATE
+         <div class="dd_bg brown_bg">
+         <%= f.date_select :last_rev_date, :class => 'dd_input', :id => "last_rev_date", :maxlength =>"64" %>
+         </div>
       </div>
-    </div>
-    <div class="clearfix"></div>
-
-    <div class="catagory_viewfield field_label" style="margin-right: 5px;">PUBLISH DATE
-      <div class="dd_bg brown_bg">
-        <%= f.text_field :first_publish_date, :class=>"dd_input", :maxlength =>"64" %>
-        <!-- <input type="text" name="first_publish_date" id="first_publish_date" class="dd_input" value="<%= @game.first_publish_date %>" maxlength="64" /> -->
+      <div class="clearfix"></div>
+      <div class="catagory_viewfield field_label" style="margin-right: 5px;">
+         PUBLISH DATE
+         <div class="dd_bg brown_bg">
+         <%= f.date_select :first_publish_date,  :class => 'dd_input', :id => "first_publish_date", :maxlength =>"64" %>
+            <%#= f.text_field :first_publish_date, :class=>"dd_input", :maxlength =>"64", :id => "first_publish_date" %>
+         </div>
       </div>
-    </div>
-    <div class="clearfix"></div>
-    <div class="catagory_viewfield field_label" style="margin-right: 5px;">IMAGE
-        <%= f.file_field :image, :class=>"dd_input",:cols => '62' %>
-        <!-- <input type="text" name="first_publish_date" id="first_publish_date" class="dd_input" value="<%= @game.first_publish_date %>" maxlength="64" /> -->
-    </div>
-   <div class="clearfix"></div>
-  </div>
-
+      <div class="clearfix"></div>
+      <div class="course_left">
+         <div id="course_image" class="course_profile_image">
+            <img width="156" height="156" alt="Course image" src="/images/course_img_default.jpg" class="c_iamge" id="c_iamge">
+            <img src="/images/course_img_drop.png" class="image_icon_drop_target">
+            <div class="browse_link_div">
+               <a id="course_browse_btn" href="javascript:void(0)">CLICK HERE TO UPLOAD</a>
+            </div>
+         </div>
+      </div>
+      <div class="clearfix"></div>
+   </div>
 </div>
 <% end  %>
 
 <!-- UI control code -->
 
 <script type="text/javascript">
-<!--
 $(document).ready(function() {
-
-  $("#add_game").addClass("hide");
-
-  $('#btn_game_save').click(function() {
-    saveGame();
-  });  // .btn_game_save: click
-  
-});  // document: ready
-
+    $("#add_game").addClass("hide");
+}); 
 function saveGame() {
-  showSpinner(true);
-  
-  var dataString = $("form").serialize();
-    
-  $.ajax({
-    type: "POST",
-    url: "<%=url%>",
-    data: dataString,
-    dataType: "json",
-    success: function(data) {
-      if (data) {
-      }
-      showSpinner(false);
-      $('#gamecenter').click();
-    }
-  });
-  
+    showSpinner(true);
+    var dataString = $("form").serialize();
+    $.ajax({
+        type: "POST",
+        url: "<%=url%>",
+        data: dataString,
+        dataType: "json",
+        success: function(data) {
+            if (data) {}
+            showSpinner(false);
+            $('#gamecenter').click();
+        }
+    });
 }
+$(function() {
+    //Uploader course image upload
+    var course_uploader = new plupload.Uploader({
+        runtimes: 'html5,flash',
+        drop_element: 'course_image',
+        browse_button: 'course_browse_btn',
+        container: 'course_image',
+        max_file_size: '5mb',
+        resize: {
+            width: 125,
+            height: 125
+        },
+        url: '<%=url%>',
+        flash_swf_url: '/assets/fileupload/plupload.flash.swf',
+        // multipart_params: {
+        //     'authenticity_token': token, //For csrf-authentication
+        //     'game[published]': $("#published").val(),
+        //     'game[archived]': $("#archived").val(),
+        //     'game[name]': $("#name").val(),
+        //     'game[descr]': $("#descr").val(),
+        //     'game[last_rev]': $("#last_rev").val(),
+        //     'game[last_rev_date]': $("#last_rev_date").val(),
+        //     'game[first_publish_date]': $("#first_publish_date").val(),
+        //     'game[archived]': $("#archived").val(),
+        // },
+        filters: [{
+            title: "Image files",
+            extensions: "jpg,gif,png,JPG,PNG,GIF,JPEG"
+        }]
+    });
+    course_uploader.init();
+    course_uploader.bind('FilesAdded', function(up, files) {
+    course_uploader.settings.multipart_params = {
+            'authenticity_token': token, //For csrf-authentication
+            'game[published]': $("#published").val(),
+            'game[archived]': $("#archived").val(),
+            'game[name]': $("#name").val(),
+            'game[descr]': $("#descr").val(),
 
-//-->
+            'game[last_rev_date(3i)]': $('[name="game[last_rev_date(3i)]"]').val(),
+            'game[last_rev_date(2i)]': $('[name="game[last_rev_date(2i)]"]').val(),
+            'game[last_rev_date(1i)]': $('[name="game[last_rev_date(1i)]"]').val(),
+
+            'game[first_publish_date(3i)]': $('[name="game[first_publish_date(3i)]"]').val(),
+            'game[first_publish_date(2i)]': $('[name="game[first_publish_date(2i)]"]').val(),
+            'game[first_publish_date(1i)]': $('[name="game[first_publish_date(1i)]"]').val(),
+
+
+            'game[archived]': $("#archived").val(),
+        };
+
+        $('#btn_game_save').attr("data-image-attach", 'true');
+    });
+    course_uploader.bind('FileUploaded', function(up, file, info) {
+        showSpinner(false);
+        $('#gamecenter').click();
+    });
+    $('#btn_game_save').click(function() {
+        var image_attach = $('#btn_game_save').attr("data-image-attach");
+        showSpinner(true);
+        if (image_attach == 'true') {
+            course_uploader.start()
+        } else {
+            saveGame();
+        }
+    });
+});
 </script>
-

@@ -12,7 +12,7 @@
       <div class="LBT_ava">
 
        <a class="edit_game" href="javascript:void(0)" data-url="<%= gamecenter_edit_game_path(:id => game.id)%>" >
-         <img src="/images/course_img_default.jpg" class="app"> 
+         <img src="<%= game.image.url%>" height='156' width='156' class="app"> 
        </a>
 
       </div>

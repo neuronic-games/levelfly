@@ -453,6 +453,9 @@ Oncapus::Application.routes.draw do
   post "gamecenter/save_game"
   get "gamecenter/edit_game"
   put "gamecenter/update_game"
+  post "gamecenter/update_game"
+
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
