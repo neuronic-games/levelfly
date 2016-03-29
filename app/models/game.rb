@@ -11,7 +11,8 @@ class Game < ActiveRecord::Base
    :s3_credentials => { :access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET'] },
    :path => "games/:id/:filename",
    :bucket => ENV['S3_PATH'],
-   :s3_protocol => ENV['S3_PROTOCOL']
+   :s3_protocol => ENV['S3_PROTOCOL'],
+   :default_url => "/assets/:style/missing.jpg"
   
   after_create :generate_handle
   
