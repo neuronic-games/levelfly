@@ -290,7 +290,7 @@ class GamecenterController < ApplicationController
   end
 
   def update_game
-    params[:game].merge!("image" => params["file"])
+    params[:game].merge!("image" => params["file"]) if params["file"].present?
     @game = Game.find(params[:id]).update_attributes(params[:game])
     render :text => { 'status' => 200, 'message' => 'Game updated successfully' }.to_json
   end
