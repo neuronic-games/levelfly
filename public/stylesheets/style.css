@@ -1371,9 +1371,9 @@ margin-top:-20px;
 	overflow:hidden;
 	width:100%;
 }
-.course_field_box1 {
+/*.course_field_box1 {
 	padding:20px 0 20px 6px;
-}
+}*/
 .brown_bg {
 	background:#898888 !important;
 	border:#898888 1px solid;
@@ -4681,4 +4681,19 @@ a.send{
 
 a.like{
     text-transform: uppercase;
+}
+
+
+.course_field_box1 {
+  float: left;
+  width: 64%;
+  margin: 0;
+  padding: 0;
+}
+.course_field_box0 {
+  margin-right: 4%;
+  float: left;
+  width: 30%;
+  margin: 0;
+  padding: 0;
 }
