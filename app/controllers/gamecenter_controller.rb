@@ -251,7 +251,8 @@ class GamecenterController < ApplicationController
     filter = params[:filter]
     
     school_id = @profile.school_id
-    conditions = ["games.handle is not null"]
+    #conditions = ["games.handle is not null "]
+    conditions = ["games.handle is not null and school_id = school_id "]
 
     if filter == "active"
       conditions[0] += " and games.archived = ?"
@@ -274,6 +275,7 @@ class GamecenterController < ApplicationController
     @game.last_rev = "v 1.0"
     @game.archived = false
     @game.published = false
+    @game.school_id = current_user.profiles.first.school_id if current_user.profiles.present?
     render :partial => "/gamecenter/form",locals: {url: gamecenter_save_game_path}
   end
   

@@ -2,7 +2,7 @@ require 'digest'
 
 class Game < ActiveRecord::Base
   validates :handle, :uniqueness => true
-
+  belongs_to :school
   has_many :feats
   has_many :game_score_leaders
 
