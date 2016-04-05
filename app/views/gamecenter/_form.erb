@@ -38,28 +38,6 @@
          </div>
       </div>
       <div class="clearfix"></div>
-      <!-- <div class="catagory_viewfield field_label" style="margin-right: 5px;">
-         LAST REVISION
-         <div class="dd_bg brown_bg">
-            <%#= f.text_field :last_rev, :class=>"dd_input", :maxlength =>"64", :id => "last_rev", :value => "" %>
-         </div>
-      </div>
-      <div class="clearfix"></div>
-      <div class="catagory_viewfield field_label" style="margin-right: 5px;">
-         LAST REVISION DATE
-         <div class="dd_bg brown_bg">
-         <%#= f.date_select :last_rev_date, :class => 'dd_input', :id => "last_rev_date", :maxlength =>"64" %>
-         </div>
-      </div>
-      <div class="clearfix"></div>
-      <div class="catagory_viewfield field_label" style="margin-right: 5px;">
-         PUBLISH DATE
-         <div class="dd_bg brown_bg">
-         <%#= f.date_select :first_publish_date,  :class => 'dd_input', :id => "first_publish_date", :maxlength =>"64" %>
-            <%#= f.text_field :first_publish_date, :class=>"dd_input", :maxlength =>"64", :id => "first_publish_date" %>
-         </div>
-      </div> -->
-      <div class="clearfix"></div>
    </div>
 </div>
 <% end  %>
@@ -123,14 +101,15 @@ $(function() {
             'game[archived]': $("#archived").val(),
             'game[name]': $("#name").val(),
             'game[descr]': $("#descr").val(),
+            'game[school_id]': $("#game_school_id").val(), 
 
-            'game[last_rev_date(3i)]': $('[name="game[last_rev_date(3i)]"]').val(),
-            'game[last_rev_date(2i)]': $('[name="game[last_rev_date(2i)]"]').val(),
-            'game[last_rev_date(1i)]': $('[name="game[last_rev_date(1i)]"]').val(),
+            // 'game[last_rev_date(3i)]': $('[name="game[last_rev_date(3i)]"]').val(),
+            // 'game[last_rev_date(2i)]': $('[name="game[last_rev_date(2i)]"]').val(),
+            // 'game[last_rev_date(1i)]': $('[name="game[last_rev_date(1i)]"]').val(),
 
-            'game[first_publish_date(3i)]': $('[name="game[first_publish_date(3i)]"]').val(),
-            'game[first_publish_date(2i)]': $('[name="game[first_publish_date(2i)]"]').val(),
-            'game[first_publish_date(1i)]': $('[name="game[first_publish_date(1i)]"]').val(),
+            // 'game[first_publish_date(3i)]': $('[name="game[first_publish_date(3i)]"]').val(),
+            // 'game[first_publish_date(2i)]': $('[name="game[first_publish_date(2i)]"]').val(),
+            // 'game[first_publish_date(1i)]': $('[name="game[first_publish_date(1i)]"]').val(),
 
 
             'game[archived]': $("#archived").val(),
