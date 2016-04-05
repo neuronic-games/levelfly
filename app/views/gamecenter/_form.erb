@@ -1,6 +1,7 @@
 <%= form_for @game,url: url, :html => { :multipart => true } do |f| %>
 <%= f.hidden_field :archived, :id => "archived" %>
 <%= f.hidden_field :published, :id => "published" %>
+<%= f.hidden_field :school_id %>
 <!-- Contextual Side Buttons -->
 <div id="sidebar_right">
    <div class="side_buttons">
