@@ -252,8 +252,8 @@ class GamecenterController < ApplicationController
     
     school_id = @profile.school_id
     school = School.find(school_id)
-    conditions = ["games.handle is not null "]
-    #conditions = ["games.handle is not null and school_id = school_id "]
+    #conditions = ["games.handle is not null "]
+    conditions = ["games.handle is not null and school_id = ?", school_id]
 
     if filter == "active"
       conditions[0] += " and games.archived = ?"
@@ -262,11 +262,9 @@ class GamecenterController < ApplicationController
       conditions[0] += " and games.archived = ?"
       conditions << true
     end
-    
-    @games = school.games.find(:all, :conditions => conditions,
-      :order => "name")    
-    #@games = Game.find(:all, :conditions => conditions,
-    #  :order => "name")
+      
+    @games = Game.find(:all, :conditions => conditions,
+     :order => "name")
     
     render :partial => "/gamecenter/rows"
   end
