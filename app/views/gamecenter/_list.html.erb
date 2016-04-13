@@ -89,6 +89,9 @@ $(document).ready(function(){
   $("#download_page").unbind('click').bind('click', function(){
     showSpinner(true);
     var filter = $(".side_tab_open:first").attr("filter");
+    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
+    $(this).addClass("side_tab_open").removeClass("side_tab_close");
+
     $.ajax({
 
       type: "GET",
@@ -104,6 +107,8 @@ $(document).ready(function(){
   $("#support").unbind('click').bind('click', function(){
     showSpinner(true);
     var filter = $(".side_tab_open:first").attr("filter");
+    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
+    $(this).addClass("side_tab_open").removeClass("side_tab_close");
     $.ajax({
 
       type: "GET",
@@ -119,6 +124,8 @@ $(document).ready(function(){
   $("#achivements").unbind('click').bind('click', function(){
     showSpinner(true);
     var filter = $(".side_tab_open:first").attr("filter");
+    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
+    $(this).addClass("side_tab_open").removeClass("side_tab_close");
     $.ajax({
 
       type: "GET",
@@ -134,6 +141,8 @@ $(document).ready(function(){
   $("#leaderboard").unbind('click').bind('click', function(){
     showSpinner(true);
     var filter = $(".side_tab_open:first").attr("filter");
+    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
+    $(this).addClass("side_tab_open").removeClass("side_tab_close");
     $.ajax({
 
       type: "GET",
