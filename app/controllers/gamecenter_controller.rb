@@ -297,5 +297,21 @@ class GamecenterController < ApplicationController
     @game = Game.find(params[:id]).update_attributes(params[:game])
     render :text => { 'status' => 200, 'message' => 'Game updated successfully' }.to_json
   end
+
+  def download
+    render :partial => "/gamecenter/download"
+  end
+
+  def support
+    render :partial => "/gamecenter/support"
+  end
+
+  def achivements
+    render :partial => "/gamecenter/achivements"
+  end 
+
+  def leaderboard
+    render :partial => "/gamecenter/leader_board"
+  end
   
 end
