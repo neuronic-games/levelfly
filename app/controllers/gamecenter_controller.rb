@@ -1,6 +1,6 @@
 class GamecenterController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!, :except => [:status, :connect, :authenticate, :get_current_user, :add_progress]
+  before_filter :authenticate_user!, :except => [:status, :show, :connect, :authenticate, :get_current_user, :add_progress]
 
   def status
     message = "All OK"
@@ -243,6 +243,14 @@ class GamecenterController < ApplicationController
     render :partial => "/gamecenter/list"
     @profile.record_action('last', 'gamecenter')
   end
+
+  def show
+    @game = Game.find(params[:id])
+    respond_to do |format|
+      format.html {render :layout => 'public'}
+    end
+    #render :layout => publicc
+  end 
   
   def get_rows
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
