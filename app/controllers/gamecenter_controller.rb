@@ -252,8 +252,7 @@ class GamecenterController < ApplicationController
     
     school_id = @profile.school_id
     school = School.find(school_id)
-    conditions = ["games.handle is not null "]
-    #conditions = ["games.handle is not null and school_id = school_id "]
+    conditions = ["games.handle is not null and school_id = ?", school_id]
 
     if filter == "active"
       conditions[0] += " and games.archived = ?"
