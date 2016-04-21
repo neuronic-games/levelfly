@@ -3,7 +3,7 @@
     <div class="clear"></div>
     <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
-     <div >You are about to archive this course. Once archived, this course will be moved from your Current list of courses to your Archived list of courses. Are you sure you want to archive this course?</div>
+     <div >You are about to archive this course. Once archived, this course will be moved from your Current list of courses to your Archived list of courses. You can always unarchive this course later within Course Setup. Are you sure you want to archive this course?</div>
     
     <div class="spacebar10px"></div>
   <div align="right">
@@ -26,15 +26,18 @@
           url: "/course/set_archive",
           dataType: "json",
           data:{id:course_id},
-          success: function(data) {
-            showSpinner(false);
+
+          success : function(data) {
             $("#confirm_box").hide();
+            $("#container").load("/course/?section_type="+section_type, function() {
+              showSpinner(false);
+            });
           },
-          error: function()
-          {
+          
+          error: function() {
             alert("An Error has occured");
             showSpinner(false);
-          },
+          }
         }); 
       });
     });

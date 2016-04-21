@@ -61,8 +61,8 @@ class Course < ActiveRecord::Base
   @@parent_type_course = 'C'
   cattr_accessor :parent_type_course
 
-  @@parent_type_group = 'G'
-  cattr_accessor :parent_type_group
+  @@parent_type_forum = 'F'
+  cattr_accessor :parent_type_forum
 
   @@join_type_invite = 'I'
   cattr_accessor :join_type_invite

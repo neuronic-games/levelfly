@@ -2977,7 +2977,7 @@ filter:alpha(opacity="0");
 
 .GB_odd .GB_Outcome_tdbg td{ background-image:url(../images/GB_transparentbg.png); padding:0px !important; border-right:2px solid #c4c8d2; }
 .pdgnone { padding:0px !important;}
-.rotate_text {writing-mode:tb-rl;
+.rotate_text {/*writing-mode:tb-rl;*/
 	-webkit-transform:rotate(90deg);
 	-moz-transform:rotate(90deg);
 
@@ -3100,10 +3100,10 @@ input[type="button"].grading_Btn4 {
 .Grade_left_panel{
 	float:left;
 	height:auto;
-	width: 69%;/*60*/
+	width: 300px;
 }
 .Grade_right_panel{
-	float:left;
+	/*float:left;*/
 	height:auto;
 	max-width: 31%;/*40*/
 	position:relative;
@@ -3122,6 +3122,16 @@ input[type="button"].grading_Btn4 {
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
+}
+
+.gb_achievement_cell {
+  padding-left: 7px;
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
 }
 
 .GB_left_table{
@@ -3907,6 +3917,9 @@ div .frm_input2 {
 	font-weight:bold;
 	color:#5b5757
 }
+.badge_icon {
+  cursor: pointer;
+}
 .rfw {
 	font-weight:normal;
 	vertical-align: text-top;
@@ -4312,11 +4325,11 @@ border:solid 0px #000000;
     border-radius: 16px 16px 16px 16px;
     box-shadow: 0 0 12px #333333;
     height: 140px;
-    left: 35%;
+    left: 25%;
+    right: 25%;
     padding: 20px;
     position: fixed;
     top: 50%;
-    width: 375px;
     z-index: 9993;
 }
 .badge_popup .heading{

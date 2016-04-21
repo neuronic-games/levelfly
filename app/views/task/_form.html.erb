@@ -241,9 +241,9 @@ function addNode(element) {
                 <div align="center">
                    <div class="course_select_viewfield">
                       <select name="course" id="course" class="clipboard_select width175px">
-                        <option value="<%= @no_course.id %>"><%= @no_course.name %></option>
+                        <option value="">None</option>
                         <% @courses.each do |c| %>
-                        <option value="<%= c.id %>" <%=@task.course_id==c.id ? "Selected" : ""  if @task %>><%= c.name %></option>
+                        <option value="<%= c.id %>" <%= "selected" if course_id.to_i==c.id %>><%=h c.name %></option>
                         <% end %>
                       </select>
                       <div class="form_error hide">Select a course.</div>

@@ -49,7 +49,7 @@
           
             <%if @badge_image && !@badge_image.nil? %>
               <% @badge_image.each do|bm|%>
-                 <div style ="float:left"><input id="<%=bm.id%>" src="images/badges/<%=bm.image_file_name%>" type="image" class="grading_Btn2 badge_image" /></div>  
+                 <div style ="float:left"><input id="<%=bm.id%>" src="<%=bm.image_file_path%>" type="image" class="grading_Btn2 badge_image" /></div>  
               <%end%>  
             <%end%>  
 

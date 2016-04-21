@@ -4,6 +4,10 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
+demo:
+  name: Teachers Training College
+  code: DEMO
+
 bmcc:
   name: Borough of Manhattan Community College
   code: BMCC

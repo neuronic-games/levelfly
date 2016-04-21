@@ -8,6 +8,14 @@ class Profile < ActiveRecord::Base
   has_many :participants
 	has_many :task_participants
   has_many :profile_actions
+
+  has_many :feats
+  has_many :game_score_leaders
+  
+  has_many :avatar_badges
+  
+  has_many :messages
+  
   acts_as_taggable
 
   scope :course_participants, ->(course_id, section_type) {
@@ -169,4 +177,35 @@ class Profile < ActiveRecord::Base
     ).uniq
   end
 
+  # Calculates the total xp that can be received for given course
+  def total_xp(course_id)
+    acc_xp = 0
+    total_xp = 0
+    self.task_participants.each do |tp|
+      xp = tp.task.points
+      acc_xp += xp if !tp.xp_award_date.nil?
+      total_xp += xp
+    end
+    return acc_xp, total_xp
+  end
+  
+  # Calculates the total likes that can be received for given course. Since the profile stores
+  # the total likes for all courses, we need to search for course and forumn messages
+  def total_like(course_id)
+    total_like = 0
+
+    # Course messages
+    total_like += Message.where("profile_id = ? and parent_type = ? and parent_id = ?", self.id, Course.parent_type_course, course_id).sum(:like)
+
+    # Course forum messages
+    forumn_ids = Course.select("id").find(:all, :include => [:participants],
+      :conditions => ["participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?",
+        self.id, course_id, false, false])
+    forumn_ids.each do |forumn_id|
+      total_like += Message.where("profile_id = ? and parent_type = ? and parent_id = ?", self.id, Course.parent_type_forum, forumn_id).sum(:like)
+    end
+
+    return total_like
+  end
+  
 end

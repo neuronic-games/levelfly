@@ -1,6 +1,18 @@
 Oncapus::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
+  # Load environment variables for development
+  config.before_configuration do
+    aws_env_file = Rails.root.join('config', 'application.yml').to_s
+    if File.exists?(aws_env_file)
+      puts "Environment variables loaded from #{aws_env_file}"
+      YAML.load_file(aws_env_file).each do |k, v|
+        ENV[k.to_s] = v
+        puts "#{k.to_s} = #{v}"
+      end
+    end
+  end
+
   # In the development environment your application's code is reloaded on
   # every request.  This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
@@ -31,43 +43,30 @@ Oncapus::Application.configure do
   #Activate observers that should always be running
   config.active_record.observers = :participant_observer
 
-  # Used for password reminder emails
-  config.action_mailer.default_url_options = { :host => '0.0.0.0:3000' }
-
   # Commented for development because causing error on local
   # config.logger = Logger.new(STDOUT)
   # config.log_level = :debug #:warn
 
   #Expands the lines which load the assets
   config.assets.debug = true
-  config.action_mailer.perform_deliveries = false #true
-  config.action_mailer.raise_delivery_errors = false #true
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
-  #ActionMailer::Base.delivery_method = :smtp
-  #config.action_mailer.default_url_options = "localhost:3000"
-  config.action_mailer.smtp_settings = {
-   :address              => "smtp.gmail.com",
-   :port                 => 587,
-   :domain               => "", #set by your ip:port
-   :user_name            => "rohitcdn@gmail.com",
-   :password             => "rohitcdn123",
-   :authentication       => "plain",
-   :enable_starttls_auto => true
+
+  # Used for password reminder emails
+  config.action_mailer.default_url_options = { :host => ENV['MAILER_DEFAULT_URL'] }
+
+  ActionMailer::Base.smtp_settings = {
+    :address              => "smtp.mandrillapp.com",
+    :port                 => 587,
+    :domain               => "herokuapp.com",
+    :user_name            => ENV['MANDRILL_USERNAME'],
+    :password             => ENV['MANDRILL_APIKEY'],
+    :authentication       => "plain"
   }
 
   ActionMailer::Base.default :content_type => "text/html"
-  #config.log_level = :warn
-  Pusher.app_id = '64378'
-  Pusher.key    = '18acef759a4aa6f53d19'
-  Pusher.secret = '4f9384b33dad44150882'
 
-  # Load AWS keys for development
-  config.before_configuration do
-    aws_env_file = Rails.root.join('config', 'application.yml').to_s
-    if File.exists?(aws_env_file)
-      YAML.load_file(aws_env_file).each do |k, v|
-        ENV[k.to_s] = v
-      end
-    end
-  end
+  Pusher.url = ENV['PUSHER_URL']
+
 end

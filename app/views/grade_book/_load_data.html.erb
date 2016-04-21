@@ -962,6 +962,239 @@ $(document).ready(function(){
 
 });
 
+// Display the relavent data in the gradebook in respose to user selection from the dropdown
+function displayOutcomes(data) {
+  var  table2 = $("<table></table>");
+  table2.addClass("GB_right_table");//table outcome  average grade
+  table2.attr("id","GB_right_table");
+  table2.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
+  showSpinner(false);
+  $(data.participants).each(function(p, value){
+    var rows2 =$("<tr></tr>");
+    if(data.outcomes.length>0){
+      $(data.outcomes).each(function(i, outcomes){
+        var grade_col =$("<td class=\"outcome_cell\"></td>");
+        var outcomes_col =$("<td class=\"outcome_cell\"></td>");
+        var outcome_name =$("<div></div>");
+        outcomes_col.addClass("red_border1");
+        if(p==0){
+          outcome_name.html(outcomes.name);
+        }
+        outcome_name.addClass("GB_outcomment rotate_text");
+        outcomes_col.html(outcome_name);
+        var  text = $("<input type ='text'  name='task_grade' value = '"+value.course_outcomes[i]+"' id = 'p_"+value.profile_id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
+        text.addClass("")
+        grade_col.html(text);
+        grade_col.addClass("td_align red_border");
+        rows2.append(outcomes_col);
+        rows2.append(grade_col);
+      });
+    }
+    else{
+      var grade_col =$("<td class=\"outcome_cell\"></td>");
+      var outcomes_col =$("<td class=\"outcome_cell\"></td>");
+      var outcome_name =$("<div></div>");
+      outcomes_col.addClass("red_border1");
+      if(p==0){
+        outcome_name.html("");
+      }
+      outcome_name.addClass("GB_outcomment rotate_text");
+      outcomes_col.html(outcome_name);
+      var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
+      text.addClass("")
+      grade_col.html(text);
+      grade_col.addClass("td_align")
+      rows2.append(outcomes_col);
+      rows2.append(grade_col);
+    }
+    if (p%2==0){
+      rows2.addClass("Dark_no");
+    }
+    else{
+      rows2.addClass("light_row");
+    }
+    table2.append(rows2);
+  });
+  if(data.count<10){
+    for (p=data.count; p<10; p++){
+      var rows2 =$("<tr></tr>");
+      if(data.outcomes.length>0){
+        $(data.outcomes).each(function(i, outcomes){
+          var grade_col =$("<td class=\"outcome_cell\"></td>");
+          var outcomes_col =$("<td class=\"outcome_cell\"></td>");
+          var outcome_name =$("<div></div>");
+          outcomes_col.addClass("red_border1");
+          if(p==0){
+            outcome_name.html("");
+          }
+          outcome_name.addClass("GB_outcomment rotate_text");
+          outcomes_col.html(outcome_name);
+          var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
+          text.addClass("")
+          grade_col.html(text);
+          grade_col.addClass("td_align red_border");
+          rows2.append(outcomes_col);
+          rows2.append(grade_col);
+        });
+      }
+      else{
+        var grade_col =$("<td class=\"outcome_cell\"></td>");
+        var outcomes_col =$("<td class=\"outcome_cell\"></td>");
+        var outcome_name =$("<div></div>");
+        if(p==0){
+          outcome_name.html("");
+        }
+        outcome_name.addClass("GB_outcomment rotate_text");
+        outcomes_col.html(outcome_name);
+        var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
+        text.addClass("")
+        grade_col.html(text);
+        grade_col.addClass("td_align")
+        rows2.append(outcomes_col);
+        rows2.append(grade_col);
+      }
+      if (p%2==0){
+        rows2.addClass("Dark_no");
+      }
+      else{
+        rows2.addClass("light_row");
+      }
+      table2.append(rows2);
+    }
+  }
+  $('.GB_right_table').replaceWith(table2);
+}
+
+// Display the relavent data in the gradebook in respose to user selection from the dropdown
+function displayNotes(data) {
+  showSpinner(false);
+  var  table_note = $("<table></table>");
+
+  table_note.addClass("GB_right_table");//table outcome  average grade
+  table_note.attr("id","GB_right_table");
+  table_note.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
+  $(data.participant).each(function(p, value) {
+    var col_note =$("<td></td>");
+    var cols_note =$("<td></td>");
+    var rows_note =$("<tr></tr>");
+    var div_note = $("<div></div>");
+    //div_note.addClass("notes_margin")
+    if (p%2==0){
+      //rows_note.addClass("GB_odd");
+      rows_note.addClass("Dark_no");
+    }
+    else{
+      //rows_note.addClass("");
+      rows_note.addClass("light_row")
+    }
+    var  textarea = $("<textarea id = 'n_"+ value.profile_id +"'>"+value.notes+"</textarea>")
+    textarea.css("height","29px");
+    textarea.css("line-height"," 110%");
+    textarea.css("resize","none");
+    textarea.css("overflow","hidden");
+    div_note.html(textarea);
+    cols_note.html(div_note);
+    rows_note.html(cols_note)
+    table_note.append(rows_note);
+  });
+  if(data.count<10){
+  for (p=data.count; p<10; p++){
+    var cols_note =$("<td></td>");
+    var rows_note =$("<tr></tr>");
+    var div_note = $("<div></div>");
+    if (p%2==0){
+      rows_note.addClass("Dark_no");
+    }
+    else{
+      rows_note.addClass("light_row")
+    }
+    var  textarea = $("<textarea id = '' readonly='readonly'></textarea>")
+    textarea.css("height","29px");
+    textarea.css("line-height"," 110%");
+    textarea.css("resize","none");
+    textarea.css("overflow","hidden");
+    div_note.html(textarea);
+    cols_note.html(div_note);
+    rows_note.html(cols_note)
+    table_note.append(rows_note);
+    }
+  }
+   $('.GB_right_table').replaceWith(table_note);
+ complete:
+ {
+   if ( $.browser.mozilla ) {
+     $('#GB_right_table').css({'font-size' : '14px'});
+   }
+ }
+}
+
+// Display the relavent data in the gradebook in respose to user selection from the dropdown
+function displayAchievements(data) {
+  showSpinner(false);
+  var  table_note = $("<table></table>");
+
+  table_note.addClass("GB_right_table");//table outcome  average grade
+  table_note.attr("id","GB_right_table");
+  table_note.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
+  $(data.participant).each(function(p, value) {
+    var col_note =$("<td></td>");
+    var cols_note =$("<td></td>");
+    var rows_note =$("<tr></tr>");
+    //div_note.addClass("notes_margin")
+    if (p%2==0){
+      //rows_note.addClass("GB_odd");
+      rows_note.addClass("Dark_no");
+    }
+    else{
+      //rows_note.addClass("");
+      rows_note.addClass("light_row")
+    }
+    var content = '<span>'
+    content += '<img src="/images/xp-28.png" height="15" style="vertical-align: middle;"> ' + value.xp + "/" + value.total_xp
+    content += ' <img src="/images/fav.png" height="15" style="vertical-align: middle;"> ' + value.like_received
+    for (i = 0; i < value.badge_image_urls.length; i++) {
+      content += ' <img src="' + value.badge_image_urls[i] 
+        + '" height="32" style="vertical-align: middle;" class="badge_icon" avatar_badge_id="' 
+        + value.avatar_badge_ids[i] + '">'
+    }
+    content += '</span>'
+    
+    var div_note = $("<div>"+content+"</div>");
+    div_note.addClass("gb_achievement_cell");
+    cols_note.html(div_note);
+    rows_note.html(cols_note)
+    table_note.append(rows_note);
+  });
+  if(data.count<10){
+  for (p=data.count; p<10; p++){
+    var cols_note =$("<td></td>");
+    var rows_note =$("<tr></tr>");
+    var div_note = $("<div></div>");
+    if (p%2==0){
+      rows_note.addClass("Dark_no");
+    }
+    else{
+      rows_note.addClass("light_row")
+    }
+    var  textarea = $("<textarea id = '' readonly='readonly'></textarea>")
+    textarea.css("height","29px");
+    textarea.css("line-height"," 110%");
+    textarea.css("resize","none");
+    textarea.css("overflow","hidden");
+    div_note.html(textarea);
+    cols_note.html(div_note);
+    rows_note.html(cols_note)
+    table_note.append(rows_note);
+    }
+  }
+   $('.GB_right_table').replaceWith(table_note);
+ complete:
+ {
+   if ( $.browser.mozilla ) {
+     $('#GB_right_table').css({'font-size' : '14px'});
+   }
+ }
+}
 
   //Load data on change of outcome/notes drop down
  $(".grade_book_content").delegate("#outcome_note","change",function(){
@@ -969,189 +1202,40 @@ $(document).ready(function(){
     var singleValues = $("#outcome_note :selected").text();
     $("#outcome_note").parent().find('.fakebox').html(singleValues);
     course_id = $("#course_id").val();
+    
     var val = $(this).val();
-    if (val==1){
+
+    if (val == "outcomes"){
      showSpinner(true);
       $.ajax({
         type :"POST",
         url: "/grade_book/load_outcomes",
         dataType: "json",
-        data: {course_id:course_id},
-        success: function(data){
-          var  table2 = $("<table></table>");
-          table2.addClass("GB_right_table");//table outcome  average grade
-          table2.attr("id","GB_right_table");
-          table2.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
-          showSpinner(false);
-          $(data.participants).each(function(p, value){
-            var rows2 =$("<tr></tr>");
-            if(data.outcomes.length>0){
-              $(data.outcomes).each(function(i, outcomes){
-                var grade_col =$("<td class=\"outcome_cell\"></td>");
-                var outcomes_col =$("<td class=\"outcome_cell\"></td>");
-                var outcome_name =$("<div></div>");
-                outcomes_col.addClass("red_border1");
-                if(p==0){
-                  outcome_name.html(outcomes.name);
-                }
-                outcome_name.addClass("GB_outcomment rotate_text");
-                outcomes_col.html(outcome_name);
-                var  text = $("<input type ='text'  name='task_grade' value = '"+value.course_outcomes[i]+"' id = 'p_"+value.profile_id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
-                text.addClass("")
-                grade_col.html(text);
-                grade_col.addClass("td_align red_border");
-                rows2.append(outcomes_col);
-                rows2.append(grade_col);
-              });
-            }
-            else{
-              var grade_col =$("<td class=\"outcome_cell\"></td>");
-              var outcomes_col =$("<td class=\"outcome_cell\"></td>");
-              var outcome_name =$("<div></div>");
-              outcomes_col.addClass("red_border1");
-              if(p==0){
-                outcome_name.html("");
-              }
-              outcome_name.addClass("GB_outcomment rotate_text");
-              outcomes_col.html(outcome_name);
-              var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
-              text.addClass("")
-              grade_col.html(text);
-              grade_col.addClass("td_align")
-              rows2.append(outcomes_col);
-              rows2.append(grade_col);
-            }
-            if (p%2==0){
-              rows2.addClass("Dark_no");
-            }
-            else{
-              rows2.addClass("light_row");
-            }
-            table2.append(rows2);
-          });
-          if(data.count<10){
-            for (p=data.count; p<10; p++){
-              var rows2 =$("<tr></tr>");
-              if(data.outcomes.length>0){
-                $(data.outcomes).each(function(i, outcomes){
-                  var grade_col =$("<td class=\"outcome_cell\"></td>");
-                  var outcomes_col =$("<td class=\"outcome_cell\"></td>");
-                  var outcome_name =$("<div></div>");
-                  outcomes_col.addClass("red_border1");
-                  if(p==0){
-                    outcome_name.html("");
-                  }
-                  outcome_name.addClass("GB_outcomment rotate_text");
-                  outcomes_col.html(outcome_name);
-                  var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
-                  text.addClass("")
-                  grade_col.html(text);
-                  grade_col.addClass("td_align red_border");
-                  rows2.append(outcomes_col);
-                  rows2.append(grade_col);
-                });
-              }
-              else{
-                var grade_col =$("<td class=\"outcome_cell\"></td>");
-                var outcomes_col =$("<td class=\"outcome_cell\"></td>");
-                var outcome_name =$("<div></div>");
-                if(p==0){
-                  outcome_name.html("");
-                }
-                outcome_name.addClass("GB_outcomment rotate_text");
-                outcomes_col.html(outcome_name);
-                var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
-                text.addClass("")
-                grade_col.html(text);
-                grade_col.addClass("td_align")
-                rows2.append(outcomes_col);
-                rows2.append(grade_col);
-              }
-              if (p%2==0){
-                rows2.addClass("Dark_no");
-              }
-              else{
-                rows2.addClass("light_row");
-              }
-              table2.append(rows2);
-            }
-          }
-          $('.GB_right_table').replaceWith(table2);
-        }
+        data: {course_id: course_id},
+        success: displayOutcomes
       });
-     //load_outcomes();
-    }
-    else{
+    } else if (val == "notes"){
       showSpinner(true);
       $.ajax({
         type :"POST",
         url: "/grade_book/load_notes",
         dataType: "json",
-        data: {course_id:course_id},
-        success: function(data){
-          showSpinner(false);
-          var  table_note = $("<table></table>");
-
-          table_note.addClass("GB_right_table");//table outcome  average grade
-          table_note.attr("id","GB_right_table");
-          table_note.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
-          $(data.participant).each(function(p, value) {
-            var col_note =$("<td></td>");
-            var cols_note =$("<td></td>");
-            var rows_note =$("<tr></tr>");
-            var div_note = $("<div></div>");
-            //div_note.addClass("notes_margin")
-            if (p%2==0){
-              //rows_note.addClass("GB_odd");
-              rows_note.addClass("Dark_no");
-            }
-            else{
-              //rows_note.addClass("");
-              rows_note.addClass("light_row")
-            }
-            var  textarea = $("<textarea id = 'n_"+ value.profile_id +"'>"+value.notes+"</textarea>")
-            textarea.css("height","29px");
-            textarea.css("line-height"," 110%");
-            textarea.css("resize","none");
-            textarea.css("overflow","hidden");
-            div_note.html(textarea);
-            cols_note.html(div_note);
-            rows_note.html(cols_note)
-            table_note.append(rows_note);
-          });
-          if(data.count<10){
-          for (p=data.count; p<10; p++){
-            var cols_note =$("<td></td>");
-            var rows_note =$("<tr></tr>");
-            var div_note = $("<div></div>");
-            if (p%2==0){
-              rows_note.addClass("Dark_no");
-            }
-            else{
-              rows_note.addClass("light_row")
-            }
-            var  textarea = $("<textarea id = '' readonly='readonly'></textarea>")
-            textarea.css("height","29px");
-            textarea.css("line-height"," 110%");
-            textarea.css("resize","none");
-            textarea.css("overflow","hidden");
-            div_note.html(textarea);
-            cols_note.html(div_note);
-            rows_note.html(cols_note)
-            table_note.append(rows_note);
-            }
-          }
-           $('.GB_right_table').replaceWith(table_note);
-         complete:
-         {
-           if ( $.browser.mozilla ) {
-             $('#GB_right_table').css({'font-size' : '14px'});
-           }
-         }
-        }
+        data: {course_id: course_id},
+        success: displayNotes
+      });
+    } else if (val == "achievements"){
+      showSpinner(true);
+      $.ajax({
+        type :"POST",
+        url: "/grade_book/load_achievements",
+        dataType: "json",
+        data: {course_id: course_id},
+        success: displayAchievements
       });
     }
+    
   });
+  
   //Scroll div to task in table on task change
  $(".grade_book_content").delegate("#task_id","change",function(){
   //$('#task_id').change(function(){
