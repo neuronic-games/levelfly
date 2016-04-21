@@ -444,6 +444,7 @@ Oncapus::Application.routes.draw do
   # Game Center API
   
   match 'gamecenter' => 'gamecenter#index'
+  match 'games/:id' => 'gamecenter#show'
 
   get 'gamecenter/:handle/:action' => 'gamecenter#:action'
   get "gamecenter/status"
@@ -454,6 +455,10 @@ Oncapus::Application.routes.draw do
   get "gamecenter/edit_game"
   put "gamecenter/update_game"
   post "gamecenter/update_game"
+  get "gamecenter/download"
+  get "gamecenter/support"
+  get "gamecenter/achivements"
+  get "gamecenter/leaderboard"
 
 
 

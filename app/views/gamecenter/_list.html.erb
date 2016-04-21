@@ -23,10 +23,10 @@
           <!-- tabs-->
           <div class="leader_tabs" align="right">
             <a href="javascript:void(0)" class="side_tab side_tab_open" filter="active"><span class="task_tab">Main</span></a>
-            <a href="javascript:void(0)" class="side_tab side_tab_close" filter="download"><span class="task_tab">DownLoad</span></a>
-            <a href="javascript:void(0)" class="side_tab side_tab_close" filter="support"><span class="task_tab">Support</span></a>
-            <a href="javascript:void(0)" class="side_tab side_tab_close" filter="achivements"><span class="task_tab">Achievements</span></a>
-            <a href="javascript:void(0)" class="side_tab side_tab_close" filter="leaderboard"><span class="task_tab">Leaderboard</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close" id="download_page" filter="download"><span class="task_tab">DownLoad</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close" id="support" filter="support"><span class="task_tab">Support</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close" id="achivements" filter="achivements"><span class="task_tab">Achievements</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close" id="leaderboard" filter="leaderboard"><span class="task_tab">Leaderboard</span></a>
           </div>
 
           <!-- NEW BOX START HERE -->
@@ -84,6 +84,75 @@ $(document).ready(function(){
        	showSpinner(false);
      }
   	});
+  });
+
+  $("#download_page").unbind('click').bind('click', function(){
+    showSpinner(true);
+    var filter = $(".side_tab_open:first").attr("filter");
+    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
+    $(this).addClass("side_tab_open").removeClass("side_tab_close");
+
+    $.ajax({
+
+      type: "GET",
+      url: "/gamecenter/download",
+      data: {filter:filter, show:"download"},
+      success: function(data) {
+        $("#rows").html(data);
+        showSpinner(false);
+      }
+    });  
+  });
+
+  $("#support").unbind('click').bind('click', function(){
+    showSpinner(true);
+    var filter = $(".side_tab_open:first").attr("filter");
+    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
+    $(this).addClass("side_tab_open").removeClass("side_tab_close");
+    $.ajax({
+
+      type: "GET",
+      url: "/gamecenter/support",
+      data: {filter:filter, show:"support"},
+      success: function(data) {
+        $("#rows").html(data);
+        showSpinner(false);
+      }
+    });  
+  });
+
+  $("#achivements").unbind('click').bind('click', function(){
+    showSpinner(true);
+    var filter = $(".side_tab_open:first").attr("filter");
+    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
+    $(this).addClass("side_tab_open").removeClass("side_tab_close");
+    $.ajax({
+
+      type: "GET",
+      url: "/gamecenter/achivements",
+      data: {filter:filter, show:"achivements"},
+      success: function(data) {
+        $("#rows").html(data);
+        showSpinner(false);
+      }
+    });  
+  });
+
+  $("#leaderboard").unbind('click').bind('click', function(){
+    showSpinner(true);
+    var filter = $(".side_tab_open:first").attr("filter");
+    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
+    $(this).addClass("side_tab_open").removeClass("side_tab_close");
+    $.ajax({
+
+      type: "GET",
+      url: "/gamecenter/leaderboard",
+      data: {filter:filter, show:"leaderboard"},
+      success: function(data) {
+        $("#rows").html(data);
+        showSpinner(false);
+      }
+    });  
   });
   
 });
