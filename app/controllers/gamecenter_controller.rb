@@ -1,6 +1,6 @@
 class GamecenterController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!, :except => [:status, :connect, :authenticate, :get_current_user, :add_progress]
+  before_filter :authenticate_user!, :except => [:status, :show, :connect, :authenticate, :get_current_user, :add_progress]
 
   def status
     message = "All OK"
@@ -243,6 +243,14 @@ class GamecenterController < ApplicationController
     render :partial => "/gamecenter/list"
     @profile.record_action('last', 'gamecenter')
   end
+
+  def show
+    @game = Game.find(params[:id])
+    respond_to do |format|
+      format.html {render :layout => 'public'}
+    end
+    #render :layout => publicc
+  end 
   
   def get_rows
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
@@ -261,11 +269,9 @@ class GamecenterController < ApplicationController
       conditions[0] += " and games.archived = ?"
       conditions << true
     end
-    
-    @games = school.games.find(:all, :conditions => conditions,
-      :order => "name")    
-    #@games = Game.find(:all, :conditions => conditions,
-    #  :order => "name")
+      
+    @games = Game.find(:all, :conditions => conditions,
+     :order => "name")
     
     render :partial => "/gamecenter/rows"
   end
@@ -297,6 +303,22 @@ class GamecenterController < ApplicationController
     params[:game].merge!("image" => params["file"]) if params["file"].present?
     @game = Game.find(params[:id]).update_attributes(params[:game])
     render :text => { 'status' => 200, 'message' => 'Game updated successfully' }.to_json
+  end
+
+  def download
+    render :partial => "/gamecenter/download"
+  end
+
+  def support
+    render :partial => "/gamecenter/support"
+  end
+
+  def achivements
+    render :partial => "/gamecenter/achivements"
+  end 
+
+  def leaderboard
+    render :partial => "/gamecenter/leader_board"
   end
   
 end
