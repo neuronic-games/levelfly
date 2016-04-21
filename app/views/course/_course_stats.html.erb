@@ -52,7 +52,7 @@
           <%badge = Badge.badge_detail(b.badge_id)%>
             <% if badge and !badge.nil?%>
             <li>
-             <div class="SI_icon"><img src="images/badges/<%=badge.badge_image.image_file_name%>"class="icon_style_badge hover badge_details" id="<%=b.id%>"/></div>
+             <div class="SI_icon"><img src="<%=badge.badge_image.image_file_path%>"class="icon_style_badge hover badge_icon" avatar_badge_id="<%=b.id%>"/></div>
               <span class="text_style_badge"><%=badge.name%></span>
             </li>
             <%end%>
@@ -130,9 +130,6 @@
     <div class="clear"></div>
   </div>
   <div class="clear"></div>
-  <div class = "badge_detail hide" id="badge_detail">
-    <%= render :partial => "/badge/badge_detail" %>
-  </div>
   <input type="hidden" name="course_id"  id ="course_id" value="<%=@course.id%>">
 <script type="text/javascript">
 $( "span[title]" ).tooltip({
@@ -192,20 +189,5 @@ $( "span[title]" ).tooltip({
         }
       );
       
-   $(".badge_details").click(function(){
-    id = $(this).attr("id");
-    showSpinner(true);
-      $.ajax({
-        type: "POST",
-        url: "/badge/badge_detail",
-        data:{id:id},
-        success: function(data) {
-          $("#badge_detail").html(data); 
-          $("#badge_detail").show();
-          showSpinner(false);
-        }
-      });  
-  });  
-    
   });
 </script>    

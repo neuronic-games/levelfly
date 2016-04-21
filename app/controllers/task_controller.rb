@@ -4,7 +4,9 @@ class TaskController < ApplicationController
   layout 'main'
   before_filter :authenticate_user!
   before_filter :check_role,:only=>[:new, :save]
+  
   def index
+    @tasks = []
     @profile = current_profile
     if @profile
       @courses = Course.find(
@@ -22,8 +24,7 @@ class TaskController < ApplicationController
       else
         # Check if the user was working on a details page before, and redirect if so
         return if redirect_to_last_action(@profile, 'task', '/task/show')
-        @tasks = Task.filter_by(@profile.id, "", "current")
-        puts @tasks.to_yaml
+        @tasks = Task.filter_by(@profile.id, params[:course_id], "current")
       end
     end
 
@@ -31,7 +32,7 @@ class TaskController < ApplicationController
       wants.html do
         if request.xhr?
           if search_render
-            render :partial => "/task/task_list", :locals => {:t=>@tasks}
+            render :partial => "/task/task_list" #, :locals => {:t=>@tasks}
           else
             render :partial => "/task/list"
           end
@@ -55,7 +56,7 @@ class TaskController < ApplicationController
     respond_to do |wants|
       wants.html do
         if request.xhr?
-          render :partial => "/task/form" ,:locals=>{:task_new => true}
+          render :partial => "/task/form" ,:locals=>{:task_new => true, :course_id => params[:course_id]}
         else
           render
         end
@@ -94,7 +95,10 @@ class TaskController < ApplicationController
 		else
 			@files = @task.attachments.where("owner_id IN (?)", [@profile.id, @task_owner.id]).order("starred desc")
 		end
-    all_tasks = Task.filter_by(@course.owner.id,@course.id,"").collect(&:points)
+    all_tasks = []
+    if @course.owner
+      all_tasks = Task.filter_by(@course.owner.id,@course.id,"").collect(&:points)
+    end
     @tasks_created = all_tasks.count
     @allocated_points = all_tasks.sum
     @remaining_points = 1000 - @allocated_points
@@ -131,7 +135,7 @@ class TaskController < ApplicationController
     respond_to do |wants|
       wants.html do
         if request.xhr?
-          render :partial => "/task/form"
+          render :partial => "/task/form", :locals => { :course_id => @course ? @course.id : '' }
         else
           render
         end
@@ -468,7 +472,10 @@ class TaskController < ApplicationController
         :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'S' AND users.status != 'D'", params[:course_id]],
         :order => "profiles.full_name"
       )
-      all_tasks = Task.filter_by(@course.owner.id,@course.id,"").collect(&:points)
+      all_tasks = []
+      if @course.owner
+        Task.filter_by(@course.owner.id,@course.id,"").collect(&:points)
+      end
       @tasks_created = all_tasks.count
       @allocated_points = all_tasks.sum
       @remaining_points = 1000 - @allocated_points

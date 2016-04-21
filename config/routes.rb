@@ -255,6 +255,8 @@ Oncapus::Application.routes.draw do
 
   post "grade_book/load_notes"
 
+  post "grade_book/load_achievements"
+
   post "grade_book/save_notes"
 
   post "grade_book/course_outcomes"
@@ -443,10 +445,13 @@ Oncapus::Application.routes.draw do
   
   match 'gamecenter' => 'gamecenter#index'
 
-  get 'gamecenter/:app_id/:action' => 'gamecenter#:action'
+  get 'gamecenter/:handle/:action' => 'gamecenter#:action'
+  get "gamecenter/status"
+  get "gamecenter/connect"
   get "gamecenter/get_rows"
   get "gamecenter/add_game"
-  get "gamecenter/save_game"
+  get "gamecenter/add_checkpoint"
+  get "gamecenter/get_checkpoint"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

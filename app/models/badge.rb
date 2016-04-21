@@ -60,4 +60,27 @@ has_many :avatar_badges
     return gold_badge.id
   end
 
+  # Use this to find (and create) a game badge
+  def self.find_create_game_badge(game_id, name, descr = nil, badge_image_id = nil)
+    badge = Badge.where(name: name, quest_id: game_id).first
+    if badge.nil?    
+      badge = Badge.new
+      badge.name = name
+      badge.descr = descr
+      badge.badge_image_id = badge_image_id.nil? ? 1 : badge_image_id
+      badge.quest_id = game_id  # We can use quest_id for storing game_id for now. But if we want to use if for other purposes, we need quest_type
+    else
+      badge.descr = descr unless descr.blank?
+      badge.badge_image_id = badge_image_id unless badge_image_id.to_i == 0
+    end
+    
+    badge.save
+    
+    return badge
+  end
+  
+  def image_url
+    return badge_image.image_file_path
+  end
+
 end

@@ -40,6 +40,11 @@ class User < ActiveRecord::Base
     @_default_school ||= School.find_by_id(self.default_school_id) || self.profiles.first.school
   end
 
+  def default_profile
+    return self.profiles.first if self.default_school_id.nil?
+    return Profile.find(:first, :conditions => {:school_id => self.default_school_id, :user_id => self.id})
+  end
+  
   def default_school=(school)
     self.default_school_id = school.id
     @_default_school = school

@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-ruby '2.0.0'
+ruby '2.1.5'
 gem 'rails', '~> 3.2'
 gem 'pg'
 gem 'thin'

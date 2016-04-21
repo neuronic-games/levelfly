@@ -15,4 +15,8 @@ module BadgeHelper
     return nil
   end
   
+  def quest_name(quest_id)
+    game = Game.find(quest_id)
+    return game.nil? ? nil : game.name
+  end
 end
