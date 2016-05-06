@@ -5,6 +5,9 @@
 <!-- Contextual Side Buttons -->
 <div id="sidebar_right">
    <div class="side_buttons">
+      <% if controller.action_name == "edit_game" %>
+        <%= link_to "View", "/games/#{@game.id}", :target => "_blank", :class => "big_blue_btn"%>
+      <% end %>  
       <a class="big_blue_btn" name="menu_btn_archive" href="javascript:void(0)" id="archive">Archive</a>
       <a href="javascript:void(0)" data-image-attach='false' name="btn_game_save" id="btn_game_save" class="big_orange_btn">SAVE</a>
    </div>

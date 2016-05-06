@@ -249,9 +249,8 @@ class GamecenterController < ApplicationController
     respond_to do |format|
       format.html {render :layout => 'public'}
     end
-    #render :layout => publicc
-  end 
-  
+  end
+
   def get_rows
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
 
