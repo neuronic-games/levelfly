@@ -122,7 +122,7 @@
               <%badge = Badge.badge_detail(b.badge_id)%>
                 <% if badge and !badge.nil?%>
                 <li>
-                  <div class="SI_icon"><img src="<%=badge.badge_image.image_file_path%>"class="icon_style_badge hover badge_details" id="<%=b.id%>"/></div>
+                  <div class="SI_icon"><img src="<%=badge.badge_image.image_file_path%>"class="icon_style_badge hover badge_icon" avatar_badge_id="<%=b.id%>"/></div>
                   <span class="text_style_badge" style="word-break:normal; word-wrap:break-word; max-width:50px;"><%=badge.name.truncate(40) if badge.name %></span>
                 </li>
                 <%end%>  
@@ -222,9 +222,6 @@
   </div>
   
 </div>
-</div>
-<div class = "badge_detail hide" id="badge_detail">
-  <%= render :partial => "/badge/badge_detail" %>
 </div>
 <div class ="major_box hide" id="major_box">
   <%= render :partial => "/profile/major_list", :locals=>{:profile=>profile} %>
@@ -434,23 +431,6 @@ $(document).ready(function(){
       });  
   });
   
-  $(".badge_details").click(function(){
-    id = $(this).attr("id");
-    showSpinner(true);
-      $.ajax({
-        type: "POST",
-        url: "/badge/badge_detail",
-        data:{id:id},
-        success: function(data) {
-          $("#badge_detail").html(data); 
-          $("#badge_detail").show();
-          showSpinner(false);
-        }
-      });  
-  });
-
-
-
   function saveProfile() {
      interests = $("#interests").val();
     _profile.interests = interests;

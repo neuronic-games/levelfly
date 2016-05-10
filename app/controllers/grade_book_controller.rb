@@ -306,11 +306,12 @@ end
         :select => ["profiles.full_name,participants.id,participants.profile_id"])
       if not @participant.nil?
         @participant.each do |p|
-          p["xp"] = p.profile.xp
-          p["total_xp"] = p.profile.total_xp(course_id)
+          (p["xp"], p["total_xp"]) = p.profile.total_xp(course_id)
           p["like_received"] = p.profile.total_like(course_id)
-          p["badge_count"] = p.profile.avatar_badges.count
-          p["badges"] = p.profile.avatar_badges.collect{|x| x.badge.image_url}
+          course_badges = AvatarBadge.where(course_id: course_id, profile_id: p.profile_id)
+          p["badge_count"] = course_badges.count
+          p["badge_image_urls"] = course_badges.collect{|x| x.badge.image_url}
+          p["avatar_badge_ids"] = course_badges.collect{|x| x.id}
         end
       end
       @count = @participant.count
@@ -481,13 +482,19 @@ def export_course_grade_csv
       :select => ["profiles.full_name,participants.id,participants.profile_id"],
       :order => "full_name"
       )
+      
     y << "Levelfly ID"
     y << "Name"
     y << "Course Code"
     y << "Course Term"
+    y << "Notes"
     y << "Course Grade (Numerical)"
     y << "Course Grade (Letter)"
-    y << "Notes"
+    y << "XP"
+    y << "Likes"
+    y << "Badges"
+    
+    # Outcome
     if @outcomes.length > 0
       if !@outcomes.nil?
         @outcomes.each do|o|
@@ -495,6 +502,8 @@ def export_course_grade_csv
         end
       end
     end
+    
+    # Tasks
     if @tasks.length > 0
       if !@tasks.nil?
         @tasks.each do|t|
@@ -510,6 +519,7 @@ def export_course_grade_csv
         end
       end
     end
+    
     if !@participant.nil?
       @participant.each do |p|
         x << p.profile.user_id
@@ -521,63 +531,79 @@ def export_course_grade_csv
         grade = ""
         if !val.nil?
 #            grade = val.to_s+" "+GradeType.value_to_letter(val, @course.school_id)
-grade = val
-x << grade
-grade = GradeType.value_to_letter(val, @course.school_id)
-x << grade
-end
-participant_note = CourseGrade.load_notes(p.profile_id, @course.id, @course.school_id)
-if participant_note.blank?
-  x << ""
-else
-  x << participant_note
-end
-if @outcomes.length>0
-  if !@outcomes.nil?
-    @outcomes.each do |o|
-      outcome_grade = CourseGrade.load_outcomes(p.profile_id, @course.id,o.id,@course.school_id)
-      x << outcome_grade
-    end
-  end
-end
-if @tasks.count > 0
-  if !@tasks.nil?
-    @tasks.each do|t|
-      task_grade = TaskGrade.load_task_grade(t.school_id,t.course_id,t,p.profile_id)
-      grade = ""
-      if !task_grade.nil?
-        grade = GradeType.value_to_letter(task_grade, t.school_id ) unless @course.display_number_grades
-        grade = task_grade if @course.display_number_grades
-      end
-      x << grade
-      @task_outcomes = t.outcomes
-      if @task_outcomes.length > 0
-        if !@task_outcomes.nil?
-          @task_outcomes.each do|o|
-            outcome_grade = OutcomeGrade.load_task_outcomes(@course.school_id, @course.id,t.id,p.profile_id,o.id)
-            x << outcome_grade
+          grade = val
+          x << grade
+          grade = GradeType.value_to_letter(val, @course.school_id)
+          x << grade
+        end
+        
+        participant_note = CourseGrade.load_notes(p.profile_id, @course.id, @course.school_id)
+        if participant_note.blank?
+          x << ""
+        else
+          x << participant_note
+        end
+
+        if @outcomes.length>0
+          if !@outcomes.nil?
+            @outcomes.each do |o|
+              outcome_grade = CourseGrade.load_outcomes(p.profile_id, @course.id,o.id,@course.school_id)
+              x << outcome_grade
+            end
           end
         end
+
+        # XP
+        xp = p.profile.total_xp(@course.id)
+        x << "#{xp[0]}/#{xp[1]}"
+        
+        # Likes
+        x << p.profile.total_like(@course.id)
+        
+        # Badges
+        course_badges = AvatarBadge.where(course_id: @course.id, profile_id: p.profile_id)
+        x << course_badges.collect{|x| x.badge.name} * ", "
+        
+        if @tasks.count > 0
+          if !@tasks.nil?
+            @tasks.each do|t|
+              task_grade = TaskGrade.load_task_grade(t.school_id,t.course_id,t,p.profile_id)
+              grade = ""
+              if !task_grade.nil?
+                grade = GradeType.value_to_letter(task_grade, t.school_id ) unless @course.display_number_grades
+                grade = task_grade if @course.display_number_grades
+              end
+              x << grade
+              @task_outcomes = t.outcomes
+              if @task_outcomes.length > 0
+                if !@task_outcomes.nil?
+                  @task_outcomes.each do|o|
+                    outcome_grade = OutcomeGrade.load_task_outcomes(@course.school_id, @course.id,t.id,p.profile_id,o.id)
+                    x << outcome_grade
+                  end
+                end
+              end
+            end
+          end
+        end
+        
+        x << "\m"
+        
       end
     end
+    user_csv = CSV.generate do |csv|
+      y = y.split("\m")
+      y.each do |i|
+        csv << i
+      end
+      x = x.split("\m")
+      x.each do |i|
+        csv << i
+      end
+    end
+    filename = @course.code + "-" + @course.section + "-" + Date.today.strftime("%Y%m%d") + ".csv"
+    send_data(user_csv, :type => 'test/csv', :filename => filename)
   end
-end
-x << "\m"
-end
-end
-user_csv = CSV.generate do |csv|
-  y = y.split("\m")
-  y.each do |i|
-    csv << i
-  end
-  x = x.split("\m")
-  x.each do |i|
-    csv << i
-  end
-end
-filename = @course.code + "-" + @course.section + "-" + Date.today.strftime("%Y%m%d") + ".csv"
-send_data(user_csv, :type => 'test/csv', :filename => filename)
-end
 end
 
 end

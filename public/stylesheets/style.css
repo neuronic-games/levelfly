@@ -3925,6 +3925,9 @@ div .frm_input2 {
 	font-weight:bold;
 	color:#5b5757
 }
+.badge_icon {
+  cursor: pointer;
+}
 .rfw {
 	font-weight:normal;
 	vertical-align: text-top;
@@ -4330,11 +4333,11 @@ border:solid 0px #000000;
     border-radius: 16px 16px 16px 16px;
     box-shadow: 0 0 12px #333333;
     height: 140px;
-    left: 35%;
+    left: 25%;
+    right: 25%;
     padding: 20px;
     position: fixed;
     top: 50%;
-    width: 375px;
     z-index: 9993;
 }
 .badge_popup .heading{
