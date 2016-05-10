@@ -56,11 +56,9 @@
         <div class="col-sm-8">
            <h3 class="text-info" >Learning Objectives</h3>
            <ul>
-             <li class="learning_text">Given the depth of our relationship with India across a range of areas</li>
-             <li class="learning_text">Given the depth of our relationship with India across a range of areas</li>
-             <li class="learning_text">Given the depth of our relationship with India across a range of areas</li>
-             <li class="learning_text">Given the depth of our relationship with India across a range of areas</li>
-             <li class="learning_text">Given the depth of our relationship with India across a range of areas</li>
+             <% @outcomes.each do |outcome|%>
+               <li class="learning_text"><%= outcome.name %></li>
+             <% end %>
            </ul>  
         </div>    
       </div>

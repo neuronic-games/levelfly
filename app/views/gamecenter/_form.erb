@@ -43,6 +43,16 @@
       <div class="clearfix"></div>
    </div>
 </div>
+<br/>
+<div class="field_label4" style="margin-right: 75px;">
+  LEARNING OBJECTIVES  
+  <%= f.fields_for :outcomes do |ff| %>
+    <div class="dd_bg brown_bg">
+      <%= ff.text_field :name, :style =>"width: 100%;" %>
+    </div>
+    <br/>
+  <% end %> 
+</div>
 <% end  %>
 
 <!-- UI control code -->
@@ -104,7 +114,12 @@ $(function() {
             'game[archived]': $("#archived").val(),
             'game[name]': $("#name").val(),
             'game[descr]': $("#descr").val(),
-            'game[school_id]': $("#game_school_id").val(), 
+            'game[school_id]': $("#game_school_id").val(),
+            'game[outcomes_attributes][0][name]': $("#game_outcomes_attributes_0_name").val(),
+            'game[outcomes_attributes][1][name]': $("#game_outcomes_attributes_1_name").val(),
+            'game[outcomes_attributes][2][name]': $("#game_outcomes_attributes_2_name").val(),
+            'game[outcomes_attributes][3][name]': $("#game_outcomes_attributes_3_name").val(),
+            'game[outcomes_attributes][4][name]': $("#game_outcomes_attributes_4_name").val(), 
 
             // 'game[last_rev_date(3i)]': $('[name="game[last_rev_date(3i)]"]').val(),
             // 'game[last_rev_date(2i)]': $('[name="game[last_rev_date(2i)]"]').val(),
