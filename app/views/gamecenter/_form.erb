@@ -6,6 +6,7 @@
 <div id="sidebar_right">
    <div class="side_buttons">
       <% if controller.action_name == "edit_game" %>
+        <%= hidden_field_tag :game_id, @game.id%>
         <%= link_to "View", "/games/#{@game.id}", :target => "_blank", :class => "big_blue_btn"%>
       <% end %>  
       <a class="big_blue_btn" name="menu_btn_archive" href="javascript:void(0)" id="archive">Archive</a>
@@ -108,6 +109,8 @@ $(function() {
     });
     course_uploader.init();
     course_uploader.bind('FilesAdded', function(up, files) {
+    var game_id = $("#game_id").val(); 
+    if (game_id){  
     course_uploader.settings.multipart_params = {
             'authenticity_token': token, //For csrf-authentication
             'game[published]': $("#published").val(),
@@ -116,10 +119,15 @@ $(function() {
             'game[descr]': $("#descr").val(),
             'game[school_id]': $("#game_school_id").val(),
             'game[outcomes_attributes][0][name]': $("#game_outcomes_attributes_0_name").val(),
+            'game[outcomes_attributes][0][id]': $("#game_outcomes_attributes_0_id").val(),
             'game[outcomes_attributes][1][name]': $("#game_outcomes_attributes_1_name").val(),
+            'game[outcomes_attributes][1][id]': $("#game_outcomes_attributes_1_id").val(),
             'game[outcomes_attributes][2][name]': $("#game_outcomes_attributes_2_name").val(),
+            'game[outcomes_attributes][2][id]': $("#game_outcomes_attributes_2_id").val(),
             'game[outcomes_attributes][3][name]': $("#game_outcomes_attributes_3_name").val(),
-            'game[outcomes_attributes][4][name]': $("#game_outcomes_attributes_4_name").val(), 
+            'game[outcomes_attributes][3][id]': $("#game_outcomes_attributes_3_id").val(),
+            'game[outcomes_attributes][4][name]': $("#game_outcomes_attributes_4_name").val(),
+            'game[outcomes_attributes][4][id]': $("#game_outcomes_attributes_4_id").val(), 
 
             // 'game[last_rev_date(3i)]': $('[name="game[last_rev_date(3i)]"]').val(),
             // 'game[last_rev_date(2i)]': $('[name="game[last_rev_date(2i)]"]').val(),
@@ -132,6 +140,23 @@ $(function() {
 
             'game[archived]': $("#archived").val(),
         };
+      }else{
+        course_uploader.settings.multipart_params = {
+            'authenticity_token': token, //For csrf-authentication
+            'game[published]': $("#published").val(),
+            'game[archived]': $("#archived").val(),
+            'game[name]': $("#name").val(),
+            'game[descr]': $("#descr").val(),
+            'game[school_id]': $("#game_school_id").val(),
+            'game[outcomes_attributes][0][name]': $("#game_outcomes_attributes_0_name").val(),
+            'game[outcomes_attributes][1][name]': $("#game_outcomes_attributes_1_name").val(),
+            'game[outcomes_attributes][2][name]': $("#game_outcomes_attributes_2_name").val(),
+            'game[outcomes_attributes][3][name]': $("#game_outcomes_attributes_3_name").val(),
+            'game[outcomes_attributes][4][name]': $("#game_outcomes_attributes_4_name").val(),
+            'game[archived]': $("#archived").val(),
+        };
+
+      }  
 
         $('#btn_game_save').attr("data-image-attach", 'true');
     });
