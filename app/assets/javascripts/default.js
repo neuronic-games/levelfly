@@ -16,7 +16,7 @@ function showSpinner(visible) {
 
 //Set temp storage
 function setStorage(key,value){
-  alert(key +"==="+ value + " " + (key===null));//debug
+  // alert(key +"==="+ value + " " + (key===null));//debug
   if(value!=""){
     jStorage.set(key, value);
   }

@@ -179,11 +179,14 @@ class Profile < ActiveRecord::Base
 
   # Calculates the total xp that can be received for given course
   def total_xp(course_id)
+    acc_xp = 0
     total_xp = 0
     self.task_participants.each do |tp|
-      total_xp += tp.task.points
+      xp = tp.task.points
+      acc_xp += xp if !tp.xp_award_date.nil?
+      total_xp += xp
     end
-    return total_xp
+    return acc_xp, total_xp
   end
   
   # Calculates the total likes that can be received for given course. Since the profile stores

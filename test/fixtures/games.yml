@@ -4,12 +4,5 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-admin:
-  email: tam@neuronicgames.com
-
-gamedev:
-  email: tam+gamedev@neuronicgames.com
-
-gamer:
-  email: tam+gamer@neuronicgames.com
-  
+test_game:
+  name: Test Game  
