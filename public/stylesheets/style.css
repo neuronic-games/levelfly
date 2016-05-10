@@ -954,6 +954,14 @@ margin-top:-20px;
   float:left;
   margin-right:10px;
 }
+.field_label4 {
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight:bold;
+  font-size:10px;
+  color:#CAC6C6;
+  text-transform:uppercase;
+  margin-right:1px;
+}
 .field_prompt {
   font-family:Arial, Helvetica, sans-serif;
   font-size:12px;
@@ -4697,3 +4705,10 @@ a.like{
   margin: 0;
   padding: 0;
 }
+
+/*.course_field_box2
+{
+  width : 90%;
+  margin: 0;
+  padding: 0;
+}*/

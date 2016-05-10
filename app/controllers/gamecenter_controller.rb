@@ -246,12 +246,12 @@ class GamecenterController < ApplicationController
 
   def show
     @game = Game.find(params[:id])
+    @outcomes = @game.outcomes.limit(5)
     respond_to do |format|
       format.html {render :layout => 'public'}
     end
-    #render :layout => publicc
-  end 
-  
+  end
+
   def get_rows
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
 
@@ -284,6 +284,7 @@ class GamecenterController < ApplicationController
     @game.archived = false
     @game.published = false
     @game.school_id = current_user.profiles.first.school_id if current_user.profiles.present?
+    1.upto(5) {|i| @game.outcomes.new}
     render :partial => "/gamecenter/form",locals: {url: gamecenter_save_game_path}
   end
   
