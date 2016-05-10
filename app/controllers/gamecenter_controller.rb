@@ -71,7 +71,6 @@ class GamecenterController < ApplicationController
   # Returns the list of top users by score
   def get_top_users
     handle = params[:handle]
-    limit = params[:limit]
     message = ""
     status = Gamecenter::FAILURE
     all_score = []
@@ -79,7 +78,7 @@ class GamecenterController < ApplicationController
     if current_user
       status = Gamecenter::SUCCESS
       game = Game.find_by_handle(handle)
-      all_score = game.get_all_scores_in_order(limit)
+      all_score = game.get_all_scores_in_order
       message = "#{all_score.count} score records found"
     end
 
