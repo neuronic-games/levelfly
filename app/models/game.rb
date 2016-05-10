@@ -26,6 +26,18 @@ class Game < ActiveRecord::Base
     return feat.progress if feat
     return 0
   end
+  
+  # Returns a list of all player scores in descending order
+  def get_all_scores_in_order(limit = 50)
+    all_score = self.feats.where(progress_type: Feat.score).group(:profile_id).maximum(:progress)
+    top_score = all_score.sort_by { |profile_id, score| score }.reverse.first(limit)
+    top_score.each do |profile_score|
+      profile = Profile.find(profile_score[0])  # profile_id
+      profile_score << profile.full_name
+      profile_score << profile.image_file_name
+      profile_score << profile.xp
+    end
+  end
 
   # Returns the player's xp for the game. It is assumed that the last xp
   # in the list is the final xp. XP cannot go back down because it is tied

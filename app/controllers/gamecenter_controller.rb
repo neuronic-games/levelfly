@@ -68,6 +68,24 @@ class GamecenterController < ApplicationController
     render :text => { 'status' => status, 'message' => message, 'user' => user, 'score' => score, 'xp' => xp }.to_json
   end
 
+  # Returns the list of top users by score
+  def get_top_users
+    handle = params[:handle]
+    limit = params[:limit]
+    message = ""
+    status = Gamecenter::FAILURE
+    all_score = []
+    
+    if current_user
+      status = Gamecenter::SUCCESS
+      game = Game.find_by_handle(handle)
+      all_score = game.get_all_scores_in_order(limit)
+      message = "#{all_score.count} score records found"
+    end
+
+    render :text => { 'status' => status, 'message' => message, 'all_score' => all_score }.to_json
+  end
+
   # Adds a player's progress to a game by creating a Feat record
   def add_progress
     handle = params[:handle]
