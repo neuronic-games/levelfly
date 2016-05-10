@@ -285,7 +285,7 @@ class GamecenterController < ApplicationController
     @game.archived = false
     @game.published = false
     @game.school_id = current_user.profiles.first.school_id if current_user.profiles.present?
-    1.upto(4) {|i| @game.outcomes.new}
+    1.upto(5) {|i| @game.outcomes.new}
     render :partial => "/gamecenter/form",locals: {url: gamecenter_save_game_path}
   end
   
