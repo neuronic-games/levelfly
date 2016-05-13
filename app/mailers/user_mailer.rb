@@ -8,7 +8,7 @@ class UserMailer < ActionMailer::Base
       @course = course
       @school = school
       @message = message_id
-      @link = "http://#{ENV['URL']}/system/new_user/?link=#{link}"
+      @link = "#{ENV['URL']}/system/new_user/?link=#{link}"
       @new_user = new_user
       @subject = "[Levelfly] Your invitation to join #{@course.name} at #{@school.code}"
 
@@ -29,7 +29,7 @@ class UserMailer < ActionMailer::Base
       @sender = current_profile
       @school = current_profile.school
       hash = Course.hexdigest_to_string("#{user.id}")
-      @link = "http://#{ENV['URL']}/system/new_user/?link=#{hash}"
+      @link = "#{ENV['URL']}/system/new_user/?link=#{hash}"
       @subject = "[Levelfly] Your invitation to join #{@school.code}"
 
       mail(:from => "#{@sender.full_name} (Do Not Reply) <donotreply@#{ENV['MAIL_DOMAIN']}>",
@@ -42,7 +42,7 @@ class UserMailer < ActionMailer::Base
       @sender = sender
       @school = school
       @message = message_content
-      @link = "http://#{ENV['URL']}/users/sign_in"
+      @link = "#{ENV['URL']}/users/sign_in"
       @subject = "[Levelfly] New message from #{@sender.full_name} at #{@school.code}"
 
       mail( :from => "#{@sender.full_name} (Do Not Reply) <donotreply@#{ENV['MAIL_DOMAIN']}>",
@@ -55,7 +55,7 @@ class UserMailer < ActionMailer::Base
       @sender = sender
       @school = school
       @message = message_content
-      @link = "http://#{ENV['URL']}/users/sign_in"
+      @link = "#{ENV['URL']}/users/sign_in"
       @subject = "[Levelfly] You just leveled up!"
 
       mail( :from => "#{@sender.full_name} (Do Not Reply) <donotreply@#{ENV['MAIL_DOMAIN']}>",
@@ -70,7 +70,7 @@ class UserMailer < ActionMailer::Base
       @message = msg_content
       @course = course
       @subject = "[Levelfly] #{@sender.full_name} at #{@school.code} has sent you a message regarding #{@course.code_section}"
-      @link = "http://#{ENV['URL']}/users/sign_in"
+      @link = "#{ENV['URL']}/users/sign_in"
       mail( :from => "#{@sender.full_name} (Do Not Reply) <donotreply@#{ENV['MAIL_DOMAIN']}>",
             :to => @user,
             :subject => @subject)
@@ -83,7 +83,7 @@ class UserMailer < ActionMailer::Base
       @school = school
       @badge_name = badge_name
       @course = course
-      @link = "http://#{ENV['URL']}/users/sign_in"
+      @link = "#{ENV['URL']}/users/sign_in"
       @subject = "[Levelfly] You earned a new badge!"
 
       mail( :from => "#{@sender.full_name} (Do Not Reply) <donotreply@#{ENV['MAIL_DOMAIN']}>",
