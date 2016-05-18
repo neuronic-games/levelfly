@@ -54,6 +54,7 @@ class GamecenterController < ApplicationController
     user = {}
     score = 0
     xp = 0
+    badges = []
     
     if current_user
       status = Gamecenter::SUCCESS
@@ -61,11 +62,12 @@ class GamecenterController < ApplicationController
       game = Game.find_by_handle(handle)
       score = game.get_score(profile.id)
       xp = game.get_xp(profile.id)
+      badges = AvatarBadge.find(:all, :include => [:badge], :select => "id, badge_id", :conditions => ["profile_id = ? and badges.quest_id = ?", profile.id, game.id] ).collect { |x| { 'id' => x.badge.id, 'name' => x.badge.name, 'descr' => x.badge.descr, 'image' => "/images/badges/" + x.badge.badge_image.image_file_name } } # game specific?
       message = "#{profile.full_name} signed in"
       user = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_file_name, 'last_sign_in_at' => current_user.last_sign_in_at }
     end
 
-    render :text => { 'status' => status, 'message' => message, 'user' => user, 'score' => score, 'xp' => xp }.to_json
+    render :text => { 'status' => status, 'message' => message, 'user' => user, 'score' => score, 'xp' => xp, 'badges' => badges }.to_json
   end
 
   # Returns the list of top users by score
@@ -139,8 +141,11 @@ class GamecenterController < ApplicationController
       end
     when Feat.badge
       Feat.transaction do
-        if feat.progress.nil?
+        puts "feat.progress = #{feat.progress}"
+        if feat.progress.blank?
+          puts "Looking for new badge"
           badge = Badge.find_create_game_badge(game.id, name, "New badge for #{game.name}")
+          puts "Created badge: #{badge}"
           feat.progress = badge.id
         end
         # It's ok to receive the same badge more than once
