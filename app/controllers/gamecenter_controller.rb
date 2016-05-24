@@ -103,6 +103,7 @@ class GamecenterController < ApplicationController
     progress_type = params[:progress_type]
     name = params[:name]
     addition = params[:add] == "true"
+    unique = params[:unique] == "true"  # Unique badge?
     
     level = params[:level]  # May be nil
     profile_id = current_user.default_profile.id
@@ -111,6 +112,9 @@ class GamecenterController < ApplicationController
     feat.progress = progress
     feat.progress_type = progress_type
     feat.level = level
+
+    message = "Progress recorded for game #{game.name} for user profile #{current_user.default_profile.id}."
+    status = Gamecenter::SUCCESS
 
     # Check the value based on type
     case feat.progress_type
@@ -141,16 +145,21 @@ class GamecenterController < ApplicationController
       end
     when Feat.badge
       Feat.transaction do
-        puts "feat.progress = #{feat.progress}"
         if feat.progress.blank?
-          puts "Looking for new badge"
           badge = Badge.find_create_game_badge(game.id, name, "New badge for #{game.name}")
-          puts "Created badge: #{badge}"
           feat.progress = badge.id
         end
-        # It's ok to receive the same badge more than once
-        feat.save
-        AvatarBadge.add_badge(profile_id, feat.progress)
+        save_feat = true
+        if unique  # We only want to record this feat if the user already doesn't have this badge
+          last_feat = Feat.where(progress_type: progress_type, progress: badge.id).first
+          save_feat = false if last_feat
+          message = "Duplicate badge. Progress not recorded for game #{game.name} for user profile #{current_user.default_profile.id}."
+        end
+        if save_feat
+          # It's ok to receive the same badge more than once, unless the 'unique' parameter is used
+          feat.save
+          AvatarBadge.add_badge(profile_id, feat.progress)
+        end
       end
     when Feat.rating
       feat.save if feat.progress.between?(1, 3)
@@ -158,9 +167,6 @@ class GamecenterController < ApplicationController
       feat.save
     end
     
-    message = "Progress recorded for game #{game.name} for user profile #{current_user.default_profile.id}"
-    status = Gamecenter::SUCCESS
-
     render :text => { 'status' => status, 'message' => message }.to_json
   end
   
