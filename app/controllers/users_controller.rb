@@ -9,21 +9,28 @@ class UsersController < ApplicationController
 
     if params[:search_text]
       search_text =  "#{params[:search_text]}%"
-      @users = Profile.paginate(
-        :include => [:user],
-        :conditions=>["school_id = ? and full_name LIKE ? and user_id is not null and users.status != 'D'", school_id, search_text],
-        :order => 'last_sign_in_at DESC NULLS LAST, full_name',
-        :page => 1,
-        :per_page => Setting.cut_off_number
-      )
+      
+      @users = Profile.includes(:user).where("profiles.school_id = ? and profiles.full_name LIKE ? and profiles.user_id is not null and users.status != 'D'", school_id, search_text).paginate(:page => 1, :per_page => Setting.cut_off_number).order("users.last_sign_in_at DESC NULLS LAST, profiles.full_name")
+
+      # @users = Profile.paginate(
+      #   :include => [:user],
+      #   :conditions=>["school_id = ? and full_name LIKE ? and user_id is not null and users.status != 'D'", school_id, search_text],
+      #   :order => 'last_sign_in_at DESC NULLS LAST, full_name',
+      #   :page => 1,
+      #   :per_page => Setting.cut_off_number
+      # )
+
+
     else
-      @users = Profile.paginate(
-        :include => [:user],
-        :conditions=>["school_id = ? and user_id is not null and users.status != 'D'", school_id],
-        :order => 'last_sign_in_at DESC NULLS LAST, full_name',
-        :page => 1,
-        :per_page => Setting.cut_off_number
-      )
+      @users = Profile.includes(:user).where("profiles.school_id = ? and profiles.user_id is not null and users.status != 'D'", school_id).paginate(:page => 1, :per_page => Setting.cut_off_number).order("users.last_sign_in_at DESC NULLS LAST, profiles.full_name")
+
+      # @users = Profile.paginate(
+      #   :include => [:user],
+      #   :conditions=>["school_id = ? and user_id is not null and users.status != 'D'", school_id],
+      #   :order => 'last_sign_in_at DESC NULLS LAST, full_name',
+      #   :page => 1,
+      #   :per_page => Setting.cut_off_number
+      # )
     end
     @profile.record_action('last', 'users')
 
