@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     if params[:search_text]
       search_text =  "#{params[:search_text]}%"
 
-      @users = Profile.includes(:user).where("profiles.school_id = ? and profiles.full_name LIKE ? and profiles.user_id is not null and users.status != 'D'", school_id, search_text).paginate(:page => 1, :per_page => Setting.cut_off_number).order("users.last_sign_in_at DESC NULLS LAST, profiles.full_name")
+      @users = Profile.includes(:user).where("profiles.school_id = ? and profiles.full_name iLIKE ? and profiles.user_id is not null and users.status != 'D'", school_id, search_text).paginate(:page => 1, :per_page => Setting.cut_off_number).order("users.last_sign_in_at DESC NULLS LAST, profiles.full_name")
 
       # @users = Profile.paginate(
       #   :include => [:user],

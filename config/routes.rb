@@ -460,6 +460,8 @@ Oncapus::Application.routes.draw do
   get "gamecenter/achivements"
   get "gamecenter/leaderboard"
   get "gamecenter/get_top_users"
+  get "gamecenter/add_badge"
+  post "badge/save_new_badge"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
