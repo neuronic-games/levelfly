@@ -43,6 +43,6 @@ Thumbs.db
 # Vagrant
 .vagrant
 
-#RVM
+# RVM
 .ruby-version
 .ruby-gemset
