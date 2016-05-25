@@ -325,6 +325,7 @@ class GamecenterController < ApplicationController
 
   def edit_game
     @game = Game.find(params[:id])
+    session[:game_id] = @game.id
     render :partial => "/gamecenter/form",locals: {url: gamecenter_update_game_path(:id =>@game.id)}
   end
 
@@ -343,11 +344,31 @@ class GamecenterController < ApplicationController
   end
 
   def achivements
+    @game = Game.find(session[:game_id])    
+    @badges = Badge.where(:quest_id => @game.id)
     render :partial => "/gamecenter/achivements"
   end 
 
   def leaderboard
     render :partial => "/gamecenter/leader_board"
+  end
+
+  def add_badge
+    # render :json => params and return false
+    #@badges = Badge.create
+    @badge_image = BadgeImage.find(:all, :conditions => ["image_file_name not in (?)","gold_badge.png"])
+    # course_ids = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.profile_type = 'M' and participants.target_type = 'Course' and parent_type = 'C' and removed = ?", user_session[:profile_id],false],:order=>"courses.name").map(&:id)
+    # # @courses = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'", current_user.id, course_ids],:order=>"courses.id")
+
+    # @courses = Course.limit(2)
+    
+    # puts "==============="
+    # puts @courses.inspect
+    # puts "==============="
+
+    # @selected_course = Course.find_by_id(params[:last_course])
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    render :partial =>"/badge/new_badge", :locals=>{:profile_id=>current_user.id}
   end
   
 end

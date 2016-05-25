@@ -6,6 +6,7 @@
   <div class="LBT_badges">REVISION</div>
   <div class="LBT_Likes">PLAYERS</div>
 </div>
+<span class="index-page"></span>
 <% unless @games.nil? %>
   <% @games.each do |game| %> 
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
@@ -30,7 +31,10 @@
 
 
 <script type="text/javascript">
-   $(".edit_game").on('click', function(){
+  $(document).ready(function(){
+    $('.leader_tabs').hide();    
+  })
+  $(".edit_game").on('click', function(){
     var url = $(this).attr('data-url');
 
     showSpinner(true);

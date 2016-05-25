@@ -1,0 +1,52 @@
+<div class="LB_tableheader">
+  <div class="LBT_ava">&nbsp;</div>
+  <div class="LBT_ava">BADGE ID</div>
+  <div class="LBT_level">NAME</div>
+  <div class="LBT_xp">DESCRIPTION</div>
+</div>
+<span class="index-page"></span>
+<% unless @badges.nil? %>
+  <% @badges.each do |badge| %> 
+    <div class="LB_tablecontent <%= cycle("even", "odd") %>">
+      <div class="LBT_ava">
+         <a class="edit_game" href="javascript:void(0)" data-url="<%#= gamecenter_edit_game_path(:id => game.id)%>" >
+           <img src="<%= badge.try(:badge_image).try(:image).try(:url) %>" onError="this.src='/assets/original/missing.jpg';" height='156' width='156' class="app"> 
+         </a>
+      </div>
+      <div class="LBT_ava"> 
+        <span class="course_txt"><strong><%=h badge.id %></strong></span>
+      </div>
+      <div class="LBT_level"> 
+        <span class="name_txt"><%=h badge.name %> </span>
+      </div>
+      <div class="LBT_xp"> 
+        <span class="descr_txt"><%=h badge.descr %></span>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+<div id="sidebar_right">
+  <div class="course_side_buttons">
+    <a class="big_blue_btn" name="menu_btn_add_badge" href="javascript:void(0)" id="add_badge">ADD BADGE</a>
+  </div><!-- crud_level -->
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+  
+    $("#add_badge").unbind('click').bind('click', function(){
+      showSpinner(true);
+      var filter = $(".side_tab_open:first").attr("filter");
+      
+      $.ajax({
+        type: "GET",
+        url: "/gamecenter/add_badge",
+        data: {filter:filter, show:"add_badge"},
+        success: function(data) {
+          $("#rows").html(data);
+          showSpinner(false);
+        }
+      });
+    });
+  });
+</script>
