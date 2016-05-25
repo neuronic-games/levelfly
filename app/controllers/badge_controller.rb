@@ -24,6 +24,38 @@ before_filter :authenticate_user!
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     render :partial =>"/badge/new_badges", :locals=>{:course_id=>params[:course_id],:profile_id=>params[:profile_id],:last_course =>params[:last_course]}
   end
+
+  def save_new_badge
+    render :json => params and return false
+    # if params[:badge_image_id] && !params[:badge_image_id].nil?
+    #   status = false
+    #   @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    #   @badge = Badge.new
+    #   @badge.name = params[:badge_name]
+    #   @badge.descr = params[:descr]
+    #   @badge.badge_image_id = params[:badge_image_id]
+    #   @badge.school_id = @profile.school_id
+    #   @badge.creator_profile_id = @profile.id
+    #   if @badge.save
+    #     if params[:submit_type] and !params[:submit_type].nil?
+    #      if params[:submit_type] == "give"
+    #       status = AvatarBadge.add_badge(params[:profile_id],@badge.id,params[:course_id],@profile.id)
+    #       student = Profile.find_by_id(params[:profile_id])
+    #       student_name = student.full_name if student
+    #       badge_name = @badge.name
+    #       course = Course.find_by_id(params[:course_id])
+    #       course_name = course.name if course
+    #       end
+    #     end
+    #     @badges, @last_used = Badge.load_all_badges(@profile)
+    #     #controller = session[:controller]
+    #     #ProfileAction.last_viewed(@profile, controller, "/#{controller}/show")
+    #     #render :partial =>"/badge/give_badges",:locals=>{:course_id=>params[:course_id],:profile_id=>params[:profile_id]}
+    #    render :json => {:status => true, :student_name=>student_name, :badge_name=>badge_name, :course_name=>course_name, :save_and_give => status, :course_id=>params[:course_id], :last_course_id=>params[:last_course], :profile_id => params[:profile_id]}
+    #   end
+    # end
+
+  end 
   
   def save
     if params[:badge_image_id] && !params[:badge_image_id].nil?

@@ -1,6 +1,6 @@
 class BadgeImage < ActiveRecord::Base
   has_attached_file :image
-
+  has_one :badge
   @@base_url = "/images/badges"
   cattr_accessor :base_url
   
