@@ -28,150 +28,209 @@
    </div>
    <div class="course_field_box1">
       <div class="catagory_viewfield field_label" style="margin-right: 5px;">
-         APP NAME
-         <div class="dd_bg brown_bg">
-            <%= f.text_field :name, :class=>"dd_input",:maxlength =>"64", :id => "name" %>
+         Name
+         <div class="dd_bg ">
+            <%= f.text_field :name, :class=>"dd_input",:maxlength =>"64", :id => "name", :placeholder => "Enter Name"%>
          </div>
       </div>
       <div class="clearfix"></div>
       <br/>
       <div class="catagory_viewfield field_label" style="margin-right: 5px;">
-         DESCRIPTION
-         <div class="dd_bg brown_bg">
+         Description
+         <div class="dd_bg ">
             <%= f.text_area :descr, :class=>"dd_input",:placeholder=>"Enter description",:cols => '62', :id => "descr", :style=>"width: 460px; height: 110px;"%>
          </div>
       </div>
       <div class="clearfix"></div>
    </div>
 </div>
-<br/>
+
+<br />
 <div class="field_label4" style="margin-right: 75px;">
-  LEARNING OBJECTIVES  
+  Screenshots
+  <div id="thumbs" style="float:left;">    
+    <div class="screen-shot">
+      <img src="/images/course_img_drop.png" alt="" class="imaa" height="142" width="142" />
+      <div class="browse_link_div">
+        <a id="course_browse_btn" href="javascript:void(0)">CLICK HERE TO UPLOAD</a>
+      </div>
+    </div>
+    <div class="screen-shot">
+      <img src="/images/course_img_drop.png" alt="" class="imaa" height="142" width="142" />
+      <div class="browse_link_div">
+        <a id="course_browse_btn" href="javascript:void(0)">CLICK HERE TO UPLOAD</a>
+      </div>
+    </div>
+    <div class="screen-shot">
+      <img src="/images/course_img_drop.png" alt="" class="imaa" height="142" width="142"/>
+      <div class="browse_link_div">
+        <a id="course_browse_btn" href="javascript:void(0)">CLICK HERE TO UPLOAD</a>
+      </div>
+    </div>
+    <div class="screen-shot">
+      <img src="/images/course_img_drop.png" alt="" class="imaa" height="142" width="142"/>
+      <div class="browse_link_div">
+        <a id="course_browse_btn" href="javascript:void(0)">CLICK HERE TO UPLOAD</a>
+      </div>
+    </div>
+    <div class="screen-shot">
+      <img src="/images/course_img_drop.png" alt="" class="imaa" height="142" width="142"/>
+      <div class="browse_link_div">
+        <a id="course_browse_btn" href="javascript:void(0)">CLICK HERE TO UPLOAD</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="clear:both;">
+<br/>
+<div class="field_label4" style="margin: 15px 75px 0 0;">
+  Learning Objectives
   <%= f.fields_for :outcomes do |ff| %>
-    <div class="dd_bg brown_bg">
+    <div class="dd_bg dd_input">
       <%= ff.text_field :name, :style =>"width: 100%;" %>
     </div>
     <br/>
-  <% end %> 
+  <% end %>
 </div>
 <% end  %>
 
 <!-- UI control code -->
 
 <script type="text/javascript">
-$(document).ready(function() {
+  $(document).ready(function() {
     $("#add_game").addClass("hide");
-}); 
-function saveGame() {
-    showSpinner(true);
-    var dataString = $("form").serialize();
-    $.ajax({
-        type: "POST",
-        url: "<%=url%>",
-        data: dataString,
-        dataType: "json",
-        success: function(data) {
-            if (data) {}
-            showSpinner(false);
-            $('#gamecenter').click();
-        }
-    });
-}
-$(function() {
-    //Uploader course image upload
-    var course_uploader = new plupload.Uploader({
-        runtimes: 'html5,flash',
-        drop_element: 'course_image',
-        browse_button: 'course_browse_btn',
-        container: 'course_image',
-        max_file_size: '5mb',
-        resize: {
-            width: 125,
-            height: 125
-        },
-        url: '<%=url%>',
-        flash_swf_url: '/assets/fileupload/plupload.flash.swf',
-        // multipart_params: {
-        //     'authenticity_token': token, //For csrf-authentication
-        //     'game[published]': $("#published").val(),
-        //     'game[archived]': $("#archived").val(),
-        //     'game[name]': $("#name").val(),
-        //     'game[descr]': $("#descr").val(),
-        //     'game[last_rev]': $("#last_rev").val(),
-        //     'game[last_rev_date]': $("#last_rev_date").val(),
-        //     'game[first_publish_date]': $("#first_publish_date").val(),
-        //     'game[archived]': $("#archived").val(),
-        // },
-        filters: [{
-            title: "Image files",
-            extensions: "jpg,gif,png,JPG,PNG,GIF,JPEG"
-        }]
-    });
-    course_uploader.init();
-    course_uploader.bind('FilesAdded', function(up, files) {
-    var game_id = $("#game_id").val(); 
-    if (game_id){  
-    course_uploader.settings.multipart_params = {
-            'authenticity_token': token, //For csrf-authentication
-            'game[published]': $("#published").val(),
-            'game[archived]': $("#archived").val(),
-            'game[name]': $("#name").val(),
-            'game[descr]': $("#descr").val(),
-            'game[school_id]': $("#game_school_id").val(),
-            'game[outcomes_attributes][0][name]': $("#game_outcomes_attributes_0_name").val(),
-            'game[outcomes_attributes][0][id]': $("#game_outcomes_attributes_0_id").val(),
-            'game[outcomes_attributes][1][name]': $("#game_outcomes_attributes_1_name").val(),
-            'game[outcomes_attributes][1][id]': $("#game_outcomes_attributes_1_id").val(),
-            'game[outcomes_attributes][2][name]': $("#game_outcomes_attributes_2_name").val(),
-            'game[outcomes_attributes][2][id]': $("#game_outcomes_attributes_2_id").val(),
-            'game[outcomes_attributes][3][name]': $("#game_outcomes_attributes_3_name").val(),
-            'game[outcomes_attributes][3][id]': $("#game_outcomes_attributes_3_id").val(),
-            'game[outcomes_attributes][4][name]': $("#game_outcomes_attributes_4_name").val(),
-            'game[outcomes_attributes][4][id]': $("#game_outcomes_attributes_4_id").val(), 
+    $('.leader_tabs').show();
+  }); 
+  function saveGame() {
+      showSpinner(true);
+      var dataString = $("form").serialize();
+      $.ajax({
+          type: "POST",
+          url: "<%=url%>",
+          data: dataString,
+          dataType: "json",
+          success: function(data) {
+              if (data) {}
+              showSpinner(false);
+              $('#gamecenter').click();
+          }
+      });
+  }
+  $(function() {
+      //Uploader course image upload
+      var course_uploader = new plupload.Uploader({
+          runtimes: 'html5,flash',
+          drop_element: 'course_image',
+          browse_button: 'course_browse_btn',
+          container: 'course_image',
+          max_file_size: '5mb',
+          resize: {
+              width: 125,
+              height: 125
+          },
+          url: '<%=url%>',
+          flash_swf_url: '/assets/fileupload/plupload.flash.swf',
+          // multipart_params: {
+          //     'authenticity_token': token, //For csrf-authentication
+          //     'game[published]': $("#published").val(),
+          //     'game[archived]': $("#archived").val(),
+          //     'game[name]': $("#name").val(),
+          //     'game[descr]': $("#descr").val(),
+          //     'game[last_rev]': $("#last_rev").val(),
+          //     'game[last_rev_date]': $("#last_rev_date").val(),
+          //     'game[first_publish_date]': $("#first_publish_date").val(),
+          //     'game[archived]': $("#archived").val(),
+          // },
+          filters: [{
+              title: "Image files",
+              extensions: "jpg,gif,png,JPG,PNG,GIF,JPEG"
+          }]
+      });
+      course_uploader.init();
+      course_uploader.bind('FilesAdded', function(up, files) {
+      var game_id = $("#game_id").val(); 
+      if (game_id){  
+      course_uploader.settings.multipart_params = {
+              'authenticity_token': token, //For csrf-authentication
+              'game[published]': $("#published").val(),
+              'game[archived]': $("#archived").val(),
+              'game[name]': $("#name").val(),
+              'game[descr]': $("#descr").val(),
+              'game[school_id]': $("#game_school_id").val(),
+              'game[outcomes_attributes][0][name]': $("#game_outcomes_attributes_0_name").val(),
+              'game[outcomes_attributes][0][id]': $("#game_outcomes_attributes_0_id").val(),
+              'game[outcomes_attributes][1][name]': $("#game_outcomes_attributes_1_name").val(),
+              'game[outcomes_attributes][1][id]': $("#game_outcomes_attributes_1_id").val(),
+              'game[outcomes_attributes][2][name]': $("#game_outcomes_attributes_2_name").val(),
+              'game[outcomes_attributes][2][id]': $("#game_outcomes_attributes_2_id").val(),
+              'game[outcomes_attributes][3][name]': $("#game_outcomes_attributes_3_name").val(),
+              'game[outcomes_attributes][3][id]': $("#game_outcomes_attributes_3_id").val(),
+              'game[outcomes_attributes][4][name]': $("#game_outcomes_attributes_4_name").val(),
+              'game[outcomes_attributes][4][id]': $("#game_outcomes_attributes_4_id").val(), 
 
-            // 'game[last_rev_date(3i)]': $('[name="game[last_rev_date(3i)]"]').val(),
-            // 'game[last_rev_date(2i)]': $('[name="game[last_rev_date(2i)]"]').val(),
-            // 'game[last_rev_date(1i)]': $('[name="game[last_rev_date(1i)]"]').val(),
+              // 'game[last_rev_date(3i)]': $('[name="game[last_rev_date(3i)]"]').val(),
+              // 'game[last_rev_date(2i)]': $('[name="game[last_rev_date(2i)]"]').val(),
+              // 'game[last_rev_date(1i)]': $('[name="game[last_rev_date(1i)]"]').val(),
 
-            // 'game[first_publish_date(3i)]': $('[name="game[first_publish_date(3i)]"]').val(),
-            // 'game[first_publish_date(2i)]': $('[name="game[first_publish_date(2i)]"]').val(),
-            // 'game[first_publish_date(1i)]': $('[name="game[first_publish_date(1i)]"]').val(),
+              // 'game[first_publish_date(3i)]': $('[name="game[first_publish_date(3i)]"]').val(),
+              // 'game[first_publish_date(2i)]': $('[name="game[first_publish_date(2i)]"]').val(),
+              // 'game[first_publish_date(1i)]': $('[name="game[first_publish_date(1i)]"]').val(),
 
 
-            'game[archived]': $("#archived").val(),
-        };
-      }else{
-        course_uploader.settings.multipart_params = {
-            'authenticity_token': token, //For csrf-authentication
-            'game[published]': $("#published").val(),
-            'game[archived]': $("#archived").val(),
-            'game[name]': $("#name").val(),
-            'game[descr]': $("#descr").val(),
-            'game[school_id]': $("#game_school_id").val(),
-            'game[outcomes_attributes][0][name]': $("#game_outcomes_attributes_0_name").val(),
-            'game[outcomes_attributes][1][name]': $("#game_outcomes_attributes_1_name").val(),
-            'game[outcomes_attributes][2][name]': $("#game_outcomes_attributes_2_name").val(),
-            'game[outcomes_attributes][3][name]': $("#game_outcomes_attributes_3_name").val(),
-            'game[outcomes_attributes][4][name]': $("#game_outcomes_attributes_4_name").val(),
-            'game[archived]': $("#archived").val(),
-        };
+              'game[archived]': $("#archived").val(),
+          };
+        }else{
+          course_uploader.settings.multipart_params = {
+              'authenticity_token': token, //For csrf-authentication
+              'game[published]': $("#published").val(),
+              'game[archived]': $("#archived").val(),
+              'game[name]': $("#name").val(),
+              'game[descr]': $("#descr").val(),
+              'game[school_id]': $("#game_school_id").val(),
+              'game[outcomes_attributes][0][name]': $("#game_outcomes_attributes_0_name").val(),
+              'game[outcomes_attributes][1][name]': $("#game_outcomes_attributes_1_name").val(),
+              'game[outcomes_attributes][2][name]': $("#game_outcomes_attributes_2_name").val(),
+              'game[outcomes_attributes][3][name]': $("#game_outcomes_attributes_3_name").val(),
+              'game[outcomes_attributes][4][name]': $("#game_outcomes_attributes_4_name").val(),
+              'game[archived]': $("#archived").val(),
+          };
 
-      }  
+        }  
 
-        $('#btn_game_save').attr("data-image-attach", 'true');
-    });
-    course_uploader.bind('FileUploaded', function(up, file, info) {
-        showSpinner(false);
-        $('#gamecenter').click();
-    });
-    $('#btn_game_save').click(function() {
-        var image_attach = $('#btn_game_save').attr("data-image-attach");
-        showSpinner(true);
-        if (image_attach == 'true') {
-            course_uploader.start()
-        } else {
-            saveGame();
-        }
-    });
-});
+          $('#btn_game_save').attr("data-image-attach", 'true');
+      });
+      course_uploader.bind('FileUploaded', function(up, file, info) {
+          showSpinner(false);
+          $('#gamecenter').click();
+      });
+      $('#btn_game_save').click(function() {
+          var image_attach = $('#btn_game_save').attr("data-image-attach");
+          showSpinner(true);
+          if (image_attach == 'true') {
+              course_uploader.start()
+          } else {
+              saveGame();
+          }
+      });
+  });
 </script>
+<style type="text/css">
+  .field_label, .field_label4{text-transform: none;}
+  .screen-shot{display:inline; float:left; width: 153px;}
+  textarea {
+    resize: none;
+  }
+  .field_label, .field_label4{
+    color: #777777;
+  }
+  .dd_bg input{
+    color: #334274;
+  }
+  .screen-shot .browse_link_div {
+    position: relative;
+    width: 140px;
+    margin-top: -25px;
+    padding-left: 12px;
+    text-align: center;
+  }
+</style>
