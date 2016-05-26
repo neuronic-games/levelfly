@@ -11,19 +11,9 @@
           </div><!-- crud_level -->
         </div>
         <div class="badges_box1" style="width:654px">
-          <div class="badges_top_heading">Badges
-            <!-- <div class="course_dd_style">Course     
-              <select name="course_select" id="course_select" class="course_dd" style="">
-                <option value="" selected>Select Course</option>
-                <%if @courses and @courses.length>=1%>
-                  <% @courses.each do |c| %>
-                    <option value="<%= c.id %>" <%= "Selected" if @selected_course and @selected_course.id == c.id %>><%= c.name %></option>
-                  <% end %>
-                <% end %>  
-              </select>
-            </div> -->
+          <div class="badges_top_heading">Badges            
             <a href="javascript:void(0)" name="btn_save" id="btn_save" class="big_blue_btn btn_save_badge badge_btn_save" rel="save">SAVE</a>
-            <a href="javascript:void(0)" name="btn_save_and_give" id="btn_save_and_give" class="big_orange_btn btn_save_badge badge_btn_give" rel="give">SAVE & GIVE</a>
+            <!-- <a href="javascript:void(0)" name="btn_save_and_give" id="btn_save_and_give" class="big_orange_btn btn_save_badge badge_btn_give" rel="give">SAVE & GIVE</a> -->
           </div>
             <div class="clear"></div>
             <div class="green_border"></div>
@@ -46,9 +36,9 @@
 
             <div style ="width:550px">
           
-            <%if @badge_image && !@badge_image.nil? %>
-              <% @badge_image.each do|bm|%>
-                 <div style ="float:left"><input id="<%=bm.id%>" src="<%=bm.image_file_path%>" type="image" class="grading_Btn2 badge_image" /></div>  
+            <%if @badge_images && !@badge_images.nil? %>
+              <% @badge_images.each do|bim|%>
+                 <div style ="float:left"><input id="<%=bim.id%>" src="<%=bim.image_file_path%>" type="image" class="grading_Btn2 badge_image" /></div>  
               <%end%>  
             <%end%>  
 
@@ -89,8 +79,7 @@ $(document).ready(function() {
       var badge_image_id = id;
       var badge_name = $("#new_badge").val();
       var descr = $("#new_badge_descr").val();
-      var submit_type = $(this).attr("rel");
-      var course_id =$("#course_select").val();
+      var submit_type = $(this).attr("rel");      
       if (id==""){
         $("#warning_add_badge .boxadnt").html('A badge should have an image. Please select one of the available images.');
         $("#warning_add_badge").show();
@@ -102,49 +91,14 @@ $(document).ready(function() {
       else
       {
         var student_id =$("#profile_id_hdn_field").val();
-        var last_course =$("#last_course_hdn").val();
         showSpinner(true);
         $.ajax({
           type: "POST",
-          url: "/badge/save_new_badge",
+          url: "/gamecenter/save_new_badge",
           dataType: "json",
-          data:{badge_image_id:badge_image_id,badge_name:badge_name,profile_id:student_id,course_id:course_id,descr:descr,submit_type:submit_type, last_course:last_course},
+          data:{badge_image_id:badge_image_id,badge_name:badge_name,profile_id:student_id,descr:descr,submit_type:submit_type},
           success: function(data) {
-            // $("#container").html(data);  
-             $("#new_badge").attr("value","");
-             $("#"+id).removeClass("selected_badge")
-             if(data.status==false)
-            {
-              //alert("This badge already given to this student for this course");
-              showSpinner(false);
-            }
-            else if (data.save_and_give==true && data.url !=""){
-              $("#"+id).removeClass("selected_badge");  
-              $('#alert').html(data.badge_name+" badge given to "+data.student_name+" for "+data.course_name);
-              $("#badge_popup").hide();
-             //loadLastPage (url);   
-            }
-            else{
-             course_id = $("#last_course_hdn").val();
-             var last_course = $("#course_select").val();
-             profile_id = $("#profile_id_hdn_field").val();
-             $.ajax({
-                  type: "POST",
-                  url: "/badge/give_badges",
-                  data:{course_id:course_id,profile_id:profile_id,last_course:last_course},
-                  success: function(data) {
-                    $("#badge_popup").html(data);
-                    $("#badge_popup").show();
-                    setAlert("Loading /Badges/");                   
-                    showSpinner(false);
-                  },
-                  error: function()
-                  {
-                    alert("An Error has occured");
-                    showSpinner(false);
-                  },
-               });
-            }
+            $('.leader_tabs a.badges-tab').click();
             showSpinner(false);
           },
           error: function()
@@ -157,34 +111,4 @@ $(document).ready(function() {
   
   });
   
-  $("#btn_dont_save").click(function(){ 
-    url = $("#last_visited_url").val();
-    loadLastPage (url);
-  });
-  
-  
-});
-$(document).unbind('click').bind('click', function (e)
-{
-    var container = $("#badge_popup");
-
-    if (container.has(e.target).length === 0)
-    {
-        container.hide();
-        $(document).unbind('click');
-    }
-});
-function loadLastPage (url) {
-  controller = url.split("/");
-  showSpinner(true);
-  $.ajax({
-    type: "GET",
-    url: url,
-    success: function(data) {
-      setAlert("Loading /"+controller[1]+"/")
-      $("#container").html(data);            
-      showSpinner(false);
-    }
-  });   
-}
-</script>
+});</script>

@@ -32,13 +32,14 @@
                   <option value="organizers_of_courses" class="brown_bg">Organizers of Courses</option>
                   <option value="organizers_of_groups" class="brown_bg">Organizers of Groups</option>
                   <option value="organizers_of_courses_and_groups" class="brown_bg">Organizers of Courses/Groups</option>
-                  <optgroup label="Courses">
-                    <% if @courses and !@courses.nil?%>
-                      <% @courses.each do |course| %>
-                        <option value="<%=course.id%>" class="brown_bg"><%=course.name%> <%= "(#{course.code})" unless course.code.empty? %></option>
-                      <% end %>
-                    <% end %>
-                  </optgroup>
+                  <option value="search_courses" class="brown_bg" id='search_courses'>Search Courses...</option>
+                  <!-- <optgroup label="Courses"> -->
+                    <%# if @courses and !@courses.nil?%>
+                      <%# @courses.each do |course| %>
+                        <!-- <option value="<%#=course.id%>" class="brown_bg"><%#=course.name%> <%#= "(#{course.code})" unless course.code.empty? %></option> -->
+                      <%# end %>
+                    <%# end %>
+                  <!-- </optgroup> -->
                   <optgroup label="Groups">
                      <% if @groups and !@groups.nil?%>
                        <% @groups.each do |course| %>
@@ -46,13 +47,13 @@
                        <% end %>
                      <% end %>
                    </optgroup>
-                   <optgroup label="Archived Courses">
-                    <% if @archived_courses and !@archived_courses.nil?%>
-                      <% @archived_courses.each do |course| %>
-                        <option value="<%=course.id%>" class="brown_bg"><%=course.name%> <%= "(#{course.code})" unless course.code.empty? %></option>
-                      <% end %>
-                    <% end %>
-                  </optgroup>
+                   <!-- <optgroup label="Archived Courses"> -->
+                    <%# if @archived_courses and !@archived_courses.nil?%>
+                      <%# @archived_courses.each do |course| %>
+                        <!-- <option value="<%#=course.id%>" class="brown_bg"><%#=course.name%> <%#= "(#{course.code})" unless course.code.empty? %></option> -->
+                      <%# end %>
+                    <%# end %>
+                  <!-- </optgroup> -->
 
                 </select>
              </span>
@@ -177,6 +178,33 @@
                 </div>
               </div>
 
+              <div id="load_course_codes" class="add_task_popup" style="display:none">
+                <div class="heading">Course Selection</div>
+                <div class="boxadnt">
+                  <div class="">
+                    <div class="dd_bg brown_bg02" style="width:400px;margin-left: 50px;">
+                      <select class="dd_input brown_bg" id="year_ranges" style="width:180px; margin-right: 36px;">
+                        <option value="" class="brown_bg">By Date</option>
+                      </select>
+
+                      <select class="dd_input brown_bg" id="course_codes" style="width:180px;">
+                        <option value="" class="brown_bg">By Course Code</option>
+                      </select>                      
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="spacebar10px"></div>
+                  <div class="spacebar10px"></div>
+                </div>
+
+                <div align="right" style="margin-right:65px;">
+                  <p align="left" style="float:right; margin-left:7px;">
+                    <a class="big_blue_btn inlineblock" id="search_by_course" href="#">SEARCH</a>
+                  </p>
+                  <a class="big_blue_btn inlineblock" id="search_by_course_cancel" href="#" style="width: 100px;">DON'T SEARCH</a>
+                </div>
+              </div>
+
 
         </div>
         <div class="end_of_page"><div class="load_more hide"><img src="/images/ajax-loader.gif"> Loading more users...</div></div>
@@ -210,6 +238,12 @@ function validate_form() {
 }
 
 $(document).ready(function(){
+
+  $('#search_courses').click(function(){
+    alert(111)
+    return
+  })
+
   $("#load_users").delegate(".view_user", "click", function() {
     showSpinner(true);
     url = $(this).attr("rel");
@@ -414,11 +448,12 @@ $(document).ready(function(){
   });
 });
 
-$("#filter_files").change(function(){
-    var id = $("#filter_files").val(),
-        header = $('#rows .LB_tableheader');
+$("#filter_files").change(function(e){
+    var id = $("#filter_files").val()
+    header = $('#rows .LB_tableheader');
+    // alert(id)
     $('#download_code_btn').attr('href', "/users/load_csv/" + id)
-    if (id) {
+    if (id != 'search_courses') {
       showSpinner(true);
       $.ajax({
         type: "GET",
@@ -437,6 +472,88 @@ $("#filter_files").change(function(){
         }
       });
     }
+
+    if (id == 'search_courses') {
+      schoolId = <%= @profile.school_id %>;
+      e.preventDefault();
+      var id = $("#filter_files").val();
+      if (id) {
+        $('#load_course_codes').show();
+        showSpinner(true);
+        $.ajax({
+          type: "GET",
+          url: "/people/load_courses/?school_id=" + schoolId, // + "/1",
+          success: function(data) {
+            showSpinner(false);
+            var courseCodes = $("#course_codes");
+            var yearRanges = $("#year_ranges");
+
+            $.each(data.year_ranges, function(i,j){               
+               yearRanges.append($("<option />").val(j).text(j));
+            });
+
+            // $.each(data.courses, function(i,j){               
+            //    courseCodes.append($("<option />").val(j).text(j));
+            // });
+
+          }
+        });
+      }
+    }
+
   });
+
+  $('#search_by_course').click(function(){
+    showSpinner(true);
+    yr = $('#year_ranges').val()
+    cc= $('#course_codes').val()
+
+    $.ajax({
+      type: "GET",
+      url: "/people/load_filtered_courses/",
+      data: {year_range: yr, course_code: cc},
+      success: function(data) {
+        showSpinner(false);
+        $('#load_course_codes').hide();
+        mainFilter = $('#filter_files option');
+
+        $(mainFilter).eq(6).after($("<optgroup label='"+yr+" - "+cc+"'></option>"));
+        optGrp = $('optgroup:first');
+
+        $.each(data.courses, function(i,j){
+          optGrp.append($("<option />").val(j.id).text(j.name));          
+        });
+
+        console.log(data)
+      }
+    });
+  })
+
+  $('#search_by_course_cancel').click(function(){
+    $("#course_codes").val('');
+    $("#year_ranges").val('');
+    $('#load_course_codes').hide();
+  })
+
+  $('#year_ranges').change(function(){    
+    schoolId = <%= @profile.school_id %>;
+    $.ajax({
+      type: "GET",
+      url: "/people/load_course_codes/",
+      data: {year_range: $(this).val(), school_id: schoolId},
+      success: function(data) {
+        showSpinner(false);
+        $("#course_codes option").remove();
+        var courseCodes = $("#course_codes");
+        courseCodes.append($("<option />").val('').text('By Course Code'));
+
+        $.each(data.courses, function(i,j){
+          courseCodes.append($("<option />").val(j).text(j));
+        });
+        
+      }
+    });
+
+  })
 
 </script>

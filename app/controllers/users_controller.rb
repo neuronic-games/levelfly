@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     if params[:search_text]
       search_text =  "#{params[:search_text]}%"
 
-      @users = Profile.includes(:user).where("profiles.school_id = ? and profiles.full_name iLIKE ? and profiles.user_id is not null and users.status != 'D'", school_id, search_text).paginate(:page => 1, :per_page => Setting.cut_off_number).order("users.last_sign_in_at DESC NULLS LAST, profiles.full_name")
+      @users = Profile.includes(:user).where("profiles.school_id = ? and profiles.full_name iLIKE ? and profiles.user_id is not null and users.status != 'D' and users.sign_in_count > 0", school_id, search_text).paginate(:page => 1, :per_page => Setting.cut_off_number).order("users.last_sign_in_at DESC NULLS LAST, profiles.full_name")
 
       # @users = Profile.paginate(
       #   :include => [:user],
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       # )
     else
 
-      @users = Profile.includes(:user).where("profiles.school_id = ? and profiles.user_id is not null and users.status != 'D'", school_id).paginate(:page => 1, :per_page => Setting.cut_off_number).order("users.last_sign_in_at DESC NULLS LAST, profiles.full_name")
+      @users = Profile.includes(:user).where("profiles.school_id = ? and profiles.user_id is not null and users.status != 'D' and users.sign_in_count > 0", school_id).paginate(:page => 1, :per_page => Setting.cut_off_number).order("users.last_sign_in_at DESC NULLS LAST, profiles.full_name")
 
       # @users = Profile.paginate(
       #   :include => [:user],
@@ -230,4 +230,67 @@ class UsersController < ApplicationController
 
     render :json => {:status => true}
   end
+
+  def load_courses    
+    @courses = Course.all_courses_by_school(params[:school_id]).map(&:code).uniq
+    @archived_courses = Course.all_archived_courses_by_school(params[:school_id]).map(&:code).uniq
+    @courses = ['All'] + @courses + @archived_courses
+
+    years_from = Course.all.map{|x| x.created_at.strftime('%Y')}.uniq
+    year_ranges = ['All']
+    years_from.each do |yf|
+      year_ranges << "Fall " + yf
+      year_ranges << "Summer " + yf
+      year_ranges << "Spring " + yf
+      year_ranges << "Winter " + yf
+    end
+    render :json => {:courses => @courses, :year_ranges => year_ranges}
+  end
+
+  def load_filtered_courses
+
+    # course_code: "MAT051"
+    # year_range: "Fall 2014"
+
+    @courses = Course.where(:code => params[:course_code]).map{|c| {id: c.id, name: c.name}}
+
+    render :json => {:courses => @courses}
+  end
+
+  def load_course_codes
+    fall_on = params[:year_range]
+    season = fall_on.split(' ').first
+    year = fall_on.split(' ').last
+    
+    all_courses = Course.all_courses_by_school(params[:school_id]).map(&:id)
+    archived_courses = Course.all_archived_courses_by_school(params[:school_id]).map(&:id).uniq
+    @all_course_ids = all_courses + archived_courses
+   
+    months = []
+    @courses = []
+    case(season)
+      when 'Fall'
+        months = ['All']
+        from_date = "01-01-#{year}".to_date
+        to_date = "31-12-#{year}".to_date        
+        @courses = Course.where(:id => @all_course_ids).where("created_at >= '#{from_date}' AND created_at <= '#{to_date}'")
+      when 'Summer'
+        months = ['March', 'April', 'May', 'June']
+        from_date = "01-03-#{year}".to_date
+        to_date = "30-06-#{year}".to_date
+        @courses = Course.where(:id => @all_course_ids).where("created_at >= '#{from_date}' AND created_at <= '#{to_date}'")
+      when 'Spring'
+        months = ['October', 'November']
+        from_date = "01-10-#{year}".to_date
+        to_date = "30-11-#{year}".to_date
+        @courses = Course.where(:id => @all_course_ids).where("created_at >= '#{from_date}' AND created_at <= '#{to_date}'")
+      when 'Winter'
+        months = ['December', 'January', 'February']
+        from_date = "01-12-#{year}".to_date
+        to_date = "28-02-#{year}".to_date
+        @courses = Course.where(:id => @all_course_ids).where("created_at >= '#{from_date}' AND created_at <= '#{to_date}'")
+    end
+    render :json => {:courses => @courses.map{|x| x.code if x.code.present? }}
+  end
+
 end
