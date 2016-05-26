@@ -348,21 +348,26 @@ class GamecenterController < ApplicationController
   end
 
   def add_badge
-    # render :json => params and return false
-    #@badges = Badge.create
-    @badge_image = BadgeImage.find(:all, :conditions => ["image_file_name not in (?)","gold_badge.png"])
-    # course_ids = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.profile_type = 'M' and participants.target_type = 'Course' and parent_type = 'C' and removed = ?", user_session[:profile_id],false],:order=>"courses.name").map(&:id)
-    # # @courses = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'", current_user.id, course_ids],:order=>"courses.id")
-
-    # @courses = Course.limit(2)
-    
-    # puts "==============="
-    # puts @courses.inspect
-    # puts "==============="
-
-    # @selected_course = Course.find_by_id(params[:last_course])
+    @badge_images = BadgeImage.find(:all, :conditions => ["image_file_name not in (?)","gold_badge.png"])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    render :partial =>"/badge/new_badge", :locals=>{:profile_id=>current_user.id}
+    render :partial =>"/gamecenter/new_badge", :locals=>{:profile_id=>current_user.id}
   end
-  
+
+  def save_new_badge
+    if params[:badge_image_id] && !params[:badge_image_id].nil?
+      status = false
+      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      @badge = Badge.new
+      @badge.name = params[:badge_name]
+      @badge.descr = params[:descr]
+      @badge.badge_image_id = params[:badge_image_id]
+      @badge.quest_id = session[:game_id]
+      @badge.school_id = @profile.school_id
+      @badge.creator_profile_id = @profile.id
+      if @badge.save        
+        render :json => {:status => true, :message => 'Badge Created'}
+      end
+    end
+  end
+
 end
