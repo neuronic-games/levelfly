@@ -32,11 +32,13 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('.leader_tabs').hide();    
+    $('.leader_tabs').hide();  
+    $('.default-listing-page').remove();
+    $('.side_tab_open:first').removeAttr('game-view-url');
   })
   $(".edit_game").on('click', function(){
     var url = $(this).attr('data-url');
-
+    $(".side_tab_open:first").attr('game-view-url', url);
     showSpinner(true);
     var filter = $(".side_tab_open:first").attr("filter");
     

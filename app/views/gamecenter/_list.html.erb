@@ -36,7 +36,7 @@
               <div class="clear"></div>
             </div>
 
-            <div id="rows" class="LB_table">
+            <div id="rows" class="LB_table">              
               <!-- Data rows goes here -->
             </div>
             
@@ -54,6 +54,8 @@
     <a class="big_blue_btn" name="menu_btn_add_game" href="javascript:void(0)" id="add_game">ADD GAME</a>
   </div><!-- crud_level -->
 </div>
+
+<!-- <span class="default-listing-page"></span> -->
 
 <script type="text/javascript">
 <!--
@@ -160,17 +162,30 @@ $(document).ready(function(){
 // Retrieve tasks based on the current filters
 function getRows() {
   showSpinner(true);
-  var filter = $(".side_tab_open:first").attr("filter");
-
-  $.ajax({
-     type: "GET",  
-     url: "/gamecenter/get_rows",  
-     data: {filter:filter},
-     success: function(data) {
-       $("#rows").html(data);
-       showSpinner(false);
-     }
-  });
+  var filter = $(".side_tab_open:first").attr("filter");  
+  var gameIdUrl = $(".side_tab_open:first").attr('game-view-url');
+  if(gameIdUrl == undefined){
+    $.ajax({
+      type: "GET",  
+      url: "/gamecenter/get_rows",  
+      data: {filter:filter},
+      success: function(data) {
+        $("#rows").html(data);
+        showSpinner(false);
+      }
+    });    
+  }
+  else{    
+    $.ajax({
+      type: "GET",  
+      url: gameIdUrl,  
+      data: {filter:filter},
+      success: function(data) {
+        $("#rows").html(data);
+        showSpinner(false);
+      }
+    });    
+  }
 }
 //-->
 </script>

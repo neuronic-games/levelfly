@@ -9,38 +9,44 @@ class UsersController < ApplicationController
 
     if params[:search_text]
       search_text =  "#{params[:search_text]}%"
-
       @users = Profile.includes(:user).where("profiles.school_id = ? and profiles.full_name iLIKE ? and profiles.user_id is not null and users.status != 'D' and users.sign_in_count > 0", school_id, search_text).paginate(:page => 1, :per_page => Setting.cut_off_number).order("users.last_sign_in_at DESC NULLS LAST, profiles.full_name")
-
-      # @users = Profile.paginate(
-      #   :include => [:user],
-      #   :conditions=>["school_id = ? and full_name LIKE ? and user_id is not null and users.status != 'D'", school_id, search_text],
-      #   :order => 'last_sign_in_at DESC NULLS LAST, full_name',
-      #   :page => 1,
-      #   :per_page => Setting.cut_off_number
-      # )
     else
-
       @users = Profile.includes(:user).where("profiles.school_id = ? and profiles.user_id is not null and users.status != 'D' and users.sign_in_count > 0", school_id).paginate(:page => 1, :per_page => Setting.cut_off_number).order("users.last_sign_in_at DESC NULLS LAST, profiles.full_name")
-
-      # @users = Profile.paginate(
-      #   :include => [:user],
-      #   :conditions=>["school_id = ? and user_id is not null and users.status != 'D'", school_id],
-      #   :order => 'last_sign_in_at DESC NULLS LAST, full_name',
-      #   :page => 1,
-      #   :per_page => Setting.cut_off_number
-      # )
     end
     @profile.record_action('last', 'users')
 
-    @courses          = Course.all_courses_by_school(school_id)
+    # @courses          = Course.all_courses_by_school(school_id)
+    # @archived_courses = Course.all_archived_courses_by_school(school_id)
     @groups           = Course.all_groups_by_school(school_id)
-    @archived_courses = Course.all_archived_courses_by_school(school_id)
+
+    # @courses = @courses + @archived_courses
+
+    seasons = Course.pluck(:semester).compact.uniq
+    years_range = Course.pluck(:year).compact.uniq.sort.reverse
+
+    year_ranges = []
+    years_range.each do |yr|
+      year_ranges << "All" + " " + yr.to_s
+      seasons.each do |s|
+        year_ranges << s + " " + yr.to_s
+      end
+    end
+
+    # years_from = @courses.map{|x| x.created_at.strftime('%Y')}.try(:uniq).try(:sort).try(:reverse)
+    # year_ranges = []
+    # years_from.each do |yf|
+    #   year_ranges << "All " + yf
+    #   year_ranges << "Fall " + yf
+    #   year_ranges << "Summer-I " + yf
+    #   year_ranges << "Summer-I " + yf
+    #   year_ranges << "Spring " + yf
+    #   year_ranges << "Winter " + yf
+    # end
 
     respond_to do |wants|
       wants.html do
         if request.xhr?
-          render :partial => "/users/list"
+          render :partial => "/users/list", :locals => {:year_ranges => year_ranges}
         else
           render
         end
@@ -115,50 +121,50 @@ class UsersController < ApplicationController
    render :text => {"status" => status}
  end
 
- def save
-  status = false
-  email_exist = false
-  if params[:id] and !params[:id].blank?
-    profile = Profile.find(params[:id])
-  else
-    @email = User.find_by_email_and_school_id(params[:email], current_profile.school_id)
-    if @email and !@email.nil?
-      email_exist = true
+  def save
+    status = false
+    email_exist = false
+    if params[:id] and !params[:id].blank?
+      profile = Profile.find(params[:id])
     else
-      @user, profile = User.new_user(params[:email],school.id)
-      # start temp fix so 1 user can have only 1 profile
-      if profile.nil?
+      @email = User.find_by_email_and_school_id(params[:email], current_profile.school_id)
+      if @email and !@email.nil?
         email_exist = true
       else
-      # end temp fix
-        Message.send_school_invitations(@user, current_profile)
-        UserMailer.school_invite(@user, current_profile).deliver
+        @user, profile = User.new_user(params[:email],school.id)
+      # start temp fix so 1 user can have only 1 profile
+        if profile.nil?
+          email_exist = true
+        else
+        # end temp fix
+          Message.send_school_invitations(@user, current_profile)
+          UserMailer.school_invite(@user, current_profile).deliver
+        end
       end
     end
-  end
-  if profile
-    @user = profile.user
-    profile.full_name = params[:name] if params[:name]
+    if profile
+      @user = profile.user
+      profile.full_name = params[:name] if params[:name]
 
-    @can_edit = current_profile.has_role(Role.modify_settings) || !profile.has_role(Role.modify_settings)
+      @can_edit = current_profile.has_role(Role.modify_settings) || !profile.has_role(Role.modify_settings)
 
-    if @can_edit
-      profile.role_name = RoleName.find(params[:role_name_id]) if params[:role_name_id]
-      @user.email = params[:email] if params[:email]
-      @user.status = params[:status] if params[:status]
-      @user.password = params[:user_password] if params[:user_password]
-      @user.skip_reconfirmation!
-      @user.save
-      profile.save
+      if @can_edit
+        profile.role_name = RoleName.find(params[:role_name_id]) if params[:role_name_id]
+        @user.email = params[:email] if params[:email]
+        @user.status = params[:status] if params[:status]
+        @user.password = params[:user_password] if params[:user_password]
+        @user.skip_reconfirmation!
+        @user.save
+        profile.save
+      end
+
+      status = true
     end
 
-    status = true
+    status, email_exist = false, true unless @user.errors[:email].empty?
+
+    render :text => {:status=>status, :email_exist => email_exist}.to_json
   end
-
-  status, email_exist = false, true unless @user.errors[:email].empty?
-
-  render :text => {:status=>status, :email_exist => email_exist}.to_json
- end
 
  def login_as
    status = nil
@@ -231,66 +237,45 @@ class UsersController < ApplicationController
     render :json => {:status => true}
   end
 
-  def load_courses    
-    @courses = Course.all_courses_by_school(params[:school_id]).map(&:code).uniq
-    @archived_courses = Course.all_archived_courses_by_school(params[:school_id]).map(&:code).uniq
-    @courses = ['All'] + @courses + @archived_courses
-
-    years_from = Course.all.map{|x| x.created_at.strftime('%Y')}.uniq
-    year_ranges = ['All']
-    years_from.each do |yf|
-      year_ranges << "Fall " + yf
-      year_ranges << "Summer " + yf
-      year_ranges << "Spring " + yf
-      year_ranges << "Winter " + yf
-    end
-    render :json => {:courses => @courses, :year_ranges => year_ranges}
-  end
-
   def load_filtered_courses
-
-    # course_code: "MAT051"
-    # year_range: "Fall 2014"
-
-    @courses = Course.where(:code => params[:course_code]).map{|c| {id: c.id, name: c.name}}
-
+    all_courses = Course.all_courses_by_school(params[:school_id]).map(&:id)
+    archived_courses = Course.all_archived_courses_by_school(params[:school_id]).map(&:id).uniq
+    @all_course_ids = all_courses + archived_courses
+    if params[:course_code] == 'All'
+      all_codes = get_courses_by_year_range.map(&:code).try(:uniq).try(:compact)
+      @courses = Course.where(:id => @all_course_ids, :code => all_codes)
+    else
+      @courses = Course.where(:id => @all_course_ids, :code => params[:course_code])
+    end
+    if @courses.present?
+      @courses = @courses.map{|c| {id: c.id, name: c.name}}
+    else
+      @courses = []
+    end
     render :json => {:courses => @courses}
   end
 
   def load_course_codes
+    render :json => {:courses => get_courses_by_year_range.map(&:code).try(:uniq).try(:compact)}
+  end
+
+  def get_courses_by_year_range
     fall_on = params[:year_range]
-    season = fall_on.split(' ').first
-    year = fall_on.split(' ').last
-    
+    semester = fall_on.split(' ').first
+    seq_semester = fall_on.split(' ').first
+    year = fall_on.split(' ').last    
     all_courses = Course.all_courses_by_school(params[:school_id]).map(&:id)
     archived_courses = Course.all_archived_courses_by_school(params[:school_id]).map(&:id).uniq
     @all_course_ids = all_courses + archived_courses
-   
-    months = []
-    @courses = []
-    case(season)
-      when 'Fall'
-        months = ['All']
-        from_date = "01-01-#{year}".to_date
-        to_date = "31-12-#{year}".to_date        
-        @courses = Course.where(:id => @all_course_ids).where("created_at >= '#{from_date}' AND created_at <= '#{to_date}'")
-      when 'Summer'
-        months = ['March', 'April', 'May', 'June']
-        from_date = "01-03-#{year}".to_date
-        to_date = "30-06-#{year}".to_date
-        @courses = Course.where(:id => @all_course_ids).where("created_at >= '#{from_date}' AND created_at <= '#{to_date}'")
-      when 'Spring'
-        months = ['October', 'November']
-        from_date = "01-10-#{year}".to_date
-        to_date = "30-11-#{year}".to_date
-        @courses = Course.where(:id => @all_course_ids).where("created_at >= '#{from_date}' AND created_at <= '#{to_date}'")
-      when 'Winter'
-        months = ['December', 'January', 'February']
-        from_date = "01-12-#{year}".to_date
-        to_date = "28-02-#{year}".to_date
-        @courses = Course.where(:id => @all_course_ids).where("created_at >= '#{from_date}' AND created_at <= '#{to_date}'")
+    @courses = []  
+    if semester == 'All'
+      @courses = Course.where(:id => @all_course_ids, :year => year.to_i, :semester =>  Course.pluck(:semester).compact.uniq)
+    elsif semester == "Summer"
+      @courses = Course.where(:id => @all_course_ids, :year => year.to_i, :semester => semester+' '+seq_semester)
+    else
+      @courses = Course.where(:id => @all_course_ids, :year => year.to_i, :semester => semester)
     end
-    render :json => {:courses => @courses.map{|x| x.code if x.code.present? }}
+    return @courses.try(:order, "updated_at DESC")    
   end
 
 end
