@@ -275,6 +275,7 @@ class GamecenterController < ApplicationController
   end
 
   def get_rows
+    session[:game_id] = nil
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
 
     # filter is "active", "archived"
