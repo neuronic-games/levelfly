@@ -455,11 +455,11 @@
 
 <!--   <div id="school_dropdown" class="hide">
     <ul>
-      <% current_user.profiles.each do |profile| %>
-      <li data-school-id="<%= profile.school.id %>" <% if profile.school == school %>class="current_school"<% end %>>
-        <%= profile.school.name %>
+      <%# current_user.profiles.each do |profile| %>
+      <li data-school-id="<%#= profile.school.id %>" <%# if profile.school == school %>class="current_school"<%# end %>>
+        <%#= profile.school.name %>
       </li>
-      <% end %>
+      <%# end %>
     </ul>
   </div> -->
 
@@ -474,12 +474,15 @@
               window.console.log(message);
           }
       };
-    $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
-      if (jqXHR.status == 401) {
-        window.location.reload();
-      } else if (jqXHR.status != 0) {
-        showSpinner(false);
-        $('#server_error_div').show();
+    
+    $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {     
+      if($('.save-game').length == 0){
+        if (jqXHR.status == 401) {
+          window.location.reload();
+        } else if (jqXHR.status != 0) {
+          showSpinner(false);
+          $('#server_error_div').show();
+        }        
       }
     });
 

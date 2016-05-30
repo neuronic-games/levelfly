@@ -307,19 +307,26 @@ class GamecenterController < ApplicationController
     @game.archived = false
     @game.published = false
     @game.school_id = current_user.profiles.first.school_id if current_user.profiles.present?
-    1.upto(5) {|i| @game.outcomes.new}
+    1.upto(5) {|i| @game.outcomes.build}
+    5.times do
+      @game.screen_shots.build      
+    end
     render :partial => "/gamecenter/form",locals: {url: gamecenter_save_game_path}
   end
   
   def save_game
-    params[:game].merge!("image" => params["file"])
     @game = Game.new(params[:game]).save
-    render :text => { 'status' => 200, 'message' => 'Game created successfully' }.to_json
+    # render :json => { 'status' => 200, 'message' => 'Game created successfully' }
   end
 
 
   def edit_game
     @game = Game.find(params[:id])
+    five_screens = 5 - @game.screen_shots.count
+    five_screens.times do
+      @game.screen_shots.build      
+    end
+
     session[:game_id] = @game.id
     render :partial => "/gamecenter/form",locals: {url: gamecenter_update_game_path(:id =>@game.id)}
   end
@@ -327,7 +334,7 @@ class GamecenterController < ApplicationController
   def update_game
     params[:game].merge!("image" => params["file"]) if params["file"].present?
     @game = Game.find(params[:id]).update_attributes(params[:game])
-    render :text => { 'status' => 200, 'message' => 'Game updated successfully' }.to_json
+    # render :text => { 'status' => 200, 'message' => 'Game updated successfully' }.to_json
   end
 
   def download
