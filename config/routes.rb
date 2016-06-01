@@ -95,6 +95,8 @@ Oncapus::Application.routes.draw do
 
   post "profile/change_extended_logout_preference"
 
+  post "profile/save_privacy_settings"
+
   get "task/index"
 
   get "task/show"

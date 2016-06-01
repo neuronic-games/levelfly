@@ -12,15 +12,14 @@
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
       <div class="LBT_rank"><%= p.rank %></div>
       <div class="LBT_ava">
-        <div class="avatarWbdr"><img src="<%= p.image_file_name%>" class="profile" profile_id="<%= p.id %>" /></div>
+        <div class="avatarWbdr"><img src="<%= is_profile_accessible?(p) ? p.image_file_name : profile_icon_default%>" class="profile" profile_id="<%= p.id %>" /></div>
       </div>
-      <div class="LBT_name"> <span class="name_txt"><%= p.full_name %> </span><br />
-        <span class="course_txt"><%= p.major_school %></span> </div>
-      <div class="LBT_level"><%= p.level %></div>
-      <div class="LBT_xp"><%= p.xp %></div>
-      <div class="LBT_badges"><%= p.badge_count %></div>
-      <div class="LBT_Likes"><%= p.like_received %></div>
+      <div class="LBT_name"> <span class="name_txt"><%= is_profile_accessible?(p) ? p.full_name : 'Private'%> </span><br />
+      <span class="course_txt"><%= is_profile_accessible?(p) ? p.major_school : ''%></span> </div>
+      <div class="LBT_level"><%= is_profile_accessible?(p) ? p.level : 'Private'%></div>
+      <div class="LBT_xp"><%= is_profile_accessible?(p) ? p.xp : 'Private' %></div>
+      <div class="LBT_badges"><%= is_profile_accessible?(p) ? p.badge_count : 'Private'%></div>
+      <div class="LBT_Likes"><%= is_profile_accessible?(p) ? p.like_received : 'Private'%></div>      
     </div>
   <% end %>
-<% end %>  
-
+<% end %>
