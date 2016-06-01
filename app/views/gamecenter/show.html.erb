@@ -38,11 +38,16 @@
           <b> <h4 class="text-info">Screenshots</h4></b>
         </div>
         <div id="thumbs">
+          <% @game.screen_shots.each do |ss|%>
+            <span class="imgg">
+              <!-- <img src="../images/Layer30.png" alt="" class="imaa"/> -->
+              <%= image_tag ss.image.url, class: 'imaa'%>
+            </span>
+          <% end %>
+          <!-- <span class="imgg"><img src="../images/Layer30.png" alt="" class="imaa"/></span>
           <span class="imgg"><img src="../images/Layer30.png" alt="" class="imaa"/></span>
           <span class="imgg"><img src="../images/Layer30.png" alt="" class="imaa"/></span>
-          <span class="imgg"><img src="../images/Layer30.png" alt="" class="imaa"/></span>
-          <span class="imgg"><img src="../images/Layer30.png" alt="" class="imaa"/></span>
-          <span class="imgg"><img src="../images/Layer30.png" alt="" class="imaa"/></span>
+          <span class="imgg"><img src="../images/Layer30.png" alt="" class="imaa"/></span> -->
         </div>
       </div>
     </div>
@@ -71,12 +76,21 @@
 
         <div class="carousel slide" id="myCarousel">
           <div class="carousel-inner">
+
+            <%# @profiles.each do |p| %> 
+              <!-- <div class="item active">
+                <div class="col-xs-3">
+                  <div class="image_slider">&nbsp;<span class="slider_image text-info">1</span>&nbsp;&nbsp;
+                    <span class="slider_image">
+                      <img src="<%#= is_profile_accessible?(p) ? p.image_file_name : profile_icon_default%>" class="img-responsive">
+                    </span>
+                    &nbsp;&nbsp;<span class="slider_image text-info"><%#= is_profile_accessible?(p) ? p.full_name : 'Private'%></span>
+                  </div>                
+                </div>
+              </div>  -->             
+            <%# end %>
+
             <div class="item active">
-              <div class="col-xs-3"><div class="image_slider">&nbsp;<span class="slider_image text-info">1</span>&nbsp;&nbsp;<span class="slider_image"><img src="../images/Avatar.png" class="img-responsive"></span> &nbsp;&nbsp;<span class="slider_image text-info">Name</span></div>
-              
-              </div>
-            </div>
-            <div class="item">
               <div class="col-xs-3"><div class="image_slider">&nbsp;<span class="slider_image text-info">1</span>&nbsp;&nbsp;<span class="slider_image"><img src="../images/Avatar.png" class="img-responsive"></span> &nbsp;&nbsp;<span class="slider_image text-info">Name</span></div>
               
               </div>

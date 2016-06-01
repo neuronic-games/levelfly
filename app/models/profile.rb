@@ -1,4 +1,7 @@
 class Profile < ActiveRecord::Base
+
+  attr_accessible :user_id, :school_id, :major_id, :code, :name, :full_name, :salutation, :primary, :archived, :like_given, :like_received, :post_count, :image_file_name, :image_content_type, :image_file_size, :xp, :badge_count, :level, :contact_info, :wardrobe, :interests, :all_comments, :post_date_format, :role_name_id, :extended_logout, :is_public, :friend_privilege
+
   has_one :avatar
   belongs_to :major
   belongs_to :school

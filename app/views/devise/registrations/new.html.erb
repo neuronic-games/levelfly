@@ -45,6 +45,30 @@
              <%= f.password_field :password, :class=>"txt_box",:style=>"width:378px;", :placeholder=>"Password", :required => true, :pattern => ".{6,}", :title => "6 characters minimum"%>
         </div><!--text_box_wp-->
          <div class="Divider_15"></div>
+        
+         <div class="text_box_wp">          
+          <span style="float: left; margin:-11px 0;">
+            Levelfly Privacy Settings:
+          </span>
+          <div class="clear"></div>
+        </div>
+
+        <div class="text_box_wp" id='privacy_settings' style="margin-top: 15px;">
+          <%= radio_button_tag 'user[is_public]', '1', true%>
+          <span style="float: left; margin:-25px 20px; 0 20px;">
+            <%= label_tag "user[is_public_1]", "Public: I consent to allow my profile page and my leaderboard rankings to be viewable by all Levelfly users."%>
+          </span>
+          <br />
+          <span style="float: left; margin: 23px 0px;">
+            <%= radio_button_tag 'user[is_public]', '0'%> 
+          </span>
+          <span style="float: left; margin: -48px 20px;">
+            <%= label_tag "user[is_public_0]", "Private: I do not consent to allow my profile page and my leaderboard rankings to be viewable by all Levelfly users. I will appear anonymously on public leaderboards."%>
+          </span>
+          <div class="clear"></div>
+        </div><!--text_box_wp-->
+
+
         <div class="clear"></div>
       </div>
         <div class="text_box_wp" id="school_code_box">
@@ -99,6 +123,15 @@
   <div class="clear"></div>
 </div><!--Main_Wp-->
 <script>
+
+  $(function(){
+
+    $('#user_privacy').click(function(){
+      $('#privacy_settings').slideToggle()
+    })
+
+  })
+
   <% if flash[:invalid] %>
   $('#existing_course_btn, #demo_course_btn').hide();
   $('#real_fields').hide();
@@ -161,3 +194,8 @@
     });
   }
 </script>
+<style type="text/css">
+  #height_thing {
+    height: auto;
+  }
+</style>

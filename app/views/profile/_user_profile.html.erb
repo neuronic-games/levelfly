@@ -10,17 +10,21 @@
     
     <div class="profile_item">
       <div id="full_name" class="full_name">
-        <input type="text" name="full_name" id="full_name_input" class="full_name" value="<%= profile.full_name %>" placeholder="Enter Name" readonly="readonly"/>
+        <input type="text" name="full_name" id="full_name_input" class="full_name" value="<%= profile.full_name %>" placeholder="Enter Name" readonly="readonly", style="width: 285px;"/>
         
       </div>    
       <span class="profile_header" style="font-size:16px;" id="profile_page_major"><%=h profile.major.name + ", " if profile.major %><%=profile.school.code if profile.school%></span>
      
     </div>
     <% if (user_session[:profile_id] == profile.id)%>
+    <div class="profile_item FloatR">
+      <a href="javascript:void(0)" class="big_blue_btn" name="change_my_privacy" id="change_my_privacy" style="margin-left: 10px;line-height:11px;">Privacy Settings</a>
+    </div>
 
     <div class="profile_item FloatR">
       <a href="javascript:void(0)" class="big_blue_btn" name="change_my_look" id="change_my_look" onClick="loadPage('/profile/edit_wardrobe'); setAlert('Loading/wardrobe');">Wardrobe</a>
     </div>
+
     
     <div class="profile_item FloatR" style="padding-right:10px;">
     <% major = Setting.find_by_target_id_and_name( profile.school_id, "enable_majors") %>
@@ -28,9 +32,13 @@
       <a href="javascript:void(0)" class="big_blue_btn" name="major_btn" id="major_btn">Major</a>
     <% end %>
     </div>
-    <% end %>
-     
+    <% end %>     
   </div>
+
+  <div class ="privacy_settings_box hide" id="privacy_settings_box">
+	  <%= render :partial => "/profile/privacy_settings", :locals=>{:profile=>profile} %>
+	</div>
+
   <div class="friend_unfriend_btn">
    <% if (user_session[:profile_id] != profile.id)%>
         <div class="profile_top_btn"><span class="pending_friend" id="input_un_bl">
@@ -210,8 +218,8 @@
         <% @current_friends.each do |f|%>
           <ul class="stat_icons_box2">
           <li class="width12">
-          <div class="avatar_white_bdr01"><img src="<%=f.profile.image_file_name%>" profile_id="<%= f.profile.id %>" width="54" height="54" class ="profile"/></div>
-          <span><%=f.profile.full_name%></span></li>
+          <div class="avatar_white_bdr01"><img src="<%=is_profile_accessible?(f.profile) ? f.profile.image_file_name : profile_icon_default%>" profile_id="<%= f.profile.id %>" width="54" height="54" class ="profile"/></div>
+          <span><%=is_profile_accessible?(f.profile) ? f.profile.full_name : 'Private'%></span></li>
         </ul>
         <%end%>
       </span>  
@@ -266,6 +274,11 @@ _level_meter.push(0)
   _level_meter.push(<%=l%>)
 <% end %>
 $(document).ready(function(){
+
+  $("#change_my_privacy").click(function(){
+  	$("#major_box").hide();
+    $("#privacy_settings_box").show();    
+  })
 
   setPageTitle('My Profile');
   $(".top_level_header").html('<%= "%02d" % profile.level %>');
@@ -329,9 +342,10 @@ $(document).ready(function(){
   });
 
   $("#major_btn").click(function(){
+  	$("#privacy_settings_box").hide();
     $("#major_box").show();
   })
-  
+
   $(".friend_unfriend_btn").delegate('a', 'click', function(){
   profile_id = $(this).attr("rel");
   id= $(this).attr("id");

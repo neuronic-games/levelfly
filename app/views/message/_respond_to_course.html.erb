@@ -1,11 +1,11 @@
 <div class="msg_big_box request_message" id="request_box_<%=respond_course.id%>" rel="<%=respond_course.id%>">
   <div class="avatar_white_bdr">
-    <img src="<%=respond_course.profile.image_file_name%>" profile_id="<%=respond_course.profile.id%>" class="profile"/>
+    <img src="<%=is_profile_accessible?(respond_course.profile) ? respond_course.profile.image_file_name : profile_icon_default %>" profile_id="<%=respond_course.profile.id%>" class="profile"/>
   </div>
   <div class="msg_box_fullwidth">
     <div class="positn_rtlv"><div class="msg_big_box_arrow"><img src="/images//blue_arrow.png" width="15px" height="21px" /></div></div>
     <div class="msg_box_txt blue_bg_msg_txt">
-      <h3 class="name"><%=respond_course.profile.full_name%></h3>
+      <h3 class="name"><%=is_profile_accessible?(respond_course.profile) ? respond_course.profile.full_name : 'Private'%></h3>
       <p><%=respond_course.content%></p>
       <div class="msg_bottom_links">
          <div class="time" rel ="<%=respond_course.id%>"><span id ="word_<%=respond_course.id%>" class="words"><%= time_ago_in_words(respond_course.created_at) %> ago</span><span class="hide dates" id ="date_<%=respond_course.id%>"><%=gdt(respond_course.created_at)%></span></div>
