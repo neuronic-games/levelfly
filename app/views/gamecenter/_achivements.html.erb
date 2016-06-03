@@ -9,7 +9,7 @@
   <% @badges.each do |badge| %> 
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
       <div class="LBT_ava">
-         <img src="<%= badge.try(:badge_image).try(:image_file_path) %>" height='70' width='70' class="app"> 
+         <img src="<%= badge.try(:badge_image).try(:image).try(:url) %>" height='70' width='70' class="app edit-data" data-badge-id="<%= badge.id%>" style='cursor:pointer;'>
       </div>
       <div class="LBT_ava"> 
         <span class="course_txt"><strong><%=h badge.id %></strong></span>
@@ -46,5 +46,21 @@
         }
       });
     });
+
+    $(".edit-data").unbind('click').bind('click', function(){
+      showSpinner(true);
+      var badgeId = $(this).attr("data-badge-id");
+      
+      $.ajax({
+        type: "GET",
+        url: "/gamecenter/edit_badge",
+        data: {id:badgeId, show:"edit_badge"},
+        success: function(data) {
+          $("#rows").html(data);
+          showSpinner(false);
+        }
+      });
+    });
+
   });
 </script>

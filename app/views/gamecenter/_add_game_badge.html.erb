@@ -1,0 +1,153 @@
+<div class="badge_content">
+  <div class="badge_board_left">
+    <div class="badge_board_right">
+      <div class="badge_board_center">
+        <div id = "badge_content" class="badge_contentt">
+        <div id="sidebar_right">
+          <div class="course_side_buttons">
+            <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=@profile.id if @profile%>" />
+            <input type="hidden" name="profile_id_hdn_field" id="profile_id_hdn_field" value="<%=profile_id if profile_id%>" />
+            
+          </div><!-- crud_level -->
+        </div>
+        <div class="badges_box1" style="width:654px">
+          <div class="badges_top_heading">Badge For Game            
+            <a href="javascript:void(0)" name="btn_save" id="btn_save" class="big_blue_btn btn_save_badge badge_btn_save" rel="save">SAVE</a>
+          </div>
+            <div class="clear"></div>
+            <div class="green_border"></div>
+            <div>
+            <div class="choose_badge">1. Give a descriptive name and a short description for the badge.</div>
+            <div class="badgetitlediv"><div class="badge_title">Badge Name</div>
+              <div>
+                <div class ="selected_badge_position hide">
+                  <input id="selected_badge" src="" type="image" class="grading_Btn2" /></div>  
+                  <%= text_field_tag :badge_name, badge.name, class: 'dd_input_new_badge'%>
+              </div>
+            </div></br>
+            <div class="badgetitlediv"><div class="badge_title">Description</div>
+              <div>
+                <%= text_area_tag :badge_descr, badge.descr, class: 'dd_input_new_badge', style: 'height:50px;'%>
+              </div>
+            </div>
+            </div>
+            <div class="green_border">
+            
+            </div>
+            <div class="badge_title">Badge Image</div>
+            <br />
+
+            <div class="img-preview">
+              <%if badge.try(:badge_image).present?%>
+                <%= image_tag badge.try(:badge_image).try(:image).try(:url), height: '70', width: '70'%>
+              <% else %>
+                <%= image_tag '/images/course_img_default.jpg', height: '70', width: '70'%>
+              <% end %>
+              
+              <div class="browse_img">
+                <a id="course_browse_btn" href="javascript:void(0)">
+                  <%= file_field_tag :badge_image, class: 'file-opener'%>
+                  browse
+                </a>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <input type="hidden" name="hdn_last_action" id="hdn_last_action" value="<%=session[:controller]%>" />
+   
+  <%= render :partial => "/badge/warning_popup" %>
+   
+   
+</div></div>
+<script type="text/javascript">
+$(document).ready(function() {  
+
+  var imageLoader = document.getElementById('badge_image')
+  if(imageLoader !== null){
+    function handleImage(e) {
+      temp = $("#badge_image").val();
+      if(temp.indexOf('png') == '-1' && temp.indexOf('jpg') == '-1' && temp.indexOf('jpeg') == '-1' && temp.indexOf('gif') == '-1') {
+        alert('Invalid file. Allowed extensions are gif, jpg, jpeg and png');
+        return
+      }
+      var reader = new FileReader();
+      reader.onload = function (event) {                  
+        $(".img-preview img").attr('src',event.target.result);
+        $('.img-preview img').css({'height': "70px", 'width':"70px"})
+      }
+      reader.readAsDataURL(e.target.files[0]);
+    }    
+    imageLoader.addEventListener('change', handleImage, false);
+  }
+  
+  $(".btn_save_badge").click(function(){
+      var badgeId = "<%= badge.id %>";
+      var bImage = $('#badge_image').val();
+      var student_id =$("#profile_id_hdn_field").val();
+      var badge_name = $("#badge_name").val();
+      var descr = $("#badge_descr").val();
+      
+      if(badge_name == '' || descr == ''){
+        $("#warning_add_badge .boxadnt").html('A badge should have a badge name and descriptive name');
+        $("#warning_add_badge").show();
+      }
+      else if(badgeId == '' && bImage == ''){
+        $("#warning_add_badge .boxadnt").html('A badge should have an image');
+        $("#warning_add_badge").show();
+      }
+      else
+      {  
+        var data = new FormData();        
+        jQuery.each(jQuery('#badge_image')[0].files, function(i, file) {
+          data.append('badge_image', file);
+        });
+        if(badgeId !== undefined){
+          data.append('badge_id', badgeId);
+        }
+        data.append('name', badge_name);
+        data.append('descr', descr);
+        data.append('profile_id', student_id);
+
+        showSpinner(true);
+        $.ajax({
+          type: "POST",
+          url: "/gamecenter/save_badge",
+          // dataType: "json",
+          cache: false,
+          contentType: false,
+          processData: false,
+          data:data,
+          success: function(data) {
+            $('.leader_tabs a.badges-tab').click();
+            showSpinner(false);
+          },
+          error: function()
+          {
+            alert("An Error has occured");
+            showSpinner(false);
+          },
+       });
+     }
+  
+  });
+  
+});</script>
+<style type="text/css">
+  .file-opener{
+    opacity: 0;
+    width: 70px;
+    position: absolute;
+    height: 12px;
+    cursor: pointer;
+  }
+
+  .browse_img {
+    position: absolute;
+    width: 70px;
+    margin-top: -20px;
+    margin-left: 0px;
+    text-align: center;
+  }
+</style>

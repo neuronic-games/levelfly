@@ -463,7 +463,8 @@ Oncapus::Application.routes.draw do
   get "gamecenter/leaderboard"
   get "gamecenter/get_top_users"
   get "gamecenter/add_badge"
-  post "gamecenter/save_new_badge"
+  get "gamecenter/edit_badge"
+  post "gamecenter/save_badge"
   get "people/load_filtered_courses" => "users#load_filtered_courses"
   get "people/load_course_codes" => "users#load_course_codes"
   
