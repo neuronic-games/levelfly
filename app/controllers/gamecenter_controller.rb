@@ -267,6 +267,11 @@ class GamecenterController < ApplicationController
   end
 
   def show
+    conditions = ["profiles.archived = ? and user_id is not null", false]
+    @profiles = Profile.find(:all, :limit => 50,
+      :conditions => conditions,
+      :include => [:participants],
+      :order => "xp desc")
     @game = Game.find(params[:id])
     @outcomes = @game.outcomes.limit(5)
     respond_to do |format|
