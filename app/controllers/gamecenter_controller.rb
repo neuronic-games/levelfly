@@ -355,26 +355,46 @@ class GamecenterController < ApplicationController
     render :partial => "/gamecenter/leader_board"
   end
 
-  def add_badge
-    @badge_images = BadgeImage.find(:all, :conditions => ["image_file_name not in (?)","gold_badge.png"])
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    render :partial =>"/gamecenter/new_badge", :locals=>{:profile_id=>current_user.id}
+  def add_badge    
+    @badge = Badge.new    
+    render :partial =>"/gamecenter/add_game_badge", :locals=>{:profile_id=>current_user.id, :badge => @badge}
   end
 
-  def save_new_badge
-    if params[:badge_image_id] && !params[:badge_image_id].nil?
-      status = false
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-      @badge = Badge.new
-      @badge.name = params[:badge_name]
+  def edit_badge
+    @badge = Badge.find(params[:id])
+    render :partial =>"/gamecenter/add_game_badge", :locals=>{:profile_id=>current_user.id, :badge => @badge}
+  end
+
+  def save_badge    
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])    
+    if params[:badge_id].present?
+      @badge = Badge.find(params[:badge_id])
+      if params[:badge_image].present?
+        badge_image = @badge.badge_image
+        badge_image.image = params[:badge_image]
+        badge_image.save!
+      end
+      @badge.name = params[:name]
       @badge.descr = params[:descr]
-      @badge.badge_image_id = params[:badge_image_id]
+      @badge.creator_profile_id = @profile.id
+      message = 'Badge Updated'
+    else params[:badge_image].present?    
+      badge_image = BadgeImage.new()
+      badge_image.image = params[:badge_image]
+      badge_image.save!
+      @badge = Badge.new
+      @badge.name = params[:name]
+      @badge.descr = params[:descr]
+      @badge.badge_image_id = badge_image.id
       @badge.quest_id = session[:game_id]
       @badge.school_id = @profile.school_id
       @badge.creator_profile_id = @profile.id
-      if @badge.save        
-        render :json => {:status => true, :message => 'Badge Created'}
-      end
+      message = 'Badge Created'
+    end
+    if @badge.save        
+      render :json => {:status => true, :message => message}
+    else
+      render :json => {:status => false, :message => 'Something went wrong'}
     end
   end
 
