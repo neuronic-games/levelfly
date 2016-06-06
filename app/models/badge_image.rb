@@ -7,7 +7,10 @@ class BadgeImage < ActiveRecord::Base
    :s3_protocol => ENV['S3_PROTOCOL'],
    :default_url => "/assets/:style/missing.jpg"
   
-  has_one :badge
+  # has_one :badge
+  has_one :available_badge, :class_name => "Badge", :foreign_key => "available_badge_image_id"
+  has_one :uploaded_badge, :class_name => "Badge", :foreign_key => "badge_image_id"
+
   @@base_url = "/images/badges"
   cattr_accessor :base_url
   
@@ -15,5 +18,9 @@ class BadgeImage < ActiveRecord::Base
     return BadgeImage.base_url + "/" + self.image_file_name
   end
 
+  def available_image_by_badge(id)
+    badge_image = BadgeImage.find_by_id(id)
+    return BadgeImage.base_url + "/" + badge_image.try(:image_file_name).to_s
+  end
 
 end
