@@ -361,39 +361,51 @@ class GamecenterController < ApplicationController
   end
 
   def add_badge    
-    @badge = Badge.new    
+    @badge = Badge.new
+    @badge_images = BadgeImage.where("image_file_name not in (?)","gold_badge.png").limit(48)
     render :partial =>"/gamecenter/add_game_badge", :locals=>{:profile_id=>current_user.id, :badge => @badge}
   end
 
   def edit_badge
     @badge = Badge.find(params[:id])
+    @badge_images = BadgeImage.where("image_file_name not in (?)","gold_badge.png").limit(48)
     render :partial =>"/gamecenter/add_game_badge", :locals=>{:profile_id=>current_user.id, :badge => @badge}
   end
 
   def save_badge    
+    # render :text => params and return false
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])    
     if params[:badge_id].present?
       @badge = Badge.find(params[:badge_id])
-      if params[:badge_image].present?
+      if params[:badge_image].present? && !params[:available_badge_image_id].present?
         badge_image = @badge.badge_image
         badge_image.image = params[:badge_image]
         badge_image.save!
+        @badge.available_badge_image_id = nil
+      else
+        @badge.badge_image_id = nil
+        @badge.available_badge_image_id = params[:available_badge_image_id]
       end
       @badge.name = params[:name]
       @badge.descr = params[:descr]
       @badge.creator_profile_id = @profile.id
       message = 'Badge Updated'
-    else params[:badge_image].present?    
-      badge_image = BadgeImage.new()
-      badge_image.image = params[:badge_image]
-      badge_image.save!
+    else params[:badge_image].present?
+      if params[:available_badge_image_id].present?
+        available_badge_image_id = params[:available_badge_image_id]
+      else
+        badge_image = BadgeImage.new()
+        badge_image.image = params[:badge_image]
+        badge_image.save!
+      end
       @badge = Badge.new
       @badge.name = params[:name]
       @badge.descr = params[:descr]
-      @badge.badge_image_id = badge_image.id
+      @badge.badge_image_id = badge_image.try(:id)
       @badge.quest_id = session[:game_id]
       @badge.school_id = @profile.school_id
       @badge.creator_profile_id = @profile.id
+      @badge.available_badge_image_id = available_badge_image_id
       message = 'Badge Created'
     end
     if @badge.save        

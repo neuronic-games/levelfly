@@ -32,25 +32,58 @@
             </div>
             </div>
             <div class="green_border">
-            
             </div>
+
             <div class="badge_title">Badge Image</div>
             <br />
 
-            <div class="img-preview">
-              <%if badge.try(:badge_image).present?%>
-                <%= image_tag badge.try(:badge_image).try(:image).try(:url), height: '70', width: '70'%>
-              <% else %>
-                <%= image_tag '/images/course_img_default.jpg', height: '70', width: '70'%>
-              <% end %>
-              
-              <div class="browse_img">
-                <a id="course_browse_btn" href="javascript:void(0)">
-                  <%= file_field_tag :badge_image, class: 'file-opener'%>
-                  browse
-                </a>
+            <div class='bimages' style="float:left; width:550px;margin-bottom: 15px;">
+              <div style="float:right;margin-right: 16px;">
+                <div class="img-preview">
+                  
+                  <%if badge.try(:badge_image).present?%>
+                    <%= image_tag badge.try(:badge_image).try(:image).try(:url), height: '150', width: '150'%>
+                  <% else %>
+                    <%= image_tag '/images/course_img_default.jpg', height: '150', width: '150'%>
+                  <% end %>
+                  
+                  <div class="browse_img">
+                    <a id="course_browse_btn" href="javascript:void(0)" style="color:#2F4C58;">
+                      <%= file_field_tag :badge_image, class: 'file-opener'%>
+                      Upload
+                    </a>
+                  </div>
+                </div>
+                <%= hidden_field_tag :available_badge_image_id, nil%>
               </div>
+              <!-- <div style="float:right; width: 140px;"> -->
+                <!-- <div class="badge_title">Pick Image</div>
+                <div id='selected_badge_img'>
+                  
+                  <%#if badge.try(:badge_image).present?%>
+                    <%#= image_tag badge.available_image_url, height: '67', width: '67'%>
+                  <%# else %>
+                    <%#= image_tag '/images/course_img_default.jpg', height: '67', width: '67'%>
+                    <img src="" width="67" height="67">
+                  <%# end %>
+
+                </div> -->
+              <!-- </div> -->
             </div>
+            <div class="badge_title" style ="width:550px; clear:both;">Select an image or upload your own image</div>
+            <!-- ################## -->
+            <!-- Available Badges  -->
+            <div style ="width:550px; clear:both;margin-top:20px;">          
+              <%if @badge_images && !@badge_images.nil? %>
+                <% @badge_images.each do|bm|%>
+                   <div style ="float:left">
+                      <input id="<%=bm.id%>" src="<%=bm.image_file_path%>" type="image" class="grading_Btn2 avail-badge" />
+                    </div>
+                <%end%>  
+              <%end%>
+            </div>            
+            <!-- ################## -->
+
         </div>
       </div>
     </div>
@@ -64,6 +97,12 @@
 <script type="text/javascript">
 $(document).ready(function() {  
 
+  $('.avail-badge').click(function(){
+    imgSrc = $(this).attr('src');
+    $('.img-preview img').attr('src', imgSrc);
+    $('#available_badge_image_id').val($(this).attr('id'));
+  })
+
   var imageLoader = document.getElementById('badge_image')
   if(imageLoader !== null){
     function handleImage(e) {
@@ -75,19 +114,22 @@ $(document).ready(function() {
       var reader = new FileReader();
       reader.onload = function (event) {                  
         $(".img-preview img").attr('src',event.target.result);
-        $('.img-preview img').css({'height': "70px", 'width':"70px"})
+        $('.img-preview img').css({'height': "150px", 'width':"150px"})
       }
       reader.readAsDataURL(e.target.files[0]);
+      $('#available_badge_image_id').val('');
     }    
     imageLoader.addEventListener('change', handleImage, false);
   }
   
   $(".btn_save_badge").click(function(){
       var badgeId = "<%= badge.id %>";
-      var bImage = $('#badge_image').val();
+      var bImage = $('#badge_image').val() || $('#available_badge_image_id').val();
       var student_id =$("#profile_id_hdn_field").val();
       var badge_name = $("#badge_name").val();
       var descr = $("#badge_descr").val();
+      var availableImageId = $("#available_badge_image_id").val();
+      
       
       if(badge_name == '' || descr == ''){
         $("#warning_add_badge .boxadnt").html('A badge should have a badge name and descriptive name');
@@ -109,6 +151,7 @@ $(document).ready(function() {
         data.append('name', badge_name);
         data.append('descr', descr);
         data.append('profile_id', student_id);
+        data.append('available_badge_image_id', availableImageId);
 
         showSpinner(true);
         $.ajax({
@@ -137,17 +180,27 @@ $(document).ready(function() {
 <style type="text/css">
   .file-opener{
     opacity: 0;
-    width: 70px;
-    position: absolute;
+    width: 150px;
+    position: relative;
     height: 12px;
     cursor: pointer;
+    margin-top: 100px;
   }
 
   .browse_img {
-    position: absolute;
-    width: 70px;
-    margin-top: -20px;
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-top: -150px;
     margin-left: 0px;
     text-align: center;
+  }
+
+  .bimages .badge_title{
+    font-size: 12px !important;
+  }
+  .img-preview{
+    height: 150px;
+    height: 150px;
   }
 </style>

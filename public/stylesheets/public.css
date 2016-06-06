@@ -306,6 +306,7 @@
 .slider_image img{
   border: 1px solid #2A4450;
   border-radius: 5px;
+  margin-left: 5px;
 }
 .text-num{
   color: #fff;

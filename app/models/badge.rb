@@ -1,6 +1,6 @@
 class Badge < ActiveRecord::Base
-belongs_to :badge_image
-has_many :avatar_badges
+  belongs_to :badge_image
+  has_many :avatar_badges
 
   def self.load_all_badges(profile)
     gold_image_id = BadgeImage.find_by_image_file_name("gold_badge.png")
@@ -81,6 +81,10 @@ has_many :avatar_badges
   
   def image_url
     return badge_image.image_file_path
+  end
+
+  def available_image_url
+    return badge_image.available_image_by_badge(self.available_badge_image_id)
   end
 
 end
