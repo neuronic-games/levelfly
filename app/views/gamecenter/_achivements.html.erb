@@ -9,7 +9,7 @@
   <% @badges.each do |badge| %> 
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
       <div class="LBT_ava">
-        <%if badge.available_badge_image_id.present? %>          
+        <%if badge.available_badge_image_id.present? %>
           <img src="<%= badge.try(:available_image_url) %>" height='70' width='70' class="app edit-data" data-badge-id="<%= badge.id%>" style='cursor:pointer;'>
         <% else %>
          <img src="<%= badge.try(:badge_image).try(:image).try(:url) %>" height='70' width='70' class="app edit-data" data-badge-id="<%= badge.id%>" style='cursor:pointer;'>
