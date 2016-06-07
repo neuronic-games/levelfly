@@ -383,7 +383,7 @@ class GamecenterController < ApplicationController
         badge_image.save!
         @badge.available_badge_image_id = nil
       else
-        @badge.badge_image_id = nil
+        @badge.badge_image_id = params[:available_badge_image_id]
         @badge.available_badge_image_id = params[:available_badge_image_id]
       end
       @badge.name = params[:name]
@@ -401,7 +401,7 @@ class GamecenterController < ApplicationController
       @badge = Badge.new
       @badge.name = params[:name]
       @badge.descr = params[:descr]
-      @badge.badge_image_id = badge_image.try(:id)
+      @badge.badge_image_id = badge_image.try(:id) || available_badge_image_id
       @badge.quest_id = session[:game_id]
       @badge.school_id = @profile.school_id
       @badge.creator_profile_id = @profile.id

@@ -27,7 +27,7 @@
             </div></br>
             <div class="badgetitlediv"><div class="badge_title">Description</div>
               <div>
-                <%= text_area_tag :badge_descr, badge.descr, class: 'dd_input_new_badge', style: 'height:50px;'%>
+                <%= text_area_tag :badge_descr, badge.descr, class: 'dd_input_new_badge', style: 'height:100px;'%>
               </div>
             </div>
             </div>
@@ -42,33 +42,25 @@
                 <div class="img-preview">
                   
                   <%if badge.try(:badge_image).present?%>
-                    <%= image_tag badge.try(:badge_image).try(:image).try(:url), height: '150', width: '150'%>
+                    <%if badge.available_badge_image_id.present? %>
+                      <%= image_tag badge.try(:available_image_url), height: '150', width: '150'%>
+                    <% else %>
+                      <%= image_tag badge.try(:badge_image).try(:image).try(:url), height: '150', width: '150'%>
+                    <% end %>
                   <% else %>
                     <%= image_tag '/images/course_img_default.jpg', height: '150', width: '150'%>
                   <% end %>
                   
-                  <div class="browse_img">
+                  <div class="browse_link_div">
                     <a id="course_browse_btn" href="javascript:void(0)" style="color:#2F4C58;">
                       <%= file_field_tag :badge_image, class: 'file-opener'%>
-                      Upload
+                      <span>Upload</span>
                     </a>
                   </div>
                 </div>
                 <%= hidden_field_tag :available_badge_image_id, nil%>
               </div>
-              <!-- <div style="float:right; width: 140px;"> -->
-                <!-- <div class="badge_title">Pick Image</div>
-                <div id='selected_badge_img'>
-                  
-                  <%#if badge.try(:badge_image).present?%>
-                    <%#= image_tag badge.available_image_url, height: '67', width: '67'%>
-                  <%# else %>
-                    <%#= image_tag '/images/course_img_default.jpg', height: '67', width: '67'%>
-                    <img src="" width="67" height="67">
-                  <%# end %>
 
-                </div> -->
-              <!-- </div> -->
             </div>
             <div class="badge_title" style ="width:550px; clear:both;">Select an image or upload your own image</div>
             <!-- ################## -->
@@ -178,29 +170,46 @@ $(document).ready(function() {
   
 });</script>
 <style type="text/css">
-  .file-opener{
-    opacity: 0;
-    width: 150px;
-    position: relative;
-    height: 12px;
-    cursor: pointer;
-    margin-top: 100px;
-  }
-
-  .browse_img {
-    position: relative;
-    width: 150px;
-    height: 150px;
-    margin-top: -150px;
-    margin-left: 0px;
-    text-align: center;
-  }
-
+  
   .bimages .badge_title{
     font-size: 12px !important;
   }
   .img-preview{
     height: 150px;
     height: 150px;
+  }
+
+  .dd_input_new_badge {
+    background: #b1c4d0;    
+  } 
+  #course_browse_btn{
+    color: black;
+    font-size: 12px;
+  }
+
+  textarea {
+    resize: none;
+  }
+  .field_label, .field_label4{
+    color: #777777;
+  }
+  .dd_bg input{
+    color: #334274;
+  }
+  .browse_link_div {
+    position: relative;
+    width: 140px;
+    margin-top: -30px;
+    padding-left: 19px;
+    text-align: center;
+    font-size: 9px;
+  }
+
+  .file-opener{
+    opacity: 0;
+    width: 50px;
+    position: absolute;
+    height: 12px;
+    cursor: pointer;
   }
 </style>
