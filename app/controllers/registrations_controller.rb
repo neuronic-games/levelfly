@@ -17,17 +17,17 @@ class RegistrationsController < Devise::RegistrationsController
       school_code = ''
     end
 
-    if @user && !@user.confirmed?
-      if @user.unconfirmed_email
-        @user.send_confirmation_instructions
-      else
-        @user.regenerate_confirmation_token
-        UserMailer.welcome_email(@user).deliver
-      end
+    # if @user && !@user.confirmed?
+    #   if @user.unconfirmed_email
+    #     @user.send_confirmation_instructions
+    #   else
+    #     @user.regenerate_confirmation_token
+    #     UserMailer.welcome_email(@user).deliver
+    #   end
 
-      flash[:notice] = 'You must confirm your email address before continuing. Your confirmation link has just been emailed to you.'
-      return redirect_to new_user_session_url
-    end
+    #   flash[:notice] = 'You must confirm your email address before continuing. Your confirmation link has just been emailed to you.'
+    #   return redirect_to new_user_session_url
+    # end
 
     if params[:user][:full_name].length == 0
       flash[:notice] = ['Enter your full name.']
@@ -58,9 +58,12 @@ class RegistrationsController < Devise::RegistrationsController
       @user = User.new(params[:user])
     end
     @user.default_school = @school
+    
+    @user.skip_confirmation!
     if @user.save
       profile = Profile.create_for_user(@user.id, @school.id)
       profile.full_name = params[:user][:full_name]
+      profile.is_public = params[:user][:is_public] || false
 
       if @role
         profile.role_name = @role

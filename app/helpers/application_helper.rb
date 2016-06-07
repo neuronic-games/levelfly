@@ -1,16 +1,43 @@
 module ApplicationHelper
- include MessageHelper
+  include MessageHelper
 
- def is_a_valid_email(email)
-
-  r= Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
-	if email.scan(r).uniq.length>0
-    #if len.length>0
-    return true
-	else
-    return false
+  def is_profile_accessible?(profile)
+    access = true
+    current_user_profile = current_user.class.name == 'User' ? current_user.profiles.first : current_user
+    if current_user_profile.present? && current_user_profile.role_name_id == 1
+      is_friend = false
+      if current_user_profile.friends.present?
+        is_friend = current_user_profile.friends.map(&:profile_id).include?(profile.id)
+      end      
+      if profile.is_public?        
+        access = true
+      elsif is_friend && profile.friend_privilege?
+        access = true
+      else
+        access = false
+      end    
+    end
+    return access 
   end
- end
+
+  def student?
+    current_user_profile = current_user.class.name == 'User' ? current_user.profiles.first : current_user
+    return current_user_profile.role_name_id == 1
+  end
+
+  def profile_icon_default
+    return Profile.default_avatar_image
+  end
+
+  def is_a_valid_email(email)
+    r= Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
+  	if email.scan(r).uniq.length>0
+      #if len.length>0
+      return true
+  	else
+      return false
+    end
+  end
 
  def change_date_format(date)
     if not date.blank?

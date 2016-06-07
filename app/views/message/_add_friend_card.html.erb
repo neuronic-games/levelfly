@@ -1,18 +1,24 @@
 <div class="level_01"><%= "%02d" % profile.level %></div>
 <div class="top_img"></div>
 <div class="shadow_repeat">
-  <div>
+  <div>    
     <div class="avatar_green_bdr">
-      <img onClick="user_profile(<%=profile.id%>);" src="<%=profile.image_file_name%>" id="<%=profile.id%>" class="profile"/>
+      <img onClick="user_profile(<%=profile.id%>);" src="<%=is_profile_accessible?(profile) ? profile.image_file_name : profile_icon_default%>" id="<%=profile.id%>" class="profile"/>
       <% if current_user.has_role(Role.edit_user) %><a class="blue_bt19px" onclick="user_profile(<%=profile.id%>)">EDIT</a><% end %>
     </div>
-    <div class="txt"> <span class="pop_name"><b><%=profile.full_name%></b><br />
-      <span style="width:91px;float:left;"><%= "#{profile.major.name}, " if profile.major%><%=profile.school.code%></span><a id="view_participant_profile" class="blue_bt19px view_profile" style="float:inherit"rev="" rel="<%=profile.id%>" data="" href="javascript:void(0)">VIEW</a></span>
+    <div class="txt"> <span class="pop_name"><b><%=is_profile_accessible?(profile) ? profile.full_name : 'Private'%></b><br />
+      <span style="width:91px;float:left;"><%= "#{profile.major.name}, " if profile.major%><%=is_profile_accessible?(profile) ? profile.school.code : ''%></span>
+      <% if is_profile_accessible?(profile) %>
+        <a id="view_participant_profile" class="blue_bt19px view_profile" style="float:inherit"rev="" rel="<%=profile.id%>" data="" href="javascript:void(0)">VIEW</a>
+      <% end %>
+      </span>
       <p><%#=profile.tag_list%></p>
       <div>
+      <% if is_profile_accessible?(profile) %>
         <span class="pop_fav_icon"><img src="/images//fav.png" align="absbottom" /> <%= profile.like_received %></span>
-    <span class="pop_win_icon"><img src="/images//cup_icon.png" align="absbottom" /> <%= profile.xp %></span>
-    <span class="pop_win_icon"><img src="/images//badge_icon.png" align="absbottom" />   <%=profile.badge_count%></span>
+        <span class="pop_win_icon"><img src="/images//cup_icon.png" align="absbottom" /> <%= profile.xp %></span>
+        <span class="pop_win_icon"><img src="/images//badge_icon.png" align="absbottom" />   <%=profile.badge_count%></span>
+      <% end %>
     </div>
     <div class="spacebar10px"></div>
     </div>

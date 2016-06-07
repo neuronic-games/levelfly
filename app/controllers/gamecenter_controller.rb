@@ -273,6 +273,11 @@ class GamecenterController < ApplicationController
   end
 
   def show
+    conditions = ["profiles.archived = ? and user_id is not null", false]
+    @profiles = Profile.find(:all, :limit => 50,
+      :conditions => conditions,
+      :include => [:participants],
+      :order => "xp desc")
     @game = Game.find(params[:id])
     @outcomes = @game.outcomes.limit(5)
     respond_to do |format|
@@ -281,6 +286,7 @@ class GamecenterController < ApplicationController
   end
 
   def get_rows
+    session[:game_id] = nil
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
 
     # filter is "active", "archived"
@@ -312,19 +318,26 @@ class GamecenterController < ApplicationController
     @game.archived = false
     @game.published = false
     @game.school_id = current_user.profiles.first.school_id if current_user.profiles.present?
-    1.upto(5) {|i| @game.outcomes.new}
+    1.upto(5) {|i| @game.outcomes.build}
+    5.times do
+      @game.screen_shots.build      
+    end
     render :partial => "/gamecenter/form",locals: {url: gamecenter_save_game_path}
   end
   
   def save_game
-    params[:game].merge!("image" => params["file"])
     @game = Game.new(params[:game]).save
-    render :text => { 'status' => 200, 'message' => 'Game created successfully' }.to_json
+    # render :json => { 'status' => 200, 'message' => 'Game created successfully' }
   end
 
 
   def edit_game
     @game = Game.find(params[:id])
+    five_screens = 5 - @game.screen_shots.count
+    five_screens.times do
+      @game.screen_shots.build      
+    end
+
     session[:game_id] = @game.id
     render :partial => "/gamecenter/form",locals: {url: gamecenter_update_game_path(:id =>@game.id)}
   end
@@ -332,7 +345,12 @@ class GamecenterController < ApplicationController
   def update_game
     params[:game].merge!("image" => params["file"]) if params["file"].present?
     @game = Game.find(params[:id]).update_attributes(params[:game])
-    render :text => { 'status' => 200, 'message' => 'Game updated successfully' }.to_json
+    # render :text => { 'status' => 200, 'message' => 'Game updated successfully' }.to_json
+  end
+
+  def game_details
+    @game = Game.find(params[:id])
+    render :partial => "/gamecenter/game_details"
   end
 
   def download
@@ -353,22 +371,59 @@ class GamecenterController < ApplicationController
     render :partial => "/gamecenter/leader_board"
   end
 
-  def add_badge
-    # render :json => params and return false
-    #@badges = Badge.create
-    @badge_image = BadgeImage.find(:all, :conditions => ["image_file_name not in (?)","gold_badge.png"])
-    # course_ids = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.profile_type = 'M' and participants.target_type = 'Course' and parent_type = 'C' and removed = ?", user_session[:profile_id],false],:order=>"courses.name").map(&:id)
-    # # @courses = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'", current_user.id, course_ids],:order=>"courses.id")
-
-    # @courses = Course.limit(2)
-    
-    # puts "==============="
-    # puts @courses.inspect
-    # puts "==============="
-
-    # @selected_course = Course.find_by_id(params[:last_course])
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    render :partial =>"/badge/new_badge", :locals=>{:profile_id=>current_user.id}
+  def add_badge    
+    @badge = Badge.new
+    @badge_images = BadgeImage.where("image_file_name not in (?)","gold_badge.png").limit(48)
+    render :partial =>"/gamecenter/add_game_badge", :locals=>{:profile_id=>current_user.id, :badge => @badge}
   end
-  
+
+  def edit_badge
+    @badge = Badge.find(params[:id])
+    @badge_images = BadgeImage.where("image_file_name not in (?)","gold_badge.png").limit(48)
+    render :partial =>"/gamecenter/add_game_badge", :locals=>{:profile_id=>current_user.id, :badge => @badge}
+  end
+
+  def save_badge    
+    # render :text => params and return false
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])    
+    if params[:badge_id].present?
+      @badge = Badge.find(params[:badge_id])
+      if params[:badge_image].present? && !params[:available_badge_image_id].present?
+        badge_image = @badge.badge_image
+        badge_image.image = params[:badge_image]
+        badge_image.save!
+        @badge.available_badge_image_id = nil
+      else
+        @badge.badge_image_id = params[:available_badge_image_id]
+        @badge.available_badge_image_id = params[:available_badge_image_id]
+      end
+      @badge.name = params[:name]
+      @badge.descr = params[:descr]
+      @badge.creator_profile_id = @profile.id
+      message = 'Badge Updated'
+    else params[:badge_image].present?
+      if params[:available_badge_image_id].present?
+        available_badge_image_id = params[:available_badge_image_id]
+      else
+        badge_image = BadgeImage.new()
+        badge_image.image = params[:badge_image]
+        badge_image.save!
+      end
+      @badge = Badge.new
+      @badge.name = params[:name]
+      @badge.descr = params[:descr]
+      @badge.badge_image_id = badge_image.try(:id) || available_badge_image_id
+      @badge.quest_id = session[:game_id]
+      @badge.school_id = @profile.school_id
+      @badge.creator_profile_id = @profile.id
+      @badge.available_badge_image_id = available_badge_image_id
+      message = 'Badge Created'
+    end
+    if @badge.save        
+      render :json => {:status => true, :message => message}
+    else
+      render :json => {:status => false, :message => 'Something went wrong'}
+    end
+  end
+
 end
