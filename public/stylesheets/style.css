@@ -4715,3 +4715,14 @@ a.like{
   margin: 0;
   padding: 0;
 }*/
+
+/* 26-05-2015 */
+.sub_course_profile_image {
+  background:url(../images/screenshot_bg.png) no-repeat 5px 0;
+  width: 145px;
+  height: 145px;
+  position: relative;
+}
+.sub_course_profile_image img {
+  padding: 12px 0px 4px 17px;
+}

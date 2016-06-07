@@ -1,4 +1,4 @@
-<%= form_for @game,url: url, :html => { :multipart => true } do |f| %>
+<%= form_for @game, url: url, :html => { :multipart => true, :class => 'save-game' }, :remote => true do |f| %>
 <%= f.hidden_field :archived, :id => "archived" %>
 <%= f.hidden_field :published, :id => "published" %>
 <%= f.hidden_field :school_id %>
@@ -17,11 +17,18 @@
 <div class="course_detailbox">
    <div class="course_field_box0">
      <div class="course_left">
-         <div id="course_image" class="course_profile_image">
-            <img width="156" height="156" alt="Course image" src="/images/course_img_default.jpg" class="c_iamge" id="c_iamge">
-            <img src="/images/course_img_drop.png" class="image_icon_drop_target">
+         <div id="course_image" class="course_profile_image gamePhoto">
+         		<% if f.object.image.present? %>
+         			<%= image_tag f.object.image.url, height: '156', width: '156'%>
+         		<% else %>
+            	<img width="156" height="156" alt="Course image" src="/images/course_img_default.jpg" class="c_iamge" id="c_iamge">
+         		<% end %>
             <div class="browse_link_div">
-               <a id="course_browse_btn" href="javascript:void(0)">CLICK HERE TO UPLOAD</a>
+            	<!-- <img src="/images/course_img_drop.png" class="image_icon_drop_target"> -->
+              <a id="course_browse_btn" href="javascript:void(0)">
+            		<%= f.file_field :image, :class => 'file-opener', id: 'gamePhoto'%>
+              	CLICK HERE TO UPLOAD
+            	</a>
             </div>
          </div>
       </div>
@@ -29,7 +36,7 @@
    <div class="course_field_box1">
       <div class="catagory_viewfield field_label" style="margin-right: 5px;">
          Name
-         <div class="dd_bg ">
+         <div class="dd_bg">
             <%= f.text_field :name, :class=>"dd_input",:maxlength =>"64", :id => "name", :placeholder => "Enter Name"%>
          </div>
       </div>
@@ -48,37 +55,25 @@
 <br />
 <div class="field_label4" style="margin-right: 75px;">
   Screenshots
-  <div id="thumbs" style="float:left;">    
-    <div class="screen-shot">
-      <img src="/images/course_img_drop.png" alt="" class="imaa" height="142" width="142" />
-      <div class="browse_link_div">
-        <a id="course_browse_btn" href="javascript:void(0)">CLICK HERE TO UPLOAD</a>
+  <div id="thumbs" style="float:left;">
+  	<% index = 1%>
+    <%= f.fields_for :screen_shots do |ff| %>
+      <div class="screen-shot sub_course_profile_image screen_<%=index%>">
+      	<% if f.object.screen_shots.present? && @game.screen_shots.order(:id)[index-1]%>
+      		<%= image_tag @game.screen_shots.order(:id)[index-1].image.url, height: '120', width: '120'%>
+      	<% else %>
+      		<img src="/images/course_img_drop.png" alt="" class="imaa" height="120" width="120" />
+      	<% end %>
+        <div class="browse_link_div">          
+          <a id="course_browse_btn" href="javascript:void(0)">
+            <%= ff.file_field :image, :class => 'file-opener', id: "screen_#{index}"%>
+            CLICK HERE TO UPLOAD
+          </a>
+        </div>
       </div>
-    </div>
-    <div class="screen-shot">
-      <img src="/images/course_img_drop.png" alt="" class="imaa" height="142" width="142" />
-      <div class="browse_link_div">
-        <a id="course_browse_btn" href="javascript:void(0)">CLICK HERE TO UPLOAD</a>
-      </div>
-    </div>
-    <div class="screen-shot">
-      <img src="/images/course_img_drop.png" alt="" class="imaa" height="142" width="142"/>
-      <div class="browse_link_div">
-        <a id="course_browse_btn" href="javascript:void(0)">CLICK HERE TO UPLOAD</a>
-      </div>
-    </div>
-    <div class="screen-shot">
-      <img src="/images/course_img_drop.png" alt="" class="imaa" height="142" width="142"/>
-      <div class="browse_link_div">
-        <a id="course_browse_btn" href="javascript:void(0)">CLICK HERE TO UPLOAD</a>
-      </div>
-    </div>
-    <div class="screen-shot">
-      <img src="/images/course_img_drop.png" alt="" class="imaa" height="142" width="142"/>
-      <div class="browse_link_div">
-        <a id="course_browse_btn" href="javascript:void(0)">CLICK HERE TO UPLOAD</a>
-      </div>
-    </div>
+      <% index = index + 1%>
+    <% end %>
+
   </div>
 </div>
 <div style="clear:both;">
@@ -94,124 +89,94 @@
 </div>
 <% end  %>
 
+
+<div class="add_task_popup" style="position:fixed; display:none;">
+   <div class="heading">Server Error</div>
+   <div class="boxadnt"> 
+     
+   </div>
+   <div class="spacebar10px"></div>
+   <div class="spacebar10px"></div>
+   <div id="dialog_url" style="word-wrap:break-word;"></div>
+   <div class="spacebar10px"></div>
+   <div align="right">
+     <a class="smaller_text big_blue_btn inlineblock dialog_btn" id="close_modal" href="javascript:void(0)">Close</a>
+   </div>        
+</div>
+
 <!-- UI control code -->
 
 <script type="text/javascript">
+
+	$(function(){
+		attchCollection = [];
+		$.each($('form input:file'), function(e){
+		  attchCollection.push(this.id)
+		})
+		// attchCollection = ['gamePhoto','screen_1','screen_2','screen_3','screen_4','screen_5']
+		$.each(attchCollection, function(i, domId){      
+			var imageLoader = document.getElementById(domId)
+		  if(imageLoader !== null){
+		    function handleImage(e) {
+		    	temp = $("#"+domId).val();
+		      if(temp.indexOf('png') == '-1' && temp.indexOf('jpg') == '-1' && temp.indexOf('jpeg') == '-1' && temp.indexOf('gif') == '-1') {
+		        alert('Invalid file. Allowed extensions are gif, jpg, jpeg and png');
+		        return
+		      }
+		      var reader = new FileReader();
+		      reader.onload = function (event) {        	        
+		        $("."+domId+" img").attr('src',event.target.result);
+		        // $('.profile-img img').css({'height': "219px", 'width':"219px"})
+		      }
+		      reader.readAsDataURL(e.target.files[0]);
+		    }    
+		    imageLoader.addEventListener('change', handleImage, false);
+		  }
+    }); 
+	})
+
   $(document).ready(function() {
+  	var gameId = "<%= @game.id%>";
+  	console.log(gameId)
     $("#add_game").addClass("hide");
     $('.leader_tabs').show();
-  }); 
-  function saveGame() {
-      showSpinner(true);
-      var dataString = $("form").serialize();
-      $.ajax({
-          type: "POST",
-          url: "<%=url%>",
-          data: dataString,
-          dataType: "json",
-          success: function(data) {
-              if (data) {}
-              showSpinner(false);
-              $('#gamecenter').click();
-          }
-      });
-  }
-  $(function() {
-      //Uploader course image upload
-      var course_uploader = new plupload.Uploader({
-          runtimes: 'html5,flash',
-          drop_element: 'course_image',
-          browse_button: 'course_browse_btn',
-          container: 'course_image',
-          max_file_size: '5mb',
-          resize: {
-              width: 125,
-              height: 125
-          },
-          url: '<%=url%>',
-          flash_swf_url: '/assets/fileupload/plupload.flash.swf',
-          // multipart_params: {
-          //     'authenticity_token': token, //For csrf-authentication
-          //     'game[published]': $("#published").val(),
-          //     'game[archived]': $("#archived").val(),
-          //     'game[name]': $("#name").val(),
-          //     'game[descr]': $("#descr").val(),
-          //     'game[last_rev]': $("#last_rev").val(),
-          //     'game[last_rev_date]': $("#last_rev_date").val(),
-          //     'game[first_publish_date]': $("#first_publish_date").val(),
-          //     'game[archived]': $("#archived").val(),
-          // },
-          filters: [{
-              title: "Image files",
-              extensions: "jpg,gif,png,JPG,PNG,GIF,JPEG"
-          }]
-      });
-      course_uploader.init();
-      course_uploader.bind('FilesAdded', function(up, files) {
-      var game_id = $("#game_id").val(); 
-      if (game_id){  
-      course_uploader.settings.multipart_params = {
-              'authenticity_token': token, //For csrf-authentication
-              'game[published]': $("#published").val(),
-              'game[archived]': $("#archived").val(),
-              'game[name]': $("#name").val(),
-              'game[descr]': $("#descr").val(),
-              'game[school_id]': $("#game_school_id").val(),
-              'game[outcomes_attributes][0][name]': $("#game_outcomes_attributes_0_name").val(),
-              'game[outcomes_attributes][0][id]': $("#game_outcomes_attributes_0_id").val(),
-              'game[outcomes_attributes][1][name]': $("#game_outcomes_attributes_1_name").val(),
-              'game[outcomes_attributes][1][id]': $("#game_outcomes_attributes_1_id").val(),
-              'game[outcomes_attributes][2][name]': $("#game_outcomes_attributes_2_name").val(),
-              'game[outcomes_attributes][2][id]': $("#game_outcomes_attributes_2_id").val(),
-              'game[outcomes_attributes][3][name]': $("#game_outcomes_attributes_3_name").val(),
-              'game[outcomes_attributes][3][id]': $("#game_outcomes_attributes_3_id").val(),
-              'game[outcomes_attributes][4][name]': $("#game_outcomes_attributes_4_name").val(),
-              'game[outcomes_attributes][4][id]': $("#game_outcomes_attributes_4_id").val(), 
+    $('#close_modal').click(function(){
+    	$('.add_task_popup').hide();
+    })
+    $('#btn_game_save').click(function(){
+    	name = $('form.save-game input#name').val();
+    	descr = $('form.save-game textarea#descr').val();
+    	image = $('form.save-game input#gamePhoto').val() || gameId;
+    	if(name.length == 0 || descr.length == 0 || image.length == 0){
+	    	if(name.length == 0 && descr.length == 0 && image.length == 0){
+		    	$(".add_task_popup .boxadnt").html("Name, description and main image can't be blank");
+	    	}
+	    	else if(name.length == 0 && descr.length == 0){
+	    		$(".add_task_popup .boxadnt").html("Name and description can't be blank");
+	    	}
+	  		else if(image.length == 0 && descr.length == 0){
+	  			$(".add_task_popup .boxadnt").html("Main image and description can't be blank");
+	  		}
+				else if(name.length == 0 && image.length == 0){
+					$(".add_task_popup .boxadnt").html("Name and image can't be blank");
+				}
+				else if(name.length == 0){
+					$(".add_task_popup .boxadnt").html("Name can't be blank");
+				}
+				else if(descr.length == 0){
+					$(".add_task_popup .boxadnt").html("Description can't be blank");
+				}
+				else if(image.length == 0){
+					$(".add_task_popup .boxadnt").html("Main image can't be blank");
+				}
+				else{}
+	      $(".add_task_popup").show();
+    	}
+    	else{
+      	$('form.save-game').submit();   		
+    	}
 
-              // 'game[last_rev_date(3i)]': $('[name="game[last_rev_date(3i)]"]').val(),
-              // 'game[last_rev_date(2i)]': $('[name="game[last_rev_date(2i)]"]').val(),
-              // 'game[last_rev_date(1i)]': $('[name="game[last_rev_date(1i)]"]').val(),
-
-              // 'game[first_publish_date(3i)]': $('[name="game[first_publish_date(3i)]"]').val(),
-              // 'game[first_publish_date(2i)]': $('[name="game[first_publish_date(2i)]"]').val(),
-              // 'game[first_publish_date(1i)]': $('[name="game[first_publish_date(1i)]"]').val(),
-
-
-              'game[archived]': $("#archived").val(),
-          };
-        }else{
-          course_uploader.settings.multipart_params = {
-              'authenticity_token': token, //For csrf-authentication
-              'game[published]': $("#published").val(),
-              'game[archived]': $("#archived").val(),
-              'game[name]': $("#name").val(),
-              'game[descr]': $("#descr").val(),
-              'game[school_id]': $("#game_school_id").val(),
-              'game[outcomes_attributes][0][name]': $("#game_outcomes_attributes_0_name").val(),
-              'game[outcomes_attributes][1][name]': $("#game_outcomes_attributes_1_name").val(),
-              'game[outcomes_attributes][2][name]': $("#game_outcomes_attributes_2_name").val(),
-              'game[outcomes_attributes][3][name]': $("#game_outcomes_attributes_3_name").val(),
-              'game[outcomes_attributes][4][name]': $("#game_outcomes_attributes_4_name").val(),
-              'game[archived]': $("#archived").val(),
-          };
-
-        }  
-
-          $('#btn_game_save').attr("data-image-attach", 'true');
-      });
-      course_uploader.bind('FileUploaded', function(up, file, info) {
-          showSpinner(false);
-          $('#gamecenter').click();
-      });
-      $('#btn_game_save').click(function() {
-          var image_attach = $('#btn_game_save').attr("data-image-attach");
-          showSpinner(true);
-          if (image_attach == 'true') {
-              course_uploader.start()
-          } else {
-              saveGame();
-          }
-      });
+    })
   });
 </script>
 <style type="text/css">
@@ -230,7 +195,16 @@
     position: relative;
     width: 140px;
     margin-top: -25px;
-    padding-left: 12px;
+    padding-left: 19px;
     text-align: center;
+    font-size: 9px;
+  }
+
+  .file-opener{
+    opacity: 0;
+    width: 112px;
+    position: absolute;
+    height: 12px;
+    cursor: pointer;
   }
 </style>

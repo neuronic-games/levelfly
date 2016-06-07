@@ -1,0 +1,66 @@
+<div id="major_dialog">   
+  <div class="warningbox " style="margin:3%;">
+  <div class="heading" id="major_head">Change Your Privacy Settings</div>
+    <span class='privacy-notice' style='color: #5a95ad;'></span>
+    <div>
+      <h3>Levelfly Privacy Settings:</h3>
+      <div class="clear"></div>
+      <p>Public: I consent to allow my profile page and my leaderboard rankings to be viewable by all Levelfly users.<p>
+      <div class="clear"></div>
+      <p>Private: I do not consent to allow my profile page and my leaderboard rankings to be viewable by all Levelfly users. I will appear anonymously on public leaderboards. I may allow individual Levelfly users to view my profile page and leaderboard rankings by friending them. I may remove this permission by unfriending them.</p>
+    </div>
+    <div class="clear"></div>
+    <div class="spacebar10px"></div>
+    <div class="spacebar10px"></div>
+     <div>
+      <p>My profile can be viewed by: </p>
+      <%= select_tag :privacy, options_for_select({'Public' => true, 'Private' => false}, profile.is_public?), style: 'background:#fff;' %>      
+    </div>
+    <div class='allow_friends' style="margin-top: 10px; display: <%= !profile.is_public? ? 'block' : 'none'%>">
+      <p>I want my profile to be viewed by my friends: </p>
+      <%= select_tag :allow_friends, options_for_select({'Yes' => true, 'No' => false}, profile.friend_privilege?),  prompt: 'Allow Friends?', style: "background:#fff; "%>
+    </div>
+    <div class="spacebar10px"></div>
+  <div align="left">
+  <a class="big_blue_btn inlineblock" id="dontshow_btn" href="javascript:void(0)">Don't Save</a>
+  <a class="big_orange_btn inlineblock clr_red" id="save_privacy" href="javascript:void(0)">Save</a>
+  </div>
+</div>
+             
+</div>
+
+<script type="text/javascript">
+
+    $("#dontshow_btn").click(function(){
+      $("#privacy_settings_box").hide();
+    });
+    
+    $('#privacy').change(function(){
+      if($(this).val() == 'false')
+      {
+        $('.allow_friends').show();
+      }
+      else{
+        $('#allow_friends').val('');
+        $('.allow_friends').hide();
+      }
+    })
+
+    $('#save_privacy').click(function(){
+      privacy = $('#privacy').val();
+      allowFriends = $('#allow_friends').val();
+      $.ajax({
+        url: "/profile/save_privacy_settings",
+        data: { is_public: privacy, friend_privilege: allowFriends},
+        type: 'post',
+        dataType: 'json',
+        error: function(){alert("Error");},
+        success: function(data){
+          $('.privacy-notice').fadeIn(300);
+          $('.privacy-notice').text('Privacy settings updated').delay(3000).fadeOut(300);
+          // $('#dontshow_btn').click();
+        }
+      }); //Ajax
+    })
+
+</script>

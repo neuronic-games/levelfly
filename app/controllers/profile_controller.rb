@@ -307,4 +307,15 @@ class ProfileController < ApplicationController
       render :text => "Forbidden", :status => '403'
     end
   end
+
+  def save_privacy_settings
+    @profile = current_user.profiles.first
+    @profile.is_public = params[:is_public]
+    @profile.friend_privilege = params[:friend_privilege]
+    # @profile.friend_privilege = (!@profile.is_public? && params[:friend_privilege] == '1') ? true : (@profile.is_public? && params[:friend_privilege].present?) ? false : nil
+    @profile.save!
+    puts @profile.inspect
+    render :json => {:success => true}
+  end
+
 end

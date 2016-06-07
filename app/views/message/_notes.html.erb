@@ -1,12 +1,12 @@
 <div class="note_big_box" id="note_box_<%=note.id%>">
   <div class="avatar_white_bdr">
-    <img src="<%=note.profile.image_file_name%>" id="<%=note.profile_id%>" class='<%= (note.profile_id==user_session[:profile_id]) ? "" : "profile" %>'/>
+    <img src="<%=is_profile_accessible?(note.profile) ? note.profile.image_file_name : profile_icon_default%>" id="<%=note.profile_id%>" class='<%= (note.profile_id==user_session[:profile_id]) ? "" : "profile" %>'/>
   </div>
   
   <div class="note_box_fullwidth">
   <div class="positn_rtlv"><div class="note_big_box_arrow"><img src="/images//blue_arrow.png" width="15px" height="21px" /></div></div>
     <div class="note_box_txt blue_bg_msg_txt">
-      <h3><%=note.profile.full_name%></h3>
+      <h3><%=is_profile_accessible?(note.profile) ? note.profile.full_name : 'Private'%></h3>
       <p><%=note.content%></p>
       <div class="note_bottom_links">
         <div><%= time_ago_in_words(note.created_at) %> ago</div>

@@ -95,6 +95,8 @@ Oncapus::Application.routes.draw do
 
   post "profile/change_extended_logout_preference"
 
+  post "profile/save_privacy_settings"
+
   get "task/index"
 
   get "task/show"
@@ -461,7 +463,13 @@ Oncapus::Application.routes.draw do
   get "gamecenter/leaderboard"
   get "gamecenter/get_top_users"
   get "gamecenter/add_badge"
-  post "badge/save_new_badge"
+  get "gamecenter/edit_badge"
+  post "gamecenter/save_badge"
+  get "people/load_filtered_courses" => "users#load_filtered_courses"
+  get "people/load_course_codes" => "users#load_course_codes"
+  get "gamecenter/game_details"
+  
+  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
