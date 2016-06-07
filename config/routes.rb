@@ -467,6 +467,7 @@ Oncapus::Application.routes.draw do
   post "gamecenter/save_badge"
   get "people/load_filtered_courses" => "users#load_filtered_courses"
   get "people/load_course_codes" => "users#load_course_codes"
+  get "gamecenter/game_details"
   
   
 

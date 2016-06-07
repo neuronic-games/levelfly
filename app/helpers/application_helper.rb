@@ -20,6 +20,11 @@ module ApplicationHelper
     return access 
   end
 
+  def student?
+    current_user_profile = current_user.class.name == 'User' ? current_user.profiles.first : current_user
+    return current_user_profile.role_name_id == 1
+  end
+
   def profile_icon_default
     return Profile.default_avatar_image
   end

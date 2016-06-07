@@ -1,0 +1,68 @@
+<!-- Main area -->
+<div class="course_detailbox">
+   <div class="course_field_box0">
+     <div class="course_left">
+         <div id="course_image" class="course_profile_image gamePhoto">
+         		<% if @game.image.present? %>
+         			<%= image_tag @game.image.url, height: '156', width: '156'%>
+         		<% else %>
+            	<img width="156" height="156" alt="Course image" src="/images/course_img_default.jpg" class="c_iamge" id="c_iamge">
+         		<% end %>            
+         </div>
+      </div>
+   </div>
+   <div class="course_field_box1">
+      <div class="catagory_viewfield field_label" style="margin-right: 5px;">
+         Name
+         <div class="dd_bg">
+            <%= @game.name%>
+         </div>
+      </div>
+      <div class="clearfix"></div>
+      <br/>
+      <div class="catagory_viewfield field_label" style="margin-right: 5px;">
+         Description
+         <div class="dd_bg ">
+         		<%= @game.descr%>            
+         </div>
+      </div>
+      <div class="clearfix"></div>
+   </div>
+</div>
+
+<br />
+<div class="field_label4" style="margin-right: 75px;">
+  Screenshots
+  <div id="thumbs" style="float:left;">
+  	<% index = 1%>
+    <% @game.screen_shots.each do |screen| %>
+      <div class="screen-shot sub_course_profile_image screen_<%=index%>">
+      	<% if @game.screen_shots.order(:id)[index-1]%>
+      		<%= image_tag @game.screen_shots.order(:id)[index-1].image.url, height: '120', width: '120'%>
+      	<% else %>
+      		<img src="/images/course_img_drop.png" alt="" class="imaa" height="120" width="120" />
+      	<% end %>
+      </div>
+      <% index = index + 1%>
+    <% end %>
+
+  </div>
+</div>
+<div style="clear:both;">
+<br/>
+<div class="field_label4" style="margin: 15px 75px 0 0;">
+  Learning Objectives	
+  <% @game.outcomes.order(:id).each do |outcome| %>    
+    <%if outcome.name.present?%>
+	    <div class="dd_bg dd_input">
+	      <%= outcome.name %>
+	    </div>
+	    <br/>
+    <% end %>
+  <% end %>
+</div>
+<!-- UI control code -->
+
+<style type="text/css">
+  .screen-shot{display:inline; float:left; width: 153px;} 
+</style>

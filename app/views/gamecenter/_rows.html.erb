@@ -12,9 +12,15 @@
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
       <div class="LBT_ava">
 
-       <a class="edit_game" href="javascript:void(0)" data-url="<%= gamecenter_edit_game_path(:id => game.id)%>" >
-         <img src="<%= game.image.url%>" height='156' width='156' class="app"> 
-       </a>
+       <% if !student?%>
+        <a class="edit_game" href="javascript:void(0)" data-url="<%= gamecenter_edit_game_path(:id => game.id)%>" >
+          <img src="<%= game.image.url%>" height='156' width='156' class="app"> 
+        </a>
+      <% else %>
+        <a class="edit_game" href="javascript:void(0)" data-url="<%= gamecenter_game_details_path(:id => game.id)%>" >
+          <img src="<%= game.image.url%>" height='156' width='156' class="app"> 
+        </a>
+      <% end %>
 
       </div>
       <div class="LBT_name"> <span class="name_txt"><%=h game.name %> </span><br />

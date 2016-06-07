@@ -49,11 +49,13 @@
     </div>
   </div>
 </div>
-<div id="sidebar_right">
-  <div class="course_side_buttons">
-    <a class="big_blue_btn" name="menu_btn_add_game" href="javascript:void(0)" id="add_game">ADD GAME</a>
-  </div><!-- crud_level -->
-</div>
+<%if !student?%>
+  <div id="sidebar_right">
+    <div class="course_side_buttons">    
+      <a class="big_blue_btn" name="menu_btn_add_game" href="javascript:void(0)" id="add_game">ADD GAME</a>
+    </div><!-- crud_level -->
+  </div>
+<% end %>
 
 <!-- <span class="default-listing-page"></span> -->
 
