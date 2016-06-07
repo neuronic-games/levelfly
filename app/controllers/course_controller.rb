@@ -338,8 +338,7 @@ class CourseController < ApplicationController
   							message_type = "course_invite"
   							content = "Please join #{course.name} (#{course.code_section})."
   						end
-              # Commented because should not send new notification, but find existing one
-  						# @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id], section_type, message_type, content)
+              @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id], section_type, message_type, content)
               @message = Message.where(
                 profile_id:   user_session[:profile_id],
                 parent_id:    @profile.id,
