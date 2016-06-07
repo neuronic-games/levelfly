@@ -171,7 +171,7 @@
 
           if (data.email_exist.length != 0) {
             showSpinner(false);
-            show_alert_message("Following emails belongs to different school, can't invite them: " + data.email_exist.join(', '), true);
+            show_alert_message("The following cannot beinvited to your course because they belong to a different school: " + data.email_exist.join(', '), true);
             return false;
           }
 
