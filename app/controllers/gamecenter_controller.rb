@@ -101,7 +101,7 @@ class GamecenterController < ApplicationController
     
     progress = params[:progress]
     progress_type = params[:progress_type]
-    name = params[:name]
+    name = game.name
     addition = params[:add] == "true"
     unique = params[:unique] == "true"  # Unique badge?
     
@@ -303,10 +303,16 @@ class GamecenterController < ApplicationController
       conditions[0] += " and games.archived = ?"
       conditions << true
     end
-      
-    @games = Game.find(:all, :conditions => conditions,
-     :order => "name")
-    
+
+    if @profile.role_name_id == 1 && filter == "active"
+      user_feats = Feat.where(:profile_id => @profile.id).map(&:game_id)
+      conditions[0] += " and id IN(?)"
+      conditions << user_feats
+      @games = Game.find(:all, :conditions => conditions, :order => "name")
+    else
+      @games = Game.find(:all, :conditions => conditions, :order => "name")
+    end
+
     render :partial => "/gamecenter/rows"
   end
   
@@ -325,17 +331,16 @@ class GamecenterController < ApplicationController
     render :partial => "/gamecenter/form",locals: {url: gamecenter_save_game_path}
   end
   
-  def save_game
+  def save_game    
     @game = Game.new(params[:game]).save
     # render :json => { 'status' => 200, 'message' => 'Game created successfully' }
   end
-
 
   def edit_game
     @game = Game.find(params[:id])
     five_screens = 5 - @game.screen_shots.count
     five_screens.times do
-      @game.screen_shots.build      
+      @game.screen_shots.build
     end
 
     session[:game_id] = @game.id
@@ -350,6 +355,7 @@ class GamecenterController < ApplicationController
 
   def game_details
     @game = Game.find(params[:id])
+    session[:game_id] = @game.id
     render :partial => "/gamecenter/game_details"
   end
 
@@ -363,7 +369,15 @@ class GamecenterController < ApplicationController
 
   def achivements
     @game = Game.find(session[:game_id])    
-    @badges = Badge.where(:quest_id => @game.id)
+
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    if @profile.role_name_id == 1
+      @feats = Feat.where(game_id: @game.id, profile_id: @profile.id).pluck(:progress)
+      @badges = Badge.where(id: @feats)
+    else
+      @badges = Badge.where(:quest_id => @game.id)
+    end
+
     render :partial => "/gamecenter/achivements"
   end 
 
