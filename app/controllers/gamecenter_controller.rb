@@ -332,7 +332,10 @@ class GamecenterController < ApplicationController
   end
   
   def save_game    
-    @game = Game.new(params[:game]).save
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @game = Game.new(params[:game])
+    @game.profile_id = @profile.id
+    @game.save
     # render :json => { 'status' => 200, 'message' => 'Game created successfully' }
   end
 
