@@ -27,44 +27,45 @@
     </div>
   <% end %>
 <% end %>
-<div id="sidebar_right">
-  <div class="course_side_buttons">
-    <a class="big_blue_btn" name="menu_btn_add_badge" href="javascript:void(0)" id="add_badge">ADD BADGE</a>
-  </div><!-- crud_level -->
-</div>
-
-<script type="text/javascript">
-  $(document).ready(function(){
-  
-    $("#add_badge").unbind('click').bind('click', function(){
-      showSpinner(true);
-      var filter = $(".side_tab_open:first").attr("filter");
-      
-      $.ajax({
-        type: "GET",
-        url: "/gamecenter/add_badge",
-        data: {filter:filter, show:"add_badge"},
-        success: function(data) {
-          $("#rows").html(data);
-          showSpinner(false);
-        }
+<% if gamecenter_write_access(session[:game_id]) %>
+  <div id="sidebar_right">
+    <div class="course_side_buttons">
+      <a class="big_blue_btn" name="menu_btn_add_badge" href="javascript:void(0)" id="add_badge">ADD BADGE</a>
+    </div><!-- crud_level -->
+  </div>
+  <script type="text/javascript">
+    $(document).ready(function(){
+    
+      $("#add_badge").unbind('click').bind('click', function(){
+        showSpinner(true);
+        var filter = $(".side_tab_open:first").attr("filter");
+        
+        $.ajax({
+          type: "GET",
+          url: "/gamecenter/add_badge",
+          data: {filter:filter, show:"add_badge"},
+          success: function(data) {
+            $("#rows").html(data);
+            showSpinner(false);
+          }
+        });
       });
-    });
 
-    $(".edit-data").unbind('click').bind('click', function(){
-      showSpinner(true);
-      var badgeId = $(this).attr("data-badge-id");
-      
-      $.ajax({
-        type: "GET",
-        url: "/gamecenter/edit_badge",
-        data: {id:badgeId, show:"edit_badge"},
-        success: function(data) {
-          $("#rows").html(data);
-          showSpinner(false);
-        }
+      $(".edit-data").unbind('click').bind('click', function(){
+        showSpinner(true);
+        var badgeId = $(this).attr("data-badge-id");
+        
+        $.ajax({
+          type: "GET",
+          url: "/gamecenter/edit_badge",
+          data: {id:badgeId, show:"edit_badge"},
+          success: function(data) {
+            $("#rows").html(data);
+            showSpinner(false);
+          }
+        });
       });
-    });
 
-  });
-</script>
+    });
+  </script>
+<% end %>

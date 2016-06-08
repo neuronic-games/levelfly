@@ -25,6 +25,22 @@ module ApplicationHelper
     return current_user_profile.role_name_id == 1
   end
 
+  def gamecenter_write_access(game_id)
+    current_user_profile = current_user.class.name == 'User' ? current_user.profiles.first : current_user
+    @game = Game.find(game_id)
+    game_access = true
+    if current_user_profile.role_name_id == 1 
+      game_access = false
+    elsif current_user_profile.role_name_id == 2 && current_user_profile.id != @game.profile_id
+      game_access = false
+    else
+      game_access = true
+    end
+
+    return game_access
+
+  end
+
   def profile_icon_default
     return Profile.default_avatar_image
   end

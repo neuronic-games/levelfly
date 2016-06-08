@@ -1,11 +1,32 @@
 <div class="msg_big_box" id="request_box_<%=friend_request.id%>">
+
+  <%
+    
+    current_user_profile = Profile.find(friend_request.parent_id)
+    profile_access = true
+    if current_user_profile.present? && current_user_profile.role_name_id == 1
+      is_friend = false
+      if current_user_profile.friends.present?
+        is_friend = current_user_profile.friends.map(&:profile_id).include?(friend_request.profile.id)
+      end      
+      if friend_request.profile.is_public?        
+        profile_access = true
+      elsif is_friend && friend_request.profile.friend_privilege?
+        profile_access = true
+      else
+        profile_access = false
+      end    
+    end
+
+  %>
+
   <div class="avatar_white_bdr">
-    <img src="<%=is_profile_accessible?(friend_request.profile) ? friend_request.profile.image_file_name : profile_icon_default%>" profile_id ="<%=friend_request.profile.id%>" class="profile"/>
+    <img src="<%=profile_access ? friend_request.profile.image_file_name : profile_icon_default%>" profile_id ="<%=friend_request.profile.id%>" class="profile"/>
   </div>
   <div class="msg_box_fullwidth">
     <div class="positn_rtlv"><div class="msg_big_box_arrow"><img src="/images//blue_arrow.png" width="15px" height="21px" /></div></div>
     <div class="msg_box_txt blue_bg_msg_txt">
-      <h3 class="name"><%=is_profile_accessible?(friend_request.profile) ? friend_request.profile.full_name : 'Private'%></h3>
+      <h3 class="name"><%=profile_access ? friend_request.profile.full_name : 'Private'%></h3>
       <p><%=friend_request.content%></p>
       <div class="msg_bottom_links">
        <div class="time" rel ="<%=friend_request.id%>"><span id ="word_<%=friend_request.id%>"><%= time_ago_in_words(friend_request.created_at) %> ago</span><span class="hide" id ="date_<%=friend_request.id%>"><%=gdt(friend_request.created_at)%></span></div>

@@ -1,0 +1,5 @@
+class AddProfileIdToGames < ActiveRecord::Migration
+  def change
+    add_column :games, :profile_id, :integer
+  end
+end
