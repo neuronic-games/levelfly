@@ -11,16 +11,15 @@
   <% @games.each do |game| %> 
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
       <div class="LBT_ava">
-
-       <% if !student?%>
+       <% if gamecenter_write_access(game.id) %>
         <a class="edit_game" href="javascript:void(0)" data-url="<%= gamecenter_edit_game_path(:id => game.id)%>" >
           <img src="<%= game.image.url%>" height='156' width='156' class="app"> 
         </a>
-      <% else %>
+       <% else %>
         <a class="edit_game" href="javascript:void(0)" data-url="<%= gamecenter_game_details_path(:id => game.id)%>" >
           <img src="<%= game.image.url%>" height='156' width='156' class="app"> 
         </a>
-      <% end %>
+       <% end %>
 
       </div>
       <div class="LBT_name"> <span class="name_txt"><%=h game.name %> </span><br />
@@ -38,7 +37,7 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('.leader_tabs').hide();  
+    $('#leader_tabs').hide();
     $('.default-listing-page').remove();
     $('.side_tab_open:first').removeAttr('game-view-url');
   })
