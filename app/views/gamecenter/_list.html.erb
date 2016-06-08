@@ -21,13 +21,19 @@
         <div class="leader_pad_top"></div>
         <div class="leader_pad">
           <!-- tabs-->
-          <div class="leader_tabs" align="right">
+          <div class="leader_tabs" align="right" id="leader_tabs">
             <a href="javascript:void(0)" class="side_tab side_tab_open" filter="active"><span class="task_tab">Main</span></a>
             <a href="javascript:void(0)" class="side_tab side_tab_close" id="download_page" filter="download"><span class="task_tab">Download</span></a>
             <a href="javascript:void(0)" class="side_tab side_tab_close" id="support" filter="support"><span class="task_tab">Support</span></a>
             <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab" id="achivements" filter="achivements"><span class="task_tab">Badges</span></a>
             <a href="javascript:void(0)" class="side_tab side_tab_close" id="leaderboard" filter="leaderboard"><span class="task_tab">Boards</span></a>
           </div>
+          <%if student?%>
+            <div class="leader_tabs" align="right" id="student_leader_tabs">
+              <a href="javascript:void(0)" class="side_tab side_tab_open" data-tab-type="my_games" filter="active"><span class="task_tab">My Games</span></a>            
+              <a href="javascript:void(0)" class="side_tab side_tab_close" filter="gameboard"><span class="task_tab">All Games</span></a>
+            </div>
+          <% end %>
 
           <!-- NEW BOX START HERE -->
           <div class="leader_TabCSS">
@@ -166,10 +172,20 @@ function getRows() {
   showSpinner(true);
   var filter = $(".side_tab_open:first").attr("filter");  
   var gameIdUrl = $(".side_tab_open:first").attr('game-view-url');
+
+  // dataTabType = $(".side_tab_open:first").attr("data-tab-type")
+
+  // if(dataTabType !== undefined){
+  //   dataTabType = true
+  // }
+  // else{
+  //   dataTabType = false
+  // }
+
   if(gameIdUrl == undefined){
     $.ajax({
       type: "GET",  
-      url: "/gamecenter/get_rows",  
+      url: "/gamecenter/get_rows",
       data: {filter:filter},
       success: function(data) {
         $("#rows").html(data);
