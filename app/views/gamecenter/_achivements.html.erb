@@ -3,6 +3,9 @@
   <div class="LBT_ava">BADGE ID</div>
   <div class="LBT_level">NAME</div>
   <div class="LBT_xp">DESCRIPTION</div>
+  <%if student?%>
+    <div class="LBT_xp">COUNT</div>
+  <% end %>
 </div>
 <span class="index-page"></span>
 <% unless @badges.nil? %>
@@ -24,6 +27,11 @@
       <div class="LBT_xp"> 
         <span class="descr_txt"><%=h truncate(badge.descr, :length => 20) %></span>
       </div>
+      <%if student?%>
+      <div class="LBT_xp"> 
+        <span class="descr_txt"><%=h get_badge_count(badge.id, @profile.id, session[:game_id]) %></span>
+      </div>
+      <% end %>
     </div>
   <% end %>
 <% end %>

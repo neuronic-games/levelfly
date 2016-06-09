@@ -225,8 +225,10 @@ class GamecenterController < ApplicationController
       when Feat.score
         @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} has a current score of #{feat.progress}"
       when Feat.badge
-        badge = Badge.find(feat.progress)
-        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} acquired #{badge ? badge.name : 'unknown'} badge"
+        badge = Badge.find_by_id(feat.progress)
+        if badge
+          @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} acquired #{badge ? badge.name : 'unknown'} badge"
+        end
       when Feat.rating
         @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} acquired #{feat.progress} rating"
       when Feat.level
