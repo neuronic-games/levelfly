@@ -87,6 +87,57 @@ class GamecenterController < ApplicationController
     render :text => { 'status' => status, 'message' => message, 'all_score' => all_score }.to_json
   end
 
+  # Save a player's progress in a game
+  def add_checkpoint
+    handle = params[:handle]
+    message = ""
+    status = Gamecenter::FAILURE
+
+    checkpoint = params[:checkpoint]
+
+    if current_user
+      status = Gamecenter::SUCCESS
+      profile = current_user.default_profile
+      game = Game.find_by_handle(handle)
+      
+      cp = Checkpoint.where(game_id: game.id, profile_id: profile.id).last
+
+      if cp.nil?
+        cp = Checkpoint.new
+        cp.profile_id = profile.id
+        cp.game_id = game.id
+      end
+      cp.checkpoint = checkpoint
+      cp.save
+      
+      message = "Checkpoint #{cp.id} saved for #{game.name} for #{profile.full_name}"
+    end
+    
+    render :text => { 'status' => status, 'message' => message }.to_json
+  end
+  
+  def get_checkpoint
+    handle = params[:handle]
+    message = ""
+    status = Gamecenter::FAILURE
+    checkpoint = ""
+
+    if current_user
+      profile = current_user.default_profile
+      game = Game.find_by_handle(handle)
+      
+      cp = Checkpoint.where(game_id: game.id, profile_id: profile.id).last
+      
+      if cp
+        status = Gamecenter::SUCCESS
+        message = "Found checkpoint #{cp.id} recorded on #{cp.updated_at}"
+        checkpoint = cp.checkpoint
+      end
+    end
+    
+    render :text => { 'status' => status, 'message' => message, 'checkpoint' => checkpoint }.to_json
+  end
+  
   # Adds a player's progress to a game by creating a Feat record
   def add_progress
     handle = params[:handle]
