@@ -41,6 +41,11 @@ module ApplicationHelper
 
   end
 
+  def get_badge_count(badge_id, student_id, game_id)
+    feat_count = Feat.where(progress: badge_id, profile_id: student_id, game_id: game_id).count
+    return feat_count
+  end
+
   def profile_icon_default
     return Profile.default_avatar_image
   end
