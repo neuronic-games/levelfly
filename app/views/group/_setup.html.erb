@@ -54,17 +54,19 @@
 			<input type="radio" name="joinning_group[]" checked="true" value="I"/>
 			<label class="radio-label"> Invitation requests must be approved by the organizer</label>
 		</span>
+
+    <div class="spacebar10px">&nbsp;</div>
+    <span class="field_notes spaceleft5px">
+      <input type="radio" name="joinning_group[]" <% if @course.join_type == "A" %> checked="true" <% end %> value="A"/>
+      <label class="radio-label"> Invitation requests are approved automatically</label>       
+    </span>
+
 		<div class="spacebar10px">&nbsp;</div>
 		<span class="field_notes spaceleft5px">
 			<input type="radio" name="joinning_group[]" <% if @course.join_type == "R" %> checked="true" <% end %> value="R"/>
 			<label class="radio-label"> No one can request to join the group</label> 
 			<span class="field_notes " style="font-size:10px;padding-left:20px;font-style: italic;"> The organizer can still send invitation requests </span>
 		</span>
-    <div class="spacebar10px">&nbsp;</div>
-    <span class="field_notes spaceleft5px">
-      <input type="radio" name="joinning_group[]" <% if @course.join_type == "A" %> checked="true" <% end %> value="A"/>
-      <label class="radio-label"> Invitation requests are approved automatically</label>       
-    </span>
 
 		<div class="spacebar30px">&nbsp;</div>
 		<span class="field_title font_15px">Viewing Privileges</span>
