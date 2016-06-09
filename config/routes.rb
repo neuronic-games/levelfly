@@ -468,8 +468,8 @@ Oncapus::Application.routes.draw do
   get "people/load_filtered_courses" => "users#load_filtered_courses"
   get "people/load_course_codes" => "users#load_course_codes"
   get "gamecenter/game_details"
-  
-  
+  get "gamecenter/add_checkpoint"
+  get "gamecenter/get_checkpoint"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
