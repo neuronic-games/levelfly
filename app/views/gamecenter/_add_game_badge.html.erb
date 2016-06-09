@@ -3,21 +3,53 @@
     <div class="badge_board_right">
       <div class="badge_board_center">
         <div id = "badge_content" class="badge_contentt">
-        <div id="sidebar_right">
+        <div id="badge_board_right">
           <div class="course_side_buttons">
             <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=@profile.id if @profile%>" />
             <input type="hidden" name="profile_id_hdn_field" id="profile_id_hdn_field" value="<%=profile_id if profile_id%>" />
+            <div class="course_side_buttons">
+              <a class="big_blue_btn btn_save_badge" name="btn_save" href="javascript:void(0)" id="btn_save">SAVE</a>
+            </div><!-- crud_level -->
             
           </div><!-- crud_level -->
         </div>
         <div class="badges_box1" style="width:654px">
-          <div class="badges_top_heading">Badge For Game            
-            <a href="javascript:void(0)" name="btn_save" id="btn_save" class="big_blue_btn btn_save_badge badge_btn_save" rel="save">SAVE</a>
+          <div class="badges_top_heading">Badge for Achievement in Game</div>
+          
+          <div class="green_border"></div>
+
+          <div style="padding-top:10px; padding-bottom: 20px;">
+            Give a name and a short description for the badge.<br />
+            Badge names are unique for your game.
           </div>
-            <div class="clear"></div>
-            <div class="green_border"></div>
-            <div>
-            <div class="choose_badge">1. Give a descriptive name and a short description for the badge.</div>
+          
+          <!--Preview image -->
+          <div class='bimages' style="float:right; width:200px;margin-bottom: 15px;">
+            <div style="float:right;margin-right: 16px;">
+              <div class="img-preview">
+                
+                <%if badge.try(:badge_image).present?%>
+                  <%if badge.available_badge_image_id.present? %>
+                    <%= image_tag badge.try(:available_image_url), height: '150', width: '150'%>
+                  <% else %>
+                    <%= image_tag badge.try(:badge_image).try(:image).try(:url), height: '150', width: '150'%>
+                  <% end %>
+                <% else %>
+                  <%= image_tag '/images/course_img_default.jpg', height: '150', width: '150'%>
+                <% end %>
+                
+                <div class="browse_link_div" style="margin-top:0px;">
+                  <a id="course_browse_btn" href="javascript:void(0)" style="color:#2F4C58;">
+                    <%= file_field_tag :badge_image, class: 'file-opener'%>
+                    <span>Upload Image</span>
+                  </a>
+                </div>
+              </div>
+              <%= hidden_field_tag :available_badge_image_id, nil%>
+            </div>
+          </div>
+          
+          <div styles="float:left;">
             <div class="badgetitlediv"><div class="badge_title">Badge Name</div>
               <div>
                 <div class ="selected_badge_position hide">
@@ -31,38 +63,8 @@
               </div>
             </div>
             </div>
-            <div class="green_border">
-            </div>
 
-            <div class="badge_title">Badge Image</div>
-            <br />
-
-            <div class='bimages' style="float:left; width:550px;margin-bottom: 15px;">
-              <div style="float:right;margin-right: 16px;">
-                <div class="img-preview">
-                  
-                  <%if badge.try(:badge_image).present?%>
-                    <%if badge.available_badge_image_id.present? %>
-                      <%= image_tag badge.try(:available_image_url), height: '150', width: '150'%>
-                    <% else %>
-                      <%= image_tag badge.try(:badge_image).try(:image).try(:url), height: '150', width: '150'%>
-                    <% end %>
-                  <% else %>
-                    <%= image_tag '/images/course_img_default.jpg', height: '150', width: '150'%>
-                  <% end %>
-                  
-                  <div class="browse_link_div">
-                    <a id="course_browse_btn" href="javascript:void(0)" style="color:#2F4C58;">
-                      <%= file_field_tag :badge_image, class: 'file-opener'%>
-                      <span>Upload</span>
-                    </a>
-                  </div>
-                </div>
-                <%= hidden_field_tag :available_badge_image_id, nil%>
-              </div>
-
-            </div>
-            <div class="badge_title" style ="width:550px; clear:both;">Select an image or upload your own image</div>
+            <div style="padding-top:20px; width:550px; clear:both;">Select an image or upload your own image. The image should be a square PNG or JPG file. The optimum size is 67x67 pixels.</div>
             <!-- ################## -->
             <!-- Available Badges  -->
             <div style ="width:550px; clear:both;margin-top:20px;">          
