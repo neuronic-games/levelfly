@@ -473,12 +473,14 @@ $("#filter_files").change(function(e){
           $('#opt-test').remove();
           $(mainFilter).eq(6).after($("<optgroup id='opt-test' label='"+yr+" , "+cc+"'></option>"));
           optGrp = $('optgroup:first');
-
+          optGrp.append($("<option selected id='all_courses'>").val(yr+"_"+cc).text('All'));
           if(data.courses.length > 0){
             $.each(data.courses, function(i,j){
-              optGrp.append($("<option />").val(j.id).text(j.name));          
+              optGrp.append($("<option>").val(j.id).text(j.name));
             });          
           }
+
+          $('#all_courses').change();
 
         }
       });
