@@ -77,7 +77,7 @@ class CourseController < ApplicationController
         @participant.target_id    = params[:id] if params[:id]
         @participant.profile_id   = user_session[:profile_id]
         @participant.target_type  = "Course" # Change 'Group' to 'Course' because of query include `participants`.`target_type` = 'Course' when load group or course! Change by vaibhav
-        @participant.profile_type = "P"
+        @participant.profile_type = @course.join_type == "A" ? "S" : "P"
         if @participant.save
           status = true
           wall_id = Wall.get_wall_id(params[:id],"Course")

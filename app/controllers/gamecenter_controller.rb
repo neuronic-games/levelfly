@@ -360,11 +360,9 @@ class GamecenterController < ApplicationController
     if @profile.role_name_id == 1 && filter == "active"
       user_feats = Feat.where(:profile_id => @profile.id).map(&:game_id)
       conditions[0] += " and id IN(?)"
-      conditions << user_feats
-      @games = Game.find(:all, :conditions => conditions, :order => "name")
-    else
-      @games = Game.find(:all, :conditions => conditions, :order => "name")
+      conditions << user_feats    
     end
+    @games = Game.find(:all, :conditions => conditions, :order => "name")
 
     render :partial => "/gamecenter/rows"
   end
@@ -438,6 +436,14 @@ class GamecenterController < ApplicationController
   end 
 
   def leaderboard
+    @game = Game.find(session[:game_id])
+    
+    @profiles_by_feats = Feat.where(game_id: @game.id).pluck(:profile_id).uniq
+    profiles_temp = Profile.where(:id => @profiles_by_feats).order("xp desc")
+    profiles_temp.each_with_index do |p,i|
+      p[:rank] = i + 1
+    end    
+    @profiles = profiles_temp
     render :partial => "/gamecenter/leader_board"
   end
 
