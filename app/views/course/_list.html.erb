@@ -78,6 +78,9 @@ $(".course_row").hover(
 $("#content_list").delegate('.join_btn', 'click', function(event){       
   showSpinner(true);
   var course_id = $(this).attr("course_id");
+  var joinType = $(this).attr("join-type");
+  var courseName = $(this).attr("course-name");
+
   if(course_id){
     $.ajax({
        type: "POST",  
@@ -86,12 +89,18 @@ $("#content_list").delegate('.join_btn', 'click', function(event){
        dataType: "json",
        success: function(data) {
          if (data.status) {
-           $(".join_btn[course_id="+course_id+"]").html("Invite Pending");
-           $(".join_btn[course_id="+course_id+"]").addClass("light_blue");
-          $(".join_btn[course_id="+course_id+"]").removeClass("join_btn blue_bt19px");
+          if(joinType == 'A'){
+            replacableDiv = "<a href='javascript:void(0);' class='leave_btn blue_bt19px' course_id='"+course_id+"' course_name='"+courseName+"'>Leave</a>"
+
+            $(".join_btn[course_id="+course_id+"]").parent().html(replacableDiv);
+          }
+          else{
+            $(".join_btn[course_id="+course_id+"]").html("Invite Pending");
+            $(".join_btn[course_id="+course_id+"]").addClass("light_blue");
+            $(".join_btn[course_id="+course_id+"]").removeClass("join_btn blue_bt19px");
+          }          
           
-          
-           setAlert("The group organizer has been notified of your request to join this group.");
+            setAlert("The group organizer has been notified of your request to join this group.");
          }
          showSpinner(false);
        },
