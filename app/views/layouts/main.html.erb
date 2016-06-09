@@ -569,7 +569,7 @@ var h = new Object();
    }
   $('.main_div_height').css("min-height",height);
   $('#root_level.nav_box').css("height",height);
-  var main_menu_id = ["msg","courses","tasks","networks","leader_board","grade","wardrobe","reward","setting","users"]
+  var main_menu_id = ["msg","courses","tasks","networks","leader_board","grade","wardrobe","reward","setting","users","gamecenter"]
   var token = $("meta[name='csrf-token']").attr("content");
   var search_arr = {
     "/profile/user_profile" : "Find People",
@@ -992,12 +992,15 @@ $('#container').delegate('.add_topic', 'click', function(){
     if(document.getElementById("setting")!=null){
       document.getElementById("setting").className = "icon_user_setting menu_btn";
     }
+    if(document.getElementById("gamecenter")!=null){
+      document.getElementById("gamecenter").className = "icon_gamecenter_setting menu_btn";
+    }
 
   }
   function unselectAll(){
       var buttons = {courses : 'icon_courses', msg: 'icon_msg', tasks: 'icon_tasks', networks: 'icon_networks',
           leader_board: 'icon_leader', grade: 'icon_grade', wardrobe: 'icon_wardrobe', users: 'icon_people_setting',
-          reward: 'icon_reward'};
+          reward: 'icon_reward', gamecenter: 'icon_gamecenter_setting'};
       $.each(buttons, function(key, value){
           if($('#' + key).hasClass(value + '_active')){
               $('#' + key).removeClass(value + '_active');
@@ -1038,6 +1041,9 @@ $('#container').delegate('.add_topic', 'click', function(){
     }
     else if(selectted_menu=="setting"){
       $("#setting").addClass("icon_user_setting_active");
+    }
+    else if(selectted_menu=="gamecenter"){
+      $("#gamecenter").addClass("icon_gamecenter_setting_active");
     }
 
   }
