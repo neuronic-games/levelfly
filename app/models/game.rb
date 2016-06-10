@@ -1,5 +1,7 @@
 require 'digest'
 class Game < ActiveRecord::Base
+  serialize :download_links, Hash
+  PLATFORMS = ['ios', 'android', 'windows', 'mac', 'linux']
   validates :handle, :uniqueness => true
   belongs_to :school
   has_many :feats
