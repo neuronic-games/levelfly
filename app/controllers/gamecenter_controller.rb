@@ -152,7 +152,7 @@ class GamecenterController < ApplicationController
     
     progress = params[:progress]
     progress_type = params[:progress_type]
-    name = game.name
+    name = params[:name]  # This is the name of the badge, not the name of the game
     addition = params[:add] == "true"
     unique = params[:unique] == "true"  # Unique badge?
     
