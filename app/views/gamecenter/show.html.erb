@@ -17,17 +17,12 @@
           <h2 class="game_name"><%= @game.name%></h2>
         </div>
       </div>
-     <!--  <div>
-        <img src="../images/Polygon2.png" class="Polygon2">
-      </div>  -->  
     </div>
     <div class="row">      
       <div class="col-sm-4">
-        <img src="../images/Shape46.png", class="Shape46">
-        <img src="../images/Shape47.png" class="Shape47">
-        <img src="../images/Rectangle3.png" class="Rectangle3">
-        <img src="../images/Rectangle4.png" class="Rectangle4">
-        <img src="../images/Download.png" class="Download">
+        <a href="<%=@download_link.present? ? @download_link : 'javascript:void(0)'%>">
+          <img src="../images/gc-download.png" class='download-btn'>
+        </a>
       </div>
       <div class="col-sm-8">
         <div class="game_detail">
@@ -111,3 +106,8 @@
     </div>    
   </div> 
 </div>
+<style type="text/css">
+  .download-btn{
+    margin-left: 23px; border-radius: 9px;
+  }
+</style>>
