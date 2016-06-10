@@ -29,6 +29,19 @@
       <div class="clearfix"></div>
    </div>
 </div>
+<br />
+<div class="field_label4" style="margin: 15px 75px 0 0;">
+  Download Links <br /><br />
+  <% Game::PLATFORMS.each do |pf|%>    
+    <% if @game.download_links[pf].present? %>
+      <%= pf.humanize%>    
+      <div class="dd_bg dd_input">
+        <%= @game.download_links[pf] %>
+      </div>
+      <br/>
+    <% end %>
+  <% end %>
+</div>
 
 <br />
 <div class="field_label4" style="margin-right: 75px;">

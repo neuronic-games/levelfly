@@ -325,13 +325,35 @@ class GamecenterController < ApplicationController
     @profile.record_action('last', 'gamecenter')
   end
 
-  def show
+  def show    
+    agent_by_request = request.env["HTTP_USER_AGENT"]
+    user_agent = UserAgent.parse(agent_by_request)
+    platform = user_agent.platform
+
+
+
+
     conditions = ["profiles.archived = ? and user_id is not null", false]
     @profiles = Profile.find(:all, :limit => 50,
       :conditions => conditions,
       :include => [:participants],
       :order => "xp desc")
     @game = Game.find(params[:id])
+
+    @download_link = ""
+    # ['ios', 'android', 'windows', 'mac', 'linux']
+    case platform
+      when "Windows"
+        @download_link = @game.download_links['windows']
+      when "X11"
+        @download_link = @game.download_links['linux']
+      when "Android"
+        @download_link = @game.download_links['android']
+      when "Macintosh"
+        @download_link = @game.download_links['mac']
+      when "iPhone"
+        @download_link = @game.download_links['ios']
+    end
     @outcomes = @game.outcomes.limit(5)
     respond_to do |format|
       format.html {render :layout => 'public'}
@@ -418,6 +440,8 @@ class GamecenterController < ApplicationController
   end
 
   def support
+    @game = Game.find(session[:game_id])
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     render :partial => "/gamecenter/support"
   end
 
