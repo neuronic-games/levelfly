@@ -440,6 +440,8 @@ class GamecenterController < ApplicationController
   end
 
   def support
+    @game = Game.find(session[:game_id])
+    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     render :partial => "/gamecenter/support"
   end
 
