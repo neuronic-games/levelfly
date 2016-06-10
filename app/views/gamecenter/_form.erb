@@ -51,6 +51,17 @@
       <div class="clearfix"></div>
    </div>
 </div>
+<br />
+<div class="field_label4" style="margin: 15px 75px 0 0;">
+  Download Links <br /><br />
+  <% Game::PLATFORMS.each do |pf|%>    
+    <%= pf.humanize%>    
+    <div class="dd_bg dd_input">
+      <%= text_field_tag "game[download_links][#{pf}]", f.object.download_links[pf], :class=>"dd_input",:maxlength =>"64", :placeholder => pf%>
+    </div>
+    <br/>
+  <% end %>
+</div>
 
 <br />
 <div class="field_label4" style="margin-right: 75px;">
