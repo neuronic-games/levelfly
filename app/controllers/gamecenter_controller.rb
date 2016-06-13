@@ -329,10 +329,6 @@ class GamecenterController < ApplicationController
     agent_by_request = request.env["HTTP_USER_AGENT"]
     user_agent = UserAgent.parse(agent_by_request)
     platform = user_agent.platform
-
-
-
-
     conditions = ["profiles.archived = ? and user_id is not null", false]
     @profiles = Profile.find(:all, :limit => 50,
       :conditions => conditions,
@@ -404,12 +400,17 @@ class GamecenterController < ApplicationController
     render :partial => "/gamecenter/form",locals: {url: gamecenter_save_game_path}
   end
   
-  def save_game    
+  def save_game
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @game = Game.new(params[:game])
     @game.profile_id = @profile.id
-    @game.save
-    # render :json => { 'status' => 200, 'message' => 'Game created successfully' }
+    if @game.save
+      @course = create_forum(@game)
+      @game.course_id = @course.id
+      @game.save
+    else
+      render :json => { 'status' => false}
+    end
   end
 
   def edit_game
@@ -441,8 +442,59 @@ class GamecenterController < ApplicationController
 
   def support
     @game = Game.find(session[:game_id])
+    # @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    puts @game.inspect
+
+    @course = Course.find_by_id(@game.course_id)
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    render :partial => "/gamecenter/support"
+    @wall = Wall.find(:first,:conditions=>["parent_id = ? AND parent_type='Course'", @course.id])
+    if !@profile.nil?
+      @badges = AvatarBadge.where("profile_id = ? and course_id = ?",@profile.id,@course.id).count
+    end
+    xp = TaskGrade.select("sum(points) as total").where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course.id,@profile.id)
+    @course_xp = xp.first.total
+
+    section_type = ['Course','Group']
+    @member_count = Profile.course_participants(@course.id, section_type).count
+
+    @member = Participant.find( :first, :conditions => ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id])
+    @pending_count = Profile.count(
+      :all,
+      :include => [:participants],
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')", @course.id]
+    )
+    @courseMaster = Profile.find(
+      :first,
+      :include => [:participants],
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", @course.id]
+      )
+    @course_owner = Participant.find(:first, :conditions=>["target_id = ? AND profile_type = 'M' AND target_type='Course'",params[:id]])
+    #@totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
+    @totaltask = @tasks = Task.filter_by(user_session[:profile_id], @course.id, "current")
+    @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
+     message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
+    if params[:section_type]=="C"
+      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C' AND archived = ? and id in(?)", @course.id, false, message_ids],:order => "starred DESC, post_date DESC" )
+    elsif params[:section_type]=="G"
+      message_ids = MessageViewer.find(:all, :select => "message_id").collect(&:message_id) if @member.nil?
+      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'G' AND archived = ? and id in (?)",@course.id, false, message_ids],:order => "starred DESC, post_date DESC" )
+    end
+    @profile.record_action('course', @course.id)
+    @profile.record_action('last', 'course')
+    #ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}")
+    session[:controller]="course"
+    respond_to do |wants|
+      wants.html do
+        if request.xhr?
+          render :partial => "/course/form",:locals=>{:course_new =>false,:section_type => "G", privilege: true}
+        else
+
+        end
+      end
+    end
+
+
+    
   end
 
   def achivements
@@ -524,6 +576,36 @@ class GamecenterController < ApplicationController
     else
       render :json => {:status => false, :message => 'Something went wrong'}
     end
+  end
+
+  def create_forum(game)
+    @course = Course.new
+    @course.name = "Support for "+game.name
+    @course.parent_type = 'G'
+    @course.school_id = game.school_id
+    @course.join_type = 'A'    
+
+    if @course.save
+      #get wall id
+      wall_id = Wall.get_wall_id(@course.id,"Course")
+      # Participant record for master
+      participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]])
+      if !participant
+        @participant = Participant.new
+        @participant.target_id = @course.id
+        @participant.target_type = "Course"
+        @participant.profile_id = user_session[:profile_id]
+        @participant.profile_type = "M"
+        if @participant.save
+          Feed.create(
+            :profile_id => user_session[:profile_id],
+            :wall_id =>wall_id
+          )
+        end
+      end
+      return @course
+    end
+
   end
 
 end

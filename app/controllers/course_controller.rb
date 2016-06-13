@@ -187,7 +187,7 @@ class CourseController < ApplicationController
     end
   end
 
-  def save
+  def save    
     if params[:id] && !params[:id].empty?
       @course = Course.find(params[:id])
     else
@@ -853,7 +853,7 @@ class CourseController < ApplicationController
   end
 
   def save_forum
-     if params[:id] && !params[:id].empty?
+    if params[:id] && !params[:id].empty?
       @course = Course.find(params[:id])
     else
       @course = Course.new
