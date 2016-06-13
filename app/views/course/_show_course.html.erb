@@ -84,7 +84,7 @@
           <a href="javascript:void(0)" id="<%=@course.id%>" class="sbmt_msg blue_bt19px" title="msg_content" rel="C" onclick="javascript:void(0);">Post</a>
         </div>
       <%end%>
-			<% if @course_messages.length > 0 %>
+			<% if @course_messages.present? && @course_messages.length > 0 %>
 				<div class="msg_content_left" style="margin-left:100px">
 					<div id="show_all_cmnts_div" class="linkcolour">
 						<a href="javascript:void(0)" id="all_cmnts">Show All Comments</a>
