@@ -30,9 +30,6 @@
               <!-- tabs-->
 
             <div class="course_tabs menu_container" align="right">
-              <%# if defined?(privilege).present? %>
-                <!-- <a href="javascript:void(0)" class="side_game_open" filter="active"><span class="task_tab">Main</span></a> -->
-              <%# end %>
               <a href="javascript:void(0)"  id="menu1" value="1" class="side_tab side_tab_open" ><span class="task_tab">Home</span></a>
 
               <a href="javascript:void(0)"  id="menu4" value="4" class="side_tab side_tab_close"><span class="task_tab">Files</span></a>
@@ -119,28 +116,6 @@ if($("#group_name").val()!="") {setStorage("group_name", $("#group_name").val())
 if($("#group_descr").val()!="") {setStorage("group_descr", $("#group_descr").val());} else {setStorage("group_descr", "New Group Description");}
 
 $(document).ready(function(){
-
-
-  // $('.side_game_open').click(function(){
-  //   var gameTabUrl = $(".side_game_open:first").attr('game-view-url');    
-  //   alert(gameTabUrl)
-  //   if(gameTabUrl !== undefined){
-  //     $.ajax({
-  //       type: "GET",
-  //       url: gameTabUrl,  
-  //       data: {filter:'active'},
-  //       success: function(data) {
-  //         $('.leader_content').show()
-  //         $('.top-scale').show()
-          
-  //         $("#test-data").hide();
-  //         $("#rows").html(data);
-  //         showSpinner(false);
-  //       }
-  //     });
-  //   }    
-  // })
-
 
 
   <% if defined?(course_new) && course_new == true %>
