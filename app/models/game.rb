@@ -11,13 +11,14 @@ class Game < ActiveRecord::Base
   accepts_nested_attributes_for :outcomes, :allow_destroy => true
   accepts_nested_attributes_for :screen_shots, :allow_destroy => true
 
-  has_attached_file :image,
-   :storage => :s3,
-   :s3_credentials => { :access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET'] },
-   :path => "games/:id/:filename",
-   :bucket => ENV['S3_PATH'],
-   :s3_protocol => ENV['S3_PROTOCOL'],
-   :default_url => "/assets/:style/missing.jpg"
+  has_attached_file :image
+  # ,
+  #  :storage => :s3,
+  #  :s3_credentials => { :access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET'] },
+  #  :path => "games/:id/:filename",
+  #  :bucket => ENV['S3_PATH'],
+  #  :s3_protocol => ENV['S3_PROTOCOL'],
+  #  :default_url => "/assets/:style/missing.jpg"
   
   after_create :generate_handle
   

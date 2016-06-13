@@ -1,17 +1,32 @@
+<!-- #################################################### -->
+<!-- #################################################### -->
+
+<div id ="test-data">
+  <%#= render :partial=>"/course/content_list",:locals => {:section_type=>section_type}%>
+</div>  
+
+
+<!-- #################################################### -->
+<!-- #################################################### -->
+
+
 <!-- GameCenter Top -->
-<div style="position:relative;">
-	<div style="position:absolute; width:100%;">
-		<div class="pr120">
-			<div class="leader_pad_top container_tipshelp"> 
-				<div class="tops_row">
-					<div class="leftimg panel"></div>
-					<div class="centerimg panel"></div>
-					<div class="rightimg panel"></div>
-				</div>
-			</div>
-		</div>
-	</div>
+<div style="position:relative;" class='top-scale'>
+  <div style="position:absolute; width:100%;">
+    <div class="pr120">
+      <div class="leader_pad_top container_tipshelp"> 
+        <div class="tops_row">
+          <div class="leftimg panel"></div>
+          <div class="centerimg panel"></div>
+          <div class="rightimg panel"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+
+
                   
 <!-- GameCenter -->
 <div class="leader_content">
@@ -42,7 +57,7 @@
               <div class="clear"></div>
             </div>
 
-            <div id="rows" class="LB_table">              
+            <div id="rows" class="LB_table">
               <!-- Data rows goes here -->
             </div>
             
@@ -115,6 +130,7 @@ $(document).ready(function(){
   });
 
   $("#support").unbind('click').bind('click', function(){
+    gameId = <%= session[:game_id]%>
     showSpinner(true);
     var filter = $(".side_tab_open:first").attr("filter");
     $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
@@ -125,7 +141,11 @@ $(document).ready(function(){
       url: "/gamecenter/support",
       data: {filter:filter, show:"support"},
       success: function(data) {
-        $("#rows").html(data);
+        $('.leader_content').hide()
+        $('.top-scale').hide()        
+        $("#test-data").html(data);
+        gameViewUrl="/gamecenter/edit_game?id="+gameId         
+        // $(".side_game_open:first").attr('game-view-url', gameViewUrl);
         showSpinner(false);
       }
     });  
@@ -172,6 +192,10 @@ function getRows() {
   showSpinner(true);
   var filter = $(".side_tab_open:first").attr("filter");  
   var gameIdUrl = $(".side_tab_open:first").attr('game-view-url');
+  var gameTabUrl = $(".side_game_open:first").attr('game-view-url');
+  
+
+  // alert(gameTabUrl)
 
   // dataTabType = $(".side_tab_open:first").attr("data-tab-type")
 
