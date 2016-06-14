@@ -429,7 +429,10 @@ class GamecenterController < ApplicationController
     @game = Game.find(params[:id])
     @game.update_attributes(params[:game])
     forum = @game.course    
-    forum.update_attribute(:name, "Support for #{@game.name}") unless !forum.present?    
+    forum.update_attribute(:name, "Support for #{@game.name}") unless !forum.present?
+    if params[:download_links].present? || params[:support_mail].present?
+      render :json => {status: true}    
+    end
   end
 
   def game_details
@@ -439,7 +442,8 @@ class GamecenterController < ApplicationController
   end
 
   def download
-    render :partial => "/gamecenter/download"
+    @game = Game.find(session[:game_id])
+    render :partial => "/gamecenter/download", :locals => {:url => gamecenter_update_game_path }
   end
 
   def support
