@@ -404,9 +404,9 @@ class GamecenterController < ApplicationController
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @game = Game.new(params[:game])
     @game.profile_id = @profile.id
+    # @course = create_forum(@game)
+    # @game.course_id = @course.id
     if @game.save
-      @course = create_forum(@game)
-      @game.course_id = @course.id
       @game.save
     else
       render :json => { 'status' => false}
@@ -426,8 +426,10 @@ class GamecenterController < ApplicationController
 
   def update_game
     params[:game].merge!("image" => params["file"]) if params["file"].present?
-    @game = Game.find(params[:id]).update_attributes(params[:game])
-    # render :text => { 'status' => 200, 'message' => 'Game updated successfully' }.to_json
+    @game = Game.find(params[:id])
+    @game.update_attributes(params[:game])
+    forum = @game.course    
+    forum.update_attribute(:name, "Support for #{@game.name}") unless !forum.present?    
   end
 
   def game_details
@@ -442,9 +444,11 @@ class GamecenterController < ApplicationController
 
   def support
     @game = Game.find(session[:game_id])
-    # @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    puts @game.inspect
-
+    unless @game.course.present? 
+      forum = create_forum(@game)
+      @game.course_id = forum.id
+      @game.save
+    end
     @course = Course.find_by_id(@game.course_id)
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @wall = Wall.find(:first,:conditions=>["parent_id = ? AND parent_type='Course'", @course.id])
@@ -492,8 +496,6 @@ class GamecenterController < ApplicationController
         end
       end
     end
-
-
     
   end
 

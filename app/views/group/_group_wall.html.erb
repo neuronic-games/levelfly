@@ -1,6 +1,17 @@
 <%= hidden_field_tag :action_name, action_name %>
 <%= hidden_field_tag :controller_name, controller_name %>
 <div id="div_1" class="tab_content">
+  <% if privilege.present?%>
+    <!-- Main area -->
+    <% game = Game.find_by_id(session[:game_id])%>    
+    <% if game && gamecenter_write_access(game.id) %>
+      <div class="support-mail">
+        <a href="mailto:<%=game.mail_to%>?Subject=I need support for <%=game.name%>#<%=@profile.id%>" target="_top" class="">Email To Support</a>
+      </div>
+      <div class="clearfix"></div>
+    <% end %>
+  <% end %>
+
   <div class="group_left">
     <div class="group_profile_image" id="group_image">
        <img id="group_thumb" src='<%= @course.image_file %>' width="156" height="156" alt="Course image" />
@@ -9,7 +20,7 @@
   <div class="group_right" >
     <input type="hidden" name="course_master_id" id="course_master_id" value="<%= @courseMaster.id if @courseMaster && !@courseMaster.nil? %>" />
     <% if @courseMaster %>
-    <% if @courseMaster.id == user_session[:profile_id] && (defined?(privilege) && !privilege) %>
+    <% if @courseMaster.id == user_session[:profile_id] && !@course.game.present?%>
     <div class="clickable" id="group_setup_icon" style="position:absolute; right:250px;">
       <a href="javascript:void(0)" id="menu2"  value="2" >
         <img src="/images/setting_icon_gray.png">
@@ -200,3 +211,10 @@
     });
 
 </script>
+<style type="text/css">
+  .support-mail{
+    float: right;
+    margin-right: 100px;
+    font-size: 14px;
+  }
+</style>

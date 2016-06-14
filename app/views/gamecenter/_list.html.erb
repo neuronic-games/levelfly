@@ -2,7 +2,7 @@
 <!-- #################################################### -->
 
 <div id ="test-data">
-  <%#= render :partial=>"/course/content_list",:locals => {:section_type=>section_type}%>
+  
 </div>  
 
 
@@ -105,6 +105,7 @@ $(document).ready(function(){
   		url: "/gamecenter/add_game",
   		data: {filter:filter, show:"add_game"},
   		success: function(data) {
+        $("#test-data").html('');
        	$("#rows").html(data);
        	showSpinner(false);
      }
@@ -123,6 +124,7 @@ $(document).ready(function(){
       url: "/gamecenter/download",
       data: {filter:filter, show:"download"},
       success: function(data) {
+        $("#test-data").html('');
         $("#rows").html(data);
         showSpinner(false);
       }
@@ -130,7 +132,7 @@ $(document).ready(function(){
   });
 
   $("#support").unbind('click').bind('click', function(){
-    gameId = <%= session[:game_id]%>
+    gameId = "<%= session[:game_id]%>"
     showSpinner(true);
     var filter = $(".side_tab_open:first").attr("filter");
     $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
@@ -142,10 +144,12 @@ $(document).ready(function(){
       data: {filter:filter, show:"support"},
       success: function(data) {
         $('.leader_content').hide()
-        $('.top-scale').hide()        
+        $('.top-scale').hide()
+        $("#test-data").show();
         $("#test-data").html(data);
+        $("#rows").html('');
         gameViewUrl="/gamecenter/edit_game?id="+gameId         
-        // $(".side_game_open:first").attr('game-view-url', gameViewUrl);
+        $(".side_game_open:first").attr('game-view-url', gameViewUrl);
         showSpinner(false);
       }
     });  
@@ -162,6 +166,7 @@ $(document).ready(function(){
       url: "/gamecenter/achivements",
       data: {filter:filter, show:"achivements"},
       success: function(data) {
+        $("#test-data").html('');
         $("#rows").html(data);
         showSpinner(false);
       }
@@ -179,6 +184,7 @@ $(document).ready(function(){
       url: "/gamecenter/leaderboard",
       data: {filter:filter, show:"leaderboard"},
       success: function(data) {
+        $("#test-data").html('');
         $("#rows").html(data);
         showSpinner(false);
       }
@@ -212,6 +218,7 @@ function getRows() {
       url: "/gamecenter/get_rows",
       data: {filter:filter},
       success: function(data) {
+        $("#test-data").html('');
         $("#rows").html(data);
         showSpinner(false);
       }
@@ -223,6 +230,7 @@ function getRows() {
       url: gameIdUrl,  
       data: {filter:filter},
       success: function(data) {
+        $("#test-data").html('');
         $("#rows").html(data);
         showSpinner(false);
       }

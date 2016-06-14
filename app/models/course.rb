@@ -18,6 +18,7 @@ class Course < ActiveRecord::Base
 
   has_many :forums, :class_name => 'Course', :conditions => {:parent_type => "F"}, :order => :name
   has_one :wall, :as => :parent
+  has_one :game
 
   after_initialize :init_defaults
   after_save :save_messages

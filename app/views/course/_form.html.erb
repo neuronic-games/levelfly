@@ -30,9 +30,9 @@
               <!-- tabs-->
 
             <div class="course_tabs menu_container" align="right">
-              <%# if defined?(privilege).present? %>
-                <!-- <a href="javascript:void(0)" class="side_game_open" filter="active"><span class="task_tab">Main</span></a> -->
-              <%# end %>
+              <% if defined?(privilege).present? %>
+                <a href="javascript:void(0)"  id="menu5" value="5" class="side_tab side_game_open side_tab_close" filter="active"><span class="task_tab">Back</span></a>
+              <% end %>
               <a href="javascript:void(0)"  id="menu1" value="1" class="side_tab side_tab_open" ><span class="task_tab">Home</span></a>
 
               <a href="javascript:void(0)"  id="menu4" value="4" class="side_tab side_tab_close"><span class="task_tab">Files</span></a>
@@ -52,7 +52,8 @@
 
                   <% if defined?(course_new) && course_new == true %>
                     <%= render :partial=>"group/setup" %>
-                  <% else %>
+                  <% else %>                    
+                    <%#= debug defined?(privilege) ? privilege : nil%>
                     <%= render :partial=>"group/group_wall", :locals => {privilege: defined?(privilege) ? privilege : nil} %>
                   <% end %>
 
@@ -121,25 +122,26 @@ if($("#group_descr").val()!="") {setStorage("group_descr", $("#group_descr").val
 $(document).ready(function(){
 
 
-  // $('.side_game_open').click(function(){
-  //   var gameTabUrl = $(".side_game_open:first").attr('game-view-url');    
-  //   alert(gameTabUrl)
-  //   if(gameTabUrl !== undefined){
-  //     $.ajax({
-  //       type: "GET",
-  //       url: gameTabUrl,  
-  //       data: {filter:'active'},
-  //       success: function(data) {
-  //         $('.leader_content').show()
-  //         $('.top-scale').show()
-          
-  //         $("#test-data").hide();
-  //         $("#rows").html(data);
-  //         showSpinner(false);
-  //       }
-  //     });
-  //   }    
-  // })
+  $('.side_game_open').click(function(){
+    var gameTabUrl = $(".side_game_open:first").attr('game-view-url');    
+    // alert(gameTabUrl)
+    if(gameTabUrl !== undefined){
+      $.ajax({
+        type: "GET",
+        url: gameTabUrl,  
+        data: {filter:'active'},
+        success: function(data) {
+          $('.leader_content').show()
+          $('.top-scale').show()
+          $(".leader_tabs .side_tab:first").addClass('side_tab_open').removeClass('side_tab_close')
+          $("#test-data").hide();
+          $("#test-data").html('');
+          $("#rows").html(data);
+          showSpinner(false);
+        }
+      });
+    }    
+  })
 
 
 
@@ -179,7 +181,10 @@ $(document).ready(function(){
 
     course_id = $("#course_id_hdn").val();
     section_type = $("#section_type").val();
-    var data = {value:idx,id:course_id,section_type:section_type};
+
+    privilege = "<%= defined?(privilege).present? ? privilege : ''%>"
+
+    var data = {value:idx,id:course_id,section_type:section_type, privilege:privilege };
     $("#load_data").load("/course/show_course",data, function(response, status, xhr) {
       if(response)
       {
