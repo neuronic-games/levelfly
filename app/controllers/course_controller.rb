@@ -609,7 +609,7 @@ class CourseController < ApplicationController
     #@totaltask = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
     if params[:value] && !params[:value].nil?
       if (params[:section_type] == "G" && params[:value] == "1")
-        render :partial => "/group/group_wall"
+        render :partial => "/group/group_wall", :locals => {privilege: params[:privilege].present?} 
       elsif params[:value] == "1"
         render :partial => "/course/show_course"
       elsif params[:value] == "3"
