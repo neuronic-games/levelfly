@@ -1,7 +1,7 @@
 <!-- Main area -->
 <% if gamecenter_write_access(@game.id) %>
 	<div class="LB_tablecontent">
-		<a href="mailto:<%=@game.mail_to%>?Subject=I need support for <%=@game.name%>#<%=@profile.id%>" target="_top" class="LBT_name">Support Email</a>
+		<a href="mailto:<%=@game.mail_to%>?Subject=[<%=@game.name%>] I need support #<%=@profile.id%>" target="_top" class="LBT_name">Support Email</a>
 	</div>
 	<div class="clearfix"></div>
 <% end %>

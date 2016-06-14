@@ -6,7 +6,7 @@
     <% game = Game.find_by_id(session[:game_id])%>    
     <% if game && gamecenter_write_access(game.id) %>
       <div class="support-mail">
-        <a href="mailto:<%=game.mail_to%>?Subject=I need support for <%=game.name%>#<%=@profile.id%>" target="_top" class="">Email To Support</a>
+        <a href="mailto:<%=game.mail_to%>?Subject=[<%=game.name%>] I need support #<%=@profile.id%>" target="_top" class="">Email To Support</a>
       </div>
       <div class="clearfix"></div>
     <% end %>
