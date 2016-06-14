@@ -181,7 +181,7 @@ class Profile < ActiveRecord::Base
   end
 
   # Calculates the total xp that can be received for given course
-  def total_xp(course_id)
+  def xp_by_course(course_id)
     acc_xp = 0
     total_xp = 0
     self.task_participants.each do |tp|
@@ -194,7 +194,7 @@ class Profile < ActiveRecord::Base
   
   # Calculates the total likes that can be received for given course. Since the profile stores
   # the total likes for all courses, we need to search for course and forumn messages
-  def total_like(course_id)
+  def likes_by_course(course_id)
     total_like = 0
 
     # Course messages
@@ -209,6 +209,14 @@ class Profile < ActiveRecord::Base
     end
 
     return total_like
+  end
+  
+  def xp_by_game(game_id)
+    game = Game.find(game_id)
+    # This assumes that feat records are ordered chronologically
+    feat = game.feats.where(profile_id: self.id, progress_type: Feat.xp).last
+    return feat.progress if feat
+    return 0
   end
   
 end
