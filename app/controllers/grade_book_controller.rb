@@ -306,8 +306,8 @@ end
         :select => ["profiles.full_name,participants.id,participants.profile_id"])
       if not @participant.nil?
         @participant.each do |p|
-          (p["xp"], p["total_xp"]) = p.profile.total_xp(course_id)
-          p["like_received"] = p.profile.total_like(course_id)
+          (p["xp"], p["total_xp"]) = p.profile.xp_by_course(course_id)
+          p["like_received"] = p.profile.likes_by_course(course_id)
           course_badges = AvatarBadge.where(course_id: course_id, profile_id: p.profile_id)
           p["badge_count"] = course_badges.count
           p["badge_image_urls"] = course_badges.collect{|x| x.badge.image_url}
@@ -554,11 +554,11 @@ def export_course_grade_csv
         end
 
         # XP
-        xp = p.profile.total_xp(@course.id)
+        xp = p.profile.xp_by_course(@course.id)
         x << "#{xp[0]}/#{xp[1]}"
         
         # Likes
-        x << p.profile.total_like(@course.id)
+        x << p.profile.likes_by_course(@course.id)
         
         # Badges
         course_badges = AvatarBadge.where(course_id: @course.id, profile_id: p.profile_id)

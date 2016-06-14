@@ -16,12 +16,12 @@
       <div class="LBT_name"> <span class="name_txt"><%= is_profile_accessible?(p) ? p.full_name : 'Private'%> </span><br />
       <span class="course_txt"><%= is_profile_accessible?(p) ? p.major_school : ''%></span> </div>
       <div class="LBT_level"><%= is_profile_accessible?(p) ? @game.get_score(p.id) : 'Private'%></div>
-      <div class="LBT_xp"><%= is_profile_accessible?(p) ? p.xp : 'Private' %></div>
-      <div class="LBT_badges"><%= is_profile_accessible?(p) ?  badge_count_by_game(session[:game_id], p.id) : 'Private'%></div>     
+      <div class="LBT_xp"><%= is_profile_accessible?(p) ? p.xp_by_game(@game.id) : 'Private' %></div>
+      <div class="LBT_badges"><%= is_profile_accessible?(p) ? badge_count_by_game(@game.id, p.id) : 'Private'%></div>     
     </div>
   <% end %>
 <% else %>
   <div class="LB_tablecontent even">
-    <div class="LBT_name">No Players Yet</div>
+    <div class="LBT_name">No Players</div>
   </div>
 <% end %>

@@ -197,6 +197,7 @@ class GamecenterController < ApplicationController
     when Feat.badge
       Feat.transaction do
         if feat.progress.blank?
+          name = game.name if name.blank?
           badge = Badge.find_create_game_badge(game.id, name, "New badge for #{game.name}")
           feat.progress = badge.id
         end
