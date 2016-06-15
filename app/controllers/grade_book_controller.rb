@@ -59,7 +59,7 @@ class GradeBookController < ApplicationController
       :order => 'courses.name ASC'
       )
     course_list.each do |c|
-      if c.participants.find(:all, :conditions=>["profile_type in ('M','S')"]).count>1
+      if c.participants.find(:all, :conditions=>["profile_type in ('M','S')"]).count > 0
         unsorted_courses.push(c)
       end
     end

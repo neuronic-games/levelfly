@@ -311,7 +311,7 @@ $(document).ready(function(){
       var adjust = topBound - (x.top - $window.scrollTop());
       $window.scrollTop($window.scrollTop() - adjust);
     }
-  });
+  });  // END $("input[type=text]")
 
   $('input[type="text"]').live("blur", function() {
     $(this).removeClass('selected_cell');
@@ -367,7 +367,8 @@ $(document).ready(function(){
      arr_id=[];
      final_value = '';
      arr_id.push($(this).attr("id"));
-  });
+  });  // END $(".reset_field").click
+  
   //Fill letest grade
   $(".letest").click(function(){
     if($(this).val()=="" || $(this).val() == "?"){
@@ -407,7 +408,8 @@ $(document).ready(function(){
         arr_id=[];
       }
     }
-  });
+  }); // END $(".letest").click
+  
    //Fill points to outcomes
   $('.outcome_point').click(function(){
     undo_select = false;
@@ -442,7 +444,7 @@ $(document).ready(function(){
         $(this).addClass("select_btn");
          final_value = $(this).val();
       }
-  });
+  });  // END ('.outcome_point').click
 
    //For plus and minus selection
   $('.symbol').click(function(){
@@ -490,7 +492,8 @@ $(document).ready(function(){
        arr_id.push("letter_f");
     }
    }
-  });
+  });  // END $('.symbol').click
+  
   //Selection of alphabets for gradeing
   $('.alphabet').click(function(){
     undo_select = false;
@@ -529,7 +532,7 @@ $(document).ready(function(){
         final_value = alphabet
       }
     }
-  });
+  });  // END $('.alphabet').click
 
   //Check for valid grade
   function valid_grade(val,id){
@@ -561,7 +564,8 @@ $(document).ready(function(){
       $("#"+id).val(previous_grade);
     }
     return flag;
-  }
+  }  // END function valid_grade
+  
   //Check valid outcome points
   function valid_point(val,id){
     var flag = false;
@@ -577,7 +581,8 @@ $(document).ready(function(){
         $("#"+id).val(previous_grade);
       }
     return flag;
-  }
+  }  // END function valid_point
+  
   //Save grades/points
   function save_grade(vals,id,rel,arrOfProfile,array_of_values,entire_column,t_id){
     var valid = false;
@@ -745,7 +750,7 @@ $(document).ready(function(){
       arrOfgrades=[];
       previous_values=[];
     }
-  }
+  }  // END function save_grade
 
   //Undo last change
   $(".undo").click(function(){
@@ -802,8 +807,7 @@ $(document).ready(function(){
       }
      }
 
-  });
-
+  });  // END $(".undo").click
 
   //Fill grades/ points on click task name or outcome name entire column
   $(".grade_book_content").delegate("td","click",function(){
@@ -842,7 +846,7 @@ $(document).ready(function(){
       save_grade(values,click_id,arr_rel,arr_profile,pg,entire_column,id)
      }
    }
-  });
+  });  // END $(".grade_book_content").delegate
 
   //Save grade on change event
   $(".grade_book_content").delegate("input","change",function(){
@@ -865,7 +869,7 @@ $(document).ready(function(){
       arr_profile = [profile_id];
       save_grade([val],id,arr_rel,arr_profile,"",entire_column,"");
      }
-  });
+  });  // END $(".grade_book_content").delegate
 
   //Save grade on key up/down
   $(".grade_book_content").delegate("input","keydown",function(e){
@@ -939,6 +943,7 @@ $(document).ready(function(){
       $(this).trigger("change");
     }
   });
+  
   //Setting icon
   $("#setting_icon").click(function(){
     if (show_setting == false){
@@ -951,72 +956,23 @@ $(document).ready(function(){
     }
   });
 
-
-//fill grade book on change of course
- $(".grade_book_content").delegate("#course_id","change",function(){
-  $("#add_task").hide();
-  var singleValues = $("#course_id :selected").text();
-  $(this).parent().find('.fakebox').html(singleValues );
-  $("#last_id").attr("value","");
-  load_outcomes();
-
-});
-
-// Display the relavent data in the gradebook in respose to user selection from the dropdown
-function displayOutcomes(data) {
-  var  table2 = $("<table></table>");
-  table2.addClass("GB_right_table");//table outcome  average grade
-  table2.attr("id","GB_right_table");
-  table2.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
-  showSpinner(false);
-  $(data.participants).each(function(p, value){
-    var rows2 =$("<tr></tr>");
-    if(data.outcomes.length>0){
-      $(data.outcomes).each(function(i, outcomes){
-        var grade_col =$("<td class=\"outcome_cell\"></td>");
-        var outcomes_col =$("<td class=\"outcome_cell\"></td>");
-        var outcome_name =$("<div></div>");
-        outcomes_col.addClass("red_border1");
-        if(p==0){
-          outcome_name.html(outcomes.name);
-        }
-        outcome_name.addClass("GB_outcomment rotate_text");
-        outcomes_col.html(outcome_name);
-        var  text = $("<input type ='text'  name='task_grade' value = '"+value.course_outcomes[i]+"' id = 'p_"+value.profile_id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
-        text.addClass("")
-        grade_col.html(text);
-        grade_col.addClass("td_align red_border");
-        rows2.append(outcomes_col);
-        rows2.append(grade_col);
-      });
-    }
-    else{
-      var grade_col =$("<td class=\"outcome_cell\"></td>");
-      var outcomes_col =$("<td class=\"outcome_cell\"></td>");
-      var outcome_name =$("<div></div>");
-      outcomes_col.addClass("red_border1");
-      if(p==0){
-        outcome_name.html("");
-      }
-      outcome_name.addClass("GB_outcomment rotate_text");
-      outcomes_col.html(outcome_name);
-      var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
-      text.addClass("")
-      grade_col.html(text);
-      grade_col.addClass("td_align")
-      rows2.append(outcomes_col);
-      rows2.append(grade_col);
-    }
-    if (p%2==0){
-      rows2.addClass("Dark_no");
-    }
-    else{
-      rows2.addClass("light_row");
-    }
-    table2.append(rows2);
+  //fill grade book on change of course
+  $(".grade_book_content").delegate("#course_id","change",function(){
+    $("#add_task").hide();
+    var singleValues = $("#course_id :selected").text();
+    $(this).parent().find('.fakebox').html(singleValues );
+    $("#last_id").attr("value","");
+    load_outcomes();
   });
-  if(data.count<10){
-    for (p=data.count; p<10; p++){
+
+  // Display the relavent data in the gradebook in respose to user selection from the dropdown
+  function displayOutcomes(data) {
+    var  table2 = $("<table></table>");
+    table2.addClass("GB_right_table");//table outcome  average grade
+    table2.attr("id","GB_right_table");
+    table2.css({"width":"100%", "border":"0","cellpadding":"0","cellspacing":"0"});
+    showSpinner(false);
+    $(data.participants).each(function(p, value){
       var rows2 =$("<tr></tr>");
       if(data.outcomes.length>0){
         $(data.outcomes).each(function(i, outcomes){
@@ -1025,11 +981,11 @@ function displayOutcomes(data) {
           var outcome_name =$("<div></div>");
           outcomes_col.addClass("red_border1");
           if(p==0){
-            outcome_name.html("");
+            outcome_name.html(outcomes.name);
           }
           outcome_name.addClass("GB_outcomment rotate_text");
           outcomes_col.html(outcome_name);
-          var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
+          var  text = $("<input type ='text'  name='task_grade' value = '"+value.course_outcomes[i]+"' id = 'p_"+value.profile_id +"_"+outcomes.id +"' maxlength='1' readonly='readonly' size='1'/>")
           text.addClass("")
           grade_col.html(text);
           grade_col.addClass("td_align red_border");
@@ -1041,6 +997,7 @@ function displayOutcomes(data) {
         var grade_col =$("<td class=\"outcome_cell\"></td>");
         var outcomes_col =$("<td class=\"outcome_cell\"></td>");
         var outcome_name =$("<div></div>");
+        outcomes_col.addClass("red_border1");
         if(p==0){
           outcome_name.html("");
         }
@@ -1060,10 +1017,56 @@ function displayOutcomes(data) {
         rows2.addClass("light_row");
       }
       table2.append(rows2);
+    });
+    if(data.count<10){
+      for (p=data.count; p<10; p++){
+        var rows2 =$("<tr></tr>");
+        if(data.outcomes.length>0){
+          $(data.outcomes).each(function(i, outcomes){
+            var grade_col =$("<td class=\"outcome_cell\"></td>");
+            var outcomes_col =$("<td class=\"outcome_cell\"></td>");
+            var outcome_name =$("<div></div>");
+            outcomes_col.addClass("red_border1");
+            if(p==0){
+              outcome_name.html("");
+            }
+            outcome_name.addClass("GB_outcomment rotate_text");
+            outcomes_col.html(outcome_name);
+            var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
+            text.addClass("")
+            grade_col.html(text);
+            grade_col.addClass("td_align red_border");
+            rows2.append(outcomes_col);
+            rows2.append(grade_col);
+          });
+        }
+        else{
+          var grade_col =$("<td class=\"outcome_cell\"></td>");
+          var outcomes_col =$("<td class=\"outcome_cell\"></td>");
+          var outcome_name =$("<div></div>");
+          if(p==0){
+            outcome_name.html("");
+          }
+          outcome_name.addClass("GB_outcomment rotate_text");
+          outcomes_col.html(outcome_name);
+          var  text = $("<input type ='text' value = '' id = '' maxlength='1' readonly='readonly' size='1'/>")
+          text.addClass("")
+          grade_col.html(text);
+          grade_col.addClass("td_align")
+          rows2.append(outcomes_col);
+          rows2.append(grade_col);
+        }
+        if (p%2==0){
+          rows2.addClass("Dark_no");
+        }
+        else{
+          rows2.addClass("light_row");
+        }
+        table2.append(rows2);
+      }
     }
-  }
-  $('.GB_right_table').replaceWith(table2);
-}
+    $('.GB_right_table').replaceWith(table2);
+  }  // END function displayOutcomes
 
 // Display the relavent data in the gradebook in respose to user selection from the dropdown
 function displayNotes(data) {
@@ -2040,4 +2043,6 @@ function filter() {
       // $("#right").offset({ top: total_height-17});
     }
   }
+  
+  showSpinner(false);
 </script>
