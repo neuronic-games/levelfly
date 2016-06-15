@@ -388,8 +388,6 @@ class GamecenterController < ApplicationController
   
   def add_game
     @game = Game.new    
-    @game.name = "Application Name"
-    @game.descr = "Description"
     @game.last_rev = "v 1.0"
     @game.archived = false
     @game.published = false
