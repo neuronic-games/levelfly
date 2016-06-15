@@ -476,13 +476,10 @@ class GamecenterController < ApplicationController
     #@totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @totaltask = @tasks = Task.filter_by(user_session[:profile_id], @course.id, "current")
     @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
-     message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
-    if params[:section_type]=="C"
-      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'C' AND archived = ? and id in(?)", @course.id, false, message_ids],:order => "starred DESC, post_date DESC" )
-    elsif params[:section_type]=="G"
-      message_ids = MessageViewer.find(:all, :select => "message_id").collect(&:message_id) if @member.nil?
-      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'G' AND archived = ? and id in (?)",@course.id, false, message_ids],:order => "starred DESC, post_date DESC" )
-    end
+    message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
+    message_ids = MessageViewer.find(:all, :select => "message_id").collect(&:message_id) if @member.nil?
+    @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'G' AND archived = ? and id in (?)",@course.id, false, message_ids],:order => "starred DESC, post_date DESC" )
+    
     @profile.record_action('course', @course.id)
     @profile.record_action('last', 'course')
     #ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}")
