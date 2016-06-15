@@ -156,15 +156,8 @@
     $('#btn_game_save').click(function(){
     	name = $('form.save-game input#name').val();
     	descr = $('form.save-game textarea#descr').val();
-<<<<<<< HEAD
     	last_rev = $('form.save-game input#last_rev').val();
     	image = $('form.save-game input#gamePhoto').val() || gameId;
-      // emailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-      // mailTo = $('#game_mail_to').val();
-      // validMail = emailRegex.test(mailTo)
-=======
-    	image = $('form.save-game input#gamePhoto').val() || gameId;      
->>>>>>> b8c0a80005a4df79a786ce88a8881a4598b0757c
     	if(name.length == 0 || descr.length == 0 || image.length == 0){
 	    	if(name.length == 0 && descr.length == 0 && image.length == 0){
 		    	$(".add_task_popup .boxadnt").html("Name, description and main image can't be blank");
@@ -190,13 +183,6 @@
 				else{}
 	      $(".add_task_popup").show();
     	}
-<<<<<<< HEAD
-      // else if(validMail == false){
-      //   $(".add_task_popup .boxadnt").html("Please enter a valid email");
-      //   $(".add_task_popup").show();
-      // }
-=======
->>>>>>> b8c0a80005a4df79a786ce88a8881a4598b0757c
     	else{
       	$('form.save-game').submit();   		
     	}
