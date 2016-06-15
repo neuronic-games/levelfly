@@ -404,13 +404,9 @@ class GamecenterController < ApplicationController
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     @game = Game.new(params[:game])
     @game.profile_id = @profile.id
-    # @course = create_forum(@game)
-    # @game.course_id = @course.id
-    if @game.save
-      @game.save
-    else
-      render :json => { 'status' => false}
-    end
+    @course = create_forum(@game)
+    @game.course_id = @course.id
+    @game.save
   end
 
   def edit_game

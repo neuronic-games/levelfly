@@ -178,6 +178,15 @@
 
     })
   });
+
+  $(document).ready(function(){
+    var gameId = "<%= @game.id%>";
+    if(gameId.length == 0){
+      $('#leader_tabs').hide();    
+    }
+  })
+  
+
 </script>
 <style type="text/css">
   .field_label, .field_label4{text-transform: none;}
