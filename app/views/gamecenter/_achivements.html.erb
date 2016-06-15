@@ -3,7 +3,8 @@
   <div class="LBT_ava">BADGE ID</div>
   <div class="LBT_level">NAME</div>
   <div class="LBT_xp">DESCRIPTION</div>
-  <%if student?%>
+
+  <% if student?%>
     <div class="LBT_xp">COUNT</div>
   <% end %>
 </div>
@@ -29,13 +30,13 @@
       </div>
       <%if student?%>
       <div class="LBT_xp"> 
-        <span class="descr_txt"><%=h get_badge_count(badge.id, @profile.id, session[:game_id]) %></span>
+        <span class="descr_txt"><%=h get_badge_count(badge.id, @profile.id, @game.id) %></span>
       </div>
       <% end %>
     </div>
   <% end %>
 <% end %>
-<% if gamecenter_write_access(session[:game_id]) %>
+<% if gamecenter_write_access(@game.id) %>
   <div id="sidebar_right">
     <div class="course_side_buttons">
       <a class="big_blue_btn" name="menu_btn_add_badge" href="javascript:void(0)" id="add_badge">ADD BADGE</a>
@@ -45,12 +46,13 @@
     $(document).ready(function(){
     
       $("#add_badge").unbind('click').bind('click', function(){
+        var gameId = "<%= @game.id%>";
         showSpinner(true);
         var filter = $(".side_tab_open:first").attr("filter");
         
         $.ajax({
           type: "GET",
-          url: "/gamecenter/add_badge",
+          url: "/gamecenter/add_badge?game_id="+gameId,
           data: {filter:filter, show:"add_badge"},
           success: function(data) {
             $("#rows").html(data);
@@ -60,12 +62,13 @@
       });
 
       $(".edit-data").unbind('click').bind('click', function(){
+        var gameId = "<%= @game.id%>";
         showSpinner(true);
         var badgeId = $(this).attr("data-badge-id");
         
         $.ajax({
           type: "GET",
-          url: "/gamecenter/edit_badge",
+          url: "/gamecenter/edit_badge?game_id="+gameId,
           data: {id:badgeId, show:"edit_badge"},
           success: function(data) {
             $("#rows").html(data);
