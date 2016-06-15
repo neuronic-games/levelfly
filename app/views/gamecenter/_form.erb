@@ -48,27 +48,8 @@
             <%= f.text_area :descr, :class=>"dd_input",:placeholder=>"Enter description",:cols => '62', :id => "descr", :style=>"width: 460px; height: 110px;"%>
          </div>
       </div>
-      <div class="clearfix"></div>
-      <br/>
-      <div class="catagory_viewfield field_label" style="margin-right: 5px;">
-         Support Mail
-         <div class="dd_bg">
-            <%= f.text_field :mail_to, :class=>"dd_input",:maxlength =>"64"%>
-         </div>
-      </div>
-      <div class="clearfix"></div>
+      <div class="clearfix"></div>      
    </div>
-</div>
-<br />
-<div class="field_label4" style="margin: 15px 75px 0 0;">
-  Download Links <br /><br />
-  <% Game::PLATFORMS.each do |pf|%>    
-    <%= pf.humanize%>    
-    <div class="dd_bg dd_input">
-      <%= text_field_tag "game[download_links][#{pf}]", f.object.download_links[pf], :class=>"dd_input",:maxlength =>"64", :placeholder => pf%>
-    </div>
-    <br/>
-  <% end %>
 </div>
 
 <br />
@@ -165,10 +146,7 @@
     $('#btn_game_save').click(function(){
     	name = $('form.save-game input#name').val();
     	descr = $('form.save-game textarea#descr').val();
-    	image = $('form.save-game input#gamePhoto').val() || gameId;
-      emailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-      mailTo = $('#game_mail_to').val();
-      validMail = emailRegex.test(mailTo)
+    	image = $('form.save-game input#gamePhoto').val() || gameId;      
     	if(name.length == 0 || descr.length == 0 || image.length == 0){
 	    	if(name.length == 0 && descr.length == 0 && image.length == 0){
 		    	$(".add_task_popup .boxadnt").html("Name, description and main image can't be blank");
@@ -194,10 +172,6 @@
 				else{}
 	      $(".add_task_popup").show();
     	}
-      else if(validMail == false){
-        $(".add_task_popup .boxadnt").html("Please enter a valid email");
-        $(".add_task_popup").show();
-      }
     	else{
       	$('form.save-game').submit();   		
     	}
