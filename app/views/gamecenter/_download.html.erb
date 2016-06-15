@@ -1,9 +1,9 @@
 <%= form_for @game, url: url, :html => {:class => 'save-game'}, :remote => true do |f| %>
 	<%= hidden_field_tag :id, @game.id%>
-	<%= hidden_field_tag :download_links, true%>
+	<%= hidden_field_tag :download_tab, true%>
 	<% unless gamecenter_write_access(@game.id) %>
-		<div class="field_label4" style="margin: 15px 75px 0 0;">
-	  Download Links <br /><br />
+		<div class="field_label4">
+	  <span class="name_txt">Download Links </span><br /><br />
 	  <% Game::PLATFORMS.each do |pf|%>    
 	    <% if @game.download_links[pf].present? %>
 	      <%= pf.humanize%>    
@@ -15,8 +15,8 @@
 	  <% end %>
 	</div>
 	<% else %>
-		<div class="field_label4" style="margin: 15px 75px 0 0;">
-		  Download Links <br /><br />
+		<div class="field_label4">
+		  <span class="name_txt">Download Links </span><br /><br />
 		  <% Game::PLATFORMS.each do |pf|%>
 		    <%= pf.humanize%>    
 		    <div class="dd_bg dd_input">		      
@@ -29,9 +29,29 @@
 <% end %>
 
 <script type="text/javascript">		
-	$('.dd_input').on('blur', function(){
-		$('form.save-game').submit();
-		console.log($(this).attr('id'))
-		console.log($(this).val())
-	})
+  $('.dd_input').on('blur', function(){
+    showSpinner(true);    
+    $.ajax({  
+        type: "PUT",  
+        url: $(".save-game").attr('action'),  
+        data:$(".save-game").serialize(),
+        success: function(data) {          
+          showSpinner(false);
+        },
+        error: function()
+        {
+          alert("An Error has occured");
+          showSpinner(false);
+        }
+    });
+  })
 </script>
+<style type="text/css">
+	.name_txt{
+		color: #9fbc34;
+		font-size: 14px;
+	}
+	.field_label4 .dd_input{
+		text-transform: lowercase;
+	}
+</style>

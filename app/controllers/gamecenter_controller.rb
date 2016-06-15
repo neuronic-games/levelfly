@@ -430,7 +430,7 @@ class GamecenterController < ApplicationController
     @game.update_attributes(params[:game])
     forum = @game.course    
     forum.update_attribute(:name, "Support for #{@game.name}") unless !forum.present?
-    if params[:download_links].present? || params[:support_mail].present?
+    if params[:download_tab].present? || params[:support_tab].present?
       render :json => {status: true}    
     end
   end
