@@ -65,6 +65,13 @@
 
 <script type="text/javascript">
   $(function(){
+    var gameId = "<%= @game.id%>";
+    $('#leader_tabs a#game_main').attr('game-id', gameId);
+    $('#leader_tabs a#download_page').attr('game-id', gameId);
+    $('#leader_tabs a#support').attr('game-id', gameId);
+    $('#leader_tabs a#achivements').attr('game-id', gameId);
+    $('#leader_tabs a#leaderboard').attr('game-id', gameId);
+
     $('#leader_tabs').show();
     $('#student_leader_tabs').hide();
   })

@@ -28,7 +28,7 @@
         <div class="leader_pad">
           <!-- tabs-->
           <div class="leader_tabs" align="right" id="leader_tabs">
-            <a href="javascript:void(0)" class="side_tab side_tab_open" filter="active"><span class="task_tab">Main</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_open" id="game_main" filter="active"><span class="task_tab">Main</span></a>
             <a href="javascript:void(0)" class="side_tab side_tab_close" id="download_page" filter="download"><span class="task_tab">Download</span></a>
             <a href="javascript:void(0)" class="side_tab side_tab_close" id="support" filter="support"><span class="task_tab">Support</span></a>
             <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab" id="achivements" filter="achivements"><span class="task_tab">Badges</span></a>
@@ -106,13 +106,14 @@ $(document).ready(function(){
   $("#download_page").unbind('click').bind('click', function(){
     showSpinner(true);
     var filter = $(".side_tab_open:first").attr("filter");
+    var gameId = $(this).attr('game-id')
     $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
     $(this).addClass("side_tab_open").removeClass("side_tab_close");
 
     $.ajax({
 
       type: "GET",
-      url: "/gamecenter/download",
+      url: "/gamecenter/download?game_id="+gameId,
       data: {filter:filter, show:"download"},
       success: function(data) {
         $("#forum-data").html('');
@@ -122,16 +123,16 @@ $(document).ready(function(){
     });  
   });
 
-  $("#support").unbind('click').bind('click', function(){
-    gameId = "<%= session[:game_id]%>"
+  $("#support").unbind('click').bind('click', function(){    
     showSpinner(true);
+    var gameId = $(this).attr('game-id')
     var filter = $(".side_tab_open:first").attr("filter");
     $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
     $(this).addClass("side_tab_open").removeClass("side_tab_close");
     $.ajax({
 
       type: "GET",
-      url: "/gamecenter/support",
+      url: "/gamecenter/support?game_id="+gameId,
       data: {filter:filter, show:"support"},
       success: function(data) {
         $('.leader_content').hide()
@@ -139,7 +140,7 @@ $(document).ready(function(){
         $("#forum-data").show();
         $("#forum-data").html(data);
         $("#rows").html('');
-        gameViewUrl="/gamecenter/edit_game?id="+gameId         
+        gameViewUrl="/gamecenter/edit_game?id="+gameId
         $(".side_game_open:first").attr('game-view-url', gameViewUrl);
         showSpinner(false);
       }
@@ -148,13 +149,14 @@ $(document).ready(function(){
 
   $("#achivements").unbind('click').bind('click', function(){
     showSpinner(true);
+    var gameId = $(this).attr('game-id')
     var filter = $(".side_tab_open:first").attr("filter");
     $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
     $(this).addClass("side_tab_open").removeClass("side_tab_close");
     $.ajax({
 
       type: "GET",
-      url: "/gamecenter/achivements",
+      url: "/gamecenter/achivements?game_id="+gameId,
       data: {filter:filter, show:"achivements"},
       success: function(data) {
         $("#forum-data").html('');
@@ -166,13 +168,14 @@ $(document).ready(function(){
 
   $("#leaderboard").unbind('click').bind('click', function(){
     showSpinner(true);
+    var gameId = $(this).attr('game-id')
     var filter = $(".side_tab_open:first").attr("filter");
     $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
     $(this).addClass("side_tab_open").removeClass("side_tab_close");
     $.ajax({
 
       type: "GET",
-      url: "/gamecenter/leaderboard",
+      url: "/gamecenter/leaderboard?game_id="+gameId,
       data: {filter:filter, show:"leaderboard"},
       success: function(data) {
         $("#forum-data").html('');
