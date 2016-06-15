@@ -117,6 +117,7 @@ $(document).ready(function() {
   }
   
   $(".btn_save_badge").click(function(){
+      var gameId = "<%= @game.id%>";
       var badgeId = "<%= badge.id %>";
       var bImage = $('#badge_image').val() || $('#available_badge_image_id').val();
       var student_id =$("#profile_id_hdn_field").val();
@@ -136,6 +137,7 @@ $(document).ready(function() {
       else
       {  
         var data = new FormData();        
+        data.append('game_id', gameId);
         jQuery.each(jQuery('#badge_image')[0].files, function(i, file) {
           data.append('badge_image', file);
         });
