@@ -357,12 +357,9 @@ class GamecenterController < ApplicationController
   end
 
   def get_rows
-    session[:game_id] = nil
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-
     # filter is "active", "archived"
-    filter = params[:filter]
-    
+    filter = params[:filter]    
     school_id = @profile.school_id
     school = School.find(school_id)
     conditions = ["games.handle is not null and school_id = ?", school_id]
@@ -415,8 +412,6 @@ class GamecenterController < ApplicationController
     five_screens.times do
       @game.screen_shots.build
     end
-
-    session[:game_id] = @game.id
     render :partial => "/gamecenter/form",locals: {url: gamecenter_update_game_path(:id =>@game.id)}
   end
 
@@ -432,18 +427,17 @@ class GamecenterController < ApplicationController
   end
 
   def game_details
-    @game = Game.find(params[:id])
-    session[:game_id] = @game.id
+    @game = Game.find(params[:id])    
     render :partial => "/gamecenter/game_details"
   end
 
   def download
-    @game = Game.find(session[:game_id])
+    @game = Game.find(params[:game_id])
     render :partial => "/gamecenter/download", :locals => {:url => gamecenter_update_game_path }
   end
 
   def support
-    @game = Game.find(session[:game_id])
+    @game = Game.find(params[:game_id])
     unless @game.course.present? 
       forum = create_forum(@game)
       @game.course_id = forum.id
@@ -493,12 +487,10 @@ class GamecenterController < ApplicationController
         end
       end
     end
-    
   end
 
   def achivements
-    @game = Game.find(session[:game_id])    
-
+    @game = Game.find(params[:game_id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     if @profile.role_name_id == 1
       @feats = Feat.where(game_id: @game.id, profile_id: @profile.id).pluck(:progress)
@@ -506,13 +498,11 @@ class GamecenterController < ApplicationController
     else
       @badges = Badge.where(:quest_id => @game.id)
     end
-
     render :partial => "/gamecenter/achivements"
   end 
 
   def leaderboard
-    @game = Game.find(session[:game_id])
-    
+    @game = Game.find(params[:game_id])    
     @profiles_by_feats = Feat.where(game_id: @game.id).pluck(:profile_id).uniq
     profiles_temp = Profile.where(:id => @profiles_by_feats).order("xp desc")
     profiles_temp.each_with_index do |p,i|
@@ -523,19 +513,20 @@ class GamecenterController < ApplicationController
   end
 
   def add_badge    
+    @game = Game.find(params[:game_id])
     @badge = Badge.new
     @badge_images = BadgeImage.where("image_file_name not in (?)","gold_badge.png").limit(48)
     render :partial =>"/gamecenter/add_game_badge", :locals=>{:profile_id=>current_user.id, :badge => @badge}
   end
 
   def edit_badge
+    @game = Game.find(params[:game_id])    
     @badge = Badge.find(params[:id])
     @badge_images = BadgeImage.where("image_file_name not in (?)","gold_badge.png").limit(48)
     render :partial =>"/gamecenter/add_game_badge", :locals=>{:profile_id=>current_user.id, :badge => @badge}
   end
 
   def save_badge    
-    # render :text => params and return false
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])    
     if params[:badge_id].present?
       @badge = Badge.find(params[:badge_id])
@@ -564,7 +555,7 @@ class GamecenterController < ApplicationController
       @badge.name = params[:name]
       @badge.descr = params[:descr]
       @badge.badge_image_id = badge_image.try(:id) || available_badge_image_id
-      @badge.quest_id = session[:game_id]
+      @badge.quest_id = params[:game_id]
       @badge.school_id = @profile.school_id
       @badge.creator_profile_id = @profile.id
       @badge.available_badge_image_id = available_badge_image_id

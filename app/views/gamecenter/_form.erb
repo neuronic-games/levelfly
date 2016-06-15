@@ -182,8 +182,13 @@
   $(document).ready(function(){
     var gameId = "<%= @game.id%>";
     if(gameId.length == 0){
-      $('#leader_tabs').hide();    
+      $('#leader_tabs').hide();
     }
+    $('#leader_tabs a#game_main').attr('game-id', gameId);
+    $('#leader_tabs a#download_page').attr('game-id', gameId);
+    $('#leader_tabs a#support').attr('game-id', gameId);
+    $('#leader_tabs a#achivements').attr('game-id', gameId);
+    $('#leader_tabs a#leaderboard').attr('game-id', gameId);
   })
   
 

@@ -52,8 +52,7 @@
 
                   <% if defined?(course_new) && course_new == true %>
                     <%= render :partial=>"group/setup" %>
-                  <% else %>                    
-                    <%#= debug defined?(privilege) ? privilege : nil%>
+                  <% else %>
                     <%= render :partial=>"group/group_wall", :locals => {privilege: defined?(privilege) ? privilege : nil} %>
                   <% end %>
 
@@ -183,7 +182,7 @@ $(document).ready(function(){
     section_type = $("#section_type").val();
 
     privilege = "<%= defined?(privilege).present? ? privilege : ''%>"
-
+    
     var data = {value:idx,id:course_id,section_type:section_type, privilege:privilege };
     $("#load_data").load("/course/show_course",data, function(response, status, xhr) {
       if(response)
