@@ -42,15 +42,19 @@
     $('.side_tab_open:first').removeAttr('game-view-url');
   })
   $(".edit_game").on('click', function(){
+
+    currentTab = $('#student_leader_tabs .side_tab_open').attr('data-tab-type')
+    
     var url = $(this).attr('data-url');
-    $(".side_tab_open:first").attr('game-view-url', url);
+    $("#leader_tabs .side_tab:first").addClass('side_tab_open').removeClass('side_tab_close')
+    $("#leader_tabs .side_tab_open:first").attr('game-view-url', url);
     showSpinner(true);
-    var filter = $(".side_tab_open:first").attr("filter");
+    var filter = $("leader_tabs .side_tab_open:first").attr("filter");
     
     $.ajax({
       type: "GET",
       url:  url,
-      data: {filter:filter, show:"add_game"},
+      data: {filter:filter, show:"add_game", current_tab: currentTab},
       success: function(data) {
         $("#rows").html(data);
         showSpinner(false);

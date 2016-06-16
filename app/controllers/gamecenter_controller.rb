@@ -373,7 +373,7 @@ class GamecenterController < ApplicationController
       conditions << true
     end
 
-    if @profile.role_name_id == 1 && filter == "active"
+    if filter == "active"
       user_feats = Feat.where(:profile_id => @profile.id).map(&:game_id)
       conditions[0] += " and id IN(?)"
       conditions << user_feats    
@@ -405,13 +405,13 @@ class GamecenterController < ApplicationController
     @game.save
   end
 
-  def edit_game
+  def edit_game    
     @game = Game.find(params[:id])
     five_screens = 5 - @game.screen_shots.count
     five_screens.times do
       @game.screen_shots.build
     end
-    render :partial => "/gamecenter/form",locals: {url: gamecenter_update_game_path(:id =>@game.id)}
+    render :partial => "/gamecenter/form",locals: {url: gamecenter_update_game_path(:id =>@game.id), current_tab: params[:current_tab]}
   end
 
   def update_game
@@ -427,7 +427,7 @@ class GamecenterController < ApplicationController
 
   def game_details
     @game = Game.find(params[:id])    
-    render :partial => "/gamecenter/game_details"
+    render :partial => "/gamecenter/game_details", locals: {current_tab: params[:current_tab]}
   end
 
   def download
@@ -488,16 +488,16 @@ class GamecenterController < ApplicationController
     end
   end
 
-  def achivements
+  def achivements    
     @game = Game.find(params[:game_id])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    if @profile.role_name_id == 1
+    if params[:my_game] == 'true'
       @feats = Feat.where(game_id: @game.id, profile_id: @profile.id).pluck(:progress)
       @badges = Badge.where(id: @feats)
     else
       @badges = Badge.where(:quest_id => @game.id)
     end
-    render :partial => "/gamecenter/achivements"
+    render :partial => "/gamecenter/achivements", locals: {my_game: params[:my_game] == 'true'}
   end 
 
   def leaderboard
