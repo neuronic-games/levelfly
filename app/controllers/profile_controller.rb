@@ -235,7 +235,7 @@ class ProfileController < ApplicationController
       if params[:email] == @user.email
         msg = alert = "You updated your account successfully."
       else
-        msg = "You updated your account successfully, but we need to verify your new email address. Please check your email and click on the confirm link."
+        msg = "An email has been sent to '#{params[:email]}' to confirm that you are the owner of this email address. Please click on the confirmation link in this email address to complete the email change. Check your spam folder if you don't see the email. If you still don't see the email, please contact Levelfly Support."
         alert = "Email verification sent."
       end
 

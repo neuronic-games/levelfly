@@ -147,7 +147,6 @@
 
   $(document).ready(function() {
   	var gameId = "<%= @game.id%>";
-  	console.log(gameId)
     $("#add_game").addClass("hide");
     $('#leader_tabs').show();
     $('#close_modal').click(function(){
@@ -192,16 +191,19 @@
 
   $(document).ready(function(){
     var gameId = "<%= @game.id%>";
+    var gameCategory = "<%= current_tab%>";
+    var myGame = gameCategory == 'my_games';
+
     if(gameId.length == 0){
       $('#leader_tabs').hide();
     }
-    $('#leader_tabs a#game_main').attr('game-id', gameId);
-    $('#leader_tabs a#download_page').attr('game-id', gameId);
-    $('#leader_tabs a#support').attr('game-id', gameId);
-    $('#leader_tabs a#achivements').attr('game-id', gameId);
-    $('#leader_tabs a#leaderboard').attr('game-id', gameId);
-  })
-  
+    $('#leader_tabs a#game_main').attr('game-id', gameId).attr('my-game', myGame);
+    $('#leader_tabs a#download_page').attr('game-id', gameId).attr('my-game', myGame);
+    $('#leader_tabs a#support').attr('game-id', gameId).attr('my-game', myGame);
+    $('#leader_tabs a#achivements').attr('game-id', gameId).attr('my-game', myGame);
+    $('#leader_tabs a#leaderboard').attr('game-id', gameId).attr('my-game', myGame);
+    $('#student_leader_tabs').hide();
+  })  
 
 </script>
 <style type="text/css">
