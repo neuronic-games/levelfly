@@ -4,7 +4,7 @@
   <div class="heading">Account Setup</div>
   <div class="dialog_body">
     </br>
-     <div class="heading02">Full Name
+    <div class="heading02">Full Name
       &nbsp;&nbsp;
     </div>
     <div>
@@ -85,8 +85,9 @@ $(document).click(function (e)
         dataType:"json",
         data:{id:id, profile_id:profile_id, password:password, full_name:full_name, email:email},
         success: function(resp){
-          if (resp){
+          if (resp){            
             showSpinner(false);
+            $("#account_setup .heading").text("CONFIRMATION EMAIL SENT")
             $("#account_setup .dialog_body").html($('<div class="heading02">').html('<br>' + resp.text + '<br><br>'));
             $("#account_setup #change_btn").hide();
             $("#account_setup #dont_change_btn").html('Close');
@@ -95,7 +96,7 @@ $(document).click(function (e)
             if (resp.status == true && resp.current_user_profile == profile_id) {
               $("#tool_bar_full_name").html(full_name);
             }
-            $("#account_setup").empty();
+            // $("#account_setup").empty();
             //$("#account_setup").fadeOut(5000);
           }
         }
