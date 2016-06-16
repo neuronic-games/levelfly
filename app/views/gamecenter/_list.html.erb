@@ -26,7 +26,7 @@
       <div class="leader_board_center main_div_height">
         <div class="leader_pad_top"></div>
         <div class="leader_pad">
-          <!-- tabs-->
+          <!-- sub category tabs -->
           <div class="leader_tabs" align="right" id="leader_tabs">
             <a href="javascript:void(0)" class="side_tab side_tab_open" id="game_main" filter="active"><span class="task_tab">Main</span></a>
             <a href="javascript:void(0)" class="side_tab side_tab_close" id="download_page" filter="download"><span class="task_tab">Download</span></a>
@@ -34,13 +34,14 @@
             <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab" id="achivements" filter="achivements"><span class="task_tab">Badges</span></a>
             <a href="javascript:void(0)" class="side_tab side_tab_close" id="leaderboard" filter="leaderboard"><span class="task_tab">Leader Board</span></a>
           </div>
-          <%if student?%>
-            <div class="leader_tabs" align="right" id="student_leader_tabs">
-              <a href="javascript:void(0)" class="side_tab side_tab_open" data-tab-type="my_games" filter="active"><span class="task_tab">My Games</span></a>            
-              <a href="javascript:void(0)" class="side_tab side_tab_close" filter="gameboard"><span class="task_tab">All Games</span></a>
-            </div>
-          <% end %>
-
+          <!-- sub category tabs -->
+          <!-- Main Category tabs -->
+          <div class="leader_tabs" align="right" id="student_leader_tabs">
+            <a href="javascript:void(0)" class="side_tab side_tab_open" data-tab-type="my_games" filter="active"><span class="task_tab">My Games</span></a>            
+            <a href="javascript:void(0)" class="side_tab side_tab_close" filter="gameboard"><span class="task_tab">All Games</span></a>
+          </div>
+          <!-- Main Category tabs -->
+        
           <!-- NEW BOX START HERE -->
           <div class="leader_TabCSS">
             <div class="steel_pin"><img src="/images/pin_steel.png" /></div>
@@ -126,6 +127,10 @@ $(document).ready(function(){
   $("#support").unbind('click').bind('click', function(){    
     showSpinner(true);
     var gameId = $(this).attr('game-id')
+    var myGame = $(this).attr('my-game')
+    if(myGame == 'true'){
+      var currentTab = 'my_games'      
+    }
     var filter = $(".side_tab_open:first").attr("filter");
     $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
     $(this).addClass("side_tab_open").removeClass("side_tab_close");
@@ -140,7 +145,7 @@ $(document).ready(function(){
         $("#forum-data").show();
         $("#forum-data").html(data);
         $("#rows").html('');
-        gameViewUrl="/gamecenter/edit_game?id="+gameId
+        gameViewUrl="/gamecenter/edit_game?id="+gameId+"&current_tab="+currentTab,
         $(".side_game_open:first").attr('game-view-url', gameViewUrl);
         showSpinner(false);
       }
@@ -150,13 +155,14 @@ $(document).ready(function(){
   $("#achivements").unbind('click').bind('click', function(){
     showSpinner(true);
     var gameId = $(this).attr('game-id')
+    var myGame = $(this).attr('my-game');
     var filter = $(".side_tab_open:first").attr("filter");
     $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
     $(this).addClass("side_tab_open").removeClass("side_tab_close");
     $.ajax({
 
       type: "GET",
-      url: "/gamecenter/achivements?game_id="+gameId,
+      url: "/gamecenter/achivements?game_id="+gameId+"&my_game="+myGame,
       data: {filter:filter, show:"achivements"},
       success: function(data) {
         $("#forum-data").html('');
@@ -193,8 +199,11 @@ function getRows() {
   var filter = $(".side_tab_open:first").attr("filter");  
   var gameIdUrl = $(".side_tab_open:first").attr('game-view-url');
   var gameTabUrl = $(".side_game_open:first").attr('game-view-url');
-  
+  var myGame = $(".side_game_open:first").attr('my-game');
 
+  if(myGame == 'true'){
+    currentTab = 'my_games'
+  }
   // alert(gameTabUrl)
 
   // dataTabType = $(".side_tab_open:first").attr("data-tab-type")
@@ -222,7 +231,7 @@ function getRows() {
     $.ajax({
       type: "GET",  
       url: gameIdUrl,  
-      data: {filter:filter},
+      data: {filter:filter, current_tab: currentTab},
       success: function(data) {
         $("#forum-data").html('');
         $("#rows").html(data);

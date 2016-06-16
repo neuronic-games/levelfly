@@ -4,13 +4,15 @@
   <div class="LBT_level">NAME</div>
   <div class="LBT_xp">DESCRIPTION</div>
 
-  <% if student?%>
+  <%if my_game%>
     <div class="LBT_xp">COUNT</div>
   <% end %>
 </div>
 <span class="index-page"></span>
 <% unless @badges.nil? %>
   <% @badges.each do |badge| %> 
+    <% badge_count = get_badge_count(badge.id, @profile.id, @game.id)%>
+    
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
       <div class="LBT_ava">
         <%if badge.available_badge_image_id.present? %>
@@ -28,12 +30,13 @@
       <div class="LBT_xp"> 
         <span class="descr_txt"><%=h truncate(badge.descr, :length => 20) %></span>
       </div>
-      <%if student?%>
-      <div class="LBT_xp"> 
-        <span class="descr_txt"><%=h get_badge_count(badge.id, @profile.id, @game.id) %></span>
-      </div>
+      <%if my_game%>
+        <div class="LBT_xp"> 
+          <span class="descr_txt"><%=h badge_count %></span>
+        </div>
       <% end %>
     </div>
+    
   <% end %>
 <% end %>
 <% if gamecenter_write_access(@game.id) %>
