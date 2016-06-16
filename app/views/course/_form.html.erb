@@ -123,12 +123,18 @@ $(document).ready(function(){
 
   $('.side_game_open').click(function(){
     var gameTabUrl = $(".side_game_open:first").attr('game-view-url');    
+
+    var myGame = $(".side_game_open:first").attr('my-game');
+    if(myGame == 'true'){
+      currentTab = 'my_games'
+    }
+
     // alert(gameTabUrl)
     if(gameTabUrl !== undefined){
       $.ajax({
         type: "GET",
         url: gameTabUrl,  
-        data: {filter:'active'},
+        data: {filter:'active', current_tab:currentTab},
         success: function(data) {
           $('.leader_content').show()
           $('.top-scale').show()

@@ -65,12 +65,14 @@
 
 <script type="text/javascript">
   $(function(){
+    var gameCategory = "<%= current_tab%>";
+    var myGame = gameCategory == 'my_games';
     var gameId = "<%= @game.id%>";
-    $('#leader_tabs a#game_main').attr('game-id', gameId);
-    $('#leader_tabs a#download_page').attr('game-id', gameId);
-    $('#leader_tabs a#support').attr('game-id', gameId);
-    $('#leader_tabs a#achivements').attr('game-id', gameId);
-    $('#leader_tabs a#leaderboard').attr('game-id', gameId);
+    $('#leader_tabs a#game_main').attr('game-id', gameId).attr('my-game', myGame);;
+    $('#leader_tabs a#download_page').attr('game-id', gameId).attr('my-game', myGame);;
+    $('#leader_tabs a#support').attr('game-id', gameId).attr('my-game', myGame);;
+    $('#leader_tabs a#achivements').attr('game-id', gameId).attr('my-game', myGame);;
+    $('#leader_tabs a#leaderboard').attr('game-id', gameId).attr('my-game', myGame);;
 
     $('#leader_tabs').show();
     $('#student_leader_tabs').hide();
