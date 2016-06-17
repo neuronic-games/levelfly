@@ -40,11 +40,18 @@
     $('#leader_tabs').hide();
     $('.default-listing-page').remove();
     $('.side_tab_open:first').removeAttr('game-view-url');
-  })
-  $(".edit_game").on('click', function(){
 
     currentTab = $('#student_leader_tabs .side_tab_open').attr('data-tab-type')
-    
+    if(currentTab == 'my_games'){
+      $('#add_game').hide();
+    }
+    else{
+      $('#add_game').show();
+    }
+
+  })
+  $(".edit_game").on('click', function(){
+    currentTab = $('#student_leader_tabs .side_tab_open').attr('data-tab-type');    
     var url = $(this).attr('data-url');
     $("#leader_tabs .side_tab:first").addClass('side_tab_open').removeClass('side_tab_close')
     $("#leader_tabs .side_tab_open:first").attr('game-view-url', url);
