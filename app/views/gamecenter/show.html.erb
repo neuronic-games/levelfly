@@ -80,17 +80,19 @@
 
         <div class="carousel slide" id="myCarousel">
           <div class="carousel-inner">
-
+            <% main_index = 1%>            
             <% @profiles.each_slice(3).with_index do |profile_objects, index| %>              
               <div class="item <%= index==0 ? 'active' : ''%>">
-                <% profile_objects.each do |profile| %>
+                <% profile_objects.each_with_index do |profile, i| %>
+                  <% main_index = main_index + i %>
+                  <% rank = i==2 ? main_index-1 : main_index%>
                   <div class="col-xs-3">
-                    <div class="image_slider">&nbsp;<span class="slider_image text-num"><%= index+1%></span>&nbsp;&nbsp;
+                    <div class="image_slider">&nbsp;<span class="slider_image text-num"><%= rank %></span>&nbsp;&nbsp;
                       <span class="slider_image">
                         <img src="<%= is_profile_accessible?(profile) ? profile.image_file_name : profile_icon_default%>" class="img-responsive" height='40' width='40'>
                       </span>
                       &nbsp;&nbsp;<span class="slider_image prof-name" style='color:#fff;'><%= is_profile_accessible?(profile) ? profile.full_name : 'Private'%></span>
-                      <span class="slider_image text-info" style='color:#000;'>150.00</span>
+                      <span class="slider_image text-info" style='color:#000;'><%= profile.xp%></span>
                     </div>
                   </div>
                 <% end %>
@@ -101,7 +103,6 @@
           <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
           <a class="right carousel-control" href="#myCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
         </div>
-
       </div>
     </div>    
   </div> 

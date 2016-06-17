@@ -308,7 +308,8 @@
   border-radius: 5px;
   margin-left: 5px;
 }
-.text-num{
-  color: #fff;
+.text-num {
+  color: #9cbbbb;
   position: absolute;
+  font-weight: bold;
 }
