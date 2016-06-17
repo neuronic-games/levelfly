@@ -393,7 +393,7 @@ class GamecenterController < ApplicationController
     5.times do
       @game.screen_shots.build      
     end
-    render :partial => "/gamecenter/form",locals: {url: gamecenter_save_game_path}
+    render :partial => "/gamecenter/form",locals: {url: gamecenter_save_game_path, current_tab: params[:current_tab]}
   end
   
   def save_game
