@@ -503,4 +503,25 @@ class Course < ActiveRecord::Base
     find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, 'G', school_id], :order => "name")
   end
 
+  class << self
+    def get_courses_by_year_range(params)
+      fall_on = params[:year_range]
+      semester = fall_on.split(' ').first
+      seq_semester = fall_on.split(' ').first
+      year = fall_on.split(' ').last    
+      all_courses = Course.all_courses_by_school(params[:school_id]).map(&:id)
+      archived_courses = Course.all_archived_courses_by_school(params[:school_id]).map(&:id).uniq
+      all_course_ids = all_courses + archived_courses
+      courses = []  
+      if semester == 'All'
+        courses = Course.where(:id => all_course_ids, :year => year.to_i, :semester =>  Course.pluck(:semester).compact.uniq)
+      elsif semester == "Summer"
+        courses = Course.where(:id => all_course_ids, :year => year.to_i, :semester => semester+' '+seq_semester)
+      else
+        courses = Course.where(:id => all_course_ids, :year => year.to_i, :semester => semester)
+      end
+      return courses.try(:order, "updated_at DESC")
+    end
+  end
+
 end
