@@ -85,30 +85,38 @@ class UsersController < ApplicationController
   end
 
   def load_users
-    @page = params[:page].to_i
-    if params[:id] and !params[:id].blank?
-      @course_owner = Course.where(id: params[:id]).first.try(:owner)
-
-      @users = User.find_with_filters(params[:id], user_session[:profile_id], @page)
-      render :partial => "/users/load_users", :locals => { :@users => @users, :@page => @page, :@id => params[:id] }
+    course_id = params[:id]
+    if course_id.present?
+      @course_owner = Course.where(id: course_id).first.try(:owner)
+      profile_id = user_session[:profile_id]
+      @users = User.find_with_filters(course_id, profile_id, params, params[:page].to_i)      
+      render :partial => "/users/load_users", :locals => { :@users => @users, :@page => params[:page].to_i, :@id => course_id }
     end
   end
 
-  def load_user_emails
-    @users = User.to_emails(params[:id], user_session[:profile_id])
+  def load_user_emails    
+    id = params[:id]
+    profile_id = user_session[:profile_id]    
+    @users = User.find_with_filters(id, profile_id, params)
+    @users = @users.map {|p| p.user.email}.compact.uniq
     render :json => {:users_emails => @users}
   end
 
- def load_csv
-   send_data User.to_csv(params[:id], user_session[:profile_id]),
+  def load_csv
+    id = params[:id]
+    profile_id = user_session[:profile_id]    
+    @users = User.find_with_filters(id, profile_id, params)
+    send_data User.to_csv(@users),
              :type => 'text/csv; charset=iso-8859-1; header=present',
              :disposition => "attachment; filename=users.csv"
- end
+  end
 
  def send_message_to_all_users
    status = false
-   if params[:ids] and !params[:ids].nil?
-     @people = Profile.find(:all, :conditions => ["id IN (?) ", params[:ids]])
+   if params[:id] and !params[:id].nil?     
+    id = params[:id]
+    profile_id = user_session[:profile_id]    
+    @people = User.find_with_filters(id, profile_id, params)
      if @people
        @msg_content = CGI::unescape(params[:mail_msg])
        @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
@@ -242,7 +250,7 @@ class UsersController < ApplicationController
     archived_courses = Course.all_archived_courses_by_school(params[:school_id]).map(&:id).uniq
     @all_course_ids = all_courses + archived_courses
     if params[:course_code] == 'All'
-      all_codes = get_courses_by_year_range.map(&:code).try(:uniq).try(:compact)
+      all_codes = Course.get_courses_by_year_range(params).map(&:code).try(:uniq).try(:compact)
       @courses = Course.where(:id => @all_course_ids, :code => all_codes)
     else
       @courses = Course.where(:id => @all_course_ids, :code => params[:course_code])
@@ -256,26 +264,7 @@ class UsersController < ApplicationController
   end
 
   def load_course_codes
-    render :json => {:courses => get_courses_by_year_range.map(&:code).try(:uniq).try(:compact)}
+    render :json => {:courses => Course.get_courses_by_year_range(params).map(&:code).try(:uniq).try(:compact)}
   end
-
-  def get_courses_by_year_range
-    fall_on = params[:year_range]
-    semester = fall_on.split(' ').first
-    seq_semester = fall_on.split(' ').first
-    year = fall_on.split(' ').last    
-    all_courses = Course.all_courses_by_school(params[:school_id]).map(&:id)
-    archived_courses = Course.all_archived_courses_by_school(params[:school_id]).map(&:id).uniq
-    @all_course_ids = all_courses + archived_courses
-    @courses = []  
-    if semester == 'All'
-      @courses = Course.where(:id => @all_course_ids, :year => year.to_i, :semester =>  Course.pluck(:semester).compact.uniq)
-    elsif semester == "Summer"
-      @courses = Course.where(:id => @all_course_ids, :year => year.to_i, :semester => semester+' '+seq_semester)
-    else
-      @courses = Course.where(:id => @all_course_ids, :year => year.to_i, :semester => semester)
-    end
-    return @courses.try(:order, "updated_at DESC")    
-  end
-
+  
 end

@@ -1,4 +1,4 @@
-<%if @users and !@users.nil?%>
+<%if @users.present? %>
   <% @users.each do |p|%>
     <%if p.user%>
       <div class="LB_tablecontent <%= cycle("even", "odd") %>">
