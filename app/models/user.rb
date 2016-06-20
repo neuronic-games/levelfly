@@ -122,18 +122,7 @@ class User < ActiveRecord::Base
     where(conditions).where("email !~* '^del-'").first
   end
 
-  def self.to_csv(id, profile_id)
-    #profiles = Profile.includes(:user)
-    #  .where("school_id = ? and user_id is not null and users.status != 'D'", school_id)
-    #  .order("last_sign_in_at DESC NULLS LAST, full_name")
-    profiles = User.find_with_filters(id, profile_id)
-
-    # find all demo users and add to profiles if found, if id == 'all_active'
-    if id == 'all_active'
-      demo_profiles = User.find_demo_users
-      profiles += demo_profiles if demo_profiles
-    end
-
+  def self.to_csv(profiles)    
     CSV.generate do |csv|
       csv << ['id', 'full_name', 'email', 'created_at', 'last_sign_in_at', 'xp', 'level', 'school_name', 'school_nandle']
       profiles.each do |p|
@@ -175,56 +164,64 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.find_with_filters(id, profile_id, page = -1)
-    @profile = Profile.find(profile_id)
-    school_id = @profile.school_id
-    demo_school_id = School.find_by_handle("demo").id
-    if id == "all_active"
-      if page > -1
-        @users = Profile.includes(:user)
-          .where("school_id IN (?) and user_id is not null and users.status != 'D'", [school_id, demo_school_id])
-          .paginate(:page => page, :per_page => Setting.cut_off_number)
-          .order("last_sign_in_at DESC NULLS LAST, full_name")
-      else
-        @users = Profile.includes(:user)
-          .where("school_id IN (?) and user_id is not null and users.status != 'D'", [school_id, demo_school_id])
-          .order("last_sign_in_at DESC NULLS LAST, full_name")
-      end
-    elsif id == "members_of_courses"
-      course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "C", school_id], :order => "name").collect(&:id)
-      profile_ids = Participant.find(:all, :conditions => ["target_id IN (?)",course_ids]).collect(&:profile_id).uniq
-    elsif id == "members_of_groups"
-      course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "G", school_id], :order => "name").collect(&:id)
-      profile_ids = Participant.find(:all, :conditions => ["target_id IN (?)",course_ids]).collect(&:profile_id).uniq
-    elsif id == "organizers_of_courses"
-      course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "C", school_id], :order => "name").collect(&:id)
-      profile_ids = Participant.find(:all, :conditions => ["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).uniq
-    elsif id == "organizers_of_groups"
-      course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "G", school_id], :order => "name").collect(&:id)
-      profile_ids = Participant.find(:all, :conditions => ["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).uniq
-    elsif id == "organizers_of_courses_and_groups"
-      course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and name is not null and school_id = ?", false, false, school_id], :order => "name").collect(&:id)
-      profile_ids = Participant.find(:all, :conditions => ["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).uniq
-    else
-      profile_ids = Participant.find(:all, :conditions => ["target_id = ?",id]).collect(&:profile_id).uniq
-    end
+  class << self
 
-    unless @users
-      if page > -1
-        @users = Profile.course_participants_with_master(id, 'Course').paginate(:page => page, :per_page => Setting.cut_off_number)
-        # @users = Profile.includes(:user)
-        #   .where("school_id = ? and user_id is not null and profiles.id IN (?) and users.status != 'D'", school_id, profile_ids)
-        #   .paginate(:page => page, :per_page => Setting.cut_off_number)
-        #   .order("last_sign_in_at DESC NULLS LAST, full_name")
+    def find_with_filters(id, profile_id,params, page = -1)
+      puts "PageNo: #{page}"
+      @profile = Profile.find(profile_id)
+      school_id = @profile.school_id
+      demo_school_id = School.find_by_handle("demo").id
+      profile_ids = []
+      @users = []
+      if id == "all_active"
+        if page > -1
+          @users = Profile.includes(:user)
+            .where("school_id IN (?) and user_id is not null and users.status != 'D'", [school_id, demo_school_id])
+            .order("last_sign_in_at DESC NULLS LAST, full_name").paginate(:page => page, :per_page => Setting.cut_off_number)
+        else
+          @users = Profile.includes(:user)
+            .where("school_id IN (?) and user_id is not null and users.status != 'D'", [school_id, demo_school_id])
+            .order("last_sign_in_at DESC NULLS LAST, full_name")
+        end
+      elsif id == "members_of_courses"
+        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "C", school_id], :order => "name").collect(&:id)
+        profile_ids = Participant.find(:all, :conditions => ["target_id IN (?)",course_ids]).collect(&:profile_id).uniq
+      elsif id == "members_of_groups"
+        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "G", school_id], :order => "name").collect(&:id)
+        profile_ids = Participant.find(:all, :conditions => ["target_id IN (?)",course_ids]).collect(&:profile_id).uniq
+      elsif id == "organizers_of_courses"
+        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "C", school_id], :order => "name").collect(&:id)
+        profile_ids = Participant.find(:all, :conditions => ["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).uniq
+      elsif id == "organizers_of_groups"
+        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "G", school_id], :order => "name").collect(&:id)
+        profile_ids = Participant.find(:all, :conditions => ["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).uniq
+      elsif id == "organizers_of_courses_and_groups"
+        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and name is not null and school_id = ?", false, false, school_id], :order => "name").collect(&:id)
+        profile_ids = Participant.find(:all, :conditions => ["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).uniq
       else
-        @users = Profile.course_participants_with_master(id, 'Course')
-        # @users = Profile.includes(:user)
-        # .where("school_id = ? and user_id is not null and profiles.id IN (?) and users.status != 'D'", school_id, profile_ids)
-        # .order("last_sign_in_at DESC NULLS LAST, full_name")
+        course_ids = []
+        if params[:id].split('_').count > 1          
+          params[:year_range] = params[:id].split('_').first
+          params[:course_code] = params[:id].split('_').last
+          params[:school_id] = school_id
+          @courses = Course.get_courses_by_year_range(params)
+          course_ids = @courses.map(&:id) if @courses.present?
+        else          
+          course_ids = Course.where(id: id).collect(&:id)
+        end
+        profile_ids = Participant.where(target_type: "Course").where(target_id: course_ids).pluck(:profile_id).uniq
       end
+          
+      if id != "all_active" && profile_ids.present?
+        if page > -1
+          @users = Profile.includes(:participants, :user).where(id: profile_ids).where("participants.profile_type IN ('S','M') AND users.status != 'D'").order("users.last_sign_in_at DESC, full_name").paginate(:page => page, :per_page => Setting.cut_off_number)
+        else          
+          @users = Profile.includes(:participants, :user).where(id: profile_ids).where("participants.profile_type IN ('S','M') AND users.status != 'D'").order("users.last_sign_in_at DESC, full_name")
+        end    
+      end
+      @profile.record_action('last', 'users')
+      @users
     end
-    @profile.record_action('last', 'users')
-    @users
   end
 
 end
