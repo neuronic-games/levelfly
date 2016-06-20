@@ -173,11 +173,26 @@ class GamecenterController < ApplicationController
       # Look up the last XP stored for the game. We will need to update the player's XP
       # with the difference
       last_xp = game.get_xp(profile_id)
-      feat.progress += last_xp if addition
-      if feat.progress <= 1000
+      # The last feat record will have the latest XP. You don't need to add up the feat records.
+
+      # When using the additive mode of recording XP, add up the reported XP to what is already recorded for this game
+      if addition
+        feat.progress += last_xp
+        if new_xp > 1000
+          feat.progress = 1000
+        elsif new_xp < 0
+          feat.progress = 0
+        end
+      end
+      
+      if feat.progress < 0 or feat.progress > 1000
+        message = "Progress not recorded for game #{game.name} for user profile #{current_user.default_profile.id}. XP must be between 0 to 1000."
+        status = Gamecenter::FAILURE
+      else
+        # Only save the feat if the new XP is no more than 1000
         delta_xp = feat.progress - last_xp
         Feat.transaction do
-          if delta_xp != 0
+          if delta_xp > 0
             profile = Profile.find(profile_id)
             profile.xp += delta_xp
             profile.save
@@ -185,6 +200,7 @@ class GamecenterController < ApplicationController
           feat.save
         end
       end
+      
     when Feat.score
       if addition
         last_score = game.get_score(profile_id)
@@ -194,6 +210,7 @@ class GamecenterController < ApplicationController
         feat.save
         Game.add_score_leader(feat)
       end
+      
     when Feat.badge
       Feat.transaction do
         if feat.progress.blank?
@@ -213,6 +230,7 @@ class GamecenterController < ApplicationController
           AvatarBadge.add_badge(profile_id, feat.progress)
         end
       end
+      
     when Feat.rating
       feat.save if feat.progress.between?(1, 3)
     else
