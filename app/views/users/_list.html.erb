@@ -33,13 +33,14 @@
                   <option value="organizers_of_groups" class="brown_bg">Organizers of Groups</option>
                   <option value="organizers_of_courses_and_groups" class="brown_bg">Organizers of Courses/Groups</option>
                   <option value="search_courses" class="brown_bg" id='search_courses'>Search Courses...</option>
-                  <optgroup label="Groups">
-                     <% if @groups and !@groups.nil?%>
-                       <% @groups.each do |course| %>
-                         <option value="<%=course.id%>" class="brown_bg"><%=course.name%></option>
-                       <% end %>
-                     <% end %>
-                   </optgroup>
+                  <option value="search_courses" class="brown_bg" id='search_courses'>Search Groups...</option>
+                  <!-- <optgroup label="Groups">
+                     <%# if @groups.present?%>
+                       <%# @groups.each do |course| %>
+                         <option value="<%#=course.id%>" class="brown_bg"><%#=course.name%></option>
+                       <%# end %>
+                     <%# end %>
+                   </optgroup> -->
                 </select>
              </span>
             </div>
@@ -163,6 +164,7 @@
                 </div>
               </div>
 
+              <!-- Search Courses BEGIN -->
               <div id="load_course_codes" class="add_task_popup" style="display:none">                
                 <div class="heading">Course Selection</div>
                 <div class="boxadnt">
@@ -186,6 +188,33 @@
                   <a class="big_blue_btn inlineblock" id="cancel_search_by_course_code" href="#" style="width: 100px;">DON'T SEARCH</a>
                 </div>
               </div>
+              <!-- Search Courses END -->
+
+              <!-- Search Groups BEGIN -->
+              <!-- <div id="load_course_codes" class="add_task_popup" style="display:none">                
+                <div class="heading">Group Selection</div>
+                <div class="boxadnt">
+                  <div class="">
+                    <div class="dd_bg brown_bg02" style="width:400px;margin-left: 50px;">
+                      <%#= select_tag :year_ranges, options_for_select(year_ranges), :class => 'dd_input brown_bg', :id=>'year_ranges', :style => 'width:180px; margin-right: 36px;', :prompt => 'By Date' %>
+                      <select class="dd_input brown_bg" id="course_codes" style="width:180px;">
+                        <option value="" class="brown_bg">By Course Code</option>                        
+                      </select>                      
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="spacebar10px"></div>
+                  <div class="spacebar10px"></div>
+                </div>
+
+                <div align="right" style="margin-right:65px;">
+                  <p align="left" style="float:right; margin-left:7px;">
+                    <a class="big_blue_btn inlineblock" id="search_by_course_code" href="#">SEARCH</a>
+                  </p>
+                  <a class="big_blue_btn inlineblock" id="cancel_search_by_course_code" href="#" style="width: 100px;">DON'T SEARCH</a>
+                </div>
+              </div> -->
+              <!-- Seach Groups END -->
 
 
         </div>
@@ -233,13 +262,14 @@ $(document).ready(function(){
 // Copy all emails button
 $("#copy_emails").click(function(e) {
   e.preventDefault();
-  var id = $("#filter_files").val();
+  var id = $("#filter_files").val();  
+  filtered_url = "/users/load_user_emails/" + id;
   if (id) {
     $('#copy_all_emails').show();
     showSpinner(true);
     $.ajax({
       type: "GET",
-      url: "/users/load_user_emails/" + id, // + "/1",
+      url: filtered_url, // + "/1",
       success: function(data) {
         showSpinner(false);
         var emails = data.users_emails.join(', ');
@@ -318,12 +348,11 @@ $('#add_btn').click(function() {
 
 // For sending message to all
 $("#send_btn").click(function() {
-  showSpinner(true);
-  var ids = new Array();
-  $(".user").each(function(n,i){ids.push(this.id)});
+  showSpinner(true);  
   var mail_msg = $('#mail_msg').val();
-  if(ids) {
-    var dataString = {ids:ids, mail_msg:encodeURIComponent(mail_msg)};
+  var id = $("#filter_files").val();
+  if(id) {
+    var dataString = {id:id, mail_msg:encodeURIComponent(mail_msg)};
     $.ajax({
       type: "POST",
       url: "users/send_message_to_all_users",
