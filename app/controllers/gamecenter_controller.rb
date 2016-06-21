@@ -386,18 +386,19 @@ class GamecenterController < ApplicationController
     if filter == "active"
       conditions[0] += " and games.archived = ?"
       conditions << false
+      conditions[0] += " and games.profile_id = ?"
+      conditions << @profile.id
     elsif filter == "archived"
       conditions[0] += " and games.archived = ?"
       conditions << true
-    end
+    end    
 
     if filter == "active"
       user_feats = Feat.where(:profile_id => @profile.id).map(&:game_id)
-      conditions[0] += " and id IN(?)"
+      conditions[0] += " or id IN(?)"
       conditions << user_feats    
     end
     @games = Game.find(:all, :conditions => conditions, :order => "name")
-
     render :partial => "/gamecenter/rows"
   end
   
