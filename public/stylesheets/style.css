@@ -3276,7 +3276,7 @@ filter:alpha(opacity="0");
 }
 .task_right_heading{
 	height:25px;
-	border-top: 1px solid #7794AC;
+	border-bottom: 1px solid #7794AC;
 }
 
 .task_right_heading th{

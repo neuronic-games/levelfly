@@ -7,7 +7,7 @@
   <div class="LBT_Likes">PLAYERS</div>
 </div>
 <span class="index-page"></span>
-<% unless @games.nil? %>
+<% if @games.present? %>
   <% @games.each do |game| %> 
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
       <div class="LBT_ava">
@@ -40,15 +40,6 @@
     $('#leader_tabs').hide();
     $('.default-listing-page').remove();
     $('.side_tab_open:first').removeAttr('game-view-url');
-
-    currentTab = $('#student_leader_tabs .side_tab_open').attr('data-tab-type')
-    if(currentTab == 'my_games'){
-      $('#add_game').hide();
-    }
-    else{
-      $('#add_game').show();
-    }
-
   })
   $(".edit_game").on('click', function(){
     currentTab = $('#student_leader_tabs .side_tab_open').attr('data-tab-type');    
