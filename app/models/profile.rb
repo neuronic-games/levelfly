@@ -219,17 +219,17 @@ class Profile < ActiveRecord::Base
     return 0
   end
 
-  def self.is_accessible?(current, target)
+  def self.is_accessible?(current_profile_id, target_profile)
     access = true
-    current_user_profile = Profile.find(current)
+    current_user_profile = Profile.find(current_profile_id)
     if current_user_profile.present? && current_user_profile.role_name_id == 1
       is_friend = false
       if current_user_profile.friends.present?
-        is_friend = current_user_profile.friends.map(&:profile_id).include?(target.id)
+        is_friend = current_user_profile.friends.map(&:profile_id).include?(target_profile.id)
       end      
-      if target.is_public?        
+      if target_profile.is_public?        
         access = true
-      elsif is_friend && target.friend_privilege?
+      elsif is_friend && target_profile.friend_privilege?
         access = true
       else
         access = false
