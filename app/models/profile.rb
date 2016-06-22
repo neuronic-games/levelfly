@@ -218,5 +218,24 @@ class Profile < ActiveRecord::Base
     return feat.progress if feat
     return 0
   end
+
+  def self.is_accessible?(current, target)
+    access = true
+    current_user_profile = current.class.name == 'User' ? current.profiles.first : current
+    if current_user_profile.present? && current_user_profile.role_name_id == 1
+      is_friend = false
+      if current_user_profile.friends.present?
+        is_friend = current_user_profile.friends.map(&:profile_id).include?(target.id)
+      end      
+      if target.is_public?        
+        access = true
+      elsif is_friend && target.friend_privilege?
+        access = true
+      else
+        access = false
+      end    
+    end
+    return access 
+  end
   
 end
