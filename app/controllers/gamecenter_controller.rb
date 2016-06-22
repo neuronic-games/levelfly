@@ -152,7 +152,7 @@ class GamecenterController < ApplicationController
     
     progress = params[:progress]
     progress_type = params[:progress_type]
-    name = params[:name]  # This is the name of the badge, not the name of the game
+    name = params[:name]  # This is the name of the badge, or outcome, not the name of the game
     addition = params[:add] == "true"
     unique = params[:unique] == "true"  # Unique badge?
     
@@ -206,9 +206,17 @@ class GamecenterController < ApplicationController
         last_score = game.get_score(profile_id)
         feat.progress += last_score
       end
+      # The latest score record is always assumed to be your accumulative score for the game
       Feat.transaction do
         feat.save
         Game.add_score_leader(feat)
+      end
+
+    when Feat.final_score
+      # There should be only 1 final_score per game session. This will allow you to compare
+      # your progress over multiple sessions.
+      Feat.transaction do
+        feat.save
       end
       
     when Feat.badge
@@ -232,7 +240,13 @@ class GamecenterController < ApplicationController
       end
       
     when Feat.rating
-      feat.save if feat.progress.between?(1, 3)
+      outcome = Outcome.where(game_id: game.id, name: name).first
+      if outcome
+        feat.save if feat.progress.between?(1, 3)
+      else
+        message = "Progress not recorded for game #{game.name} for user profile #{current_user.default_profile.id}. Outcome '#{name}' does not exist."
+        status = Gamecenter::FAILURE
+      end
     else
       feat.save
     end

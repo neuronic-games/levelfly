@@ -16,6 +16,9 @@ class Feat < ActiveRecord::Base
 
   @@rating = 4
   cattr_accessor :rating
+
+  @@final_score = 5
+  cattr_accessor :final_score
   
   before_save :check_xp
   
