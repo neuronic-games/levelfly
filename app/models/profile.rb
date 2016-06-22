@@ -221,7 +221,7 @@ class Profile < ActiveRecord::Base
 
   def self.is_accessible?(current, target)
     access = true
-    current_user_profile = current.class.name == 'User' ? current.profiles.first : current
+    current_user_profile = Profile.find(current)
     if current_user_profile.present? && current_user_profile.role_name_id == 1
       is_friend = false
       if current_user_profile.friends.present?
