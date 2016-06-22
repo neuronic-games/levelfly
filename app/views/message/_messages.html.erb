@@ -9,7 +9,7 @@
 %>
 <div class="msg_big_box message_list" id="messsage_box_<%=message.id%>" rel="<%=message.id%>">
   <div class="avatar_white_bdr">
-    <img src="<%=Profile.is_accessible?(current_user, message.profile) ? message.profile.image_file_name : profile_icon_default%>" profile_id="<%=message.profile_id%>" class="profile"/>
+    <img src="<%=Profile.is_accessible?(user_session[:profile_id], message.profile) ? message.profile.image_file_name : profile_icon_default%>" profile_id="<%=message.profile_id%>" class="profile"/>
   </div>
 
   <div class="msg_box_fullwidth">
@@ -19,7 +19,7 @@
   <div class="positn_rtlv"><div class="msg_big_box_arrow"><img src="/images/blue_arrow.png" width="15px" height="21px" /></div></div>
     <div class="msg_box_txt blue_bg_msg_txt">
     <div class ="topic_div" id ="topic_<%=message.id%>" rel ="<%=message.id%>" >
-      <div class="FloatL"><h3 class="name"><%=h Profile.is_accessible?(current_user, message.profile) ? message.profile.full_name : 'Private'%></h3></div>
+      <div class="FloatL"><h3 class="name"><%=h Profile.is_accessible?(user_session[:profile_id], message.profile) ? message.profile.full_name : 'Private'%></h3></div>
         <!--message topic-->
         <% @message_page=false%>
         <%if course_master%>
