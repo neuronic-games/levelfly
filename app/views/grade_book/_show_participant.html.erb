@@ -133,46 +133,46 @@
     
   </div><!--task_left_wp-->
 
-  <div class="task_right_wp hide_outcomes" id = "task_right_wp" style="max-width:85%;">
+  <div class="task_right_wp hide_outcomes" id = "task_right_wp" style="max-width:85%">
   
     <table width="100%" border="0" cellpadding="0" cellspacing="0" id="heading_task" class="heading_task"><!--Right side table-->
       <tr class="task_right_heading" id = "table_heading"><!--Top row for filling grades-->
-        <% unless @tasks.nil? %>
+      <% unless @tasks.nil? %>
           <% @tasks.each do |t| %> 
-           <td class="red_border">
-             <table border="0" class="">
-              <tr>
-                 <td class="hover task_name_background width12px line_height24px">
-                   <div>
-                     <img id="" class="task_setup_icon" rel="<%=t.id%>" src="images/btn_task_setup.png"/>
-                   </div>
-                    <div class="rotate_text GB_outcomment3 white_font"><%=t.name%><span style="color:#B5BDD0;"><%=load_caregory_name(t.id)%></span></div>
-                  </td>
-                  <td class="hover width60px line_height24px" id="t_<%=t.id%>" rel="grade_column">
-                   <div id="img_t_<%=t.id%>" class="hide">
-                     <img id="" src="images/btn_fill_column.png"/>
-                   </div>
-                  </td>
-                   <%if t.show_outcomes%>
-                     <% @task_outcomes = t.outcomes.sort_by{|m| m.name.downcase}%>
-                      <%if @task_outcomes.length>0%>
-                        <% if !@task_outcomes.nil?%>
-                          <% @task_outcomes.each_with_index do |o,j|%>
-                          <td  class="hover width60px line_height24px outcome_cell" id="<%=t.id%>_<%=o.id%>" rel="grade_column">
-                            <div id="img_<%=t.id%>_<%=o.id%>" class="hide">
-                             <img id="" src="images/btn_fill_column.png"/>
-                           </div>
-                            <div class="GB_outcomment2 rotate_text"> </div>
-                          </td>
-                        <%end%>
-                      <%end%>
+       <td class="red_border">
+         <table border="0" class="">
+          <tr>
+             <td class="hover task_name_background width12px line_height24px">
+               <div>
+                 <img id="" class="task_setup_icon" rel="<%=t.id%>" src="images/btn_task_setup.png"/>
+               </div>
+                <div class="rotate_text GB_outcomment3 white_font"><%=t.name%><span style="color:#B5BDD0;"><%=load_caregory_name(t.id)%></span></div>
+              </td>
+              <td class="hover width60px line_height24px" id="t_<%=t.id%>" rel="grade_column">
+               <div id="img_t_<%=t.id%>" class="hide">
+                 <img id="" src="images/btn_fill_column.png"/>
+               </div>
+              </td>
+               <%if t.show_outcomes%>
+                 <% @task_outcomes = t.outcomes.sort_by{|m| m.name.downcase}%>
+                  <%if @task_outcomes.length>0%>
+                    <% if !@task_outcomes.nil?%>
+                      <% @task_outcomes.each_with_index do |o,j|%>
+                      <td  class="hover width60px line_height24px outcome_cell" id="<%=t.id%>_<%=o.id%>" rel="grade_column">
+                        <div id="img_<%=t.id%>_<%=o.id%>" class="hide">
+                         <img id="" src="images/btn_fill_column.png"/>
+                       </div>
+                        <div class="GB_outcomment2 rotate_text"> </div>
+                      </td>
                     <%end%>
                   <%end%>
-             </tr> 
-             </table>
-           </td>
-          <%end%>
-        <%end%> 
+                <%end%>
+              <%end%>
+         </tr> 
+         </table>
+       </td>
+       <%end%>
+      <%end%> 
       </tr>
      <%if !@participant.nil?%>
        <% @participant.each_with_index do |p,i|%>
