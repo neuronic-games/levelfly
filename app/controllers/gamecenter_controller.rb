@@ -177,11 +177,13 @@ class GamecenterController < ApplicationController
 
       # When using the additive mode of recording XP, add up the reported XP to what is already recorded for this game
       if addition
-        feat.progress += last_xp
+        new_xp = feat.progress + last_xp
         if new_xp > 1000
           feat.progress = 1000
         elsif new_xp < 0
           feat.progress = 0
+        else
+          feat.progress = new_xp
         end
       end
       
