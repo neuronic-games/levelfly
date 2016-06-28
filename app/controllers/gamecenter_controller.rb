@@ -64,7 +64,7 @@ class GamecenterController < ApplicationController
       xp = game.get_xp(profile.id)
       badges = AvatarBadge.find(:all, :include => [:badge], :select => "id, badge_id", :conditions => ["profile_id = ? and badges.quest_id = ?", profile.id, game.id] ).collect { |x| { 'id' => x.badge.id, 'name' => x.badge.name, 'descr' => x.badge.descr, 'image' => x.badge.image_url } } # game specific?
       message = "#{profile.full_name} signed in"
-      user = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_file_name, 'last_sign_in_at' => current_user.last_sign_in_at }
+      user = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_url, 'last_sign_in_at' => current_user.last_sign_in_at }
     end
 
     render :text => { 'status' => status, 'message' => message, 'user' => user, 'score' => score, 'xp' => xp, 'badges' => badges }.to_json
