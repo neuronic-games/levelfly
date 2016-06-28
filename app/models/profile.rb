@@ -219,4 +219,14 @@ class Profile < ActiveRecord::Base
     return 0
   end
 
+  def image_url
+    # If the image is from S3, the path contains the full path
+    if (self.image_file_name =~ /http/) == 0  # Starts with http
+      return self.image_file_name
+    end
+
+    # It's necessary to return the full URL with the domain name for external systems
+    return ENV["URL"] + self.image_file_name
+  end
+  
 end
