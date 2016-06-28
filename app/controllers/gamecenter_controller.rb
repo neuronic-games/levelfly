@@ -22,7 +22,7 @@ class GamecenterController < ApplicationController
       status = Gamecenter::SUCCESS
       profile = user.default_profile
       message = "#{profile.full_name} signed in"
-      data = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_file_name, 'last_sign_in_at' => user.last_sign_in_at }
+      data = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_url, 'last_sign_in_at' => user.last_sign_in_at, 'full_image' => profile.image_url }
     end
 
     render :text => { 'status' => status, 'message' => message, 'user' => data }.to_json
