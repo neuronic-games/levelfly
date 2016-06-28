@@ -38,7 +38,7 @@ class Profile < ActiveRecord::Base
   end
 
   def self.default_avatar_image
-    return '/images/wardrobe/null_profile.png'
+    return ENV["URL"] + '/images/wardrobe/null_profile.png'
   end
 
   def self.create_for_user(user_id, school_id, default = "DEFAULT")
