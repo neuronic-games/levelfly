@@ -62,7 +62,7 @@ class GamecenterController < ApplicationController
       game = Game.find_by_handle(handle)
       score = game.get_score(profile.id)
       xp = game.get_xp(profile.id)
-      badges = AvatarBadge.find(:all, :include => [:badge], :select => "id, badge_id", :conditions => ["profile_id = ? and badges.quest_id = ?", profile.id, game.id] ).collect { |x| { 'id' => x.badge.id, 'name' => x.badge.name, 'descr' => x.badge.descr, 'image' => "/images/badges/" + x.badge.badge_image.image_file_name } } # game specific?
+      badges = AvatarBadge.find(:all, :include => [:badge], :select => "id, badge_id", :conditions => ["profile_id = ? and badges.quest_id = ?", profile.id, game.id] ).collect { |x| { 'id' => x.badge.id, 'name' => x.badge.name, 'descr' => x.badge.descr, 'image' => x.badge.image_url } } # game specific?
       message = "#{profile.full_name} signed in"
       user = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_file_name, 'last_sign_in_at' => current_user.last_sign_in_at }
     end
