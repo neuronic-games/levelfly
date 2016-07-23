@@ -17,11 +17,14 @@ class Feat < ActiveRecord::Base
   @@rating = 4
   cattr_accessor :rating
 
-  @@level = 5
-  cattr_accessor :level
+  @@game_level = 5
+  cattr_accessor :game_level
 
   @@final_score = 6
   cattr_accessor :final_score
+
+  @@duration = 7
+  cattr_accessor :duration
   
   before_save :check_xp
   

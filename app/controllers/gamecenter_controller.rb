@@ -249,6 +249,7 @@ class GamecenterController < ApplicationController
         message = "Progress not recorded for game #{game.name} for user profile #{current_user.default_profile.id}. Outcome '#{name}' does not exist."
         status = Gamecenter::FAILURE
       end
+      
     else
       feat.save
     end
@@ -317,10 +318,12 @@ class GamecenterController < ApplicationController
         end
       when Feat.rating
         @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} acquired #{feat.progress} rating"
-      when Feat.level
+      when Feat.game_level
         @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name}"
+      when Feat.duration
+        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} was active for #{feat.progress} seconds"
       else
-        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} received feat #{feat.progess} in #{feat.progress.type}"
+        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} received feat #{feat.progress} in #{feat.progress_type}"
       end
       @feats.last << " on #{feat.level}" if !feat.level.nil?
     end
