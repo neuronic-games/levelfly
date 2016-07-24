@@ -1,10 +1,12 @@
 <div class="LB_tableheader">
-  <div class="LBT_rank">Rank</div>
-  <div class="LBT_ava"> &nbsp;</div>
-  <div class="LBT_name">&nbsp;</div>
-  <div class="LBT_level">SCORE</div>
+  <div class="LBT_rank">RANK</div>
+  <div class="LBT_ava" style="width:80px;">&nbsp;</div>
+  <div class="LBT_player_name" style="text-align:left;">PLAYER</div>
   <div class="LBT_xp">XP</div>
+  <div class="LBT_game_score">SCORE</div>
   <div class="LBT_badges">BADGES</div>
+  <div class="LBT_time">TIME</div>
+  <div class="LBT_game_level">LEVEL</div>
 </div>
 <% if @profiles.present? %>
   <% @profiles.each do |p| %> 
@@ -13,11 +15,13 @@
       <div class="LBT_ava">
         <div class="avatarWbdr"><img src="<%= is_profile_accessible?(p) ? p.image_file_name : profile_icon_default%>" class="profile" profile_id="<%= p.id %>" /></div>
       </div>
-      <div class="LBT_name"> <span class="name_txt"><%= is_profile_accessible?(p) ? p.full_name : 'Private'%> </span><br />
-      <span class="course_txt"><%= is_profile_accessible?(p) ? p.major_school : ''%></span> </div>
-      <div class="LBT_level"><%= is_profile_accessible?(p) ? @game.get_score(p.id) : 'Private'%></div>
+      <div class="LBT_player_name" style="text-align:left;"><span class="name_txt"><%= is_profile_accessible?(p) ? p.full_name : 'Private'%> </span><br />
+      <span class="course_txt player_school"><%= is_profile_accessible?(p) ? p.major_school : ''%></span> </div>
       <div class="LBT_xp"><%= is_profile_accessible?(p) ? p.xp_by_game(@game.id) : 'Private' %></div>
+      <div class="LBT_game_score"><%= is_profile_accessible?(p) ? @game.get_score(p.id) : 'Private'%></div>
       <div class="LBT_badges"><%= is_profile_accessible?(p) ? badge_count_by_game(@game.id, p.id) : 'Private'%></div>     
+      <div class="LBT_time"><%= Time.at(@game.get_duration(p.id)).utc.strftime("%H:%M") %></div>     
+      <div class="LBT_game_level"><%= @game.get_level(p.id) %></div>     
     </div>
   <% end %>
 <% else %>

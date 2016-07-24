@@ -54,6 +54,18 @@ class Game < ActiveRecord::Base
     return 0
   end
   
+  # Returns the total time that a player has been active in a game
+  def get_duration(profile_id)
+    dur = Feat.where(game_id: self.id, profile_id: profile_id, progress_type: Feat.duration).sum(:progress)
+    return dur
+  end
+
+  # Returns the last level achieved
+  def get_level(profile_id)
+    feat = Feat.where(game_id: self.id, profile_id: profile_id).where("level is not null").last
+    return feat ? feat.level : ""
+  end
+  
   # Add the score feat to the leaderboard, if the user is not already on it
   def self.add_score_leader(feat, count = 50)
     add_new = true

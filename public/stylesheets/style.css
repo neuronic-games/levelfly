@@ -3641,7 +3641,7 @@ filter:alpha(opacity="0");
 	display:table-cell;
 }
 .LB_table .LBT_ava {
-	width:10%;
+  width:10%;
 	display:table-cell;
 	padding:5px;
 }
@@ -3666,12 +3666,31 @@ filter:alpha(opacity="0");
 	width:17%;
 	display:table-cell
 }
+.LB_table .LBT_player_name {
+	width:22%;
+	display:table-cell;
+}
+.LB_table .player_school {
+  font-size:10pt;
+}
+.LB_table .LBT_game_score {
+	width:10%;
+	display:table-cell
+}
 .LB_table .LBT_xp {
-	width:12%;
+	width:10%;
 	display:table-cell
 }
 .LB_table .LBT_badges {
-	width:17%;
+	width:10%;
+	display:table-cell
+}
+.LB_table .LBT_game_level {
+	width:15%;
+	display:table-cell
+}
+.LB_table .LBT_time {
+	width:7%;
 	display:table-cell
 }
 .LB_table .LBT_Likes {
@@ -3701,7 +3720,7 @@ filter:alpha(opacity="0");
 	-moz-box-shadow:inset 0px 0px 2px 1px #000000;
 	-webkit-box-shadow:inset 0px 0px 2px 1px #000000;
 	box-shadow:inset 0px 0px 2px 1px #000000;
-	margin:0 10px 0 0;
+	margin:0 5px 0 0;
 }
 .avatarWbdr {
   position: relative;
