@@ -228,5 +228,26 @@ class Profile < ActiveRecord::Base
     # It's necessary to return the full URL with the domain name for external systems
     return ENV["URL"] + self.image_file_name
   end
+
+  def self.is_profile_accessible?(profile_id, current_user_profile_id)
+
+    profile = Profile.find(profile_id)
+    return true if profile.is_public?        
+    
+    current_user_profile = Profile.find(current_user_profile_id)
+    access = false
+    if current_user_profile.present? && current_user_profile.role_name_id == 1
+      is_friend = false
+      if current_user_profile.friends.present?
+        is_friend = current_user_profile.friends.map(&:profile_id).include?(profile.id)
+      end      
+      if is_friend && profile.friend_privilege?
+        access = true
+      else
+        access = false
+      end    
+    end
+    return access 
+  end
   
 end
