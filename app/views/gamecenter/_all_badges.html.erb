@@ -1,0 +1,118 @@
+<% if @game.id and gamecenter_write_access(@game.id) %>
+<div id="btn_game_edit" class="clickable" style="position:absolute; right:280px; top:200px;">
+  <img src="/images/setting_icon_gray.png">
+</div>
+<% end %>
+
+<div class="LB_tableheader">
+  <div class="LBT_ava">&nbsp;</div>
+  <div class="LBT_ava">BADGE ID</div>
+  <div class="LBT_level">NAME</div>
+  <div class="LBT_xp">DESCRIPTION</div>
+
+  <%if my_game%>
+    <div class="LBT_xp">COUNT</div>
+  <% end %>
+</div>
+<span class="index-page"></span>
+<% unless @badges.nil? %>
+  <% @badges.each do |badge| %> 
+    <% badge_count = get_badge_count(badge.id, @profile.id, @game.id)%>
+    
+    <div class="LB_tablecontent <%= cycle("even", "odd") %>">
+      <div class="LBT_ava">
+        <%if badge.available_badge_image_id.present? %>
+          <img src="<%= badge.try(:available_image_url) %>" height='70' width='70' class="app edit-data" data-badge-id="<%= badge.id%>" style='cursor:pointer;'>
+        <% else %>
+         <img src="<%= badge.try(:badge_image).try(:image).try(:url) %>" height='70' width='70' class="app edit-data" data-badge-id="<%= badge.id%>" style='cursor:pointer;'>
+        <% end %>
+      </div>
+      <div class="LBT_ava"> 
+        <span class="course_txt"><strong><%=h badge.id %></strong></span>
+      </div>
+      <div class="LBT_level"> 
+        <span class="name_txt"><%=h badge.name %> </span>
+      </div>
+      <div class="LBT_xp"> 
+        <span class="descr_txt"><%=h truncate(badge.descr, :length => 20) %></span>
+      </div>
+      <%if my_game%>
+        <div class="LBT_xp"> 
+          <span class="descr_txt"><%=h badge_count %></span>
+        </div>
+      <% end %>
+    </div>
+    
+  <% end %>
+<% end %>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    var _edit = false;
+    
+    enableViewMode();
+  
+    $("#btn_game_edit").unbind('click').bind('click', function() {
+      enableEditMode();
+    });
+
+    $("#add_badge").unbind('click').bind('click', function(){
+      var gameId = "<%= @game.id%>";
+      showSpinner(true);
+      $('#add_badge').addClass('hide');
+      var filter = $(".side_tab_open:first").attr("filter");
+      
+      $.ajax({
+        type: "GET",
+        url: "/gamecenter/add_badge?game_id="+gameId,
+        data: {filter:filter, show:"add_badge"},
+        success: function(data) {
+          $("#rows").html(data);
+          showSpinner(false);
+        }
+      });
+    });
+
+    $(".edit-data").unbind('click').bind('click', function(){
+      var gameId = "<%= @game.id%>";
+      showSpinner(true);
+      var badgeId = $(this).attr("data-badge-id");
+      
+      $.ajax({
+        type: "GET",
+        url: "/gamecenter/edit_badge?game_id="+gameId,
+        data: {id:badgeId, show:"edit_badge"},
+        success: function(data) {
+          $("#rows").html(data);
+          showSpinner(false);
+        }
+      });
+    });
+
+    function enableViewMode() {
+      $('#btn_game_view').removeClass('hide')
+      $('#btn_game_archive').removeClass('hide')
+      $('#btn_game_edit').removeClass('hide');
+      $('#btn_game_save').addClass('hide');
+      $('#add_badge').addClass('hide');
+
+      $('.text_input_field').attr('readonly', true);
+      $('.image_input_field').addClass('hide');
+
+      $('#leader_tabs').show();
+      _edit = false;
+    }
+
+    function enableEditMode() {
+      $('#btn_game_edit').addClass('hide');
+      $('#btn_game_save').addClass('hide');
+      $('#add_badge').removeClass('hide');
+
+      $('.text_input_field').attr('readonly', false);
+      $('.image_input_field').removeClass('hide');
+      _edit = true;
+    }
+
+  });
+</script>

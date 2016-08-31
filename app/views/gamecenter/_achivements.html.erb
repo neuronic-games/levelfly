@@ -45,9 +45,18 @@
       <a class="big_blue_btn" name="menu_btn_add_badge" href="javascript:void(0)" id="add_badge">ADD BADGE</a>
     </div><!-- crud_level -->
   </div>
+  
   <script type="text/javascript">
     $(document).ready(function(){
+
+      var _edit = false;
+      
+      enableViewMode();
     
+      $("#btn_game_edit").unbind('click').bind('click', function() {
+        enableEditMode();
+      });
+
       $("#add_badge").unbind('click').bind('click', function(){
         var gameId = "<%= @game.id%>";
         showSpinner(true);
@@ -80,6 +89,31 @@
         });
       });
 
+      function enableViewMode() {
+        $('#btn_game_view').removeClass('hide')
+        $('#btn_game_archive').removeClass('hide')
+        $('#btn_game_edit').removeClass('hide');
+        $('#btn_game_save').addClass('hide');
+        $('#add_badge').addClass('hide');
+  
+        $('.text_input_field').attr('readonly', true);
+        $('.image_input_field').addClass('hide');
+
+        $('#leader_tabs').show();
+        _edit = false;
+      }
+
+      function enableEditMode() {
+        $('#btn_game_edit').addClass('hide');
+        $('#btn_game_save').addClass('hide');
+        $('#add_badge').removeClass('hide');
+  
+        $('.text_input_field').attr('readonly', false);
+        $('.image_input_field').removeClass('hide');
+        _edit = true;
+      }
+
     });
   </script>
+    
 <% end %>

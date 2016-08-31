@@ -54,6 +54,7 @@ class GamecenterController < ApplicationController
     user = {}
     score = 0
     xp = 0
+    active_dur = 0
     badges = []
     
     if current_user
@@ -65,9 +66,33 @@ class GamecenterController < ApplicationController
       badges = AvatarBadge.find(:all, :include => [:badge], :select => "id, badge_id", :conditions => ["profile_id = ? and badges.quest_id = ?", profile.id, game.id] ).collect { |x| { 'id' => x.badge.id, 'name' => x.badge.name, 'descr' => x.badge.descr, 'image' => x.badge.image_url } } # game specific?
       message = "#{profile.full_name} signed in"
       user = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_url, 'last_sign_in_at' => current_user.last_sign_in_at }
+
+      active_dur = Feat.where(game_id: game.id, profile_id: profile.id, progress_type: Feat.duration)
+        .sum(:progress)
+
     end
 
     render :text => { 'status' => status, 'message' => message, 'user' => user, 'score' => score, 'xp' => xp, 'badges' => badges }.to_json
+  end
+
+  # Returns the number of seconds that the user has been active in the game
+  def get_active_dur
+    handle = params[:handle]
+    message = ""
+    status = Gamecenter::FAILURE
+    active_dur = 0
+    
+    if current_user
+      status = Gamecenter::SUCCESS
+      profile = current_user.default_profile
+      game = Game.find_by_handle(handle)
+      message = "#{profile.full_name} signed in"
+
+      active_dur = Feat.where(game_id: game.id, profile_id: profile.id, progress_type: Feat.duration)
+        .sum(:progress)
+    end
+
+    render :text => { 'status' => status, 'message' => message, 'active' => active_dur }.to_json
   end
 
   # Returns the list of top users by score
@@ -413,7 +438,7 @@ class GamecenterController < ApplicationController
     end    
 
     if filter == "active"
-      user_feats = Feat.where(:profile_id => @profile.id).map(&:game_id)
+      user_feats = Feat.where(:profile_id => @profile.id).select("distinct game_id").pluck(:game_id)
       conditions[0] += " or id IN(?)"
       conditions << user_feats    
     end
@@ -427,6 +452,7 @@ class GamecenterController < ApplicationController
     @game.archived = false
     @game.published = false
     @game.school_id = current_user.profiles.first.school_id if current_user.profiles.present?
+    @game.mail_to = ENV['SUPPORT_EMAIL']
     1.upto(5) {|i| @game.outcomes.build}
     5.times do
       @game.screen_shots.build      
@@ -440,27 +466,47 @@ class GamecenterController < ApplicationController
     @game.profile_id = @profile.id
     @course = create_forum(@game)
     @game.course_id = @course.id
+    @game.mail_to = ENV['SUPPORT_EMAIL'] if @game.mail_to.blank?
+      
     @game.save
+    # Calls save_game.js
   end
 
-  def edit_game    
+  def view_game    
     @game = Game.find(params[:id])
+    @game.mail_to = ENV['SUPPORT_EMAIL'] if @game.mail_to.blank?
     five_screens = 5 - @game.screen_shots.count
     five_screens.times do
       @game.screen_shots.build
     end
-    render :partial => "/gamecenter/form",locals: {url: gamecenter_update_game_path(:id =>@game.id), current_tab: params[:current_tab]}
+
+    render :partial => "/gamecenter/form",locals: {url: gamecenter_update_game_path(:id =>@game.id), current_tab: params[:current_tab], id: @game.id}
+  end
+
+  def edit_game    
+    @game = Game.find(params[:id])
+    @game.mail_to = ENV['SUPPORT_EMAIL'] if @game.mail_to.blank?
+    five_screens = 5 - @game.screen_shots.count
+    five_screens.times do
+      @game.screen_shots.build
+    end
+
+    render :partial => "/gamecenter/form",locals: {url: gamecenter_update_game_path(:id =>@game.id), current_tab: params[:current_tab], id: @game.id}
   end
 
   def update_game
     params[:game].merge!("image" => params["file"]) if params["file"].present?
     @game = Game.find(params[:id])
     @game.update_attributes(params[:game])
+    @game.mail_to = ENV['SUPPORT_EMAIL'] if @game.mail_to.blank?
     forum = @game.course    
     forum.update_attribute(:name, "Support for #{@game.name}") unless !forum.present?
-    if params[:download_tab].present? || params[:support_tab].present?
-      render :json => {status: true}    
-    end
+    # if params[:download_tab].present? || params[:support_tab].present?
+    #   render :json => {status: true}
+    # end
+
+    render :json => {id: @game.id}
+    # render :partial => "/gamecenter/form",locals: {url: gamecenter_update_game_path(:id =>@game.id), current_tab: params[:current_tab]}
   end
 
   def game_details
@@ -526,16 +572,23 @@ class GamecenterController < ApplicationController
     end
   end
 
+  # Add badges created for a game
+  def all_badges
+    @game = Game.find(params[:game_id])
+    @badges = Badge.where(:quest_id => @game.id)
+
+    render :partial => "/gamecenter/all_badges", locals: { my_game: @game.my_game?(current_profile.id)}
+  end
+  
+  # Badges I have acquired in a game
   def achivements    
     @game = Game.find(params[:game_id])
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    if params[:my_game] == 'true'
-      @feats = Feat.where(game_id: @game.id, profile_id: @profile.id).pluck(:progress)
-      @badges = Badge.where(id: @feats)
-    else
-      @badges = Badge.where(:quest_id => @game.id)
-    end
-    render :partial => "/gamecenter/achivements", locals: {my_game: params[:my_game] == 'true'}
+    @profile = current_profile
+    
+    @feats = Feat.where(game_id: @game.id, profile_id: @profile.id, progress_type: Feat.badge).select("distinct progress").pluck(:progress)
+    @badges = Badge.where(id: @feats)
+    
+    render :partial => "/gamecenter/achivements", locals: { my_game: @game.my_game?(@profile.id)}
   end 
 
   def leaderboard

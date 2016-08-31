@@ -27,12 +27,13 @@
         <div class="leader_pad_top"></div>
         <div class="leader_pad">
           <!-- sub category tabs -->
-          <div class="leader_tabs" align="right" id="leader_tabs">
-            <a href="javascript:void(0)" class="side_tab side_tab_open" id="game_main" filter="active"><span class="task_tab">Main</span></a>
-            <a href="javascript:void(0)" class="side_tab side_tab_close" id="download_page" filter="download"><span class="task_tab">Download</span></a>
-            <a href="javascript:void(0)" class="side_tab side_tab_close" id="support" filter="support"><span class="task_tab">Support</span></a>
-            <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab" id="achivements" filter="achivements"><span class="task_tab">Badges</span></a>
-            <a href="javascript:void(0)" class="side_tab side_tab_close" id="leaderboard" filter="leaderboard"><span class="task_tab">Leader Board</span></a>
+          <div class="leader_tabs hide" align="right" id="leader_tabs">
+            <a href="javascript:void(0)" class="side_tab side_tab_open id_link" id="game_main" filter="active"><span class="task_tab">Main</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close id_link" id="download_page" filter="download"><span class="task_tab">Download</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab id_link" id="all_badges" filter="all_badges"><span class="task_tab">Rewards</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab id_link" id="achivements" filter="achivements"><span class="task_tab">My Badges</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab hide id_link" id="game_stats" filter="game_stats"><span class="task_tab">Stats</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close id_link hide" id="leaderboard" filter="leaderboard"><span class="task_tab">Leader Board</span></a>
           </div>
           <!-- sub category tabs -->
           <!-- Main Category tabs -->
@@ -62,13 +63,15 @@
     </div>
   </div>
 </div>
-<%if !student?%>
   <div id="sidebar_right">
-    <div class="course_side_buttons">    
+    <div id="course_side_buttons" class="course_side_buttons">    
+      <%if !student?%>
       <a class="big_blue_btn" name="menu_btn_add_game" href="javascript:void(0)" id="add_game">ADD GAME</a>
+      <% end %>
+      <a class="big_blue_btn id_link hide" name="btn_view_forums" href="javascript:void(0)" id="btn_view_forums">FORUMS</a>
+      <a class="big_blue_btn id_link hide" name="menu_btn_add_badge" href="javascript:void(0)" id="add_badge">ADD BADGE</a>
     </div><!-- crud_level -->
   </div>
-<% end %>
 
 <!-- <span class="default-listing-page"></span> -->
 
@@ -104,6 +107,26 @@ $(document).ready(function(){
   	});
   });
 
+  $("#game_main").unbind('click').bind('click', function(){
+    showSpinner(true);
+    var filter = $(".side_tab_open:first").attr("filter");
+    var gameId = $(this).attr('game-id')
+    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
+    $(this).addClass("side_tab_open").removeClass("side_tab_close");
+
+    $.ajax({
+
+      type: "GET",
+      url: "/gamecenter/view_game?id="+gameId,
+      data: {filter:filter, show:"download"},
+      success: function(data) {
+        $("#forum-data").html('');
+        $("#rows").html(data);
+        showSpinner(false);
+      }
+    });  
+  });
+  
   $("#download_page").unbind('click').bind('click', function(){
     showSpinner(true);
     var filter = $(".side_tab_open:first").attr("filter");
@@ -124,16 +147,15 @@ $(document).ready(function(){
     });  
   });
 
-  $("#support").unbind('click').bind('click', function(){    
+  $("#btn_view_forums").unbind('click').bind('click', function(){    
     showSpinner(true);
-    var gameId = $(this).attr('game-id')
-    var myGame = $(this).attr('my-game')
+    $(this).addClass('hide');
+    var gameId = $(this).attr('game-id');
+    var myGame = $(this).attr('my-game');  // Did I create this game?
     if(myGame == 'true'){
       var currentTab = 'my_games'      
     }
     var filter = $(".side_tab_open:first").attr("filter");
-    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
-    $(this).addClass("side_tab_open").removeClass("side_tab_close");
     $.ajax({
 
       type: "GET",
@@ -152,6 +174,26 @@ $(document).ready(function(){
     });  
   });
 
+  $("#all_badges").unbind('click').bind('click', function(){
+    showSpinner(true);
+    var gameId = $(this).attr('game-id')
+    var myGame = $(this).attr('my-game');
+    var filter = $(".side_tab_open:first").attr("filter");
+    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
+    $(this).addClass("side_tab_open").removeClass("side_tab_close");
+    $.ajax({
+
+      type: "GET",
+      url: "/gamecenter/all_badges?game_id="+gameId+"&my_game="+myGame,
+      data: {filter:filter, show:"all_badges"},
+      success: function(data) {
+        $("#forum-data").html('');
+        $("#rows").html(data);
+        showSpinner(false);
+      }
+    });  
+  });
+  
   $("#achivements").unbind('click').bind('click', function(){
     showSpinner(true);
     var gameId = $(this).attr('game-id')

@@ -101,6 +101,14 @@ class Game < ActiveRecord::Base
     end
   end
   
+  # Owns the game or have played the game
+  def my_game?(profile_id)
+    return true if profile_id == self.profile_id
+    feat = Feat.where(:profile_id => profile_id).first
+    return true if feat
+    return false
+  end
+  
   private
   
   # Generate a unique game handle. The game developer will use this handle to
