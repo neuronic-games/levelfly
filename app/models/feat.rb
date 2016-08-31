@@ -1,6 +1,8 @@
 class Feat < ActiveRecord::Base
   belongs_to :game
   belongs_to :profile
+  has_one :outcome_feat
+  has_one :outcome, through: :outcome_feat
 
   @@login = 0
   cattr_accessor :login

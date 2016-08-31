@@ -267,9 +267,19 @@ class GamecenterController < ApplicationController
       end
       
     when Feat.rating
-      outcome = Outcome.where(game_id: game.id, name: name).first
+      rating = params[:rating]
+      outcome = nil
+      if feat.progress.to_i > 0
+        outcome = Outcome.find(feat.progress)
+      else
+        outcome = Outcome.where(game_id: game.id, name: name).first
+      end
       if outcome
-        feat.save if feat.progress.between?(1, 3)
+        feat.save
+        outcome_feat = OutcomeFeat.new(outcome_id: outcome.id, feat_id: feat.id, profile_id: profile_id, rating: rating)
+        outcome_feat.save
+        feat.progress = outcome.id
+        feat.save
       else
         message = "Progress not recorded for game #{game.name} for user profile #{current_user.default_profile.id}. Outcome '#{name}' does not exist."
         status = Gamecenter::FAILURE
@@ -323,8 +333,7 @@ class GamecenterController < ApplicationController
 
     profile_id = current_user.default_profile.id
     
-    feat_list = Feat.select("progress_type, progress, level, created_at")
-      .where(game_id: game.id, profile_id: profile_id)
+    feat_list = Feat.where(game_id: game.id, profile_id: profile_id)
       .order("created_at desc")
       .limit(limit)
 
@@ -342,7 +351,7 @@ class GamecenterController < ApplicationController
           @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} acquired #{badge ? badge.name : 'unknown'} badge"
         end
       when Feat.rating
-        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} acquired #{feat.progress} rating"
+        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} acquired a #{feat.outcome_feat.rating} rating in '#{feat.outcome.name}'"
       when Feat.game_level
         @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name}"
       when Feat.duration
@@ -575,7 +584,7 @@ class GamecenterController < ApplicationController
   # Add badges created for a game
   def all_badges
     @game = Game.find(params[:game_id])
-    @badges = Badge.where(:quest_id => @game.id)
+    @badges = Badge.where(:quest_id => @game.id).order(:id)
 
     render :partial => "/gamecenter/all_badges", locals: { my_game: @game.my_game?(current_profile.id)}
   end

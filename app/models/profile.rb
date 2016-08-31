@@ -13,6 +13,7 @@ class Profile < ActiveRecord::Base
   has_many :profile_actions
 
   has_many :feats
+  has_many :outcome_feats
   has_many :game_score_leaders
   
   has_many :avatar_badges
