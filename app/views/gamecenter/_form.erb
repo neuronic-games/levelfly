@@ -1,3 +1,13 @@
+<div id="new_side_buttons">
+    <%= link_to "View", "/games/#{@game.id}", :id => "btn_game_view", :target => "_blank", :class => "big_blue_btn"%>
+    <%= hidden_field_tag :game_id, @game.id%>
+    <% if @game.id and gamecenter_write_access(@game.id) %>
+      <a class="big_blue_btn" name="menu_btn_archive" href="javascript:void(0)" id="btn_game_archive">Archive</a>
+      <!-- <a class="big_blue_btn" name="menu_btn_edit" href="javascript:void(0)" id="btn_game_edit">Edit</a> -->
+    <% end %>
+    <a href="javascript:void(0)" data-image-attach='false' name="btn_game_save" id="btn_game_save" class="big_orange_btn hide">SAVE</a>
+</div>
+
 <%= form_for @game, url: url, :html => { :multipart => true, :class => 'save-game' }, :remote => true do |f| %>
 <%= f.hidden_field :archived, :id => "archived" %>
 <%= f.hidden_field :published, :id => "published" %>
@@ -9,18 +19,6 @@
 </div>
 <% end %>
 
-<!-- Contextual Side Buttons -->
-<div id="sidebar_right">
-   <div class="side_buttons">
-      <%= link_to "View", "/games/#{@game.id}", :id => "btn_game_view", :target => "_blank", :class => "big_blue_btn"%>
-      <%= hidden_field_tag :game_id, @game.id%>
-      <% if @game.id and gamecenter_write_access(@game.id) %>
-        <a class="big_blue_btn" name="menu_btn_archive" href="javascript:void(0)" id="btn_game_archive">Archive</a>
-        <!-- <a class="big_blue_btn" name="menu_btn_edit" href="javascript:void(0)" id="btn_game_edit">Edit</a> -->
-      <% end %>
-      <a href="javascript:void(0)" data-image-attach='false' name="btn_game_save" id="btn_game_save" class="big_orange_btn hide">SAVE</a>
-   </div>
-</div>
 <!-- Main area -->
 <div class="course_detailbox">
    <div class="course_field_box0">
@@ -170,6 +168,12 @@
     	$('.add_task_popup').hide();
     })
     
+    // Add contect buttons
+    new_buttons = $('#new_side_buttons').html();
+    $('#course_side_buttons').append(new_buttons);
+    $('#new_side_buttons').remove();
+    $('#btn_save_badge').removeClass('hide');
+
     <% if action_name == 'add_game' %>
     enableAddMode();
     <% end %>
