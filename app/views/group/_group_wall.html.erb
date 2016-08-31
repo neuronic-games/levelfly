@@ -1,45 +1,6 @@
 <%= hidden_field_tag :action_name, action_name %>
 <%= hidden_field_tag :controller_name, controller_name %>
 <div id="div_1" class="tab_content">
-  <% if privilege.present?%>    
-    <!-- Main area -->
-    <% game = game || Game.find_by_id(@game.id)%>    
-    <% if game.present? %>
-      <% if gamecenter_write_access(game.id) %>
-        <div class="mail-area">
-          <div style="width: 100%; float:left;">
-            <h3>Do you have issues with <%= game.name%>?</h3>
-          </div>
-          <div class='clear'></div>
-          <div style="width: 30%; float:left; margin-top: 5px;">
-            <p>Support email address for players </p>
-          </div>
-          <div style="width: 66%; float:left; margin-left: 20px">
-            <%= form_for game, url: gamecenter_update_game_path, :html => {:class => 'save-game'}, :remote => true do |f| %>
-              <%= hidden_field_tag :id, game.id%>
-              <%= hidden_field_tag :support_tab, true%>
-              <div class="dd_bg">              
-                <%= text_field_tag "game[mail_to]", f.object.mail_to, :class=>"dd_input",:maxlength =>"64", :class => "dd_input"%>         
-             </div>
-            <% end %>
-          </div>
-        </div>      
-      <% else %>
-        <div class="mail-area">
-          <div style="width: 70%; float:left;">
-            <h3>Do you have issues with <%= game.name%>?</h3>
-            <p>Send an email to our support team by clicking on the EMAIL link, </p>
-            <p>or get help from the <%= game.name%> community by posting in the forum.</p>
-          </div>
-          <div style="width: 27%; float:right;">
-            <a href="mailto:<%=game.mail_to%>?Subject=I need support for <%=game.name%>#<%=@profile.id%>" target="_top" class="side_tab_open support-mail">EMAIL</a>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
-  <% end %>
-
-  <div class='clear'></div>
   <div class="group_left">
     <div class="group_profile_image" id="group_image">
        <img id="group_thumb" src='<%= @course.image_file %>' width="156" height="156" alt="Course image" />

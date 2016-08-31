@@ -1578,22 +1578,18 @@ a.icon_user_setting_active {
 
 /* GameCenter setting */
 a.icon_gamecenter_setting{
-	background:url(../images/btn_gamecenter_setting.png) no-repeat 17px 3px;
+	background:url(../images/btn_gamecenter.png) no-repeat 17px 3px;
 	padding:58px 0 0;
 }
 a.icon_gamecenter_setting:hover {
-	background:url(../images/btn_gamecenter_setting_sel.png) no-repeat 17px 3px;
+	background:url(../images/btn_gamecenter_sel.png) no-repeat 17px 3px;
 	padding:58px 0 0;
 }
 a.icon_gamecenter_setting_active {
-	background:url(../images/btn_gamecenter_setting_sel.png) no-repeat 17px 3px;
+	background:url(../images/btn_gamecenter_sel.png) no-repeat 17px 3px;
 	padding:58px 0 0;
 	color:#6a7c28 !important;
 }
-
-
-
-
 
 a.icon_groups {
 	background:url(../images/groups_icon.png) no-repeat 17px 9px;

@@ -1,18 +1,15 @@
+<div id="new_side_buttons">
+<a class="big_blue_btn hide" name="btn_save" href="javascript:void(0)" id="btn_save_badge">SAVE</a>
+</div>
+
+<input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=@profile.id if @profile%>" />
+<input type="hidden" name="profile_id_hdn_field" id="profile_id_hdn_field" value="<%=profile_id if profile_id%>" />
+
 <div class="badge_content">
   <div class="badge_board_left">
     <div class="badge_board_right">
       <div class="badge_board_center">
         <div id = "badge_content" class="badge_contentt">
-        <div id="badge_board_right">
-          <div class="course_side_buttons">
-            <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=@profile.id if @profile%>" />
-            <input type="hidden" name="profile_id_hdn_field" id="profile_id_hdn_field" value="<%=profile_id if profile_id%>" />
-            <div class="course_side_buttons">
-              <a class="big_blue_btn btn_save_badge" name="btn_save" href="javascript:void(0)" id="btn_save">SAVE</a>
-            </div><!-- crud_level -->
-            
-          </div><!-- crud_level -->
-        </div>
         <div class="badges_box1" style="width:654px">
           <div class="badges_top_heading">Badge for Achievement in Game</div>
           
@@ -91,6 +88,11 @@
 <script type="text/javascript">
 $(document).ready(function() {  
 
+  new_buttons = $('#new_side_buttons').html();
+  $('#course_side_buttons').append(new_buttons);
+  $('#new_side_buttons').remove();
+  $('#btn_save_badge').removeClass('hide');
+  
   $('.avail-badge').click(function(){
     imgSrc = $(this).attr('src');
     $('.img-preview img').attr('src', imgSrc);
@@ -116,7 +118,7 @@ $(document).ready(function() {
     imageLoader.addEventListener('change', handleImage, false);
   }
   
-  $(".btn_save_badge").click(function(){
+  $("#btn_save_badge").unbind('click').click(function(){
       var gameId = "<%= @game.id%>";
       var badgeId = "<%= badge.id %>";
       var bImage = $('#badge_image').val() || $('#available_badge_image_id').val();
@@ -159,7 +161,8 @@ $(document).ready(function() {
           processData: false,
           data:data,
           success: function(data) {
-            $('.leader_tabs a.badges-tab').click();
+            $('#all_badges').click();  // Go back to the list of badges by clicking on the REWARDS tab
+            $('#btn_save_badge').addClass('hide');
             showSpinner(false);
           },
           error: function()

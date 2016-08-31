@@ -2,15 +2,23 @@
 <%= f.hidden_field :archived, :id => "archived" %>
 <%= f.hidden_field :published, :id => "published" %>
 <%= f.hidden_field :school_id %>
+
+<% if @game.id and gamecenter_write_access(@game.id) %>
+<div id="btn_game_edit" class="clickable" style="position:absolute; right:280px; top:200px;">
+  <img src="/images/setting_icon_gray.png">
+</div>
+<% end %>
+
 <!-- Contextual Side Buttons -->
 <div id="sidebar_right">
    <div class="side_buttons">
-      <% if controller.action_name == "edit_game" %>
-        <%= hidden_field_tag :game_id, @game.id%>
-        <%= link_to "View", "/games/#{@game.id}", :target => "_blank", :class => "big_blue_btn"%>
-      <% end %>  
-      <a class="big_blue_btn" name="menu_btn_archive" href="javascript:void(0)" id="archive">Archive</a>
-      <a href="javascript:void(0)" data-image-attach='false' name="btn_game_save" id="btn_game_save" class="big_orange_btn">SAVE</a>
+      <%= link_to "View", "/games/#{@game.id}", :id => "btn_game_view", :target => "_blank", :class => "big_blue_btn"%>
+      <%= hidden_field_tag :game_id, @game.id%>
+      <% if @game.id and gamecenter_write_access(@game.id) %>
+        <a class="big_blue_btn" name="menu_btn_archive" href="javascript:void(0)" id="btn_game_archive">Archive</a>
+        <!-- <a class="big_blue_btn" name="menu_btn_edit" href="javascript:void(0)" id="btn_game_edit">Edit</a> -->
+      <% end %>
+      <a href="javascript:void(0)" data-image-attach='false' name="btn_game_save" id="btn_game_save" class="big_orange_btn hide">SAVE</a>
    </div>
 </div>
 <!-- Main area -->
@@ -21,13 +29,13 @@
          		<% if f.object.image.present? %>
          			<%= image_tag f.object.image.url, height: '156', width: '156'%>
          		<% else %>
-            	<img width="156" height="156" alt="Course image" src="/images/course_img_default.jpg" class="c_iamge" id="c_iamge">
+            	<img width="156" height="156" alt="Game Image" src="/images/game_img_default.jpg" class="c_iamge" id="c_iamge">
          		<% end %>
-            <div class="browse_link_div">
+            <div class="browse_link_div image_input_field hide">
             	<!-- <img src="/images/course_img_drop.png" class="image_icon_drop_target"> -->
               <a id="course_browse_btn" href="javascript:void(0)">
             		<%= f.file_field :image, :class => 'file-opener', id: 'gamePhoto'%>
-              	CLICK HERE TO UPLOAD
+              	CLICK TO UPLOAD
             	</a>
             </div>
          </div>
@@ -37,7 +45,7 @@
       <div class="catagory_viewfield field_label" style="margin-right: 5px;">
          Name
          <div class="dd_bg">
-            <%= f.text_field :name, :class=>"dd_input",:maxlength =>"64", :id => "name", :placeholder => "Enter Name"%>
+            <%= f.text_field :name, :class=>"dd_input text_input_field", :style => "width: 460px;", :maxlength =>"64", :id => "name", :placeholder => "Enter Name", :readonly => true %>
          </div>
       </div>
       <div class="clearfix"></div>
@@ -45,7 +53,7 @@
       <div class="catagory_viewfield field_label" style="margin-right: 5px;">
          Description
          <div class="dd_bg ">
-            <%= f.text_area :descr, :class=>"dd_input",:placeholder=>"Enter description",:cols => '62', :id => "descr", :style=>"width: 460px; height: 110px;"%>
+            <%= f.text_area :descr, :class=>"dd_input text_input_field",:placeholder=>"Enter description",:cols => '62', :id => "descr", :style=>"width: 460px; height: 110px;", :readonly => true %>
          </div>
       </div>
       <div class="clearfix"></div>
@@ -54,7 +62,16 @@
       <div class="catagory_viewfield field_label" style="margin-right: 5px;">
          Last Revision
          <div class="dd_bg">
-            <%= f.text_field :last_rev, :class=>"dd_input", :maxlength =>"64"%>
+            <%= f.text_field :last_rev, :class=>"dd_input text_input_field", :style => "width: 460px;", :maxlength =>"64", :readonly => true %>
+         </div>
+      </div>
+      <div class="clearfix"></div>
+      <br/>
+
+      <div class="catagory_viewfield field_label" style="margin-right: 5px;">
+         Support Email
+         <div class="dd_bg">
+            <%= f.text_field :mail_to, :class=>"dd_input text_input_field", :style => "width: 460px;", :maxlength =>"64", :readonly => true %>
          </div>
       </div>
       <div class="clearfix"></div>
@@ -72,12 +89,12 @@
       	<% if f.object.screen_shots.present? && @game.screen_shots.order(:id)[index-1]%>
       		<%= image_tag @game.screen_shots.order(:id)[index-1].image.url, height: '120', width: '120'%>
       	<% else %>
-      		<img src="/images/course_img_drop.png" alt="" class="imaa" height="120" width="120" />
+      		<img src="/images/game_screen_default.png" alt="" class="imaa" height="120" width="120" />
       	<% end %>
-        <div class="browse_link_div">          
+        <div class="browse_link_div image_input_field hide">          
           <a id="course_browse_btn" href="javascript:void(0)">
-            <%= ff.file_field :image, :class => 'file-opener', id: "screen_#{index}"%>
-            CLICK HERE TO UPLOAD
+            <%= ff.file_field :image, :class => 'file-opener', id: "screen_#{index}" %>
+            CLICK TO UPLOAD
           </a>
         </div>
       </div>
@@ -92,7 +109,7 @@
   Learning Objectives
   <%= f.fields_for :outcomes do |ff| %>
     <div class="dd_bg dd_input">
-      <%= ff.text_field :name, :style =>"width: 100%;" %>
+      <%= ff.text_field :name, :class => "text_input_field", :style =>"width: 100%;", :readonly => true %>
     </div>
     <br/>
   <% end %>
@@ -152,10 +169,17 @@
     $('#close_modal').click(function(){
     	$('.add_task_popup').hide();
     })
-    $('#btn_game_save').click(function(){
+    
+    <% if action_name == 'add_game' %>
+    enableAddMode();
+    <% end %>
+    
+    // Save
+    $('#btn_game_save').unbind('click').bind('click', function(){
     	name = $('form.save-game input#name').val();
     	descr = $('form.save-game textarea#descr').val();
     	last_rev = $('form.save-game input#last_rev').val();
+    	mail_to = $('form.save-game input#mail_to').val();
     	image = $('form.save-game input#gamePhoto').val() || gameId;
     	if(name.length == 0 || descr.length == 0 || image.length == 0){
 	    	if(name.length == 0 && descr.length == 0 && image.length == 0){
@@ -179,14 +203,48 @@
 				else if(image.length == 0){
 					$(".add_task_popup .boxadnt").html("Main image can't be blank");
 				}
-				else{}
 	      $(".add_task_popup").show();
     	}
-    	else{
-      	$('form.save-game').submit();   		
+    	else {
+        $('form.save-game').submit();
+        enableViewMode();
     	}
 
     })
+  });
+  
+  // $('form.save-game').submit(function(event) {
+  //   event.preventDefault(); // Prevent the form from submitting via the browser
+  //   var form = $(this);
+  //   $.ajax({
+  //     type: form.attr('method'),
+  //     url: form.attr('action'),
+  //     data: form.serialize()
+  //   }).done(function(data) {
+  //     // Optionally alert the user of success here...
+  //     updateGameId(data.id);
+  //     enableViewMode();
+  //   }).fail(function(data) {
+  //     // Optionally alert the user of an error here...
+  //   });
+  // });
+  //
+  
+  // Edit
+  $("#btn_game_edit").unbind('click').bind('click', function(){
+    var gameId = "<%= @game.id%>";
+    showSpinner(true);
+    var filter = $(".side_tab_open:first").attr("filter");
+    
+    $.ajax({
+      type: "GET",
+      url: "/gamecenter/edit_game?id="+gameId,
+      data: {filter:filter, show:"add_badge"},
+      success: function(data) {
+        enableEditMode();
+        showSpinner(false);
+      }
+    });
   });
 
   $(document).ready(function(){
@@ -194,17 +252,59 @@
     var gameCategory = "<%= current_tab%>";
     var myGame = gameCategory == 'my_games';
 
+    enableViewMode();
+    
     if(gameId.length == 0){
       $('#leader_tabs').hide();
     }
-    $('#leader_tabs a#game_main').attr('game-id', gameId).attr('my-game', myGame);
-    $('#leader_tabs a#download_page').attr('game-id', gameId).attr('my-game', myGame);
-    $('#leader_tabs a#support').attr('game-id', gameId).attr('my-game', myGame);
-    $('#leader_tabs a#achivements').attr('game-id', gameId).attr('my-game', myGame);
-    $('#leader_tabs a#leaderboard').attr('game-id', gameId).attr('my-game', myGame);
+    // Make sure all the buttons have the correct game id
+    $('.id_link').attr('game-id', gameId).attr('my-game', myGame);
+    
     $('#student_leader_tabs').hide();
   })  
 
+  function enableAddMode() {
+    $('#btn_game_view').addClass('hide')
+    $('#btn_game_edit').addClass('hide');
+    $('#btn_game_save').removeClass('hide');
+    $('#btn_view_forums').addClass('hide');
+    
+    $('.text_input_field').attr('readonly', false);
+    $('.image_input_field').removeClass('hide');
+    
+    $('#name').focus();
+  }
+  
+  function enableEditMode() {
+    $('#btn_game_edit').addClass('hide');
+    $('#btn_game_save').removeClass('hide');
+    
+    $('.text_input_field').attr('readonly', false);
+    $('.image_input_field').removeClass('hide');
+    
+    $('#name').focus();
+  }
+  
+  function enableViewMode() {
+    $('#btn_game_view').removeClass('hide')
+    $('#btn_game_archive').removeClass('hide')
+    $('#btn_game_edit').removeClass('hide');
+    $('#btn_view_forums').removeClass('hide');
+    $('#btn_game_save').addClass('hide');
+<% if @game.id and !gamecenter_write_access(@game.id) %>
+    $('#all_badges').addClass('hide');
+<% end %>
+        
+    $('.text_input_field').attr('readonly', true);
+    $('.image_input_field').addClass('hide');
+
+    $('#leader_tabs').show();
+  }
+  
+  function updateGameId(gameId) {
+    $('#id_link').attr('game-id', gameId);
+  }
+  
 </script>
 <style type="text/css">
   .field_label, .field_label4{text-transform: none;}
