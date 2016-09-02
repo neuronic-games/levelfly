@@ -32,7 +32,7 @@
             <a href="javascript:void(0)" class="side_tab side_tab_close id_link" id="download_page" filter="download"><span class="task_tab">Download</span></a>
             <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab id_link" id="all_badges" filter="all_badges"><span class="task_tab">Rewards</span></a>
             <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab id_link" id="achivements" filter="achivements"><span class="task_tab">My Badges</span></a>
-            <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab hide id_link" id="game_stats" filter="game_stats"><span class="task_tab">Stats</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab hide id_link" id="game_stats" filter="game_stats"><span class="task_tab">My Stats</span></a>
             <a href="javascript:void(0)" class="side_tab side_tab_close id_link hide" id="leaderboard" filter="leaderboard"><span class="task_tab">Leader Board</span></a>
           </div>
           <!-- sub category tabs -->
@@ -166,6 +166,26 @@ $(document).ready(function(){
       }
     });  
   });
+
+  $("#game_stats").unbind('click').bind('click', function(){
+    showSpinner(true);
+    var gameId = $(this).attr('game-id')
+    var myGame = $(this).attr('my-game');
+    var filter = $(".side_tab_open:first").attr("filter");
+    $('.side_tab').addClass("side_tab_close").removeClass("side_tab_open");
+    $(this).addClass("side_tab_open").removeClass("side_tab_close");
+    $.ajax({
+
+      type: "GET",
+      url: "/gamecenter/view_game_stats?game_id="+gameId+"&my_game="+myGame,
+      data: {filter:filter, show:"all_badges"},
+      success: function(data) {
+        $("#forum-data").html('');
+        $("#rows").html(data);
+        showSpinner(false);
+      }
+    });  
+  });
   
   $("#achivements").unbind('click').bind('click', function(){
     showSpinner(true);
@@ -237,6 +257,7 @@ function bindMenuButtons(id) {
       }
     });  
   });
+
 }
 
 // Retrieve tasks based on the current filters

@@ -458,6 +458,7 @@ Oncapus::Application.routes.draw do
   get "gamecenter/edit_game"
   put "gamecenter/update_game"
   post "gamecenter/update_game"
+  get "gamecenter/view_game_stats"
   get "gamecenter/download"
   get "gamecenter/support"
   get "gamecenter/all_badges"
