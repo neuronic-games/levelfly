@@ -11,6 +11,7 @@ class Attachment < ActiveRecord::Base
     :storage => :s3,
     :s3_credentials => { :access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET'] },
     :path => "schools/:school/files/:target/:target_id/:filename",
+    # :path => "schools/:school/files/:target/:target_id/:id/:filename",  This is the correct solution to allow for files of the same name, but we need to write a script to move all files to the new location
     :bucket => ENV['S3_PATH'],
     :s3_protocol => ENV['S3_PROTOCOL']
 

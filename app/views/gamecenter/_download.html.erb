@@ -1,3 +1,10 @@
+<!-- Side context buttons -->
+<div id="sidebar_right">
+  <div id="course_side_buttons" class="course_side_buttons">    
+    <a class="big_blue_btn id_link" name="btn_view_forums" href="javascript:void(0)" id="btn_view_forums">FORUMS</a>
+  </div>
+</div>
+
 <%= form_for @game, url: url, :html => {:class => 'save-game'}, :remote => true do |f| %>
 	<%= hidden_field_tag :id, @game.id%>
 	<%= hidden_field_tag :download_tab, true%>
@@ -41,7 +48,9 @@
 var _edit = false;
 
 $(document).ready(function() {
+  var gameId = "<%= @game.id%>";
   enableViewMode();
+  bindMenuButtons(gameId);
 });
 
 $("#btn_game_edit").unbind('click').bind('click', function() {

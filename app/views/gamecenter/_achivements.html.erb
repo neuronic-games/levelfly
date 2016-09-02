@@ -1,3 +1,10 @@
+<!-- Side context buttons -->
+<div id="sidebar_right">
+  <div id="course_side_buttons" class="course_side_buttons">    
+    <a class="big_blue_btn id_link" name="btn_view_forums" href="javascript:void(0)" id="btn_view_forums">FORUMS</a>
+  </div>
+</div>
+
 <div class="LB_tableheader">
   <div class="LBT_ava">&nbsp;</div>
   <div class="LBT_ava">BADGE ID</div>
@@ -49,9 +56,11 @@
   <script type="text/javascript">
     $(document).ready(function(){
 
+      var gameId = "<%= @game.id%>";
       var _edit = false;
       
       enableViewMode();
+      bindMenuButtons(gameId);
     
       $("#btn_game_edit").unbind('click').bind('click', function() {
         enableEditMode();
