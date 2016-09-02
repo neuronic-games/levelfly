@@ -53,7 +53,7 @@ class Game < ActiveRecord::Base
     return feat.progress if feat
     return 0
   end
-  
+
   # Returns the total time that a player has been active in a game
   def get_duration(profile_id)
     dur = Feat.where(game_id: self.id, profile_id: profile_id, progress_type: Feat.duration).sum(:progress)
@@ -107,6 +107,41 @@ class Game < ActiveRecord::Base
     feat = Feat.where(:profile_id => profile_id).first
     return true if feat
     return false
+  end
+  
+  def list_feats(profile_id, limit = 100)
+    @feats = []
+    @profile = Profile.find(profile_id)
+    feat_list = Feat.where(game_id: self.id, profile_id: profile_id)
+      .order("created_at desc")
+      .limit(limit)
+
+    feat_list.each do |feat|
+      case feat.progress_type
+      when Feat.login
+        @feats << "[#{feat.created_at}] #{@profile.full_name} logged into #{self.name}"
+      when Feat.xp
+        @feats << "[#{feat.created_at}] #{@profile.full_name} has a current XP of #{feat.progress}"
+      when Feat.score
+        @feats << "[#{feat.created_at}] #{@profile.full_name} has a current score of #{feat.progress}"
+      when Feat.badge
+        badge = Badge.find_by_id(feat.progress)
+        if badge
+          @feats << "[#{feat.created_at}] #{@profile.full_name} acquired #{badge ? badge.name : 'unknown'} badge"
+        end
+      when Feat.rating
+        @feats << "[#{feat.created_at}] #{@profile.full_name} acquired a #{feat.outcome_feat.rating} rating in '#{feat.outcome.name}'"
+      when Feat.game_level
+        @feats << "[#{feat.created_at}] #{@profile.full_name}"
+      when Feat.duration
+        @feats << "[#{feat.created_at}] #{@profile.full_name} was active for #{feat.progress} seconds"
+      else
+        @feats << "[#{feat.created_at}] #{@profile.full_name} received #{feat.progress} in type #{feat.progress_type}"
+      end
+      @feats.last << " on #{feat.level}" if !feat.level.nil?
+    end
+    
+    return @feats
   end
   
   private

@@ -19,7 +19,7 @@
   <tr class="course_row">
     <td>
       <a href="/course/show_forum/<%=c.id%>" class="view" rel="<%=c.id%>">
-        <img src="<%= is_profile_accessible?(c.owner) ? c.image_file : profile_icon_default %>" width="100" height="100" alt="<%=c.name%>" />
+        <img src="<%= git add?(c.owner) ? c.image_file : profile_icon_default %>" width="100" height="100" alt="<%=c.name%>" />
       </a>
     </td> 
     <td>

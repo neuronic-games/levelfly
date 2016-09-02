@@ -322,8 +322,6 @@ class GamecenterController < ApplicationController
   end
   
   def list_progress
-    @feats = []
-
     handle = params[:handle]
     game = Game.find_by_handle(handle)
     return if game.nil?
@@ -332,35 +330,7 @@ class GamecenterController < ApplicationController
     limit = 100 if limit.nil?
 
     profile_id = current_user.default_profile.id
-    
-    feat_list = Feat.where(game_id: game.id, profile_id: profile_id)
-      .order("created_at desc")
-      .limit(limit)
-
-    feat_list.each do |feat|
-      case feat.progress_type
-      when Feat.login
-        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} logged into #{game.name}"
-      when Feat.xp
-        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} has a current XP of #{feat.progress}"
-      when Feat.score
-        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} has a current score of #{feat.progress}"
-      when Feat.badge
-        badge = Badge.find_by_id(feat.progress)
-        if badge
-          @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} acquired #{badge ? badge.name : 'unknown'} badge"
-        end
-      when Feat.rating
-        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} acquired a #{feat.outcome_feat.rating} rating in '#{feat.outcome.name}'"
-      when Feat.game_level
-        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name}"
-      when Feat.duration
-        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} was active for #{feat.progress} seconds"
-      else
-        @feats << "[#{feat.created_at}] #{current_user.default_profile.full_name} received feat #{feat.progress} in #{feat.progress_type}"
-      end
-      @feats.last << " on #{feat.level}" if !feat.level.nil?
-    end
+    @feats = @game.list_feats(cprofile_id, limit)
   end
   
   # Returns 50 top scores for your game
@@ -526,6 +496,13 @@ class GamecenterController < ApplicationController
   def download
     @game = Game.find(params[:game_id])
     render :partial => "/gamecenter/download", :locals => {:url => gamecenter_update_game_path }
+  end
+
+  def view_game_stats
+    @game = Game.find(params[:game_id])
+    @feats = @game.list_feats(current_profile.id)
+    
+    render :partial => "/gamecenter/game_stats", :locals => {:url => gamecenter_update_game_path }
   end
 
   def support

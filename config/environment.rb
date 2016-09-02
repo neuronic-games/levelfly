@@ -1,7 +1,7 @@
 # Load the rails application
 require File.expand_path('../application', __FILE__)
 
-APP_VERSION = '1.8.1'
+APP_VERSION = '1.8.2'
 
 # Initialize the rails application
 Oncapus::Application.initialize!

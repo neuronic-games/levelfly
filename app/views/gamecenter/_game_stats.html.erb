@@ -1,0 +1,35 @@
+<!-- side context buttons -->
+<div id="sidebar_right">
+  <div id="course_side_buttons" class="course_side_buttons">    
+    <a class="big_blue_btn id_link" name="btn_view_forums" href="javascript:void(0)" id="btn_view_forums">FORUMS</a>
+  </div>
+</div>
+
+<!-- main content -->
+<div class="gamecenter_header">Total XP</div>
+<%=h @game.get_xp(current_profile.id) %>
+<div class="clearfix"></div><br />
+
+<div class="gamecenter_header">Total Score</div>
+<%=h @game.get_score(current_profile.id) %>
+<div class="clearfix"></div><br />
+
+<div class="gamecenter_header">Total Activity</div>
+<%=h distance_of_time_in_words(@game.get_duration(current_profile.id)) %>
+<div class="clearfix"></div><br />
+
+<div class="gamecenter_header">LATEST ACTIVITY</div>
+<span style="color: black;">
+<% @feats.each do |feat| %>
+<%=h feat %><br />
+<% end %>
+</span>
+
+<script type="text/javascript">		
+
+$(document).ready(function() {
+  var gameId = "<%= @game.id%>";
+  bindMenuButtons(gameId);
+});
+
+</script>
