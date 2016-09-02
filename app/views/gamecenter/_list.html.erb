@@ -63,15 +63,15 @@
     </div>
   </div>
 </div>
-  <div id="sidebar_right">
-    <div id="course_side_buttons" class="course_side_buttons">    
-      <%if !student?%>
-      <a class="big_blue_btn" name="menu_btn_add_game" href="javascript:void(0)" id="add_game">ADD GAME</a>
-      <% end %>
-      <a class="big_blue_btn id_link hide" name="btn_view_forums" href="javascript:void(0)" id="btn_view_forums">FORUMS</a>
-      <a class="big_blue_btn id_link hide" name="menu_btn_add_badge" href="javascript:void(0)" id="add_badge">ADD BADGE</a>
-    </div><!-- crud_level -->
-  </div>
+
+<!-- side context buttons -->
+<div id="sidebar_right">
+  <div id="course_side_buttons" class="course_side_buttons">    
+    <%if !student?%>
+    <a class="big_blue_btn" name="menu_btn_add_game" href="javascript:void(0)" id="add_game">ADD GAME</a>
+    <% end %>
+  </div><!-- crud_level -->
+</div>
 
 <!-- <span class="default-listing-page"></span> -->
 
@@ -147,33 +147,6 @@ $(document).ready(function(){
     });  
   });
 
-  $("#btn_view_forums").unbind('click').bind('click', function(){    
-    showSpinner(true);
-    $(this).addClass('hide');
-    var gameId = $(this).attr('game-id');
-    var myGame = $(this).attr('my-game');  // Did I create this game?
-    if(myGame == 'true'){
-      var currentTab = 'my_games'      
-    }
-    var filter = $(".side_tab_open:first").attr("filter");
-    $.ajax({
-
-      type: "GET",
-      url: "/gamecenter/support?game_id="+gameId,
-      data: {filter:filter, show:"support"},
-      success: function(data) {
-        $('.leader_content').hide()
-        $('.top-scale').hide()
-        $("#forum-data").show();
-        $("#forum-data").html(data);
-        $("#rows").html('');
-        gameViewUrl="/gamecenter/edit_game?id="+gameId+"&current_tab="+currentTab,
-        $(".side_game_open:first").attr('game-view-url', gameViewUrl);
-        showSpinner(false);
-      }
-    });  
-  });
-
   $("#all_badges").unbind('click').bind('click', function(){
     showSpinner(true);
     var gameId = $(this).attr('game-id')
@@ -234,6 +207,37 @@ $(document).ready(function(){
   });
   
 });
+
+function bindMenuButtons(id) {
+  $('.id_link').attr('game-id', id);
+  
+  $("#btn_view_forums").unbind('click').bind('click', function(){    
+    showSpinner(true);
+    $(this).addClass('hide');
+    var gameId = $(this).attr('game-id');
+    var myGame = $(this).attr('my-game');  // Did I create this game?
+    if(myGame == 'true'){
+      var currentTab = 'my_games'      
+    }
+    var filter = $(".side_tab_open:first").attr("filter");
+    $.ajax({
+
+      type: "GET",
+      url: "/gamecenter/support?game_id="+gameId,
+      data: {filter:filter, show:"support"},
+      success: function(data) {
+        $('.leader_content').hide()
+        $('.top-scale').hide()
+        $("#forum-data").show();
+        $("#forum-data").html(data);
+        $("#rows").html('');
+        gameViewUrl="/gamecenter/edit_game?id="+gameId+"&current_tab="+currentTab,
+        $(".side_game_open:first").attr('game-view-url', gameViewUrl);
+        showSpinner(false);
+      }
+    });  
+  });
+}
 
 // Retrieve tasks based on the current filters
 function getRows() {

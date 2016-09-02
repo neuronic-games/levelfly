@@ -1,3 +1,10 @@
+<!-- Side context buttons -->
+<div id="sidebar_right">
+  <div id="course_side_buttons" class="course_side_buttons">    
+    <a class="big_blue_btn id_link" name="btn_view_forums" href="javascript:void(0)" id="btn_view_forums">FORUMS</a>
+  </div>
+</div>
+
 <div class="LB_tableheader">
   <div class="LBT_rank">RANK</div>
   <div class="LBT_ava" style="width:80px;">&nbsp;</div>
@@ -29,3 +36,12 @@
     <div class="LBT_name">No Players</div>
   </div>
 <% end %>
+
+<script type="text/javascript">		
+
+$(document).ready(function() {
+  var gameId = "<%= @game.id%>";
+  bindMenuButtons(gameId);
+});
+
+</script>
