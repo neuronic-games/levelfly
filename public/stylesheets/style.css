@@ -1590,6 +1590,11 @@ a.icon_gamecenter_setting_active {
 	padding:58px 0 0;
 	color:#6a7c28 !important;
 }
+.gamecenter_header {
+	font-family: 'CollegeRegular';
+	font-size:18px;
+	color:#b3c76a;
+}
 
 a.icon_groups {
 	background:url(../images/groups_icon.png) no-repeat 17px 9px;
