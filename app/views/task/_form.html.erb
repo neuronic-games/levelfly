@@ -120,8 +120,8 @@ function addNode(element) {
 
                 <div class="field_box2 font_12px"> Description
                   <fieldset>
-                    <div class="dd_bg" style="height:100px;">
-                      <%= auto_link(@task.descr) if @task %>
+                    <div class="dd_bg" style="height:100px; overflow-y:scroll;">
+                      <%= formatted_html_content(@task.descr) if @task %>
                     </div>
                   </fieldset>
                 </div>
