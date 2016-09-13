@@ -12,7 +12,7 @@
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
       <div class="LBT_rank"><%= p.rank %></div>
       <div class="LBT_ava">
-        <div class="avatarWbdr"><img src="<%= is_profile_accessible?(p) ? p.image_file_name : profile_icon_default%>" class="profile" profile_id="<%= p.id %>" /></div>
+        <div class="avatarWbdr"><img src="<%= is_profile_accessible?(p) ? p.image_file_name : Profile.default_avatar_image %>" class="profile" profile_id="<%= p.id %>" /></div>
       </div>
       <div class="LBT_name"> <span class="name_txt"><%= is_profile_accessible?(p) ? p.full_name : 'Private'%> </span><br />
       <span class="course_txt"><%= is_profile_accessible?(p) ? p.major_school : ''%></span> </div>

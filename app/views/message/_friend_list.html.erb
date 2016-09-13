@@ -1,7 +1,7 @@
 <!--friend box-->
 <div class="friend_box" id="friend_box_<%=friend.id%>">
   <div class="avatar_green_bdr">
-    <img src="<%=is_profile_accessible?(friend) ? friend.image_file_name : profile_icon_default%>" profile_id="<%=friend.id%>" class="profile"/>
+    <img src="<%=is_profile_accessible?(friend) ? friend.image_file_name : Profile.default_avatar_image %>" profile_id="<%=friend.id%>" class="profile"/>
   </div>
   <div class="txtboxfullwidth">
     <div class="txt">

@@ -19,7 +19,7 @@
   <tr class="course_row">
     <td>
       <a href="/course/show_forum/<%=c.id%>" class="view" rel="<%=c.id%>">
-        <img src="<%= is_profile_accessible?(c.owner) ? c.image_file : profile_icon_default %>" width="100" height="100" alt="<%=c.name%>" />
+        <img src="<%= is_profile_accessible?(c.owner) ? c.image_file : Profile.default_avatar_image  %>" width="100" height="100" alt="<%=c.name%>" />
       </a>
     </td> 
     <td>
@@ -36,7 +36,7 @@
     <td style="text-align:center;">
       <% if c.owner %>
       <div class="avatar_white_bdr">
-        <img src="<%=is_profile_accessible?(c.owner) ? c.owner.image_file_name : profile_icon_default %>" profile_id="<%=c.owner.id%>" class="profile"/>
+        <img src="<%=is_profile_accessible?(c.owner) ? c.owner.image_file_name : Profile.default_avatar_image  %>" profile_id="<%=c.owner.id%>" class="profile"/>
       </div>
       <%= c.owner.full_name %>
       <% end %>

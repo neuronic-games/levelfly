@@ -24,7 +24,7 @@
         <% @participant.each do |p|%>
           <tr class="<%= cycle("GB_odd","")%>">
             <td class="avatar_box td_align">
-              <div class="small_avatar_white_bdr profile" profile_id="<%= p.profile_id %>"><img width="35" src="<%= is_profile_accessible?(p.profile) ? p.profile.image_file_name : profile_icon_default%>"></div>
+              <div class="small_avatar_white_bdr profile" profile_id="<%= p.profile_id %>"><img width="35" src="<%= is_profile_accessible?(p.profile) ? p.profile.image_file_name : Profile.default_avatar_image %>"></div>
             </td>
             <td width="63%" class="Name_box td_align"><%= is_profile_accessible?(p.profile) ? p.full_name : 'Private'%></td><!-- td_align-->
             <%participant_grade, outcome_grade = CourseGrade.load_grade(p.profile_id, @course_id,@school_id)%>

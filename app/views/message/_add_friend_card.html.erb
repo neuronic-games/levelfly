@@ -3,7 +3,7 @@
 <div class="shadow_repeat">
   <div>    
     <div class="avatar_green_bdr">
-      <img onClick="user_profile(<%=profile.id%>);" src="<%=is_profile_accessible?(profile) ? profile.image_file_name : profile_icon_default%>" id="<%=profile.id%>" class="profile"/>
+      <img onClick="user_profile(<%=profile.id%>);" src="<%=is_profile_accessible?(profile) ? profile.image_file_name : Profile.default_avatar_image %>" id="<%=profile.id%>" class="profile"/>
       <% if current_user.has_role(Role.edit_user) %><a class="blue_bt19px" onclick="user_profile(<%=profile.id%>)">EDIT</a><% end %>
     </div>
     <div class="txt"> <span class="pop_name"><b><%=is_profile_accessible?(profile) ? profile.full_name : 'Private'%></b><br />

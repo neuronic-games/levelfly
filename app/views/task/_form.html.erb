@@ -170,7 +170,7 @@ function addNode(element) {
                             <div style="">
                               <input type="checkbox" name="chk_completion_people[]" id="<%=p.profile.id%>" class="check_box_completion"  value="<%=p.profile.id%>"/>
                               <div class=" avtar avatar_white_bdr" style="margin-left:0px;">
-                                <img src="<%=is_profile_accessible?(p.profile) ? p.profile.image_file_name : profile_icon_default%>" profile_id="<%=p.profile_id%>" class="profile"/>
+                                <img src="<%=is_profile_accessible?(p.profile) ? p.profile.image_file_name : Profile.default_avatar_image %>" profile_id="<%=p.profile_id%>" class="profile"/>
                               </div>
                               <div class="member_name">
                                 <%= is_profile_accessible?(p.profile) ? p.profile.full_name : 'Private' %> <br />
@@ -401,7 +401,7 @@ function addNode(element) {
                             <div style="">
                               <input type="checkbox" <%= @task && member_associate(p.profile_id, @task.id) ? "checked='checked'" : "" %> <%= @task.all_members ? "disabled='disabled'" : ""%> name="chk_task_people[]" id="<%=p.profile.id%>" class="check_box"  value="<%=p.profile.id%>"/>
                               <div class=" avtar avatar_white_bdr">
-                                <img src="<%=is_profile_accessible?(p.profile) ? p.profile.image_file_name : profile_icon_default%>" profile_id="<%=p.profile_id%>" class="profile"/>
+                                <img src="<%=is_profile_accessible?(p.profile) ? p.profile.image_file_name : Profile.default_avatar_image %>" profile_id="<%=p.profile_id%>" class="profile"/>
                               </div>
                               <div class="member_name">
                                 <%= is_profile_accessible?(p.profile) ? p.profile.full_name : 'Private' %> <br />

@@ -34,7 +34,7 @@
        </div>  
           <div class="group_image_name">
             <% if @courseMaster %>
-            <div class="avatar_white_bdr"><img  src="<%=is_profile_accessible?(@courseMaster) ? @courseMaster.image_file_name : profile_icon_default%>" /></div>
+            <div class="avatar_white_bdr"><img  src="<%=is_profile_accessible?(@courseMaster) ? @courseMaster.image_file_name : Profile.default_avatar_image %>" /></div>
             <div class="avatar_name"><%=is_profile_accessible?(@courseMaster) ? @courseMaster.full_name : 'Private'%></div> 
             <% end %>
           </div>
