@@ -218,7 +218,7 @@
         <% @current_friends.each do |f|%>
           <ul class="stat_icons_box2">
           <li class="width12">
-          <div class="avatar_white_bdr01"><img src="<%=is_profile_accessible?(f.profile) ? f.profile.image_file_name : profile_icon_default%>" profile_id="<%= f.profile.id %>" width="54" height="54" class ="profile"/></div>
+          <div class="avatar_white_bdr01"><img src="<%=is_profile_accessible?(f.profile) ? f.profile.image_file_name : Profile.default_avatar_image %>" profile_id="<%= f.profile.id %>" width="54" height="54" class ="profile"/></div>
           <span><%=is_profile_accessible?(f.profile) ? f.profile.full_name : 'Private'%></span></li>
         </ul>
         <%end%>

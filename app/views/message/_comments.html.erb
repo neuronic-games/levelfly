@@ -6,7 +6,7 @@
 <div class="msg_small_box comments_lists_box" id ="messsage_box_<%=comment.id%>" rel="<%=comment.id%>">
 	<div class="avatar_green_bdr_upper">
 		<div class="avatar_green_bdr">
-			<img src="<%= Profile.is_profile_accessible?(comment.profile_id, user_profile_id) ? comment.profile.image_file_name : profile_icon_default %>" profile_id="<%=comment.profile.id%>" class="profile" />
+			<img src="<%= Profile.is_profile_accessible?(comment.profile_id, user_profile_id) ? comment.profile.image_file_name : Profile.default_avatar_image  %>" profile_id="<%=comment.profile.id%>" class="profile" />
 		</div>
 	</div>
 	<div class="msg_small_box_fullwidth">

@@ -144,6 +144,21 @@ class Game < ActiveRecord::Base
     return @feats
   end
   
+  def list_outcomes(profile_id)
+    @profile = Profile.find(profile_id)
+    feat_list = Feat.where(game_id: self.id, profile_id: profile_id, progress_type: Feat.rating)
+      
+    outcome_list = {}
+    
+    feat_list.each do | feat |
+      outcome = feat.outcome
+      outcome_list[outcome] = [] unless outcome_list.include?(outcome)
+      outcome_list[outcome] << feat
+    end
+
+    return outcome_list
+  end
+  
   private
   
   # Generate a unique game handle. The game developer will use this handle to

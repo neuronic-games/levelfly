@@ -21,7 +21,7 @@
   %>
 
   <div class="avatar_white_bdr">
-    <img src="<%=profile_access ? friend_request.profile.image_file_name : profile_icon_default%>" profile_id ="<%=friend_request.profile.id%>" class="profile"/>
+    <img src="<%=profile_access ? friend_request.profile.image_file_name : Profile.default_avatar_image %>" profile_id ="<%=friend_request.profile.id%>" class="profile"/>
   </div>
   <div class="msg_box_fullwidth">
     <div class="positn_rtlv"><div class="msg_big_box_arrow"><img src="/images//blue_arrow.png" width="15px" height="21px" /></div></div>

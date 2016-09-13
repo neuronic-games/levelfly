@@ -14,7 +14,7 @@
       <li class="blackboard_list" id="<%=p.id%>" style="width:88%; height:88px;">
           <div >
             <div class="avatar_white_bdr floatL">
-              <img src="<%=is_profile_accessible?(p) ? p.image_file_name : profile_icon_default%>" profile_id="<%=p.id%>" rel="<%=@course.id if @course%>" class="profile"/>
+              <img src="<%=is_profile_accessible?(p) ? p.image_file_name : Profile.default_avatar_image %>" profile_id="<%=p.id%>" rel="<%=@course.id if @course%>" class="profile"/>
             </div>
 
             <div class="people_name" style="width:87%; margin:7px 3px;">
@@ -58,7 +58,7 @@
       <li class="blackboard_list" id="<%=p.id%>" style="width:88%; height:88px;">
       <div >
         <div class="avatar_white_bdr" style="float: left;">
-          <img src="<%=is_profile_accessible?(p) ? p.image_file_name : profile_icon_default%>" profile_id="<%=p.id%>" rel="<%=@course.id if @course%>" class="profile"/>
+          <img src="<%=is_profile_accessible?(p) ? p.image_file_name : Profile.default_avatar_image %>" profile_id="<%=p.id%>" rel="<%=@course.id if @course%>" class="profile"/>
         </div>
         <div class="people_name" style="width:87%; margin:7px 3px;">
           <div class="floatL ellipsis" style="width:33%;margin:0 5px;"><%if p.full_name == nil %><%=p.user.email%><%else%><%=is_profile_accessible?(p) ? p.full_name : 'Private'%><%end%></div>

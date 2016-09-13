@@ -1,6 +1,6 @@
 <div class="note_big_box" id="note_box_<%=note.id%>">
   <div class="avatar_white_bdr">
-    <img src="<%=is_profile_accessible?(note.profile) ? note.profile.image_file_name : profile_icon_default%>" id="<%=note.profile_id%>" class='<%= (note.profile_id==user_session[:profile_id]) ? "" : "profile" %>'/>
+    <img src="<%=is_profile_accessible?(note.profile) ? note.profile.image_file_name : Profile.default_avatar_image %>" id="<%=note.profile_id%>" class='<%= (note.profile_id==user_session[:profile_id]) ? "" : "profile" %>'/>
   </div>
   
   <div class="note_box_fullwidth">
