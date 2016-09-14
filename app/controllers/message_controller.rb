@@ -93,6 +93,8 @@ class MessageController < ApplicationController
       @message.wall_id = wall_id
       @message.post_date = DateTime.now
 
+      @course = Course.find(params[:parent_id]) if @message.parent_type == 'C'
+      
       Message.transaction do
         if @message.save
           if params[:parent_id] && !params[:parent_id].nil? && ['C', 'G', 'F'].include?(@message.parent_type)
