@@ -116,7 +116,7 @@
       <%if !@outcomes.nil?%>
         <% @outcomes.each_with_index do |o,i|%>
         <ul class="outcomes_box">
-          <li class="odd" id ="li_<%=o.id%>"> <span class="oB_box01"><%=o.name%></span> <span class="oB_box02"> <span class="<%if @points[i].to_f >= 2.5%>oB_box001_gold <%elsif @points[i].to_f >= 1.5%> oB_box001_silver<%elsif @points[i].to_f == 0%><%else%>oB_box001 <%end%>"><%=@points[i]%></span> <span class="oB_box002"><%=formatted_html_content(o.descr)%>&nbsp;</span> </span> <span class="oB_box03">
+          <li class="odd" id ="li_<%=o.id%>"> <span class="oB_box01"><%=o.name%></span> <span class="oB_box02"> <span class="<%= Badge.outcome_rating_badge(@points[i].to_f) %>"><%=@points[i]%></span> <span class="oB_box002"><%=formatted_html_content(o.descr)%>&nbsp;</span> </span> <span class="oB_box03">
             <a class="blue_bt19px more_btn_stat" href="javascript:void(0);" id ="btn_<%=o.id%>" rel ="<%=o.id%>" >More</a></span> <span class="clear"></span> 
           <div class="hide" id ="achivers_<%=o.id%>">
              <%= render :partial=>"/course/top_achivers"%>

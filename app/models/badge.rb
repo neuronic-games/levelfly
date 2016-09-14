@@ -39,6 +39,12 @@ class Badge < ActiveRecord::Base
     badge = Badge.find(:first, :conditions=>["id = ? ",badge_id])
     return badge
   end
+  
+  def self.outcome_rating_badge(rating)
+    return 'oB_box001_gold' if rating >= 2.5
+    return 'oB_box001_silver' if rating >= 1.5
+    return 'oB_box001'
+  end
 
   def self.gold_outcome_badge(outcome_name,badge_creator)
     @badge = self.find_by_name("Gold Medal in #{outcome_name}")
