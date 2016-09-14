@@ -1444,7 +1444,7 @@ a.green_bt19px:hover {
 }
 .course_activity_list {
 	float:left;
-	width:50%;
+	width: 300px;
 	padding:10px 0 0 0;
 }
 .course_activity_list .CAL_01 {

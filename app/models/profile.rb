@@ -41,6 +41,34 @@ class Profile < ActiveRecord::Base
   def self.default_avatar_image
     return ENV["URL"] + '/images/wardrobe/null_profile.png'
   end
+  
+  def visible_avatar_image(viewer_profile_id, course_id = nil)
+     return self.image_file_name if is_public
+     
+     return self.image_file_name if self.id == viewer_profile_id
+     
+     viewer_profile = Profile.find(viewer_profile_id)
+     return self.image_file_name if viewer_profile.has_role(Role.edit_user)
+     
+     # Are you a student in the viewer's course
+     return self.image_file_name if course_id and Course.is_owner?(course_id, viewer_profile_id)
+     
+     return Profile.default_avatar_image
+  end
+
+  def visible_name_and_image(viewer_profile_id, course_id = nil)
+     return {name: self.full_name, image: self.image_file_name} if is_public
+     
+     return {name: self.full_name, image: self.image_file_name} if self.id == viewer_profile_id
+     
+     viewer_profile = Profile.find(viewer_profile_id)
+     return {name: self.full_name, image: self.image_file_name} if viewer_profile.has_role(Role.edit_user)
+     
+     # Are you a student in the viewer's course
+     return {name: self.full_name, image: self.image_file_name} if course_id and Course.is_owner?(course_id, viewer_profile_id)
+     
+     return {name: 'Private', image: Profile.default_avatar_image}
+  end
 
   def self.create_for_user(user_id, school_id, default = "DEFAULT")
     profile = Profile.find(:first, :conditions => ["user_id = ? and school_id = ?", user_id, school_id])

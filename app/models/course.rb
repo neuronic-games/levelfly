@@ -135,6 +135,15 @@ class Course < ActiveRecord::Base
     return Course.default_points_max - total_points
   end
 
+  def self.is_owner?(course_id, profile_id)
+    owner = Profile.find(
+      :first,
+      :include => [:participants],
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", course_id]
+    )
+    return owner.id == profile_id
+  end
+  
   def owner
     if @owner == nil
       @owner = Profile.find(
@@ -203,7 +212,7 @@ class Course < ActiveRecord::Base
     sorted_total_xp = Course.sort_top_achievers(sorted_gpa,school_id,course_id,"XP")
     return sorted_total_xp.uniq[0..4]
   end
-
+  
   def self.sort_top_achievers(students,school_id,course_id,sort_type)
     sorted_array = []
     outcome_grades = students.map(&:grade)
