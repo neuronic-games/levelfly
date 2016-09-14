@@ -144,16 +144,27 @@ class Game < ActiveRecord::Base
     return @feats
   end
   
-  def list_outcomes(profile_id)
+  def list_outcome_ratings(profile_id)
     @profile = Profile.find(profile_id)
     feat_list = Feat.where(game_id: self.id, profile_id: profile_id, progress_type: Feat.rating)
       
     outcome_list = {}
+    outcome_total_grade = {}
+    outcome_feat_count = {}
     
     feat_list.each do | feat |
       outcome = feat.outcome
-      outcome_list[outcome] = [] unless outcome_list.include?(outcome)
-      outcome_list[outcome] << feat
+      if !outcome_total_grade.include?(outcome)
+        outcome_total_grade[outcome] = 0.0
+        outcome_feat_count[outcome] = 0
+      end
+
+      outcome_total_grade[outcome] += feat.outcome_feat.rating
+      outcome_feat_count[outcome] += 1
+    end
+    
+    outcome_total_grade.each do | outcome, total_rating |
+      outcome_list[outcome] = total_rating / outcome_feat_count[outcome]
     end
 
     return outcome_list

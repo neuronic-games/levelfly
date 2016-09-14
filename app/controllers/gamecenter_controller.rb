@@ -501,7 +501,7 @@ class GamecenterController < ApplicationController
   def view_game_stats
     @game = Game.find(params[:game_id])
     @feats = @game.list_feats(current_profile.id)
-    @outcome_list = @game.list_outcomes(current_profile.id)
+    @outcome_list = @game.list_outcome_ratings(current_profile.id)
     
     render :partial => "/gamecenter/game_stats", :locals => {:url => gamecenter_update_game_path }
   end

@@ -19,12 +19,16 @@
 <div class="clearfix"></div><br />
 
 <div class="gamecenter_header">Outcomes</div>
-<% @outcome_list.each do |outcome, feat_list| %>
-<%=h outcome.name %>: 
-  <% feat_list.each do |feat| %>
-    <%=h feat.outcome_feat.rating %>
-  <% end %>
-<br />
+<% @outcome_list.each do |outcome, rating| %>
+
+<li>
+  <span class="oB_box01"><%=h outcome.name %></span>
+  <span class="oB_box02">
+    <span class="<%= Badge.outcome_rating_badge(rating) %>"><%= rating %></span>
+    <span class="oB_box002"><%=h formatted_html_content(outcome.descr) %>&nbsp;</span>
+  </span>
+</li>
+
 <% end %>
 <div class="clearfix"></div><br />
 
