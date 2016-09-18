@@ -503,6 +503,9 @@ class GamecenterController < ApplicationController
     @feats = @game.list_feats(current_profile.id)
     @outcome_list = @game.list_outcome_ratings(current_profile.id)
     
+    badge_id_list = Feat.where(game_id: @game.id, profile_id: @profile.id, progress_type: Feat.badge).select("distinct progress").pluck(:progress)
+    @badges = Badge.where(id: badge_id_list)
+  
     render :partial => "/gamecenter/game_stats", :locals => {:url => gamecenter_update_game_path }
   end
 
