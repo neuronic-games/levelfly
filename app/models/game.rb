@@ -9,6 +9,7 @@ class Game < ActiveRecord::Base
   has_many :outcomes, :dependent => :destroy
   has_many :screen_shots, :dependent => :destroy
   belongs_to :course
+  belongs_to :profile
   accepts_nested_attributes_for :outcomes, :allow_destroy => true
   accepts_nested_attributes_for :screen_shots, :allow_destroy => true
 

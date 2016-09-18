@@ -2,6 +2,7 @@
 <div id="sidebar_right">
   <div id="course_side_buttons" class="course_side_buttons">    
     <a class="big_blue_btn id_link" name="btn_view_forums" href="javascript:void(0)" id="btn_view_forums">FORUMS</a>
+    <a class="big_blue_btn id_link hide" name="btn_view_forums" href="javascript:void(0)" id="btn_add_badge">ADD BADGE</a>
   </div>
 </div>
 
@@ -66,7 +67,7 @@
       enableEditMode();
     });
 
-    $("#add_badge").unbind('click').bind('click', function(){
+    $("#btn_add_badge").unbind('click').bind('click', function(){
       var gameId = "<%= @game.id%>";
       showSpinner(true);
       $('#add_badge').addClass('hide');
@@ -104,7 +105,7 @@
       $('#btn_game_archive').removeClass('hide')
       $('#btn_game_edit').removeClass('hide');
       $('#btn_game_save').addClass('hide');
-      $('#add_badge').addClass('hide');
+      $('#btn_add_badge').addClass('hide');
 
       $('.text_input_field').attr('readonly', true);
       $('.image_input_field').addClass('hide');
@@ -116,7 +117,7 @@
     function enableEditMode() {
       $('#btn_game_edit').addClass('hide');
       $('#btn_game_save').addClass('hide');
-      $('#add_badge').removeClass('hide');
+      $('#btn_add_badge').removeClass('hide');
 
       $('.text_input_field').attr('readonly', false);
       $('.image_input_field').removeClass('hide');
