@@ -2,17 +2,18 @@
 <% user_profile_id = defined?(user_session[:profile_id]) ? user_session[:profile_id] : user_session_profile_id
     course_owner_param = defined?(course_owner) ? course_owner : false
     control_name = defined?(session[:controller]) ? session[:controller] : controll
+    @name_and_image = comment.profile.visible_name_and_image(user_profile_id, comment.parent_id)
 %>
 <div class="msg_small_box comments_lists_box" id ="messsage_box_<%=comment.id%>" rel="<%=comment.id%>">
 	<div class="avatar_green_bdr_upper">
 		<div class="avatar_green_bdr">
-			<img src="<%= Profile.is_profile_accessible?(comment.profile_id, user_profile_id) ? comment.profile.image_file_name : Profile.default_avatar_image  %>" profile_id="<%=comment.profile.id%>" class="profile" />
+			<img src="<%=h @name_and_image[:image] %>" profile_id="<%=comment.profile.id%>" class="profile" />
 		</div>
 	</div>
 	<div class="msg_small_box_fullwidth">
 		<div class="msg_small_box_arrow_pos"><div class="msg_small_box_arrow"><img src="/images/green_arrow.png" width="15px" height="21px" /></div></div>
 		<div class="msg_box_txt green_bg_msg_txt">
-			<p><strong><%= Profile.is_profile_accessible?(comment.profile_id, user_profile_id) ? comment.profile.full_name : 'Private'%></strong>   <div class="message_content_link"><%=auto_link(comment.formatted_content, :html => { :target => "_blank" })
+			<p><strong><%=h @name_and_image[:name] %></strong>   <div class="message_content_link"><%=auto_link(comment.formatted_content, :html => { :target => "_blank" })
 				%></div></p>
 			<div class="msg_bottom_links">
 			 <div class="time" rel ="<%=comment.id%>"><span class="words"><%= time_ago_in_words(comment.created_at) %> ago</span><span class="hide dates" ><%=gdt(comment.created_at)%></span></div>
