@@ -56,9 +56,7 @@
         dataType: 'json',
         error: function(){alert("Error");},
         success: function(data){
-          $('.privacy-notice').fadeIn(300);
-          $('.privacy-notice').text('Privacy settings updated').delay(3000).fadeOut(300);
-          // $('#dontshow_btn').click();
+          $("#privacy_settings_box").hide();
         }
       }); //Ajax
     })
