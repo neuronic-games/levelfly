@@ -141,6 +141,7 @@ class Course < ActiveRecord::Base
       :include => [:participants],
       :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", course_id]
     )
+    return false if owner.nil?
     return owner.id == profile_id
   end
   
