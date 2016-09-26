@@ -77,7 +77,7 @@ class Badge < ActiveRecord::Base
       badge.available_badge_image_id = badge.badge_image_id
       badge.quest_id = game_id  # We can use quest_id for storing game_id for now. But if we want to use if for other purposes, we need quest_type
     else
-      badge.descr = descr unless descr.blank?
+      badge.descr = descr if badge.descr.blank?
       badge.badge_image_id = badge_image_id unless badge_image_id.to_i == 0
       badge.available_badge_image_id = badge.badge_image_id
     end
