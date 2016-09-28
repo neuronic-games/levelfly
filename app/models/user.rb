@@ -164,6 +164,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.find_by_like_email(email)
+    at = User.arel_table
+    return User.where(at[:email].matches(email)).first
+  end
+  
   class << self
 
     def find_with_filters(id, profile_id,params, page = -1)
