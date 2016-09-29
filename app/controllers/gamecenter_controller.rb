@@ -688,6 +688,9 @@ class GamecenterController < ApplicationController
     @profiles_by_feats = Feat.where(game_id: @game.id).pluck(:profile_id).uniq
     profiles = Profile.where(:id => @profiles_by_feats).order("full_name")
 
+    @outcome_list = @game.outcomes
+    @outcome_list.delete_if { |outcome| outcome.name.blank? }
+
     user_csv = CSV.generate do |csv|
     
       row << "Player"
@@ -702,7 +705,9 @@ class GamecenterController < ApplicationController
       row << "Current Level"
       row << "Score"
       row << "Badge #"
-      # row << "ratings"
+      @outcome_list.each do |outcome|
+        row << outcome.name
+      end
     
       csv << row
 
@@ -726,6 +731,12 @@ class GamecenterController < ApplicationController
         @course_id_list = @profile.find_course_id_master_of
         participant = Participant.where(target_type: Participant.member_of_course, target_id: @course_id_list, profile_type: Participant.profile_type_student, profile_id: profile.id).first
         @course = participant ? Course.find(participant.target_id) : nil
+
+        @outcome_ratings = @game.list_outcome_ratings(profile.id)
+        @ratings = {}
+        @outcome_ratings.each do | outcome, rating |
+          @ratings[outcome.id] = rating
+        end
         
         row << profile.full_name
         row << (@course ? @course.name : "")
@@ -739,7 +750,9 @@ class GamecenterController < ApplicationController
         row << @game.get_level(profile.id)
         row << @game.get_score(profile.id)
         row << @game.get_badge_count(profile.id)
-        # row << "ratings"
+        @outcome_list.each do |outcome|
+          row << @ratings[outcome.id]
+        end
         
         csv << row
       end

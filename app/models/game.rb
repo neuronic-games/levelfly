@@ -72,7 +72,7 @@ class Game < ActiveRecord::Base
     feat = Feat.where(game_id: self.id, profile_id: profile_id).where("level is not null").last
     return feat ? feat.level : ""
   end
-  
+
   # Add the score feat to the leaderboard, if the user is not already on it
   def self.add_score_leader(feat, count = 50)
     add_new = true
