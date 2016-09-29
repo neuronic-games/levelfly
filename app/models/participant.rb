@@ -7,7 +7,10 @@ class Participant < ActiveRecord::Base
 
   @@profile_type_student = 'S'
   cattr_accessor :profile_type_student
-  
+
+  @@member_of_course = 'Course'
+  cattr_accessor :member_of_course
+
   # Participant.is_member_of(my_course.class.name, my_course.id, my_profile)
   def self.is_member_of(target_type, target_id, profile_id, profile_type = ['M', 'S'])
     is_participant = false

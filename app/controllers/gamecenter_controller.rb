@@ -678,4 +678,77 @@ class GamecenterController < ApplicationController
 
   end
 
+  def export_game_csv
+    row = []
+    return if params[:game_id].blank?
+    
+    @game = Game.find(params[:game_id])
+    @profile = Profile.find(params[:profile_id])
+    
+    @profiles_by_feats = Feat.where(game_id: @game.id).pluck(:profile_id).uniq
+    profiles = Profile.where(:id => @profiles_by_feats).order("full_name")
+
+    user_csv = CSV.generate do |csv|
+    
+      row << "Player"
+      row << "Course"
+      row << "Course Number"
+      row << "Semester"
+      row << "Year"
+      row << "Total Time"
+      row << "XP"
+      row << "Correct Answer #"
+      row << "Incorrect Answer #"
+      row << "Current Level"
+      row << "Score"
+      row << "Badge #"
+      # row << "ratings"
+    
+      csv << row
+
+      # Student Name
+      # Course Name
+      # Course Number
+      # Semester
+      # Year
+      # One column for each successful login: Show date stamp, time spent, and highest score per login
+      # Time spent overall
+      # XP
+      # Number of correct and incorrect answers
+      # Current Level
+      # Highest Score
+      # Number of Badges
+      # One column for each outcome: Show rating
+
+      profiles.each do | profile |
+        row = []
+
+        @course_id_list = @profile.find_course_id_master_of
+        participant = Participant.where(target_type: Participant.member_of_course, target_id: @course_id_list, profile_type: Participant.profile_type_student, profile_id: profile.id).first
+        @course = participant ? Course.find(participant.target_id) : nil
+        
+        row << profile.full_name
+        row << (@course ? @course.name : "")
+        row << (@course ? @course.code_section : "")
+        row << (@course ? @course.semester : "")
+        row << (@course ? @course.year : "")
+        row << Time.at(@game.get_duration(profile.id)).utc.strftime("%H:%M")
+        row << profile.xp_by_game(@game.id)
+        row << "" #"Correct Answer #"
+        row << "" #"Incorrect Answer #"
+        row << @game.get_level(profile.id)
+        row << @game.get_score(profile.id)
+        row << @game.get_badge_count(profile.id)
+        # row << "ratings"
+        
+        csv << row
+      end
+    
+    end
+    
+    filename = "game-" + @game.handle + "-" + Date.today.strftime("%Y%m%d") + ".csv"
+    send_data(user_csv, :type => 'test/csv', :filename => filename)
+
+  end
+  
 end

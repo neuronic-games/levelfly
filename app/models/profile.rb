@@ -20,6 +20,8 @@ class Profile < ActiveRecord::Base
   
   has_many :messages
   
+  @master_course_id_list = nil
+  
   acts_as_taggable
 
   scope :course_participants, ->(course_id, section_type) {
@@ -31,6 +33,14 @@ class Profile < ActiveRecord::Base
 
   def self.course_master_of(course_id)
     includes(:participants).where("participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", course_id).first
+  end
+  
+  # Cache the course list as well
+  def find_course_id_master_of
+    return @master_course_id_list unless @master_course_id_list.nil?
+    course_id_list = Participant.where(profile_id: self.id, target_type: Participant.member_of_course, profile_type: Participant.profile_type_master).pluck(:target_id)
+    @master_course_id_list = Course.where(course_id: course_id_list, archived: false, removed: false, school_id: self.school_id, course_id: 0).pluck(:id)
+    return @master_course_id_list
   end
 
   def self.demo_profile
