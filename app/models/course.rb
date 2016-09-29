@@ -502,15 +502,15 @@ class Course < ActiveRecord::Base
   end
 
   def self.all_archived_courses_by_school(school_id)
-    find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", true, false, 'C', school_id], :order => "name")
+    find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", true, false, Course.parent_type_course, school_id], :order => "name")
   end
 
   def self.all_courses_by_school(school_id)
-    find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, 'C', school_id], :order => "name")
+    find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, Course.parent_type_course, school_id], :order => "name")
   end
 
   def self.all_groups_by_school(school_id)
-    find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, 'G', school_id], :order => "name")
+    find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, Course.parent_type_group, school_id], :order => "name")
   end
 
   class << self

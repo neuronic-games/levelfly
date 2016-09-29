@@ -26,7 +26,7 @@
       <span class="course_txt player_school"><%= is_profile_accessible?(p) ? p.major_school : ''%></span> </div>
       <div class="LBT_xp"><%= is_profile_accessible?(p) ? p.xp_by_game(@game.id) : 'Private' %></div>
       <div class="LBT_game_score"><%= is_profile_accessible?(p) ? @game.get_score(p.id) : 'Private'%></div>
-      <div class="LBT_badges"><%= is_profile_accessible?(p) ? badge_count_by_game(@game.id, p.id) : 'Private'%></div>     
+      <div class="LBT_badges"><%= is_profile_accessible?(p) ? @game.get_badge_count(p.id) : 'Private'%></div>     
       <div class="LBT_time"><%= Time.at(@game.get_duration(p.id)).utc.strftime("%H:%M") %></div>     
       <div class="LBT_game_level"><%= @game.get_level(p.id) %></div>     
     </div>

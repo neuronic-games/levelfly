@@ -33,6 +33,12 @@ class Game < ActiveRecord::Base
     return 0
   end
   
+  def get_badge_count(profile_id, badge_id = nil)
+    return self.feats.where(profile_id: profile_id, progress_type: Feat.badge, progress: badge_id).count if badge_id
+    return self.feats.where(profile_id: profile_id, progress_type: Feat.badge).count
+  end
+  
+  
   # Returns a list of all player scores in descending order
   def get_all_scores_in_order(limit = 50)
     all_score = self.feats.where(progress_type: Feat.score).group(:profile_id).maximum(:progress)

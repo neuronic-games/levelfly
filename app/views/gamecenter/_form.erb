@@ -17,10 +17,12 @@
     <%= link_to "View", "/games/#{@game.id}", :id => "btn_game_view", :target => "_blank", :class => "big_blue_btn"%>
     <%= hidden_field_tag :game_id, @game.id%>
     <% if @game.id and gamecenter_write_access(@game.id) %>
-      <a class="big_blue_btn" name="menu_btn_archive" href="javascript:void(0)" id="btn_game_archive">Archive</a>
+      <a class="big_blue_btn" name="menu_btn_archive" href="javascript:void(0)" id="btn_game_archive hide">Archive</a>
       <!-- <a class="big_blue_btn" name="menu_btn_edit" href="javascript:void(0)" id="btn_game_edit">Edit</a> -->
     <% end %>
     <a href="javascript:void(0)" data-image-attach='false' name="btn_game_save" id="btn_game_save" class="big_orange_btn hide">SAVE</a>
+    <a class="big_blue_btn id_link hide" name="btn_export_csv" href="javascript:void(0)" id="btn_export_csv">EXPORT CSV</a>
+
   </div><!-- crud_level -->
 </div>
 
@@ -252,6 +254,11 @@
     });
   });
 
+  $('#btn_export_csv').unbind('click').bind('click', function() {
+    window.location = '/export_game_csv/' + <%=h @game.id %> + '?profile_id=' + <%=h current_profile.id %>;
+    return false;
+  });
+
   $(document).ready(function(){
     var gameId = "<%= @game.id%>";
     var gameCategory = "<%= current_tab%>";
@@ -291,12 +298,14 @@
   
   function enableViewMode() {
     $('#btn_game_view').removeClass('hide')
-    $('#btn_game_archive').removeClass('hide')
     $('#btn_game_edit').removeClass('hide');
     $('#game_stats').removeClass('hide');
     $('#leaderboard').removeClass('hide');
     $('#btn_game_save').addClass('hide');
-<% if @game.id and !gamecenter_write_access(@game.id) %>
+<% if @game.id and gamecenter_write_access(@game.id) %>
+    $('#btn_export_csv').removeClass('hide');
+    $('#btn_game_archive').removeClass('hide');
+<% else %>
     $('#all_badges').addClass('hide');
 <% end %>
         

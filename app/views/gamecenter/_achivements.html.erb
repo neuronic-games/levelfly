@@ -18,7 +18,7 @@
 <span class="index-page"></span>
 <% unless @badges.nil? %>
   <% @badges.each do |badge| %> 
-    <% badge_count = get_badge_count(badge.id, @profile.id, @game.id)%>
+    <% badge_count = @game.get_badge_count(@profile.id) %>
     
     <div class="LB_tablecontent <%= cycle("even", "odd") %>">
       <div class="LBT_ava">
