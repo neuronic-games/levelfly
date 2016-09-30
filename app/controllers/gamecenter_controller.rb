@@ -728,9 +728,15 @@ class GamecenterController < ApplicationController
       profiles.each do | profile |
         row = []
 
+        # What are the courses that you teach, if any?
         @course_id_list = @profile.find_course_id_master_of
         participant = Participant.where(target_type: Participant.member_of_course, target_id: @course_id_list, profile_type: Participant.profile_type_student, profile_id: profile.id).first
+
+        # Is the person in one of those courses?
         @course = participant ? Course.find(participant.target_id) : nil
+        
+        # Don't show people who are not in courses unless you are the admin
+        next if @course.nil? and !@profile.has_role(Role.modify_settings)
 
         @outcome_ratings = @game.list_outcome_ratings(profile.id)
         @ratings = {}
