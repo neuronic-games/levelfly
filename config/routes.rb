@@ -393,7 +393,7 @@ Oncapus::Application.routes.draw do
 
   match 'export_course_grade_csv/:course_id' => 'grade_book#export_course_grade_csv', :as => 'csv'
   match 'export_course_sectioned_csv/:course_id' => 'grade_book#export_course_sectioned_csv', :as => 'csv'
-  match 'export_game_csv/:game_id' => 'gamecenter#export_game_csv', :as => 'csv'
+  match 'export_game_csv/:game_id' => 'gamecenter#export_game_csv'
 
   match 'profile' => 'profile#index'
 
