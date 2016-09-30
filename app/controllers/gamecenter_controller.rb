@@ -700,8 +700,8 @@ class GamecenterController < ApplicationController
       row << "Year"
       row << "Total Time"
       row << "XP"
-      row << "Correct Answer #"
-      row << "Incorrect Answer #"
+      # row << "Correct Answer #"
+      # row << "Incorrect Answer #"
       row << "Current Level"
       row << "Score"
       row << "Badge #"
@@ -745,8 +745,8 @@ class GamecenterController < ApplicationController
         row << (@course ? @course.year : "")
         row << Time.at(@game.get_duration(profile.id)).utc.strftime("%H:%M")
         row << profile.xp_by_game(@game.id)
-        row << "" #"Correct Answer #"
-        row << "" #"Incorrect Answer #"
+        # row << "" #"Correct Answer #"
+        # row << "" #"Incorrect Answer #"
         row << @game.get_level(profile.id)
         row << @game.get_score(profile.id)
         row << @game.get_badge_count(profile.id)
