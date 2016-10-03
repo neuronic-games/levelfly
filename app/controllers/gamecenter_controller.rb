@@ -615,7 +615,7 @@ class GamecenterController < ApplicationController
         badge_image.image = params[:badge_image]
         badge_image.save!
         @badge.available_badge_image_id = nil
-      else
+      elsif params[:available_badge_image_id].present?
         @badge.badge_image_id = params[:available_badge_image_id]
         @badge.available_badge_image_id = params[:available_badge_image_id]
       end
