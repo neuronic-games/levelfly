@@ -25,12 +25,10 @@
             <div style="float:right;margin-right: 16px;">
               <div class="img-preview">
                 
-                <%if badge.try(:badge_image).present?%>
-                  <%if badge.available_badge_image_id.present? %>
-                    <%= image_tag badge.try(:available_image_url), height: '150', width: '150'%>
-                  <% else %>
-                    <%= image_tag badge.try(:badge_image).try(:image).try(:url), height: '150', width: '150'%>
-                  <% end %>
+                <%if badge.available_badge_image_id.present? %>
+                  <%= image_tag badge.try(:available_image_url), height: '150', width: '150'%>
+                <% elsif badge.try(:badge_image).present? %>
+                  <%= image_tag badge.try(:badge_image).try(:image).try(:url), height: '150', width: '150'%>
                 <% else %>
                   <%= image_tag '/images/course_img_default.jpg', height: '150', width: '150'%>
                 <% end %>

@@ -608,39 +608,41 @@ class GamecenterController < ApplicationController
 
   def save_badge    
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])    
+
     if params[:badge_id].present?
       @badge = Badge.find(params[:badge_id])
-      if params[:badge_image].present? && !params[:available_badge_image_id].present?
-        badge_image = @badge.badge_image
-        badge_image.image = params[:badge_image]
-        badge_image.save!
-        @badge.available_badge_image_id = nil
-      elsif params[:available_badge_image_id].present?
-        @badge.badge_image_id = params[:available_badge_image_id]
-        @badge.available_badge_image_id = params[:available_badge_image_id]
-      end
       @badge.name = params[:name]
       @badge.descr = params[:descr]
       @badge.creator_profile_id = @profile.id
       message = 'Badge Updated'
-    else params[:badge_image].present?
-      if params[:available_badge_image_id].present?
-        available_badge_image_id = params[:available_badge_image_id]
-      else
-        badge_image = BadgeImage.new()
-        badge_image.image = params[:badge_image]
-        badge_image.save!
-      end
+    else
       @badge = Badge.new
       @badge.name = params[:name]
       @badge.descr = params[:descr]
-      @badge.badge_image_id = badge_image.try(:id) || available_badge_image_id
       @badge.quest_id = params[:game_id]
       @badge.school_id = @profile.school_id
       @badge.creator_profile_id = @profile.id
-      @badge.available_badge_image_id = available_badge_image_id
+      @badge.available_badge_image_id = params[:available_badge_image_id]
       message = 'Badge Created'
     end
+
+    # Badge image
+    if params[:available_badge_image_id].present?
+      # Use stock badge image
+      @badge.badge_image_id = nil
+      @badge.available_badge_image_id = params[:available_badge_image_id]
+    else
+      if params[:badge_image].present?
+        # Use uploaded badge image
+        params[:available_badge_image_id].present?
+        badge_image = BadgeImage.new
+        badge_image.image = params[:badge_image]
+        badge_image.save!
+        @badge.badge_image_id = badge_image.id
+        @badge.available_badge_image_id = nil
+      end
+    end
+    
     if @badge.save        
       render :json => {:status => true, :message => message}
     else
