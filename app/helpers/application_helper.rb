@@ -28,13 +28,11 @@ module ApplicationHelper
   def gamecenter_write_access(game_id)
     current_user_profile = current_user.class.name == 'User' ? current_user.profiles.first : current_user
     @game = Game.find(game_id)
-    game_access = true
-    if current_user_profile.role_name_id == 1 
-      game_access = false
-    elsif current_user_profile.role_name_id == 2 && current_user_profile.id != @game.profile_id
-      game_access = false
-    else
+    game_access = false
+    if current_user_profile.role_name_id == RoleName.teacher && current_user_profile.id == @game.profile_id
       game_access = true
+    elsif current_user_profile.role_name_id == RoleName.community_admin || current_user_profile.role_name_id == RoleName.levelfly_admin
+      game_access = false
     end
     return game_access
   end

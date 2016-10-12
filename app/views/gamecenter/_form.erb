@@ -169,6 +169,9 @@
 
   $(document).ready(function() {
   	var gameId = "<%= @game.id%>";
+    var gameCategory = "<%= current_tab%>";
+    var myGame = (gameCategory == 'my_games');
+
     $("#add_game").addClass("hide");
     $('#leader_tabs').show();
     $('#close_modal').click(function(){
@@ -176,6 +179,18 @@
     })
     
     bindMenuButtons(gameId);
+
+    if(gameId.length == 0){
+      $('#leader_tabs').hide();
+    }
+    // Make sure all the buttons have the correct game id
+    $('.id_link').attr('game-id', gameId).attr('my-game', myGame);
+    
+    $('#student_leader_tabs').hide();
+    
+    <% if @game.id and gamecenter_write_access(@game.id) %>
+    enableOwnerMode();
+    <% end %>
     
     <% if action_name == 'add_game' %>
     enableAddMode();
@@ -258,22 +273,6 @@
     window.location = '/export_game_csv/' + <%=h @game.id %> + '?profile_id=' + <%=h current_profile.id %>;
     return false;
   });
-
-  $(document).ready(function(){
-    var gameId = "<%= @game.id%>";
-    var gameCategory = "<%= current_tab%>";
-    var myGame = gameCategory == 'my_games';
-
-    enableViewMode();
-    
-    if(gameId.length == 0){
-      $('#leader_tabs').hide();
-    }
-    // Make sure all the buttons have the correct game id
-    $('.id_link').attr('game-id', gameId).attr('my-game', myGame);
-    
-    $('#student_leader_tabs').hide();
-  })  
 
   function enableAddMode() {
     $('#btn_game_view').addClass('hide')
