@@ -32,7 +32,7 @@ module ApplicationHelper
     if current_user_profile.role_name_id == RoleName.teacher && current_user_profile.id == @game.profile_id
       game_access = true
     elsif current_user_profile.role_name_id == RoleName.community_admin || current_user_profile.role_name_id == RoleName.levelfly_admin
-      game_access = false
+      game_access = true
     end
     return game_access
   end
