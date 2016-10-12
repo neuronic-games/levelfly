@@ -598,14 +598,16 @@ class GamecenterController < ApplicationController
   def add_badge    
     @game = Game.find(params[:game_id])
     @badge = Badge.new
-    @badge_images = BadgeImage.where("image_file_name not in (?)","gold_badge.png").limit(48)
+    # default images
+    @badge_images = BadgeImage.where("image_file_size is null and image_file_name <> 'gold_badge.png'").order(:id).limit(40)
     render :partial =>"/gamecenter/add_game_badge", :locals=>{:profile_id=>current_user.id, :badge => @badge}
   end
 
   def edit_badge
     @game = Game.find(params[:game_id])    
     @badge = Badge.find(params[:id])
-    @badge_images = BadgeImage.where("image_file_name not in (?)","gold_badge.png").limit(48)
+    # default images
+    @badge_images = BadgeImage.where("image_file_size is null and image_file_name <> 'gold_badge.png'").order(:id).limit(40)
     render :partial =>"/gamecenter/add_game_badge", :locals=>{:profile_id=>current_user.id, :badge => @badge}
   end
 
