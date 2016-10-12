@@ -24,7 +24,7 @@ class BadgeImage < ActiveRecord::Base
     return ENV["URL"] + BadgeImage.base_url + "/" + self.image_file_name
   end
 
-  def available_image_by_badge(id)
+  def self.available_image_by_badge(id)
     badge_image = BadgeImage.find_by_id(id)
     return BadgeImage.base_url + "/" + badge_image.try(:image_file_name).to_s
   end

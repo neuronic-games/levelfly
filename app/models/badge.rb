@@ -92,7 +92,7 @@ class Badge < ActiveRecord::Base
   end
 
   def available_image_url
-    return badge_image.available_image_by_badge(available_badge_image_id)
+    return BadgeImage.available_image_by_badge(available_badge_image_id)
   end
 
 end
