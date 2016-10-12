@@ -30,10 +30,9 @@
           <div class="leader_tabs hide" align="right" id="leader_tabs">
             <a href="javascript:void(0)" class="side_tab side_tab_open id_link" id="game_main" filter="active"><span class="task_tab">Main</span></a>
             <a href="javascript:void(0)" class="side_tab side_tab_close id_link" id="download_page" filter="download"><span class="task_tab">Download</span></a>
-            <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab id_link" id="all_badges" filter="all_badges"><span class="task_tab">Rewards</span></a>
-            <!-- <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab id_link" id="achivements" filter="achivements"><span class="task_tab">My Badges</span></a> -->
-            <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab hide id_link" id="game_stats" filter="game_stats"><span class="task_tab">My Stats</span></a>
-            <a href="javascript:void(0)" class="side_tab side_tab_close id_link hide" id="leaderboard" filter="leaderboard"><span class="task_tab">Leader Board</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab id_link hide" id="all_badges" filter="all_badges"><span class="task_tab">Rewards</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close badges-tab id_link" id="game_stats" filter="game_stats"><span class="task_tab">My Stats</span></a>
+            <a href="javascript:void(0)" class="side_tab side_tab_close id_link" id="leaderboard" filter="leaderboard"><span class="task_tab">Leader Board</span></a>
           </div>
           <!-- sub category tabs -->
           <!-- Main Category tabs -->
@@ -227,6 +226,10 @@ $(document).ready(function(){
   });
   
 });
+
+function enableOwnerMode() {
+  $('#all_badges').removeClass('hide');
+}
 
 function bindMenuButtons(id) {
   $('.id_link').attr('game-id', id);

@@ -565,7 +565,10 @@ class GamecenterController < ApplicationController
   # Add badges created for a game
   def all_badges
     @game = Game.find(params[:game_id])
-    @badges = Badge.where(:quest_id => @game.id).order(:id)
+    @badges = []
+    if gamecenter_write_access(@game.id)
+      @badges = Badge.where(:quest_id => @game.id).order(:id)
+    end
 
     render :partial => "/gamecenter/all_badges", locals: { my_game: @game.my_game?(current_profile.id)}
   end
