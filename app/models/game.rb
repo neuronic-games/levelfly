@@ -1,12 +1,15 @@
 require 'digest'
+
+# Defines the playable games that show up under teh GameCenter
 class Game < ActiveRecord::Base
+  
   serialize :download_links, Hash
   PLATFORMS = ['ios', 'android', 'windows', 'mac', 'linux']
   validates :handle, :uniqueness => true
   belongs_to :school
   has_many :feats
   has_many :game_score_leaders
-  has_many :outcomes, :dependent => :destroy
+  has_many :outcomes, :dependent => :destroy, :order => 'id'
   has_many :screen_shots, :dependent => :destroy
   belongs_to :course
   belongs_to :profile
