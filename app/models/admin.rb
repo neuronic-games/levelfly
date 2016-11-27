@@ -1,5 +1,7 @@
+# Contains global methods for site maintenance
 class Admin < ActiveRecord::Base
   
+  # Remve all friends
   def self.clean_friends
     pmap = {}
     count = 0
@@ -33,6 +35,8 @@ class Admin < ActiveRecord::Base
     end
   end
 
+  # Make email addresses safe by changing them from the real one. We don't want to send out
+  # emails to real users during testing.
   def self.make_email_safe
     profiles = Profile.all
     profiles.each do |profile|
@@ -40,6 +44,7 @@ class Admin < ActiveRecord::Base
     end
   end
   
+  # Standardize email addresses. e.g. remove spaces and make them downcase
   def self.clean_bad_emails
     users = User.find(:all)
     users.each do |user|

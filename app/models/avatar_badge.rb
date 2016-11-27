@@ -4,6 +4,7 @@ belongs_to :profile
 belongs_to :giver_profile, :class_name => :Profile
 belongs_to :course
 
+  # Add a badge to the specified profile
   def self.add_badge(profile_id,badge_id,course_id = nil,giver_profile_id = nil)
     status = nil
     @student = Profile.find(profile_id)

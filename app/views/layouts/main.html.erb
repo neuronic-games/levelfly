@@ -379,6 +379,13 @@
                 <div class="icon_box"> <a href="javascript:void(0);" id="grade" rel="/grade_book/" rev = "/grade_book/" class="icon_grade menu_btn">Grade book</a> </div><%count=count+1%>
                 <div class="space_btwn_icon"></div>
               <%end%>
+              
+              <!-- Game Center Settings -->
+              <%#if Role.check_permission(@profile.id,Role.modify_settings) == true%>
+                <div class="icon_box"> <a href="javascript:void(0);" id="gamecenter" rel="/gamecenter/" rev = "/gamecenter/" class="icon_gamecenter_setting menu_btn">GameCenter</a> </div><%count=count+1%>
+                <div class="space_btwn_icon"></div>
+              <%#end%>
+             
                <!--icon-->
               <%if Role.check_permission(@profile.id,Role.modify_wardrobe) == true%>
               <div class="icon_box"> <a href="javascript:void(0);" id="wardrobe" rel="/wardrobe/" rev = "/wardrobe/" class="icon_wardrobe menu_btn">Wardrobe</a> </div><%count=count+1%>
@@ -399,12 +406,6 @@
                <div class="space_btwn_icon"></div>
              <%end%>
 
-              <!-- Game Center Settings -->
-              <%#if Role.check_permission(@profile.id,Role.modify_settings) == true%>
-                <div class="icon_box"> <a href="javascript:void(0);" id="gamecenter" rel="/gamecenter/" rev = "/gamecenter/" class="icon_gamecenter_setting menu_btn">GameCenter</a> </div><%count=count+1%>
-                <div class="space_btwn_icon"></div>
-              <%#end%>
-             
             </div>
           </div>
           <%if count>0%>
