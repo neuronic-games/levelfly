@@ -26,11 +26,14 @@
       </div>
       <div class="col-sm-8">
         <div class="game_detail">
-          <div> 
+          <!-- <div>
             <h4 class="text-info"><b> Description</b></h4>
-          </div>  
+          </div>   -->
           <h4>
-            <p class="text-info game_desc"><%= @game.descr%></p>
+            <p class="text-info game_desc"><%= @game.descr%>
+            </br />
+            <% if @guide_link.present? %>Click <a href="<%=h @guide_link %>" alt="guide" target="_window">here</a> for guides.<% end %>
+            </p>
           </h4>
         </div>  
       </div>

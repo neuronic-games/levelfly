@@ -392,6 +392,7 @@ class GamecenterController < ApplicationController
       when "iPhone"
         @download_link = @game.download_links['ios']
     end
+    @guide_link = @game.download_links['guide']
     @outcomes = @game.outcomes.limit(5)
     respond_to do |format|
       format.html {render :layout => 'public'}

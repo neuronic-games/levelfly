@@ -2,6 +2,7 @@
 <div id="sidebar_right">
   <div id="course_side_buttons" class="course_side_buttons">    
     <a class="big_blue_btn id_link" name="btn_view_forums" href="javascript:void(0)" id="btn_view_forums">FORUMS</a>
+    <a href="javascript:void(0)" data-image-attach='false' name="btn_game_save" id="btn_game_save" class="big_orange_btn hide">SAVE</a>
   </div>
 </div>
 
@@ -34,7 +35,7 @@
 		  <% Game::PLATFORMS.each do |pf|%>
 		    <%= pf.humanize%>    
 		    <div class="dd_bg dd_input">		      
-      		<%= text_field_tag "game[download_links][#{pf}]", f.object.download_links[pf], :class=>"dd_input text_input_field",:maxlength =>"64", :placeholder => pf%>		      
+      		<%= text_field_tag "game[download_links][#{pf}]", f.object.download_links[pf], :class=>"dd_input text_input_field dl_link",:maxlength =>"64", :placeholder => "Enter URL for download link" %>		      
 		    </div>
 		    <br/>
 		  <% end %>
@@ -55,6 +56,12 @@ $(document).ready(function() {
 
 $("#btn_game_edit").unbind('click').bind('click', function() {
   enableEditMode();
+});
+
+$(".dl_link").unbind('click').bind('click', function() {
+  if (!_edit) {
+    window.open($(this).val());
+  }
 });
 
 $('.dd_input').on('blur', function() {
@@ -99,6 +106,10 @@ function enableEditMode() {
   $('.image_input_field').removeClass('hide');
   _edit = true;
 }
+
+$('#btn_game_save').unbind('click').bind('click', function(){
+  enableViewMode();
+});
 
 </script>
 <style type="text/css">
