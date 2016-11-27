@@ -372,10 +372,6 @@ class GamecenterController < ApplicationController
     user_agent = UserAgent.parse(agent_by_request)
     platform = user_agent.platform
     conditions = ["profiles.archived = ? and user_id is not null", false]
-    @profiles = Profile.find(:all, :limit => 50,
-      :conditions => conditions,
-      :include => [:participants],
-      :order => "xp desc")
     @game = Game.find(params[:id])
 
     @download_link = ""
