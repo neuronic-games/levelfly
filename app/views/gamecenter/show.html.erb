@@ -16,9 +16,15 @@
         <div style="margin: 0px 0px 0px 14px;">
           <h2 class="game_name"><%= @game.name%></h2>
         </div>
-        <div>
+        <div style="color:#9cbbbb;">
           <ul>
-          <li><a href="<%=h @download_link %>" alt="guide" target="_window">Version <%=h @game.last_rev %></a></li>
+          <li>Version <%=h @game.last_rev %> 
+            <% if @game.download_links['ios'].present? %>| <a href="<%=h @game.download_links['ios'] %>" alt="Download iOS" target="_window">iOS</a><% end %>
+            <% if @game.download_links['mac'].present? %>| <a href="<%=h @game.download_links['mac'] %>" alt="Download Mac" target="_window">Mac</a><% end %>
+            <% if @game.download_links['android'].present? %>| <a href="<%=h @game.download_links['android'] %>" alt="Download Android" target="_window">Android</a><% end %>
+            <% if @game.download_links['linux'].present? %>| <a href="<%=h @game.download_links['linux'] %>" alt="Download Linux" target="_window">Linux</a><% end %>
+            <% if @game.download_links['windows'].present? %>| <a href="<%=h @game.download_links['windows'] %>" alt="Download Windows" target="_window">Win</a><% end %>
+          </li>
           <% if @guide_link.present? %><li><a href="<%=h @guide_link %>" alt="guide" target="_window">Download Guide</a></li><% end %>
           <% if !@game.mail_to.blank? %><li><a href="mailto:<%=h @game.mail_to %>?subject=Support for <%=h @game.name.tr('"', '') %>" alt="email">Email Support</a></li><% end %>
           </ul>
