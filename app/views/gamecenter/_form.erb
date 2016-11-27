@@ -14,7 +14,7 @@
   <div id="course_side_buttons" class="course_side_buttons">    
     <a class="big_blue_btn id_link" name="btn_view_forums" href="javascript:void(0)" id="btn_view_forums">FORUMS</a>
     <!-- <a class="big_blue_btn id_link hide" name="menu_btn_add_badge" href="javascript:void(0)" id="add_badge">ADD BADGE</a> -->
-    <%= link_to "View", "/games/#{@game.id}", :id => "btn_game_view", :target => "_blank", :class => "big_blue_btn"%>
+    <%= link_to "Website", "/games/#{@game.id}", :id => "btn_game_view", :target => "_blank", :class => "big_blue_btn"%>
     <%= hidden_field_tag :game_id, @game.id%>
     <% if @game.id and gamecenter_write_access(@game.id) %>
       <a class="big_blue_btn" name="menu_btn_archive" href="javascript:void(0)" id="btn_game_archive hide">Archive</a>
