@@ -1,7 +1,9 @@
+# Badges given to people
 class Badge < ActiveRecord::Base
   belongs_to :badge_image
   has_many :avatar_badges
 
+  # Read badges for specified profile
   def self.load_all_badges(profile)
     gold_image_id = BadgeImage.find_by_image_file_name("gold_badge.png")
     gold_image_id = gold_image_id ? gold_image_id.id : 0
@@ -13,6 +15,7 @@ class Badge < ActiveRecord::Base
     return @badges,@last_used
   end
 
+  # Returns true if the given profile does not have the specified badge for the course
   def self.check_badge(profile_id,badge_id,course_id)
     @badge = AvatarBadge.find(:first, :conditions=>["profile_id = ? and badge_id = ? and course_id = ?",profile_id,badge_id,course_id])
     if @badge.nil?

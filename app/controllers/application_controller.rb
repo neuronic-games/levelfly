@@ -3,7 +3,9 @@ class ApplicationController < ActionController::Base
   before_filter :set_current_profile
 
   # before_filter :prepare_for_mobile
-   include ApplicationHelper
+  include ApplicationHelper
+  
+  # Search people by email or name
   def search_participants
 		if params[:school_id] && !params[:school_id].empty?
 		search_text =  "#{params[:search_text]}%"
