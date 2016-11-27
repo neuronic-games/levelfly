@@ -45,6 +45,12 @@
             </div>
          </div>
       </div>
+      <div class="field_label" style="margin-top:215px;">
+        Created: <%=h change_date_format(@game.created_at) %><br />
+        <%if @game.id and gamecenter_write_access(@game.id) and !@game.handle.blank? %>
+          Handle: <%=h @game.handle %>
+        <% end %>
+      </div>
    </div>
    <div class="course_field_box1">
       <div class="catagory_viewfield field_label" style="margin-right: 5px;">
@@ -65,7 +71,7 @@
       <br/>
 
       <div class="catagory_viewfield field_label" style="margin-right: 5px;">
-         Last Revision
+         Version
          <div class="dd_bg">
             <%= f.text_field :last_rev, :class=>"dd_input text_input_field", :style => "width: 460px;", :maxlength =>"64", :readonly => true %>
          </div>
@@ -114,7 +120,10 @@
   Learning Objectives
   <%= f.fields_for :outcomes do |ff| %>
     <div class="dd_bg dd_input">
-      <%= ff.text_field :name, :class => "text_input_field", :style =>"width: 100%;", :readonly => true %>
+      <%= ff.text_field :name, :placeholder => "Name", :maxlength => 64, :class => "text_input_field", :readonly => true %>
+    </div>
+    <div class="dd_bg dd_input">
+      <%= ff.text_field :descr, :placeholder => "Description", :class => "text_input_field", :readonly => true %>
     </div>
     <br/>
   <% end %>
