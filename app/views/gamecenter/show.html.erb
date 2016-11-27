@@ -57,11 +57,11 @@
         <div id="thumbs">
           <% @game.screen_shots.each do |ss|%>
             <span class="imgg">              
-              <%= image_tag ss.image.url, class: 'imaa'%>
+              <a href="<%=h ss.image.url %>" alt="Screen Shot" target="_window"><%= image_tag ss.image.url, class: 'imaa'%></a>
             </span>
           <% end unless !@game.screen_shots.present?%>
           <% (5 - @game.screen_shots.count).times do %>
-            <span class="imgg"><img src="../images/Layer30.png" alt="" class="imaa"/></span>
+            <span class="imgg"><img src="../images/blank_screen.png" alt="" class="imaa"/></span>
           <% end %>
         </div>
       </div>
