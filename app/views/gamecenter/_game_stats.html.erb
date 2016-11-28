@@ -27,17 +27,17 @@
     You have no ratings in <%=h @game.name %>.
   <% else %>
     <div class="LB_tableheader">
-      <div class="LBT_ava">Outcome</div>
-      <div class="LBT_ava">Rating</div>
-      <div class="LBT_ava">Description</div>
+      <div class="LBT_ava" style="width:30%;">Outcome</div>
+      <div class="LBT_ava" style="width:10%;">Rating</div>
+      <div class="LBT_ava" style="width:60%;">Description</div>
     </div>
 
     <% @outcome_list.each do |outcome, rating| %> 
   
       <div class="LB_tablecontent <%= cycle("even", "odd") %>">
-        <div class="LBT_ava"><%=h outcome.name %></div>
-        <div class="LBT_ava"><span class="<%= Badge.outcome_rating_badge(rating) %>"><%= rating %></span></div>
-        <div class="LBT_ava"><%=h formatted_html_content(outcome.descr) %></div>
+        <div class="LBT_ava" style="width:30%;"><%=h outcome.name %></div>
+        <div class="LBT_ava" style="width:10%;"><span class="<%= Badge.outcome_rating_badge(rating) %>"><%= rating == 0 ? '-' : rating %></span></div>
+        <div class="LBT_ava" style="width:60%;"><%=h formatted_html_content(outcome.descr) %></div>
       </div>
   
     <% end %>

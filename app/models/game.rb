@@ -161,6 +161,10 @@ class Game < ActiveRecord::Base
     outcome_list = {}
     outcome_total_grade = {}
     outcome_feat_count = {}
+
+    self.outcomes.each do |outcome|
+      outcome_list[outcome] = 0 if outcome.name.present?
+    end
     
     feat_list.each do | feat |
       outcome = feat.outcome
@@ -172,7 +176,7 @@ class Game < ActiveRecord::Base
       outcome_total_grade[outcome] += feat.outcome_feat.rating
       outcome_feat_count[outcome] += 1
     end
-    
+
     outcome_total_grade.each do | outcome, total_rating |
       outcome_list[outcome] = total_rating / outcome_feat_count[outcome]
     end
