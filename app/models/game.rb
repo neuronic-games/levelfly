@@ -184,6 +184,57 @@ class Game < ActiveRecord::Base
     return outcome_list
   end
   
+  # Show login time, time spent, score per login session. This is meant to be a memory efficient routine.
+  def list_sessions_to_csv
+
+    user_csv = CSV.generate do |csv|
+    
+      row = []
+
+      row << "Player ID"
+      row << "Player"
+      row << "Login"
+      row << "Score"
+      row << "Duration"
+    
+      csv << row
+
+      login_list = {}
+      score_list = {}
+      
+      # Process in batches for efficiency
+      Feat.where(game_id: self.id).find_each do |feat|
+        # A player's activity starts with a login...
+        if feat.progress_type == Feat.login
+          login_list[feat.profile_id] = feat.created_at
+        elsif feat.progress_type == Feat.score
+          # The latest score record is always assumed to be your accumulative score for the game
+          score_list[feat.profile_id] = feat.progress
+        elsif feat.progress_type == Feat.duration
+          # and ends with a logout with a duration record
+          
+          # read and delete the records to conserve memory
+          created_at = login_list.delete(feat.profile_id)
+          score = score_list.delete(feat.profile_id)
+          if created_at.present?
+            profile = feat.profile
+            row = []
+          
+            row << profile.id
+            row << profile.full_name
+            row << Setting.default_date_time_format(created_at)
+            row << (score.present? ? score : '-')
+            row << feat.progress
+
+            csv << row
+          end
+        end
+      end
+    end
+
+    return user_csv
+  end
+  
   private
   
   # Generate a unique game handle. The game developer will use this handle to

@@ -1,3 +1,5 @@
+# The Feat model logs the activity of the players for each game. The field progress_type is an integer field that determines the type of the data.
+
 class Feat < ActiveRecord::Base
   belongs_to :game
   belongs_to :profile
