@@ -368,11 +368,21 @@ class GamecenterController < ApplicationController
   end
 
   def show    
+    id = params[:id]
+    if id.to_i.to_s == id
+      @game = Game.find(id)
+    else
+      @game = Game.find_by_name(id)
+    end
+    if @game.nil?
+      render file: "#{Rails.root}/public/404.html", layout: false, status: 404
+      return
+    end
+    
     agent_by_request = request.env["HTTP_USER_AGENT"]
     user_agent = UserAgent.parse(agent_by_request)
     platform = user_agent.platform
     conditions = ["profiles.archived = ? and user_id is not null", false]
-    @game = Game.find(params[:id])
 
     @download_link = ""
     # ['ios', 'android', 'windows', 'mac', 'linux']
