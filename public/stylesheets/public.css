@@ -97,6 +97,9 @@
   width: 185px;
   height: 150px;
 } 
+.crop {
+  object-fit: cover;
+}
 
 .slider_image
  {

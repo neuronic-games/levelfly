@@ -57,7 +57,7 @@
         <div id="thumbs">
           <% @game.screen_shots.each do |ss|%>
             <span class="imgg">              
-              <a href="<%=h ss.image.url %>" alt="Screen Shot" target="_window"><%= image_tag ss.image.url, class: 'imaa'%></a>
+              <a href="<%=h ss.image.url %>" alt="Screen Shot" target="_window"><%= image_tag ss.image.url, class: 'imaa crop'%></a>
             </span>
           <% end unless !@game.screen_shots.present?%>
           <% (5 - @game.screen_shots.count).times do %>
@@ -68,11 +68,11 @@
     </div>
     <div class="row">
       <div id="section_two">
-        <div class="col-sm-8 learning-objs">
+        <div class="learning-objs">
           <h4>Learning Objectives</h4>
           <ul>
             <% @outcomes.each do |outcome|%>
-              <% if !outcome.name.blank? %><li class="learning_text"><%= outcome.name %>: <%= outcome.descr %></li><% end %>
+              <% if !outcome.name.blank? %><li class="learning_text"><span style="color:white;"><%= outcome.name %></span>: <%= outcome.descr %></li><% end %>
             <% end %>
           </ul>  
         </div>

@@ -99,7 +99,7 @@
     <%= f.fields_for :screen_shots do |ff| %>
       <div class="screen-shot sub_course_profile_image screen_<%=index%>">
       	<% if f.object.screen_shots.present? && @game.screen_shots.order(:id)[index-1]%>
-      		<%= image_tag @game.screen_shots.order(:id)[index-1].image.url, height: '120', width: '120'%>
+      		<a href="<%=h @game.screen_shots.order(:id)[index-1].image.url %>" target="_window"><%= image_tag @game.screen_shots.order(:id)[index-1].image.url, height: '120', width: '120', style: 'object-fit: cover;' %></a>
       	<% else %>
       		<img src="/images/game_screen_default.png" alt="" class="imaa" height="120" width="120" />
       	<% end %>
@@ -294,6 +294,11 @@
     $('#btn_game_view').addClass('hide')
     $('#btn_game_edit').addClass('hide');
     $('#btn_game_save').removeClass('hide');
+    $('#btn_game_view').addClass('hide');
+    $('#btn_view_forums').addClass('hide');
+    $('#btn_export_csv').addClass('hide');
+    $('#btn_export_csv2').addClass('hide');
+    $('#btn_game_archive').addClass('hide');
     
     $('.text_input_field').attr('readonly', false);
     $('.image_input_field').removeClass('hide');
@@ -302,8 +307,13 @@
   }
   
   function enableEditMode() {
+    $('#btn_game_view').addClass('hide');
+    $('#btn_view_forums').addClass('hide');
     $('#btn_game_edit').addClass('hide');
     $('#btn_game_save').removeClass('hide');
+    $('#btn_export_csv').addClass('hide');
+    $('#btn_export_csv2').addClass('hide');
+    $('#btn_game_archive').addClass('hide');
     
     $('.text_input_field').attr('readonly', false);
     $('.image_input_field').removeClass('hide');
@@ -313,6 +323,7 @@
   
   function enableViewMode() {
     $('#btn_game_view').removeClass('hide')
+    $('#btn_view_forums').removeClass('hide');
     $('#btn_game_edit').removeClass('hide');
     $('#game_stats').removeClass('hide');
     $('#leaderboard').removeClass('hide');
