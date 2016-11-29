@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class ProfileController - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/controllers/profile_controller.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-accept_code">#accept_code</a>
+    
+    <li><a href="#method-i-account_setup">#account_setup</a>
+    
+    <li><a href="#method-i-auth">#auth</a>
+    
+    <li><a href="#method-i-change_extended_logout_preference">#change_extended_logout_preference</a>
+    
+    <li><a href="#method-i-change_major">#change_major</a>
+    
+    <li><a href="#method-i-change_name">#change_name</a>
+    
+    <li><a href="#method-i-change_password">#change_password</a>
+    
+    <li><a href="#method-i-change_school">#change_school</a>
+    
+    <li><a href="#method-i-check_email">#check_email</a>
+    
+    <li><a href="#method-i-edit">#edit</a>
+    
+    <li><a href="#method-i-edit_wardrobe">#edit_wardrobe</a>
+    
+    <li><a href="#method-i-index">#index</a>
+    
+    <li><a href="#method-i-save">#save</a>
+    
+    <li><a href="#method-i-save_meta">#save_meta</a>
+    
+    <li><a href="#method-i-save_notes">#save_notes</a>
+    
+    <li><a href="#method-i-save_privacy_settings">#save_privacy_settings</a>
+    
+    <li><a href="#method-i-show">#show</a>
+    
+    <li><a href="#method-i-show_comments">#show_comments</a>
+    
+    <li><a href="#method-i-update_show_date">#update_show_date</a>
+    
+    <li><a href="#method-i-user_profile">#user_profile</a>
+    
+    <li><a href="#method-i-validate_code">#validate_code</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./AccessCode.html">AccessCode</a>
+  
+    <li><a href="./Admin.html">Admin</a>
+  
+    <li><a href="./App.html">App</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./Attachment.html">Attachment</a>
+  
+    <li><a href="./Avatar.html">Avatar</a>
+  
+    <li><a href="./AvatarBadge.html">AvatarBadge</a>
+  
+    <li><a href="./Badge.html">Badge</a>
+  
+    <li><a href="./BadgeController.html">BadgeController</a>
+  
+    <li><a href="./BadgeHelper.html">BadgeHelper</a>
+  
+    <li><a href="./BadgeImage.html">BadgeImage</a>
+  
+    <li><a href="./CampusMajor.html">CampusMajor</a>
+  
+    <li><a href="./Category.html">Category</a>
+  
+    <li><a href="./CategoryObserver.html">CategoryObserver</a>
+  
+    <li><a href="./Checkpoint.html">Checkpoint</a>
+  
+    <li><a href="./ConfirmationsController.html">ConfirmationsController</a>
+  
+    <li><a href="./Course.html">Course</a>
+  
+    <li><a href="./CourseController.html">CourseController</a>
+  
+    <li><a href="./CourseGrade.html">CourseGrade</a>
+  
+    <li><a href="./CourseHelper.html">CourseHelper</a>
+  
+    <li><a href="./CustomFailure.html">CustomFailure</a>
+  
+    <li><a href="./Department.html">Department</a>
+  
+    <li><a href="./Feat.html">Feat</a>
+  
+    <li><a href="./Feed.html">Feed</a>
+  
+    <li><a href="./FriendController.html">FriendController</a>
+  
+    <li><a href="./FriendHelper.html">FriendHelper</a>
+  
+    <li><a href="./Game.html">Game</a>
+  
+    <li><a href="./GameScoreLeader.html">GameScoreLeader</a>
+  
+    <li><a href="./Gamecenter.html">Gamecenter</a>
+  
+    <li><a href="./GamecenterController.html">GamecenterController</a>
+  
+    <li><a href="./GradeBookController.html">GradeBookController</a>
+  
+    <li><a href="./GradeBookHelper.html">GradeBookHelper</a>
+  
+    <li><a href="./GradeType.html">GradeType</a>
+  
+    <li><a href="./Group.html">Group</a>
+  
+    <li><a href="./GroupHelper.html">GroupHelper</a>
+  
+    <li><a href="./LeaderBoardController.html">LeaderBoardController</a>
+  
+    <li><a href="./LeaderBoardHelper.html">LeaderBoardHelper</a>
+  
+    <li><a href="./Like.html">Like</a>
+  
+    <li><a href="./Major.html">Major</a>
+  
+    <li><a href="./Message.html">Message</a>
+  
+    <li><a href="./MessageController.html">MessageController</a>
+  
+    <li><a href="./MessageHelper.html">MessageHelper</a>
+  
+    <li><a href="./MessageViewer.html">MessageViewer</a>
+  
+    <li><a href="./Note.html">Note</a>
+  
+    <li><a href="./Outcome.html">Outcome</a>
+  
+    <li><a href="./OutcomeFeat.html">OutcomeFeat</a>
+  
+    <li><a href="./OutcomeGrade.html">OutcomeGrade</a>
+  
+    <li><a href="./OutcomeTask.html">OutcomeTask</a>
+  
+    <li><a href="./OutcomeTaskObserver.html">OutcomeTaskObserver</a>
+  
+    <li><a href="./Participant.html">Participant</a>
+  
+    <li><a href="./ParticipantObserver.html">ParticipantObserver</a>
+  
+    <li><a href="./Permission.html">Permission</a>
+  
+    <li><a href="./Profile.html">Profile</a>
+  
+    <li><a href="./ProfileAction.html">ProfileAction</a>
+  
+    <li><a href="./ProfileController.html">ProfileController</a>
+  
+    <li><a href="./ProfileHelper.html">ProfileHelper</a>
+  
+    <li><a href="./Quest.html">Quest</a>
+  
+    <li><a href="./RegistrationsController.html">RegistrationsController</a>
+  
+    <li><a href="./RegistrationsHelper.html">RegistrationsHelper</a>
+  
+    <li><a href="./Report.html">Report</a>
+  
+    <li><a href="./Reward.html">Reward</a>
+  
+    <li><a href="./RewardController.html">RewardController</a>
+  
+    <li><a href="./RewardHelper.html">RewardHelper</a>
+  
+    <li><a href="./Role.html">Role</a>
+  
+    <li><a href="./RoleName.html">RoleName</a>
+  
+    <li><a href="./School.html">School</a>
+  
+    <li><a href="./ScreenShot.html">ScreenShot</a>
+  
+    <li><a href="./Semester.html">Semester</a>
+  
+    <li><a href="./SessionsController.html">SessionsController</a>
+  
+    <li><a href="./Setting.html">Setting</a>
+  
+    <li><a href="./SettingController.html">SettingController</a>
+  
+    <li><a href="./SettingHelper.html">SettingHelper</a>
+  
+    <li><a href="./SystemController.html">SystemController</a>
+  
+    <li><a href="./SystemHelper.html">SystemHelper</a>
+  
+    <li><a href="./Task.html">Task</a>
+  
+    <li><a href="./TaskController.html">TaskController</a>
+  
+    <li><a href="./TaskGrade.html">TaskGrade</a>
+  
+    <li><a href="./TaskHelper.html">TaskHelper</a>
+  
+    <li><a href="./TaskObserver.html">TaskObserver</a>
+  
+    <li><a href="./TaskParticipant.html">TaskParticipant</a>
+  
+    <li><a href="./User.html">User</a>
+  
+    <li><a href="./UserMailer.html">UserMailer</a>
+  
+    <li><a href="./UsersController.html">UsersController</a>
+  
+    <li><a href="./UsersHelper.html">UsersHelper</a>
+  
+    <li><a href="./Vault.html">Vault</a>
+  
+    <li><a href="./Wall.html">Wall</a>
+  
+    <li><a href="./Wardrobe.html">Wardrobe</a>
+  
+    <li><a href="./WardrobeController.html">WardrobeController</a>
+  
+    <li><a href="./WardrobeHelper.html">WardrobeHelper</a>
+  
+    <li><a href="./WardrobeItem.html">WardrobeItem</a>
+  
+    <li><a href="./WardrobeItemType.html">WardrobeItemType</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class ProfileController</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-accept_code" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">accept_code</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="accept_code-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 157</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">accept_code</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/profile/code_dialog&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- accept_code-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- accept_code-method -->
+
+    
+      <div id="method-i-account_setup" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">account_setup</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="account_setup-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 224</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">account_setup</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@selected_user</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;profile/account_setup&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- account_setup-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- account_setup-method -->
+
+    
+      <div id="method-i-auth" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">auth</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="auth-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 302</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">auth</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_profile</span>
+    <span class="ruby-identifier">response</span> = <span class="ruby-constant">Pusher</span>[<span class="ruby-identifier">params</span>[<span class="ruby-value">:channel_name</span>]].<span class="ruby-identifier">authenticate</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:socket_id</span>])
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">response</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Forbidden&quot;</span>, <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;403&#39;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- auth-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- auth-method -->
+
+    
+      <div id="method-i-change_extended_logout_preference" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_extended_logout_preference</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="change_extended_logout_preference-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 293</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_extended_logout_preference</span>
+  <span class="ruby-identifier">profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">current_profile</span>.<span class="ruby-identifier">id</span>)
+  <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">extended_logout</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:extended_logout</span>]
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:success</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>} <span class="ruby-keyword">and</span> <span class="ruby-keyword">return</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:success</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- change_extended_logout_preference-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- change_extended_logout_preference-method -->
+
+    
+      <div id="method-i-change_major" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_major</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="change_major-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 165</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_major</span>
+  <span class="ruby-ivar">@majors</span> = <span class="ruby-constant">Major</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>,
+    <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;archived = ?&quot;</span>, <span class="ruby-keyword">false</span>],
+    <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;name&quot;</span>)
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/profile/major_dialog&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- change_major-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- change_major-method -->
+
+    
+      <div id="method-i-change_name" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_name</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="change_name-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 161</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_name</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/profile/name_dialog&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- change_name-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- change_name-method -->
+
+    
+      <div id="method-i-change_password" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_password</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="change_password-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 231</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_password</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>] <span class="ruby-keyword">and</span> <span class="ruby-keyword">not</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:email</span>] <span class="ruby-operator">==</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">email</span>
+      <span class="ruby-identifier">msg</span> = <span class="ruby-identifier">alert</span> = <span class="ruby-string">&quot;You updated your account successfully.&quot;</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">msg</span> = <span class="ruby-node">&quot;An email has been sent to &#39;#{params[:email]}&#39; to confirm that you are the owner of this email address. Please click on the confirmation link in this email address to complete the email change. Check your spam folder if you don&#39;t see the email. If you still don&#39;t see the email, please contact Levelfly Support.&quot;</span>
+      <span class="ruby-identifier">alert</span> = <span class="ruby-string">&quot;Email verification sent.&quot;</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">email</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:email</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:email</span>]
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:password</span>] <span class="ruby-keyword">and</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:password</span>].<span class="ruby-identifier">blank?</span>
+      <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">password</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:password</span>]
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-identifier">profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:profile_id</span>])
+      <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">full_name</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:full_name</span>]
+      <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-comment"># sign_in(@user, :bypass =&gt; true)</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span>{<span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">msg</span>, <span class="ruby-value">:alert</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">alert</span>, <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:current_user_profile</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]}
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span>{<span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;ERROR&quot;</span>, <span class="ruby-value">:alert</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;ERROR&quot;</span>, <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span><span class="ruby-keyword">false</span>}
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- change_password-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- change_password-method -->
+
+    
+      <div id="method-i-change_school" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">change_school</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="change_school-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 282</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">change_school</span>
+  <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">default_school</span> = <span class="ruby-constant">School</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:school_id</span>])
+  <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">save</span>
+
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- change_school-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- change_school-method -->
+
+    
+      <div id="method-i-check_email" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">check_email</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="check_email-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 289</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_email</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:exists</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:email</span>] <span class="ruby-operator">!=</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">email</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">User</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:email</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:email</span>]).<span class="ruby-identifier">count</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- check_email-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- check_email-method -->
+
+    
+      <div id="method-i-edit" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">edit</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="edit-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 63</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
+  <span class="ruby-identifier">profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>])
+  <span class="ruby-identifier">ids</span> = <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">sports_reward</span>
+  <span class="ruby-identifier">wardrobe_items</span> = <span class="ruby-constant">WardrobeItem</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>,
+    <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;archived = ? and wardrobe_id in (?)&quot;</span>, <span class="ruby-keyword">false</span>, <span class="ruby-identifier">ids</span>],
+    <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;depth, sort_order&quot;</span>)
+
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">wardrobe_items</span>.<span class="ruby-identifier">to_json</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- edit-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- edit-method -->
+
+    
+      <div id="method-i-edit_wardrobe" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">edit_wardrobe</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="edit_wardrobe-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 214</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">edit_wardrobe</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:profile_id</span>].<span class="ruby-identifier">blank?</span>
+    <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>])
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:profile_id</span>])
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@edit</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/profile/edit_wardrobe&quot;</span>, <span class="ruby-value">:locals</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:profile</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@profile</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- edit_wardrobe-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- edit_wardrobe-method -->
+
+    
+      <div id="method-i-index" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">index</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="index-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 6</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
+  <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>])
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:search_text</span>]
+    <span class="ruby-identifier">search_text</span> =  <span class="ruby-node">&quot;%#{params[:search_text]}%&quot;</span>
+    <span class="ruby-ivar">@profiles</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(
+      <span class="ruby-value">:all</span>,
+      <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:user</span>],
+      <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [
+        <span class="ruby-string">&quot;school_id = ? and (lower(full_name) LIKE ? OR lower(users.email) LIKE ?) and user_id is not null and users.status != &#39;D&#39;&quot;</span>,
+        <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">school_id</span>,
+        <span class="ruby-identifier">search_text</span>.<span class="ruby-identifier">downcase</span>,
+        <span class="ruby-identifier">search_text</span>.<span class="ruby-identifier">downcase</span>
+      ],
+      <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;full_name&quot;</span>
+    )
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">wants</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">wants</span>.<span class="ruby-identifier">html</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">xhr?</span>
+        <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/profile/people&quot;</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">render</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- index-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- index-method -->
+
+    
+      <div id="method-i-save" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">save</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="save-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 105</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">save</span>
+  <span class="ruby-identifier">id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]
+  <span class="ruby-identifier">profile</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:profile</span>]
+  <span class="ruby-identifier">avatar</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:avatar</span>]
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">profile</span>[<span class="ruby-string">&quot;code&quot;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;DEFAULT&quot;</span>
+    <span class="ruby-comment"># Save a new profile</span>
+    <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-ivar">@avatar</span> = <span class="ruby-constant">Avatar</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">id</span>)
+    <span class="ruby-ivar">@avatar</span> = <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">avatar</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#@profile.full_name = profile[&quot;full_name&quot;]</span>
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">major_id</span> = <span class="ruby-identifier">profile</span>[<span class="ruby-string">&quot;major_id&quot;</span>]
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">school_id</span> = <span class="ruby-identifier">profile</span>[<span class="ruby-string">&quot;school_id&quot;</span>]
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">user_id</span> = <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">id</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_user</span>
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">save</span>
+
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">skin</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;skin&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">background</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;background&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">body</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;body&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">hat_back</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;hat_back&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">hair_back</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;hair_back&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">shoes</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;shoes&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">bottom</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;bottom&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">necklace</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;necklace&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">top</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;top&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">head</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;head&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">earrings</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;earrings&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">facial_marks</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;facial_marks&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">facial_hair</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;facial_hair&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">face</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;face&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">glasses</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;glasses&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">hair</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;hair&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">hat</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;hat&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">prop</span> = <span class="ruby-identifier">avatar</span>[<span class="ruby-string">&quot;prop&quot;</span>]
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">profile_id</span> = <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>
+  <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">save</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@avatar</span>.<span class="ruby-identifier">save</span>
+   <span class="ruby-identifier">file_name</span> = <span class="ruby-node">&quot;avatar_#{@profile.id}_#{@profile.updated_at.strftime(&#39;%Y%m%d%H%M%S&#39;)}.jpg&quot;</span>
+   <span class="ruby-identifier">bucket</span> = <span class="ruby-node">&quot;#{ENV[&#39;S3_PATH&#39;]}/schools/#{@profile.school_id}/avatars&quot;</span>
+   <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">image_file_name</span> = <span class="ruby-node">&quot;https://s3.amazonaws.com/#{bucket}/#{file_name}&quot;</span>
+   <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">save</span>
+   <span class="ruby-constant">Attachment</span>.<span class="ruby-identifier">aws_upload_base64</span>(<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">school_id</span>, <span class="ruby-identifier">bucket</span>, <span class="ruby-identifier">file_name</span>, <span class="ruby-constant">Base64</span>.<span class="ruby-identifier">decode64</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:avatar_img</span>]))
+ <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">publish_profile</span>(<span class="ruby-ivar">@profile</span>)
+
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-string">&quot;profile&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@profile</span>, <span class="ruby-string">&quot;avatar&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@avatar</span>}.<span class="ruby-identifier">to_json</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- save-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- save-method -->
+
+    
+      <div id="method-i-save_meta" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">save_meta</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="save_meta-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 73</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">save_meta</span>
+  <span class="ruby-identifier">id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]
+  <span class="ruby-identifier">profile</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:profile</span>]
+  <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">id</span>)
+
+  <span class="ruby-comment">#@profile.full_name = profile[&quot;full_name&quot;]</span>
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">major_id</span> = <span class="ruby-identifier">profile</span>[<span class="ruby-string">&quot;major_id&quot;</span>]
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">school_id</span> = <span class="ruby-identifier">profile</span>[<span class="ruby-string">&quot;school_id&quot;</span>]
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">interests</span> = <span class="ruby-identifier">profile</span>[<span class="ruby-string">&quot;interests&quot;</span>]
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">contact_info</span> = <span class="ruby-identifier">profile</span>[<span class="ruby-string">&quot;contact_info&quot;</span>]
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">save</span>
+
+  <span class="ruby-identifier">publish_profile</span>(<span class="ruby-ivar">@profile</span>)
+
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-string">&quot;profile&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@profile</span>}.<span class="ruby-identifier">to_json</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- save_meta-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- save_meta-method -->
+
+    
+      <div id="method-i-save_notes" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">save_notes</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="save_notes-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 90</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">save_notes</span>
+  <span class="ruby-identifier">id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]
+  <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">id</span>)
+  <span class="ruby-constant">Note</span>.<span class="ruby-identifier">delete_all</span>([<span class="ruby-string">&quot;profile_id = ? and about_object_id = ? and about_object_type = &#39;Profile&#39;&quot;</span>,<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>],<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>])
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:notes</span>].<span class="ruby-identifier">blank?</span>
+    <span class="ruby-identifier">new_note</span> = <span class="ruby-constant">Note</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">new_note</span>.<span class="ruby-identifier">profile_id</span> = <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]
+    <span class="ruby-identifier">new_note</span>.<span class="ruby-identifier">about_object_id</span> = <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>
+    <span class="ruby-identifier">new_note</span>.<span class="ruby-identifier">about_object_type</span> = <span class="ruby-string">&quot;Profile&quot;</span>
+    <span class="ruby-identifier">new_note</span>.<span class="ruby-identifier">content</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:notes</span>]
+    <span class="ruby-identifier">new_note</span>.<span class="ruby-identifier">save</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-string">&quot;profile&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@profile</span>}.<span class="ruby-identifier">to_json</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- save_notes-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- save_notes-method -->
+
+    
+      <div id="method-i-save_privacy_settings" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">save_privacy_settings</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="save_privacy_settings-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 311</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">save_privacy_settings</span>
+  <span class="ruby-ivar">@profile</span> = <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">profiles</span>.<span class="ruby-identifier">first</span>
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">is_public</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:is_public</span>]
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">friend_privilege</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:friend_privilege</span>]
+  <span class="ruby-comment"># @profile.friend_privilege = (!@profile.is_public? &amp;&amp; params[:friend_privilege] == &#39;1&#39;) ? true : (@profile.is_public? &amp;&amp; params[:friend_privilege].present?) ? false : nil</span>
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">save!</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">inspect</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:success</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- save_privacy_settings-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- save_privacy_settings-method -->
+
+    
+      <div id="method-i-show" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">show</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="show-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 33</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">blank?</span>
+    <span class="ruby-ivar">@profile</span> = <span class="ruby-identifier">current_profile</span>
+    <span class="ruby-identifier">publish_profile</span>(<span class="ruby-ivar">@profile</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">new_profile</span> = <span class="ruby-keyword">nil</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">school_id</span> = <span class="ruby-identifier">school</span>.<span class="ruby-identifier">id</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>].<span class="ruby-identifier">blank?</span>
+      <span class="ruby-identifier">new_profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;code = ? and school_id = ?&quot;</span>, <span class="ruby-string">&quot;DEFAULT&quot;</span>, <span class="ruby-identifier">school_id</span>], <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:avatar</span>])
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find_by_id</span>(<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>])
+      <span class="ruby-keyword">if</span> <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">nil?</span>
+        <span class="ruby-identifier">new_profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;code = ? and school_id = ?&quot;</span>, <span class="ruby-string">&quot;DEFAULT&quot;</span>, <span class="ruby-identifier">school_id</span>], <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:avatar</span>])
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">new_profile</span>
+    <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">create_for_user</span>(<span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">id</span>,<span class="ruby-identifier">school</span>.<span class="ruby-identifier">id</span>)
+    <span class="ruby-identifier">publish_profile</span>(<span class="ruby-ivar">@profile</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-string">&quot;profile&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@profile</span>, <span class="ruby-string">&quot;avatar&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">avatar</span>, <span class="ruby-string">&quot;new_profile&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-identifier">new_profile</span>, <span class="ruby-string">&quot;major&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">major</span>, <span class="ruby-string">&quot;school&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">school</span>}.<span class="ruby-identifier">to_json</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- show-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- show-method -->
+
+    
+      <div id="method-i-show_comments" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">show_comments</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="show_comments-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 258</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">show_comments</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>] <span class="ruby-keyword">and</span> <span class="ruby-keyword">not</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;user_id = ?&quot;</span>, <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">id</span>])
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">all_comments</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:show</span>]<span class="ruby-operator">==</span> <span class="ruby-string">&quot;true&quot;</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">save</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:message</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">all_comments</span>, <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- show_comments-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- show_comments-method -->
+
+    
+      <div id="method-i-update_show_date" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">update_show_date</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="update_show_date-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 269</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">update_show_date</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>] <span class="ruby-keyword">and</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:update</span>]
+    <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+    <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;user_id = ?&quot;</span>, <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">id</span>]) <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@profile</span>
+    <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">post_date_format</span> = <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">post_date_format</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;D&quot;</span> <span class="ruby-operator">?</span> <span class="ruby-string">&quot;E&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&quot;D&quot;</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span>{<span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>, <span class="ruby-value">:show</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">post_date_format</span>}
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span>{<span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span><span class="ruby-keyword">false</span>}
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- update_show_date-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- update_show_date-method -->
+
+    
+      <div id="method-i-user_profile" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">user_profile</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="user_profile-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 184</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">user_profile</span>
+  <span class="ruby-identifier">previous_level</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:profile_id</span>].<span class="ruby-identifier">blank?</span>
+    <span class="ruby-ivar">@profile</span> = <span class="ruby-identifier">current_profile</span>
+    <span class="ruby-ivar">@badge</span> = <span class="ruby-constant">Badge</span>.<span class="ruby-identifier">badge_count</span>(<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>)
+    <span class="ruby-ivar">@courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">course_filter</span>(<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>,<span class="ruby-string">&quot;&quot;</span>) <span class="ruby-comment"># Courses a student has taken should only be shown to the student and not to others due to FERPA</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:profile_id</span>])
+    <span class="ruby-ivar">@badge</span> = <span class="ruby-constant">Badge</span>.<span class="ruby-identifier">badge_count</span>(<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>)
+    <span class="ruby-identifier">notes</span> = <span class="ruby-constant">Note</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;profile_id = ? and about_object_id = ? and about_object_type = &#39;Profile&#39;&quot;</span>,<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>], <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>])
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">notes</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-ivar">@notes</span> = <span class="ruby-identifier">notes</span>.<span class="ruby-identifier">content</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">previous_level</span> = <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">level</span>
+  <span class="ruby-ivar">@current_friends</span> = <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">friends</span>
+  <span class="ruby-ivar">@groups</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">all_group</span>(<span class="ruby-ivar">@profile</span>,<span class="ruby-string">&quot;M&quot;</span>)
+  <span class="ruby-ivar">@major</span> = <span class="ruby-constant">Major</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;school_id = ? &quot;</span>,<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">school_id</span>])
+  <span class="ruby-comment">#@level = Reward.find(:first, :conditions=&gt;[&quot;xp &lt;= ? and target_type = &#39;level&#39;&quot;,  @profile.xp], :order=&gt;&quot;xp DESC&quot;)</span>
+  <span class="ruby-comment">#puts&quot;#{@level.inspect}&quot;</span>
+  <span class="ruby-comment">#@profile.level = @level.target_id</span>
+  <span class="ruby-comment">#@profile.save</span>
+  <span class="ruby-ivar">@levels</span> = <span class="ruby-constant">Reward</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;distinct xp&quot;</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;target_type = &#39;level&#39;&quot;</span>], <span class="ruby-value">:order=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;xp ASC&quot;</span>).<span class="ruby-identifier">collect</span>(&amp;<span class="ruby-value">:xp</span>)
+  <span class="ruby-keyword">if</span>(<span class="ruby-identifier">previous_level</span> <span class="ruby-operator">!=</span> <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">level</span>)
+    <span class="ruby-identifier">content</span> = <span class="ruby-node">&quot;Congratulations! You have achieved level #{@profile.level}.&quot;</span>
+    <span class="ruby-constant">Message</span>.<span class="ruby-identifier">send_notification</span>(<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>,<span class="ruby-identifier">content</span>,<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/profile/user_profile&quot;</span>, <span class="ruby-value">:locals</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:profile</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@profile</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- user_profile-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- user_profile-method -->
+
+    
+      <div id="method-i-validate_code" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">validate_code</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="validate_code-source">
+            <pre><span class="ruby-comment"># File app/controllers/profile_controller.rb, line 172</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">validate_code</span>
+  <span class="ruby-identifier">code</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:code</span>].<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">upcase</span>
+  <span class="ruby-identifier">access_code</span> = <span class="ruby-constant">AccessCode</span>.<span class="ruby-identifier">find_by_code</span>(<span class="ruby-identifier">code</span>)
+  <span class="ruby-identifier">major</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">school</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">access_code</span>
+    <span class="ruby-identifier">major</span> = <span class="ruby-identifier">access_code</span>.<span class="ruby-identifier">major</span>
+    <span class="ruby-identifier">school</span> = <span class="ruby-identifier">access_code</span>.<span class="ruby-identifier">school</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-string">&quot;major&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-identifier">major</span>, <span class="ruby-string">&quot;school&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-identifier">school</span>}.<span class="ruby-identifier">to_json</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- validate_code-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- validate_code-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

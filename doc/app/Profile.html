@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class Profile - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/models/profile.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">ActiveRecord::Base
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-course_master_of">::course_master_of</a>
+    
+    <li><a href="#method-c-create_for_user">::create_for_user</a>
+    
+    <li><a href="#method-c-default_avatar_image">::default_avatar_image</a>
+    
+    <li><a href="#method-c-demo_profile">::demo_profile</a>
+    
+    <li><a href="#method-c-is_profile_accessible-3F">::is_profile_accessible?</a>
+    
+    <li><a href="#method-i-delete_action">#delete_action</a>
+    
+    <li><a href="#method-i-find_course_id_master_of">#find_course_id_master_of</a>
+    
+    <li><a href="#method-i-friends">#friends</a>
+    
+    <li><a href="#method-i-has_role">#has_role</a>
+    
+    <li><a href="#method-i-image_url">#image_url</a>
+    
+    <li><a href="#method-i-last_action">#last_action</a>
+    
+    <li><a href="#method-i-likes_by_course">#likes_by_course</a>
+    
+    <li><a href="#method-i-major_school">#major_school</a>
+    
+    <li><a href="#method-i-make_email_safe">#make_email_safe</a>
+    
+    <li><a href="#method-i-recently_messaged">#recently_messaged</a>
+    
+    <li><a href="#method-i-record_action">#record_action</a>
+    
+    <li><a href="#method-i-sports_reward">#sports_reward</a>
+    
+    <li><a href="#method-i-update_rewards">#update_rewards</a>
+    
+    <li><a href="#method-i-visible_avatar_image">#visible_avatar_image</a>
+    
+    <li><a href="#method-i-visible_name_and_image">#visible_name_and_image</a>
+    
+    <li><a href="#method-i-xp_by_course">#xp_by_course</a>
+    
+    <li><a href="#method-i-xp_by_game">#xp_by_game</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./AccessCode.html">AccessCode</a>
+  
+    <li><a href="./Admin.html">Admin</a>
+  
+    <li><a href="./App.html">App</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./Attachment.html">Attachment</a>
+  
+    <li><a href="./Avatar.html">Avatar</a>
+  
+    <li><a href="./AvatarBadge.html">AvatarBadge</a>
+  
+    <li><a href="./Badge.html">Badge</a>
+  
+    <li><a href="./BadgeController.html">BadgeController</a>
+  
+    <li><a href="./BadgeHelper.html">BadgeHelper</a>
+  
+    <li><a href="./BadgeImage.html">BadgeImage</a>
+  
+    <li><a href="./CampusMajor.html">CampusMajor</a>
+  
+    <li><a href="./Category.html">Category</a>
+  
+    <li><a href="./CategoryObserver.html">CategoryObserver</a>
+  
+    <li><a href="./Checkpoint.html">Checkpoint</a>
+  
+    <li><a href="./ConfirmationsController.html">ConfirmationsController</a>
+  
+    <li><a href="./Course.html">Course</a>
+  
+    <li><a href="./CourseController.html">CourseController</a>
+  
+    <li><a href="./CourseGrade.html">CourseGrade</a>
+  
+    <li><a href="./CourseHelper.html">CourseHelper</a>
+  
+    <li><a href="./CustomFailure.html">CustomFailure</a>
+  
+    <li><a href="./Department.html">Department</a>
+  
+    <li><a href="./Feat.html">Feat</a>
+  
+    <li><a href="./Feed.html">Feed</a>
+  
+    <li><a href="./FriendController.html">FriendController</a>
+  
+    <li><a href="./FriendHelper.html">FriendHelper</a>
+  
+    <li><a href="./Game.html">Game</a>
+  
+    <li><a href="./GameScoreLeader.html">GameScoreLeader</a>
+  
+    <li><a href="./Gamecenter.html">Gamecenter</a>
+  
+    <li><a href="./GamecenterController.html">GamecenterController</a>
+  
+    <li><a href="./GradeBookController.html">GradeBookController</a>
+  
+    <li><a href="./GradeBookHelper.html">GradeBookHelper</a>
+  
+    <li><a href="./GradeType.html">GradeType</a>
+  
+    <li><a href="./Group.html">Group</a>
+  
+    <li><a href="./GroupHelper.html">GroupHelper</a>
+  
+    <li><a href="./LeaderBoardController.html">LeaderBoardController</a>
+  
+    <li><a href="./LeaderBoardHelper.html">LeaderBoardHelper</a>
+  
+    <li><a href="./Like.html">Like</a>
+  
+    <li><a href="./Major.html">Major</a>
+  
+    <li><a href="./Message.html">Message</a>
+  
+    <li><a href="./MessageController.html">MessageController</a>
+  
+    <li><a href="./MessageHelper.html">MessageHelper</a>
+  
+    <li><a href="./MessageViewer.html">MessageViewer</a>
+  
+    <li><a href="./Note.html">Note</a>
+  
+    <li><a href="./Outcome.html">Outcome</a>
+  
+    <li><a href="./OutcomeFeat.html">OutcomeFeat</a>
+  
+    <li><a href="./OutcomeGrade.html">OutcomeGrade</a>
+  
+    <li><a href="./OutcomeTask.html">OutcomeTask</a>
+  
+    <li><a href="./OutcomeTaskObserver.html">OutcomeTaskObserver</a>
+  
+    <li><a href="./Participant.html">Participant</a>
+  
+    <li><a href="./ParticipantObserver.html">ParticipantObserver</a>
+  
+    <li><a href="./Permission.html">Permission</a>
+  
+    <li><a href="./Profile.html">Profile</a>
+  
+    <li><a href="./ProfileAction.html">ProfileAction</a>
+  
+    <li><a href="./ProfileController.html">ProfileController</a>
+  
+    <li><a href="./ProfileHelper.html">ProfileHelper</a>
+  
+    <li><a href="./Quest.html">Quest</a>
+  
+    <li><a href="./RegistrationsController.html">RegistrationsController</a>
+  
+    <li><a href="./RegistrationsHelper.html">RegistrationsHelper</a>
+  
+    <li><a href="./Report.html">Report</a>
+  
+    <li><a href="./Reward.html">Reward</a>
+  
+    <li><a href="./RewardController.html">RewardController</a>
+  
+    <li><a href="./RewardHelper.html">RewardHelper</a>
+  
+    <li><a href="./Role.html">Role</a>
+  
+    <li><a href="./RoleName.html">RoleName</a>
+  
+    <li><a href="./School.html">School</a>
+  
+    <li><a href="./ScreenShot.html">ScreenShot</a>
+  
+    <li><a href="./Semester.html">Semester</a>
+  
+    <li><a href="./SessionsController.html">SessionsController</a>
+  
+    <li><a href="./Setting.html">Setting</a>
+  
+    <li><a href="./SettingController.html">SettingController</a>
+  
+    <li><a href="./SettingHelper.html">SettingHelper</a>
+  
+    <li><a href="./SystemController.html">SystemController</a>
+  
+    <li><a href="./SystemHelper.html">SystemHelper</a>
+  
+    <li><a href="./Task.html">Task</a>
+  
+    <li><a href="./TaskController.html">TaskController</a>
+  
+    <li><a href="./TaskGrade.html">TaskGrade</a>
+  
+    <li><a href="./TaskHelper.html">TaskHelper</a>
+  
+    <li><a href="./TaskObserver.html">TaskObserver</a>
+  
+    <li><a href="./TaskParticipant.html">TaskParticipant</a>
+  
+    <li><a href="./User.html">User</a>
+  
+    <li><a href="./UserMailer.html">UserMailer</a>
+  
+    <li><a href="./UsersController.html">UsersController</a>
+  
+    <li><a href="./UsersHelper.html">UsersHelper</a>
+  
+    <li><a href="./Vault.html">Vault</a>
+  
+    <li><a href="./Wall.html">Wall</a>
+  
+    <li><a href="./Wardrobe.html">Wardrobe</a>
+  
+    <li><a href="./WardrobeController.html">WardrobeController</a>
+  
+    <li><a href="./WardrobeHelper.html">WardrobeHelper</a>
+  
+    <li><a href="./WardrobeItem.html">WardrobeItem</a>
+  
+    <li><a href="./WardrobeItemType.html">WardrobeItemType</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Profile</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-course_master_of" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">course_master_of</span><span
+            class="method-args">(course_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="course_master_of-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 34</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">course_master_of</span>(<span class="ruby-identifier">course_id</span>)
+  <span class="ruby-identifier">includes</span>(<span class="ruby-value">:participants</span>).<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;participants.target_id = ? AND participants.target_type=&#39;Course&#39; AND participants.profile_type = &#39;M&#39;&quot;</span>, <span class="ruby-identifier">course_id</span>).<span class="ruby-identifier">first</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- course_master_of-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- course_master_of-method -->
+
+    
+      <div id="method-c-create_for_user" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_for_user</span><span
+            class="method-args">(user_id, school_id, default = "DEFAULT")</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="create_for_user-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 83</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">create_for_user</span>(<span class="ruby-identifier">user_id</span>, <span class="ruby-identifier">school_id</span>, <span class="ruby-identifier">default</span> = <span class="ruby-string">&quot;DEFAULT&quot;</span>)
+  <span class="ruby-identifier">profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;user_id = ? and school_id = ?&quot;</span>, <span class="ruby-identifier">user_id</span>, <span class="ruby-identifier">school_id</span>])
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">new_profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;code = ? and school_id = ?&quot;</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">school_id</span>], <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:avatar</span>])
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">default</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;DEFAULT&#39;</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">new_profile</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">new_profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">demo_profile</span>()
+      <span class="ruby-identifier">new_profile</span>.<span class="ruby-identifier">school_id</span> = <span class="ruby-identifier">school_id</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">profile</span> = <span class="ruby-identifier">new_profile</span>.<span class="ruby-identifier">dup</span>
+    <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">user_id</span> = <span class="ruby-identifier">user_id</span>
+    <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">code</span> = <span class="ruby-keyword">nil</span>
+
+    <span class="ruby-identifier">demo_school</span> = <span class="ruby-constant">School</span>.<span class="ruby-identifier">find_by_code</span>(<span class="ruby-string">&#39;DEMO&#39;</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-keyword">not</span> <span class="ruby-identifier">demo_school</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">school_id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">demo_school</span>.<span class="ruby-identifier">id</span>
+      <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">role_name</span> = <span class="ruby-constant">RoleName</span>.<span class="ruby-identifier">find_by_name</span>(<span class="ruby-string">&#39;Teacher&#39;</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">role_name</span> = <span class="ruby-constant">RoleName</span>.<span class="ruby-identifier">find_by_name</span>(<span class="ruby-string">&#39;Student&#39;</span>)
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-identifier">avatar</span> = <span class="ruby-identifier">new_profile</span>.<span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">dup</span>
+    <span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">profile_id</span> = <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">id</span>
+    <span class="ruby-identifier">avatar</span>.<span class="ruby-identifier">save</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">profile</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- create_for_user-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- create_for_user-method -->
+
+    
+      <div id="method-c-default_avatar_image" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">default_avatar_image</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="default_avatar_image-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 51</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">default_avatar_image</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;URL&quot;</span>] <span class="ruby-operator">+</span> <span class="ruby-string">&#39;/images/wardrobe/null_profile.png&#39;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- default_avatar_image-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- default_avatar_image-method -->
+
+    
+      <div id="method-c-demo_profile" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">demo_profile</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="demo_profile-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 46</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">demo_profile</span>
+  <span class="ruby-identifier">demo</span> = <span class="ruby-constant">School</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">handle</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;demo&#39;</span>).<span class="ruby-identifier">first</span>
+  <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;code = ? and school_id = ?&quot;</span>, <span class="ruby-string">&#39;DEFAULT&#39;</span>, <span class="ruby-identifier">demo</span>.<span class="ruby-identifier">id</span>], <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:avatar</span>])
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- demo_profile-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- demo_profile-method -->
+
+    
+      <div id="method-c-is_profile_accessible-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">is_profile_accessible?</span><span
+            class="method-args">(profile_id, current_user_profile_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="is_profile_accessible-3F-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 271</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">is_profile_accessible?</span>(<span class="ruby-identifier">profile_id</span>, <span class="ruby-identifier">current_user_profile_id</span>)
+
+  <span class="ruby-identifier">profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">profile_id</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">is_public?</span>        
+  
+  <span class="ruby-identifier">current_user_profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">current_user_profile_id</span>)
+  <span class="ruby-identifier">access</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_user_profile</span>.<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">current_user_profile</span>.<span class="ruby-identifier">role_name_id</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
+    <span class="ruby-identifier">is_friend</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_user_profile</span>.<span class="ruby-identifier">friends</span>.<span class="ruby-identifier">present?</span>
+      <span class="ruby-identifier">is_friend</span> = <span class="ruby-identifier">current_user_profile</span>.<span class="ruby-identifier">friends</span>.<span class="ruby-identifier">map</span>(&amp;<span class="ruby-value">:profile_id</span>).<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">profile</span>.<span class="ruby-identifier">id</span>)
+    <span class="ruby-keyword">end</span>      
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_friend</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">friend_privilege?</span>
+      <span class="ruby-identifier">access</span> = <span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">access</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">end</span>    
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">access</span> 
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- is_profile_accessible-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- is_profile_accessible-3F-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-delete_action" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">delete_action</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="delete_action-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 124</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_action</span>
+  <span class="ruby-constant">ProfileAction</span>.<span class="ruby-identifier">delete_all</span>([<span class="ruby-string">&quot;profile_id = ? and action_type = ?&quot;</span>,<span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>, <span class="ruby-string">&quot;message&quot;</span>])
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- delete_action-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- delete_action-method -->
+
+    
+      <div id="method-i-find_course_id_master_of" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">find_course_id_master_of</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Cache the course list as well</p>
+          
+
+          
+          <div class="method-source-code" id="find_course_id_master_of-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 39</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">find_course_id_master_of</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@master_course_id_list</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@master_course_id_list</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-identifier">course_id_list</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">profile_id</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">target_type</span><span class="ruby-operator">:</span> <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">member_of_course</span>, <span class="ruby-identifier">profile_type</span><span class="ruby-operator">:</span> <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">profile_type_master</span>).<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:target_id</span>)
+  <span class="ruby-ivar">@master_course_id_list</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">course_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">course_id_list</span>, <span class="ruby-identifier">archived</span><span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>, <span class="ruby-identifier">removed</span><span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>, <span class="ruby-identifier">school_id</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">school_id</span>, <span class="ruby-identifier">course_id</span><span class="ruby-operator">:</span> <span class="ruby-value">0</span>).<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:id</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@master_course_id_list</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- find_course_id_master_of-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- find_course_id_master_of-method -->
+
+    
+      <div id="method-i-friends" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">friends</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="friends-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 135</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">friends</span>
+  <span class="ruby-identifier">profiles</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;target_id = ? AND target_type = &#39;User&#39; AND profile_type = &#39;F&#39;&quot;</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>])<span class="ruby-comment">#.collect! {|x| x.profile}</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">profiles</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- friends-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- friends-method -->
+
+    
+      <div id="method-i-has_role" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">has_role</span><span
+            class="method-args">(type)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="has_role-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 155</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">has_role</span>(<span class="ruby-identifier">type</span>)
+  <span class="ruby-constant">Role</span>.<span class="ruby-identifier">check_permission</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">type</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- has_role-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- has_role-method -->
+
+    
+      <div id="method-i-image_url" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">image_url</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="image_url-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 261</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">image_url</span>
+  <span class="ruby-comment"># If the image is from S3, the path contains the full path</span>
+  <span class="ruby-keyword">if</span> (<span class="ruby-keyword">self</span>.<span class="ruby-identifier">image_file_name</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/http/</span>) <span class="ruby-operator">==</span> <span class="ruby-value">0</span>  <span class="ruby-comment"># Starts with http</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">image_file_name</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment"># It&#39;s necessary to return the full URL with the domain name for external systems</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;URL&quot;</span>] <span class="ruby-operator">+</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">image_file_name</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- image_url-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- image_url-method -->
+
+    
+      <div id="method-i-last_action" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">last_action</span><span
+            class="method-args">(action_type)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="last_action-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 111</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">last_action</span>(<span class="ruby-identifier">action_type</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">ProfileAction</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;profile_id = ? and action_type = ?&quot;</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">action_type</span>])
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- last_action-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- last_action-method -->
+
+    
+      <div id="method-i-likes_by_course" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">likes_by_course</span><span
+            class="method-args">(course_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Calculates the total likes that can be received for given course. Since the
+profile stores the total likes for all courses, we need to search for
+course and forumn messages</p>
+          
+
+          
+          <div class="method-source-code" id="likes_by_course-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 236</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">likes_by_course</span>(<span class="ruby-identifier">course_id</span>)
+  <span class="ruby-identifier">total_like</span> = <span class="ruby-value">0</span>
+
+  <span class="ruby-comment"># Course messages</span>
+  <span class="ruby-identifier">total_like</span> <span class="ruby-operator">+=</span> <span class="ruby-constant">Message</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;profile_id = ? and parent_type = ? and parent_id = ?&quot;</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">parent_type_course</span>, <span class="ruby-identifier">course_id</span>).<span class="ruby-identifier">sum</span>(<span class="ruby-value">:like</span>)
+
+  <span class="ruby-comment"># Course forum messages</span>
+  <span class="ruby-identifier">forumn_ids</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">select</span>(<span class="ruby-string">&quot;id&quot;</span>).<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:participants</span>],
+    <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?&quot;</span>,
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">course_id</span>, <span class="ruby-keyword">false</span>, <span class="ruby-keyword">false</span>])
+  <span class="ruby-identifier">forumn_ids</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">forumn_id</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">total_like</span> <span class="ruby-operator">+=</span> <span class="ruby-constant">Message</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;profile_id = ? and parent_type = ? and parent_id = ?&quot;</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">parent_type_forum</span>, <span class="ruby-identifier">forumn_id</span>).<span class="ruby-identifier">sum</span>(<span class="ruby-value">:like</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">total_like</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- likes_by_course-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- likes_by_course-method -->
+
+    
+      <div id="method-i-major_school" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">major_school</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="major_school-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 128</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">major_school</span>
+  <span class="ruby-identifier">info</span> = []
+  <span class="ruby-identifier">info</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">major</span>.<span class="ruby-identifier">name</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">major</span>
+  <span class="ruby-identifier">info</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">school</span>.<span class="ruby-identifier">code</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">school</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">info</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;, &quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- major_school-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- major_school-method -->
+
+    
+      <div id="method-i-make_email_safe" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">make_email_safe</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="make_email_safe-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 175</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">make_email_safe</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">email</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">/@neuronicgames.com$/</span>)
+  <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-keyword">self</span>.<span class="ruby-identifier">email</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">/^test-/</span>)
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">email</span> = <span class="ruby-node">&quot;test-#{self.email}&quot;</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">save</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- make_email_safe-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- make_email_safe-method -->
+
+    
+      <div id="method-i-recently_messaged" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">recently_messaged</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="recently_messaged-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 183</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">recently_messaged</span>
+  <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find_by_sql</span>(
+    <span class="ruby-value">&lt;&lt;-SQL
+      SELECT
+        profiles.*,
+        MAX(messages.updated_at) AS latest_message_date,
+        COUNT(message_viewers.id) AS unread_message_count
+      FROM profiles
+      INNER JOIN messages ON (messages.parent_id = profiles.id OR messages.profile_id = profiles.id)
+      LEFT JOIN message_viewers ON (
+        message_viewers.message_id = messages.id
+        AND (message_viewers.poster_profile_id = profiles.id AND message_viewers.viewer_profile_id = #{self.id})
+        AND (message_viewers.archived = false OR message_viewers.archived IS NULL)
+        AND message_viewers.viewed = false
+      ) WHERE (messages.archived = false OR messages.archived IS NULL)
+        AND messages.message_type = &#39;Message&#39;
+        AND (
+          (
+            messages.target_type = &#39;Profile&#39;
+            AND messages.parent_type = &#39;Profile&#39;
+            AND (messages.parent_id = #{self.id} OR messages.profile_id = #{self.id})
+          ) OR (
+            messages.target_type = &#39;Message&#39;
+            AND messages.parent_type = &#39;Message&#39;
+            AND messages.parent_id IN (
+              SELECT id FROM messages
+              WHERE target_type = &#39;Profile&#39;
+              AND parent_type = &#39;Profile&#39;
+              AND (parent_id = #{self.id} OR profile_id = #{self.id})
+              AND (archived = false OR archived IS NULL)
+            )
+          )
+        ) AND profiles.id != #{self.id}
+      GROUP BY profiles.id
+      ORDER BY unread_message_count DESC, latest_message_date DESC
+    SQL</span>
+  ).<span class="ruby-identifier">uniq</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- recently_messaged-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- recently_messaged-method -->
+
+    
+      <div id="method-i-record_action" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">record_action</span><span
+            class="method-args">(action_type, params)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="record_action-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 115</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">record_action</span>(<span class="ruby-identifier">action_type</span>, <span class="ruby-identifier">params</span>)
+  <span class="ruby-identifier">profile_action</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">last_action</span>(<span class="ruby-identifier">action_type</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">profile_action</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">profile_action</span> = <span class="ruby-constant">ProfileAction</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:profile_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>, <span class="ruby-value">:action_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">action_type</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">profile_action</span>.<span class="ruby-identifier">action_param</span> = <span class="ruby-identifier">params</span>
+  <span class="ruby-identifier">profile_action</span>.<span class="ruby-identifier">save</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- record_action-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- record_action-method -->
+
+    
+      <div id="method-i-sports_reward" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">sports_reward</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="sports_reward-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 140</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">sports_reward</span>
+  <span class="ruby-identifier">basic</span> = <span class="ruby-constant">Wardrobe</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;name = &#39;Basic&#39;&quot;</span>])
+  <span class="ruby-identifier">ids</span> = [];
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">basic</span> <span class="ruby-keyword">and</span> <span class="ruby-operator">!</span><span class="ruby-identifier">basic</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">ids</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">basic</span>.<span class="ruby-identifier">id</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">sports_reward</span> = <span class="ruby-constant">Reward</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;target_id&quot;</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;target_type = &#39;wardrobe&#39; and target_id &lt;= ?&quot;</span>,<span class="ruby-keyword">self</span>.<span class="ruby-identifier">wardrobe</span>])
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">sports_reward</span> <span class="ruby-keyword">and</span> <span class="ruby-operator">!</span><span class="ruby-identifier">sports_reward</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">sports_reward</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">reward</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">ids</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">reward</span>[<span class="ruby-value">:target_id</span>])
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">ids</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- sports_reward-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- sports_reward-method -->
+
+    
+      <div id="method-i-update_rewards" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">update_rewards</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call this to make sure the user has the correct rewards for the XP gained</p>
+          
+
+          
+          <div class="method-source-code" id="update_rewards-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 160</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">update_rewards</span>
+  <span class="ruby-identifier">level_reward</span> = <span class="ruby-constant">Reward</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;xp &lt;= ? and target_type = &#39;level&#39;&quot;</span>,  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">xp</span>], <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;xp DESC&quot;</span>)
+  <span class="ruby-identifier">wardrobe_reward</span> = <span class="ruby-constant">Reward</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;xp &lt;= ? and target_type = &#39;wardrobe&#39;&quot;</span>,  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">xp</span>], <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;xp DESC&quot;</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">level</span> = <span class="ruby-identifier">level_reward</span>.<span class="ruby-identifier">target_id</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">level_reward</span>
+  <span class="ruby-comment"># It is assumed that the wardrobe IDs are in ascending order of how they are unlocked. e.g. 5 is unlocked after 4</span>
+  <span class="ruby-comment"># This is a bug, but for now we will follow this assumption until this can be fixed. This is okay as long as</span>
+  <span class="ruby-comment"># the entire wardrobe is reloaded using the load_wardrobe.rake script.</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">wardrobe</span> = <span class="ruby-identifier">wardrobe_reward</span>.<span class="ruby-identifier">target_id</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">wardrobe_reward</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">save</span>
+
+  <span class="ruby-identifier">wardrobe</span> = <span class="ruby-constant">Wardrobe</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">wardrobe_reward</span>.<span class="ruby-identifier">target_id</span>)
+
+  <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Profile #{self.id} &gt;&gt; Level: #{self.level}, Wardrobe: #{wardrobe.name}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- update_rewards-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- update_rewards-method -->
+
+    
+      <div id="method-i-visible_avatar_image" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">visible_avatar_image</span><span
+            class="method-args">(viewer_profile_id, course_id = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="visible_avatar_image-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 55</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">visible_avatar_image</span>(<span class="ruby-identifier">viewer_profile_id</span>, <span class="ruby-identifier">course_id</span> = <span class="ruby-keyword">nil</span>)
+   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">image_file_name</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_public</span>
+   
+   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">image_file_name</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">viewer_profile_id</span>
+   
+   <span class="ruby-identifier">viewer_profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">viewer_profile_id</span>)
+   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">image_file_name</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">viewer_profile</span>.<span class="ruby-identifier">has_role</span>(<span class="ruby-constant">Role</span>.<span class="ruby-identifier">edit_user</span>)
+   
+   <span class="ruby-comment"># Are you a student in the viewer&#39;s course</span>
+   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">image_file_name</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">course_id</span> <span class="ruby-keyword">and</span> <span class="ruby-constant">Course</span>.<span class="ruby-identifier">is_owner?</span>(<span class="ruby-identifier">course_id</span>, <span class="ruby-identifier">viewer_profile_id</span>)
+   
+   <span class="ruby-keyword">return</span> <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">default_avatar_image</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- visible_avatar_image-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- visible_avatar_image-method -->
+
+    
+      <div id="method-i-visible_name_and_image" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">visible_name_and_image</span><span
+            class="method-args">(viewer_profile_id, course_id = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="visible_name_and_image-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 69</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">visible_name_and_image</span>(<span class="ruby-identifier">viewer_profile_id</span>, <span class="ruby-identifier">course_id</span> = <span class="ruby-keyword">nil</span>)
+   <span class="ruby-keyword">return</span> {<span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">full_name</span>, <span class="ruby-identifier">image</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">image_file_name</span>} <span class="ruby-keyword">if</span> <span class="ruby-identifier">is_public</span>
+   
+   <span class="ruby-keyword">return</span> {<span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">full_name</span>, <span class="ruby-identifier">image</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">image_file_name</span>} <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">viewer_profile_id</span>
+   
+   <span class="ruby-identifier">viewer_profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">viewer_profile_id</span>)
+   <span class="ruby-keyword">return</span> {<span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">full_name</span>, <span class="ruby-identifier">image</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">image_file_name</span>} <span class="ruby-keyword">if</span> <span class="ruby-identifier">viewer_profile</span>.<span class="ruby-identifier">has_role</span>(<span class="ruby-constant">Role</span>.<span class="ruby-identifier">edit_user</span>)
+   
+   <span class="ruby-comment"># Are you a student in the viewer&#39;s course</span>
+   <span class="ruby-keyword">return</span> {<span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">full_name</span>, <span class="ruby-identifier">image</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">image_file_name</span>} <span class="ruby-keyword">if</span> <span class="ruby-identifier">course_id</span> <span class="ruby-keyword">and</span> <span class="ruby-constant">Course</span>.<span class="ruby-identifier">is_owner?</span>(<span class="ruby-identifier">course_id</span>, <span class="ruby-identifier">viewer_profile_id</span>)
+   
+   <span class="ruby-keyword">return</span> {<span class="ruby-identifier">name</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;Private&#39;</span>, <span class="ruby-identifier">image</span><span class="ruby-operator">:</span> <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">default_avatar_image</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- visible_name_and_image-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- visible_name_and_image-method -->
+
+    
+      <div id="method-i-xp_by_course" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">xp_by_course</span><span
+            class="method-args">(course_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Calculates the total xp that can be received for given course</p>
+          
+
+          
+          <div class="method-source-code" id="xp_by_course-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 223</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">xp_by_course</span>(<span class="ruby-identifier">course_id</span>)
+  <span class="ruby-identifier">acc_xp</span> = <span class="ruby-value">0</span>
+  <span class="ruby-identifier">total_xp</span> = <span class="ruby-value">0</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">task_participants</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">tp</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">xp</span> = <span class="ruby-identifier">tp</span>.<span class="ruby-identifier">task</span>.<span class="ruby-identifier">points</span>
+    <span class="ruby-identifier">acc_xp</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">xp</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">tp</span>.<span class="ruby-identifier">xp_award_date</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">total_xp</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">xp</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">acc_xp</span>, <span class="ruby-identifier">total_xp</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- xp_by_course-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- xp_by_course-method -->
+
+    
+      <div id="method-i-xp_by_game" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">xp_by_game</span><span
+            class="method-args">(game_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="xp_by_game-source">
+            <pre><span class="ruby-comment"># File app/models/profile.rb, line 253</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">xp_by_game</span>(<span class="ruby-identifier">game_id</span>)
+  <span class="ruby-identifier">game</span> = <span class="ruby-constant">Game</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">game_id</span>)
+  <span class="ruby-comment"># This assumes that feat records are ordered chronologically</span>
+  <span class="ruby-identifier">feat</span> = <span class="ruby-identifier">game</span>.<span class="ruby-identifier">feats</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">profile_id</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">progress_type</span><span class="ruby-operator">:</span> <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">xp</span>).<span class="ruby-identifier">last</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">progress</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">feat</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-value">0</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- xp_by_game-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- xp_by_game-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

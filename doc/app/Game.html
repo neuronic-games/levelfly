@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class Game - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/models/game.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">ActiveRecord::Base
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-add_score_leader">::add_score_leader</a>
+    
+    <li><a href="#method-i-get_all_scores_in_order">#get_all_scores_in_order</a>
+    
+    <li><a href="#method-i-get_badge_count">#get_badge_count</a>
+    
+    <li><a href="#method-i-get_duration">#get_duration</a>
+    
+    <li><a href="#method-i-get_level">#get_level</a>
+    
+    <li><a href="#method-i-get_score">#get_score</a>
+    
+    <li><a href="#method-i-get_xp">#get_xp</a>
+    
+    <li><a href="#method-i-list_feats">#list_feats</a>
+    
+    <li><a href="#method-i-list_outcome_ratings">#list_outcome_ratings</a>
+    
+    <li><a href="#method-i-my_game-3F">#my_game?</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./AccessCode.html">AccessCode</a>
+  
+    <li><a href="./Admin.html">Admin</a>
+  
+    <li><a href="./App.html">App</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./Attachment.html">Attachment</a>
+  
+    <li><a href="./Avatar.html">Avatar</a>
+  
+    <li><a href="./AvatarBadge.html">AvatarBadge</a>
+  
+    <li><a href="./Badge.html">Badge</a>
+  
+    <li><a href="./BadgeController.html">BadgeController</a>
+  
+    <li><a href="./BadgeHelper.html">BadgeHelper</a>
+  
+    <li><a href="./BadgeImage.html">BadgeImage</a>
+  
+    <li><a href="./CampusMajor.html">CampusMajor</a>
+  
+    <li><a href="./Category.html">Category</a>
+  
+    <li><a href="./CategoryObserver.html">CategoryObserver</a>
+  
+    <li><a href="./Checkpoint.html">Checkpoint</a>
+  
+    <li><a href="./ConfirmationsController.html">ConfirmationsController</a>
+  
+    <li><a href="./Course.html">Course</a>
+  
+    <li><a href="./CourseController.html">CourseController</a>
+  
+    <li><a href="./CourseGrade.html">CourseGrade</a>
+  
+    <li><a href="./CourseHelper.html">CourseHelper</a>
+  
+    <li><a href="./CustomFailure.html">CustomFailure</a>
+  
+    <li><a href="./Department.html">Department</a>
+  
+    <li><a href="./Feat.html">Feat</a>
+  
+    <li><a href="./Feed.html">Feed</a>
+  
+    <li><a href="./FriendController.html">FriendController</a>
+  
+    <li><a href="./FriendHelper.html">FriendHelper</a>
+  
+    <li><a href="./Game.html">Game</a>
+  
+    <li><a href="./GameScoreLeader.html">GameScoreLeader</a>
+  
+    <li><a href="./Gamecenter.html">Gamecenter</a>
+  
+    <li><a href="./GamecenterController.html">GamecenterController</a>
+  
+    <li><a href="./GradeBookController.html">GradeBookController</a>
+  
+    <li><a href="./GradeBookHelper.html">GradeBookHelper</a>
+  
+    <li><a href="./GradeType.html">GradeType</a>
+  
+    <li><a href="./Group.html">Group</a>
+  
+    <li><a href="./GroupHelper.html">GroupHelper</a>
+  
+    <li><a href="./LeaderBoardController.html">LeaderBoardController</a>
+  
+    <li><a href="./LeaderBoardHelper.html">LeaderBoardHelper</a>
+  
+    <li><a href="./Like.html">Like</a>
+  
+    <li><a href="./Major.html">Major</a>
+  
+    <li><a href="./Message.html">Message</a>
+  
+    <li><a href="./MessageController.html">MessageController</a>
+  
+    <li><a href="./MessageHelper.html">MessageHelper</a>
+  
+    <li><a href="./MessageViewer.html">MessageViewer</a>
+  
+    <li><a href="./Note.html">Note</a>
+  
+    <li><a href="./Outcome.html">Outcome</a>
+  
+    <li><a href="./OutcomeFeat.html">OutcomeFeat</a>
+  
+    <li><a href="./OutcomeGrade.html">OutcomeGrade</a>
+  
+    <li><a href="./OutcomeTask.html">OutcomeTask</a>
+  
+    <li><a href="./OutcomeTaskObserver.html">OutcomeTaskObserver</a>
+  
+    <li><a href="./Participant.html">Participant</a>
+  
+    <li><a href="./ParticipantObserver.html">ParticipantObserver</a>
+  
+    <li><a href="./Permission.html">Permission</a>
+  
+    <li><a href="./Profile.html">Profile</a>
+  
+    <li><a href="./ProfileAction.html">ProfileAction</a>
+  
+    <li><a href="./ProfileController.html">ProfileController</a>
+  
+    <li><a href="./ProfileHelper.html">ProfileHelper</a>
+  
+    <li><a href="./Quest.html">Quest</a>
+  
+    <li><a href="./RegistrationsController.html">RegistrationsController</a>
+  
+    <li><a href="./RegistrationsHelper.html">RegistrationsHelper</a>
+  
+    <li><a href="./Report.html">Report</a>
+  
+    <li><a href="./Reward.html">Reward</a>
+  
+    <li><a href="./RewardController.html">RewardController</a>
+  
+    <li><a href="./RewardHelper.html">RewardHelper</a>
+  
+    <li><a href="./Role.html">Role</a>
+  
+    <li><a href="./RoleName.html">RoleName</a>
+  
+    <li><a href="./School.html">School</a>
+  
+    <li><a href="./ScreenShot.html">ScreenShot</a>
+  
+    <li><a href="./Semester.html">Semester</a>
+  
+    <li><a href="./SessionsController.html">SessionsController</a>
+  
+    <li><a href="./Setting.html">Setting</a>
+  
+    <li><a href="./SettingController.html">SettingController</a>
+  
+    <li><a href="./SettingHelper.html">SettingHelper</a>
+  
+    <li><a href="./SystemController.html">SystemController</a>
+  
+    <li><a href="./SystemHelper.html">SystemHelper</a>
+  
+    <li><a href="./Task.html">Task</a>
+  
+    <li><a href="./TaskController.html">TaskController</a>
+  
+    <li><a href="./TaskGrade.html">TaskGrade</a>
+  
+    <li><a href="./TaskHelper.html">TaskHelper</a>
+  
+    <li><a href="./TaskObserver.html">TaskObserver</a>
+  
+    <li><a href="./TaskParticipant.html">TaskParticipant</a>
+  
+    <li><a href="./User.html">User</a>
+  
+    <li><a href="./UserMailer.html">UserMailer</a>
+  
+    <li><a href="./UsersController.html">UsersController</a>
+  
+    <li><a href="./UsersHelper.html">UsersHelper</a>
+  
+    <li><a href="./Vault.html">Vault</a>
+  
+    <li><a href="./Wall.html">Wall</a>
+  
+    <li><a href="./Wardrobe.html">Wardrobe</a>
+  
+    <li><a href="./WardrobeController.html">WardrobeController</a>
+  
+    <li><a href="./WardrobeHelper.html">WardrobeHelper</a>
+  
+    <li><a href="./WardrobeItem.html">WardrobeItem</a>
+  
+    <li><a href="./WardrobeItemType.html">WardrobeItemType</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Game</h1>
+
+  <div id="description" class="description">
+    
+<p>Defines the playable games that show up under teh GameCenter</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="PLATFORMS">PLATFORMS
+        
+        <dd class="description">
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-add_score_leader" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_score_leader</span><span
+            class="method-args">(feat, count = 50)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Add the score feat to the leaderboard, if the user is not already on it</p>
+          
+
+          
+          <div class="method-source-code" id="add_score_leader-source">
+            <pre><span class="ruby-comment"># File app/models/game.rb, line 80</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">add_score_leader</span>(<span class="ruby-identifier">feat</span>, <span class="ruby-identifier">count</span> = <span class="ruby-value">50</span>)
+  <span class="ruby-identifier">add_new</span> = <span class="ruby-keyword">true</span>
+  
+  <span class="ruby-comment"># Update the leader if they are already in the leaderboard</span>
+  <span class="ruby-identifier">leader</span> = <span class="ruby-constant">GameScoreLeader</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">game_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">game_id</span>, <span class="ruby-identifier">profile_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">profile_id</span>).<span class="ruby-identifier">first</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">leader</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">leader</span>.<span class="ruby-identifier">score</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">progress</span>
+    <span class="ruby-identifier">leader</span>.<span class="ruby-identifier">score</span> = <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">progress</span>
+    <span class="ruby-identifier">leader</span>.<span class="ruby-identifier">full_name</span> = <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">profile</span>.<span class="ruby-identifier">full_name</span>  <span class="ruby-comment"># In case the name has changed</span>
+    <span class="ruby-identifier">leader</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-keyword">return</span>
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-comment"># Else, check to see if the person should be added</span>
+  <span class="ruby-identifier">leaders</span> = <span class="ruby-constant">GameScoreLeader</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">game_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">game_id</span>).<span class="ruby-identifier">order</span>(<span class="ruby-string">&quot;score desc&quot;</span>)
+  <span class="ruby-identifier">last_leader</span> = <span class="ruby-identifier">leaders</span>.<span class="ruby-identifier">last</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">leaders</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">count</span> 
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">last_leader</span>.<span class="ruby-identifier">score</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">progress</span>
+      <span class="ruby-comment"># Remove the last person in the list</span>
+      <span class="ruby-identifier">last_leader</span>.<span class="ruby-identifier">delete</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">add_new</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">add_new</span>
+    <span class="ruby-identifier">leader</span> = <span class="ruby-constant">GameScoreLeader</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">leader</span>.<span class="ruby-identifier">game_id</span> = <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">game_id</span>
+    <span class="ruby-identifier">leader</span>.<span class="ruby-identifier">profile_id</span> = <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">profile_id</span>
+    <span class="ruby-identifier">leader</span>.<span class="ruby-identifier">full_name</span> = <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">profile</span>.<span class="ruby-identifier">full_name</span>
+    <span class="ruby-identifier">leader</span>.<span class="ruby-identifier">score</span> = <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">progress</span>
+    <span class="ruby-identifier">leader</span>.<span class="ruby-identifier">save</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- add_score_leader-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- add_score_leader-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-get_all_scores_in_order" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_all_scores_in_order</span><span
+            class="method-args">(limit = 50)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns a list of all player scores in descending order</p>
+          
+
+          
+          <div class="method-source-code" id="get_all_scores_in_order-source">
+            <pre><span class="ruby-comment"># File app/models/game.rb, line 46</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_all_scores_in_order</span>(<span class="ruby-identifier">limit</span> = <span class="ruby-value">50</span>)
+  <span class="ruby-identifier">all_score</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">feats</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">progress_type</span><span class="ruby-operator">:</span> <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">score</span>).<span class="ruby-identifier">group</span>(<span class="ruby-value">:profile_id</span>).<span class="ruby-identifier">maximum</span>(<span class="ruby-value">:progress</span>)
+  <span class="ruby-identifier">top_score</span> = <span class="ruby-identifier">all_score</span>.<span class="ruby-identifier">sort_by</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">profile_id</span>, <span class="ruby-identifier">score</span><span class="ruby-operator">|</span> <span class="ruby-identifier">score</span> }.<span class="ruby-identifier">reverse</span>.<span class="ruby-identifier">first</span>(<span class="ruby-identifier">limit</span>)
+  <span class="ruby-identifier">top_score</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">profile_score</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">profile_score</span>[<span class="ruby-value">0</span>])  <span class="ruby-comment"># profile_id</span>
+    <span class="ruby-identifier">profile_score</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">full_name</span>
+    <span class="ruby-identifier">profile_score</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">image_file_name</span>
+    <span class="ruby-identifier">profile_score</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">xp</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_all_scores_in_order-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_all_scores_in_order-method -->
+
+    
+      <div id="method-i-get_badge_count" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_badge_count</span><span
+            class="method-args">(profile_id, badge_id = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_badge_count-source">
+            <pre><span class="ruby-comment"># File app/models/game.rb, line 39</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_badge_count</span>(<span class="ruby-identifier">profile_id</span>, <span class="ruby-identifier">badge_id</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">feats</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">profile_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">profile_id</span>, <span class="ruby-identifier">progress_type</span><span class="ruby-operator">:</span> <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">badge</span>, <span class="ruby-identifier">progress</span><span class="ruby-operator">:</span> <span class="ruby-identifier">badge_id</span>).<span class="ruby-identifier">count</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">badge_id</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">feats</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">profile_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">profile_id</span>, <span class="ruby-identifier">progress_type</span><span class="ruby-operator">:</span> <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">badge</span>).<span class="ruby-identifier">count</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_badge_count-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_badge_count-method -->
+
+    
+      <div id="method-i-get_duration" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_duration</span><span
+            class="method-args">(profile_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the total time that a player has been active in a game</p>
+          
+
+          
+          <div class="method-source-code" id="get_duration-source">
+            <pre><span class="ruby-comment"># File app/models/game.rb, line 68</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_duration</span>(<span class="ruby-identifier">profile_id</span>)
+  <span class="ruby-identifier">dur</span> = <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">game_id</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">profile_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">profile_id</span>, <span class="ruby-identifier">progress_type</span><span class="ruby-operator">:</span> <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">duration</span>).<span class="ruby-identifier">sum</span>(<span class="ruby-value">:progress</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">dur</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_duration-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_duration-method -->
+
+    
+      <div id="method-i-get_level" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_level</span><span
+            class="method-args">(profile_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the last level achieved</p>
+          
+
+          
+          <div class="method-source-code" id="get_level-source">
+            <pre><span class="ruby-comment"># File app/models/game.rb, line 74</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_level</span>(<span class="ruby-identifier">profile_id</span>)
+  <span class="ruby-identifier">feat</span> = <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">game_id</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">profile_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">profile_id</span>).<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;level is not null&quot;</span>).<span class="ruby-identifier">last</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">feat</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">level</span> <span class="ruby-operator">:</span> <span class="ruby-string">&quot;&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_level-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_level-method -->
+
+    
+      <div id="method-i-get_score" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_score</span><span
+            class="method-args">(profile_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the player&#39;s score for the game. It is assumed that the last
+score in the list is the final score. Thus scores would normally be in
+increasing order, although it is possible for the score to go down.</p>
+          
+
+          
+          <div class="method-source-code" id="get_score-source">
+            <pre><span class="ruby-comment"># File app/models/game.rb, line 32</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_score</span>(<span class="ruby-identifier">profile_id</span>)
+  <span class="ruby-comment"># This assumes that feat records are ordered chronologically</span>
+  <span class="ruby-identifier">feat</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">feats</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">profile_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">profile_id</span>, <span class="ruby-identifier">progress_type</span><span class="ruby-operator">:</span> <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">score</span>).<span class="ruby-identifier">last</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">progress</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">feat</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-value">0</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_score-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_score-method -->
+
+    
+      <div id="method-i-get_xp" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_xp</span><span
+            class="method-args">(profile_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the player&#39;s xp for the game. It is assumed that the last xp in
+the list is the final xp. XP cannot go back down because it is tied to
+level rewards.</p>
+          
+
+          
+          <div class="method-source-code" id="get_xp-source">
+            <pre><span class="ruby-comment"># File app/models/game.rb, line 60</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_xp</span>(<span class="ruby-identifier">profile_id</span>)
+  <span class="ruby-comment"># This assumes that feat records are ordered chronologically</span>
+  <span class="ruby-identifier">feat</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">feats</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">profile_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">profile_id</span>, <span class="ruby-identifier">progress_type</span><span class="ruby-operator">:</span> <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">xp</span>).<span class="ruby-identifier">last</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">progress</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">feat</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-value">0</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_xp-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_xp-method -->
+
+    
+      <div id="method-i-list_feats" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">list_feats</span><span
+            class="method-args">(profile_id, limit = 100)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="list_feats-source">
+            <pre><span class="ruby-comment"># File app/models/game.rb, line 122</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">list_feats</span>(<span class="ruby-identifier">profile_id</span>, <span class="ruby-identifier">limit</span> = <span class="ruby-value">100</span>)
+  <span class="ruby-ivar">@feats</span> = []
+  <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">profile_id</span>)
+  <span class="ruby-identifier">feat_list</span> = <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">game_id</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">profile_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">profile_id</span>)
+    .<span class="ruby-identifier">order</span>(<span class="ruby-string">&quot;created_at desc&quot;</span>)
+    .<span class="ruby-identifier">limit</span>(<span class="ruby-identifier">limit</span>)
+
+  <span class="ruby-identifier">feat_list</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">feat</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">progress_type</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">login</span>
+      <span class="ruby-ivar">@feats</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;[#{feat.created_at}] #{@profile.full_name} logged into #{self.name}&quot;</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">xp</span>
+      <span class="ruby-ivar">@feats</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;[#{feat.created_at}] #{@profile.full_name} has a current XP of #{feat.progress}&quot;</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">score</span>
+      <span class="ruby-ivar">@feats</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;[#{feat.created_at}] #{@profile.full_name} has a current score of #{feat.progress}&quot;</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">badge</span>
+      <span class="ruby-identifier">badge</span> = <span class="ruby-constant">Badge</span>.<span class="ruby-identifier">find_by_id</span>(<span class="ruby-identifier">feat</span>.<span class="ruby-identifier">progress</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">badge</span>
+        <span class="ruby-ivar">@feats</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;[#{feat.created_at}] #{@profile.full_name} acquired #{badge ? badge.name : &#39;unknown&#39;} badge&quot;</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">rating</span>
+      <span class="ruby-ivar">@feats</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;[#{feat.created_at}] #{@profile.full_name} acquired a #{feat.outcome_feat.rating} rating in &#39;#{feat.outcome.name}&#39;&quot;</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">game_level</span>
+      <span class="ruby-ivar">@feats</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;[#{feat.created_at}] #{@profile.full_name}&quot;</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">duration</span>
+      <span class="ruby-ivar">@feats</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;[#{feat.created_at}] #{@profile.full_name} was active for #{feat.progress} seconds&quot;</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-ivar">@feats</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;[#{feat.created_at}] #{@profile.full_name} received #{feat.progress} in type #{feat.progress_type}&quot;</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-ivar">@feats</span>.<span class="ruby-identifier">last</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot; on #{feat.level}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">feat</span>.<span class="ruby-identifier">level</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@feats</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- list_feats-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- list_feats-method -->
+
+    
+      <div id="method-i-list_outcome_ratings" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">list_outcome_ratings</span><span
+            class="method-args">(profile_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="list_outcome_ratings-source">
+            <pre><span class="ruby-comment"># File app/models/game.rb, line 157</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">list_outcome_ratings</span>(<span class="ruby-identifier">profile_id</span>)
+  <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">profile_id</span>)
+  <span class="ruby-identifier">feat_list</span> = <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">game_id</span><span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">profile_id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">profile_id</span>, <span class="ruby-identifier">progress_type</span><span class="ruby-operator">:</span> <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">rating</span>)
+    
+  <span class="ruby-identifier">outcome_list</span> = {}
+  <span class="ruby-identifier">outcome_total_grade</span> = {}
+  <span class="ruby-identifier">outcome_feat_count</span> = {}
+  
+  <span class="ruby-identifier">feat_list</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span> <span class="ruby-identifier">feat</span> <span class="ruby-operator">|</span>
+    <span class="ruby-identifier">outcome</span> = <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">outcome</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">outcome_total_grade</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">outcome</span>)
+      <span class="ruby-identifier">outcome_total_grade</span>[<span class="ruby-identifier">outcome</span>] = <span class="ruby-value">0.0</span>
+      <span class="ruby-identifier">outcome_feat_count</span>[<span class="ruby-identifier">outcome</span>] = <span class="ruby-value">0</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">outcome_total_grade</span>[<span class="ruby-identifier">outcome</span>] <span class="ruby-operator">+=</span> <span class="ruby-identifier">feat</span>.<span class="ruby-identifier">outcome_feat</span>.<span class="ruby-identifier">rating</span>
+    <span class="ruby-identifier">outcome_feat_count</span>[<span class="ruby-identifier">outcome</span>] <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-identifier">outcome_total_grade</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span> <span class="ruby-identifier">outcome</span>, <span class="ruby-identifier">total_rating</span> <span class="ruby-operator">|</span>
+    <span class="ruby-identifier">outcome_list</span>[<span class="ruby-identifier">outcome</span>] = <span class="ruby-identifier">total_rating</span> <span class="ruby-operator">/</span> <span class="ruby-identifier">outcome_feat_count</span>[<span class="ruby-identifier">outcome</span>]
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">outcome_list</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- list_outcome_ratings-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- list_outcome_ratings-method -->
+
+    
+      <div id="method-i-my_game-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">my_game?</span><span
+            class="method-args">(profile_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Owns the game or have played the game</p>
+          
+
+          
+          <div class="method-source-code" id="my_game-3F-source">
+            <pre><span class="ruby-comment"># File app/models/game.rb, line 115</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">my_game?</span>(<span class="ruby-identifier">profile_id</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">profile_id</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">profile_id</span>
+  <span class="ruby-identifier">feat</span> = <span class="ruby-constant">Feat</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:profile_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">profile_id</span>).<span class="ruby-identifier">first</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">feat</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- my_game-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- my_game-3F-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

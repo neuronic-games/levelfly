@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class MessageController - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/controllers/message_controller.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-add_friend_card">#add_friend_card</a>
+    
+    <li><a href="#method-i-add_note">#add_note</a>
+    
+    <li><a href="#method-i-alert_badge">#alert_badge</a>
+    
+    <li><a href="#method-i-check_messages">#check_messages</a>
+    
+    <li><a href="#method-i-check_request">#check_request</a>
+    
+    <li><a href="#method-i-confirm">#confirm</a>
+    
+    <li><a href="#method-i-delete_message">#delete_message</a>
+    
+    <li><a href="#method-i-friend_messages">#friend_messages</a>
+    
+    <li><a href="#method-i-friends_only">#friends_only</a>
+    
+    <li><a href="#method-i-friends_only_all">#friends_only_all</a>
+    
+    <li><a href="#method-i-index">#index</a>
+    
+    <li><a href="#method-i-like">#like</a>
+    
+    <li><a href="#method-i-notes">#notes</a>
+    
+    <li><a href="#method-i-read_message">#read_message</a>
+    
+    <li><a href="#method-i-remove_request_message">#remove_request_message</a>
+    
+    <li><a href="#method-i-respond_to_course_request">#respond_to_course_request</a>
+    
+    <li><a href="#method-i-respond_to_friend_request">#respond_to_friend_request</a>
+    
+    <li><a href="#method-i-save">#save</a>
+    
+    <li><a href="#method-i-save_topic">#save_topic</a>
+    
+    <li><a href="#method-i-show_all">#show_all</a>
+    
+    <li><a href="#method-i-unfriend">#unfriend</a>
+    
+    <li><a href="#method-i-unlike">#unlike</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./AccessCode.html">AccessCode</a>
+  
+    <li><a href="./Admin.html">Admin</a>
+  
+    <li><a href="./App.html">App</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./Attachment.html">Attachment</a>
+  
+    <li><a href="./Avatar.html">Avatar</a>
+  
+    <li><a href="./AvatarBadge.html">AvatarBadge</a>
+  
+    <li><a href="./Badge.html">Badge</a>
+  
+    <li><a href="./BadgeController.html">BadgeController</a>
+  
+    <li><a href="./BadgeHelper.html">BadgeHelper</a>
+  
+    <li><a href="./BadgeImage.html">BadgeImage</a>
+  
+    <li><a href="./CampusMajor.html">CampusMajor</a>
+  
+    <li><a href="./Category.html">Category</a>
+  
+    <li><a href="./CategoryObserver.html">CategoryObserver</a>
+  
+    <li><a href="./Checkpoint.html">Checkpoint</a>
+  
+    <li><a href="./ConfirmationsController.html">ConfirmationsController</a>
+  
+    <li><a href="./Course.html">Course</a>
+  
+    <li><a href="./CourseController.html">CourseController</a>
+  
+    <li><a href="./CourseGrade.html">CourseGrade</a>
+  
+    <li><a href="./CourseHelper.html">CourseHelper</a>
+  
+    <li><a href="./CustomFailure.html">CustomFailure</a>
+  
+    <li><a href="./Department.html">Department</a>
+  
+    <li><a href="./Feat.html">Feat</a>
+  
+    <li><a href="./Feed.html">Feed</a>
+  
+    <li><a href="./FriendController.html">FriendController</a>
+  
+    <li><a href="./FriendHelper.html">FriendHelper</a>
+  
+    <li><a href="./Game.html">Game</a>
+  
+    <li><a href="./GameScoreLeader.html">GameScoreLeader</a>
+  
+    <li><a href="./Gamecenter.html">Gamecenter</a>
+  
+    <li><a href="./GamecenterController.html">GamecenterController</a>
+  
+    <li><a href="./GradeBookController.html">GradeBookController</a>
+  
+    <li><a href="./GradeBookHelper.html">GradeBookHelper</a>
+  
+    <li><a href="./GradeType.html">GradeType</a>
+  
+    <li><a href="./Group.html">Group</a>
+  
+    <li><a href="./GroupHelper.html">GroupHelper</a>
+  
+    <li><a href="./LeaderBoardController.html">LeaderBoardController</a>
+  
+    <li><a href="./LeaderBoardHelper.html">LeaderBoardHelper</a>
+  
+    <li><a href="./Like.html">Like</a>
+  
+    <li><a href="./Major.html">Major</a>
+  
+    <li><a href="./Message.html">Message</a>
+  
+    <li><a href="./MessageController.html">MessageController</a>
+  
+    <li><a href="./MessageHelper.html">MessageHelper</a>
+  
+    <li><a href="./MessageViewer.html">MessageViewer</a>
+  
+    <li><a href="./Note.html">Note</a>
+  
+    <li><a href="./Outcome.html">Outcome</a>
+  
+    <li><a href="./OutcomeFeat.html">OutcomeFeat</a>
+  
+    <li><a href="./OutcomeGrade.html">OutcomeGrade</a>
+  
+    <li><a href="./OutcomeTask.html">OutcomeTask</a>
+  
+    <li><a href="./OutcomeTaskObserver.html">OutcomeTaskObserver</a>
+  
+    <li><a href="./Participant.html">Participant</a>
+  
+    <li><a href="./ParticipantObserver.html">ParticipantObserver</a>
+  
+    <li><a href="./Permission.html">Permission</a>
+  
+    <li><a href="./Profile.html">Profile</a>
+  
+    <li><a href="./ProfileAction.html">ProfileAction</a>
+  
+    <li><a href="./ProfileController.html">ProfileController</a>
+  
+    <li><a href="./ProfileHelper.html">ProfileHelper</a>
+  
+    <li><a href="./Quest.html">Quest</a>
+  
+    <li><a href="./RegistrationsController.html">RegistrationsController</a>
+  
+    <li><a href="./RegistrationsHelper.html">RegistrationsHelper</a>
+  
+    <li><a href="./Report.html">Report</a>
+  
+    <li><a href="./Reward.html">Reward</a>
+  
+    <li><a href="./RewardController.html">RewardController</a>
+  
+    <li><a href="./RewardHelper.html">RewardHelper</a>
+  
+    <li><a href="./Role.html">Role</a>
+  
+    <li><a href="./RoleName.html">RoleName</a>
+  
+    <li><a href="./School.html">School</a>
+  
+    <li><a href="./ScreenShot.html">ScreenShot</a>
+  
+    <li><a href="./Semester.html">Semester</a>
+  
+    <li><a href="./SessionsController.html">SessionsController</a>
+  
+    <li><a href="./Setting.html">Setting</a>
+  
+    <li><a href="./SettingController.html">SettingController</a>
+  
+    <li><a href="./SettingHelper.html">SettingHelper</a>
+  
+    <li><a href="./SystemController.html">SystemController</a>
+  
+    <li><a href="./SystemHelper.html">SystemHelper</a>
+  
+    <li><a href="./Task.html">Task</a>
+  
+    <li><a href="./TaskController.html">TaskController</a>
+  
+    <li><a href="./TaskGrade.html">TaskGrade</a>
+  
+    <li><a href="./TaskHelper.html">TaskHelper</a>
+  
+    <li><a href="./TaskObserver.html">TaskObserver</a>
+  
+    <li><a href="./TaskParticipant.html">TaskParticipant</a>
+  
+    <li><a href="./User.html">User</a>
+  
+    <li><a href="./UserMailer.html">UserMailer</a>
+  
+    <li><a href="./UsersController.html">UsersController</a>
+  
+    <li><a href="./UsersHelper.html">UsersHelper</a>
+  
+    <li><a href="./Vault.html">Vault</a>
+  
+    <li><a href="./Wall.html">Wall</a>
+  
+    <li><a href="./Wardrobe.html">Wardrobe</a>
+  
+    <li><a href="./WardrobeController.html">WardrobeController</a>
+  
+    <li><a href="./WardrobeHelper.html">WardrobeHelper</a>
+  
+    <li><a href="./WardrobeItem.html">WardrobeItem</a>
+  
+    <li><a href="./WardrobeItemType.html">WardrobeItemType</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class MessageController</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-add_friend_card" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_friend_card</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="add_friend_card-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 167</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_friend_card</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:profile_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:profile_id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:profile_id</span>])
+    <span class="ruby-identifier">course_id</span> = <span class="ruby-keyword">nil</span>
+      <span class="ruby-ivar">@current_user</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;user_id = ?&quot;</span>, <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">id</span>])
+      <span class="ruby-comment">#@owner = Participant.find(:first,:conditions=&gt;[&quot;target_id = ? and profile_id = ? and profile_type= &#39;M&#39; and target_type = &#39;Course&#39;&quot;,params[:course_id],@current_user.id])</span>
+      <span class="ruby-identifier">course_ids</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:participants</span>], <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;participants.profile_id = ? and participants.profile_type = &#39;M&#39; and participants.target_type = &#39;Course&#39; and parent_type = &#39;C&#39; and removed = ?&quot;</span>, <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>],<span class="ruby-keyword">false</span>])
+      <span class="ruby-ivar">@courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:participants</span>], <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = &#39;S&#39; and participants.target_type = &#39;Course&#39; and parent_type = &#39;C&#39;&quot;</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:profile_id</span>], <span class="ruby-identifier">course_ids</span>],<span class="ruby-value">:order=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;courses.id&quot;</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-ivar">@courses</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@courses</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>].<span class="ruby-identifier">nil?</span>
+          <span class="ruby-identifier">course_id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>]
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-identifier">course_id</span> = <span class="ruby-ivar">@courses</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">id</span>
+        <span class="ruby-keyword">end</span>
+        <span class="ruby-ivar">@participant</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;target_id = ? and profile_id = ? and target_type = &#39;Course&#39; and profile_type=&#39;S&#39;&quot;</span>,<span class="ruby-identifier">course_id</span>,<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>])
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;add_friend_card&quot;</span>, <span class="ruby-value">:locals</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:profile</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@profile</span>}
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- add_friend_card-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- add_friend_card-method -->
+
+    
+      <div id="method-i-add_note" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_note</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="add_note-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 369</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_note</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@note</span> = <span class="ruby-constant">Note</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-ivar">@note</span>.<span class="ruby-identifier">profile_id</span> = <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]
+    <span class="ruby-ivar">@note</span>.<span class="ruby-identifier">about_object_id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_id</span>]
+    <span class="ruby-ivar">@note</span>.<span class="ruby-identifier">about_object_type</span> = <span class="ruby-string">&quot;Note&quot;</span>
+    <span class="ruby-ivar">@note</span>.<span class="ruby-identifier">content</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:content</span>]
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@note</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-string">&quot;status&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;save&quot;</span>}.<span class="ruby-identifier">to_json</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- add_note-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- add_note-method -->
+
+    
+      <div id="method-i-alert_badge" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">alert_badge</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="alert_badge-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 60</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">alert_badge</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>] <span class="ruby-keyword">and</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+    <span class="ruby-identifier">viewed</span> = <span class="ruby-identifier">notification_badge</span>(<span class="ruby-identifier">profile</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:alert_badge</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">viewed</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- alert_badge-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- alert_badge-method -->
+
+    
+      <div id="method-i-check_messages" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">check_messages</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="check_messages-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 74</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_messages</span>
+  <span class="ruby-identifier">message_ids</span> = <span class="ruby-constant">MessageViewer</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;message_id&quot;</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;viewer_profile_id = ?&quot;</span>, <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]]).<span class="ruby-identifier">collect</span>(&amp;<span class="ruby-value">:message_id</span>)
+  <span class="ruby-ivar">@messages</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;(archived is NULL or archived = ?) AND message_type in (&#39;Message&#39;) and id in (?) and target_type in(&#39;C&#39;,&#39;&#39;,&#39;G&#39;) and created_at &gt; ?&quot;</span>,<span class="ruby-keyword">false</span>,<span class="ruby-identifier">message_ids</span>,<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:last_check_time</span>]], <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;created_at DESC&#39;</span>)
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:partial=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;message/message_load&quot;</span>,<span class="ruby-value">:locals=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-value">:friend_request</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@friend_requests</span>}
+  <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:last_check_time</span>] = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">now</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- check_messages-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- check_messages-method -->
+
+    
+      <div id="method-i-check_request" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">check_request</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="check_request-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 68</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_request</span>
+  <span class="ruby-ivar">@friend_requests</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;message_type in (&#39;Friend&#39;, &#39;course_invite&#39;) AND parent_id = ? AND (archived is NULL or archived = ?) AND created_at &gt; ?&quot;</span>, <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>], <span class="ruby-keyword">false</span>,<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:last_check_time</span>]])
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:partial=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;message/friend_request_show&quot;</span>,<span class="ruby-value">:locals=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-value">:friend_request</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@friend_requests</span>}
+  <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:last_check_time</span>] = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">now</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- check_request-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- check_request-method -->
+
+    
+      <div id="method-i-confirm" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">confirm</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="confirm-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 442</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">confirm</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">course_master</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_master_id</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_master_id</span>]
+    <span class="ruby-ivar">@del</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-ivar">@message</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">course_master</span> <span class="ruby-keyword">and</span> <span class="ruby-operator">!</span><span class="ruby-identifier">course_master</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">course_master</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]
+        <span class="ruby-identifier">comments_ids</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;distinct profile_id&quot;</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;parent_id = ? AND archived = ?&quot;</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>], <span class="ruby-keyword">false</span>]).<span class="ruby-identifier">collect</span>(&amp;<span class="ruby-value">:profile_id</span>)
+        <span class="ruby-identifier">comments_ids</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+          <span class="ruby-keyword">if</span> <span class="ruby-identifier">c</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]
+            <span class="ruby-ivar">@del</span> = <span class="ruby-keyword">true</span>
+            <span class="ruby-keyword">break</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;message/warning_box&quot;</span>,<span class="ruby-value">:locals</span> =<span class="ruby-operator">&gt;</span>{<span class="ruby-value">:@message_id</span> =<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@message</span>.<span class="ruby-identifier">id</span>, <span class="ruby-value">:@type</span>=<span class="ruby-operator">&gt;</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:message_type</span>], <span class="ruby-value">:@delete_all</span>=<span class="ruby-operator">&gt;</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:delete_all</span>],<span class="ruby-value">:@del</span>=<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@del</span>}
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- confirm-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- confirm-method -->
+
+    
+      <div id="method-i-delete_message" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">delete_message</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="delete_message-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 463</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_message</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_friends</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">comments_ids</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;id&quot;</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;parent_id = ?&quot;</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]]).<span class="ruby-identifier">collect</span>(&amp;<span class="ruby-value">:id</span>)
+    <span class="ruby-comment"># Message.update_all({:archived =&gt; true},[&quot;id = ?&quot;,params[:id]])</span>
+    <span class="ruby-identifier">message</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+    <span class="ruby-identifier">message</span>.<span class="ruby-identifier">update_attributes</span>(<span class="ruby-identifier">archived</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-identifier">message</span>.<span class="ruby-identifier">send_delete_notification</span>(<span class="ruby-identifier">current_profile</span>)
+    <span class="ruby-constant">Message</span>.<span class="ruby-identifier">update_all</span>({<span class="ruby-value">:archived</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>},[<span class="ruby-string">&quot;id in (?)&quot;</span>,<span class="ruby-identifier">comments_ids</span>])
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:delete_all</span>] <span class="ruby-keyword">and</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:delete_all</span>]<span class="ruby-operator">==</span><span class="ruby-string">&quot;delete_all&quot;</span>
+      <span class="ruby-constant">MessageViewer</span>.<span class="ruby-identifier">delete_all</span>([<span class="ruby-string">&quot;message_id = ?&quot;</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]])
+      <span class="ruby-constant">MessageViewer</span>.<span class="ruby-identifier">delete_all</span>([<span class="ruby-string">&quot;message_id in(?)&quot;</span>,<span class="ruby-identifier">comments_ids</span>])
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-ivar">@message_viewer</span> = <span class="ruby-constant">MessageViewer</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;viewer_profile_id = ? and message_id = ?&quot;</span>, <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>], <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]])
+      <span class="ruby-keyword">if</span> <span class="ruby-ivar">@message_viewer</span>
+        <span class="ruby-constant">MessageViewer</span>.<span class="ruby-identifier">delete_all</span>([<span class="ruby-string">&quot;message_id in(?) and viewer_profile_id = ?&quot;</span>,<span class="ruby-identifier">comments_ids</span>, <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]])
+        <span class="ruby-ivar">@message_viewer</span>.<span class="ruby-identifier">delete</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>}
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_friends</span>]
+    <span class="ruby-ivar">@message_viewer</span> = <span class="ruby-constant">MessageViewer</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;viewer_profile_id = ? and message_id = ?&quot;</span>, <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>], <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]])
+    <span class="ruby-identifier">comments_ids</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;id&quot;</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;parent_id = ?&quot;</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]]).<span class="ruby-identifier">collect</span>(&amp;<span class="ruby-value">:id</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@message_viewer</span> <span class="ruby-keyword">and</span> <span class="ruby-ivar">@message_viewer</span>.<span class="ruby-identifier">poster_profile_id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]
+      <span class="ruby-comment"># Message.update_all({:archived =&gt; true},[&quot;id = ?&quot;,params[:id]])</span>
+      <span class="ruby-identifier">message</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+      <span class="ruby-identifier">message</span>.<span class="ruby-identifier">update_attributes</span>(<span class="ruby-identifier">archived</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>)
+      <span class="ruby-identifier">message</span>.<span class="ruby-identifier">send_delete_notification_to_friends</span>(<span class="ruby-identifier">current_profile</span>)
+      <span class="ruby-constant">Message</span>.<span class="ruby-identifier">update_all</span>({<span class="ruby-value">:archived</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>},[<span class="ruby-string">&quot;id in (?)&quot;</span>,<span class="ruby-identifier">comments_ids</span>])
+      <span class="ruby-constant">MessageViewer</span>.<span class="ruby-identifier">delete_all</span>([<span class="ruby-string">&quot;message_id = ?&quot;</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]])
+      <span class="ruby-constant">MessageViewer</span>.<span class="ruby-identifier">delete_all</span>([<span class="ruby-string">&quot;message_id in(?)&quot;</span>,<span class="ruby-identifier">comments_ids</span>])
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-ivar">@message_viewer</span>.<span class="ruby-identifier">delete</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@message_viewer</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>}
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- delete_message-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- delete_message-method -->
+
+    
+      <div id="method-i-friend_messages" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">friend_messages</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="friend_messages-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 382</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">friend_messages</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:profile_id</span>]
+    <span class="ruby-comment">#@messages = Message.find(:all, :conditions =&gt; [&quot;wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !=&#39;Friend&#39;&quot;, wall_ids, false])</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- friend_messages-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- friend_messages-method -->
+
+    
+      <div id="method-i-friends_only" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">friends_only</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="friends_only-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 399</span>
+ <span class="ruby-keyword">def</span> <span class="ruby-identifier">friends_only</span>
+  <span class="ruby-identifier">wall_ids</span> = <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;wall_id&quot;</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;profile_id = ?&quot;</span>,<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]]).<span class="ruby-identifier">collect</span>(&amp;<span class="ruby-value">:wall_id</span>)
+  <span class="ruby-identifier">message_ids</span> = <span class="ruby-constant">MessageViewer</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;message_id&quot;</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;viewer_profile_id = ?&quot;</span>, <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]]).<span class="ruby-identifier">collect</span>(&amp;<span class="ruby-value">:message_id</span>)
+  <span class="ruby-identifier">profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>])
+  <span class="ruby-identifier">cut_off_number</span> = <span class="ruby-constant">Setting</span>.<span class="ruby-identifier">cut_off_number</span>
+  <span class="ruby-identifier">messages_length</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:messages_length</span>].<span class="ruby-identifier">to_i</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:messages_length</span>]
+  <span class="ruby-identifier">messages_limit</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:messages_length</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">messages_length</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">cut_off_number</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">cut_off_number</span>.<span class="ruby-identifier">to_i</span>
+  <span class="ruby-ivar">@friend</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:friend_id</span>])
+  <span class="ruby-identifier">messages</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;(archived is NULL or archived = ?) AND ((profile_id= ? and  parent_id = ?) or (profile_id = ? and parent_id = ?)) AND message_type =&#39;Message&#39; AND parent_type!=&#39;Message&#39; and target_type not in(&#39;Notification&#39;,&#39;Course&#39;,&#39;Group&#39;) and id in(?)&quot;</span>,<span class="ruby-keyword">false</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:friend_id</span>],<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>],<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>],<span class="ruby-identifier">params</span>[<span class="ruby-value">:friend_id</span>],<span class="ruby-identifier">message_ids</span>], <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;created_at DESC&#39;</span>)
+  <span class="ruby-ivar">@messages</span> = <span class="ruby-identifier">messages</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">messages_limit</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>]
+  <span class="ruby-ivar">@show_more_btn</span> = <span class="ruby-identifier">messages</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@messages</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">record_action</span>(<span class="ruby-string">&#39;message&#39;</span>, <span class="ruby-ivar">@friend</span>.<span class="ruby-identifier">id</span>)
+  <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">record_action</span>(<span class="ruby-string">&#39;last&#39;</span>, <span class="ruby-string">&#39;message&#39;</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@messages</span> <span class="ruby-keyword">and</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@messages</span>.<span class="ruby-identifier">blank?</span>
+    <span class="ruby-ivar">@messages</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">message</span><span class="ruby-operator">|</span> <span class="ruby-identifier">message</span>.<span class="ruby-identifier">set_as_viewed</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:friend_id</span>],<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]) }
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;list&quot;</span>,<span class="ruby-value">:locals</span> =<span class="ruby-operator">&gt;</span>
+      {<span class="ruby-value">:friend_id</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:friend_id</span>], <span class="ruby-value">:messages_length</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">messages_limit</span>, <span class="ruby-value">:users_length</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">nil</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- friends_only-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- friends_only-method -->
+
+    
+      <div id="method-i-friends_only_all" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">friends_only_all</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="friends_only_all-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 427</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">friends_only_all</span>
+  <span class="ruby-identifier">wall_ids</span> = <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;wall_id&quot;</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;profile_id = ?&quot;</span>,<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]]).<span class="ruby-identifier">collect</span>(&amp;<span class="ruby-value">:wall_id</span>)
+  <span class="ruby-ivar">@messages</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;wall_id in (?) AND (archived is NULL or archived = ?) AND profile_id=? AND message_type =&#39;Message&#39; AND parent_type=&#39;Profile&#39;&quot;</span>, <span class="ruby-identifier">wall_ids</span>, <span class="ruby-keyword">false</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:friend_id</span>]])
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;list&quot;</span>,<span class="ruby-value">:locals</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:limit</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@limitAttr</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- friends_only_all-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- friends_only_all-method -->
+
+    
+      <div id="method-i-index" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">index</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="index-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 5</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
+
+  <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:last_check_time</span>] = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">now</span>
+  <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>])
+  <span class="ruby-identifier">wall_ids</span> = <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;wall_id&quot;</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;profile_id = ?&quot;</span>, <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>]).<span class="ruby-identifier">collect</span>(&amp;<span class="ruby-value">:wall_id</span>)
+
+  <span class="ruby-identifier">message_ids</span> = <span class="ruby-constant">MessageViewer</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;message_id&quot;</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;viewer_profile_id = ?&quot;</span>, <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>]).<span class="ruby-identifier">collect</span>(&amp;<span class="ruby-value">:message_id</span>)
+
+  <span class="ruby-identifier">cut_off_number</span> = <span class="ruby-constant">Setting</span>.<span class="ruby-identifier">cut_off_number</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:messages_length</span>]
+    <span class="ruby-identifier">messages_length</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:messages_length</span>].<span class="ruby-identifier">to_i</span>
+    <span class="ruby-identifier">users_length</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:users_length</span>].<span class="ruby-identifier">to_i</span>
+    <span class="ruby-identifier">messages_limit</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:load</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;messages&quot;</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">messages_length</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">cut_off_number</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">messages_length</span>
+    <span class="ruby-identifier">users_limit</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:load</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;users&quot;</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">users_length</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">cut_off_number</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">users_length</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">messages_limit</span> = <span class="ruby-identifier">cut_off_number</span>.<span class="ruby-identifier">to_i</span>
+    <span class="ruby-identifier">users_limit</span> = <span class="ruby-identifier">cut_off_number</span>.<span class="ruby-identifier">to_i</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:search_text</span>]
+    <span class="ruby-comment"># Exclude from search messages, if the course they are in, not a users course anymore</span>
+    <span class="ruby-identifier">profile_courses_ids</span> = <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">participants</span>.<span class="ruby-identifier">select</span>(<span class="ruby-string">&#39;target_id&#39;</span>).<span class="ruby-identifier">where</span>(<span class="ruby-identifier">target_type</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;Course&#39;</span>).<span class="ruby-identifier">map</span>(&amp;<span class="ruby-value">:target_id</span>)
+    <span class="ruby-identifier">not_avail_messages_ids</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">select</span>(<span class="ruby-string">&#39;id&#39;</span>).<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;target_id NOT IN (?) AND (target_type = &#39;C&#39; OR target_type = &#39;Course&#39;) AND profile_id = (?) AND archived = false&quot;</span>, <span class="ruby-identifier">profile_courses_ids</span>, <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>).<span class="ruby-identifier">map</span>(&amp;<span class="ruby-value">:id</span>)
+    <span class="ruby-identifier">message_ids</span> <span class="ruby-operator">-=</span> <span class="ruby-identifier">not_avail_messages_ids</span>
+
+    <span class="ruby-identifier">search_text</span> =  <span class="ruby-node">&quot;%#{params[:search_text]}%&quot;</span>
+    <span class="ruby-ivar">@comment_ids</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>,
+      <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;parent_id&quot;</span>,
+      <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;(archived is NULL or archived = ?) AND parent_type = &#39;Message&#39; AND lower(content) LIKE ? &quot;</span>, <span class="ruby-keyword">false</span>, <span class="ruby-identifier">search_text</span>.<span class="ruby-identifier">downcase</span>]).<span class="ruby-identifier">collect</span>(&amp;<span class="ruby-value">:parent_id</span>)
+    <span class="ruby-identifier">conditions</span> = [<span class="ruby-string">&quot;id in (?) AND (archived is NULL or archived = ?) AND message_type !=&#39;Friend&#39; AND (lower(content) LIKE ? OR id in (?) or lower(topic) LIKE ? )&quot;</span>, <span class="ruby-identifier">message_ids</span>, <span class="ruby-keyword">false</span>, <span class="ruby-identifier">search_text</span>.<span class="ruby-identifier">downcase</span>, <span class="ruby-ivar">@comment_ids</span>, <span class="ruby-identifier">search_text</span>.<span class="ruby-identifier">downcase</span>]
+    <span class="ruby-identifier">order</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:friend_id</span>]
+    <span class="ruby-identifier">conditions</span> = [<span class="ruby-string">&quot;(archived is NULL or archived = ?) AND profile_id = ? AND message_type =&#39;Message&#39; AND parent_type=&#39;Profile&#39; and id in (?)&quot;</span>, <span class="ruby-keyword">false</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:friend_id</span>], <span class="ruby-identifier">message_ids</span>]
+    <span class="ruby-identifier">order</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">conditions</span> = [<span class="ruby-string">&quot;(archived is NULL or archived = ?) AND message_type in (&#39;Message&#39;) and id in (?) and target_type in (&#39;&#39;)&quot;</span>, <span class="ruby-keyword">false</span>, <span class="ruby-identifier">message_ids</span>]
+    <span class="ruby-identifier">order</span> = <span class="ruby-string">&#39;created_at DESC&#39;</span>
+    <span class="ruby-ivar">@school_invites</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">school_invites</span>(<span class="ruby-identifier">message_ids</span>)
+    <span class="ruby-ivar">@friend_requests</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;message_type in (&#39;Friend&#39;, &#39;course_invite&#39;, &#39;group_request&#39;,&#39;group_invite&#39;) AND parent_id = ? AND (archived is NULL or archived = ?) and id in(?)&quot;</span>, <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>, <span class="ruby-keyword">false</span>, <span class="ruby-identifier">message_ids</span>],<span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;created_at DESC&#39;</span>)
+    <span class="ruby-ivar">@respont_to_course</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">respond_to_course</span>( <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>,<span class="ruby-identifier">message_ids</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-ivar">@messages</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">conditions</span>, <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">order</span>, <span class="ruby-value">:limit</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">messages_limit</span>)
+  <span class="ruby-identifier">count</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">count</span>(<span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">conditions</span>)
+  <span class="ruby-ivar">@show_more_btn</span> = (<span class="ruby-identifier">count</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">messages_limit</span>)
+
+  <span class="ruby-ivar">@users</span> = <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">recently_messaged</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-identifier">users_limit</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>]
+  <span class="ruby-ivar">@show_more_users</span> = <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">recently_messaged</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">users_limit</span>
+
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">delete_action</span>
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">record_action</span>(<span class="ruby-string">&#39;last&#39;</span>, <span class="ruby-string">&#39;message&#39;</span>)
+  <span class="ruby-identifier">session</span>[<span class="ruby-value">:controller</span>]=<span class="ruby-string">&quot;message&quot;</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;list&quot;</span>,<span class="ruby-value">:locals</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:friend_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@friend_id</span>, <span class="ruby-value">:messages_length</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">messages_limit</span>, <span class="ruby-value">:users_length</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">users_limit</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- index-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- index-method -->
+
+    
+      <div id="method-i-like" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">like</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="like-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 149</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">like</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:message_id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@message</span> = <span class="ruby-constant">Like</span>.<span class="ruby-identifier">add</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:message_id</span>], <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>],<span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>])
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@message</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-string">&quot;action&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;unlike&quot;</span>, <span class="ruby-string">&quot;count&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@message</span>.<span class="ruby-identifier">like</span>}.<span class="ruby-identifier">to_json</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- like-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- like-method -->
+
+    
+      <div id="method-i-notes" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">notes</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="notes-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 420</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">notes</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:friend_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:friend_id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@notes</span> = <span class="ruby-constant">Note</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;profile_id = ? AND about_object_id = ? AND about_object_type = &#39;Note&#39; &quot;</span>,<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>],<span class="ruby-identifier">params</span>[<span class="ruby-value">:friend_id</span>]])
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;list&quot;</span>,<span class="ruby-value">:locals</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:friend_id</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:friend_id</span>]}
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- notes-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- notes-method -->
+
+    
+      <div id="method-i-read_message" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">read_message</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="read_message-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 511</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">read_message</span>
+  <span class="ruby-identifier">messages</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">id</span><span class="ruby-operator">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_id</span>])
+  <span class="ruby-identifier">messages</span>.<span class="ruby-identifier">each</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span> <span class="ruby-identifier">m</span>.<span class="ruby-identifier">set_as_viewed</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:friend_id</span>],<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]) } <span class="ruby-keyword">unless</span> <span class="ruby-identifier">messages</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-identifier">nothing</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- read_message-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- read_message-method -->
+
+    
+      <div id="method-i-remove_request_message" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">remove_request_message</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="remove_request_message-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 433</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">remove_request_message</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">delete_notification</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">eval</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]).<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Array</span>)
+    <span class="ruby-identifier">eval</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]).<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">id</span><span class="ruby-operator">|</span> <span class="ruby-identifier">delete_notification</span>(<span class="ruby-identifier">id</span>)} <span class="ruby-keyword">if</span> <span class="ruby-identifier">eval</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]).<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Array</span>)
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>}
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- remove_request_message-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- remove_request_message-method -->
+
+    
+      <div id="method-i-respond_to_course_request" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">respond_to_course_request</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="respond_to_course_request-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 187</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">respond_to_course_request</span>
+   <span class="ruby-identifier">status</span> = <span class="ruby-keyword">nil</span>
+   <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:message_id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@message</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:message_id</span>])
+    <span class="ruby-identifier">p_id</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>])
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@message</span>
+      <span class="ruby-identifier">group_request</span> = <span class="ruby-keyword">false</span>
+      <span class="ruby-identifier">action</span> = <span class="ruby-keyword">nil</span>
+      <span class="ruby-identifier">content</span> = <span class="ruby-keyword">nil</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:activity</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:activity</span>].<span class="ruby-identifier">nil?</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:activity</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;add&quot;</span>
+          <span class="ruby-identifier">action</span> = <span class="ruby-string">&quot;accepted&quot;</span>
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-identifier">action</span> = <span class="ruby-string">&quot;rejected&quot;</span>
+        <span class="ruby-keyword">end</span>
+        <span class="ruby-identifier">course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">target_id</span>)
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;course_invite&quot;</span>
+          <span class="ruby-identifier">content</span> = <span class="ruby-node">&quot;#{p_id.full_name} has #{action} your invitation to #{course.name}.&quot;</span>
+        <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;Friend&quot;</span>
+          <span class="ruby-identifier">content</span> = <span class="ruby-node">&quot;#{p_id.full_name} has #{action} your friend request.&quot;</span>
+        <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;group_request&quot;</span>
+          <span class="ruby-identifier">content</span> = <span class="ruby-node">&quot;#{p_id.full_name} has #{action} your request to join #{course.name}.&quot;</span>
+        <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;group_invite&quot;</span>
+          <span class="ruby-identifier">content</span> = <span class="ruby-node">&quot;#{p_id.full_name} has #{action} your invitation to #{course.name}.&quot;</span>
+        <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_type</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;group_request&quot;</span>
+          <span class="ruby-identifier">group_request</span> = <span class="ruby-keyword">true</span>
+          <span class="ruby-identifier">profile_id</span> = <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">profile_id</span>
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-identifier">profile_id</span> = <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">parent_id</span>
+        <span class="ruby-keyword">end</span>
+
+        <span class="ruby-ivar">@course_participant</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;target_type = ? AND target_id = ? AND profile_id = ? AND profile_type=&#39;P&#39;&quot;</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:section_type</span>],<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">target_id</span>,<span class="ruby-identifier">profile_id</span>).<span class="ruby-identifier">first</span>
+        <span class="ruby-identifier">tasks</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;course_id = ? and archived = ? and all_members = ?&quot;</span>, <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">target_id</span>, <span class="ruby-keyword">false</span>, <span class="ruby-keyword">true</span>])
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">tasks</span> <span class="ruby-keyword">and</span> <span class="ruby-operator">!</span><span class="ruby-identifier">tasks</span>.<span class="ruby-identifier">blank?</span>
+                                              <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:activity</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;add&quot;</span>
+                                                      <span class="ruby-identifier">tasks</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
+                                                              <span class="ruby-identifier">wall_id</span> = <span class="ruby-constant">Wall</span>.<span class="ruby-identifier">get_wall_id</span>(<span class="ruby-identifier">t</span>.<span class="ruby-identifier">id</span>,<span class="ruby-string">&quot;Task&quot;</span>)
+                                                              <span class="ruby-identifier">task_owner</span> = <span class="ruby-constant">TaskParticipant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;task_id = ? AND profile_type=&#39;O&#39;&quot;</span>, <span class="ruby-identifier">t</span>.<span class="ruby-identifier">id</span>])
+                                                              <span class="ruby-identifier">task_member</span> = <span class="ruby-constant">TaskParticipant</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;task_id = ? AND profile_id = ?&quot;</span>, <span class="ruby-identifier">t</span>.<span class="ruby-identifier">id</span>,<span class="ruby-identifier">p_id</span>.<span class="ruby-identifier">id</span>).<span class="ruby-identifier">count</span>
+                                                              <span class="ruby-keyword">if</span> <span class="ruby-identifier">task_owner</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">task_member</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+                                                                      <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">task_owner</span>.<span class="ruby-identifier">profile_id</span>)
+                                                                      <span class="ruby-ivar">@task_participant</span> = <span class="ruby-constant">TaskParticipant</span>.<span class="ruby-identifier">new</span>
+                                                                      <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">profile_id</span> = <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]
+                                                                      <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">profile_type</span> = <span class="ruby-string">&quot;M&quot;</span>
+                                                                      <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">status</span> = <span class="ruby-string">&quot;A&quot;</span>
+                                                                      <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">priority</span> = <span class="ruby-string">&quot;L&quot;</span>
+                                                                      <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">task_id</span> = <span class="ruby-identifier">t</span>.<span class="ruby-identifier">id</span>
+                                                                      <span class="ruby-keyword">if</span> <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">save</span>
+                                                                              <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">create</span>(
+                                                                                      <span class="ruby-value">:profile_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>],
+                                                                                      <span class="ruby-value">:wall_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">wall_id</span>
+                                                                              )
+                                                                      <span class="ruby-identifier">participant_content</span> = <span class="ruby-node">&quot;#{@profile.full_name} assigned you a new task: #{t.name}&quot;</span>
+                                                                      <span class="ruby-constant">Message</span>.<span class="ruby-identifier">send_notification</span>(<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>,<span class="ruby-identifier">participant_content</span>,<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>])
+                                                                      <span class="ruby-keyword">end</span>
+                                                              <span class="ruby-keyword">end</span>
+                                                      <span class="ruby-keyword">end</span>
+                                              <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+        <span class="ruby-identifier">forums</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;course_id = ? and archived = ? and all_members = ?&quot;</span>, <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">target_id</span>, <span class="ruby-keyword">false</span>, <span class="ruby-keyword">true</span>])
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">forums</span> <span class="ruby-keyword">and</span> <span class="ruby-operator">!</span><span class="ruby-identifier">forums</span>.<span class="ruby-identifier">blank?</span>
+                                              <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:activity</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;add&quot;</span>
+                                                      <span class="ruby-identifier">forums</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">forum</span><span class="ruby-operator">|</span>
+                                                              <span class="ruby-identifier">wall_id</span> = <span class="ruby-constant">Wall</span>.<span class="ruby-identifier">get_wall_id</span>(<span class="ruby-identifier">forum</span>.<span class="ruby-identifier">id</span>,<span class="ruby-string">&quot;Course&quot;</span>)
+                                                              <span class="ruby-ivar">@forum_participant</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">new</span>
+                                                              <span class="ruby-ivar">@forum_participant</span>.<span class="ruby-identifier">target_id</span> = <span class="ruby-identifier">forum</span>.<span class="ruby-identifier">id</span>
+                                                              <span class="ruby-ivar">@forum_participant</span>.<span class="ruby-identifier">target_type</span> = <span class="ruby-string">&quot;Course&quot;</span>
+                                                              <span class="ruby-ivar">@forum_participant</span>.<span class="ruby-identifier">profile_id</span> = <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]
+                                                              <span class="ruby-ivar">@forum_participant</span>.<span class="ruby-identifier">profile_type</span> = <span class="ruby-string">&quot;S&quot;</span>
+                                                              <span class="ruby-keyword">if</span> <span class="ruby-ivar">@forum_participant</span>.<span class="ruby-identifier">save</span>
+                                                                      <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">create</span>(
+                                                                              <span class="ruby-value">:profile_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>],
+                                                                              <span class="ruby-value">:wall_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">wall_id</span>
+                                                                      )
+                                                              <span class="ruby-keyword">end</span>
+                                                      <span class="ruby-keyword">end</span>
+                                              <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:activity</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;add&quot;</span>
+          <span class="ruby-keyword">if</span> <span class="ruby-ivar">@course_participant</span>
+            <span class="ruby-ivar">@course_participant</span>.<span class="ruby-identifier">profile_type</span> = <span class="ruby-string">&#39;S&#39;</span>
+            <span class="ruby-ivar">@course_participant</span>.<span class="ruby-identifier">save</span>
+          <span class="ruby-keyword">end</span>
+           <span class="ruby-comment"># Notification according to message type</span>
+          <span class="ruby-ivar">@respont_to_course</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">respond_to_course_invitation</span>(<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">parent_id</span>,<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">profile_id</span>,<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">target_id</span>,<span class="ruby-identifier">content</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:section_type</span>])
+          <span class="ruby-identifier">status</span> = <span class="ruby-node">&quot;Added to #{course.name} (#{course.code_section})&quot;</span>
+       <span class="ruby-keyword">else</span>
+          <span class="ruby-keyword">if</span> <span class="ruby-ivar">@course_participant</span>
+           <span class="ruby-ivar">@course_participant</span>.<span class="ruby-identifier">delete</span>
+          <span class="ruby-keyword">end</span>
+          <span class="ruby-ivar">@respont_to_course</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">respond_to_course_invitation</span>(<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">parent_id</span>,<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">profile_id</span>,<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">target_id</span>,<span class="ruby-identifier">content</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:section_type</span>])
+          <span class="ruby-identifier">status</span> = <span class="ruby-string">&quot;friend_list&quot;</span>
+       <span class="ruby-keyword">end</span>
+        <span class="ruby-identifier">wall_id</span> = <span class="ruby-constant">Wall</span>.<span class="ruby-identifier">get_wall_id</span>(<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">target_id</span>, <span class="ruby-string">&quot;C&quot;</span>)
+            <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">create</span>(
+              <span class="ruby-value">:profile_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">parent_id</span>,
+              <span class="ruby-value">:wall_id</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">wall_id</span>
+            )
+
+       <span class="ruby-identifier">messages</span> =  <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;profile_id = ? and parent_id = ? and parent_type = ? and message_type = ? and target_id = ? and archived = ?&quot;</span>,<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">profile_id</span>,<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">parent_id</span>,<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">parent_type</span>,<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">message_type</span>,<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">target_id</span>,<span class="ruby-keyword">false</span>])
+       <span class="ruby-identifier">message_ids</span> = <span class="ruby-identifier">messages</span>.<span class="ruby-identifier">map</span>(&amp;<span class="ruby-value">:id</span>)
+       <span class="ruby-identifier">messages</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">message</span><span class="ruby-operator">|</span>
+         <span class="ruby-identifier">message</span>.<span class="ruby-identifier">update_attributes</span>(<span class="ruby-value">:archived</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+       <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">status</span>, <span class="ruby-value">:message_ids=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">message_ids</span>}
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- respond_to_course_request-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- respond_to_course_request-method -->
+
+    
+      <div id="method-i-respond_to_friend_request" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">respond_to_friend_request</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="respond_to_friend_request-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 299</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">respond_to_friend_request</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:message_id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@message</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:message_id</span>])
+    <span class="ruby-identifier">profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>])
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@message</span>
+    <span class="ruby-identifier">already_friend</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;target_id = ? AND profile_id = ? AND target_type = &#39;User&#39; AND profile_type = &#39;F&#39;&quot;</span>, <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">parent_id</span>, <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">profile_id</span>])
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:activity</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:activity</span>].<span class="ruby-identifier">nil?</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:activity</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;add&quot;</span> <span class="ruby-keyword">and</span> <span class="ruby-keyword">not</span> <span class="ruby-identifier">already_friend</span>
+          <span class="ruby-identifier">content</span> = <span class="ruby-node">&quot;#{profile.full_name} has accepted your friend request.&quot;</span>
+          <span class="ruby-ivar">@friend_participant</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">new</span>
+          <span class="ruby-ivar">@friend_participant</span>.<span class="ruby-identifier">target_id</span> = <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">parent_id</span>
+          <span class="ruby-ivar">@friend_participant</span>.<span class="ruby-identifier">target_type</span> = <span class="ruby-string">&quot;User&quot;</span>
+          <span class="ruby-ivar">@friend_participant</span>.<span class="ruby-identifier">profile_id</span> = <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">profile_id</span>
+          <span class="ruby-ivar">@friend_participant</span>.<span class="ruby-identifier">profile_type</span> = <span class="ruby-string">&quot;F&quot;</span>
+          <span class="ruby-keyword">if</span> <span class="ruby-ivar">@friend_participant</span>.<span class="ruby-identifier">save</span>
+            <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">create</span>(
+              <span class="ruby-value">:wall_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">wall_id</span>,
+              <span class="ruby-value">:profile_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@friend_participant</span>.<span class="ruby-identifier">profile_id</span>
+            )
+            <span class="ruby-comment">#Participant record for friend</span>
+            <span class="ruby-ivar">@participant</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">new</span>
+            <span class="ruby-ivar">@participant</span>.<span class="ruby-identifier">target_id</span> = <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">profile_id</span>
+            <span class="ruby-ivar">@participant</span>.<span class="ruby-identifier">target_type</span> = <span class="ruby-string">&quot;User&quot;</span>
+            <span class="ruby-ivar">@participant</span>.<span class="ruby-identifier">profile_id</span> = <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">parent_id</span>
+            <span class="ruby-ivar">@participant</span>.<span class="ruby-identifier">profile_type</span> = <span class="ruby-string">&quot;F&quot;</span>
+            <span class="ruby-keyword">if</span> <span class="ruby-ivar">@participant</span>.<span class="ruby-identifier">save</span>
+              <span class="ruby-comment">#Feed for friend participant</span>
+              <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">create</span>(
+                <span class="ruby-value">:wall_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">wall_id</span>,
+                <span class="ruby-value">:profile_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@participant</span>.<span class="ruby-identifier">profile_id</span>
+              )
+            <span class="ruby-keyword">end</span>
+            <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">archived</span> = <span class="ruby-keyword">true</span>
+            <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">save</span>
+            <span class="ruby-constant">Message</span>.<span class="ruby-identifier">send_notification</span>(<span class="ruby-identifier">profile</span>.<span class="ruby-identifier">id</span>,<span class="ruby-identifier">content</span>,<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">profile_id</span>)
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:activity</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;dntadd&quot;</span>
+          <span class="ruby-identifier">content</span> = <span class="ruby-node">&quot;#{profile.full_name} has rejected your friend request.&quot;</span>
+          <span class="ruby-constant">Message</span>.<span class="ruby-identifier">send_notification</span>(<span class="ruby-identifier">profile</span>.<span class="ruby-identifier">id</span>,<span class="ruby-identifier">content</span>,<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">profile_id</span>)
+          <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">archived</span> = <span class="ruby-keyword">true</span>
+          <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">save</span>
+        <span class="ruby-keyword">end</span>
+          <span class="ruby-identifier">render</span> <span class="ruby-value">:nothing=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- respond_to_friend_request-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- respond_to_friend_request-method -->
+
+    
+      <div id="method-i-save" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">save</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="save-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 82</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">save</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">wall_id</span> = <span class="ruby-constant">Wall</span>.<span class="ruby-identifier">get_wall_id</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_id</span>], <span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_type</span>]) <span class="ruby-comment">#params[:wall_id]</span>
+    <span class="ruby-ivar">@message</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">profile_id</span> = <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]
+    <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">parent_id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_id</span>] <span class="ruby-comment">#params[:target_id]</span>
+    <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">parent_type</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_type</span>]
+    <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">content</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:content</span>]
+    <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">target_id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_id</span>]
+    <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">target_type</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_type</span>]
+    <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">message_type</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_type</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_type</span>]
+    <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">wall_id</span> = <span class="ruby-identifier">wall_id</span>
+    <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">post_date</span> = <span class="ruby-constant">DateTime</span>.<span class="ruby-identifier">now</span>
+
+    <span class="ruby-constant">Message</span>.<span class="ruby-identifier">transaction</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">save</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_id</span>].<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> [<span class="ruby-string">&#39;C&#39;</span>, <span class="ruby-string">&#39;G&#39;</span>, <span class="ruby-string">&#39;F&#39;</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">parent_type</span>)
+          <span class="ruby-ivar">@courseMaster</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(
+            <span class="ruby-value">:first</span>,
+            <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:participants</span>],
+            <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;participants.target_id = ? AND participants.target_type=&#39;Course&#39; AND participants.profile_type = &#39;M&#39;&quot;</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_id</span>]]
+            )
+        <span class="ruby-keyword">end</span>
+        <span class="ruby-ivar">@message_viewer</span> = <span class="ruby-constant">MessageViewer</span>.<span class="ruby-identifier">add</span>(<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>],<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">id</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_type</span>],<span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_id</span>])
+        <span class="ruby-identifier">send_if_board_message</span>(<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">id</span>)
+        <span class="ruby-comment"># Message.send_if_board_comment(@message.id)</span>
+        <span class="ruby-constant">Message</span>.<span class="ruby-identifier">send_to_forum</span>(<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">id</span>)
+        <span class="ruby-keyword">case</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_type</span>]
+          <span class="ruby-keyword">when</span> <span class="ruby-string">&quot;Message&quot;</span>
+            <span class="ruby-ivar">@msg</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_id</span>])
+            <span class="ruby-keyword">if</span> <span class="ruby-ivar">@msg</span> <span class="ruby-keyword">and</span> <span class="ruby-ivar">@msg</span>.<span class="ruby-identifier">parent_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;Profile&quot;</span>
+              <span class="ruby-ivar">@msg</span>.<span class="ruby-identifier">touch</span>
+              <span class="ruby-ivar">@current_user</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;user_id = ?&quot;</span>, <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">id</span>])
+              <span class="ruby-ivar">@school</span> = <span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">school</span>
+              <span class="ruby-identifier">email</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-ivar">@msg</span>.<span class="ruby-identifier">parent_id</span>).<span class="ruby-identifier">user</span>.<span class="ruby-identifier">email</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@msg</span>.<span class="ruby-identifier">profile_id</span>
+              <span class="ruby-identifier">email</span> = <span class="ruby-ivar">@msg</span>.<span class="ruby-identifier">profile</span>.<span class="ruby-identifier">user</span>.<span class="ruby-identifier">email</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@msg</span>.<span class="ruby-identifier">profile_id</span>
+              <span class="ruby-constant">UserMailer</span>.<span class="ruby-identifier">private_message</span>(<span class="ruby-identifier">email</span>,<span class="ruby-ivar">@current_user</span>,<span class="ruby-ivar">@school</span>,<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">content</span>).<span class="ruby-identifier">deliver</span>
+            <span class="ruby-keyword">end</span>
+            <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;comments&quot;</span>, <span class="ruby-value">:locals</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:comment</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@message</span>,<span class="ruby-value">:course_id=</span><span class="ruby-operator">&gt;</span><span class="ruby-ivar">@msg</span>.<span class="ruby-identifier">parent_id</span>}
+          <span class="ruby-keyword">when</span> <span class="ruby-string">&quot;Profile&quot;</span>
+            <span class="ruby-identifier">email</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_id</span>]).<span class="ruby-identifier">user</span>.<span class="ruby-identifier">email</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:parent_id</span>]
+            <span class="ruby-ivar">@current_user</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;user_id = ?&quot;</span>, <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">id</span>])
+            <span class="ruby-ivar">@school</span> = <span class="ruby-ivar">@current_user</span>.<span class="ruby-identifier">school</span>
+            <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_type</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:message_type</span>].<span class="ruby-identifier">nil?</span>
+              <span class="ruby-identifier">message</span> = (<span class="ruby-identifier">params</span>[<span class="ruby-value">:message_type</span>]<span class="ruby-operator">==</span><span class="ruby-string">&quot;Friend&quot;</span>) <span class="ruby-operator">?</span> <span class="ruby-string">&quot;Friend request sent&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&quot;Message sent&quot;</span>
+              <span class="ruby-constant">UserMailer</span>.<span class="ruby-identifier">private_message</span>(<span class="ruby-identifier">email</span>,<span class="ruby-ivar">@current_user</span>,<span class="ruby-ivar">@school</span>,<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">content</span>).<span class="ruby-identifier">deliver</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">message</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;Message sent&quot;</span>
+              <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-string">&quot;status&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;save&quot;</span>, <span class="ruby-string">&quot;message&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-identifier">message</span>}.<span class="ruby-identifier">to_json</span>
+            <span class="ruby-keyword">else</span>
+            <span class="ruby-constant">UserMailer</span>.<span class="ruby-identifier">private_message</span>(<span class="ruby-identifier">email</span>,<span class="ruby-ivar">@current_user</span>,<span class="ruby-ivar">@school</span>,<span class="ruby-ivar">@message</span>.<span class="ruby-identifier">content</span>).<span class="ruby-identifier">deliver</span>
+            <span class="ruby-ivar">@feed</span> = <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>,<span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;profile_id = ? and wall_id = ?&quot;</span>,<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>],<span class="ruby-identifier">wall_id</span>])
+              <span class="ruby-keyword">if</span> <span class="ruby-ivar">@feed</span>.<span class="ruby-identifier">nil?</span>
+                <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">create</span>(<span class="ruby-value">:profile_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>],<span class="ruby-value">:wall_id</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">wall_id</span>)
+              <span class="ruby-keyword">end</span>
+              <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;messages&quot;</span>, <span class="ruby-value">:locals</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:message</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@message</span>}
+            <span class="ruby-keyword">end</span>
+          <span class="ruby-keyword">else</span>
+           <span class="ruby-ivar">@feed</span> = <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>,<span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;profile_id = ? and wall_id = ?&quot;</span>,<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>],<span class="ruby-identifier">wall_id</span>])
+            <span class="ruby-keyword">if</span> <span class="ruby-ivar">@feed</span>.<span class="ruby-identifier">nil?</span>
+              <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">create</span>(<span class="ruby-value">:profile_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>],<span class="ruby-value">:wall_id</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">wall_id</span>)
+            <span class="ruby-keyword">end</span>
+            <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;messages&quot;</span>, <span class="ruby-value">:locals</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:message</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@message</span>}
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- save-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- save-method -->
+
+    
+      <div id="method-i-save_topic" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">save_topic</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="save_topic-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 500</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">save_topic</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>] <span class="ruby-keyword">and</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@message</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@message</span>
+      <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">topic</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:content</span>]
+      <span class="ruby-ivar">@message</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:json</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>}
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- save_topic-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- save_topic-method -->
+
+    
+      <div id="method-i-show_all" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">show_all</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="show_all-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 390</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">show_all</span>
+  <span class="ruby-identifier">wall_ids</span> = <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;wall_id&quot;</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;profile_id = ?&quot;</span>,<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]]).<span class="ruby-identifier">collect</span>(&amp;<span class="ruby-value">:wall_id</span>)
+  <span class="ruby-ivar">@messages</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !=&#39;Friend&#39;&quot;</span>, <span class="ruby-identifier">wall_ids</span>, <span class="ruby-keyword">false</span>])
+  <span class="ruby-ivar">@friend_requests</span> = <span class="ruby-constant">Message</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;message_type =&#39;Friend&#39; AND parent_id = ? AND (archived is NULL or archived = ?)&quot;</span>, <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>], <span class="ruby-keyword">false</span>])
+  <span class="ruby-ivar">@friend</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;target_id = ? AND target_type = &#39;User&#39; AND profile_type = &#39;F&#39;&quot;</span>, <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]])
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;list&quot;</span>,<span class="ruby-value">:locals</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:limit</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@limitAttr</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- show_all-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- show_all-method -->
+
+    
+      <div id="method-i-unfriend" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">unfriend</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="unfriend-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 347</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">unfriend</span>
+  <span class="ruby-identifier">status</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:profile_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span>[<span class="ruby-value">:profile_id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@friend_participant</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">find</span>(
+      <span class="ruby-value">:first</span>,
+      <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;target_id = ? AND profile_id = ? AND profile_type = &#39;F&#39;&quot;</span>, <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>], <span class="ruby-identifier">params</span>[<span class="ruby-value">:profile_id</span>]]
+    )
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@friend_participant</span>
+      <span class="ruby-ivar">@friend_participant</span>.<span class="ruby-identifier">delete</span>
+      <span class="ruby-ivar">@participant</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">find</span>(
+        <span class="ruby-value">:first</span>,
+        <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;target_id = ? AND profile_id = ? AND profile_type = &#39;F&#39;&quot;</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:profile_id</span>] , <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]]
+      )
+      <span class="ruby-keyword">if</span> <span class="ruby-ivar">@participant</span>
+        <span class="ruby-ivar">@participant</span>.<span class="ruby-identifier">delete</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">status</span> = <span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-string">&quot;status&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-identifier">status</span>}.<span class="ruby-identifier">to_json</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- unfriend-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- unfriend-method -->
+
+    
+      <div id="method-i-unlike" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">unlike</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="unlike-source">
+            <pre><span class="ruby-comment"># File app/controllers/message_controller.rb, line 158</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">unlike</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:message_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:message_id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@message</span> = <span class="ruby-constant">Like</span>.<span class="ruby-identifier">remove</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:message_id</span>], <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>], <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>])
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@message</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-string">&quot;action&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;like&quot;</span>, <span class="ruby-string">&quot;count&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@message</span>.<span class="ruby-identifier">like</span>}.<span class="ruby-identifier">to_json</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- unlike-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- unlike-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
