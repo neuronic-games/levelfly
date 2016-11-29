@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class TaskController - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/controllers/task_controller.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
+  
+</nav>
+
+    <!-- Included Modules -->
+<nav id="includes-section" class="section">
+  <h3 class="section-header">Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><a class="include" href="TaskHelper.html">TaskHelper</a>
+  
+  
+  </ul>
+</nav>
+
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-check_priorities">#check_priorities</a>
+    
+    <li><a href="#method-i-check_role">#check_role</a>
+    
+    <li><a href="#method-i-course_categories">#course_categories</a>
+    
+    <li><a href="#method-i-course_outcomes">#course_outcomes</a>
+    
+    <li><a href="#method-i-course_peoples">#course_peoples</a>
+    
+    <li><a href="#method-i-create">#create</a>
+    
+    <li><a href="#method-i-duplicate">#duplicate</a>
+    
+    <li><a href="#method-i-edit">#edit</a>
+    
+    <li><a href="#method-i-extra_credit">#extra_credit</a>
+    
+    <li><a href="#method-i-get_task">#get_task</a>
+    
+    <li><a href="#method-i-index">#index</a>
+    
+    <li><a href="#method-i-new">#new</a>
+    
+    <li><a href="#method-i-outcome_unchecked">#outcome_unchecked</a>
+    
+    <li><a href="#method-i-points_credit">#points_credit</a>
+    
+    <li><a href="#method-i-remove_attachment">#remove_attachment</a>
+    
+    <li><a href="#method-i-remove_task">#remove_task</a>
+    
+    <li><a href="#method-i-remove_tasks">#remove_tasks</a>
+    
+    <li><a href="#method-i-save">#save</a>
+    
+    <li><a href="#method-i-show">#show</a>
+    
+    <li><a href="#method-i-task_complete">#task_complete</a>
+    
+    <li><a href="#method-i-toggle_priority">#toggle_priority</a>
+    
+    <li><a href="#method-i-upload_resource">#upload_resource</a>
+    
+    <li><a href="#method-i-view_setup">#view_setup</a>
+    
+    <li><a href="#method-i-view_task">#view_task</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./AccessCode.html">AccessCode</a>
+  
+    <li><a href="./Admin.html">Admin</a>
+  
+    <li><a href="./App.html">App</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./Attachment.html">Attachment</a>
+  
+    <li><a href="./Avatar.html">Avatar</a>
+  
+    <li><a href="./AvatarBadge.html">AvatarBadge</a>
+  
+    <li><a href="./Badge.html">Badge</a>
+  
+    <li><a href="./BadgeController.html">BadgeController</a>
+  
+    <li><a href="./BadgeHelper.html">BadgeHelper</a>
+  
+    <li><a href="./BadgeImage.html">BadgeImage</a>
+  
+    <li><a href="./CampusMajor.html">CampusMajor</a>
+  
+    <li><a href="./Category.html">Category</a>
+  
+    <li><a href="./CategoryObserver.html">CategoryObserver</a>
+  
+    <li><a href="./Checkpoint.html">Checkpoint</a>
+  
+    <li><a href="./ConfirmationsController.html">ConfirmationsController</a>
+  
+    <li><a href="./Course.html">Course</a>
+  
+    <li><a href="./CourseController.html">CourseController</a>
+  
+    <li><a href="./CourseGrade.html">CourseGrade</a>
+  
+    <li><a href="./CourseHelper.html">CourseHelper</a>
+  
+    <li><a href="./CustomFailure.html">CustomFailure</a>
+  
+    <li><a href="./Department.html">Department</a>
+  
+    <li><a href="./Feat.html">Feat</a>
+  
+    <li><a href="./Feed.html">Feed</a>
+  
+    <li><a href="./FriendController.html">FriendController</a>
+  
+    <li><a href="./FriendHelper.html">FriendHelper</a>
+  
+    <li><a href="./Game.html">Game</a>
+  
+    <li><a href="./GameScoreLeader.html">GameScoreLeader</a>
+  
+    <li><a href="./Gamecenter.html">Gamecenter</a>
+  
+    <li><a href="./GamecenterController.html">GamecenterController</a>
+  
+    <li><a href="./GradeBookController.html">GradeBookController</a>
+  
+    <li><a href="./GradeBookHelper.html">GradeBookHelper</a>
+  
+    <li><a href="./GradeType.html">GradeType</a>
+  
+    <li><a href="./Group.html">Group</a>
+  
+    <li><a href="./GroupHelper.html">GroupHelper</a>
+  
+    <li><a href="./LeaderBoardController.html">LeaderBoardController</a>
+  
+    <li><a href="./LeaderBoardHelper.html">LeaderBoardHelper</a>
+  
+    <li><a href="./Like.html">Like</a>
+  
+    <li><a href="./Major.html">Major</a>
+  
+    <li><a href="./Message.html">Message</a>
+  
+    <li><a href="./MessageController.html">MessageController</a>
+  
+    <li><a href="./MessageHelper.html">MessageHelper</a>
+  
+    <li><a href="./MessageViewer.html">MessageViewer</a>
+  
+    <li><a href="./Note.html">Note</a>
+  
+    <li><a href="./Outcome.html">Outcome</a>
+  
+    <li><a href="./OutcomeFeat.html">OutcomeFeat</a>
+  
+    <li><a href="./OutcomeGrade.html">OutcomeGrade</a>
+  
+    <li><a href="./OutcomeTask.html">OutcomeTask</a>
+  
+    <li><a href="./OutcomeTaskObserver.html">OutcomeTaskObserver</a>
+  
+    <li><a href="./Participant.html">Participant</a>
+  
+    <li><a href="./ParticipantObserver.html">ParticipantObserver</a>
+  
+    <li><a href="./Permission.html">Permission</a>
+  
+    <li><a href="./Profile.html">Profile</a>
+  
+    <li><a href="./ProfileAction.html">ProfileAction</a>
+  
+    <li><a href="./ProfileController.html">ProfileController</a>
+  
+    <li><a href="./ProfileHelper.html">ProfileHelper</a>
+  
+    <li><a href="./Quest.html">Quest</a>
+  
+    <li><a href="./RegistrationsController.html">RegistrationsController</a>
+  
+    <li><a href="./RegistrationsHelper.html">RegistrationsHelper</a>
+  
+    <li><a href="./Report.html">Report</a>
+  
+    <li><a href="./Reward.html">Reward</a>
+  
+    <li><a href="./RewardController.html">RewardController</a>
+  
+    <li><a href="./RewardHelper.html">RewardHelper</a>
+  
+    <li><a href="./Role.html">Role</a>
+  
+    <li><a href="./RoleName.html">RoleName</a>
+  
+    <li><a href="./School.html">School</a>
+  
+    <li><a href="./ScreenShot.html">ScreenShot</a>
+  
+    <li><a href="./Semester.html">Semester</a>
+  
+    <li><a href="./SessionsController.html">SessionsController</a>
+  
+    <li><a href="./Setting.html">Setting</a>
+  
+    <li><a href="./SettingController.html">SettingController</a>
+  
+    <li><a href="./SettingHelper.html">SettingHelper</a>
+  
+    <li><a href="./SystemController.html">SystemController</a>
+  
+    <li><a href="./SystemHelper.html">SystemHelper</a>
+  
+    <li><a href="./Task.html">Task</a>
+  
+    <li><a href="./TaskController.html">TaskController</a>
+  
+    <li><a href="./TaskGrade.html">TaskGrade</a>
+  
+    <li><a href="./TaskHelper.html">TaskHelper</a>
+  
+    <li><a href="./TaskObserver.html">TaskObserver</a>
+  
+    <li><a href="./TaskParticipant.html">TaskParticipant</a>
+  
+    <li><a href="./User.html">User</a>
+  
+    <li><a href="./UserMailer.html">UserMailer</a>
+  
+    <li><a href="./UsersController.html">UsersController</a>
+  
+    <li><a href="./UsersHelper.html">UsersHelper</a>
+  
+    <li><a href="./Vault.html">Vault</a>
+  
+    <li><a href="./Wall.html">Wall</a>
+  
+    <li><a href="./Wardrobe.html">Wardrobe</a>
+  
+    <li><a href="./WardrobeController.html">WardrobeController</a>
+  
+    <li><a href="./WardrobeHelper.html">WardrobeHelper</a>
+  
+    <li><a href="./WardrobeItem.html">WardrobeItem</a>
+  
+    <li><a href="./WardrobeItemType.html">WardrobeItemType</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class TaskController</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-check_priorities" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">check_priorities</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="check_priorities-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 155</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_priorities</span>
+  <span class="ruby-identifier">status</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>].<span class="ruby-identifier">empty?</span>
+     <span class="ruby-ivar">@task</span> = <span class="ruby-constant">TaskParticipant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>,<span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;task_id =?&quot;</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>]])
+      <span class="ruby-keyword">if</span> <span class="ruby-ivar">@task</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:priority</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;L&quot;</span>
+          <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">priority</span> = <span class="ruby-string">&quot;H&quot;</span>
+          <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">save</span>
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">priority</span> = <span class="ruby-string">&quot;L&quot;</span>
+          <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">save</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">status</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">status</span>, <span class="ruby-value">:priority</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">priority</span> }.<span class="ruby-identifier">to_json</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- check_priorities-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- check_priorities-method -->
+
+    
+      <div id="method-i-check_role" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">check_role</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="check_role-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 509</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">check_role</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-constant">Role</span>.<span class="ruby-identifier">check_permission</span>(<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>],<span class="ruby-string">&quot;T&quot;</span>)<span class="ruby-operator">==</span><span class="ruby-keyword">false</span>
+     <span class="ruby-identifier">render</span> <span class="ruby-value">:text=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- check_role-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- check_role-method -->
+
+    
+      <div id="method-i-course_categories" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">course_categories</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="course_categories-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 450</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">course_categories</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@categories</span> = <span class="ruby-constant">Category</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;course_id = ?&quot;</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>]])
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/task/course_categories&quot;</span>, <span class="ruby-value">:locals=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-value">:categories=</span><span class="ruby-operator">&gt;</span><span class="ruby-ivar">@categories</span>}
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- course_categories-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- course_categories-method -->
+
+    
+      <div id="method-i-course_outcomes" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">course_outcomes</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="course_outcomes-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 458</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">course_outcomes</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>])
+    <span class="ruby-ivar">@outcomes</span> = <span class="ruby-ivar">@course</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@course</span>.<span class="ruby-identifier">outcomes</span>.<span class="ruby-identifier">order</span>(<span class="ruby-string">&#39;name&#39;</span>) <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/task/course_outcomes&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- course_outcomes-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- course_outcomes-method -->
+
+    
+      <div id="method-i-course_peoples" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">course_peoples</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="course_peoples-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 466</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">course_peoples</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>])
+    <span class="ruby-ivar">@people</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">find</span>(
+      <span class="ruby-value">:all</span>,
+      <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:profile</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:user</span>],
+      <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;participants.target_id = ? AND participants.target_type=&#39;Course&#39; AND participants.profile_type = &#39;S&#39; AND users.status != &#39;D&#39;&quot;</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>]],
+      <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;profiles.full_name&quot;</span>
+    )
+    <span class="ruby-identifier">all_tasks</span> = []
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@course</span>.<span class="ruby-identifier">owner</span>
+      <span class="ruby-constant">Task</span>.<span class="ruby-identifier">filter_by</span>(<span class="ruby-ivar">@course</span>.<span class="ruby-identifier">owner</span>.<span class="ruby-identifier">id</span>,<span class="ruby-ivar">@course</span>.<span class="ruby-identifier">id</span>,<span class="ruby-string">&quot;&quot;</span>).<span class="ruby-identifier">collect</span>(&amp;<span class="ruby-value">:points</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-ivar">@tasks_created</span> = <span class="ruby-identifier">all_tasks</span>.<span class="ruby-identifier">count</span>
+    <span class="ruby-ivar">@allocated_points</span> = <span class="ruby-identifier">all_tasks</span>.<span class="ruby-identifier">sum</span>
+    <span class="ruby-ivar">@remaining_points</span> = <span class="ruby-value">1000</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@allocated_points</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/task/course_peoples&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- course_peoples-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- course_peoples-method -->
+
+    
+      <div id="method-i-create" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="create-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 319</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- create-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- create-method -->
+
+    
+      <div id="method-i-duplicate" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">duplicate</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="duplicate-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 390</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">duplicate</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">empty?</span>
+    <span class="ruby-ivar">@task</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+    <span class="ruby-ivar">@dup_task</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-ivar">@dup_task</span>.<span class="ruby-identifier">name</span> = <span class="ruby-node">&quot;#{@task.name} Copy&quot;</span>
+    <span class="ruby-ivar">@dup_task</span>.<span class="ruby-identifier">descr</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">descr</span>
+    <span class="ruby-ivar">@dup_task</span>.<span class="ruby-identifier">due_date</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">due_date</span>
+    <span class="ruby-ivar">@dup_task</span>.<span class="ruby-identifier">level</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">level</span>
+    <span class="ruby-ivar">@dup_task</span>.<span class="ruby-identifier">school_id</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">school_id</span>
+    <span class="ruby-ivar">@dup_task</span>.<span class="ruby-identifier">course_id</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">course_id</span>
+    <span class="ruby-ivar">@dup_task</span>.<span class="ruby-identifier">category_id</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">category_id</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@dup_task</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-comment">#Outcome tasks duplicate</span>
+      <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">outcome_tasks</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">o_t</span><span class="ruby-operator">|</span>
+        <span class="ruby-ivar">@dup_task_outcome</span> = <span class="ruby-constant">OutcomeTask</span>.<span class="ruby-identifier">new</span>
+        <span class="ruby-ivar">@dup_task_outcome</span>.<span class="ruby-identifier">task_id</span> = <span class="ruby-ivar">@dup_task</span>.<span class="ruby-identifier">id</span>
+        <span class="ruby-ivar">@dup_task_outcome</span>.<span class="ruby-identifier">outcome_id</span> = <span class="ruby-identifier">o_t</span>.<span class="ruby-identifier">outcome_id</span>
+        <span class="ruby-ivar">@dup_task_outcome</span>.<span class="ruby-identifier">points_percentage</span> = <span class="ruby-identifier">o_t</span>.<span class="ruby-identifier">points_percentage</span>
+        <span class="ruby-ivar">@dup_task_outcome</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-comment">#Participant duplicate</span>
+      <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">participants</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span>
+        <span class="ruby-ivar">@dup_task_participant</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">new</span>
+        <span class="ruby-ivar">@dup_task_participant</span>.<span class="ruby-identifier">target_id</span> = <span class="ruby-ivar">@dup_task</span>.<span class="ruby-identifier">id</span>
+        <span class="ruby-ivar">@dup_task_participant</span>.<span class="ruby-identifier">target_type</span> = <span class="ruby-identifier">p</span>.<span class="ruby-identifier">target_type</span>
+        <span class="ruby-ivar">@dup_task_participant</span>.<span class="ruby-identifier">profile_id</span> = <span class="ruby-identifier">p</span>.<span class="ruby-identifier">profile_id</span>
+        <span class="ruby-ivar">@dup_task_participant</span>.<span class="ruby-identifier">profile_type</span> = <span class="ruby-identifier">p</span>.<span class="ruby-identifier">profile_type</span>
+        <span class="ruby-ivar">@dup_task_participant</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:nothing</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- duplicate-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- duplicate-method -->
+
+    
+      <div id="method-i-edit" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">edit</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="edit-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 387</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- edit-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- edit-method -->
+
+    
+      <div id="method-i-extra_credit" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">extra_credit</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="extra_credit-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 371</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">extra_credit</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">status</span> = <span class="ruby-keyword">nil</span>;
+    <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:member_id</span>])
+    <span class="ruby-ivar">@task</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>])
+    <span class="ruby-ivar">@tp</span> = <span class="ruby-constant">TaskParticipant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;profile_id = ? and task_id = ?&quot;</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:member_id</span>],<span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>]])
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@tp</span> <span class="ruby-keyword">and</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@tp</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-ivar">@tp</span>.<span class="ruby-identifier">update_attribute</span>(<span class="ruby-string">&quot;extra_credit&quot;</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:check_val</span>])
+      <span class="ruby-identifier">status</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:check_val</span>]
+      <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">xp</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">status</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">points</span><span class="ruby-operator">/</span><span class="ruby-value">10</span> <span class="ruby-operator">:</span> <span class="ruby-operator">-</span><span class="ruby-ivar">@task</span>.<span class="ruby-identifier">points</span><span class="ruby-operator">/</span><span class="ruby-value">10</span>
+      <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">status</span>}.<span class="ruby-identifier">to_json</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- extra_credit-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- extra_credit-method -->
+
+    
+      <div id="method-i-get_task" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_task</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_task-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 146</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_task</span>
+  <span class="ruby-ivar">@profile</span> = <span class="ruby-identifier">current_profile</span>
+  <span class="ruby-identifier">tasks</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">filter_by</span>(<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:show</span>], <span class="ruby-identifier">params</span>[<span class="ruby-value">:filter</span>])
+  <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-identifier">tasks</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;!!!!!!!!!!!!!&quot;</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">inspect</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/task/task_list&quot;</span>, <span class="ruby-value">:locals</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:@tasks</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">tasks</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_task-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_task-method -->
+
+    
+      <div id="method-i-index" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">index</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="index-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 8</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
+  <span class="ruby-ivar">@tasks</span> = []
+  <span class="ruby-ivar">@profile</span> = <span class="ruby-identifier">current_profile</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@profile</span>
+    <span class="ruby-ivar">@courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(
+      <span class="ruby-value">:all</span>,
+      <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;distinct *&quot;</span>,
+      <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:participants</span>],
+      <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ? AND courses.removed = ? &quot;</span>, <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">parent_type_course</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">profile_type_pending</span>, <span class="ruby-keyword">false</span>, <span class="ruby-keyword">false</span>],
+      <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;name&#39;</span>
+    )
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:search_text</span>]
+      <span class="ruby-identifier">search_text</span> =  <span class="ruby-node">&quot;%#{params[:search_text]}%&quot;</span>
+      <span class="ruby-ivar">@tasks</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">search_tasks</span>(<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">search_text</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:filter</span>], <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>])
+      <span class="ruby-identifier">search_render</span> = <span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-comment"># Check if the user was working on a details page before, and redirect if so</span>
+      <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">redirect_to_last_action</span>(<span class="ruby-ivar">@profile</span>, <span class="ruby-string">&#39;task&#39;</span>, <span class="ruby-string">&#39;/task/show&#39;</span>)
+      <span class="ruby-ivar">@tasks</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">filter_by</span>(<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>], <span class="ruby-string">&quot;current&quot;</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">wants</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">wants</span>.<span class="ruby-identifier">html</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">xhr?</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">search_render</span>
+          <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/task/task_list&quot;</span> <span class="ruby-comment">#, :locals =&gt; {:t=&gt;@tasks}</span>
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/task/list&quot;</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">render</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- index-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- index-method -->
+
+    
+      <div id="method-i-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 46</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
+  <span class="ruby-ivar">@profile</span> = <span class="ruby-identifier">current_profile</span>
+  <span class="ruby-ivar">@no_course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find_by_code</span>(<span class="ruby-string">&#39;&#39;</span>) <span class="ruby-operator">||</span> <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find_by_code</span>(<span class="ruby-keyword">nil</span>)
+
+  <span class="ruby-ivar">@courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(
+    <span class="ruby-value">:all</span>,
+    <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:participants</span>],
+    <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and courses.archived = ? and courses.removed = ?&quot;</span>, <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>, <span class="ruby-string">&#39;M&#39;</span>,<span class="ruby-constant">Course</span>.<span class="ruby-identifier">parent_type_course</span>,<span class="ruby-keyword">false</span>, <span class="ruby-keyword">false</span>]
+  )
+  <span class="ruby-ivar">@task</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">wants</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">wants</span>.<span class="ruby-identifier">html</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">xhr?</span>
+        <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/task/form&quot;</span> ,<span class="ruby-value">:locals=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-value">:task_new</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:course_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>]}
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">render</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+      <div id="method-i-outcome_unchecked" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">outcome_unchecked</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="outcome_unchecked-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 68</span>
+ <span class="ruby-keyword">def</span> <span class="ruby-identifier">outcome_unchecked</span>
+  <span class="ruby-identifier">status</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>].<span class="ruby-identifier">blank?</span>
+    <span class="ruby-identifier">outcome_task</span> = <span class="ruby-constant">OutcomeTask</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;outcome_id = ? AND task_id = ?&quot;</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:outcome_id</span>], <span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>]])
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">outcome_task</span>
+      <span class="ruby-identifier">outcome_task</span>.<span class="ruby-identifier">destroy</span>
+      <span class="ruby-identifier">status</span> = <span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-string">&quot;status&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-identifier">status</span>}.<span class="ruby-identifier">to_json</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- outcome_unchecked-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- outcome_unchecked-method -->
+
+    
+      <div id="method-i-points_credit" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">points_credit</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="points_credit-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 350</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">points_credit</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>].<span class="ruby-identifier">nil?</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:member_ids</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:member_ids</span>].<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">params</span>[<span class="ruby-value">:member_ids</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">member_id</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">status</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">points_to_student</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>], <span class="ruby-identifier">params</span>[<span class="ruby-value">:check_val</span>]<span class="ruby-operator">==</span><span class="ruby-string">&quot;true&quot;</span>, <span class="ruby-identifier">member_id</span>,<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>])
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">task</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>])
+      <span class="ruby-identifier">task_points</span> = <span class="ruby-identifier">task</span>.<span class="ruby-identifier">points</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">task</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">status</span>, <span class="ruby-value">:task_points</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">task_points</span>}.<span class="ruby-identifier">to_json</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">task_participants</span> = <span class="ruby-constant">TaskParticipant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>,<span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;task_id = ? and profile_type = &#39;M&#39;&quot;</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>]])
+      <span class="ruby-identifier">task_participants</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">participant</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">status</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">points_to_student</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>], <span class="ruby-identifier">params</span>[<span class="ruby-value">:check_val</span>]<span class="ruby-operator">==</span><span class="ruby-string">&quot;true&quot;</span>, <span class="ruby-identifier">participant</span>.<span class="ruby-identifier">profile_id</span>,<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>])
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">task</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>])
+      <span class="ruby-identifier">task_points</span> = <span class="ruby-identifier">task</span>.<span class="ruby-identifier">points</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">task</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">status</span>, <span class="ruby-value">:task_points</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">task_points</span>}.<span class="ruby-identifier">to_json</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- points_credit-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- points_credit-method -->
+
+    
+      <div id="method-i-remove_attachment" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">remove_attachment</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="remove_attachment-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 439</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">remove_attachment</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:attachment_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:attachment_id</span>].<span class="ruby-identifier">empty?</span>
+    <span class="ruby-ivar">@attachment</span> = <span class="ruby-constant">Attachment</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:attachment_id</span>])
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@attachment</span>
+      <span class="ruby-ivar">@attachment</span>.<span class="ruby-identifier">resource</span>.<span class="ruby-identifier">destroy</span>
+      <span class="ruby-ivar">@attachment</span>.<span class="ruby-identifier">destroy</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-string">&quot;status&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-identifier">status</span>, <span class="ruby-string">&quot;attachment_id&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@attachment</span>.<span class="ruby-identifier">id</span>}.<span class="ruby-identifier">to_json</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- remove_attachment-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- remove_attachment-method -->
+
+    
+      <div id="method-i-remove_task" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">remove_task</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="remove_task-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 499</span>
+ <span class="ruby-keyword">def</span> <span class="ruby-identifier">remove_task</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>].<span class="ruby-identifier">empty?</span>
+     <span class="ruby-ivar">@task</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>])
+     <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">archived</span> = <span class="ruby-keyword">true</span>
+     <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">save</span>
+     <span class="ruby-identifier">modify_xp</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>],<span class="ruby-keyword">false</span>)
+     <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:status=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>}.<span class="ruby-identifier">to_json</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- remove_task-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- remove_task-method -->
+
+    
+      <div id="method-i-remove_tasks" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">remove_tasks</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="remove_tasks-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 327</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">remove_tasks</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>].<span class="ruby-identifier">empty?</span>
+     <span class="ruby-ivar">@task</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>])
+     <span class="ruby-identifier">task_participant</span>=<span class="ruby-constant">TaskParticipant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>,<span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;task_id = ? and profile_id = ?&quot;</span>,<span class="ruby-ivar">@task</span>.<span class="ruby-identifier">id</span>,<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]])
+     <span class="ruby-keyword">if</span> <span class="ruby-identifier">task_participant</span>.<span class="ruby-identifier">profile_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;O&quot;</span>
+       <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">archived</span> = <span class="ruby-keyword">true</span>
+       <span class="ruby-identifier">modify_xp</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>],<span class="ruby-keyword">false</span>)
+     <span class="ruby-keyword">else</span>
+       <span class="ruby-identifier">task_participant</span>.<span class="ruby-identifier">delete</span>
+     <span class="ruby-keyword">end</span>
+     <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">save</span>
+     <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:status=</span><span class="ruby-operator">&gt;</span><span class="ruby-keyword">true</span>}.<span class="ruby-identifier">to_json</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- remove_tasks-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- remove_tasks-method -->
+
+    
+      <div id="method-i-save" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">save</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="save-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 184</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">save</span>
+  <span class="ruby-identifier">status</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">category_name</span> = <span class="ruby-string">&quot;&quot;</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>].<span class="ruby-identifier">empty?</span>
+    <span class="ruby-ivar">@task</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-comment"># Save a new task</span>
+    <span class="ruby-ivar">@task</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">course</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">course_id</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">course_id</span> <span class="ruby-operator">:</span> <span class="ruby-value">0</span>
+
+  <span class="ruby-ivar">@profile</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>])
+  <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">name</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:task</span>].<span class="ruby-identifier">slice</span>(<span class="ruby-value">0</span>,<span class="ruby-value">64</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:task</span>]
+  <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">descr</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:descr</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:descr</span>]
+  <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">due_date</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">strptime</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:due_date</span>], <span class="ruby-string">&#39;%m-%d-%Y&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:due_date</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:due_date</span>] <span class="ruby-operator">!=</span> <span class="ruby-string">&quot;null&quot;</span>
+  <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">points</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:task_xp</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:task_xp</span>]
+  <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">school_id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:school_id</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:school_id</span>]
+  <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">course_id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>]
+  <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">archived</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">category_id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:category_id</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:category_id</span>]
+  <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">extra_credit</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:extra_credit</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:extra_credit</span>]
+  <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">all_members</span> = <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:all_members</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;All Members&quot;</span>)
+  <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">all_members</span> = <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> (<span class="ruby-identifier">params</span>[<span class="ruby-value">:all_members</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;Some&quot;</span>)
+  <span class="ruby-comment"># Has something changed on the task that could change it&#39;s points value?</span>
+  <span class="ruby-comment"># FIXME: We may want to recalculate points if the task raiting or course settings change</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:file</span>]
+    <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">image</span>.<span class="ruby-identifier">destroy</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">image</span>
+    <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">image</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:file</span>]
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">course</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">course</span> <span class="ruby-operator">!=</span> <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">course_id</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">image</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">!=</span> <span class="ruby-string">&quot;/images/original/missing.png&quot;</span>
+    <span class="ruby-identifier">school_id</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">school_id</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">school_id</span> <span class="ruby-operator">:</span> <span class="ruby-value">1</span>
+    <span class="ruby-identifier">filename</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">image_file_name</span>
+    <span class="ruby-identifier">bucket</span> = <span class="ruby-node">&quot;#{ENV[&#39;S3_PATH&#39;]}/schools/#{school_id}/courses/#{course}/tasks/#{@task.id}&quot;</span>
+    <span class="ruby-identifier">data</span> = <span class="ruby-constant">Attachment</span>.<span class="ruby-identifier">aws_get_file_data</span>(<span class="ruby-identifier">school_id</span>, <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">bucket</span>)
+    <span class="ruby-identifier">bucket_2</span> = <span class="ruby-node">&quot;#{ENV[&#39;S3_PATH&#39;]}/schools/#{school_id}/courses/#{@task.course_id}/tasks/#{@task.id}&quot;</span>
+    <span class="ruby-constant">Attachment</span>.<span class="ruby-identifier">aws_upload_base64</span>(<span class="ruby-identifier">school_id</span>, <span class="ruby-identifier">bucket_2</span>, <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">data</span>)
+    <span class="ruby-constant">Attachment</span>.<span class="ruby-identifier">aws_delete_file</span>(<span class="ruby-identifier">school_id</span>, <span class="ruby-identifier">filename</span>, <span class="ruby-identifier">bucket</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">course_id</span> <span class="ruby-operator">!=</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">image</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;/images/original/missing.png&quot;</span>
+    <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">image</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">course</span>.<span class="ruby-identifier">image</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">course</span>.<span class="ruby-identifier">image_file_name</span>.<span class="ruby-identifier">present?</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-comment">#get wall id</span>
+    <span class="ruby-identifier">wall_id</span> = <span class="ruby-constant">Wall</span>.<span class="ruby-identifier">get_wall_id</span>(<span class="ruby-ivar">@task</span>.<span class="ruby-identifier">id</span>,<span class="ruby-string">&quot;Task&quot;</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:outcomes</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:outcomes</span>].<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">outcome_ids</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:outcomes</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;,&quot;</span>)
+      <span class="ruby-comment">#OutcomeTask.delete_all([&quot;outcome_id NOT IN (?) AND task_id = ?&quot;, outcome_ids, @task.id])</span>
+      <span class="ruby-constant">OutcomeTask</span>.<span class="ruby-identifier">destroy_all</span>([<span class="ruby-string">&quot;outcome_id is NULL AND task_id = ?&quot;</span>, <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">id</span>])
+      <span class="ruby-identifier">outcomes_array</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:outcomes</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;,&quot;</span>)
+      <span class="ruby-identifier">outcomes_array</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">o</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">o</span> <span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+          <span class="ruby-identifier">outcome_task</span> = <span class="ruby-constant">OutcomeTask</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;task_id = ? AND outcome_id = ?&quot;</span>, <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">o</span>])
+          <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">outcome_task</span>
+            <span class="ruby-comment">#OutcomeTask record</span>
+            <span class="ruby-ivar">@outcome_task</span> = <span class="ruby-constant">OutcomeTask</span>.<span class="ruby-identifier">new</span>
+            <span class="ruby-ivar">@outcome_task</span>.<span class="ruby-identifier">task_id</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">id</span>
+            <span class="ruby-ivar">@outcome_task</span>.<span class="ruby-identifier">outcome_id</span> = <span class="ruby-identifier">o</span>
+            <span class="ruby-comment">#@outcome_task.points_percentage = params[:points]</span>
+            <span class="ruby-ivar">@outcome_task</span>.<span class="ruby-identifier">save</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-comment"># Participant record</span>
+    <span class="ruby-identifier">course_participants</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">all</span>( <span class="ruby-value">:joins</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:profile</span>], <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;participants.target_id=? AND participants.profile_type = &#39;S&#39; AND target_type = &#39;Course&#39;&quot;</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>] <span class="ruby-operator">!=</span> <span class="ruby-string">&quot;&quot;</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>] <span class="ruby-operator">!=</span> <span class="ruby-string">&quot;null&quot;</span>  <span class="ruby-operator">?</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>] <span class="ruby-operator">:</span> <span class="ruby-value">0</span> ],<span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;profiles.full_name,participants.id,participants.profile_id&quot;</span>], <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;full_name&quot;</span>)
+    <span class="ruby-identifier">task_participant</span> = <span class="ruby-constant">TaskParticipant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;task_id = ? AND profile_type=&#39;O&#39; AND profile_id = ?&quot;</span>, <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]])
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">task_participant</span>
+      <span class="ruby-ivar">@task_participant</span> = <span class="ruby-constant">TaskParticipant</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">profile_id</span> = <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]
+      <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">profile_type</span> = <span class="ruby-string">&quot;O&quot;</span>
+      <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">status</span> = <span class="ruby-string">&quot;A&quot;</span>
+      <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">priority</span> = <span class="ruby-string">&quot;L&quot;</span>
+      <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">task_id</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">id</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">save</span>
+        <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">create</span>(
+          <span class="ruby-value">:profile_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>],
+          <span class="ruby-value">:wall_id</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">wall_id</span>
+        )
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:remove_people_ids</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:remove_people_ids</span>].<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">remove_people</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:remove_people_ids</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;,&quot;</span>)
+      <span class="ruby-identifier">remove_participants</span> = <span class="ruby-constant">TaskParticipant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>,<span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;task_id = ? and profile_type = &#39;M&#39; and profile_id in (?)&quot;</span>,<span class="ruby-ivar">@task</span>.<span class="ruby-identifier">id</span>,<span class="ruby-identifier">remove_people</span>])
+      <span class="ruby-identifier">remove_participants</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">participant</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">status</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">points_to_student</span>(<span class="ruby-ivar">@task</span>.<span class="ruby-identifier">id</span>, <span class="ruby-keyword">false</span>, <span class="ruby-identifier">participant</span>.<span class="ruby-identifier">profile_id</span>,<span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>])
+        <span class="ruby-identifier">participant</span>.<span class="ruby-identifier">delete</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">peoples_array</span>=[]
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:people_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:people_id</span>].<span class="ruby-identifier">empty?</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:people_id</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;all_people&quot;</span>
+        <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">all_members</span> = <span class="ruby-keyword">false</span>
+        <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">peoples_array</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:people_id</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;,&quot;</span>)
+        <span class="ruby-identifier">peoples_array</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">p_id</span><span class="ruby-operator">|</span>
+          <span class="ruby-keyword">if</span> <span class="ruby-identifier">p_id</span> <span class="ruby-operator">!=</span><span class="ruby-string">&quot;&quot;</span>
+            <span class="ruby-identifier">task_participant</span> = <span class="ruby-constant">TaskParticipant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;task_id = ? AND profile_type=&#39;M&#39; AND profile_id = ?&quot;</span>, <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">p_id</span>])
+            <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">task_participant</span>
+              <span class="ruby-ivar">@task_participant</span> = <span class="ruby-constant">TaskParticipant</span>.<span class="ruby-identifier">new</span>
+              <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">profile_id</span> = <span class="ruby-identifier">p_id</span>
+              <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">profile_type</span> = <span class="ruby-string">&quot;M&quot;</span>
+              <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">status</span> = <span class="ruby-string">&quot;A&quot;</span>
+              <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">priority</span> = <span class="ruby-string">&quot;L&quot;</span>
+              <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">task_id</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">id</span>
+              <span class="ruby-keyword">if</span> <span class="ruby-ivar">@task_participant</span>.<span class="ruby-identifier">save</span>
+                <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">create</span>(
+                  <span class="ruby-value">:profile_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">p_id</span>,
+                  <span class="ruby-value">:wall_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">wall_id</span>
+                )
+              <span class="ruby-identifier">content</span> = <span class="ruby-node">&quot;#{@profile.full_name} assigned you a new task: #{@task.name}&quot;</span>
+              <span class="ruby-constant">Message</span>.<span class="ruby-identifier">send_notification</span>(<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>,<span class="ruby-identifier">content</span>,<span class="ruby-identifier">p_id</span>)
+              <span class="ruby-keyword">end</span>
+            <span class="ruby-keyword">end</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">status</span> = <span class="ruby-keyword">true</span>
+    <span class="ruby-identifier">image_url</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:file</span>] <span class="ruby-operator">?</span> <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">image</span>.<span class="ruby-identifier">url</span> <span class="ruby-operator">:</span> <span class="ruby-string">&quot;&quot;</span>
+    <span class="ruby-ivar">@task_outcomes</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">outcomes</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:category_id</span>] <span class="ruby-keyword">and</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:category_id</span>].<span class="ruby-identifier">blank?</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:category_id</span>] <span class="ruby-operator">!=</span><span class="ruby-string">&quot;null&quot;</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:category_id</span>] <span class="ruby-operator">!=</span><span class="ruby-string">&quot;undefined&quot;</span>
+      <span class="ruby-identifier">c</span> = <span class="ruby-constant">Category</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:select=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;name&quot;</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;id = ?&quot;</span>,<span class="ruby-identifier">params</span>[<span class="ruby-value">:category_id</span>]])
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">c</span> <span class="ruby-keyword">and</span> <span class="ruby-operator">!</span><span class="ruby-identifier">c</span>.<span class="ruby-identifier">nil?</span>
+        <span class="ruby-identifier">category_name</span>= <span class="ruby-identifier">c</span>.<span class="ruby-identifier">name</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-string">&quot;status&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-identifier">status</span>, <span class="ruby-string">&quot;task&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@task</span>, <span class="ruby-string">&quot;image_url&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-identifier">image_url</span>, <span class="ruby-string">&quot;participants&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-identifier">course_participants</span>, <span class="ruby-string">&quot;outcomes&quot;</span>=<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@task_outcomes</span>, <span class="ruby-string">&quot;category_name&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-identifier">category_name</span>}.<span class="ruby-identifier">to_json</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- save-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- save-method -->
+
+    
+      <div id="method-i-show" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">show</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="show-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 80</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
+  <span class="ruby-ivar">@task</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">find_by_id</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-ivar">@course</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">course</span>
+  <span class="ruby-ivar">@profile</span> = <span class="ruby-identifier">current_profile</span>
+  <span class="ruby-ivar">@no_course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find_by_code</span>(<span class="ruby-string">&#39;&#39;</span>) <span class="ruby-operator">||</span><span class="ruby-constant">Course</span>.<span class="ruby-identifier">find_by_code</span>(<span class="ruby-keyword">nil</span>)
+              <span class="ruby-comment">## Below query seems wrong as it is taking profile_id as a check but if we take current users profile_id then it</span>
+              <span class="ruby-comment">## will always return current users record only (if the current user is a task owner) It may be written to check if the</span>
+              <span class="ruby-comment">## current user is the task owner or not. I am (Vaibhav) now commenting this and will impose a new boolean  check to see</span>
+              <span class="ruby-comment">## if the current user is task owner or not</span>
+              <span class="ruby-comment">#@task_owner =  TaskParticipant.find(:first, :conditions=&gt;[&quot;profile_id = ? and task_id = ? and profile_type = ?&quot;,@profile.id, @task.id, Task.profile_type_owner])</span>
+              <span class="ruby-ivar">@is_task_owner</span> = <span class="ruby-keyword">false</span>
+              <span class="ruby-ivar">@task_owner</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">task_owner</span>
+              <span class="ruby-keyword">if</span> <span class="ruby-ivar">@task_owner</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>
+                      <span class="ruby-ivar">@is_task_owner</span> = <span class="ruby-keyword">true</span>
+                      <span class="ruby-ivar">@files</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">attachments</span>.<span class="ruby-identifier">order</span>(<span class="ruby-string">&quot;starred desc&quot;</span>)
+              <span class="ruby-keyword">else</span>
+                      <span class="ruby-ivar">@files</span> = <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">attachments</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;owner_id IN (?)&quot;</span>, [<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>, <span class="ruby-ivar">@task_owner</span>.<span class="ruby-identifier">id</span>]).<span class="ruby-identifier">order</span>(<span class="ruby-string">&quot;starred desc&quot;</span>)
+              <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">all_tasks</span> = []
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@course</span>.<span class="ruby-identifier">owner</span>
+    <span class="ruby-identifier">all_tasks</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">filter_by</span>(<span class="ruby-ivar">@course</span>.<span class="ruby-identifier">owner</span>.<span class="ruby-identifier">id</span>,<span class="ruby-ivar">@course</span>.<span class="ruby-identifier">id</span>,<span class="ruby-string">&quot;&quot;</span>).<span class="ruby-identifier">collect</span>(&amp;<span class="ruby-value">:points</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@tasks_created</span> = <span class="ruby-identifier">all_tasks</span>.<span class="ruby-identifier">count</span>
+  <span class="ruby-ivar">@allocated_points</span> = <span class="ruby-identifier">all_tasks</span>.<span class="ruby-identifier">sum</span>
+  <span class="ruby-ivar">@remaining_points</span> = <span class="ruby-value">1000</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@allocated_points</span>
+  <span class="ruby-ivar">@outcomes</span> = <span class="ruby-ivar">@course</span>.<span class="ruby-identifier">outcomes</span>.<span class="ruby-identifier">order</span>(<span class="ruby-string">&#39;name&#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@course</span>
+  <span class="ruby-ivar">@courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(
+    <span class="ruby-value">:all</span>,
+    <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:participants</span>],
+    <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and courses.archived = ? AND courses.removed = ?&quot;</span>, <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>, <span class="ruby-string">&#39;M&#39;</span>,<span class="ruby-constant">Course</span>.<span class="ruby-identifier">parent_type_course</span>,<span class="ruby-keyword">false</span>, <span class="ruby-keyword">false</span>]
+  )
+
+  <span class="ruby-ivar">@groups</span> = <span class="ruby-constant">Group</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;task_id = ?&quot;</span>, <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">id</span>])
+
+  <span class="ruby-ivar">@people</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">find</span>(
+    <span class="ruby-value">:all</span>,
+    <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:profile</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:user</span>],
+    <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;participants.target_id = ? AND participants.target_type=&#39;Course&#39; AND participants.profile_type = &#39;S&#39; AND users.status != &#39;D&#39;&quot;</span>, <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">course_id</span>],
+    <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;profiles.full_name&quot;</span>
+  )
+  <span class="ruby-ivar">@task_members</span> = <span class="ruby-constant">TaskParticipant</span>.<span class="ruby-identifier">find</span>(
+    <span class="ruby-value">:all</span>,
+    <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:profile</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:user</span>],
+    <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;task_participants.task_id = ? AND task_participants.profile_type = &#39;M&#39; AND users.status != &#39;D&#39;&quot;</span>, <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">id</span>],
+    <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;profiles.full_name&quot;</span>
+  )
+
+  <span class="ruby-identifier">participant</span> = <span class="ruby-constant">TaskParticipant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>,
+    <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:profile</span>, <span class="ruby-value">:task</span>],
+    <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;task_id = ? and profile_id = ?&quot;</span>, <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">id</span>, <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>])
+  <span class="ruby-ivar">@check_complete_task</span> = <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">participant</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">participant</span>.<span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Task</span>.<span class="ruby-identifier">status_complete</span>
+
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">record_action</span>(<span class="ruby-string">&#39;last&#39;</span>, <span class="ruby-string">&#39;task&#39;</span>)
+  <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">record_action</span>(<span class="ruby-string">&#39;task&#39;</span>, <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">id</span>)
+
+  <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">wants</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">wants</span>.<span class="ruby-identifier">html</span> <span class="ruby-keyword">do</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">request</span>.<span class="ruby-identifier">xhr?</span>
+        <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/task/form&quot;</span>, <span class="ruby-value">:locals</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:course_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@course</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@course</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span> }
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">render</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- show-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- show-method -->
+
+    
+      <div id="method-i-task_complete" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">task_complete</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="task_complete-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 342</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">task_complete</span>
+  <span class="ruby-identifier">status</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>].<span class="ruby-identifier">empty?</span>
+    <span class="ruby-identifier">status</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">complete_task</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>], <span class="ruby-identifier">params</span>[<span class="ruby-value">:check_val</span>]<span class="ruby-operator">==</span><span class="ruby-string">&quot;true&quot;</span>, <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>])
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">status</span>}.<span class="ruby-identifier">to_json</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- task_complete-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- task_complete-method -->
+
+    
+      <div id="method-i-toggle_priority" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">toggle_priority</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="toggle_priority-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 173</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">toggle_priority</span>
+  <span class="ruby-identifier">status</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-ivar">@task</span> = <span class="ruby-constant">TaskParticipant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;task_id = ? and profile_id = ?&quot;</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:task_id</span>], <span class="ruby-identifier">user_session</span>[<span class="ruby-value">:profile_id</span>]])
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@task</span>
+    <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">priority</span> = (<span class="ruby-ivar">@task</span>.<span class="ruby-identifier">priority</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;L&quot;</span> <span class="ruby-operator">?</span> <span class="ruby-string">&quot;H&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&quot;L&quot;</span>)
+    <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-identifier">status</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">status</span>, <span class="ruby-value">:priority</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@task</span>.<span class="ruby-identifier">priority</span> }.<span class="ruby-identifier">to_json</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- toggle_priority-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- toggle_priority-method -->
+
+    
+      <div id="method-i-upload_resource" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">upload_resource</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="upload_resource-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 424</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">upload_resource</span>
+  <span class="ruby-identifier">school_id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:school_id</span>]
+  <span class="ruby-identifier">task_id</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>]
+  <span class="ruby-comment">#@vault = Vault.find(:first, :conditions =&gt; [&quot;object_id = ? and object_type = &#39;School&#39; and vault_type = &#39;AWS S3&#39;&quot;, school_id])</span>
+  <span class="ruby-comment">#if @vault</span>
+    <span class="ruby-ivar">@attachment</span> = <span class="ruby-constant">Attachment</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">:resource=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:file</span>], <span class="ruby-value">:school_id=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">school_id</span>, <span class="ruby-value">:target_type=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;task&quot;</span>, <span class="ruby-value">:target_id=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">task_id</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@attachment</span>.<span class="ruby-identifier">save</span>
+      <span class="ruby-ivar">@url</span> = <span class="ruby-ivar">@attachment</span>.<span class="ruby-identifier">resource</span>.<span class="ruby-identifier">url</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:text</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-string">&quot;attachment&quot;</span>=<span class="ruby-operator">&gt;</span><span class="ruby-ivar">@attachment</span>, <span class="ruby-string">&quot;resource_url&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@url</span>}.<span class="ruby-identifier">to_json</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">render</span> <span class="ruby-value">:nothing</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-comment">#end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- upload_resource-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- upload_resource-method -->
+
+    
+      <div id="method-i-view_setup" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">view_setup</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="view_setup-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 322</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">view_setup</span>
+  <span class="ruby-ivar">@task</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">find_by_id</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/task/setup&quot;</span>,<span class="ruby-value">:locals=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-value">:task=</span><span class="ruby-operator">&gt;</span><span class="ruby-ivar">@task</span>}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- view_setup-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- view_setup-method -->
+
+    
+      <div id="method-i-view_task" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">view_task</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="view_task-source">
+            <pre><span class="ruby-comment"># File app/controllers/task_controller.rb, line 486</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">view_task</span>
+  <span class="ruby-ivar">@profile</span> = <span class="ruby-identifier">current_profile</span>
+  <span class="ruby-ivar">@courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(
+      <span class="ruby-value">:all</span>,
+      <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;distinct *&quot;</span>,
+      <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:participants</span>],
+      <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?&quot;</span>, <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">parent_type_course</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">profile_type_pending</span>, <span class="ruby-keyword">false</span>],
+      <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;name&#39;</span>
+    )
+  <span class="ruby-ivar">@tasks</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">filter_by</span>(<span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>], <span class="ruby-string">&quot;current&quot;</span>)
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;/task/list&quot;</span>, <span class="ruby-value">:locals=</span><span class="ruby-operator">&gt;</span>{<span class="ruby-value">:tasks=</span><span class="ruby-operator">&gt;</span><span class="ruby-ivar">@tasks</span>,<span class="ruby-value">:course_id=</span><span class="ruby-operator">&gt;</span><span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>]}
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- view_task-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- view_task-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

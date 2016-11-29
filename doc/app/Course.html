@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+
+<title>class Course - Rails Application Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>app/models/course.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">ActiveRecord::Base
+  
+</nav>
+
+    <!-- Included Modules -->
+<nav id="includes-section" class="section">
+  <h3 class="section-header">Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><span class="include">Comparable</span>
+  
+  
+  </ul>
+</nav>
+
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-all_archived_courses_by_school">::all_archived_courses_by_school</a>
+    
+    <li><a href="#method-c-all_courses_by_school">::all_courses_by_school</a>
+    
+    <li><a href="#method-c-all_group">::all_group</a>
+    
+    <li><a href="#method-c-all_groups_by_school">::all_groups_by_school</a>
+    
+    <li><a href="#method-c-course_filter">::course_filter</a>
+    
+    <li><a href="#method-c-get_courses_by_year_range">::get_courses_by_year_range</a>
+    
+    <li><a href="#method-c-get_top_achievers">::get_top_achievers</a>
+    
+    <li><a href="#method-c-hexdigest_to_digest">::hexdigest_to_digest</a>
+    
+    <li><a href="#method-c-hexdigest_to_string">::hexdigest_to_string</a>
+    
+    <li><a href="#method-c-is_owner-3F">::is_owner?</a>
+    
+    <li><a href="#method-c-search">::search</a>
+    
+    <li><a href="#method-c-sort_course_task">::sort_course_task</a>
+    
+    <li><a href="#method-c-sort_top_achievers">::sort_top_achievers</a>
+    
+    <li><a href="#method-i-3C-3D-3E">#&lt;=&gt;</a>
+    
+    <li><a href="#method-i-code_section">#code_section</a>
+    
+    <li><a href="#method-i-course_forum">#course_forum</a>
+    
+    <li><a href="#method-i-duplicate">#duplicate</a>
+    
+    <li><a href="#method-i-finalize">#finalize</a>
+    
+    <li><a href="#method-i-image_file">#image_file</a>
+    
+    <li><a href="#method-i-init_defaults">#init_defaults</a>
+    
+    <li><a href="#method-i-join_all">#join_all</a>
+    
+    <li><a href="#method-i-messages">#messages</a>
+    
+    <li><a href="#method-i-messages-3D">#messages=</a>
+    
+    <li><a href="#method-i-owner">#owner</a>
+    
+    <li><a href="#method-i-owner-3D">#owner=</a>
+    
+    <li><a href="#method-i-remaining_points">#remaining_points</a>
+    
+    <li><a href="#method-i-save_messages">#save_messages</a>
+    
+    <li><a href="#method-i-save_owner">#save_owner</a>
+    
+    <li><a href="#method-i-semester_year">#semester_year</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./doc/README_FOR_APP.html">README_FOR_APP</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./AccessCode.html">AccessCode</a>
+  
+    <li><a href="./Admin.html">Admin</a>
+  
+    <li><a href="./App.html">App</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./Attachment.html">Attachment</a>
+  
+    <li><a href="./Avatar.html">Avatar</a>
+  
+    <li><a href="./AvatarBadge.html">AvatarBadge</a>
+  
+    <li><a href="./Badge.html">Badge</a>
+  
+    <li><a href="./BadgeController.html">BadgeController</a>
+  
+    <li><a href="./BadgeHelper.html">BadgeHelper</a>
+  
+    <li><a href="./BadgeImage.html">BadgeImage</a>
+  
+    <li><a href="./CampusMajor.html">CampusMajor</a>
+  
+    <li><a href="./Category.html">Category</a>
+  
+    <li><a href="./CategoryObserver.html">CategoryObserver</a>
+  
+    <li><a href="./Checkpoint.html">Checkpoint</a>
+  
+    <li><a href="./ConfirmationsController.html">ConfirmationsController</a>
+  
+    <li><a href="./Course.html">Course</a>
+  
+    <li><a href="./CourseController.html">CourseController</a>
+  
+    <li><a href="./CourseGrade.html">CourseGrade</a>
+  
+    <li><a href="./CourseHelper.html">CourseHelper</a>
+  
+    <li><a href="./CustomFailure.html">CustomFailure</a>
+  
+    <li><a href="./Department.html">Department</a>
+  
+    <li><a href="./Feat.html">Feat</a>
+  
+    <li><a href="./Feed.html">Feed</a>
+  
+    <li><a href="./FriendController.html">FriendController</a>
+  
+    <li><a href="./FriendHelper.html">FriendHelper</a>
+  
+    <li><a href="./Game.html">Game</a>
+  
+    <li><a href="./GameScoreLeader.html">GameScoreLeader</a>
+  
+    <li><a href="./Gamecenter.html">Gamecenter</a>
+  
+    <li><a href="./GamecenterController.html">GamecenterController</a>
+  
+    <li><a href="./GradeBookController.html">GradeBookController</a>
+  
+    <li><a href="./GradeBookHelper.html">GradeBookHelper</a>
+  
+    <li><a href="./GradeType.html">GradeType</a>
+  
+    <li><a href="./Group.html">Group</a>
+  
+    <li><a href="./GroupHelper.html">GroupHelper</a>
+  
+    <li><a href="./LeaderBoardController.html">LeaderBoardController</a>
+  
+    <li><a href="./LeaderBoardHelper.html">LeaderBoardHelper</a>
+  
+    <li><a href="./Like.html">Like</a>
+  
+    <li><a href="./Major.html">Major</a>
+  
+    <li><a href="./Message.html">Message</a>
+  
+    <li><a href="./MessageController.html">MessageController</a>
+  
+    <li><a href="./MessageHelper.html">MessageHelper</a>
+  
+    <li><a href="./MessageViewer.html">MessageViewer</a>
+  
+    <li><a href="./Note.html">Note</a>
+  
+    <li><a href="./Outcome.html">Outcome</a>
+  
+    <li><a href="./OutcomeFeat.html">OutcomeFeat</a>
+  
+    <li><a href="./OutcomeGrade.html">OutcomeGrade</a>
+  
+    <li><a href="./OutcomeTask.html">OutcomeTask</a>
+  
+    <li><a href="./OutcomeTaskObserver.html">OutcomeTaskObserver</a>
+  
+    <li><a href="./Participant.html">Participant</a>
+  
+    <li><a href="./ParticipantObserver.html">ParticipantObserver</a>
+  
+    <li><a href="./Permission.html">Permission</a>
+  
+    <li><a href="./Profile.html">Profile</a>
+  
+    <li><a href="./ProfileAction.html">ProfileAction</a>
+  
+    <li><a href="./ProfileController.html">ProfileController</a>
+  
+    <li><a href="./ProfileHelper.html">ProfileHelper</a>
+  
+    <li><a href="./Quest.html">Quest</a>
+  
+    <li><a href="./RegistrationsController.html">RegistrationsController</a>
+  
+    <li><a href="./RegistrationsHelper.html">RegistrationsHelper</a>
+  
+    <li><a href="./Report.html">Report</a>
+  
+    <li><a href="./Reward.html">Reward</a>
+  
+    <li><a href="./RewardController.html">RewardController</a>
+  
+    <li><a href="./RewardHelper.html">RewardHelper</a>
+  
+    <li><a href="./Role.html">Role</a>
+  
+    <li><a href="./RoleName.html">RoleName</a>
+  
+    <li><a href="./School.html">School</a>
+  
+    <li><a href="./ScreenShot.html">ScreenShot</a>
+  
+    <li><a href="./Semester.html">Semester</a>
+  
+    <li><a href="./SessionsController.html">SessionsController</a>
+  
+    <li><a href="./Setting.html">Setting</a>
+  
+    <li><a href="./SettingController.html">SettingController</a>
+  
+    <li><a href="./SettingHelper.html">SettingHelper</a>
+  
+    <li><a href="./SystemController.html">SystemController</a>
+  
+    <li><a href="./SystemHelper.html">SystemHelper</a>
+  
+    <li><a href="./Task.html">Task</a>
+  
+    <li><a href="./TaskController.html">TaskController</a>
+  
+    <li><a href="./TaskGrade.html">TaskGrade</a>
+  
+    <li><a href="./TaskHelper.html">TaskHelper</a>
+  
+    <li><a href="./TaskObserver.html">TaskObserver</a>
+  
+    <li><a href="./TaskParticipant.html">TaskParticipant</a>
+  
+    <li><a href="./User.html">User</a>
+  
+    <li><a href="./UserMailer.html">UserMailer</a>
+  
+    <li><a href="./UsersController.html">UsersController</a>
+  
+    <li><a href="./UsersHelper.html">UsersHelper</a>
+  
+    <li><a href="./Vault.html">Vault</a>
+  
+    <li><a href="./Wall.html">Wall</a>
+  
+    <li><a href="./Wardrobe.html">Wardrobe</a>
+  
+    <li><a href="./WardrobeController.html">WardrobeController</a>
+  
+    <li><a href="./WardrobeHelper.html">WardrobeHelper</a>
+  
+    <li><a href="./WardrobeItem.html">WardrobeItem</a>
+  
+    <li><a href="./WardrobeItemType.html">WardrobeItemType</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Course</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-all_archived_courses_by_school" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">all_archived_courses_by_school</span><span
+            class="method-args">(school_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="all_archived_courses_by_school-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 504</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">all_archived_courses_by_school</span>(<span class="ruby-identifier">school_id</span>)
+  <span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;distinct *&quot;</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?&quot;</span>, <span class="ruby-keyword">true</span>, <span class="ruby-keyword">false</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">parent_type_course</span>, <span class="ruby-identifier">school_id</span>], <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;name&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- all_archived_courses_by_school-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- all_archived_courses_by_school-method -->
+
+    
+      <div id="method-c-all_courses_by_school" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">all_courses_by_school</span><span
+            class="method-args">(school_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="all_courses_by_school-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 508</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">all_courses_by_school</span>(<span class="ruby-identifier">school_id</span>)
+  <span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;distinct *&quot;</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?&quot;</span>, <span class="ruby-keyword">false</span>, <span class="ruby-keyword">false</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">parent_type_course</span>, <span class="ruby-identifier">school_id</span>], <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;name&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- all_courses_by_school-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- all_courses_by_school-method -->
+
+    
+      <div id="method-c-all_group" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">all_group</span><span
+            class="method-args">(profile,filter)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="all_group-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 251</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">all_group</span>(<span class="ruby-identifier">profile</span>,<span class="ruby-identifier">filter</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">filter</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;M&quot;</span>
+  <span class="ruby-ivar">@courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(
+          <span class="ruby-value">:all</span>,
+          <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;distinct *&quot;</span>,
+          <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:participants</span>],
+          <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;removed = ? and participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?&quot;</span>, <span class="ruby-keyword">false</span>, <span class="ruby-identifier">profile</span>.<span class="ruby-identifier">id</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">parent_type_group</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">profile_type_pending</span>, <span class="ruby-keyword">false</span>],
+          <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;courses.name&#39;</span>
+        )
+  <span class="ruby-keyword">else</span>
+   <span class="ruby-ivar">@courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions=</span><span class="ruby-operator">&gt;</span>[<span class="ruby-string">&quot;removed = ? AND parent_type = ? AND school_id = ?&quot;</span>,<span class="ruby-keyword">false</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">parent_type_group</span>,<span class="ruby-identifier">profile</span>.<span class="ruby-identifier">school_id</span>], <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;courses.name&#39;</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@courses</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- all_group-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- all_group-method -->
+
+    
+      <div id="method-c-all_groups_by_school" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">all_groups_by_school</span><span
+            class="method-args">(school_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="all_groups_by_school-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 512</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">all_groups_by_school</span>(<span class="ruby-identifier">school_id</span>)
+  <span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;distinct *&quot;</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?&quot;</span>, <span class="ruby-keyword">false</span>, <span class="ruby-keyword">false</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">parent_type_group</span>, <span class="ruby-identifier">school_id</span>], <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;name&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- all_groups_by_school-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- all_groups_by_school-method -->
+
+    
+      <div id="method-c-course_filter" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">course_filter</span><span
+            class="method-args">(profile_id,filter)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="course_filter-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 266</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">course_filter</span>(<span class="ruby-identifier">profile_id</span>,<span class="ruby-identifier">filter</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">filter</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;active&quot;</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">filter</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;&quot;</span>
+    <span class="ruby-identifier">archived</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">archived</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">end</span>
+   <span class="ruby-ivar">@courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(
+          <span class="ruby-value">:all</span>,
+          <span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;distinct *&quot;</span>,
+          <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:participants</span>],
+          <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;removed = ? and participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?&quot;</span>,<span class="ruby-keyword">false</span>, <span class="ruby-identifier">profile_id</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">parent_type_course</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">join_type_invite</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">profile_type_pending</span>, <span class="ruby-identifier">archived</span>],
+          <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;courses.name&#39;</span>
+          )
+  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@courses</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- course_filter-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- course_filter-method -->
+
+    
+      <div id="method-c-get_courses_by_year_range" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_courses_by_year_range</span><span
+            class="method-args">(params)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_courses_by_year_range-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 517</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_courses_by_year_range</span>(<span class="ruby-identifier">params</span>)
+  <span class="ruby-identifier">fall_on</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:year_range</span>]
+  <span class="ruby-identifier">semester</span> = <span class="ruby-identifier">fall_on</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39; &#39;</span>).<span class="ruby-identifier">first</span>
+  <span class="ruby-identifier">seq_semester</span> = <span class="ruby-identifier">fall_on</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39; &#39;</span>).<span class="ruby-identifier">first</span>
+  <span class="ruby-identifier">year</span> = <span class="ruby-identifier">fall_on</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39; &#39;</span>).<span class="ruby-identifier">last</span>    
+  <span class="ruby-identifier">all_courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">all_courses_by_school</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:school_id</span>]).<span class="ruby-identifier">map</span>(&amp;<span class="ruby-value">:id</span>)
+  <span class="ruby-identifier">archived_courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">all_archived_courses_by_school</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:school_id</span>]).<span class="ruby-identifier">map</span>(&amp;<span class="ruby-value">:id</span>).<span class="ruby-identifier">uniq</span>
+  <span class="ruby-identifier">all_course_ids</span> = <span class="ruby-identifier">all_courses</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">archived_courses</span>
+  <span class="ruby-identifier">courses</span> = []  
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">semester</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;All&#39;</span>
+    <span class="ruby-identifier">courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">all_course_ids</span>, <span class="ruby-value">:year</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">year</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-value">:semester</span> =<span class="ruby-operator">&gt;</span>  <span class="ruby-constant">Course</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:semester</span>).<span class="ruby-identifier">compact</span>.<span class="ruby-identifier">uniq</span>)
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">semester</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;Summer&quot;</span>
+    <span class="ruby-identifier">courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">all_course_ids</span>, <span class="ruby-value">:year</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">year</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-value">:semester</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">semester</span><span class="ruby-operator">+</span><span class="ruby-string">&#39; &#39;</span><span class="ruby-operator">+</span><span class="ruby-identifier">seq_semester</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">all_course_ids</span>, <span class="ruby-value">:year</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">year</span>.<span class="ruby-identifier">to_i</span>, <span class="ruby-value">:semester</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">semester</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">courses</span>.<span class="ruby-identifier">try</span>(<span class="ruby-value">:order</span>, <span class="ruby-string">&quot;updated_at DESC&quot;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_courses_by_year_range-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_courses_by_year_range-method -->
+
+    
+      <div id="method-c-get_top_achievers" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_top_achievers</span><span
+            class="method-args">(school_id,course_id,outcome_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="get_top_achievers-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 205</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">get_top_achievers</span>(<span class="ruby-identifier">school_id</span>,<span class="ruby-identifier">course_id</span>,<span class="ruby-identifier">outcome_id</span>)
+  <span class="ruby-identifier">member_ids</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(
+     <span class="ruby-value">:all</span>,
+     <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:participants</span>],
+     <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;participants.target_id = ? AND participants.profile_type IN (&#39;P&#39;, &#39;S&#39;)&quot;</span>, <span class="ruby-identifier">course_id</span>]
+   ).<span class="ruby-identifier">map</span>(&amp;<span class="ruby-value">:id</span>)
+  <span class="ruby-ivar">@students</span> = <span class="ruby-constant">CourseGrade</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;school_id = ? and course_id = ? and outcome_id = ? and grade &gt;= &#39;2.1&#39; and profile_id in (?)&quot;</span>,<span class="ruby-identifier">school_id</span>,<span class="ruby-identifier">course_id</span>,<span class="ruby-identifier">outcome_id</span>,<span class="ruby-identifier">member_ids</span>).<span class="ruby-identifier">order</span>(<span class="ruby-string">&quot;grade DESC&quot;</span>)
+  <span class="ruby-identifier">sorted_gpa</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">sort_top_achievers</span>(<span class="ruby-ivar">@students</span>,<span class="ruby-identifier">school_id</span>,<span class="ruby-identifier">course_id</span>,<span class="ruby-string">&quot;GPA&quot;</span>)
+  <span class="ruby-identifier">sorted_total_xp</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">sort_top_achievers</span>(<span class="ruby-identifier">sorted_gpa</span>,<span class="ruby-identifier">school_id</span>,<span class="ruby-identifier">course_id</span>,<span class="ruby-string">&quot;XP&quot;</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">sorted_total_xp</span>.<span class="ruby-identifier">uniq</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">4</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_top_achievers-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_top_achievers-method -->
+
+    
+      <div id="method-c-hexdigest_to_digest" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">hexdigest_to_digest</span><span
+            class="method-args">(hex)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="hexdigest_to_digest-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 286</span>
+ <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">hexdigest_to_digest</span>(<span class="ruby-identifier">hex</span>)
+  <span class="ruby-identifier">hex</span>.<span class="ruby-identifier">unpack</span>(<span class="ruby-string">&#39;a2&#39;</span>*(<span class="ruby-identifier">hex</span>.<span class="ruby-identifier">size</span><span class="ruby-operator">/</span><span class="ruby-value">2</span>)).<span class="ruby-identifier">collect</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span> <span class="ruby-identifier">i</span>.<span class="ruby-identifier">hex</span>.<span class="ruby-identifier">chr</span> }.<span class="ruby-identifier">join</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- hexdigest_to_digest-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- hexdigest_to_digest-method -->
+
+    
+      <div id="method-c-hexdigest_to_string" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">hexdigest_to_string</span><span
+            class="method-args">(string)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="hexdigest_to_string-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 282</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">hexdigest_to_string</span>(<span class="ruby-identifier">string</span>)
+  <span class="ruby-identifier">string</span>.<span class="ruby-identifier">unpack</span>(<span class="ruby-string">&#39;U&#39;</span>*<span class="ruby-identifier">string</span>.<span class="ruby-identifier">length</span>).<span class="ruby-identifier">collect</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span> <span class="ruby-identifier">x</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-value">16</span>}.<span class="ruby-identifier">join</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- hexdigest_to_string-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- hexdigest_to_string-method -->
+
+    
+      <div id="method-c-is_owner-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">is_owner?</span><span
+            class="method-args">(course_id, profile_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="is_owner-3F-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 138</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">is_owner?</span>(<span class="ruby-identifier">course_id</span>, <span class="ruby-identifier">profile_id</span>)
+  <span class="ruby-identifier">owner</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(
+    <span class="ruby-value">:first</span>,
+    <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:participants</span>],
+    <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;participants.target_id = ? AND participants.target_type=&#39;Course&#39; AND participants.profile_type = &#39;M&#39;&quot;</span>, <span class="ruby-identifier">course_id</span>]
+  )
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">owner</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">owner</span>.<span class="ruby-identifier">id</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">profile_id</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- is_owner-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- is_owner-3F-method -->
+
+    
+      <div id="method-c-search" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">search</span><span
+            class="method-args">(text)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="search-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 311</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">search</span>(<span class="ruby-identifier">text</span>)
+  <span class="ruby-identifier">d</span> = <span class="ruby-identifier">text</span>.<span class="ruby-identifier">downcase</span>
+  <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>,
+    <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;(lower(courses.name) LIKE ? OR lower(courses.code) LIKE ?) and parent_type = ? and school_id = ? and removed = ?&quot;</span>, <span class="ruby-identifier">d</span>, <span class="ruby-identifier">d</span>, <span class="ruby-constant">Course</span>.<span class="ruby-identifier">parent_type_course</span>, <span class="ruby-ivar">@profile</span>.<span class="ruby-identifier">school_id</span>, <span class="ruby-keyword">false</span>]
+  )
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- search-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- search-method -->
+
+    
+      <div id="method-c-sort_course_task" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">sort_course_task</span><span
+            class="method-args">(course_id)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="sort_course_task-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 290</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">sort_course_task</span>(<span class="ruby-identifier">course_id</span>)
+  <span class="ruby-ivar">@tasks</span> = [];
+  <span class="ruby-identifier">task_ids</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">find</span>(
+    <span class="ruby-value">:all</span>,
+    <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:category</span>],
+    <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;tasks.course_id = ? and tasks.archived = ? and (tasks.category_id is null or tasks.category_id = ?)&quot;</span>,<span class="ruby-identifier">course_id</span>,<span class="ruby-keyword">false</span>,<span class="ruby-value">0</span>],
+    <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;tasks.due_date,tasks.created_at&quot;</span>
+  ).<span class="ruby-identifier">map</span>(&amp;<span class="ruby-value">:id</span>)
+  <span class="ruby-identifier">categorised_task_ids</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">find</span>(
+    <span class="ruby-value">:all</span>,
+    <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:category</span>],
+    <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;tasks.course_id = ? and categories.course_id = ? and tasks.archived = ?&quot;</span>,<span class="ruby-identifier">course_id</span>,<span class="ruby-identifier">course_id</span>,<span class="ruby-keyword">false</span>],
+    <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;percent_value,categories.name,due_date,tasks.created_at&quot;</span>
+  ).<span class="ruby-identifier">map</span>(&amp;<span class="ruby-value">:id</span>)
+  <span class="ruby-identifier">task_ids</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-identifier">categorised_task_ids</span>)
+  <span class="ruby-identifier">task_ids</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">task_id</span><span class="ruby-operator">|</span>
+    <span class="ruby-ivar">@tasks</span>.<span class="ruby-identifier">push</span>(<span class="ruby-constant">Task</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">task_id</span>))
+  <span class="ruby-keyword">end</span>
+ <span class="ruby-keyword">return</span> <span class="ruby-ivar">@tasks</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- sort_course_task-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- sort_course_task-method -->
+
+    
+      <div id="method-c-sort_top_achievers" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">sort_top_achievers</span><span
+            class="method-args">(students,school_id,course_id,sort_type)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="sort_top_achievers-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 217</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">sort_top_achievers</span>(<span class="ruby-identifier">students</span>,<span class="ruby-identifier">school_id</span>,<span class="ruby-identifier">course_id</span>,<span class="ruby-identifier">sort_type</span>)
+  <span class="ruby-identifier">sorted_array</span> = []
+  <span class="ruby-identifier">outcome_grades</span> = <span class="ruby-identifier">students</span>.<span class="ruby-identifier">map</span>(&amp;<span class="ruby-value">:grade</span>)
+  <span class="ruby-identifier">profile_ids</span> = <span class="ruby-identifier">students</span>.<span class="ruby-identifier">map</span>(&amp;<span class="ruby-value">:profile_id</span>)
+  <span class="ruby-identifier">temp</span> = <span class="ruby-value">0</span>
+  <span class="ruby-identifier">outcome_grades</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">og</span>,<span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">i</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">temp</span>
+      <span class="ruby-identifier">count</span> = <span class="ruby-identifier">outcome_grades</span>.<span class="ruby-identifier">count</span>(<span class="ruby-identifier">outcome_grades</span>[<span class="ruby-identifier">i</span>])
+      <span class="ruby-identifier">temp</span> = <span class="ruby-identifier">temp</span><span class="ruby-operator">+</span><span class="ruby-identifier">count</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">count</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">sort_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;GPA&quot;</span>
+          <span class="ruby-identifier">course_grades</span> = <span class="ruby-constant">CourseGrade</span>.<span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;school_id = ? and course_id = ? and profile_id in (?) and outcome_id is null and grade is not null&quot;</span>,<span class="ruby-identifier">school_id</span>,<span class="ruby-identifier">course_id</span>,<span class="ruby-identifier">profile_ids</span>[<span class="ruby-identifier">i</span><span class="ruby-operator">..</span><span class="ruby-identifier">count</span><span class="ruby-operator">+</span><span class="ruby-identifier">i</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>]).<span class="ruby-identifier">order</span>(<span class="ruby-string">&quot;grade DESC&quot;</span>)
+          <span class="ruby-identifier">sorted_array</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-identifier">course_grades</span>)
+          <span class="ruby-identifier">p_ids</span> = <span class="ruby-identifier">profile_ids</span>[<span class="ruby-identifier">i</span><span class="ruby-operator">..</span><span class="ruby-identifier">count</span><span class="ruby-operator">+</span><span class="ruby-identifier">i</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>]
+          <span class="ruby-identifier">c_ids</span> = <span class="ruby-identifier">course_grades</span>.<span class="ruby-identifier">map</span>(&amp;<span class="ruby-value">:profile_id</span>)
+          <span class="ruby-identifier">remaining_people</span> = <span class="ruby-identifier">p_ids</span><span class="ruby-operator">-</span><span class="ruby-identifier">c_ids</span>
+          <span class="ruby-keyword">if</span> <span class="ruby-identifier">remaining_people</span>.<span class="ruby-identifier">count</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+            <span class="ruby-identifier">remaining_people</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">people</span><span class="ruby-operator">|</span>
+              <span class="ruby-identifier">sorted_array</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">students</span>[<span class="ruby-identifier">profile_ids</span>.<span class="ruby-identifier">find_index</span>(<span class="ruby-identifier">people</span>)])
+            <span class="ruby-keyword">end</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-identifier">profiles</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;id in (?)&quot;</span>, <span class="ruby-identifier">profile_ids</span>[<span class="ruby-identifier">i</span><span class="ruby-operator">..</span><span class="ruby-identifier">count</span><span class="ruby-operator">+</span><span class="ruby-identifier">i</span><span class="ruby-operator">-</span><span class="ruby-value">1</span>]], <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;xp desc&quot;</span>)
+          <span class="ruby-identifier">sorted_array</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-identifier">profiles</span>)
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">sorted_array</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">students</span>[<span class="ruby-identifier">i</span>]) <span class="ruby-keyword">if</span> <span class="ruby-identifier">sort_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;GPA&quot;</span>
+        <span class="ruby-identifier">sorted_array</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">students</span>[<span class="ruby-identifier">i</span>].<span class="ruby-identifier">profile</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">sort_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;XP&quot;</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">sorted_array</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- sort_top_achievers-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- sort_top_achievers-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-3C-3D-3E" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">&lt;=&gt;</span><span
+            class="method-args">(other)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Orders by the semester, most recent course appearing first</p>
+          
+
+          
+          <div class="method-source-code" id="3C-3D-3E-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 84</span>
+<span class="ruby-keyword">def</span> <span class="ruby-operator">&lt;=&gt;</span>(<span class="ruby-identifier">other</span>)
+  <span class="ruby-comment"># Not camparable if year is not defined. Don&#39;t want to return nil to prevent breakage, but this should not exist.</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">year</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">year</span>.<span class="ruby-identifier">nil?</span>
+  
+  <span class="ruby-comment"># Ordered last if no period defined</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">semester</span>.<span class="ruby-identifier">blank?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">year</span>.<span class="ruby-identifier">blank?</span>
+  
+  <span class="ruby-comment"># Different year</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-value">1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">year</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">year</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-value">-1</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">year</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">year</span>
+
+  <span class="ruby-comment"># Same year &amp; semester</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">name</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">name</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">semester</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">semester</span>
+
+  <span class="ruby-comment"># Same year</span>
+  <span class="ruby-identifier">sort_order</span> = [<span class="ruby-string">&quot;Fall&quot;</span>, <span class="ruby-string">&quot;Summer II&quot;</span>, <span class="ruby-string">&quot;Summer I&quot;</span>, <span class="ruby-string">&quot;Spring&quot;</span>, <span class="ruby-string">&quot;Winter&quot;</span>]
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">sort_order</span>.<span class="ruby-identifier">index</span>(<span class="ruby-identifier">semester</span>) <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">sort_order</span>.<span class="ruby-identifier">index</span>(<span class="ruby-identifier">other</span>.<span class="ruby-identifier">semester</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- 3C-3D-3E-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- 3C-3D-3E-method -->
+
+    
+      <div id="method-i-code_section" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">code_section</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="code_section-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 117</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">code_section</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-node">&quot;#{self.code}#{&#39;-&#39; unless self.section.blank?}#{self.section}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- code_section-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- code_section-method -->
+
+    
+      <div id="method-i-course_forum" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">course_forum</span><span
+            class="method-args">(profile_id = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="course_forum-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 318</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">course_forum</span>(<span class="ruby-identifier">profile_id</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:all</span>,<span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:participants</span>],<span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?&quot;</span>,<span class="ruby-identifier">profile_id</span>,<span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>,<span class="ruby-keyword">false</span>, <span class="ruby-keyword">false</span>], <span class="ruby-value">:order</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;courses.name&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- course_forum-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- course_forum-method -->
+
+    
+      <div id="method-i-duplicate" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">duplicate</span><span
+            class="method-args">(params = {}, current_user = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="duplicate-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 352</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">duplicate</span>(<span class="ruby-identifier">params</span> = {}, <span class="ruby-identifier">current_user</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">categories</span> = {}
+  <span class="ruby-identifier">outcomes</span> = {}
+
+  <span class="ruby-identifier">duplicate</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dup</span>
+  <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">owner</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">owner</span>
+  <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">wall</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">wall</span>.<span class="ruby-identifier">dup</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">wall</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:name_ext</span>]
+    <span class="ruby-identifier">name</span> = <span class="ruby-node">&quot;#{duplicate.name} #{params[:name_ext]}&quot;</span>
+    <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">name</span> = <span class="ruby-identifier">name</span>
+    <span class="ruby-identifier">i</span> = <span class="ruby-value">0</span>
+
+    <span class="ruby-keyword">while</span> <span class="ruby-identifier">existing</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> {<span class="ruby-value">:name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">name</span>, <span class="ruby-value">:archived</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>, <span class="ruby-value">:removed</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>}) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">i</span> = <span class="ruby-identifier">i</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
+      <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">name</span> = <span class="ruby-node">&quot;#{name}#{i}&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">outcomes</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">outcome</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">outcomes</span>[<span class="ruby-identifier">outcome</span>.<span class="ruby-identifier">id</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">outcome</span>.<span class="ruby-identifier">dup</span>
+    <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">outcomes</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">outcomes</span>[<span class="ruby-identifier">outcome</span>.<span class="ruby-identifier">id</span>]
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">image</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">image</span>
+  <span class="ruby-keyword">rescue</span>
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">error</span> <span class="ruby-node">&quot;AWS::S3::NoSuchKey: #{self.image.url}&quot;</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">categories</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">category</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">categories</span>[<span class="ruby-identifier">category</span>.<span class="ruby-identifier">id</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">category</span>.<span class="ruby-identifier">dup</span>
+    <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">categories</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">categories</span>[<span class="ruby-identifier">category</span>.<span class="ruby-identifier">id</span>]
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">course_forum</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">owner</span>.<span class="ruby-identifier">id</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">forum</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">forums</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">forum</span>.<span class="ruby-identifier">duplicate</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">messages</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">:starred</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:archived</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>, <span class="ruby-value">:profile_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">owner</span>.<span class="ruby-identifier">id</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">message</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">m</span> = <span class="ruby-identifier">message</span>.<span class="ruby-identifier">dup</span>
+    <span class="ruby-identifier">m</span>.<span class="ruby-identifier">wall</span> = <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">wall</span>
+    <span class="ruby-identifier">m</span>.<span class="ruby-identifier">like</span> = <span class="ruby-value">0</span>
+    <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">messages</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">m</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">attachments</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attachment</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">attachment</span>.<span class="ruby-identifier">owner</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">owner</span>.<span class="ruby-identifier">profile</span>
+      <span class="ruby-identifier">a</span> = <span class="ruby-constant">Attachment</span>.<span class="ruby-identifier">new</span>
+
+      <span class="ruby-identifier">a</span>.<span class="ruby-identifier">target</span> = <span class="ruby-identifier">duplicate</span>
+      <span class="ruby-identifier">a</span>.<span class="ruby-identifier">school</span> = <span class="ruby-identifier">attachment</span>.<span class="ruby-identifier">school</span>
+      <span class="ruby-identifier">a</span>.<span class="ruby-identifier">owner</span> = <span class="ruby-identifier">attachment</span>.<span class="ruby-identifier">owner</span>
+      <span class="ruby-identifier">a</span>.<span class="ruby-identifier">starred</span> = <span class="ruby-identifier">attachment</span>.<span class="ruby-identifier">starred</span>
+
+      <span class="ruby-keyword">begin</span>
+        <span class="ruby-identifier">a</span>.<span class="ruby-identifier">resource</span> = <span class="ruby-identifier">attachment</span>.<span class="ruby-identifier">resource</span>
+      <span class="ruby-keyword">rescue</span>
+        <span class="ruby-comment"># a.resource = nil</span>
+        <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">error</span> <span class="ruby-node">&quot;AWS::S3::NoSuchKey: #{attachment.resource.url}&quot;</span>
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">attachments</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">a</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">tasks</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">task</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">t</span> = <span class="ruby-identifier">task</span>.<span class="ruby-identifier">dup</span>
+    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">due_date</span> = <span class="ruby-keyword">nil</span>
+    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">course</span> = <span class="ruby-identifier">duplicate</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">task</span>.<span class="ruby-identifier">category</span>
+      <span class="ruby-identifier">categories</span>[<span class="ruby-identifier">task</span>.<span class="ruby-identifier">category</span>.<span class="ruby-identifier">id</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">task</span>.<span class="ruby-identifier">category</span>.<span class="ruby-identifier">dup</span>
+      <span class="ruby-identifier">t</span>.<span class="ruby-identifier">category</span> = <span class="ruby-identifier">categories</span>[<span class="ruby-identifier">task</span>.<span class="ruby-identifier">category</span>.<span class="ruby-identifier">id</span>]
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">image</span> = <span class="ruby-identifier">task</span>.<span class="ruby-identifier">image</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">task</span>.<span class="ruby-identifier">image_file</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Course</span>.<span class="ruby-identifier">default_image_file</span>
+
+    <span class="ruby-identifier">task</span>.<span class="ruby-identifier">outcome_tasks</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">outcome_task</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">outcomes</span>[<span class="ruby-identifier">outcome_task</span>.<span class="ruby-identifier">outcome</span>.<span class="ruby-identifier">id</span>] <span class="ruby-operator">||=</span> <span class="ruby-identifier">outcome_task</span>.<span class="ruby-identifier">outcome</span>.<span class="ruby-identifier">dup</span>
+      <span class="ruby-identifier">ot</span> = <span class="ruby-identifier">outcome_task</span>.<span class="ruby-identifier">dup</span>
+      <span class="ruby-identifier">ot</span>.<span class="ruby-identifier">task</span> = <span class="ruby-identifier">t</span>
+      <span class="ruby-identifier">ot</span>.<span class="ruby-identifier">outcome</span> = <span class="ruby-identifier">outcomes</span>[<span class="ruby-identifier">outcome_task</span>.<span class="ruby-identifier">outcome</span>.<span class="ruby-identifier">id</span>]
+      <span class="ruby-identifier">t</span>.<span class="ruby-identifier">outcome_tasks</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">ot</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">task</span>.<span class="ruby-identifier">attachments</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attachment</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">attachment</span>.<span class="ruby-identifier">owner</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">owner</span>.<span class="ruby-identifier">profile</span>
+        <span class="ruby-identifier">a</span> = <span class="ruby-constant">Attachment</span>.<span class="ruby-identifier">new</span>
+
+        <span class="ruby-identifier">a</span>.<span class="ruby-identifier">target</span> = <span class="ruby-identifier">t</span>
+        <span class="ruby-identifier">a</span>.<span class="ruby-identifier">school</span> = <span class="ruby-identifier">attachment</span>.<span class="ruby-identifier">school</span>
+        <span class="ruby-identifier">a</span>.<span class="ruby-identifier">owner</span> = <span class="ruby-identifier">attachment</span>.<span class="ruby-identifier">owner</span>
+        <span class="ruby-identifier">a</span>.<span class="ruby-identifier">starred</span> = <span class="ruby-identifier">attachment</span>.<span class="ruby-identifier">starred</span>
+
+        <span class="ruby-keyword">begin</span>
+          <span class="ruby-identifier">a</span>.<span class="ruby-identifier">resource</span> = <span class="ruby-identifier">attachment</span>.<span class="ruby-identifier">resource</span>
+        <span class="ruby-keyword">rescue</span>
+          <span class="ruby-comment"># a.resource = nil</span>
+          <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">error</span> <span class="ruby-node">&quot;AWS::S3::NoSuchKey: #{attachment.resource.url}&quot;</span>
+        <span class="ruby-keyword">end</span>
+
+        <span class="ruby-identifier">t</span>.<span class="ruby-identifier">attachments</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">a</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">task</span>.<span class="ruby-identifier">task_participants</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">task_participant</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">task_participant</span>.<span class="ruby-identifier">profile_type</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;O&#39;</span>
+        <span class="ruby-identifier">tp</span> = <span class="ruby-identifier">task_participant</span>.<span class="ruby-identifier">dup</span>
+        <span class="ruby-identifier">tp</span>.<span class="ruby-identifier">task</span> = <span class="ruby-identifier">t</span>
+        <span class="ruby-identifier">tp</span>.<span class="ruby-identifier">status</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">status_assigned</span>
+        <span class="ruby-identifier">tp</span>.<span class="ruby-identifier">complete_date</span> = <span class="ruby-keyword">nil</span>
+        <span class="ruby-identifier">t</span>.<span class="ruby-identifier">task_participants</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">tp</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">tasks</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">t</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_user</span>
+    <span class="ruby-identifier">duplicate</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-constant">Pusher</span>[<span class="ruby-node">&quot;course-duplicate-#{current_user.id}&quot;</span>].<span class="ruby-identifier">trigger</span>(<span class="ruby-string">&#39;complete&#39;</span>, {})
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">duplicate</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- duplicate-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- duplicate-method -->
+
+    
+      <div id="method-i-finalize" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">finalize</span><span
+            class="method-args">(current_profile)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="finalize-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 479</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">finalize</span>(<span class="ruby-identifier">current_profile</span>)
+  <span class="ruby-identifier">status</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">grading_completed_at</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>
+  <span class="ruby-identifier">save</span>
+  <span class="ruby-ivar">@outcomes</span> = <span class="ruby-identifier">outcomes</span>.<span class="ruby-identifier">order</span>(<span class="ruby-string">&#39;name&#39;</span>)
+  <span class="ruby-ivar">@participant</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">all</span>( <span class="ruby-value">:joins</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:profile</span>], <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;participants.target_id=? AND participants.profile_type = &#39;S&#39; AND target_type = &#39;Course&#39;&quot;</span>, <span class="ruby-identifier">id</span>],<span class="ruby-value">:select</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;profiles.full_name,participants.id,participants.profile_id&quot;</span>])
+  <span class="ruby-ivar">@participant</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span>
+    <span class="ruby-constant">TaskGrade</span>.<span class="ruby-identifier">bonus_points</span>(<span class="ruby-identifier">p</span>.<span class="ruby-identifier">profile</span>.<span class="ruby-identifier">school_id</span>, <span class="ruby-keyword">self</span>, <span class="ruby-identifier">p</span>.<span class="ruby-identifier">profile</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">current_profile</span>.<span class="ruby-identifier">id</span>)
+    <span class="ruby-identifier">outcomes_grade</span> = []
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@outcomes</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-ivar">@outcomes</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">o</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">outcome_grade</span> = <span class="ruby-constant">CourseGrade</span>.<span class="ruby-identifier">load_outcomes</span>(<span class="ruby-identifier">p</span>.<span class="ruby-identifier">profile_id</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">o</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">current_profile</span>.<span class="ruby-identifier">school_id</span>)
+        <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">outcome_grade</span>.<span class="ruby-identifier">blank?</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">outcome_grade</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">2.5</span>
+          <span class="ruby-ivar">@badge</span> = <span class="ruby-constant">Badge</span>.<span class="ruby-identifier">gold_outcome_badge</span>(<span class="ruby-identifier">o</span>.<span class="ruby-identifier">name</span>, <span class="ruby-identifier">current_profile</span>)
+          <span class="ruby-identifier">avatar_badge</span> = <span class="ruby-constant">AvatarBadge</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;profile_id = ? and badge_id = ? and course_id = ? and giver_profile_id = ?&quot;</span>,<span class="ruby-identifier">p</span>.<span class="ruby-identifier">profile_id</span>,<span class="ruby-ivar">@badge</span>.<span class="ruby-identifier">id</span>,<span class="ruby-identifier">id</span>,<span class="ruby-identifier">current_profile</span>.<span class="ruby-identifier">id</span>]) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@badge</span>
+          <span class="ruby-keyword">if</span> <span class="ruby-identifier">avatar_badge</span>.<span class="ruby-identifier">nil?</span>
+            <span class="ruby-identifier">status</span> = <span class="ruby-constant">AvatarBadge</span>.<span class="ruby-identifier">add_badge</span>(<span class="ruby-identifier">p</span>.<span class="ruby-identifier">profile_id</span>, <span class="ruby-ivar">@badge</span>.<span class="ruby-identifier">id</span>, <span class="ruby-identifier">id</span>, <span class="ruby-identifier">current_profile</span>.<span class="ruby-identifier">id</span>)
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-constant">Pusher</span>[<span class="ruby-node">&quot;course-finalize-#{current_profile.user.id}&quot;</span>].<span class="ruby-identifier">trigger</span>(<span class="ruby-string">&#39;complete&#39;</span>, {<span class="ruby-value">:status</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">status</span>})
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- finalize-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- finalize-method -->
+
+    
+      <div id="method-i-image_file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">image_file</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="image_file-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 103</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">image_file</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">image_file_name</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">image</span>.<span class="ruby-identifier">url</span> <span class="ruby-operator">:</span> <span class="ruby-constant">Course</span>.<span class="ruby-identifier">default_image_file</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- image_file-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- image_file-method -->
+
+    
+      <div id="method-i-init_defaults" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">init_defaults</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="init_defaults-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 107</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">init_defaults</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">rating_low</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">default_rating_low</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">rating_medium</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">default_rating_medium</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">rating_high</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">default_rating_high</span>
+
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">tasks_low</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">tasks_low</span>.<span class="ruby-identifier">blank?</span> <span class="ruby-operator">?</span> <span class="ruby-constant">Course</span>.<span class="ruby-identifier">default_tasks_low</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">tasks_low</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">tasks_medium</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">tasks_medium</span>.<span class="ruby-identifier">blank?</span> <span class="ruby-operator">?</span> <span class="ruby-constant">Course</span>.<span class="ruby-identifier">default_tasks_medium</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">tasks_medium</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">tasks_high</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">tasks_high</span>.<span class="ruby-identifier">blank?</span> <span class="ruby-operator">?</span> <span class="ruby-constant">Course</span>.<span class="ruby-identifier">default_tasks_high</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">tasks_high</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- init_defaults-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- init_defaults-method -->
+
+    
+      <div id="method-i-join_all" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">join_all</span><span
+            class="method-args">(profile)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="join_all-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 322</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">join_all</span>(<span class="ruby-identifier">profile</span>)
+   <span class="ruby-ivar">@all_members</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(
+         <span class="ruby-value">:all</span>,
+         <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:participants</span>],
+         <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;participants.target_id = ? AND participants.target_type in (&#39;Course&#39;,&#39;Group&#39;) AND participants.profile_type IN (&#39;M&#39;, &#39;S&#39;)&quot;</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">course_id</span>]
+       )
+   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@all_members</span> <span class="ruby-keyword">and</span> <span class="ruby-keyword">not</span><span class="ruby-ivar">@all_members</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-ivar">@all_members</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">viewer</span><span class="ruby-operator">|</span>
+         <span class="ruby-identifier">participant_exist</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;target_id = ? AND target_type = &#39;Course&#39; AND profile_id = ?&quot;</span>,<span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span> , <span class="ruby-identifier">viewer</span>.<span class="ruby-identifier">id</span>])
+        <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">participant_exist</span>
+          <span class="ruby-ivar">@participant</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">new</span>
+          <span class="ruby-ivar">@participant</span>.<span class="ruby-identifier">target_id</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>
+          <span class="ruby-ivar">@participant</span>.<span class="ruby-identifier">target_type</span> = <span class="ruby-string">&quot;Course&quot;</span>
+          <span class="ruby-ivar">@participant</span>.<span class="ruby-identifier">profile_id</span> = <span class="ruby-identifier">viewer</span>.<span class="ruby-identifier">id</span>
+          <span class="ruby-ivar">@participant</span>.<span class="ruby-identifier">profile_type</span> = <span class="ruby-string">&quot;S&quot;</span>
+          <span class="ruby-keyword">if</span> <span class="ruby-ivar">@participant</span>.<span class="ruby-identifier">save</span>
+            <span class="ruby-identifier">wall_id</span> = <span class="ruby-constant">Wall</span>.<span class="ruby-identifier">get_wall_id</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>,<span class="ruby-string">&quot;Course&quot;</span>)
+            <span class="ruby-constant">Feed</span>.<span class="ruby-identifier">create</span>(
+              <span class="ruby-value">:profile_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">viewer</span>.<span class="ruby-identifier">id</span>,
+              <span class="ruby-value">:wall_id</span> =<span class="ruby-operator">&gt;</span><span class="ruby-identifier">wall_id</span>
+            )
+            <span class="ruby-identifier">course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">course_id</span>)
+            <span class="ruby-identifier">content</span> = <span class="ruby-node">&quot;#{profile.full_name} added you to a new forum in #{course.name} #{course.section}: #{self.name}&quot;</span>
+            <span class="ruby-constant">Message</span>.<span class="ruby-identifier">send_notification</span>(<span class="ruby-identifier">profile</span>.<span class="ruby-identifier">id</span>,<span class="ruby-identifier">content</span>,<span class="ruby-identifier">viewer</span>.<span class="ruby-identifier">id</span>)
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- join_all-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- join_all-method -->
+
+    
+      <div id="method-i-messages" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">messages</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="messages-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 178</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">messages</span>
+  <span class="ruby-ivar">@messages</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Message</span>.<span class="ruby-identifier">where</span>({ <span class="ruby-value">:target_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>, <span class="ruby-value">:target_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parent_type</span> }).<span class="ruby-identifier">order</span>(<span class="ruby-string">&#39;starred DESC, created_at DESC&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- messages-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- messages-method -->
+
+    
+      <div id="method-i-messages-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">messages=</span><span
+            class="method-args">(m)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="messages-3D-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 182</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">messages=</span>(<span class="ruby-identifier">m</span>)
+  <span class="ruby-ivar">@messages</span> = <span class="ruby-identifier">m</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- messages-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- messages-3D-method -->
+
+    
+      <div id="method-i-owner" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">owner</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="owner-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 148</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">owner</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@owner</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">nil</span>
+    <span class="ruby-ivar">@owner</span> = <span class="ruby-constant">Profile</span>.<span class="ruby-identifier">find</span>(
+    <span class="ruby-value">:first</span>,
+    <span class="ruby-value">:include</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:participants</span>],
+    <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;participants.target_id = ? AND participants.target_type=&#39;Course&#39; AND participants.profile_type = &#39;M&#39;&quot;</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>]
+    )
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@owner</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- owner-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- owner-method -->
+
+    
+      <div id="method-i-owner-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">owner=</span><span
+            class="method-args">(o)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="owner-3D-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 159</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">owner=</span>(<span class="ruby-identifier">o</span>)
+  <span class="ruby-identifier">attributes</span> = {<span class="ruby-value">:target_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;Course&#39;</span>, <span class="ruby-value">:profile_type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;M&#39;</span>, <span class="ruby-value">:target_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>}
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">p</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-value">:first</span>, <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">attributes</span>)
+    <span class="ruby-identifier">p</span>.<span class="ruby-identifier">profile</span> = <span class="ruby-identifier">o</span>
+    <span class="ruby-comment"># p.save</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">p</span> = <span class="ruby-constant">Participant</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">p</span>.<span class="ruby-identifier">target</span> = <span class="ruby-keyword">self</span>
+    <span class="ruby-identifier">p</span>.<span class="ruby-identifier">profile_type</span> = <span class="ruby-string">&#39;M&#39;</span>
+    <span class="ruby-identifier">p</span>.<span class="ruby-identifier">profile</span> = <span class="ruby-identifier">o</span>
+    <span class="ruby-comment"># p.save</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@owner</span> = <span class="ruby-identifier">p</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- owner-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- owner-3D-method -->
+
+    
+      <div id="method-i-remaining_points" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">remaining_points</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>The number of points that remains unallocated. Sum up the the points for
+all tasks associated with this course, plus any extra credit, and minus
+from the max 1000 points.</p>
+          
+
+          
+          <div class="method-source-code" id="remaining_points-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 129</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">remaining_points</span>
+  <span class="ruby-identifier">total_points</span> = <span class="ruby-constant">Task</span>.<span class="ruby-identifier">sum</span>(<span class="ruby-value">:points</span>,
+    <span class="ruby-value">:conditions</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-string">&quot;course_id = ? and archived = ?&quot;</span>, <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>, <span class="ruby-keyword">false</span>])
+
+  <span class="ruby-comment"># FIXME: What about rainy-day bucket and extra credit tasks?</span>
+
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">Course</span>.<span class="ruby-identifier">default_points_max</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">total_points</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- remaining_points-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- remaining_points-method -->
+
+    
+      <div id="method-i-save_messages" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">save_messages</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="save_messages-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 186</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">save_messages</span>
+  <span class="ruby-comment"># this only really needs to fire when a course is duplicated</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@messages</span>
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">messages</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">m</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">m</span>.<span class="ruby-identifier">target_type</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parent_type</span> <span class="ruby-operator">||</span> <span class="ruby-string">&#39;C&#39;</span>
+      <span class="ruby-identifier">m</span>.<span class="ruby-identifier">target_id</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">id</span>
+      <span class="ruby-identifier">m</span>.<span class="ruby-identifier">parent_type</span> = <span class="ruby-identifier">m</span>.<span class="ruby-identifier">target_type</span>
+      <span class="ruby-identifier">m</span>.<span class="ruby-identifier">parent_id</span> = <span class="ruby-identifier">m</span>.<span class="ruby-identifier">target_id</span>
+
+      <span class="ruby-identifier">mv</span> = <span class="ruby-constant">MessageViewer</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-identifier">mv</span>.<span class="ruby-identifier">poster_profile</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">owner</span>.<span class="ruby-identifier">profile</span>
+      <span class="ruby-identifier">mv</span>.<span class="ruby-identifier">viewer_profile</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">owner</span>.<span class="ruby-identifier">profile</span>
+      <span class="ruby-identifier">m</span>.<span class="ruby-identifier">message_viewers</span>.<span class="ruby-identifier">push</span> <span class="ruby-identifier">mv</span>
+
+      <span class="ruby-identifier">m</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- save_messages-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- save_messages-method -->
+
+    
+      <div id="method-i-save_owner" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">save_owner</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="save_owner-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 174</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">save_owner</span>
+  <span class="ruby-ivar">@owner</span>.<span class="ruby-identifier">save</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@owner</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- save_owner-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- save_owner-method -->
+
+    
+      <div id="method-i-semester_year" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">semester_year</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="semester_year-source">
+            <pre><span class="ruby-comment"># File app/models/course.rb, line 121</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">semester_year</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-node">&quot;#{self.year}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">semester</span>.<span class="ruby-identifier">blank?</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-node">&quot;#{self.semester}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">year</span>.<span class="ruby-identifier">blank?</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-node">&quot;#{self.semester} #{self.year}&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- semester_year-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- semester_year-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
