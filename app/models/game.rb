@@ -195,7 +195,7 @@ class Game < ActiveRecord::Base
       row << "Player"
       row << "Login"
       row << "Score"
-      row << "Duration"
+      row << "Duration (sec)"
     
       csv << row
 
