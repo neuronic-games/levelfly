@@ -235,6 +235,20 @@ class Game < ActiveRecord::Base
     return user_csv
   end
   
+  # Count the number of active players from the number of unique people that have logged in
+  def update_player_count
+    self.player_count = Feat.where(game_id: self.id, progress_type: Feat.login).select(:profile_id).count(distinct: true)
+    save
+  end
+
+  # Update player count or all games
+  def self.update_player_count
+    games = Game.all
+    games.each do |game|
+      game.update_player_count
+    end
+  end
+  
   private
   
   # Generate a unique game handle. The game developer will use this handle to
