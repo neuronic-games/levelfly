@@ -194,6 +194,14 @@ class GamecenterController < ApplicationController
 
     # Check the value based on type
     case feat.progress_type
+    when Feat.login
+      # Check to see if I have logged in before. If this is the first time, increase the player count for the game.
+      last_login = Feat.where(game_id: game.id, profile_id: profile_id, progress_type: Feat.login).last
+      if last_login.nil?
+        game.player_count += 1
+        game.save
+      end
+      feat.save
     when Feat.xp
       # Look up the last XP stored for the game. We will need to update the player's XP
       # with the difference
