@@ -73,16 +73,18 @@ class Badge < ActiveRecord::Base
   def self.find_create_game_badge(game_id, name, descr = nil, badge_image_id = nil)
     badge = Badge.where(name: name, quest_id: game_id).first
     if badge.nil?    
-      badge = Badge.new
-      badge.name = name
-      badge.descr = descr
-      badge.badge_image_id = badge_image_id.nil? ? 1 : badge_image_id
-      badge.available_badge_image_id = badge.badge_image_id
-      badge.quest_id = game_id  # We can use quest_id for storing game_id for now. But if we want to use if for other purposes, we need quest_type
+      new_badge = Badge.new
+      new_badge.name = name
+      new_badge.descr = descr
+      new_badge.badge_image_id = badge_image_id.nil? ? 1 : badge_image_id
+      new_badge.available_badge_image_id = badge.badge_image_id
+      new_badge.available_badge_image_id = badge.available_badge_image_id if badge.available_badge_image_id.nil?
+      new_badge.quest_id = game_id  # We can use quest_id for storing game_id for now. But if we want to use if for other purposes, we need quest_type
+      badge = new_badge
     else
       badge.descr = descr if badge.descr.blank?
       badge.badge_image_id = badge_image_id unless badge_image_id.to_i == 0
-      badge.available_badge_image_id = badge.badge_image_id
+      badge.available_badge_image_id = badge.badge_image_id if badge.available_badge_image_id.nil?
     end
     
     badge.save
