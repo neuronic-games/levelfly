@@ -75,6 +75,27 @@ class Game < ActiveRecord::Base
     feat = Feat.where(game_id: self.id, profile_id: profile_id).where("level is not null").last
     return feat ? feat.level : ""
   end
+  
+  # Returns the list of learning outcomes
+  def get_outcomes()
+    rewards = []
+    outcomes = Outcome.where(game_id: self.id).order(:id)
+    outcomes.each do |outcome|
+      rewards << outcome.name
+    end
+    return rewards
+  end
+
+  # Returns the list of badges
+  def get_badges()
+    rewards = []
+    badges = Badge.where(quest_id: self.id, archived: false).order(:name)
+    badges.each do |badge|
+      rewards << badge.name
+    end
+    return rewards
+  end
+
 
   # Add the score feat to the leaderboard, if the user is not already on it
   def self.add_score_leader(feat, count = 50)

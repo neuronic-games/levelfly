@@ -468,6 +468,7 @@ Oncapus::Application.routes.draw do
   get "gamecenter/leaderboard"
   get "gamecenter/get_active_dur"
   get "gamecenter/get_top_users"
+  get "gamecenter/get_rewards"
   get "gamecenter/add_badge"
   get "gamecenter/edit_badge"
   post "gamecenter/save_badge"
