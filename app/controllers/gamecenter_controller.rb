@@ -115,18 +115,15 @@ class GamecenterController < ApplicationController
   # Returns the list of badges and learning outcomes
   def get_rewards
     handle = params[:handle]
-    message = ""
-    status = Gamecenter::FAILURE
+
     badges = []
     outcomes = []
 
-    if current_user
-      status = Gamecenter::SUCCESS
-      game = Game.find_by_handle(handle)
-      badges = game.get_badges
-      outcomes = game.get_outcomes
-      message = "#{badges.count} badge(s) and #{outcomes.count} outcome(s) record(s) found"
-    end
+    status = Gamecenter::SUCCESS
+    game = Game.find_by_handle(handle)
+    badges = game.get_badges
+    outcomes = game.get_outcomes
+    message = "#{badges.count} badge(s) and #{outcomes.count} outcome(s) record(s) found"
 
     render :text => { 'status' => status, 'message' => message, 'badges' => badges, 'outcomes' => outcomes }.to_json
   end
