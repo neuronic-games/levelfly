@@ -22,22 +22,21 @@
 
 <!-- Learning Outcomes -->
 <div>
-  <div class="gamecenter_header">My Learning Outcome Ratings</div>
   <% if @outcome_list.length == 0 %>
     You have no ratings in <%=h @game.name %>.
   <% else %>
     <div class="LB_tableheader">
-      <div class="LBT_ava" style="width:30%;">Outcome</div>
+      <div class="LBT_ava" style="width:30%; text-align:left;">Learning Outcome</div>
       <div class="LBT_ava" style="width:10%;">Rating</div>
-      <div class="LBT_ava" style="width:60%;">Description</div>
+      <div class="LBT_ava" style="width:60%; text-align:left;">Description</div>
     </div>
 
     <% @outcome_list.each do |outcome, rating| %> 
   
       <div class="LB_tablecontent <%= cycle("even", "odd") %>">
-        <div class="LBT_ava" style="width:30%;"><%=h outcome.name %></div>
-        <div class="LBT_ava" style="width:10%;"><span class="<%= Badge.outcome_rating_badge(rating) %>"><%= rating == 0 ? '-' : rating %></span></div>
-        <div class="LBT_ava" style="width:60%;"><%=h formatted_html_content(outcome.descr) %></div>
+        <div class="LBT_ava" style="width:30%; text-align:left;"><%=h outcome.name %></div>
+        <div class="LBT_ava" style="width:10%;"><span class="<%= Badge.outcome_rating_badge(rating) %>"><%= rating == 0 ? '-' : sprintf('%.2f', rating) %></span></div>
+        <div class="LBT_ava" style="width:60%; text-align:left;"><%=h formatted_html_content(outcome.descr) %></div>
       </div>
   
     <% end %>
@@ -47,15 +46,13 @@
 
 <!-- My Badges -->
 <div>
-  <div class="gamecenter_header">My Badges</div>
   <% if @badges.length == 0 %>
     You have not earned any badges in <%=h @game.name %>.
   <% else %>
     <div class="LB_tableheader">
-      <div class="LBT_ava">&nbsp;</div>
-      <div class="LBT_ava">BADGE ID</div>
-      <div class="LBT_level">NAME</div>
-      <div class="LBT_xp">DESCRIPTION</div>
+      <div class="LBT_xp">BADGE</div>
+      <div class="LBT_level" style="text-align:left;">NAME</div>
+      <div class="LBT_level" style="text-align:left;">DESCRIPTION</div>
       <div class="LBT_xp">COUNT</div>
     </div>
 
@@ -70,13 +67,10 @@
            <img src="<%= badge.try(:badge_image).try(:image).try(:url) %>" height='70' width='70' class="app edit-data" data-badge-id="<%= badge.id%>" style='cursor:pointer;'>
           <% end %>
         </div>
-        <div class="LBT_ava"> 
-          <span class="course_txt"><strong><%=h badge.id %></strong></span>
-        </div>
-        <div class="LBT_level"> 
+        <div class="LBT_level" style="text-align:left;"> 
           <span class="name_txt"><%=h badge.name %> </span>
         </div>
-        <div class="LBT_xp"> 
+        <div class="LBT_level" style="text-align:left;"> 
           <span class="descr_txt"><%=h truncate(badge.descr, :length => 20) %></span>
         </div>
         <div class="LBT_xp"> 
