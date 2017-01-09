@@ -77,14 +77,16 @@ class Badge < ActiveRecord::Base
       new_badge.name = name
       new_badge.descr = descr
       new_badge.badge_image_id = badge_image_id.nil? ? 1 : badge_image_id
-      new_badge.available_badge_image_id = badge.badge_image_id
-      new_badge.available_badge_image_id = badge.available_badge_image_id if badge.available_badge_image_id.nil?
+      default_badge_image = BadgeImage.find_by_image_file_name("trophy5.png")
+      new_badge.available_badge_image_id = default_badge_image.id
       new_badge.quest_id = game_id  # We can use quest_id for storing game_id for now. But if we want to use if for other purposes, we need quest_type
       badge = new_badge
     else
       badge.descr = descr if badge.descr.blank?
-      badge.badge_image_id = badge_image_id unless badge_image_id.to_i == 0
-      badge.available_badge_image_id = badge.badge_image_id if badge.available_badge_image_id.nil?
+      # If the image ID is passed, the use system badges. available_badge_image_id is only used for system badges
+      if !badge_image_id.nil?
+        badge.available_badge_image_id = badge.badge_image_id
+      end
     end
     
     badge.save
