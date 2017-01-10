@@ -28,7 +28,8 @@ end
 school = School.create(:name => 'The Practice School', :code => 'DEMO', :handle => 'demo')
 # school = School.create(:name => 'Borough of Manhattan Community College', :code => 'BMCC', :handle => 'bmcc')
 
-admin = User.new(:email => "admin@neuronicgames.com", :password => "changeme", password_confirmation: "changeme", :status => 'A', :default_school_id => school.id)
+admin = User.new(:email => "admin@neuronicgames.com", :password => "changeme", password_confirmation: "changeme")
+admin.default_school_id = school.id
 admin.skip_confirmation!
 admin.save
 
