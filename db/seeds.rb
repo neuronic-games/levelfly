@@ -35,7 +35,9 @@ admin.save
 
 vault = Vault.create(:vault_type => 'AWS S3', :target_id => school.id, :target_type => 'School', :account => ENV['S3_KEY'], :secret => ENV['S3_SECRET'], :folder => ENV['S3_PATH'])
 
-profile = Profile.create(:code => 'DEFAULT', :school => school, :image_file_name => Profile.default_avatar_image, :level => 1)
+profile = Profile.new(:code => 'DEFAULT', :image_file_name => Profile.default_avatar_image, :level => 1)
+profile.school_id = school.id
+profile.save
 default = Avatar.create(:profile => profile, :skin => 3, :body => 'avatar/body/body_3', :head => 'avatar/head/diamond_3', :face => 'avatar/face/latin_female', :top => 'basic/tops/polo_short_sleeve_blue', :bottom => 'basic/bottoms/trousers_long_brown', :shoes => 'basic/shoes/sneakers_gray')
 
 # admin = User.create(:email => 'admin@neuronicgames.com', :encrypted_password => '$2a$10$RvALTroqUHXm4oE2ID8O5OU/napTft9S6EzCWaAww7G6nIkZPe1Au')
