@@ -44,6 +44,9 @@ default = Avatar.create(:profile => profile, :skin => 3, :body => 'avatar/body/b
 #admin = User.create(:email => "admin@neuronicgames.com", :encrypted_password => "$2a$10$TiAmvGek1xbUTy8SoHPgk.ThpFZYivP411xYKhYV1g2qUYMpSRryu", :status => 'A')
 admin_profile = Profile.create(:user => admin, :school => school, :full_name => "Neuronic Admin", :image_file_name => Profile.default_avatar_image)
 
+#<Profile id: 1, user_id: nil, school_id: 3, major_id: nil, code: "DEFAULT", name: nil, full_name: nil, salutation: nil, primary: false, archived: false, created_at: "2012-09-15 00:33:33", updated_at: "2014-09-30 07:19:48", like_given: 0, like_received: 0, post_count: 0, image_file_name: "/images/wardrobe/null_profile.png", image_content_type: nil, image_file_size: nil, xp: 0, badge_count: 0, level: 1, contact_info: nil, wardrobe: 1, interests: "", all_comments: true, post_date_format: "D", role_name_id: 1, extended_logout: nil, is_public: true, friend_privilege: nil>
+default_profile = Profile.create(:code => 'DEFAULT', :school => demo, :image_file_name => Profile.default_avatar_image)
+
 # Role.create(:name => "edit_user", :profile => admin_profile)
 # Role.create(:name => "modify_rewards", :profile => admin_profile)
 # Role.create(:name => "modify_wardrobe", :profile => admin_profile)
@@ -63,7 +66,7 @@ admin_profile.save
 
 role_name = RoleName.find_by_name('Student')
 
-generate_users(3,demo,school,role_name)
+# generate_users(3,demo,school,role_name)
 
 #================================================================================
 
