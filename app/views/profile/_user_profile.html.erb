@@ -130,7 +130,7 @@
               <%badge = Badge.badge_detail(b.badge_id)%>
                 <% if badge and !badge.nil?%>
                 <li>
-                  <div class="SI_icon"><% if badge.badge_image %><img src="<%=badge.badge_image.image_file_path%>"class="icon_style_badge hover badge_icon" avatar_badge_id="<%=b.id%>"/><% end %></div>
+                  <div class="SI_icon"><img src="<%=badge.available_image_url%>"class="icon_style_badge hover badge_icon" avatar_badge_id="<%=b.id%>"/></div>
                   <span class="text_style_badge" style="word-break:normal; word-wrap:break-word; max-width:50px;"><%=badge.name.truncate(40) if badge.name %></span>
                 </li>
                 <%end%>  

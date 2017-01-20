@@ -99,7 +99,10 @@ class Badge < ActiveRecord::Base
   end
 
   def available_image_url
-    return BadgeImage.available_image_by_badge(available_badge_image_id)
+    if self.available_badge_image_id.present?
+      return BadgeImage.available_image_by_badge(available_badge_image_id)
+    end
+    return self.try(:badge_image).try(:image).try(:url)
   end
 
 end
