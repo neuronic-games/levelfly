@@ -28,5 +28,9 @@ class BadgeImage < ActiveRecord::Base
     badge_image = BadgeImage.find_by_id(id)
     return BadgeImage.base_url + "/" + badge_image.try(:image_file_name).to_s
   end
+  
+  def self.blank
+    return ENV["URL"] + BadgeImage.base_url + "/images/badges/blank.png"
+  end
 
 end

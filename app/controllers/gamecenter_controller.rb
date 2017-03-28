@@ -1,6 +1,6 @@
 class GamecenterController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!, :except => [:status, :show, :connect, :authenticate, :get_current_user, :add_progress]
+  before_filter :authenticate_user!, :except => [:status, :show, :connect, :authenticate, :get_current_user, :get_top_users, :add_progress]
 
   def status
     message = "All OK"
@@ -102,12 +102,10 @@ class GamecenterController < ApplicationController
     status = Gamecenter::FAILURE
     all_score = []
     
-    if current_user
-      status = Gamecenter::SUCCESS
-      game = Game.find_by_handle(handle)
-      all_score = game.get_all_scores_in_order
-      message = "#{all_score.count} score records found"
-    end
+    status = Gamecenter::SUCCESS
+    game = Game.find_by_handle(handle)
+    all_score = game.get_all_scores_in_order
+    message = "#{all_score.count} score records found"
 
     render :text => { 'status' => status, 'message' => message, 'all_score' => all_score }.to_json
   end

@@ -95,7 +95,7 @@ class Badge < ActiveRecord::Base
   end
   
   def image_url
-    return badge_image.image_file_path
+    return badge_image ? badge_image.image_file_path : BadgeImage.blank
   end
 
   def available_image_url
