@@ -393,3 +393,15 @@ input {
 .pull-left{
   float: left;
 }
+
+.main_footer { 
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.main_footer a { 
+  color: white;
+  text-decoration: none;
+}
