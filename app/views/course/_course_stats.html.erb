@@ -1,9 +1,10 @@
- <div class="course_pad">
+  <div class="course_pad">
     <!-- tabs-->
     <!--tab content-->
     <div class="course_tab_content">
-      <!--01 line box-->
+        <!--01 line box-->
       <div>
+
         <!--box-->
         <div class="stat_box01 stat_width01 floatL">
           <div class="stat_head01 floatL">Grade</div>
@@ -25,27 +26,39 @@
             <div class="stat_value02"></div>
           </div>
         </div>
+          
         <!--box-->
         <div class="stat_box01 stat_width02 floatL">
           <div class="stat_head01 floatL">xp</div>
           <div class="stat_value01 floatL"><span class="red_txtbig"><%if !@course_xp.nil?%><%=@course_xp%><%else%>0<%end%></span>
-            <div class="stat_value02"><%=@profile.xp%> Total</div>
+          <!-- <div class="stat_value02"><%=@profile.xp%> Total</div> -->
+          &nbsp;
           </div>
+
+          <!-- Course Total -->
+          <div class="course_xp_desc">
+            <br/>
+            Out of <span style="color:white;"><%= @course.get_xp %></span> total<br/>
+            for this course
+          </div>
+        
         </div>
         <!--box-->
+
         <div class="stat_box01 stat_width03 floatL">
           <div class="stat_head01 floatL">likes</div>
           <div class="stat_value01 floatL"><span class="red_txtbig"><%if @likes%><%=@likes%><%end%></span>
-		    <div class="stat_value02"><%=@profile.like_received%> Total</div>
           </div>
         </div>
         <div class="clear"></div>
       </div>
+
       <div class="spacebar10px"></div>
-      <!--02 line box-->
-      <div>
-        <div class="stat_head01 font18">Badges</div>
-        <div class="spacebar10px"></div>
+
+    <!--02 line box-->
+    <div>
+      <div class="stat_head01 font18">Badges</div>
+      <div class="spacebar10px"></div>
         <ul class="stat_icons_box">
         <%if @badge && @badge.length>0%>
           <% @badge.each do |b|%>  

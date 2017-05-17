@@ -214,6 +214,11 @@ class Course < ActiveRecord::Base
     return sorted_total_xp.uniq[0..4]
   end
   
+  # Returns the total XP assigned for the course (in Tasks)
+  def get_xp
+    return Task.where(:course_id => self.id, :archived => false).sum(:points)
+  end
+  
   def self.sort_top_achievers(students,school_id,course_id,sort_type)
     sorted_array = []
     outcome_grades = students.map(&:grade)

@@ -4549,6 +4549,7 @@ background: none repeat scroll 0 0 #FFFFFF;
 font-family: 'CollegeRegular',Arial,Helvetica,sans-serif;
 }
 .light_blue{background:#96EBFF; padding: 0 10px;}
+.course_xp_desc{color:#898989; text-align: left;}
 .badge_message{color:#FFF; text-align: center;}
 .task_grade_stat{
  font-family: 'AthleticRegular';
