@@ -441,6 +441,12 @@
 </div>
 <!--popup end-->
 
+<!-- Ask for privacy setting if none specified -->
+<div class ="privacy_settings_box hide" id="privacy_settings_box">
+  <%= render :partial => "/profile/privacy_settings", :locals=>{:profile=>@profile} %>
+</div>
+
+<!-- Error and notification messages -->
 <input type="hidden" name="hdn_profile_id" id="hdn_profile_id" value="<%=user_session[:profile_id] %>"/>
 
   <div id="server_error_div" class="hide">
@@ -885,8 +891,10 @@ $('#container').delegate('.add_topic', 'click', function(){
     });
   });
 
-
-
+  // If user has not set the privacy settings yet, show this box
+  if ("<%=h @profile.is_public %>"=="") {
+    $("#privacy_settings_box").show();
+  }
 
   }); //document.ready
 
