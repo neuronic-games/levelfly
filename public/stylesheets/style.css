@@ -4044,18 +4044,18 @@ div .frm_input2 {
 .stat_value01 {
 }
 .red_txtbig {
-	color: #8D130D;
+	color: #AAAAAA;
 	font-family: 'AthleticRegular';
 	font-size: 46px;
 	text-align: center;
-	text-shadow: 2px 2px #FFFFFF;
+	text-shadow: 2px 2px #000000;
 }
 .red_txtsmall {
-	color: #8D130D;
+	color: #AAAAAA;
 	font-family: 'AthleticRegular';
 	font-size: 30px;
 	text-align: center;
-	text-shadow: 2px 2px #FFFFFF;
+	text-shadow: 2px 2px #000000;
 	font-weight:bold;
 }
 .stat_value02 {
@@ -4416,6 +4416,25 @@ border:solid 0px #000000;
 #account_dialog .form_error {
   color: red;
 }
+
+.privacy_setting_dialog {
+ background: url("../images/add_newtask_bg.jpg") repeat scroll 0 0 #FFFFFF;
+    border: 0 solid #000000;
+    border-radius: 16px 16px 16px 16px;
+    box-shadow: 0 0 12px #333333;
+    height: 350px;
+    left: 35%;
+    padding: 20px;
+    position: absolute;
+    top: 200px;
+    width: 30%;
+    z-index: 9993;
+}
+
+.notice_dialog p {
+  padding-top: 5px;
+}
+
 .message_warning_box{
 border:solid 0px #000000;
 	-moz-border-radius: 16px;
