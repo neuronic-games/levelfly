@@ -312,7 +312,7 @@ class ProfileController < ApplicationController
     @profile = current_user.profiles.first
     @profile.is_public = params[:is_public]
     @profile.friend_privilege = params[:friend_privilege]
-    # @profile.friend_privilege = (!@profile.is_public? && params[:friend_privilege] == '1') ? true : (@profile.is_public? && params[:friend_privilege].present?) ? false : nil
+    # @profile.friend_privilege = (!@profile.is_public && params[:friend_privilege] == '1') ? true : (@profile.is_public && params[:friend_privilege].present?) ? false : nil
     @profile.save!
     puts @profile.inspect
     render :json => {:success => true}
