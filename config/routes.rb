@@ -167,6 +167,8 @@ Oncapus::Application.routes.draw do
 
   post "course/top_achivers"
 
+  post "course/task_outcomes"
+
   get "course/view_setup"
 
   get "course/edit"

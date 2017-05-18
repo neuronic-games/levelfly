@@ -730,6 +730,13 @@ class CourseController < ApplicationController
     end
   end
 
+  def task_outcomes
+    if params[:task_id] && !params[:task_id].blank?
+      @task_outcomes = Task.find(params[:task_id]).outcomes
+      render :partial =>"/course/task_outcomes"
+    end
+  end
+
   def toggle_priority_file
     if params[:id] and !params[:id].blank?
       @att = Attachment.find(params[:id])

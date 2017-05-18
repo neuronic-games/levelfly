@@ -1,0 +1,13 @@
+<div style="display:table-cell; background-color:#b5b1b1; padding:5px;"></div>
+<div style="display:table-cell; text-align:left; background-color:#b5b1b1; padding-top:5px; padding-bottom:5px;">
+<% if @task_outcomes %>
+<ul>
+  <% @task_outcomes.each do |outcomes| %>
+    <li class="font14">&bull; <%=h outcomes.name %></li>
+  <%end%>
+<% end %>
+</ul>
+</div>
+<div style="display:table-cell; background-color:#b5b1b1;"></div>
+<div style="display:table-cell; background-color:#b5b1b1;"></div>
+<div style="display:table-cell; background-color:#b5b1b1;"></div>
