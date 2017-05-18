@@ -271,7 +271,7 @@ class Profile < ActiveRecord::Base
   def self.is_profile_accessible?(profile_id, current_user_profile_id)
 
     profile = Profile.find(profile_id)
-    return true if profile.is_public?        
+    return true if profile.is_public        
     
     current_user_profile = Profile.find(current_user_profile_id)
     access = false

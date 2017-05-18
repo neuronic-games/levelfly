@@ -11,7 +11,7 @@ module ApplicationHelper
       if current_user_profile.friends.present?
         is_friend = current_user_profile.friends.map(&:profile_id).include?(profile.id)
       end      
-      if profile.is_public?        
+      if profile.is_public
         access = true
       elsif is_friend && profile.friend_privilege?
         access = true
