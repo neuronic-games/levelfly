@@ -97,10 +97,9 @@
               <div class="LBT_ava" >
                 <div class=""><img src="<%=t.image_file%>" profile_id="<%#= p.id %>" width="53" height="53" style="border-radius:5px" /></div>
               </div>
-              <div class="LBT_name"> <span class="long_name" title="<%=t.name%>"><%=t.name%></span><br />
-                </div>
+              <div class="LBT_name"> <span class="long_name" title="<%=t.name%>"><%=t.name%></span></div>
               <div class="LBT_level"><%=change_date_format(t.due_date)%></div>
-              <div class="LBT_grades">
+              <div class="LBT_grades" style="text-align:right;">
                 <%if !task_grade.nil?%>
                   <% if @course.show_grade %>
                     <%=task_grade%> <%=GradeType.value_to_letter(task_grade, t.school_id )%>
@@ -110,11 +109,18 @@
                 <%else%>
                   Not Graded
                 <%end%>
+                <a class="blue_bt19px task_more_btn" href="javascript:void(0);" id="task_btn_<%=t.id%>" rel="<%=t.id%>">More</a>
               </div>
               <div class="LBT_xp">
                 <%if points %><span style="color:#<%=xp_color(points)%>"><%=points %></span><% end %>
               </div>
             </div>
+
+            <!-- Task outcome panel -->
+            <div class="LB_tablecontent outcome_task" id="outcome_task_<%=t.id%>">
+               <%= render :partial=>"/course/task_outcomes" %>
+            </div>
+            
           <% end %>
        
       </div>
@@ -145,6 +151,11 @@
   <div class="clear"></div>
   <input type="hidden" name="course_id"  id ="course_id" value="<%=@course.id%>">
 <script type="text/javascript">
+  
+  $(document).ready(function() {
+    $(".outcome_task").hide();
+  });
+  
 $( "span[title]" ).tooltip({
       position: {
         my: "center bottom",
@@ -163,7 +174,35 @@ $( "span[title]" ).tooltip({
   }
   
   $(function(){
-  
+
+    // List outcomes for a task
+    $(".task_more_btn").click(function() {
+      var id = $(this).attr("rel");
+      if($(this).text()=="More"){     
+        var course_id = $("#course_id").val();
+        var task_id = $(this).attr("rel");
+        showSpinner(true);
+        $.ajax({
+          type :"POST",
+          url: "/course/task_outcomes",
+          data: {course_id:course_id,task_id:task_id},
+          error: function(e){alert("error");},
+          success: function(data){
+             showSpinner(false);
+             $("#outcome_task_"+task_id).removeClass("hide");
+             $("#outcome_task_"+task_id).html(data);
+             $("#outcome_task_"+task_id).show();
+             $("#task_btn_"+id).text("Less");
+          }
+        });
+      }
+      else{
+        $("#outcome_task_"+id).hide();
+        $(this).text("More");
+      }      
+    });
+
+    // List top achievers for an outcome
     $(".more_btn_stat").click(function(){
       var id = $(this).attr("rel");
       if($(this).text()=="More"){     
