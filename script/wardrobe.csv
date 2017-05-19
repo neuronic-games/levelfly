@@ -174,7 +174,7 @@ Y,1,,Head,Facial Hair,facial_hair,Holywoodian,,facial_hair,hollywoodian_#.png,fa
 Y,1,,Head,Facial Hair,facial_hair,Hulihee,,facial_hair,hulihee_#.png,facial_hair,hulihee_icon.png
 Y,1,,Head,Facial Hair,facial_hair,Mustache Goatee,,facial_hair,mustache_goatee_#.png,facial_hair,mustache_goatee_icon.png
 Y,1,,Head,Facial Hair,facial_hair,Mutton Chop,,facial_hair,mutton_chop_#.png,facial_hair,mutton_chop_icon.png
-Y,1,,Head,Facial Hair,facial_hair,Santa,,facial_hair,santa_facial_hair_#.png,facial_hair,santa_facial_hair_icon.png
+,,,,,,,,,,,
 Y,1,,Head,Facial Hair,facial_hair,Short Boxed Beard,,facial_hair,short_boxed_beard_#.png,facial_hair,short_boxed_beard_icon.png
 Y,1,,Head,Facial Hair,facial_hair,Short Mustache,,facial_hair,short_mustache_#.png,facial_hair,short_mustache_icon.png
 Y,1,,Head,Facial Hair,facial_hair,Sideburns Long,,facial_hair,sideburns_long_#.png,facial_hair,sideburns_long_icon.png
@@ -313,4 +313,5 @@ Y,25,,Head,Misc,prop,Red Lipstick,,makeup,makeup_red_lips.png,makeup,makeup_red_
 ,26,,Body,Misc,top,,,tops_misc,santa_dress.png,tops_misc,santa_dress_icon.png
 Y,26,,Head,Misc,hat,Santa Hat,,hats,santa_hat.png,hats,santa_hat_icon.png
 ,26,,Legs,Misc,bottom,Santa,Santa Bottom,bottoms,santa_trouser.png,bottoms,santa_trouser_icon.png
+Y,26,,Head,Facial Hair,facial_hair,Santa Beard,,facial_hair,santa_facial_hair_#.png,facial_hair,santa_facial_hair_icon.png
 ,na,,Head,Misc,hat,,,hats,hat_mask.png,hats,

@@ -31,6 +31,7 @@ class Admin < ActiveRecord::Base
   def self.reset_rewards
     profiles = Profile.all
     profiles.each do |profile|
+      next if profile.xp < 0
       profile.update_rewards
     end
   end
