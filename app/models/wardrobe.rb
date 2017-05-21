@@ -9,6 +9,10 @@ class Wardrobe < ActiveRecord::Base
     end
     
     level_0 = WardrobeItem.find(:first, :conditions => ["name like ? and parent_item_id is null and depth = 0", level_0_name])
+    if level_0.nil?
+      puts "ERROR: #{level_0_name} does not exit"
+      return
+    end
     level_1 = WardrobeItem.find(:first, :conditions => ["name like ? and parent_item_id = ? and depth = 1", level_1_name, level_0.id])
     if level_1.nil?
       puts "ERROR: #{level_1_name} in #{level_0_name} does not exit"
