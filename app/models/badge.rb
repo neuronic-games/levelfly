@@ -3,9 +3,12 @@ class Badge < ActiveRecord::Base
   belongs_to :badge_image
   has_many :avatar_badges
 
+  @@gold_badge = 'gold_badge.png'
+  cattr_accessor :gold_badge
+
   # Read badges for specified profile
   def self.load_all_badges(profile)
-    gold_image_id = BadgeImage.find_by_image_file_name("gold_badge.png")
+    gold_image_id = BadgeImage.find_by_image_file_name(Badge.gold_badge)
     gold_image_id = gold_image_id ? gold_image_id.id : 0
     @badges = Badge.where("school_id = ? and (creator_profile_id = ? or creator_profile_id IS NULL) and badge_image_id not in (?) and archived != true",profile.school_id,profile.id,gold_image_id).order("created_at desc")
     badge_ids = AvatarBadge.find(:all, :select=>"badge_id", :conditions=>["giver_profile_id = ?",profile.id], :order => "created_at desc").collect(&:badge_id)
@@ -64,8 +67,8 @@ class Badge < ActiveRecord::Base
   end
 
   def self.gold_badge_image
-    gold_badge = BadgeImage.find_by_image_file_name("gold_badge.png")
-    gold_badge = BadgeImage.create(:image_file_name => 'gold_badge.png', :image_content_type =>"image/png") unless gold_badge
+    gold_badge = BadgeImage.find_by_image_file_name(Badge.gold_badge)
+    gold_badge = BadgeImage.create(:image_file_name => Badge.gold_badge, :image_content_type =>"image/png") unless gold_badge
     return gold_badge.id
   end
 
@@ -101,6 +104,9 @@ class Badge < ActiveRecord::Base
   def available_image_url
     if self.available_badge_image_id.present?
       return BadgeImage.available_image_by_badge(available_badge_image_id)
+    end
+    if (self.badge_image and self.badge_image.image_file_name == Badge.gold_badge)
+      return self.image_url
     end
     return self.try(:badge_image).try(:image).try(:url)
   end
