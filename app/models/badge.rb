@@ -105,7 +105,9 @@ class Badge < ActiveRecord::Base
     if self.available_badge_image_id.present?
       return BadgeImage.available_image_by_badge(available_badge_image_id)
     end
-    if (self.badge_image and self.badge_image.image_file_name == Badge.gold_badge)
+    if (self.badge_image and self.badge_image.image_file_size.nil?)
+      # We are relying on badge fact that badges that already exist on the server to not have an image_file_size.
+      # All badges uploaded to AWS have a valid file size.
       return self.image_url
     end
     return self.try(:badge_image).try(:image).try(:url)
