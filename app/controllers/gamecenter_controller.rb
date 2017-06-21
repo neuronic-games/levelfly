@@ -278,7 +278,7 @@ class GamecenterController < ApplicationController
         end
         save_feat = true
         if unique  # We only want to record this feat if the user already doesn't have this badge
-          last_feat = Feat.where(progress_type: progress_type, progress: badge.id).first
+          last_feat = Feat.where(profile_id: profile_id, progress_type: progress_type, progress: badge.id).first
           save_feat = false if last_feat
           message = "Duplicate badge. Progress not recorded for game #{game.name} for user profile #{current_user.default_profile.id}."
         end
