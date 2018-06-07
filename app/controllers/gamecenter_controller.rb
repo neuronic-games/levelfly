@@ -1,6 +1,6 @@
 class GamecenterController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!, :except => [:status, :show, :connect, :authenticate, :get_current_user, :get_top_users, :add_progress]
+  before_filter :authenticate_user!, :except => [:status, :show, :connect, :authenticate, :get_current_user, :get_top_users, :add_progress, :get_rewards]
 
   def status
     message = "All OK"
@@ -279,8 +279,10 @@ class GamecenterController < ApplicationController
         save_feat = true
         if unique  # We only want to record this feat if the user already doesn't have this badge
           last_feat = Feat.where(profile_id: profile_id, progress_type: progress_type, progress: badge.id).first
-          save_feat = false if last_feat
-          message = "Duplicate badge. Progress not recorded for game #{game.name} for user profile #{current_user.default_profile.id}."
+          if last_feat
+            save_feat = false
+            message = "Duplicate badge. Progress not recorded for game #{game.name} for user profile #{current_user.default_profile.id}."
+          end
         end
         if save_feat
           # It's ok to receive the same badge more than once, unless the 'unique' parameter is used
