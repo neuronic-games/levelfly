@@ -70,12 +70,14 @@ class Profile < ActiveRecord::Base
      return {name: self.full_name, image: self.image_file_name} if is_public
      
      return {name: self.full_name, image: self.image_file_name} if self.id == viewer_profile_id
+
+     if not viewer_profile_id.blank?
+       viewer_profile = Profile.find(viewer_profile_id)
+       return {name: self.full_name, image: self.image_file_name} if viewer_profile.has_role(Role.edit_user)
      
-     viewer_profile = Profile.find(viewer_profile_id)
-     return {name: self.full_name, image: self.image_file_name} if viewer_profile.has_role(Role.edit_user)
-     
-     # Are you a student in the viewer's course
-     return {name: self.full_name, image: self.image_file_name} if course_id and Course.is_owner?(course_id, viewer_profile_id)
+       # Are you a student in the viewer's course
+       return {name: self.full_name, image: self.image_file_name} if course_id and Course.is_owner?(course_id, viewer_profile_id)
+     end
      
      return {name: 'Private', image: Profile.default_avatar_image}
   end
