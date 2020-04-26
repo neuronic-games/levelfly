@@ -25,14 +25,18 @@ class Profile < ActiveRecord::Base
   acts_as_taggable
 
   scope :course_participants, ->(course_id, section_type) {
-    includes(:participants, :user).where("participants.target_id = ? AND participants.target_type IN (?) AND participants.profile_type IN ('S') AND users.status != 'D'", course_id, section_type).order(:full_name, :email)
+    includes(:participants, :user).references(:participants).where(
+      "participants.target_id = ? AND participants.target_type IN (?) AND participants.profile_type IN ('S') AND users.status != 'D'", 
+      course_id, 
+      section_type
+    ).order(:full_name, 'users.email')
   }
   scope :course_participants_with_master, ->(course_id, section_type) {
     includes(:participants, :user).where("participants.target_id = ? AND participants.target_type IN (?) AND participants.profile_type IN ('S','M') AND users.status != 'D'", course_id, section_type).order("users.last_sign_in_at DESC, full_name")
   }
 
   def self.course_master_of(course_id)
-    includes(:participants).where("participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", course_id).first
+    includes(:participants).references(:participants).where("participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", course_id).first
   end
   
   # Cache the course list as well

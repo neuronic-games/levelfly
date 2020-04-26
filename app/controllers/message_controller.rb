@@ -45,7 +45,7 @@ class MessageController < ApplicationController
     end
 
     @messages = Message.find(:all, :conditions => conditions, :order => order, :limit => messages_limit)
-    count = Message.count(:conditions => conditions)
+    count = Message.count(nil, :conditions => conditions)
     @show_more_btn = (count > messages_limit)
 
     @users = @profile.recently_messaged[0..users_limit - 1]
@@ -99,8 +99,9 @@ class MessageController < ApplicationController
             @courseMaster = Profile.find(
               :first,
               :include => [:participants],
-              :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:parent_id]]
-              )
+              :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:parent_id]],
+	      :joins => [:participants]
+	    )
           end
           @message_viewer = MessageViewer.add(user_session[:profile_id],@message.id,params[:parent_type],params[:parent_id])
           send_if_board_message(@message.id)
@@ -170,15 +171,39 @@ class MessageController < ApplicationController
       course_id = nil
         @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
         #@owner = Participant.find(:first,:conditions=>["target_id = ? and profile_id = ? and profile_type= 'M' and target_type = 'Course'",params[:course_id],@current_user.id])
-        course_ids = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.profile_type = 'M' and participants.target_type = 'Course' and parent_type = 'C' and removed = ?", user_session[:profile_id],false])
-        @courses = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'", params[:profile_id], course_ids],:order=>"courses.id")
+        course_ids = Course.find(
+	  :all, 
+	  :include => [:participants], 
+	  :conditions => [
+	    "participants.profile_id = ? and participants.profile_type = 'M' and participants.target_type = 'Course' and parent_type = 'C' and removed = ?", 
+	    user_session[:profile_id], false
+	  ],
+	  :joins => [:participants]
+	)
+        @courses = Course.find(
+	  :all, 
+	  :include => [:participants], 
+	  :conditions => [
+	    "participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'", 
+	    params[:profile_id], course_ids
+	  ],
+	  :order => "courses.id",
+	  :joins => [:participants]
+	)
         if @courses && !@courses.empty?
           if params[:course_id] && !params[:course_id].nil?
             course_id = params[:course_id]
           else
             course_id = @courses.first.id
           end
-          @participant = Participant.find(:first, :conditions =>["target_id = ? and profile_id = ? and target_type = 'Course' and profile_type='S'",course_id,@profile.id])
+          @participant = Participant.find(
+	    :first, 
+	    :conditions => [
+	      "target_id = ? and profile_id = ? and target_type = 'Course' and profile_type='S'",
+	      course_id,
+	      @profile.id
+	    ]
+	  )
         end
       render :partial => "add_friend_card", :locals => {:profile => @profile}
     end

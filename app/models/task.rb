@@ -87,7 +87,8 @@ class Task < ActiveRecord::Base
       :all,
       :include => [:task_participants],
       :conditions => conditions,
-      :order => "priority asc,due_date"
+      :order => "priority asc,due_date",
+      :joins => [:task_participants]
     )
   end
 

@@ -28,7 +28,8 @@ class MessageViewer < ActiveRecord::Base
     @viewers = Profile.find(
        :all, 
        :include => [:participants], 
-       :conditions => ["participants.target_id = ? AND participants.target_type in ('Course','Group') AND participants.profile_type IN ('M', 'P', 'S')", parent_id]
+       :conditions => ["participants.target_id = ? AND participants.target_type in ('Course','Group') AND participants.profile_type IN ('M', 'P', 'S')", parent_id],
+       :joins => [:participants], 
      )
     elsif parent_type == "Profile"
       @viewers = Profile.where("id = ?",parent_id)
