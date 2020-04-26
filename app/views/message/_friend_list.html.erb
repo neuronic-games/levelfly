@@ -9,7 +9,7 @@
       <p><%=h "#{friend.major.name}, " if friend.major%><%=h friend.school.code%></p>
       <p style="font-weight: bold;" class="time">
         <span class="words"><%= time_ago_in_words(friend.latest_message_date) %> ago</span>
-        <span class="dates"><%= from_utc(friend.latest_message_date) %></span>
+        <span class="dates"><%= from_utc(friend.latest_message_date.to_s) %></span>
       </p>
       <div class="spacebar10px"></div>
       <div align="right" id="frnd_root_btn">
