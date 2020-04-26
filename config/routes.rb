@@ -11,7 +11,7 @@ Oncapus::Application.routes.draw do
     :sessions => "sessions"
   }
   devise_scope :user do
-    match '/users/sign_in/:slug' => 'sessions#new'
+    match '/users/sign_in/:slug' => 'sessions#new', :via => [:get, :post]
     resource  :confirmation,
       only: [:show, :new],
       path: 'confirm',
@@ -391,66 +391,66 @@ Oncapus::Application.routes.draw do
 
   post "course/view_forum_setup"
 
-  match 'reward' => 'reward#index'
+  match 'reward' => 'reward#index', :via => [:get, :post]
 
-  match 'export_course_grade_csv/:course_id' => 'grade_book#export_course_grade_csv', :as => 'csv'
-  match 'export_course_sectioned_csv/:course_id' => 'grade_book#export_course_sectioned_csv', :as => 'csv'
-  match 'export_game_csv/:game_id' => 'gamecenter#export_game_csv'
-  match 'export_game_activity_csv/:game_id' => 'gamecenter#export_game_activity_csv'
+  match 'export_course_grade_csv/:course_id' => 'grade_book#export_course_grade_csv', :as => 'grade_csv', :via => [:get, :post]
+  match 'export_course_sectioned_csv/:course_id' => 'grade_book#export_course_sectioned_csv', :as => 'sectioned_csv', :via => [:get, :post]
+  match 'export_game_csv/:game_id' => 'gamecenter#export_game_csv', :via => [:get, :post]
+  match 'export_game_activity_csv/:game_id' => 'gamecenter#export_game_activity_csv', :via => [:get, :post]
 
-  match 'profile' => 'profile#index'
+  match 'profile' => 'profile#index', :via => [:get, :post]
 
-  match 'task' => 'task#index'
+  match 'task' => 'task#index', :via => [:get, :post]
 
-  match 'grade_book' => 'grade_book#index'
+  match 'grade_book' => 'grade_book#index', :via => [:get, :post]
 
-  match 'leader_board' => 'leader_board#index'
+  match 'leader_board' => 'leader_board#index', :via => [:get, :post]
 
-  match 'main' => 'course#index'
+  match 'main' => 'course#index', :via => [:get, :post]
 
-  match 'course' => 'course#index'
+  match 'course' => 'course#index', :via => [:get, :post]
 
-  match 'group' => 'group#index'
+  match 'group' => 'group#index', :via => [:get, :post]
 
-  match 'wardrobe' => 'wardrobe#index'
+  match 'wardrobe' => 'wardrobe#index', :via => [:get, :post]
 
-  match 'message' => 'message#index'
+  match 'message' => 'message#index', :via => [:get, :post]
 
-  match 'friend' => 'friend#index'
+  match 'friend' => 'friend#index', :via => [:get, :post]
 
-  match 'users' => 'users#index'
+  match 'users' => 'users#index', :via => [:get, :post]
 
-  match 'setting' => 'setting#index'
+  match 'setting' => 'setting#index', :via => [:get, :post]
 
   # start added for new message funtionalites >>>  lmit>>> frinds messages
-  match 'message/friends_only/:friend_id' => 'message#friends_only'
+  match 'message/friends_only/:friend_id' => 'message#friends_only', :via => [:get, :post]
 
    # start added for new notes funtionalites >>>  lmit>>> frinds messages
-   match 'message/notes/:friend_id' => 'message#notes'
+   match 'message/notes/:friend_id' => 'message#notes', :via => [:get, :post]
 
 
-   match 'message/friends_only_all/:friend_id' => 'message#friends_only_all'
+   match 'message/friends_only_all/:friend_id' => 'message#friends_only_all', :via => [:get, :post]
 
   # end  added for new message funtionalites >>>  lmit>>> frinds messages
 
-  match 'course/show/:id' => 'course#show'
+  match 'course/show/:id' => 'course#show', :via => [:get, :post]
 
-  match 'task/show/:id' => 'task#show'
+  match 'task/show/:id' => 'task#show', :via => [:get, :post]
 
-  match 'users/show/:id' => 'users#show'
+  match 'users/show/:id' => 'users#show', :via => [:get, :post]
 
-  match 'group/show/:id' => 'group#show'
+  match 'group/show/:id' => 'group#show', :via => [:get, :post]
 
-  match 'reward/show/:id' => 'reward#show'
+  match 'reward/show/:id' => 'reward#show', :via => [:get, :post]
 
-  match 'setting/show/:id' => 'setting#show'
+  match 'setting/show/:id' => 'setting#show', :via => [:get, :post]
 
-  match 'course/show_forum/:id' => 'course#show_forum'
+  match 'course/show_forum/:id' => 'course#show_forum', :via => [:get, :post]
 
   # Game Center API
   
-  match 'gamecenter' => 'gamecenter#index'
-  match 'games/:id' => 'gamecenter#show'
+  match 'gamecenter' => 'gamecenter#index', :via => [:get, :post]
+  match 'games/:id' => 'gamecenter#show', :via => [:get, :post]
 
   get 'gamecenter/:handle/:action' => 'gamecenter#:action'
   get "gamecenter/status"
