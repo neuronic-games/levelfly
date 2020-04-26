@@ -150,7 +150,8 @@ class Course < ActiveRecord::Base
       @owner = Profile.find(
       :first,
       :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", self.id]
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", self.id],
+      :joins => [:participants],
       )
     end
     return @owner
@@ -279,7 +280,8 @@ class Course < ActiveRecord::Base
             :select => "distinct *",
             :include => [:participants],
             :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?",false, profile_id, Course.parent_type_course, Course.join_type_invite, Course.profile_type_pending, archived],
-            :order => 'courses.name'
+            :order => 'courses.name',
+            :joins => [:participants]
             )
     return @courses
   end
