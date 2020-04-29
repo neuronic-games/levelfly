@@ -139,7 +139,8 @@ class Course < ActiveRecord::Base
     owner = Profile.find(
       :first,
       :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", course_id]
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", course_id],
+      :joins => [:participants]
     )
     return false if owner.nil?
     return owner.id == profile_id

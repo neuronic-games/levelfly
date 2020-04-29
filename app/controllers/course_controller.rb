@@ -213,9 +213,9 @@ class CourseController < ApplicationController
     @course.tasks_high = params[:task_high] if params[:task_high]
     @course.post_messages = params[:post_messages] if params[:post_messages]
     @course.allow_uploads = params[:allow_uploads] if params[:allow_uploads]
-		@course.show_grade = params[:show_grade] if params[:show_grade]
-		@course.semester = params[:semester] if params[:semester]
-		@course.year = params[:year] if params[:year]
+    @course.show_grade = params[:show_grade] if params[:show_grade]
+    @course.semester = params[:semester] if params[:semester]
+    @course.year = params[:year] if params[:year]
 
     if params[:file]
       @course.image.destroy if @course.image
@@ -284,9 +284,9 @@ class CourseController < ApplicationController
     status = false
     already_added = false
     new_user = false
-		message_type = nil
+    message_type = nil
     content = nil
-		resend = false
+    resend = false
     email_exist = []
     if params[:email]
       emails = params[:email].split(/[ ,;]+/)
@@ -330,19 +330,19 @@ class CourseController < ApplicationController
                    content = "Please join #{course.name} (#{course.code_section})."
                  end
                 @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id],section_type,message_type,content)
-  						  send_email(@user,params[:course_id],@message.id,new_user)
+                send_email(@user,params[:course_id],@message.id,new_user)
                 status = true
               end
             else
-  					 if participant_exist.profile_type == "P"
-  						wall_id = Wall.get_wall_id(params[:course_id],"Course")
-  						if params[:section_type] == 'G'
-  							message_type = "group_invite"
-  							content = "You are invited to join the group: #{course.name}."
-  						elsif params[:section_type] == 'C'
-  							message_type = "course_invite"
-  							content = "Please join #{course.name} (#{course.code_section})."
-  						end
+             if participant_exist.profile_type == "P"
+              wall_id = Wall.get_wall_id(params[:course_id],"Course")
+              if params[:section_type] == 'G'
+                message_type = "group_invite"
+                content = "You are invited to join the group: #{course.name}."
+              elsif params[:section_type] == 'C'
+                message_type = "course_invite"
+                content = "Please join #{course.name} (#{course.code_section})."
+              end
               @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id, params[:course_id], section_type, message_type, content)
               @message = Message.where(
                 profile_id:   user_session[:profile_id],
@@ -353,11 +353,11 @@ class CourseController < ApplicationController
                 target_type:  section_type,
                 message_type: message_type
               ).first
-  						send_email(@user, params[:course_id], @message.id, new_user)
-  						resend = true
-   					 else
-  						already_added = true
-  					 end
+              send_email(@user, params[:course_id], @message.id, new_user)
+              resend = true
+              else
+              already_added = true
+             end
             end
           else
             # temp fix to not allow invite user of different school
@@ -389,21 +389,21 @@ class CourseController < ApplicationController
      UserMailer.registration_confirmation(user.email, current_profile, @course, @school, message_id, @link, new_user).deliver
   end
 
-	# Send email to all participants via course group and forum memberlist
-	def send_email_to_all_participants
-		status = false
-		section_type = 'Course' #TO DO : Need to done for forum and groups also
-		post_message = params[:post_message] == "true" ? true : false if params[:post_message]
-		@course = Course.find(params[:id])
-		if @course
-			@people = Profile.find(
+  # Send email to all participants via course group and forum memberlist
+  def send_email_to_all_participants
+    status = false
+    section_type = 'Course' #TO DO : Need to done for forum and groups also
+    post_message = params[:post_message] == "true" ? true : false if params[:post_message]
+    @course = Course.find(params[:id])
+    if @course
+      @people = Profile.find(
          :all,
          :include => [:participants],
          :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type in ('S', 'M')", @course.id,section_type]
        )
 
-			if post_message and post_message == true
-  			wall_id = Wall.get_wall_id(params[:id], params[:section_type]) #params[:wall_id]
+      if post_message and post_message == true
+        wall_id = Wall.get_wall_id(params[:id], params[:section_type]) #params[:wall_id]
         @message = Message.new
         @message.profile_id = user_session[:profile_id]
         @message.parent_id = params[:id] #params[:target_id]
@@ -420,21 +420,21 @@ class CourseController < ApplicationController
         if @feed.nil?
           Feed.create(:profile_id => user_session[:profile_id],:wall_id =>wall_id)
         end
-			end
+      end
 
-			if @people
-				@msg_content = CGI::unescape(params[:mail_msg])
-				@current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-				#threads = []
-				@people.each do |person|
+      if @people
+        @msg_content = CGI::unescape(params[:mail_msg])
+        @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+        #threads = []
+        @people.each do |person|
           UserMailer.delay.course_private_message(person.user.email, @current_user, @current_user.school, @course, @msg_content)
-				end
-				#threads.each(&:join)
-				status = true
-			end
-		end
-		render :text => {status:status}
-	end
+        end
+        #threads.each(&:join)
+        status = true
+      end
+    end
+    render :text => {status:status}
+  end
 
   def delete_participant
     status = false
@@ -575,8 +575,11 @@ class CourseController < ApplicationController
     if !@profile.nil?
     @badges = AvatarBadge.where("profile_id = ? and course_id = ?",@profile.id,@course.id).count
     end
-    xp = TaskGrade.select("sum(points) as total").where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course.id,@profile.id)
-    @course_xp = xp.first.total
+    xp = TaskGrade.select("sum(points) as total").where(
+      "school_id = ? and course_id = ? and profile_id = ?",
+      @profile.school_id, @course.id, @profile.id
+    ).group("task_grades.id")
+    @course_xp = xp.first.total if !xp.first.nil? else 0
 
     section_type = ['Course','Group']
     @peoples = Profile.course_participants(@course.id, section_type)
@@ -587,12 +590,14 @@ class CourseController < ApplicationController
     @pending_count = Profile.count(
       :all,
       :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P')", @course.id]
+      :conditions => ["participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P')", @course.id],
+      :joins => [:participants]
     )
     @courseMaster = Profile.find(
       :first,
       :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]]
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]],
+      :joins => [:participants]
       )
     @groups = nil# Group.find(:all, :conditions=>["course_id = ?",params[:id]])
     enable_forum = false
@@ -641,11 +646,16 @@ class CourseController < ApplicationController
      @courseMaster = Profile.find(
       :first,
       :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M' and profile_id = ? ", @course.id,user_session[:profile_id]]
+      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M' and profile_id = ? ", @course.id,user_session[:profile_id]],
+      :joins => [:participants]
       )
      # Only show pending members to the course owner
      if @courseMaster
-        @people_pending = Profile.includes(:participants, :user).where("participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('P') AND users.status != 'D'", @course.id, section_type).order(:full_name, :email)
+       @people_pending = Profile
+   .includes(:participants, :user)
+   .references(:participants)
+   .where("participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('P') AND users.status != 'D'", @course.id, section_type)
+   .order(:full_name, :email)
      end
      @peoples = Profile.course_participants(@course.id, section_type)
      #ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}")
@@ -799,21 +809,21 @@ class CourseController < ApplicationController
     if params[:id] and !params[:id].blank?
         id = params[:id]
         @profile = Profile.find(params[:profile_id])
-				@course = Course.find(params[:course_id])
+        @course = Course.find(params[:course_id])
 
         if id == "all"
-					@files = @course.attachments.order("starred desc,resource_file_name asc")
+          @files = @course.attachments.order("starred desc,resource_file_name asc")
         else
-					@task = Task.find(params[:id])
-					@task_owner = @task.task_owner
-					# Course owner can see all the files related to the course and their tasks
-					# even if the files are uploaded by other participents
-					if @profile.id == @task_owner.id
-						@files = @task.attachments.order("starred desc,resource_file_name asc")
-					# but other users can see only those files which are uploaded by them via tasks
-					else
-						@files = @task.attachments.where("owner_id IN (?)", [@profile.id, @task_owner.id]).order("starred desc,resource_file_name asc")
-					end
+          @task = Task.find(params[:id])
+          @task_owner = @task.task_owner
+          # Course owner can see all the files related to the course and their tasks
+          # even if the files are uploaded by other participents
+          if @profile.id == @task_owner.id
+            @files = @task.attachments.order("starred desc,resource_file_name asc")
+          # but other users can see only those files which are uploaded by them via tasks
+          else
+            @files = @task.attachments.where("owner_id IN (?)", [@profile.id, @task_owner.id]).order("starred desc,resource_file_name asc")
+          end
         end
     render :partial => "/course/load_files",:locals=>{:files=> @files}
     end
