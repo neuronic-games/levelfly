@@ -399,7 +399,11 @@ class CourseController < ApplicationController
       @people = Profile.find(
          :all,
          :include => [:participants],
-         :conditions => ["participants.target_id = ? AND participants.target_type= ? AND participants.profile_type in ('S', 'M')", @course.id,section_type]
+         :conditions => [
+           "participants.target_id = ? AND participants.target_type= ? AND participants.profile_type in ('S', 'M')", 
+           @course.id,section_type
+         ],
+         :joins => [:participants]
        )
 
       if post_message and post_message == true
@@ -552,16 +556,19 @@ class CourseController < ApplicationController
      @member_count = Profile.count(
       :all,
       :include => [:participants, :user],
+      :joins => [:participants],
       :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S') AND users.status != 'D'", @course.id]
       )
       @pending_count = Profile.count(
       :all,
       :include => [:participants],
+      :joins => [:participants],
       :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')", @course.id]
      )
      @courseMaster = Profile.find(
       :first,
       :include => [:participants],
+      :joins => [:participants],
       :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]]
       )
      render :partial => "/group/setup",:locals=>{:@course=>@course}
@@ -652,10 +659,10 @@ class CourseController < ApplicationController
      # Only show pending members to the course owner
      if @courseMaster
        @people_pending = Profile
-   .includes(:participants, :user)
-   .references(:participants)
-   .where("participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('P') AND users.status != 'D'", @course.id, section_type)
-   .order(:full_name, :email)
+         .includes(:participants, :user)
+         .references(:participants)
+         .where("participants.target_id = ? AND participants.target_type= ? AND participants.profile_type IN ('P') AND users.status != 'D'", @course.id, section_type)
+         .order(:full_name, 'users.email')
      end
      @peoples = Profile.course_participants(@course.id, section_type)
      #ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}")
@@ -990,7 +997,11 @@ class CourseController < ApplicationController
       courseMaster = Profile.find(
           :first,
           :include => [:participants],
-          :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]]
+          :conditions => [
+            "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", 
+            params[:id]
+          ],
+          :joins => [:participants]
       )
       if course = Course.find(params[:id]) and courseMaster.id == current_profile.id
         course.delay.duplicate({:name_ext => "COPY"}, current_user)

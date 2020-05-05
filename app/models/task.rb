@@ -43,7 +43,7 @@ class Task < ActiveRecord::Base
   @@status_pending = 'P'
   cattr_accessor :status_pending
 
-	@owner = nil
+  @owner = nil
 
   def init_defaults
     #self.level = 0
@@ -290,12 +290,16 @@ class Task < ActiveRecord::Base
     return Course.default_points_max - total_points
   end
 
-	def task_owner
+  def task_owner
     if @owner == nil
       @owner = Profile.find(
-				:first,
-				:include => [:task_participants],
-				:conditions => ["task_participants.task_id = ? AND task_participants.profile_type = ?", self.id, Task.profile_type_owner]
+        :first,
+        :include => [:task_participants],
+        :conditions => [
+         "task_participants.task_id = ? AND task_participants.profile_type = ?", 
+         self.id, Task.profile_type_owner
+        ],
+        :joins => [:task_participants],
       )
     end
     return @owner

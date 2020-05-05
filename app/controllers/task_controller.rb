@@ -50,7 +50,11 @@ class TaskController < ApplicationController
     @courses = Course.find(
       :all,
       :include => [:participants],
-      :conditions => ["participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and courses.archived = ? and courses.removed = ?", @profile.id, 'M',Course.parent_type_course,false, false]
+      :conditions => [
+	"participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and courses.archived = ? and courses.removed = ?",
+	@profile.id, 'M', Course.parent_type_course, false, false
+      ],
+      :joins => [:participants],
     )
     @task = Task.new
     respond_to do |wants|
@@ -106,7 +110,11 @@ class TaskController < ApplicationController
     @courses = Course.find(
       :all,
       :include => [:participants],
-      :conditions => ["participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and courses.archived = ? AND courses.removed = ?", @profile.id, 'M',Course.parent_type_course,false, false]
+      :conditions => [
+	"participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and courses.archived = ? AND courses.removed = ?", 
+	@profile.id, 'M',Course.parent_type_course,false, false
+      ],
+      :joins => [:participants],
     )
 
     @groups = Group.find(:all, :conditions =>["task_id = ?", @task.id])
@@ -490,7 +498,8 @@ class TaskController < ApplicationController
         :select => "distinct *",
         :include => [:participants],
         :conditions => ["participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?", @profile.id, Course.parent_type_course, Course.profile_type_pending, false],
-        :order => 'name'
+        :order => 'name',
+	:joins => [:participants],
       )
     @tasks = Task.filter_by(@profile.id, params[:course_id], "current")
     render :partial => "/task/list", :locals=>{:tasks=>@tasks,:course_id=>params[:course_id]}
