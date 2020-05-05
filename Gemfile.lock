@@ -41,10 +41,6 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     arel (6.0.4)
-    aws-s3 (0.6.3)
-      builder
-      mime-types
-      xml-simple
     aws-sdk (1.67.0)
       aws-sdk-v1 (= 1.67.0)
     aws-sdk-v1 (1.67.0)
@@ -118,7 +114,7 @@ GEM
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     orm_adapter (0.5.0)
-    paperclip (2.4.5)
+    paperclip (2.5.0)
       activerecord (>= 2.3.0)
       activesupport (>= 2.3.2)
       cocaine (>= 0.0.2)
@@ -221,7 +217,6 @@ GEM
     warden (1.2.7)
       rack (>= 1.0)
     will_paginate (3.3.0)
-    xml-simple (1.1.5)
 
 PLATFORMS
   ruby
@@ -230,8 +225,7 @@ DEPENDENCIES
   activerecord-deprecated_finders
   activesupport
   acts-as-taggable-on
-  aws-s3
-  aws-sdk (~> 1.0)
+  aws-sdk
   coffee-rails
   deep_cloneable
   delayed_job_active_record
@@ -240,7 +234,7 @@ DEPENDENCIES
   jquery-rails
   json (>= 1.8.5)
   newrelic_rpm
-  paperclip (= 2.4.5)
+  paperclip (= 2.5.0)
   pg (~> 0.18)
   protected_attributes
   pry (~> 0.13.1)

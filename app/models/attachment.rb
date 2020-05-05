@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'aws/s3'
 require 'open-uri'
+
 class Attachment < ActiveRecord::Base
   belongs_to :target, :polymorphic => true
   belongs_to :school
@@ -39,7 +40,7 @@ class Attachment < ActiveRecord::Base
       #:conditions => ["target_id = ? and target_type = 'School' and vault_type = 'AWS S3'", school_id])
       #if @vault
         self.aws_bucket(bucket ? bucket : ENV['S3_PATH'])
-        if AWS::S3::Base.establish_connection!(
+        if AWS::S3.new(
             :access_key_id     => ENV['S3_KEY'],
             :secret_access_key => ENV['S3_SECRET']
           )
