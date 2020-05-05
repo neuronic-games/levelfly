@@ -31,9 +31,9 @@ end
 gem 'rails_12factor', group: :production
 
 gem 'jquery-rails'
-gem 'aws-s3', :require => 'aws/s3'
-gem 'aws-sdk', '~> 1.0'
-gem 'paperclip', '2.4.5'
+gem 'paperclip', '2.5.0'
+gem "aws-sdk"
+
 gem 'will_paginate', '~> 3.0'
 gem 'delayed_job_active_record'
 gem 'pusher'
