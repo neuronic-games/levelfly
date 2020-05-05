@@ -208,7 +208,8 @@ class Course < ActiveRecord::Base
     member_ids = Profile.find(
        :all,
        :include => [:participants],
-       :conditions => ["participants.target_id = ? AND participants.profile_type IN ('P', 'S')", course_id]
+       :conditions => ["participants.target_id = ? AND participants.profile_type IN ('P', 'S')", course_id],
+      :joins => [:participants],
      ).map(&:id)
     @students = CourseGrade.where("school_id = ? and course_id = ? and outcome_id = ? and grade >= '2.1' and profile_id in (?)",school_id,course_id,outcome_id,member_ids).order("grade DESC")
     sorted_gpa = Course.sort_top_achievers(@students,school_id,course_id,"GPA")
@@ -337,15 +338,28 @@ class Course < ActiveRecord::Base
   end
 
   def course_forum(profile_id = nil)
-    return Course.find(:all,:include => [:participants],:conditions => ["participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?",profile_id,self.id,false, false], :order => 'courses.name')
+    return Course.find(
+      :all,
+      :include => [:participants],
+      :conditions => [
+        "participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?",
+        profile_id, self.id, false, false
+      ], 
+      :order => 'courses.name',
+      :joins => [:participants]
+    )
   end
 
   def join_all(profile)
      @all_members = Profile.find(
-           :all,
-           :include => [:participants],
-           :conditions => ["participants.target_id = ? AND participants.target_type in ('Course','Group') AND participants.profile_type IN ('M', 'S')", self.course_id]
-         )
+       :all,
+       :include => [:participants],
+       :conditions => [
+         "participants.target_id = ? AND participants.target_type in ('Course','Group') AND participants.profile_type IN ('M', 'S')", 
+         self.course_id
+       ],
+       :joins => [:participants]
+     )
      if @all_members and not@all_members.nil?
         @all_members.each do |viewer|
            participant_exist = Participant.find(:first, :conditions => ["target_id = ? AND target_type = 'Course' AND profile_id = ?",self.id , viewer.id])
@@ -502,7 +516,15 @@ class Course < ActiveRecord::Base
     grading_completed_at = Time.now
     save
     @outcomes = outcomes.order('name')
-    @participant = Participant.all( :joins => [:profile], :conditions => ["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'", id],:select => ["profiles.full_name,participants.id,participants.profile_id"])
+    @participant = Participant.all( 
+      :joins => [:profile], 
+      :conditions => [
+        "participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'", id
+      ],
+      :select => [
+        "profiles.full_name,participants.id,participants.profile_id"
+      ]
+    )
     @participant.each do |p|
       TaskGrade.bonus_points(p.profile.school_id, self, p.profile.id, current_profile.id)
       outcomes_grade = []
