@@ -320,8 +320,12 @@ class Course < ActiveRecord::Base
     categorised_task_ids = Task.find(
       :all,
       :include => [:category],
-      :conditions => ["tasks.course_id = ? and categories.course_id = ? and tasks.archived = ?",course_id,course_id,false],
-      :order => "percent_value,categories.name,due_date,tasks.created_at"
+      :conditions => [
+        "tasks.course_id = ? and categories.course_id = ? and tasks.archived = ?",
+        course_id,course_id,false
+      ],
+      :order => "percent_value,categories.name,due_date,tasks.created_at",
+      :joins => [:category],
     ).map(&:id)
     task_ids.concat(categorised_task_ids)
     task_ids.each do |task_id|

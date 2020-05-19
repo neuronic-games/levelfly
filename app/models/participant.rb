@@ -2,6 +2,18 @@ class Participant < ActiveRecord::Base
   belongs_to :target, :polymorphic => true
   belongs_to :profile
 
+  attr_accessor :xp
+  attr_accessor :total_xp
+  attr_accessor :course_outcomes
+  attr_accessor :grade
+  attr_accessor :task_grade
+  attr_accessor :task_outcome_grade
+  attr_accessor :like_received
+  attr_accessor :badge_count
+  attr_accessor :badge_image_urls
+  attr_accessor :avatar_badge_ids
+  attr_accessor :notes
+
   @@profile_type_master = 'M'
   cattr_accessor :profile_type_master
 
@@ -22,5 +34,25 @@ class Participant < ActiveRecord::Base
     is_participant = !p.nil?
     
     return is_participant
+  end
+
+  def as_json(options = { })
+    # just in case someone says as_json(nil) and bypasses
+    # our default...
+    super((options || { }).merge({
+      :methods => [
+        :xp,
+        :total_xp,
+        :course_outcomes,
+        :grade,
+        :task_grade,
+        :task_outcome_grade,
+        :like_received,
+        :badge_count,
+        :badge_image_urls,
+        :avatar_badge_ids,
+        :notes,
+      ]
+    }))
   end
 end

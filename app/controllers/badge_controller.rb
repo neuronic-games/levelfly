@@ -6,8 +6,26 @@ before_filter :authenticate_user!
  def give_badges
     if params[:course_id] && !params[:course_id].nil?
       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-      course_ids = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.profile_type = 'M' and participants.target_type = 'Course' and parent_type = 'C' and removed = ?", user_session[:profile_id],false],:order=>"courses.name").map(&:id)
-      @courses = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'", params[:profile_id], course_ids],:order=>"courses.id")
+      course_ids = Course.find(
+       :all, 
+       :include => [:participants], 
+       :conditions => [
+        "participants.profile_id = ? and participants.profile_type = 'M' and participants.target_type = 'Course' and parent_type = 'C' and removed = ?", 
+        user_session[:profile_id], false
+       ],
+       :order => "courses.name",
+       :joins => [:participants],
+      ).map(&:id)
+      @courses = Course.find(
+        :all, 
+        :include => [:participants], 
+        :conditions => [
+          "participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'", 
+          params[:profile_id], course_ids
+        ],
+        :order=>"courses.id",
+       :joins => [:participants]
+      )
       @selected_course = Course.find_by_id(params[:last_course]) if params[:last_course]
       @badges ,@last_used= Badge.load_all_badges(@profile)
       #@last_used = Badge.last_used(@profile.school_id,@profile.id)
@@ -18,8 +36,28 @@ before_filter :authenticate_user!
   def new_badges
     #@badges = Badge.create
     @badge_image = BadgeImage.find(:all, :conditions => ["image_file_name not in (?)","gold_badge.png"])
-    course_ids = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.profile_type = 'M' and participants.target_type = 'Course' and parent_type = 'C' and removed = ?", user_session[:profile_id],false],:order=>"courses.name").map(&:id)
-    @courses = Course.find(:all, :include => [:participants], :conditions=>["participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'", params[:profile_id], course_ids],:order=>"courses.id")
+    course_ids = Course.find(
+     :all, 
+     :include => [:participants], 
+     :conditions=>[
+      "participants.profile_id = ? and participants.profile_type = 'M' and participants.target_type = 'Course' and parent_type = 'C' and removed = ?", 
+      user_session[:profile_id],
+      false
+     ],
+     :order => "courses.name",
+     :joins => [:participants]
+    ).map(&:id)
+    @courses = Course.find(
+     :all, 
+     :include => [:participants], 
+     :conditions => [
+      "participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'",
+      params[:profile_id], 
+      course_ids
+     ],
+     :order => "courses.id",
+     :joins => [:participants]
+    )
     @selected_course = Course.find_by_id(params[:last_course])
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
     render :partial =>"/badge/new_badges", :locals=>{:course_id=>params[:course_id],:profile_id=>params[:profile_id],:last_course =>params[:last_course]}
