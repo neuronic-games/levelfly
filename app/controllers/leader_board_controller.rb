@@ -29,14 +29,20 @@ class LeaderBoardController < ApplicationController
       conditions << @profile.id
     end
     if params[:show] and !params[:show]
-      profiles_temp = Profile.find(:all, :conditions => conditions,
-      :include => [:participants],
-      :order => "xp desc")
+      profiles_temp = Profile.find(
+        :all, :conditions => conditions,
+        :include => [:participants],
+        :joins => [:participants],
+        :order => "xp desc"
+      )
     else
-      profiles_temp = Profile.find(:all, :limit => 50,
-      :conditions => conditions,
-      :include => [:participants],
-      :order => "xp desc")
+      profiles_temp = Profile.find(
+        :all, :limit => 50,
+        :conditions => conditions,
+        :include => [:participants],
+        :order => "xp desc",
+        :joins => [:participants],
+      )
     end
     
         
@@ -46,7 +52,7 @@ class LeaderBoardController < ApplicationController
     end
     #provide rank to each user
     profiles_temp.each_with_index do |p,i|
-      p[:rank] = i + 1
+      p.rank = i + 1
     end
     # for show me, will send a list with current user on third position.
     index = profiles_temp.index(@profile)

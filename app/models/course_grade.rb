@@ -77,10 +77,16 @@ class CourseGrade < ActiveRecord::Base
   def self.get_outcomes(course_id,outcomes,school_id,profile_id)
     points = []
     grade =""
-    course_xp = TaskGrade.select("sum(points) as total").where("school_id = ? and course_id = ? and profile_id = ?",school_id,course_id,profile_id)
+    course_xp = TaskGrade.select("sum(points) as total").where(
+      "school_id = ? and course_id = ? and profile_id = ?",
+      school_id, course_id, profile_id
+    ).group("task_grades.id")
     outcomes.each do |o|
       #@students = CourseGrade.find(:all, :conditions=>["school_id = ? and course_id = ? and outcome_id = ?",school_id,course_id,o.id], :limit => 1, :order => 'grade DESC')
-      outcome_point = CourseGrade.where("school_id = ? and course_id = ? and outcome_id = ? and profile_id = ?",school_id,course_id,o.id,profile_id).first   
+      outcome_point = CourseGrade.where(
+        "school_id = ? and course_id = ? and outcome_id = ? and profile_id = ?",
+        school_id, course_id, o.id, profile_id
+      ).first   
       if outcome_point.nil?
         grade =""
       else

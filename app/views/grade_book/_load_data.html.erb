@@ -34,7 +34,7 @@
   <div class="task_side_buttons">
     <a href="javascript:void(0)" class="big_orange_btn new_task">ADD TASK</a>
     <a href="javascript:void(0)" class="big_blue_btn show_hide_outcomes" style="padding:6px 0 6px;" show="<%= @latest_course.show_outcomes ? "false" : "true"%>"><%= @latest_course.show_outcomes ? 'HIDE OUTCOMES' : 'SHOW OUTCOMES'%></a>
-    <%= link_to 'Export CSV', csv_path(:course_id => @latest_course.id), :class =>"big_blue_btn", :id => "export_csv"%>
+    <%= link_to 'Export CSV', grade_csv_path(:course_id => @latest_course.id), :class =>"big_blue_btn", :id => "export_csv"%>
     <a href="javascript:void(0)" class="big_blue_btn finalize" id ="finalize">Finalize</a>
   </div>
 

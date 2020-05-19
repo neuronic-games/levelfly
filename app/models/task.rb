@@ -12,6 +12,9 @@ class Task < ActiveRecord::Base
   has_many :outcome_tasks
   has_many :outcomes, :through => :outcome_tasks
 
+  attr_accessor :task_outcomes
+  attr_accessor :task_category
+
   after_initialize :init_defaults
   after_create :image_save
 
@@ -114,7 +117,8 @@ class Task < ActiveRecord::Base
       :all,
       :include => [:task_participants],
       :conditions => conditions,
-      :order => "priority asc, due_date"
+      :order => "priority asc, due_date",
+      :joins => [:task_participants],
     )
   end
 
@@ -125,13 +129,15 @@ class Task < ActiveRecord::Base
       :all,
       :include => [:category, :task_participants],
       :conditions => ["tasks.course_id = ? and task_participants.profile_id = ? and tasks.archived = ? and (tasks.category_id is null or tasks.category_id = ?)",course_id,profile_id,false,0],
-      :order => "tasks.due_date,tasks.created_at"
+      :order => "tasks.due_date,tasks.created_at",
+      :joins => [:task_participants],
     ).map(&:id)
     categorised_task_ids = Task.find(
       :all,
       :include => [:category, :task_participants],
       :conditions => ["tasks.course_id = ? and task_participants.profile_id = ? and categories.course_id = ? and tasks.archived = ?",course_id,profile_id,course_id,false],
-      :order => "percent_value,categories.name,due_date,tasks.created_at"
+      :order => "percent_value,categories.name,due_date,tasks.created_at",
+      :joins => [:task_participants],
     ).map(&:id)
 
     grade_tasks_ids = TaskGrade.sort_tasks_grade(profile_id, course_id)
@@ -317,5 +323,16 @@ class Task < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def as_json(options = { })
+    # just in case someone says as_json(nil) and bypasses
+    # our default...
+    super((options || { }).merge({
+      :methods => [
+        :task_category,
+        :task_outcomes
+      ]
+    }))
   end
 end

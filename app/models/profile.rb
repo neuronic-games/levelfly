@@ -19,6 +19,8 @@ class Profile < ActiveRecord::Base
   has_many :avatar_badges
   
   has_many :messages
+
+  attr_accessor :rank
   
   @master_course_id_list = nil
   
@@ -246,9 +248,15 @@ class Profile < ActiveRecord::Base
     total_like += Message.where("profile_id = ? and parent_type = ? and parent_id = ?", self.id, Course.parent_type_course, course_id).sum(:like)
 
     # Course forum messages
-    forumn_ids = Course.select("id").find(:all, :include => [:participants],
-      :conditions => ["participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?",
-        self.id, course_id, false, false])
+    forumn_ids = Course.select("id").find(
+      :all, 
+      :include => [:participants],
+      :conditions => [
+	"participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?",
+        self.id, course_id, false, false
+      ],
+      :joins => [:participants],
+    )
     forumn_ids.each do |forumn_id|
       total_like += Message.where("profile_id = ? and parent_type = ? and parent_id = ?", self.id, Course.parent_type_forum, forumn_id).sum(:like)
     end
@@ -293,6 +301,16 @@ class Profile < ActiveRecord::Base
       end    
     end
     return access 
+  end
+
+  def as_json(options = { })
+    # just in case someone says as_json(nil) and bypasses
+    # our default...
+    super((options || { }).merge({
+      :methods => [
+        :rank
+      ]
+    }))
   end
   
 end

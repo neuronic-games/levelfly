@@ -16,7 +16,8 @@ class ProfileController < ApplicationController
           search_text.downcase,
           search_text.downcase
         ],
-        :order => "full_name"
+        :order => "full_name",
+        :joins => [:user]
       )
     end
     respond_to do |wants|

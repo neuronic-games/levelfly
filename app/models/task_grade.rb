@@ -40,8 +40,12 @@ class TaskGrade < ActiveRecord::Base
   end  
   
   def self.bonus_points(school_id,course,profile_id,current_user)
-    xp = self.select("sum(points) as total").where("school_id = ? and course_id = ? and profile_id = ?",school_id,course.id,profile_id)
-    received_xp = xp.first.total.to_i
+    xp = self.select("sum(points) as total").where(
+      "school_id = ? and course_id = ? and profile_id = ?",
+      school_id,course.id,profile_id
+    ).group("task_grades.id")
+    received_xp = xp.first.total.to_i if !xp.first.nil? else 0
+
     tasks = Task.filter_by(profile_id,course.id,"")
     xp_could_get = Task.filter_by(profile_id,course.id,"").collect(&:points).sum
     xp_could_get = Course.default_points_max if xp_could_get > Course.default_points_max
@@ -106,9 +110,15 @@ class TaskGrade < ActiveRecord::Base
   end
   
   def self.sort_tasks_grade(profile_id, course_id)
-    graded_tasks_ids = TaskGrade.find(:all, 
-    :include => [:task],
-    :conditions => ["task_grades.course_id = ? and task_grades.profile_id = ? and task_grades.grade IS NOT NULL and tasks.archived = 'false'", course_id, profile_id]).map(&:task_id)
+    graded_tasks_ids = TaskGrade.find(
+      :all, 
+      :include => [:task],
+      :conditions => [
+        "task_grades.course_id = ? and task_grades.profile_id = ? and task_grades.grade IS NOT NULL and tasks.archived = 'false'",
+        course_id, profile_id
+      ],
+      :joins => [:task],
+    ).map(&:task_id)
     return graded_tasks_ids
   end
   
