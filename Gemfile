@@ -31,7 +31,7 @@ end
 gem 'rails_12factor', group: :production
 
 gem 'jquery-rails'
-gem 'paperclip', '2.5.0'
+gem 'paperclip', '3.5.1'
 gem "aws-sdk"
 
 gem 'will_paginate', '~> 3.0'
