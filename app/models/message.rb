@@ -202,7 +202,11 @@ class Message < ActiveRecord::Base
       courseMaster = Profile.find(
           :first,
           :include => [:participants],
-          :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", msg.parent_id]
+          :conditions => [
+            "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", 
+            msg.parent_id
+          ],
+          :joins => [:participants]
       )
       partial = 'message/pusher/message'
       channel = 'forum_message'
@@ -221,7 +225,11 @@ class Message < ActiveRecord::Base
     course_master = Profile.find(
         :first,
         :include => [:participants],
-        :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", parent_id]
+        :conditions => [
+          "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", 
+          parent_id
+        ],
+        :joins => [:participants]
     )
 
     receivers = Profile.course_participants(parent_id, 'Course').map(&:id)

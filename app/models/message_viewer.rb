@@ -37,10 +37,15 @@ class MessageViewer < ActiveRecord::Base
 
     elsif  parent_type == ""
        @viewers = Profile.find(
-       :all, 
-       :include => [:participants],
-       :conditions=>["participants.target_id = ? AND participants.target_type = 'User' AND profile_type = 'F'",profile_id])
-        MessageViewer.create(:message_id => message_id, :poster_profile_id =>profile_id, :viewer_profile_id => profile_id) 
+         :all, 
+         :include => [:participants],
+         :conditions => [
+           "participants.target_id = ? AND participants.target_type = 'User' AND profile_type = 'F'",
+           profile_id
+         ],
+         :joins => [:participants]
+       )
+       MessageViewer.create(:message_id => message_id, :poster_profile_id =>profile_id, :viewer_profile_id => profile_id) 
     # elsif  parent_type == "Message"
        # @viewers = Profile.find(
        # :all, 

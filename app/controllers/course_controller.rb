@@ -865,7 +865,11 @@ class CourseController < ApplicationController
       @peoples = Profile.find(
         :all,
         :include => [:participants, :user],
-        :conditions => ["participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S') AND users.status != 'D'", @course.id]
+        :conditions => [
+          "participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S') AND users.status != 'D'",
+          @course.id
+        ],
+        :joins => [:participants]
       )
       @member = Participant.find( :first, :conditions => ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id])
       @member_count = @peoples.length
