@@ -560,8 +560,11 @@ class GamecenterController < ApplicationController
     if !@profile.nil?
       @badges = AvatarBadge.where("profile_id = ? and course_id = ?",@profile.id,@course.id).count
     end
-    xp = TaskGrade.select("sum(points) as total").where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course.id,@profile.id)
-    @course_xp = xp.first.total
+    xp = TaskGrade.select("sum(points) as total").where(
+      "school_id = ? and course_id = ? and profile_id = ?",
+      @profile.school_id,@course.id,@profile.id
+    ).group("task_grades.id")
+    @course_xp = xp.first.total.to_i if !xp.first.nil? else 0
 
     section_type = ['Course','Group']
     @member_count = Profile.course_participants(@course.id, section_type).count
@@ -570,12 +573,20 @@ class GamecenterController < ApplicationController
     @pending_count = Profile.count(
       :all,
       :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')", @course.id]
+      :conditions => [
+        "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')", 
+        @course.id
+      ],
+      :joins => [:participants]
     )
     @courseMaster = Profile.find(
       :first,
       :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", @course.id]
+      :conditions => [
+        "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", 
+        @course.id
+      ],
+      :joins => [:participants]
       )
     @course_owner = Participant.find(:first, :conditions=>["target_id = ? AND profile_type = 'M' AND target_type='Course'",params[:id]])
     #@totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
@@ -734,7 +745,8 @@ class GamecenterController < ApplicationController
     profiles = Profile.where(:id => @profiles_by_feats).order("full_name")
 
     @outcome_list = @game.outcomes
-    @outcome_list.delete_if { |outcome| outcome.name.blank? }
+
+    @outcome_list.to_a.delete_if { |outcome| outcome.name.blank? }
 
     user_csv = CSV.generate do |csv|
     
