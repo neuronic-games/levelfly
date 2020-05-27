@@ -40,15 +40,12 @@ class Attachment < ActiveRecord::Base
       #:conditions => ["target_id = ? and target_type = 'School' and vault_type = 'AWS S3'", school_id])
       #if @vault
         self.aws_bucket(bucket ? bucket : ENV['S3_PATH'])
-        if AWS::S3.new(
+        connect = AWS::S3.new(
             :access_key_id     => ENV['S3_KEY'],
             :secret_access_key => ENV['S3_SECRET']
           )
-          connect = true
-        end
       #end
     end
-    puts "#{bucket}, #{connect}"
     return connect
   end
   
@@ -57,13 +54,9 @@ class Attachment < ActiveRecord::Base
     if connection
       base_name = File.basename(filename)
       file_to_upload = File.open(temp_image_path)
-      bucket_folder = ENV['S3_PATH']+"/resources" 
-      AWS::S3::S3Object.store(
-        base_name,
-        file_to_upload,
-        bucket_folder,
-        :access => :public_read
-      )
+      bucket = connection.buckets.create(ENV['S3_PATH'] + 'resources')
+      obj = bucket.objects[base_name]
+      obj.write(file_to_upload, :acl => :public_read)
     else
       puts "Error uploading #{filename}"
     end
@@ -73,12 +66,10 @@ class Attachment < ActiveRecord::Base
     connection = self.aws_connection(school_id, bucket)
     if connection
       base_name = File.basename(filename)
-      AWS::S3::S3Object.store(
-        base_name,
-        base64,
-        bucket,
-        :access => :public_read
-      )
+      bucket = connection.buckets.create(bucket)
+      obj = bucket.objects[base_name]
+      puts "#{bucket}, #{base_name}"
+      obj.write(base64, :acl => :public_read)
     else
       puts "Error uploading #{filename} to #{bucket}"
     end
@@ -88,7 +79,9 @@ class Attachment < ActiveRecord::Base
     connection = self.aws_connection(school_id, bucket)
     if connection
       base_name = File.basename(filename)
-      AWS::S3::S3Object.value(base_name, bucket)
+      puts "#{bucket}, #{base_name}"
+      obj = connection.buckets[bucket].objects[base_name]
+      obj.read
     else
       puts "Error uploading #{filename} to #{bucket}"
     end
