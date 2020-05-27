@@ -473,7 +473,10 @@ class GamecenterController < ApplicationController
   
   def save_game
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    @game = Game.new(params[:game])
+    @game = Game.new(params.require(:game).permit(
+      :archived, :published, :school_id, :name, :descr, :last_rev, :mail_to,
+      :outcomes_attributes, :image
+    ))
     @game.profile_id = @profile.id
     @course = create_forum(@game)
     @game.course_id = @course.id
@@ -508,7 +511,10 @@ class GamecenterController < ApplicationController
   def update_game
     params[:game].merge!("image" => params["file"]) if params["file"].present?
     @game = Game.find(params[:id])
-    @game.update_attributes(params[:game])
+    @game.update_attributes(params.require(:game).permit(
+      :archived, :published, :school_id, :name, :descr, :last_rev, :mail_to,
+      :outcomes_attributes, :image
+    ))
     @game.mail_to = ENV['SUPPORT_EMAIL'] if @game.mail_to.blank?
     forum = @game.course    
     forum.update_attribute(:name, "Support for #{@game.name}") unless !forum.present?
