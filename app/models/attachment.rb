@@ -54,7 +54,7 @@ class Attachment < ActiveRecord::Base
     if connection
       base_name = File.basename(filename)
       file_to_upload = File.open(temp_image_path)
-      bucket = connection.buckets.create(ENV['S3_PATH'] + 'resources')
+      bucket = connection.buckets[ENV['S3_PATH'] + 'resources']
       obj = bucket.objects[base_name]
       obj.write(file_to_upload, :acl => :public_read)
     else
@@ -66,9 +66,9 @@ class Attachment < ActiveRecord::Base
     connection = self.aws_connection(school_id, bucket)
     if connection
       base_name = File.basename(filename)
-      bucket = connection.buckets.create(bucket)
-      obj = bucket.objects[base_name]
       puts "#{bucket}, #{base_name}"
+      bucket = connection.buckets[bucket]
+      obj = bucket.objects[base_name]
       obj.write(base64, :acl => :public_read)
     else
       puts "Error uploading #{filename} to #{bucket}"
