@@ -4,7 +4,7 @@
     <div class="list_hover" style="margin-top:70px; margin-left:150px;">
       <div class="like_cmt">
         <a href="javascript:void(0);" class="tasks_pri_toggle tasks_pri_toggle_btn blue_bt19px" task_id="<%=t.id %>"><% if participant.priority == "H"%>Unstar<%else%>Star<%end%></a>
-        <% if t.course.owner && t.course.owner.id == user_session[:profile_id]%><a href="javascript:void(0);" class="tasks_del blue_bt19px" task_id="<%=t.id %>">Remove</a><%end%>
+        <% if t.course && t.course.owner && t.course.owner.id == user_session[:profile_id]%><a href="javascript:void(0);" class="tasks_del blue_bt19px" task_id="<%=t.id %>">Remove</a><%end%>
       </div>
     </div>
     <div style="float:left; width:150px;">
