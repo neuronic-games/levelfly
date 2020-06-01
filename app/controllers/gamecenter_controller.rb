@@ -638,7 +638,7 @@ class GamecenterController < ApplicationController
     @profiles_by_feats = Feat.where(game_id: @game.id).pluck(:profile_id).uniq
     profiles_temp = Profile.where(:id => @profiles_by_feats).order("xp desc")
     profiles_temp.each_with_index do |p,i|
-      p[:rank] = i + 1
+      p.rank = i + 1
     end    
     @profiles = profiles_temp
     render :partial => "/gamecenter/leader_board"
