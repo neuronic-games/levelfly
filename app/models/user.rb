@@ -183,10 +183,12 @@ class User < ActiveRecord::Base
           @users = Profile.includes(:user)
             .where("school_id IN (?) and user_id is not null and users.status != 'D'", [school_id, demo_school_id])
             .order("last_sign_in_at DESC NULLS LAST, full_name").paginate(:page => page, :per_page => Setting.cut_off_number)
+            .joins(:user)
         else
           @users = Profile.includes(:user)
             .where("school_id IN (?) and user_id is not null and users.status != 'D'", [school_id, demo_school_id])
             .order("last_sign_in_at DESC NULLS LAST, full_name")
+            .joins(:user)
         end
       elsif id == "members_of_courses"
         course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "C", school_id], :order => "name").collect(&:id)
@@ -219,9 +221,18 @@ class User < ActiveRecord::Base
           
       if id != "all_active" && profile_ids.present?
         if page > -1
-          @users = Profile.includes(:participants, :user).where(id: profile_ids).where("participants.profile_type IN ('S','M') AND users.status != 'D'").order("users.last_sign_in_at DESC, full_name").paginate(:page => page, :per_page => Setting.cut_off_number)
+          @users = Profile
+            .includes(:participants, :user)
+            .where(id: profile_ids)
+            .where("participants.profile_type IN ('S','M') AND users.status != 'D'")
+            .order("users.last_sign_in_at DESC, full_name")
+            .paginate(:page => page, :per_page => Setting.cut_off_number)
+            .joins(:user, :participants)
         else          
-          @users = Profile.includes(:participants, :user).where(id: profile_ids).where("participants.profile_type IN ('S','M') AND users.status != 'D'").order("users.last_sign_in_at DESC, full_name")
+          @users = Profile.includes(:participants, :user).where(id: profile_ids)
+            .where("participants.profile_type IN ('S','M') AND users.status != 'D'")
+            .order("users.last_sign_in_at DESC, full_name")
+            .joins(:user, :participants)
         end    
       end
       @profile.record_action('last', 'users')
