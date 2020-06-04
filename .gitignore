@@ -46,3 +46,5 @@ Thumbs.db
 # RVM
 .ruby-version
 .ruby-gemset
+
+.idea
