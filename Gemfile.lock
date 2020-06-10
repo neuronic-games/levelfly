@@ -90,6 +90,7 @@ GEM
     ffi (1.12.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    hodel_3000_compliant_logger (0.1.1)
     http_parser.rb (0.6.0)
     httpclient (2.8.3)
     i18n (0.9.5)
@@ -113,6 +114,9 @@ GEM
     newrelic_rpm (6.10.0.364)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
+    oink (0.10.1)
+      activerecord
+      hodel_3000_compliant_logger
     orm_adapter (0.5.0)
     paperclip (3.5.1)
       activemodel (>= 3.0.0)
@@ -232,6 +236,7 @@ DEPENDENCIES
   jquery-rails
   json (>= 1.8.5)
   newrelic_rpm
+  oink
   paperclip (= 3.5.1)
   pg (~> 0.18)
   protected_attributes

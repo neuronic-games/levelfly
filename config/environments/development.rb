@@ -71,4 +71,6 @@ Oncapus::Application.configure do
 
   Pusher.url = ENV['PUSHER_URL']
 
+  # oink
+  config.middleware.use( Oink::Middleware, :logger => Hodel3000CompliantLogger.new(STDOUT))
 end
