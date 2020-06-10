@@ -82,4 +82,6 @@ Oncapus::Application.configure do
   ActionMailer::Base.delivery_method = :smtp
   ActionMailer::Base.default :content_type => "text/html"
 
+  # oink
+  config.middleware.use( Oink::Middleware, :logger => Hodel3000CompliantLogger.new(STDOUT))
 end

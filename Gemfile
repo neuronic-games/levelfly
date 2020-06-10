@@ -42,3 +42,4 @@ gem 'remotipart', '~> 1.2'
 gem 'useragent', '0.16.7'
 
 gem "pry", "~> 0.13.1"
+gem "oink"
