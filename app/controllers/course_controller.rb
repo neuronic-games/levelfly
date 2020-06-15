@@ -643,7 +643,7 @@ class CourseController < ApplicationController
       @course_messages = Message.find(
         :all,
         :conditions => [
-          "parent_id = ? AND parent_type = 'C' AND message_viewers.viewer_profile_id =", 
+          "parent_id = ? AND parent_type = 'C' AND message_viewers.viewer_profile_id = ?", 
           @course.id, @profile.id
         ],
         :order => "starred DESC, post_date DESC" , 
