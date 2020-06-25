@@ -559,7 +559,7 @@ class CourseController < ApplicationController
       outcome.descr = params[:outcome_descr] if params[:outcome_descr] && !params[:outcome_descr].empty?
       outcome.save
     end
-    render :nothing =>true
+    render :text => {"status"=>"true"}.to_json
   end
 
   def update_course_categories
@@ -569,7 +569,7 @@ class CourseController < ApplicationController
       category.percent_value = params[:category_value] if params[:category_value] && !params[:category_value].empty?
       category.save
     end
-    render :nothing =>true
+    render :text => {"status"=>"true"}.to_json
   end
 
   def remove_course_categories
