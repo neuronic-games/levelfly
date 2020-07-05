@@ -222,13 +222,26 @@ class CourseController < ApplicationController
     end
   end
 
-  def save    
+  def save
     if params[:id] && !params[:id].empty?
       @course = Course.find(params[:id])
     else
       # Save a new course
       @course = Course.new
     end
+
+    # There is a bug where a null course get's saved after inviting a new member
+    # and then immediately going to the Files tab. This is not the best fix, but
+    # it works.
+    if params[:course] == 'null'
+      image_url = params[:file] ? @course.image.url : ""
+      render :text => {"course"=>@course, "image_url"=>image_url,"outcome"=>@outcome}.to_json
+      return
+    end
+
+    logger.info "-------------------------"
+    logger.info @course.inspect
+    logger.info "-------------------------"
     @course.name = params[:course].slice(0,64) if params[:course]
     @course.descr = params[:descr] if params[:descr]
     @course.parent_type = params[:section_type] if params[:section_type]
@@ -251,6 +264,9 @@ class CourseController < ApplicationController
       @course.image.destroy if @course.image
       @course.image = params[:file]
     end
+
+    logger.info @course.inspect
+    logger.info "-------------------------"
 
     if @course.save
       #get wall id
