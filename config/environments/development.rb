@@ -59,12 +59,9 @@ Oncapus::Application.configure do
   config.action_mailer.default_url_options = { :host => ENV['MAILER_DEFAULT_URL'] }
 
   ActionMailer::Base.smtp_settings = {
-    :address              => "smtp.mandrillapp.com",
-    :port                 => 587,
-    :domain               => "herokuapp.com",
-    :user_name            => ENV['MANDRILL_USERNAME'],
-    :password             => ENV['MANDRILL_APIKEY'],
-    :authentication       => "plain"
+    :address              => "localhost",
+    :port                 => 1025,
+    :domain               => "localhost",
   }
 
   ActionMailer::Base.default :content_type => "text/html"
