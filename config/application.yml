@@ -1,0 +1,24 @@
+# Application configuration that is loaded as environment variables
+# This is only loaded in the development environment from development.rb
+# In production, the variables are set in Heroku environment
+
+MAILER_DEFAULT_URL: localhost:3000
+# For outgoing emails - edit environments/development.rb to use Mandrill
+#MANDRILL_APIKEY: AAAAAAAAAAAAAAAAAAAAAA
+#MANDRILL_USERNAME: user@example.com
+
+# For notifications
+PUSHER_SOCKET_URL: ws://ws.pusherapp.com/app/ID
+PUSHER_URL: https://ID:KEY@api.pusherapp.com/apps/APP
+
+S3_KEY: AAAAAAAAAAAAAAAAAAAA
+S3_PATH: my-s3-account.s3.amazonaws.com/my-box-name
+S3_PROTOCOL: https
+S3_SECRET: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+# Used to prefix URLs (e.g. reference to images in emails)
+URL: http://localhost:3000
+
+MAIL_DOMAIN: localhost
+
+SUPPORT_EMAIL: test@example.com
