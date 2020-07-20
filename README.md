@@ -9,7 +9,7 @@ A demonstration instance of Levelfly is available at https://levelfly-staging.he
 
 ## Working on Levelfly
 
-These instructions have been tested on Linux & OSX. Please [edit this file][editreadme] if you can add set-up instructions for any other platform, or for tools like Docker or Vagrant.
+These instructions have been tested on Linux & OSX. If you can add set-up instructions for any other platform, or for tools like Docker or Vagrant, please [edit this README][editreadme] and share your wisdom!
 
 1. Install [Postgres][postgres], and Ruby 2.4.10 ([RVM][rvm] is recommended)
 2. Check out the Levelfly code:
