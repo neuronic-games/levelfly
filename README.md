@@ -27,8 +27,8 @@ These instructions have been tested on Linux & OSX. Please [edit this file][edit
     bundle exec rake db:migrate
     bundle exec rake db:seed
     ```
-6. Set up S3 storage – either sign up for [AWS][aws] or set up [minio][minio]. Then, edit `config/application.yml` to pop in your S3 API key
-7. Install [MailCatcher] to display outgoing mail in a browser instead of sending it:
+6. Set up S3 storage – either sign up for [AWS][aws-s3] or set up [minio][minio]. Then, edit `config/application.yml` to pop in your S3 API key
+7. Install [MailCatcher][mailcatcher] to display outgoing mail in a browser instead of sending it:
     ```
     gem install mailcatcher
     mailcatcher
@@ -48,5 +48,7 @@ These instructions have been tested on Linux & OSX. Please [edit this file][edit
 [us-doe]: http://www.nsf.gov/
 [editreadme]: https://github.com/neuronic-games/levelfly/edit/main/README.md
 [rvm]: https://rvm.io/
-[s3]: https://aws.amazon.com/s3/
+[aws-s3]: https://aws.amazon.com/s3/
 [minio]: https://min.io
+[postgres]: https://www.postgresql.org/
+[mailcatcher]: https://mailcatcher.me/
