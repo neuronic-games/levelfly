@@ -20,10 +20,14 @@ class GamecenterController < ApplicationController
 
     if new_user and new_user.casecmp("true") == 0
       # Create a stub user in the default school. Only an email is required. A email will be sent to the address
-      # allowing the user to complete registration. They can pick which school they want to join later. This will
-      # allow scores to be posted in the GameCenter.
-      default_school = School.find_by_handle("demo")
-      user, profile = User.new_user(params[:username], default_school.id, params[:password])
+      # allowing the user to complete registration.
+      
+      handle = params[:handle]
+      game = Game.find_by_handle(handle)
+      if game
+        # Each game is associated with one school. Create a profile for this user in this school by default.
+        user, profile = User.new_user(params[:username], game.school.id, params[:password])
+      end
     end
         
     if user && user.valid_password?(params[:password])
