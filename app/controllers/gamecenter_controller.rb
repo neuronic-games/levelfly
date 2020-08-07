@@ -3,7 +3,7 @@ class GamecenterController < ApplicationController
   before_filter :authenticate_user!, :except => [:status, :show, :connect, :authenticate, :get_current_user, :get_top_users, :add_progress, :get_rewards]
 
   def status
-    message = "All OK"
+    message = "All OK."
     status = Gamecenter::SUCCESS
     
     render :text => { 'status' => status, 'message' => message }.to_json
@@ -21,12 +21,21 @@ class GamecenterController < ApplicationController
     if new_user and new_user.casecmp("true") == 0
       # Create a stub user in the default school. Only an email is required. A email will be sent to the address
       # allowing the user to complete registration.
+
+      if user
+        message = "User already exist."
+        user = nil
+      elsif params[:password] == ""
+        message = "Empty password."
+        user = nil
+      else
       
-      handle = params[:handle]
-      game = Game.find_by_handle(handle)
-      if game
-        # Each game is associated with one school. Create a profile for this user in this school by default.
-        user, profile = User.new_user(params[:username], game.school.id, params[:password])
+        handle = params[:handle]
+        game = Game.find_by_handle(handle)
+        if game
+          # Each game is associated with one school. Create a profile for this user in this school by default.
+          user, profile = User.new_user(params[:username], game.school.id, params[:password])
+        end
       end
     end
         
@@ -43,18 +52,18 @@ class GamecenterController < ApplicationController
   end
   
   def connect
-    message = "Unknown error"
+    message = "Unknown error."
     status = Gamecenter::FAILURE
     data = {}
     
     handle = params[:handle]
     game = Game.find_by_handle(handle)
     if game
-      message = "Connected to #{game.name}"
+      message = "Connected to #{game.name}."
       status = Gamecenter::SUCCESS
       data = { 'name' => game.name, 'id' => game.id, 'player_count' => game.player_count }
     else
-      message = "Game with handle #{handle} does not exist"
+      message = "Game with handle #{handle} does not exist."
     end
     
     render :text => { 'status' => status, 'message' => message, 'game' => data }.to_json
@@ -78,7 +87,7 @@ class GamecenterController < ApplicationController
       score = game.get_score(profile.id)
       xp = game.get_xp(profile.id)
       badges = AvatarBadge.eager_load(:badge).collect { |x| { 'id' => x.badge.id, 'name' => x.badge.name, 'descr' => x.badge.descr, 'image' => x.badge.available_image_url } }
-      message = "#{profile.full_name} signed in"
+      message = "#{profile.full_name} signed in."
       user = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_url, 'last_sign_in_at' => current_user.last_sign_in_at }
 
       active_dur = Feat.where(game_id: game.id, profile_id: profile.id, progress_type: Feat.duration)
@@ -100,7 +109,7 @@ class GamecenterController < ApplicationController
       status = Gamecenter::SUCCESS
       profile = current_user.default_profile
       game = Game.find_by_handle(handle)
-      message = "#{profile.full_name} signed in"
+      message = "#{profile.full_name} signed in."
 
       active_dur = Feat.where(game_id: game.id, profile_id: profile.id, progress_type: Feat.duration)
         .sum(:progress)
@@ -119,7 +128,7 @@ class GamecenterController < ApplicationController
     status = Gamecenter::SUCCESS
     game = Game.find_by_handle(handle)
     all_score = game.get_all_scores_in_order
-    message = "#{all_score.count} score records found"
+    message = "#{all_score.count} score records found."
 
     render :text => { 'status' => status, 'message' => message, 'all_score' => all_score }.to_json
   end
@@ -135,7 +144,7 @@ class GamecenterController < ApplicationController
     game = Game.find_by_handle(handle)
     badges = game.get_badges
     outcomes = game.get_outcomes
-    message = "#{badges.count} badge(s) and #{outcomes.count} outcome(s) record(s) found"
+    message = "#{badges.count} badge(s) and #{outcomes.count} outcome(s) record(s) found."
 
     render :text => { 'status' => status, 'message' => message, 'badges' => badges, 'outcomes' => outcomes }.to_json
   end
@@ -163,7 +172,7 @@ class GamecenterController < ApplicationController
       cp.checkpoint = checkpoint
       cp.save
       
-      message = "Checkpoint #{cp.id} saved for #{game.name} for #{profile.full_name}"
+      message = "Checkpoint #{cp.id} saved for #{game.name} for #{profile.full_name}."
     end
     
     render :text => { 'status' => status, 'message' => message }.to_json
@@ -183,7 +192,7 @@ class GamecenterController < ApplicationController
       
       if cp
         status = Gamecenter::SUCCESS
-        message = "Found checkpoint #{cp.id} recorded on #{cp.updated_at}"
+        message = "Found checkpoint #{cp.id} recorded on #{cp.updated_at}."
         checkpoint = cp.checkpoint
       end
     end
@@ -196,7 +205,7 @@ class GamecenterController < ApplicationController
     handle = params[:handle]
     game = Game.find_by_handle(handle)
     if game.nil?
-      message = "Game with handle #{handle} does not exist"
+      message = "Game with handle #{handle} does not exist."
       status = Gamecenter::FAILURE
 
       render :text => { 'status' => status, 'message' => message }.to_json
@@ -335,7 +344,7 @@ class GamecenterController < ApplicationController
     handle = params[:handle]
     game = Game.find_by_handle(handle)
     if game.nil?
-      message = "Game with handle #{handle} does not exist"
+      message = "Game with handle #{handle} does not exist."
       status = Gamecenter::FAILURE
 
       render :text => { 'status' => status, 'message' => message }.to_json
