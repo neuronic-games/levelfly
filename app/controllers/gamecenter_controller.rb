@@ -35,6 +35,10 @@ class GamecenterController < ApplicationController
         if game
           # Each game is associated with one school. Create a profile for this user in this school by default.
           user, profile = User.new_user(params[:username], game.school.id, params[:password])
+          if !game.profile.nil?
+            Message.send_school_invitations(user, game.profile)
+            UserMailer.school_invite(user, game.profile).deliver
+          end
         end
       end
     end
