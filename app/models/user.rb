@@ -66,7 +66,7 @@ class User < ActiveRecord::Base
     self.generate_confirmation_token
   end
 
-  def self.new_user(email, school_id, password = nil)
+  def self.new_user(email, school_id, password = nil, send_email = false)
     if @user = find_by_email(email)
 
     else
@@ -75,7 +75,11 @@ class User < ActiveRecord::Base
         u.password = password ? password : "defaultpassword"
         # u.reset_password_token= User.reset_password_token
       end
-      @user.skip_confirmation!
+
+      if !send_email 
+        @user.skip_confirmation!
+      end
+
       @user.save(:validate => false)
 
       # @user.confirmed_at = nil
