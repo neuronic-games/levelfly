@@ -41,6 +41,15 @@ These instructions have been tested on Linux & OSX. If you can add set-up instru
 
 ## Deploying Levelfly
 
+### Tagging a new release
+
+1. Commit your changes to the `dev` branch
+2. Edit `config/environment.rb`, increase `APP_VERSION`, and commit that change
+   too
+3. `git checkout main`
+4. `git merge dev --no-ff`
+5. `git tag -a <version>`
+
 [neuronic]: https://neuronicgames.com
 [bmcc]: https://www.bmcc.cuny.edu/
 [cuny]: http://www.cuny.edu/
