@@ -226,7 +226,7 @@ class GamecenterController < ApplicationController
     feat.progress_type = progress_type
     feat.level = level
 
-    message = "Progress recorded for game #{game.name} for user profile #{current_user.default_profile.id}."
+    message = "Progress recorded for game #{game.name} for user profile #{current_user.default_profile.id}: #{feat.progress} (#{feat.progress_type}) #{feat.level}"
     status = Gamecenter::SUCCESS
 
     # Check the value based on type
