@@ -230,7 +230,7 @@ class GamecenterController < ApplicationController
     feat.progress_type = progress_type
     feat.level = level
 
-    message = "Progress recorded for game #{game.name} for user profile #{current_user.default_profile.id}."
+    message = "Progress recorded for game #{game.name} for user profile #{current_user.default_profile.id}: #{feat.progress} (#{feat.progress_type}) #{feat.level}"
     status = Gamecenter::SUCCESS
 
     # Check the value based on type
@@ -539,9 +539,9 @@ class GamecenterController < ApplicationController
     params[:game].merge!("image" => params["file"]) if params["file"].present?
     @game = Game.find(params[:id])
     @game.update_attributes(params.require(:game).permit(
-      :archived, :published, :school_id, :name, :descr, :last_rev, :mail_to,
-      :outcomes_attributes, :image
-    ))
+          :archived, :published, :school_id, :name, :descr, :last_rev, :mail_to,
+          :outcomes_attributes, :image, :download_links =>  params[:game][:download_links].keys
+        ))
     @game.mail_to = ENV['SUPPORT_EMAIL'] if @game.mail_to.blank?
     forum = @game.course    
     forum.update_attribute(:name, "Support for #{@game.name}") unless !forum.present?
