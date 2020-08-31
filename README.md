@@ -3,6 +3,8 @@ Levelfly
 
 ![Levelfly logo](public/images/levelfly_tag.png?raw=true)
 
+[![Build Status](https://drone.neuronic-swarm.autonomic.zone/api/badges/neuronic-games/levelfly/status.svg?ref=refs/heads/staging)](https://drone.neuronic-swarm.autonomic.zone/neuronic-games/levelfly)
+
 Levelfly is an open-source, achievement-based Learning Management System (LMS) and social network, developed by [Neuronic Games][neuronic] for [Borough of Manhattan Community College][bmcc] and [City University of New York][cuny] with funding from the [National Science Foundation][nsf] and the [U.S. Department of Education][us-doe].
 
 A demonstration instance of Levelfly is available at https://levelfly-staging.herokuapp.com
