@@ -43,6 +43,15 @@ These instructions have been tested on Linux & OSX. If you can add set-up instru
 
 ## Deploying Levelfly
 
+Levelfly is pre-configured to deploy to [Heroku][heroku] using [Drone][drone].
+
+If you're a project collaborator, just push to the `main` or `staging` branches,
+and Drone will automatically deploy your code to the right server.
+
+You can see the status of deployments here:
+
+https://drone.neuronic-swarm.autonomic.zone/neuronic-games/levelfly
+
 ### Tagging a new release
 
 1. Commit your changes to the `dev` branch
@@ -63,3 +72,5 @@ These instructions have been tested on Linux & OSX. If you can add set-up instru
 [minio]: https://min.io
 [postgres]: https://www.postgresql.org/
 [mailcatcher]: https://mailcatcher.me/
+[drone]: https://drone.io
+[heroku]: https://herokuapp.com
