@@ -15,43 +15,48 @@ class GamecenterController < ApplicationController
     status = Gamecenter::FAILURE
     data = {}
     
-    user = User.find_by_like_email(params[:username])
-    new_user = params[:new]
+    if params[:username] == "" or params[:password] == ""
+      message = "Empty username/password."
+      user = nil
+    else
+      user = User.find_by_like_email(params[:username])
+      new_user = params[:new]
 
-    if new_user and new_user.casecmp("true") == 0
-      # Create a stub user in the default school. Only an email is required. A email will be sent to the address
-      # allowing the user to complete registration.
+      if new_user and new_user.casecmp("true") == 0
+        # Create a stub user in the default school. Only an email is required. A email will be sent to the address
+        # allowing the user to complete registration.
 
-      if user
-        message = "User already exist."
-        user = nil
-      elsif params[:password] == ""
-        message = "Empty password."
-        user = nil
-      else
+        if user
+          message = "User already exist."
+          user = nil
+        elsif params[:password] == ""
+          message = "Empty password."
+          user = nil
+        else
       
-        handle = params[:handle]
-        game = Game.find_by_handle(handle)
-        if game
-          # Each game is associated with one school. Create a profile for this user in this school by default.
-          user, profile = User.new_user(params[:username], game.school.id, params[:password])
-          if !game.profile.nil?
-            Message.send_school_invitations(user, game.profile)
-            UserMailer.school_invite(user, game.profile).deliver
+          handle = params[:handle]
+          game = Game.find_by_handle(handle)
+          if game
+            # Each game is associated with one school. Create a profile for this user in this school by default.
+            user, profile = User.new_user(params[:username], game.school.id, params[:password])
+            if !game.profile.nil?
+              Message.send_school_invitations(user, game.profile)
+              UserMailer.school_invite(user, game.profile).deliver
+            end
           end
         end
       end
-    end
         
-    if user && user.valid_password?(params[:password])
-      sign_out current_user
-      sign_in user
-      status = Gamecenter::SUCCESS
-      profile = user.default_profile
-      message = "#{profile.full_name} signed in"
-      data = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_url, 'last_sign_in_at' => user.last_sign_in_at }
+      if user && user.valid_password?(params[:password])
+        sign_out current_user
+        sign_in user
+        status = Gamecenter::SUCCESS
+        profile = user.default_profile
+        message = "#{profile.full_name} signed in"
+        data = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_url, 'last_sign_in_at' => user.last_sign_in_at }
+      end
     end
-
+    
     render :text => { 'status' => status, 'message' => message, 'user' => data }.to_json
   end
   
