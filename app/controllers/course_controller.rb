@@ -350,9 +350,9 @@ class CourseController < ApplicationController
             @user, @profile = User.new_user(email,school.id)
             new_user = true
           end
-          # if @profile
+          if @profile
           # temp fix to not allow invite user of different school
-          if @profile && @profile.school == school
+          # if @profile && @profile.school == school
             participant_exist = Participant.find(:first, :conditions => ["target_id = ? AND target_type= ? AND profile_id = ?", params[:course_id], section_type, @profile.id])
             course = Course.find(params[:course_id])
             unless participant_exist
@@ -405,9 +405,9 @@ class CourseController < ApplicationController
               already_added = true
              end
             end
-          else
-            # temp fix to not allow invite user of different school
-            email_exist.push(@user.email)
+          # else
+          #   # temp fix to not allow invite user of different school
+          #   email_exist.push(@user.email)
           end
           profiles.push @profile
           users.push @user
