@@ -44,7 +44,7 @@ class GamecenterController < ApplicationController
               if not game.profile.nil?
                 # The invitation comes from the owner of the game
                 Message.send_school_invitations(user, game.profile, demo_school)
-                UserMailer.school_invite(user, game.profile).deliver
+                UserMailer.school_invite(user, game.profile, demo_school).deliver
               end
             end
           end

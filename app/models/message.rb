@@ -60,12 +60,17 @@ class Message < ActiveRecord::Base
     return @message
   end
 
-  def self.send_school_invitations(user, sender)
+  def self.send_school_invitations(user, sender, target_school = nil)
     @message = Message.new
     @message.parent = @message.profile = sender
-    @message.target = sender.school
+    if school.nil?
+      @message.target = sender.school
+      @message.content = "Please join #{sender.school.code} (#{sender.school.name})"
+    else
+      @message.target = target_school
+      @message.content = "Please join #{target_school.code} (#{target_school.name})"
+    end
     @message.message_type = 'school_invite'
-    @message.content = "Please join #{sender.school.code} (#{sender.school.name})"
     @message.archived = false
     @message.post_date = DateTime.now
     @message.save
