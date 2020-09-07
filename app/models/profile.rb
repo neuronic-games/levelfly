@@ -101,7 +101,7 @@ class Profile < ActiveRecord::Base
       profile.user_id = user_id
       profile.code = nil
 
-      demo_school = School.find_by_code('DEMO')
+      demo_school = School.find_by_handle("demo")
       if not demo_school.nil? and school_id == demo_school.id
         profile.role_name = RoleName.find_by_name('Teacher')
       else

@@ -37,11 +37,15 @@ class GamecenterController < ApplicationController
           handle = params[:handle]
           game = Game.find_by_handle(handle)
           if game
-            # Each game is associated with one school. Create a profile for this user in this school by default.
-            user, profile = User.new_user(params[:username], game.school.id, params[:password])
-            if !game.profile.nil?
-              Message.send_school_invitations(user, game.profile)
-              UserMailer.school_invite(user, game.profile).deliver
+            # Put the new student into the demo school. The teacher can invite them into the correct school later.
+            demo_school = School.find_by_handle("demo")
+            if not demo_school.nil?
+              user, profile = User.new_user(params[:username], demo_school.id, params[:password])
+              if not game.profile.nil?
+                # The invitation comes from the owner of the game
+                Message.send_school_invitations(user, game.profile)
+                UserMailer.school_invite(user, game.profile).deliver
+              end
             end
           end
         end
