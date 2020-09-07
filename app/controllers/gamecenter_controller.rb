@@ -43,7 +43,7 @@ class GamecenterController < ApplicationController
               user, profile = User.new_user(params[:username], demo_school.id, params[:password])
               if not game.profile.nil?
                 # The invitation comes from the owner of the game
-                Message.send_school_invitations(user, game.profile)
+                Message.send_school_invitations(user, game.profile, demo_school)
                 UserMailer.school_invite(user, game.profile).deliver
               end
             end

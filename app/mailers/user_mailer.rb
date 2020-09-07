@@ -24,10 +24,15 @@ class UserMailer < ActionMailer::Base
           :subject => "Confirmation instructions")
   end
 
-  def school_invite(user, current_profile)
+  def school_invite(user, current_profile, target_school = nil)
       @user = user
       @sender = current_profile
-      @school = current_profile.school
+      # If target_school is not specified, use the school of the person inviting
+      if target_school.nil?
+        @school = current_profile.school
+      else
+        @school = target_school
+      end
       hash = Course.hexdigest_to_string("#{user.id}")
       @link = "#{ENV['URL']}/system/new_user/?link=#{hash}"
       @subject = "[Levelfly] Your invitation to join #{@school.code}"
