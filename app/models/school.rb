@@ -35,16 +35,33 @@ class School < ActiveRecord::Base
     return school
   end
   
+  # Create a new community admin for the school
   def self.new_admin(handle, email)
     school = School.find(:first, :conditions => ["handle like ?", handle])
     if school
       admin_user = User.find(:first, :conditions => ["email like ?", email])
       if admin_user.nil?
-        admin_user, admin_profile = User.new_user(email, school.id, "LetMeIn!")
+        admin_user, admin_profile = User.new_user(email, school.id, "changeme")
         admin_profile.role_name = RoleName.find_by_name('Community Admin')
         admin_profile.save
         
         return admin_user
+      end
+    end
+    return nil
+  end
+  
+  # Associate an existing game to the school by its handle
+  def self.link_game(handle, game_handle)
+    school = School.find_by_handle(handle)
+    if school
+      game = Game.find_by_handle(game_handle)
+      if !game.nil?
+        game_school = GameSchool.new
+        game_school.game_id = game.id
+        game_school.school_id = school.id
+        game_school.save
+        return game
       end
     end
     return nil

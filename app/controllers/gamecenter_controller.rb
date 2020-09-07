@@ -462,30 +462,36 @@ class GamecenterController < ApplicationController
     end
   end
 
+  # Returns active games for my school
   def get_rows
     @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    # filter is "active", "archived"
-    filter = params[:filter]    
     school_id = @profile.school_id
-    school = School.find(school_id)
-    conditions = ["games.handle is not null and school_id = ?", school_id]
+    
+    # filter is "active", "archived"
+    filter = params[:filter]
+    
+    conditions = ["games.handle is not null"]
+
+    # Filter on my school
+    if not school_id.nil?
+      conditions[0] += " and (games.school_id = ? or game_schools.school_id = ?)"
+      conditions << school_id
+      conditions << school_id
+    end
 
     if filter == "active"
+      # Games that I created have played
       conditions[0] += " and games.archived = ?"
       conditions << false
-      conditions[0] += " and games.profile_id = ?"
+      conditions[0] += " and (games.profile_id = ? or feats.profile_id = ?)"
+      conditions << @profile.id
       conditions << @profile.id
     elsif filter == "archived"
       conditions[0] += " and games.archived = ?"
       conditions << true
-    end    
-
-    if filter == "active"
-      user_feats = Feat.where(:profile_id => @profile.id).select("distinct game_id").pluck(:game_id)
-      conditions[0] += " or id IN(?)"
-      conditions << user_feats    
     end
-    @games = Game.find(:all, :conditions => conditions, :order => "name")
+
+    @games = Game.find(:all, :joins => [:game_schools, :feats], :conditions => conditions, :order => "name").uniq
     render :partial => "/gamecenter/rows"
   end
   

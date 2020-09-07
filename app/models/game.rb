@@ -6,12 +6,14 @@ class Game < ActiveRecord::Base
   serialize :download_links, Hash
   PLATFORMS = ['ios', 'android', 'windows', 'mac', 'linux', 'guide']
   validates :handle, :uniqueness => true
-  belongs_to :school
+  belongs_to :school  # This is the school of the game's creator's profile. If a new user sign up for Levelfly from the app,
+                      # their account will be created in this school by default.
   has_many :feats
   has_many :game_score_leaders
+  has_many :game_schools  # In addition to the main school, the same game can be used in other schools
   has_many :outcomes, :dependent => :destroy, :order => 'id'
   has_many :screen_shots, :dependent => :destroy
-  belongs_to :course
+  belongs_to :course  # This is not an actual course. It uses the forums of a course as a support forum.
   belongs_to :profile
   accepts_nested_attributes_for :outcomes, :allow_destroy => true
   accepts_nested_attributes_for :screen_shots, :allow_destroy => true
