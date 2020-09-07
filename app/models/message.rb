@@ -63,7 +63,7 @@ class Message < ActiveRecord::Base
   def self.send_school_invitations(user, sender, target_school = nil)
     @message = Message.new
     @message.parent = @message.profile = sender
-    if school.nil?
+    if target_school.nil?
       @message.target = sender.school
       @message.content = "Please join #{sender.school.code} (#{sender.school.name})"
     else
