@@ -293,10 +293,10 @@ class Course < ActiveRecord::Base
      @courses = Course.find(
             :all,
             :select => "distinct *",
-            :include => [:participants],
+            :include => [:participants, :school],
             :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?",false, profile_id, Course.parent_type_course, Course.join_type_invite, Course.profile_type_pending, archived],
             :order => 'courses.name',
-            :joins => [:participants]
+            :joins => [:participants, :school]
             )
     return @courses
   end

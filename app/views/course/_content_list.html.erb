@@ -99,6 +99,7 @@
     <td>
       <a href="#" data-url="/course/show/<%=c.id%>" class="view">
         <div class="title"><%=c.name %></div>
+        <%= school.id == c.school.id ? "" : c.school.code %>
         <% if defined?(section_type) && section_type == "G"%><div class="description"><%=c.descr%></div><% end %>
       </a>
       <%joined, p_type = already_join(c.id,user_session[:profile_id])%>
