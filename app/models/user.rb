@@ -66,7 +66,7 @@ class User < ActiveRecord::Base
     self.generate_confirmation_token
   end
 
-  def self.new_user(email, school_id, password = nil, send_email = false)
+  def self.new_user(email, school_id, password = nil, send_email = false, role_name = nil)
     if @user = find_by_email(email)
 
     else
@@ -91,7 +91,8 @@ class User < ActiveRecord::Base
     if @user && @user.profiles.count > 0
       @profile = nil
     elsif @user
-      @profile = Profile.create_for_user(@user.id,school_id)
+      # Create a new profile using the DEFAULT template for the school
+      @profile = Profile.create_for_user(@user.id, school_id, "DEFAULT", role_name)
     end
     ### Code before temp fix:
     # if @user

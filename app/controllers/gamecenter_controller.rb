@@ -40,7 +40,9 @@ class GamecenterController < ApplicationController
             # Put the new student into the demo school. The teacher can invite them into the correct school later.
             demo_school = School.find_by_handle("demo")
             if not demo_school.nil?
-              user, profile = User.new_user(params[:username], demo_school.id, params[:password])
+              role_name = RoleName.find_by_name('Student')
+              send_confirmation_email = false
+              user, profile = User.new_user(params[:username], demo_school.id, params[:password], send_confirmation_email, role_name)
               if not game.profile.nil?
                 # The invitation comes from the owner of the game
                 Message.send_school_invitations(user, game.profile, demo_school)

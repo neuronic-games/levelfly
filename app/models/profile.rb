@@ -88,7 +88,9 @@ class Profile < ActiveRecord::Base
      return {name: 'Private', image: Profile.default_avatar_image}
   end
 
-  def self.create_for_user(user_id, school_id, default = "DEFAULT")
+  # Find the profile for this user in given school. If it doesn't exist, create a new profile using the DEFAULT
+  # template for this school.
+  def self.create_for_user(user_id, school_id, default = "DEFAULT", role_name = nil)
     profile = Profile.find(:first, :conditions => ["user_id = ? and school_id = ?", user_id, school_id])
     if profile.nil?
       new_profile = Profile.find(:first, :conditions => ["code = ? and school_id = ?", default, school_id], :include => [:avatar])
@@ -101,11 +103,16 @@ class Profile < ActiveRecord::Base
       profile.user_id = user_id
       profile.code = nil
 
-      demo_school = School.find_by_handle("demo")
-      if not demo_school.nil? and school_id == demo_school.id
-        profile.role_name = RoleName.find_by_name('Teacher')
+      if role_name.nil?
+        # Create a Teacher in the demo school, or a Student in all other schools
+        demo_school = School.find_by_handle("demo")
+        if not demo_school.nil? and school_id == demo_school.id
+          profile.role_name = RoleName.find_by_name('Teacher')
+        else
+          profile.role_name = RoleName.find_by_name('Student')
+        end
       else
-        profile.role_name = RoleName.find_by_name('Student')
+        profile.role_name = role_name
       end
 
       profile.save
