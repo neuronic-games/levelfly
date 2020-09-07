@@ -5,8 +5,8 @@
 # below each fixture, per the syntax in the comments below
 #
 demo:
-  name: Teachers Training College
-  code: DEMO
+  name: The Levelfly Community
+  code: LEVELFLY
 
 bmcc:
   name: Borough of Manhattan Community College

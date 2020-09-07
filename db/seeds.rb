@@ -25,7 +25,7 @@ def generate_users(count, u_school, p_school, role_name)
 end
 
 # School setting
-school = School.create(:name => 'The Practice School', :code => 'DEMO', :handle => 'demo')
+school = School.create(:name => 'The Levelfly Community', :code => 'LEVELFLY', :handle => 'demo')
 # school = School.create(:name => 'Borough of Manhattan Community College', :code => 'BMCC', :handle => 'bmcc')
 
 admin = User.new(:email => "admin@neuronicgames.com", :password => "changeme", password_confirmation: "changeme")
