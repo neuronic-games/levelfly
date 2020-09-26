@@ -353,6 +353,26 @@ class Course < ActiveRecord::Base
       :joins => [:participants]
     )
   end
+  
+  # Returns the latest messages for this course
+  def find_game_messages(profile_id = nil)
+    course_id = self.id
+    parent_type = 'G'
+
+    if profile_id.nil?
+      return Message.where(messages: {parent_id: course_id, parent_type: parent_type})
+        .order('messages.starred DESC', 'messages.post_date DESC')
+        .limit(200)
+    end
+
+    # This is not efficient because it will query each message individually
+    return MessageViewer.joins(:message)
+      .where(viewer_profile_id: profile_id,
+        messages: {parent_id: course_id, parent_type: parent_type})
+      .order('messages.starred DESC', 'messages.post_date DESC')
+      .limit(200)
+      .collect(&:message)
+  end
 
   def join_all(profile)
      @all_members = Profile.find(
