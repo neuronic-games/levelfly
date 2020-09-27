@@ -307,6 +307,7 @@ class Course < ActiveRecord::Base
             ratings[outcome.id] = rating
           end
 
+          outcome_list = game.outcomes
           outcome_list.each do |outcome|
             row << ratings[outcome.id]
           end
