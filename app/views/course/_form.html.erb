@@ -9,6 +9,7 @@
       <a href="javascript:void(0);" class="big_blue_btn hide" id="btn_course_duplicate">Duplicate</a>
       <a href="javascript:void(0)" name="btn_category_remove" id="btn_category_remove" class="big_blue_btn hide">REMOVE CAT</a>
       <a href="javascript:void(0)" name="btn_archive" id="btn_archive" class="big_blue_btn hide"><%= @course.archived ? 'UNARCHIVE' : 'ARCHIVE' %></a>
+      <a class="big_blue_btn id_link hide" name="btn_export_activity" href="javascript:void(0)" id="btn_export_activity" style="padding:6px 0 6px">EXPORT ACTIVITY</a>
       <a href="javascript:void(0)" name="btn_course_remove" id="btn_course_remove" style="padding:6px 0 6px" class="big_blue_btn"><%=section_type == "C" ? "Remove Course" : "Remove Group"%></a>
     <% end %>
     <input type="hidden" name="hdn_is_page_change" id="hdn_is_page_change" value="<%=@course ? false : true %>" />
@@ -351,6 +352,11 @@ $(document).ready(function(){
 
   $('#btn_course_duplicate').click(function() {
    $('#duplicate_course_div').show();
+  });
+
+  $('#btn_export_activity').unbind('click').bind('click', function() {
+    window.location = 'course/export_activity_csv/' + <%=h @course.id %> + '?profile_id=' + <%=h current_profile.id %>;
+    return false;
   });
 
   // Field instructions

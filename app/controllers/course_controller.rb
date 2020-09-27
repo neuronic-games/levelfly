@@ -1086,4 +1086,15 @@ class CourseController < ApplicationController
       end
     end
   end
+  
+  def export_activity_csv
+    return if params[:id].blank?
+    course = Course.find(params[:id])
+    
+    csv_rows = course.get_activity_csv()
+    filename = "course-#{course.code}-#{course.section}-#{Date.today.strftime('%Y%m%d')}.csv"
+    send_data(csv_rows, :type => 'test/csv', :filename => filename)
+    
+  end
+  
 end
