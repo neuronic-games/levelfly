@@ -308,9 +308,11 @@ class Course < ActiveRecord::Base
           end
 
           outcome_list = game.outcomes
+          cell = ""
           outcome_list.each do |outcome|
-            row << ratings[outcome.id]
+            cell << "[#{outcome.name}:#{ratings[outcome.id]}]"
           end
+          row << cell
         
           csv << row
         end
