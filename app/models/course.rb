@@ -225,12 +225,12 @@ class Course < ActiveRecord::Base
   def get_participants()
     course_id = self.id
     
-    # Find all students. Does not include moderators: 'M'
+    # Find all people in the course, including teachers.
+    # profile_type: 'M'oderator, 'S'tudent
     profiles = Profile.joins(:participants)
       .where(participants: {
         target_id: course_id, 
-        target_type: 'Course', 
-        profile_type: 'P'})
+        target_type: 'Course'})
 
     return profiles
   end
