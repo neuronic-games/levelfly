@@ -256,7 +256,6 @@ class Course < ActiveRecord::Base
       row << "Current Level"
       row << "Score"
       row << "Badge #"
-      row << "Outcomes"
     
       csv << row
 
@@ -308,11 +307,9 @@ class Course < ActiveRecord::Base
           end
 
           outcome_list = game.outcomes
-          cell = ""
           outcome_list.each do |outcome|
-            cell << "[#{outcome.name}:#{ratings[outcome.id]}]"
+            row << "#{outcome.name}: #{ratings[outcome.id]}" unless outcome.name.blank?
           end
-          row << cell
         
           csv << row
         end
