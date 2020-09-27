@@ -447,6 +447,8 @@ Oncapus::Application.routes.draw do
 
   match 'course/show_forum/:id' => 'course#show_forum', :via => [:get, :post]
 
+  match 'course/export_activity_csv/:id' => 'course#export_activity_csv', :via => [:get, :post]
+
   # Game Center API
   
   match 'gamecenter' => 'gamecenter#index', :via => [:get, :post]
