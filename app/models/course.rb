@@ -221,6 +221,104 @@ class Course < ActiveRecord::Base
   def get_xp
     return Task.where(:course_id => self.id, :archived => false).sum(:points)
   end
+
+  def get_participants()
+    course_id = self.id
+    
+    # Find all students. Does not include moderators: 'M'
+    profiles = Profile.joins(:participants)
+      .where(participants: {
+        target_id: course_id, 
+        target_type: 'Course', 
+        profile_type: 'P'})
+
+    return profiles
+  end
+  
+  # Get the gaming activity of the students in CVS firmat.
+  # This will include all activities later, e.g. posts
+  def get_activity_csv()
+    row = []
+    
+    profiles = get_participants()
+
+    user_csv = CSV.generate do |csv|
+    
+      row << "Player"
+      row << "Course"
+      row << "Course Number"
+      row << "Semester"
+      row << "Year"
+      row << "Total Time"
+      row << "XP"
+      # row << "Correct Answer #"
+      # row << "Incorrect Answer #"
+      row << "Current Level"
+      row << "Score"
+      row << "Badge #"
+      row << "Outcomes"
+    
+      csv << row
+
+      # Student Name
+      # Course Name
+      # Course Number
+      # Semester
+      # Year
+      # One column for each successful login: Show date stamp, time spent, and highest score per login
+      # Time spent overall
+      # XP
+      # Number of correct and incorrect answers
+      # Current Level
+      # Highest Score
+      # Number of Badges
+      # One column for each outcome: Show rating
+
+      course = self
+      
+      profiles.each do | profile |
+
+        # What are the courses that you teach, if any?
+        # @outcome_ratings = @game.list_outcome_ratings(profile.id)
+        # @ratings = {}
+        # @outcome_ratings.each do | outcome, rating |
+        #   @ratings[outcome.id] = rating
+        # end
+        
+        games = profile.get_games()
+        
+        games.each do |game|
+          row = []
+
+          row << profile.full_name
+          row << course.name
+          row << course.code_section
+          row << course.semester
+          row << course.year
+          row << Time.at(game.get_duration(profile.id)).utc.strftime("%H:%M")
+          row << profile.xp_by_game(game.id)
+          row << game.get_level(profile.id)
+          row << game.get_score(profile.id)
+          row << game.get_badge_count(profile.id)
+
+          outcome_ratings = game.list_outcome_ratings(profile.id)
+          ratings = {}
+          outcome_ratings.each do | outcome, rating |
+            ratings[outcome.id] = rating
+          end
+
+          outcome_list.each do |outcome|
+            row << ratings[outcome.id]
+          end
+        
+          csv << row
+        end
+
+      end
+    end
+    
+    return user_csv
+  end
   
   def self.sort_top_achievers(students,school_id,course_id,sort_type)
     sorted_array = []

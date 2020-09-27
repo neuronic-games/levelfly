@@ -278,6 +278,14 @@ class Profile < ActiveRecord::Base
     return feat.progress if feat
     return 0
   end
+  
+  def get_games(max=200)
+    profile_id = self.id
+    game_ids = Feat.where(profile_id: profile_id).pluck(:game_id).uniq
+    # This query searches for games by ids, nad there's a limit to how many in can
+    # fit into a single SQL query
+    return Game.find_all_by_id(game_ids[0..max-1])
+  end
 
   def image_url
     # If the image is from S3, the path contains the full path
