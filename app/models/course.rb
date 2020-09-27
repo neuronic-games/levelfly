@@ -249,6 +249,7 @@ class Course < ActiveRecord::Base
       row << "Course Number"
       row << "Semester"
       row << "Year"
+      row << "Game"
       row << "Total Time"
       row << "XP"
       # row << "Correct Answer #"
@@ -294,6 +295,7 @@ class Course < ActiveRecord::Base
           row << course.code_section
           row << course.semester
           row << course.year
+          row << game.name
           row << Time.at(game.get_duration(profile.id)).utc.strftime("%H:%M")
           row << profile.xp_by_game(game.id)
           row << game.get_level(profile.id)
