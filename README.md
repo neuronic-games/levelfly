@@ -3,7 +3,7 @@ Levelfly
 
 ![Levelfly logo](public/images/levelfly_tag.png?raw=true)
 
-[![Build Status](https://drone.neuronic-swarm.autonomic.zone/api/badges/neuronic-games/levelfly/status.svg?ref=refs/heads/staging)](https://drone.neuronic-swarm.autonomic.zone/neuronic-games/levelfly)
+[![Build Status](https://drone.swarm.neuronicgames.com/api/badges/neuronic-games/levelfly/status.svg?ref=refs/heads/staging)](https://drone.swarm.neuronicgames.com/neuronic-games/levelfly)
 
 Levelfly is an open-source, achievement-based Learning Management System (LMS) and social network, developed by [Neuronic Games][neuronic] for [Borough of Manhattan Community College][bmcc] and [City University of New York][cuny] with funding from the [National Science Foundation][nsf] and the [U.S. Department of Education][us-doe].
 
@@ -50,7 +50,7 @@ and Drone will automatically deploy your code to the right server.
 
 You can see the status of deployments here:
 
-https://drone.neuronic-swarm.autonomic.zone/neuronic-games/levelfly
+https://drone.swarm.neuronicgames.com/neuronic-games/levelfly
 
 ### Tagging a new release
 
