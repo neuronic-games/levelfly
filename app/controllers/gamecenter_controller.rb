@@ -101,7 +101,7 @@ class GamecenterController < ApplicationController
       game = Game.find_by_handle(handle)
       score = game.get_score(profile.id)
       xp = game.get_xp(profile.id)
-      badges = AvatarBadge.eager_load(:badge).collect { |x| { 'id' => x.badge.id, 'name' => x.badge.name, 'descr' => x.badge.descr, 'image' => x.badge.available_image_url } }
+      badges = AvatarBadge.eager_load(:badge).where(:profile_id => profile.id).collect { |x| { 'id' => x.badge.id, 'name' => x.badge.name, 'descr' => x.badge.descr, 'image' => x.badge.available_image_url } }
       message = "#{profile.full_name} signed in."
       user = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_url, 'last_sign_in_at' => current_user.last_sign_in_at }
 
