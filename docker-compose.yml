@@ -1,0 +1,61 @@
+---
+version: "3"
+
+services:   
+  db:
+    restart: always
+    image: postgres:9.6-alpine
+    environment: 
+      POSTGRES_DB: levelfly
+      POSTGRES_USER: levelfly
+      POSTGRES_PASSWORD: test
+    shm_size: 256mb
+    networks:
+      - internal_network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+  app:
+    build: .
+    image: neuronic-games/levelfly
+    volumes:  
+      - ./:/var/app
+    environment: 
+      RAILS_ENV: production
+      DB_USER: levelfly
+      DB_NAME: levelfly
+      DB_PASSWORD: test
+      DB_HOST: db
+    depends_on:
+      - db
+    networks:
+      - external_network
+      - internal_network
+    ports: 
+      - 3000:3000
+  jobs:
+    build: .
+    image: neuronic-games/levelfly
+    env_file: .env
+    command: bundle exec rake jobs:work
+    volumes:  
+      - ./:/var/app
+    environment: 
+      RAILS_ENV: production
+      DB_USER: levelfly
+      DB_NAME: levelfly
+      DB_PASSWORD: test
+      DB_HOST: db
+    depends_on:
+      - app
+      - db
+    networks:
+      - external_network
+      - internal_network
+                
+                
+networks:
+  external_network:
+  internal_network:
+    internal: true
