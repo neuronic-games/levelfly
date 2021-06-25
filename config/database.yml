@@ -28,7 +28,7 @@ production:
   pool: 5
   timeout: 5000
   adapter: postgresql
-  host: postgres://db
+  host: db
   database: levelfly
   username: levelfly
   password: test
