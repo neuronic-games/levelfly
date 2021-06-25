@@ -37,7 +37,7 @@ These instructions have been tested on Linux & OSX. If you can add set-up instru
     ```
 8. Run the server and job workers:
     ```
-    bundle exec jobs:work &
+    bundle exec rake jobs:work &
     rails s
     ```
 
