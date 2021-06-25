@@ -13,7 +13,7 @@ services:
     networks:
       - internal_network
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgres"]
+      test: ["CMD", "pg_isready", "-U", "levelfly"]
     volumes:
       - ./postgres:/var/lib/postgresql/data
   app:
