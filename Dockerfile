@@ -2,7 +2,8 @@
 # gets the docker parent image
 FROM ruby:2.4.10
 
-RUN apt update && apt install -y npm libpq-dev
+RUN apt update && apt install -y npm libpq-dev \ 
+  && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /var/app
 COPY . /var/app
