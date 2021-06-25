@@ -10,5 +10,7 @@ COPY . /var/app
 WORKDIR /var/app
 
 RUN bundle install
+RUN bundle exec rake assets:precompile
+RUN bundle exec rake assets:clean
 EXPOSE 3000
 CMD rails s -b 0.0.0.0 -P /dev/null
