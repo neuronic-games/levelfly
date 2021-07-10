@@ -15,12 +15,13 @@ services:
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "levelfly"]
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
   app:
     build: .
     image: neuronic-games/levelfly
     volumes:  
       - ./:/var/app
+    env_file: .env
     environment: 
       RAILS_ENV: production
       DB_USER: levelfly
@@ -36,7 +37,7 @@ services:
       - 3000:3000
   jobs:
     build: .
-    image: neuronic-games/levelfly
+    image: neuronicgames/levelfly
     env_file: .env
     command: bundle exec rake jobs:work
     volumes:  
@@ -54,8 +55,10 @@ services:
       - external_network
       - internal_network
                 
-                
 networks:
   external_network:
   internal_network:
     internal: true
+
+volumes:
+  postgres_data:
