@@ -11,7 +11,11 @@ Oncapus::Application.configure do
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = true
+  #config.serve_static_assets = true
+  config.serve_static_files = true
+
+  # Set logging verbosity
+  config.log_level = :info
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
@@ -33,7 +37,7 @@ Oncapus::Application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  config.force_ssl = false
 
   # See everything in the log (default is :info)
   #config.logger = Logger.new(STDOUT)
@@ -71,11 +75,11 @@ Oncapus::Application.configure do
   Pusher.url = ENV['PUSHER_URL']
 
   ActionMailer::Base.smtp_settings = {
-    :address              => "smtp.mandrillapp.com",
-    :port                 => 587,
-    :domain               => ENV['MAIL_DOMAIN'],
-    :user_name            => ENV['MANDRILL_USERNAME'],
-    :password             => ENV['MANDRILL_APIKEY'],
+    :address              => ENV['SMTP_HOST'],
+    :port                 => ENV['SMTP_POST'],
+    :domain               => ENV['SMTP_DOMAIN'],
+    :user_name            => ENV['SMTP_USER'],
+    :password             => ENV['SMTP_PASSWORD'],
     :authentication       => "plain"
   }
 
@@ -83,5 +87,5 @@ Oncapus::Application.configure do
   ActionMailer::Base.default :content_type => "text/html"
 
   # oink
-  config.middleware.use( Oink::Middleware, :logger => Hodel3000CompliantLogger.new(STDOUT))
+  #config.middleware.use( Oink::Middleware, :logger => Hodel3000CompliantLogger.new(STDOUT))
 end

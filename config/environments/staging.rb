@@ -62,11 +62,11 @@ Oncapus::Application.configure do
   config.action_mailer.default_url_options = { :host => 'levelfly-staging.herokuapp.com' }
   
   ActionMailer::Base.smtp_settings = {
-    :address              => "smtp.mandrillapp.com",
-    :port                 => 587,
-    :domain               => "herokuapp.com",
-    :user_name            => ENV['MANDRILL_USERNAME'],
-    :password             => ENV['MANDRILL_APIKEY'],
+    :address              => ENV['SMTP_HOST'],
+    :port                 => ENV['SMTP_POST'],
+    :domain               => ENV['SMTP_DOMAIN'],
+    :user_name            => ENV['SMTP_USER'],
+    :password             => ENV['SMTP_PASSWORD'],
     :authentication       => "plain"
   }
   

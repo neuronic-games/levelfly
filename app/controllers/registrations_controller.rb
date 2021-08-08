@@ -5,7 +5,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def create
-    puts "Using #{ENV['MANDRILL_USERNAME']} for mail"
+    puts "Using #{ENV['SMTP_USER']} for mail"
     
     @user = User.find_by_email(params[:user][:email])
     @school = school

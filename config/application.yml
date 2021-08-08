@@ -1,11 +1,14 @@
 # Application configuration that is loaded as environment variables
 # This is only loaded in the development environment from development.rb
-# In production, the variables are set in Heroku environment
+# In production, the variables are set by Heroku / Docker Swarm
 
 MAILER_DEFAULT_URL: localhost:3000
-# For outgoing emails - edit environments/development.rb to use Mandrill
-#MANDRILL_APIKEY: AAAAAAAAAAAAAAAAAAAAAA
-#MANDRILL_USERNAME: user@example.com
+# For outgoing emails - edit config/environments/development.rb
+#SMTP_PASSWORD: AAAAAAAAAAAAAAAAAAAAAA
+#SMTP_USER: user@example.com
+#SMTP_HOST: smtp.example.com
+#SMTP_PORT: 587
+#SMTP_DOMAIN: example.com
 
 # For notifications
 PUSHER_SOCKET_URL: ws://ws.pusherapp.com/app/ID
