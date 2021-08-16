@@ -80,7 +80,7 @@ Oncapus::Application.configure do
     :address              => ENV['SMTP_HOST'],
     :port                 => ENV['SMTP_POST'],
     :domain               => ENV['SMTP_DOMAIN'],
-    :user_name            => ENV['SMTP_USER'],
+    :user_name            => ENV['SMTP_USERNAME'],
     :password             => ENV['SMTP_PASSWORD'],
     :authentication       => "plain"
   }
