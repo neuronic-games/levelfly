@@ -74,6 +74,8 @@ Oncapus::Application.configure do
 
   Pusher.url = ENV['PUSHER_URL']
 
+  puts(ENV)
+
   ActionMailer::Base.smtp_settings = {
     :address              => ENV['SMTP_HOST'],
     :port                 => ENV['SMTP_POST'],
