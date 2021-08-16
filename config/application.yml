@@ -22,6 +22,6 @@ S3_SECRET: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 # Used to prefix URLs (e.g. reference to images in emails)
 URL: http://localhost:3000
 
-MAIL_DOMAIN: localhost
+SMTP_DOMAIN: localhost
 
 SUPPORT_EMAIL: test@example.com
