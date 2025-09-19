@@ -2,7 +2,9 @@
 # gets the docker parent image
 FROM ruby:2.4.10
 
-RUN apt update && apt install -y npm libpq-dev \ 
+RUN sed -i 's/[^/.]*.debian.org/archive.debian.org/g' /etc/apt/sources.list
+
+RUN apt update --allow-releaseinfo-change && apt install -y npm libpq-dev \ 
   && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /var/app
