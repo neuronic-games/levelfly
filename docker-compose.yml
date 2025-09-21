@@ -20,9 +20,10 @@ services:
     build: .
     image: neuronic-games/levelfly
     volumes:  
-      - ./:/var/app
+      - ./:/var/app:Z
     env_file: .env
     environment: 
+      NEW_RELIC_AGENT_ENABLED: false
       RAILS_ENV: production
       DB_USER: levelfly
       DB_NAME: levelfly
