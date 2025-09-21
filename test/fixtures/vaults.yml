@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-one:
-  vault_type: AWS S3
-  target_id: 705671266
-  target_type: School
-  account: AKIAJMV6IAIXZQJJ2GHQ
-  secret: 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
-  folder: com.neuronicgames.oncampus.test/test

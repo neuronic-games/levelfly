@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-basic:
-  name: Basic
-  available_date: 2011-10-21
-  available_level: 1
-  visible_date: 2011-10-21
-  visible_level: 1
-  archived: false
