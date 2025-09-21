@@ -54,14 +54,32 @@ admin_profile = Profile.create(user: admin, school: school, full_name: 'Neuronic
 default_profile = Profile.create(code: 'DEFAULT', school: school,
                                  image_file_name: Profile.default_avatar_image)
 
-# Role.create(:name => "edit_user", :profile => admin_profile)
-# Role.create(:name => "modify_rewards", :profile => admin_profile)
-# Role.create(:name => "modify_wardrobe", :profile => admin_profile)
-# Role.create(:name => "modify_settings", :profile => admin_profile)
-# Role.create(:name => "create_task", :profile => admin_profile)
-# Role.create(:name => "create_group", :profile => admin_profile)
-# Role.create(:name => "create_course", :profile => admin_profile)
-# Role.create(:name => "edit_grade", :profile => admin_profile)
+# NOTE: Copied from db/migrate/20140221194927_add_named_roles.rb temporarily
+create_group = Permission.find_or_create_by(name: 'create_group')
+modify_wardrobe = Permission.find_or_create_by(name: 'modify_wardrobe')
+modify_settings = Permission.find_or_create_by(name: 'modify_settings')
+create_course = Permission.find_or_create_by(name: 'create_course')
+edit_user = Permission.find_or_create_by(name: 'edit_user')
+modify_rewards = Permission.find_or_create_by(name: 'modify_rewards')
+create_task = Permission.find_or_create_by(name: 'create_task')
+edit_grade = Permission.find_or_create_by(name: 'edit_grade')
+
+student = RoleName.find_or_create_by(name: 'Student')
+teacher = RoleName.find_or_create_by(name: 'Teacher')
+school_admin = RoleName.find_or_create_by(name: 'School Admin')
+levelfly_admin = RoleName.find_or_create_by(name: 'Levelfly Admin')
+
+student.permissions = [create_group]
+teacher.permissions = student.permissions + [create_course, create_task, edit_grade]
+school_admin.permissions = teacher.permissions + [edit_user]
+levelfly_admin.permissions = school_admin.permissions + [modify_settings, modify_wardrobe, modify_rewards]
+
+student.save
+teacher.save
+school_admin.save
+levelfly_admin.save
+
+# NOTE: End copypasta
 
 role_name = RoleName.find_by_name('Levelfly Admin')
 

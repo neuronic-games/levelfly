@@ -21,6 +21,7 @@ RSpec.configure do |config|
 
   config.include Devise::TestHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::IntegrationHelpers, type: :request
 
   config.include FactoryGirl::Syntax::Methods
 
@@ -34,7 +35,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-    # load "#{Rails.root}/db/seeds.rb"
+    Rails.application.load_seed
   end
 
   config.before(:each) do
@@ -50,7 +51,8 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    DatabaseCleaner.clean
+    # FIXME: NoMethodError: undefined method `lock' for #<ActiveRecord::ConnectionAdapters::PostgreSQLAdapter:0x000000002d665c88>
+    # DatabaseCleaner.clean
   end
 
   # RSpec Rails can automatically mix in different behaviours to your tests
