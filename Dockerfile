@@ -1,6 +1,6 @@
 # Dockerfile
 # gets the docker parent image
-FROM ruby:2.4.10
+FROM ruby:2.5.9
 
 RUN sed -i 's/[^/.]*.debian.org/archive.debian.org/g' /etc/apt/sources.list
 

@@ -17,7 +17,6 @@ def generate_users(count, u_school, p_school, role_name)
     Role.create(:name => "modify_wardrobe", :profile => user_profile)
     Role.create(:name => "modify_settings", :profile => user_profile)
 
-
     role_name.profiles << user_profile
     user_profile.role_name = role_name
     user_profile.save

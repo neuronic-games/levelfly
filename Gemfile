@@ -1,10 +1,11 @@
 source 'http://rubygems.org'
 
-ruby '2.4.10'
-gem 'rails', '~> 4.0'
+ruby '2.5.9'
+gem 'rails', '5.0.7.2'
 gem 'pg', '~> 0.18'
-gem 'thin'
+gem 'thin', '1.8.0'
 
+gem 'nokogiri', '~> 1.12'
 gem 'em-http-request'
 gem 'rake' , '>= 0.9.2'
 gem 'json', '>= 1.8.5'
@@ -15,9 +16,6 @@ gem 'rails_autolink'
 gem 'newrelic_rpm'
 gem 'rails-observers'
 gem 'activesupport'
-gem 'protected_attributes'
-
-gem 'activerecord-deprecated_finders', require: 'active_record/deprecated_finders'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -43,3 +41,13 @@ gem 'useragent', '0.16.7'
 
 gem "pry", "~> 0.13.1"
 gem "oink"
+
+gem "rspec", "~> 3.13"
+
+gem "rspec-rails", "~> 4.1"
+
+gem "capybara-rails", "~> 0.0.2"
+
+gem "factory_girl_rails", "~> 4.9"
+
+gem "selenium-webdriver", "~> 3.142"
