@@ -2,10 +2,8 @@ development:
   #adapter: mysql
   adapter: postgresql
   database: levelfly
-  username: postgres
-  password: postgres
-  #username: postgres_db
-  #password: postgres_db
+  username: levelfly
+  password: levelfly
   encoding: UTF8
   host: localhost
   pool: 5

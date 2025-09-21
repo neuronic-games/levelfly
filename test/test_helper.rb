@@ -9,5 +9,8 @@ class ActiveSupport::TestCase
   # -- they do not yet inherit this setting
   fixtures :all
 
+  # Necessary to avoid Devise::MissingWarden
+  include Devise::Test::IntegrationHelpers
+
   # Add more helper methods to be used by all tests here...
 end

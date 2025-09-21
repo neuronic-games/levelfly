@@ -3,13 +3,13 @@ FactoryGirl.define do
   factory :user do
     email 'admin@test-admin.com'
     password '111111'
-    default_school_id 2
+    default_school factory: :school
     confirmed_at Time.now
   end
 
   factory :profile do
     full_name 'Admin Test'
-    school_id 2
+    school factory: :school
     user
   end
 

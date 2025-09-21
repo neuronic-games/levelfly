@@ -2,28 +2,6 @@
 
 default:
   profile: default
-  level: 1
-  points: 0
-  badge_count: 0
-  skin: 3
-  body: avatar/body/body_3
-  head: avatar/head/heart_3
-  hair: avatar/hair/short_wavy_3
-  hair_back: avatar/hair/short_wavy_3_back
-  top: basic/tops/shirt_short_sleeve_cyan
-  bottom: basic/bottoms/trousers_long_brown
-  shoes: basic/shoes/sneakers_gray
 
 admin:
   profile: admin
-  level: 1
-  points: 0
-  badge_count: 0
-  skin: 3
-  body: avatar/body/body_3
-  head: avatar/head/heart_3
-  hair: avatar/hair/short_wavy_3
-  hair_back: avatar/hair/short_wavy_3_back
-  top: basic/tops/shirt_short_sleeve_cyan
-  bottom: basic/bottoms/trousers_long_brown
-  shoes: basic/shoes/sneakers_gray

@@ -16,9 +16,11 @@ require 'factory_girl_rails'
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
-  Capybara.javascript_driver = :webkit
+  Capybara.javascript_driver = :selenium
+  Capybara.server = :webrick
 
   config.include Devise::TestHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
 
   config.include FactoryGirl::Syntax::Methods
 
@@ -32,7 +34,6 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-    Rails.application.load_seed
     # load "#{Rails.root}/db/seeds.rb"
   end
 
