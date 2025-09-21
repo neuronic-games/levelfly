@@ -37,7 +37,7 @@ class Role < ActiveRecord::Base
 
   def self.course_master?(profile_id, course_id)
     @courseMaster = Profile.where( ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", course_id])
-      .include([:participants])
+      .includes([:participants])
       .joins([:participants])
       .first
       .id == profile_id

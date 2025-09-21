@@ -87,7 +87,7 @@ class Task < ActiveRecord::Base
     end
 
     tasks = Task.where( conditions)
-      .include([:task_participants])
+      .includes([:task_participants])
       .order("priority asc,due_date")
       .joins([:task_participants])
   end
@@ -111,7 +111,7 @@ class Task < ActiveRecord::Base
     end
 
     Task.where( conditions)
-      .include([:task_participants])
+      .includes([:task_participants])
       .order("priority asc, due_date")
       .joins([:task_participants])
   end
@@ -120,12 +120,12 @@ class Task < ActiveRecord::Base
   def self.sort_tasks(profile_id,course_id)
     @tasks = [];
     task_ids = Task.where( ["tasks.course_id = ? and task_participants.profile_id = ? and tasks.archived = ? and (tasks.category_id is null or tasks.category_id = ?)",course_id,profile_id,false,0])
-      .include([:category, :task_participants])
+      .includes([:category, :task_participants])
       .order("tasks.due_date,tasks.created_at")
       .joins([:task_participants])
       .map(&:id)
     categorised_task_ids = Task.where( ["tasks.course_id = ? and task_participants.profile_id = ? and categories.course_id = ? and tasks.archived = ?",course_id,profile_id,course_id,false])
-      .include([:category, :task_participants])
+      .includes([:category, :task_participants])
       .order("percent_value,categories.name,due_date,tasks.created_at")
       .joins([:task_participants])
       .map(&:id)
@@ -177,7 +177,7 @@ class Task < ActiveRecord::Base
   def self.complete_task(task_id, complete, profile_id)
     status = nil
     participant = TaskParticipant.where(["task_id = ? and profile_id = ?", task_id, profile_id])
-      .include([:profile, :task])
+      .includes([:profile, :task])
     return status if participant.nil?
 
     profile = participant.profile
@@ -260,7 +260,7 @@ class Task < ActiveRecord::Base
   def self.points_to_student(task_id, complete, profile_id,current_user)
     status = nil
     participant = TaskParticipant.where(["task_id = ? and profile_id = ?", task_id, profile_id])
-      .include([:profile, :task])
+      .includes([:profile, :task])
     if participant
       profile = participant.profile
       task = participant.task
@@ -291,7 +291,7 @@ class Task < ActiveRecord::Base
   def task_owner
     if @owner == nil
       @owner = Profile.where( [ "task_participants.task_id = ? AND task_participants.profile_type = ?", self.id, Task.profile_type_owner ])
-        .include([:task_participants])
+        .includes([:task_participants])
         .joins([:task_participants])
         .first
     end

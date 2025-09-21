@@ -91,7 +91,7 @@ class Profile < ActiveRecord::Base
     profile = Profile.where("user_id = ? and school_id = ?", user_id, school_id).first
     if profile.nil?
       new_profile = Profile.where(["code = ? and school_id = ?", default, school_id])
-        .include([:avatar])
+        .includes([:avatar])
         .first
 
       if default == 'DEFAULT' and new_profile.nil?
@@ -260,7 +260,7 @@ class Profile < ActiveRecord::Base
 
     # Course forum messages
     forumn_ids = Course.select("id").where( [ "participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?", self.id, course_id, false, false ])
-      .include([:participants])
+      .includes([:participants])
       .joins([:participants])
     forumn_ids.each do |forumn_id|
       total_like += Message.where("profile_id = ? and parent_type = ? and parent_id = ?", self.id, Course.parent_type_forum, forumn_id).sum(:like)

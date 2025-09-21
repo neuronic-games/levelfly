@@ -4,7 +4,7 @@ class WardrobeController < ApplicationController
   before_filter :check_role
   
   def index
-    @wardrobe_item_lvel_0 = WardrobeItem.where(["depth = 0"] ,:order=>"sort_order")
+    @wardrobe_item_lvel_0 = WardrobeItem.where(["depth = 0"]).order("sort_order")
     respond_to do |wants|
       wants.html do
         if request.xhr?

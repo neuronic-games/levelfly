@@ -10,7 +10,7 @@ class LeaderBoardController < ApplicationController
   end
 
   def get_rows
-    @profile = Profile.where(["user_id = ?", current_user.id]).first
+    @profile = Profile.where(["user_id = ?", current_user.id]).first!
 
     # filter is "school", "course" or "friend"
     filter = params[:filter]
@@ -22,7 +22,7 @@ class LeaderBoardController < ApplicationController
       course_ids = Participant.where(
         ["target_type = 'Course' and profile_id = ? and profile_type in ('M', 'S')", @profile.id]
       )
-      .select("distinct target_id as course_id").map(&:course_id)
+      .select("distinct target_id as course_id").map(&:course_ids)
       conditions[0] += " and participants.target_type = 'Course' and participants.profile_type in ('M', 'S') and participants.target_id in (?)"
       conditions << course_ids
     elsif filter == "friend"
@@ -34,12 +34,14 @@ class LeaderBoardController < ApplicationController
         .includes([:participants])
         .joins([:participants])
         .order("xp desc")
+        .to_a
     else
       profiles_temp = Profile.where( conditions)
         .limit(50)
         .includes([:participants])
         .order("xp desc")
         .joins([:participants])
+        .to_a
     end
     
         

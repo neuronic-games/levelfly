@@ -36,7 +36,7 @@ class CourseController < ApplicationController
           @courses = course_list.sort  # Sort by semester sort rules
         end
         if section_type == 'G'
-          message_ids = MessageViewer.where(["viewer_profile_id = ?", @profile.id]).select(message_id).collect(&:message_id)
+          message_ids = MessageViewer.where(["viewer_profile_id = ?", @profile.id]).select(:message_id).collect(&:message_id)
           @invites = Message.invites('group_invite', @profile.id, message_ids)
           @user_group = false
           @courses = Course.all_group(@profile,"M")
@@ -152,12 +152,10 @@ class CourseController < ApplicationController
     @member_count = Profile.course_participants(@course.id, section_type).count
 
     @member = Participant.where( ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id]).first
-    @pending_count = Profile.count(
-      :all,
-      :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')", @course.id],
-      :joins => [:participants]
-    )
+    @pending_count = Profile.where(["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')", @course.id])
+      .includes([:participants])
+      .joins(:participants)
+      .count
     @courseMaster = Profile.where( ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", @course.id])
       .includes([:participants])
       .joins([:participants])
@@ -621,12 +619,10 @@ class CourseController < ApplicationController
 
     @member = Participant.where(["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id]
 ).first
-    @pending_count = Profile.count(
-      :all,
-      :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P')", @course.id],
-      :joins => [:participants]
-    )
+    @pending_count = Profile.where(["participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P')", @course.id])
+      .includes([:participants])
+      .joins([:participants])
+      .count
     @courseMaster = Profile.where( ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]])
       .includes([:participants])
       .joins([:participants])
@@ -718,7 +714,7 @@ class CourseController < ApplicationController
       task = Task.find(params[:id])
       @course = task.course
     end
-    @profile = Profile.find(params[:profile_id]).first
+    @profile = Profile.find(params[:profile_id])
     #@vault = Vault.find(:first, :conditions => ["target_id = ? and target_type = 'School' and vault_type = 'AWS S3'", school_id])
     #if @vault
       @attachment = Attachment.new(:resource=>params[:file], :target_type=>params[:target_type], :target_id=>course_id, :school_id=>school_id, :owner_id=>user_session[:profile_id])

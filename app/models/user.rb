@@ -189,31 +189,32 @@ class User < ActiveRecord::Base
             .joins(:user)
         end
       elsif id == "members_of_courses"
-        course_ids = Course.where(["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "C", school_id]).collect(&:id)
+        course_ids = Course.where(["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "C", school_id])
         .distinct
         .order("name")
-        profile_ids = Participant.where(["target_id IN (?)",course_ids]).collect(&:profile_id).distinct
+        .collect(&:id)
+        profile_ids = Participant.where(["target_id IN (?)",course_ids]).distinct.collect(&:profile_id)
       elsif id == "members_of_groups"
         course_ids = Course.where(["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "G", school_id])
           .distinct
           .order("name")
           .collect(&:id)
-        profile_ids = Participant.where(["target_id IN (?)",course_ids]).collect(&:profile_id).distinct
+        profile_ids = Participant.where(["target_id IN (?)",course_ids]).distinct.collect(&:profile_id)
       elsif id == "organizers_of_courses"
         course_ids = Course.where(["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "C", school_id])
           .order("name")
           .collect(&:id)
-        profile_ids = Participant.where(["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).distinct
+        profile_ids = Participant.where(["target_id IN (?) AND profile_type = 'M'", course_ids]).distinct.collect(&:profile_id)
       elsif id == "organizers_of_groups"
         course_ids = Course.where(["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "G", school_id])
           .order("name")
           .collect(&:id)
-        profile_ids = Participant.where(["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).distinct
+        profile_ids = Participant.where(["target_id IN (?) AND profile_type = 'M'", course_ids]).distinct.collect(&:profile_id)
       elsif id == "organizers_of_courses_and_groups"
         course_ids = Course.where(["archived = ? and removed = ? and name is not null and school_id = ?", false, false, school_id])
           .order("name")
           .collect(&:id)
-        profile_ids = Participant.where(["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).distinct
+        profile_ids = Participant.where(["target_id IN (?) AND profile_type = 'M'", course_ids]).distinct.collect(&:profile_id)
       else
         course_ids = []
         if params[:id].split('_').count > 1          

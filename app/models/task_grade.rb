@@ -111,7 +111,7 @@ class TaskGrade < ActiveRecord::Base
   
   def self.sort_tasks_grade(profile_id, course_id)
     graded_tasks_ids = TaskGrade.where( [ "task_grades.course_id = ? and task_grades.profile_id = ? and task_grades.grade IS NOT NULL and tasks.archived = 'false'", course_id, profile_id ])
-      .include([:task])
+      .includes([:task])
       .joins([:task])
       .map(&:task_id)
     return graded_tasks_ids

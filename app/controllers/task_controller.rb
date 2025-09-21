@@ -10,10 +10,10 @@ class TaskController < ApplicationController
     @profile = current_profile
     if @profile
       @courses = Course.where( [ "participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ? AND courses.removed = ? ", @profile.id, Course.parent_type_course, Course.profile_type_pending, false, false ])
-        .distinct
         .includes([:participants])
-        .order('name')
         .joins([:participants])
+        .order('courses.name')
+        .distinct
 
       if params[:search_text]
         search_text =  "%#{params[:search_text]}%"
@@ -470,10 +470,10 @@ class TaskController < ApplicationController
   def view_task
     @profile = current_profile
     @courses = Course.where( ["participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?", @profile.id, Course.parent_type_course, Course.profile_type_pending, false])
-        .distinct
-        .includes([:participants])
-        .order('name')
-        .joins([:participants])
+      .distinct
+      .includes([:participants])
+      .order('courses.name')
+      .joins([:participants])
     @tasks = Task.filter_by(@profile.id, params[:course_id], "current")
     render :partial => "/task/list", :locals=>{:tasks=>@tasks,:course_id=>params[:course_id]}
   end

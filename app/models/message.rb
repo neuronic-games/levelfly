@@ -227,7 +227,7 @@ class Message < ActiveRecord::Base
     update_attribute('starred',(  starred == true ? false : true))
 
     course_master = Profile.where( [ "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", parent_id ])
-      .include([:participants])
+      .includes([:participants])
       .joins([:participants])
       .first
 
@@ -292,7 +292,7 @@ class Message < ActiveRecord::Base
 
   def push_course_message
     courseMaster = Profile.where( ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", parent_id])
-      .include([:participants])
+      .includes([:participants])
       .joins([:participants])
       .first
     receivers = Profile.course_participants(parent_id, 'Course').map(&:id) + [courseMaster.id] - [profile_id]

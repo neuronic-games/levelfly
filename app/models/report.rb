@@ -11,7 +11,7 @@ class Report < ActiveRecord::Base
     people_in_groups = Set.new
     courses.each do |course|
       participants = Participant.where(["target_type = ? and target_id = ? and users.status = ?", 'Course', course.id, User.status_active])
-        .include([:profile, :profile => [:user]])
+        .includes([:profile, :profile => [:user]])
         .order("profile_type, profiles.full_name")
       puts "#{course.parent_type == Course.parent_type_course ? 'COURSE' : 'GROUP'}, #{course.name}, #{course.id}, #{course.code}, #{course.semester}, #{course.year}, #{participants.count}"
       puts

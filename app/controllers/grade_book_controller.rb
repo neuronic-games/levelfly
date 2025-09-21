@@ -19,14 +19,13 @@ class GradeBookController < ApplicationController
       wants.html do
         @data = {
           :tasks => Course.sort_course_task(@course_id),
-          :categories => Category.all(:conditions => {:course_id => @course_id, :school_id => @school_id}),
-          :participant => Participant.all( :joins => [:profile => :user],
-            :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", @course_id],
-            :select => ["profiles.full_name,participants.id,participants.profile_id"],
-            :order => "full_name"
-            ),
+          :categories => Category.where({:course_id => @course_id, :school_id => @school_id}),
+          :participant => Participant.where(["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", @course_id])
+            .joins([:profile => :user])
+            .select(["profiles.full_name,participants.id,participants.profile_id"])
+            .order("full_name"),
           :grade_types => GradeType.order("value DESC"),
-          :task_grades => TaskGrade.all(:conditions => { :course_id => @course_id, :school_id => @school_id })
+          :task_grades => TaskGrade.where({ :course_id => @course_id, :school_id => @school_id })
         }
 
         if request.xhr?
@@ -88,14 +87,13 @@ class GradeBookController < ApplicationController
 
         @data = {
           :tasks => Course.sort_course_task(@course_id),
-          :categories => Category.all(:conditions => {:course_id => @course_id}),
-          :participant => Participant.all( :joins => [:profile => :user],
-            :conditions => ["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", @course_id],
-            :select => ["profiles.full_name,participants.id,participants.profile_id"],
-            :order => "full_name"
-            ),
+          :categories => Category.where({:course_id => @course_id}),
+          :participant => Participant.where(["participants.target_id = ? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'", @course_id])
+            .joins([:profile => :user])
+            .select(["profiles.full_name,participants.id,participants.profile_id"])
+            .order("full_name"),
           :grade_types => GradeType.order("value DESC"),
-          :task_grades => TaskGrade.all(:conditions => { :course_id => @course_id })
+          :task_grades => TaskGrade.where({ :course_id => @course_id})
         }
 
         render :partial => "/grade_book/load_data"
