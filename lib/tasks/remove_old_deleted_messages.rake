@@ -5,22 +5,30 @@ task :remove_old_deleted_messages => :environment do
   courses.each do |course|
     course_partcipants = course.participants
     course_partcipants.each do |participant|
-      participant_message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", participant.profile_id]).collect(&:message_id)
+      participant_message_ids = MessageViewer.where(:select => "message_id", ["viewer_profile_id = ?", participant.profile_id]).collect(&:message_id).first
 
-      owner_message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", course.owner.id]).collect(&:message_id)
+      owner_message_ids = MessageViewer.where(["viewer_profile_id = ?", course.owner.id])
+        .select("message_id")
+        .collect(&:message_id)
 
-      participant_course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = ? and id in(?)", course.id, course.parent_type, participant_message_ids]).collect(&:id)
+      participant_course_messages = Message.where(["parent_id = ? AND parent_type = ? and id in(?)", course.id, course.parent_type, participant_message_ids]).collect(&:id)
 
-      owner_course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = ? and id in(?)", course.id, course.parent_type, owner_message_ids]).collect(&:id)
+      owner_course_messages = Message.where(["parent_id = ? AND parent_type = ? and id in(?)", course.id, course.parent_type, owner_message_ids]).collect(&:id)
 
       delete_messages = participant_course_messages - owner_course_messages
 
       owner_course_messages.each do|message|
-        comment_ids = Message.find(:all, :select => "id" ,:conditions=>["parent_id = ? AND parent_type='Message'", message]).collect(&:id)
+        comment_ids = Message.where(["parent_id = ? AND parent_type='Message'", message])
+          .select("id")
+          .collect(&:id)
 
-        owner_comment_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ? and message_id in(?)", course.owner.id,comment_ids]).collect(&:message_id)
+        owner_comment_ids = MessageViewer.where(["viewer_profile_id = ? and message_id in(?)", course.owner.id,comment_ids])
+          .select("message_id")
+          .collect(&:message_id)
 
-        participant_comment_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ? and message_id in(?)", participant.profile_id,comment_ids]).collect(&:message_id)
+        participant_comment_ids = MessageViewer.where(["viewer_profile_id = ? and message_id in(?)", participant.profile_id,comment_ids])
+          .select("message_id")
+          .collect(&:message_id)
 
         delete_messages.concat(participant_comment_ids - owner_comment_ids)
       end

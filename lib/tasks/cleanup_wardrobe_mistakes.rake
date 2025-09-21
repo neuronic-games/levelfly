@@ -5,12 +5,12 @@ task :cleanup_wardrobe_mistakes => :environment do
     w.save
   end
   
-  wi_list = WardrobeItem.find(:all, :conditions => {:name => "Purple Man"})
+  wi_list = WardrobeItem.where({:name => "Purple Man"})
   wi_list.each do |wi|
     wi.name = "Purple Power"
     wi.save
   end
   
-  wi = WardrobeItem.find(:first, :conditions => {:name => "Superhero", :item_type => "shoes"})
+  wi = WardrobeItem.where({:name => "Superhero", :item_type => "shoes"}).first
   wi.destroy if wi
 end

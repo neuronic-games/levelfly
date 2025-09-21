@@ -119,7 +119,7 @@ class UsersController < ApplicationController
     @people = User.find_with_filters(id, profile_id, params)
      if @people
        @msg_content = CGI::unescape(params[:mail_msg])
-       @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+       @current_user = Profile.where(["user_id = ?", current_user.id]).first
        @people.each do |people|
          Message.save_message(@current_user,people,"Profile",@msg_content,"Message") unless people.id == @current_user.id
        end
@@ -227,12 +227,12 @@ class UsersController < ApplicationController
     student_code = params[:student_code].upcase
     teacher_code = params[:teacher_code].upcase
 
-    if School.find(:first, :conditions => ['id != :id AND (student_code = :code OR teacher_code = :code)', {:id => @school.id, :code => student_code}])
+    if School.where(['id != :id AND (student_code = :code OR teacher_code = :code)', {:id => @school.id, :code => student_code}]).first
       render :json => {:status => false, :field => 'student_code'}
       return
     end
 
-    if School.find(:first, :conditions => ['id != :id AND (student_code = :code OR teacher_code = :code)', {:id => @school.id, :code => teacher_code}])
+    if School.where(['id != :id AND (student_code = :code OR teacher_code = :code)', {:id => @school.id, :code => teacher_code}]).first
       render :json => {:status => false, :field => 'teacher_code'}
       return
     end

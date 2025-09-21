@@ -1,13 +1,14 @@
 module MessageHelper
 
   def comment_list(message_id)
-    @comment = Message.find(:all, :conditions => ["archived = ? AND parent_id = ? AND parent_type = 'Message'", false, message_id], :order => 'created_at ASC')
+    @comment = Message.where(["archived = ? AND parent_id = ? AND parent_type = 'Message'", false, message_id])
+    .order('created_at ASC')
     @comments = @comment.reverse.reverse
     return @comments
   end
   
   def user_like(profile_id, message_id)
-    @user_like = Like.find(:first, :conditions=>["profile_id = ? AND message_id = ?", profile_id, message_id])
+    @user_like = Like.where(["profile_id = ? AND message_id = ?", profile_id, message_id]).first
     if @user_like
       return true
     else 
@@ -16,7 +17,7 @@ module MessageHelper
   end
   
   def is_friend(target_id, profile_id)
-    @friends = Participant.find(:first, :conditions=>["target_id = ? AND profile_id = ? AND profile_type = 'F'", target_id, profile_id])
+    @friends = Participant.where(["target_id = ? AND profile_id = ? AND profile_type = 'F'", target_id, profile_id]).first
     if @friends
       return true
     else 
@@ -34,12 +35,12 @@ module MessageHelper
   end
   
   def is_course_request_pending(target_id,profile_id)
-    @course_request = Participant.find(:first, :conditions=>["profile_id = ? AND target_id=? AND target_type='Course'", profile_id,target_id]) 
+    @course_request = Participant.where(["profile_id = ? AND target_id=? AND target_type='Course'", profile_id,target_id]).first
     return @course_request
   end
   
   def is_request_pending(parent_id, profile_id)
-    @friend_request = Message.find(:first, :conditions=>["parent_id = ? AND profile_id = ? AND message_type = 'Friend' AND (archived is NULL or archived = ?)", parent_id, profile_id, false])
+    @friend_request = Message.where(["parent_id = ? AND profile_id = ? AND message_type = 'Friend' AND (archived is NULL or archived = ?)", parent_id, profile_id, false]).first
     if @friend_request
       return true
     else 
@@ -60,7 +61,8 @@ module MessageHelper
   end
   
   def last_message(profile_id,current_user)
-   message = Message.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_type in ('Message') and target_type = 'Profile' and parent_type = 'Profile' and ((profile_id = ? and parent_id = ?) or (profile_id = ? and parent_id = ?))",false,current_user,profile_id,profile_id,current_user],:order => "updated_at DESC")
+   message = Message.where(["(archived is NULL or archived = ?) AND message_type in ('Message') and target_type = 'Profile' and parent_type = 'Profile' and ((profile_id = ? and parent_id = ?) or (profile_id = ? and parent_id = ?))",false,current_user,profile_id,profile_id,current_user])
+    .order("updated_at DESC")
     if message
       return message.updated_at
     
@@ -69,19 +71,17 @@ module MessageHelper
   end
   
   def messages_viewed(profile_ids,current_user)
-    Message.active.interesting.between(profile_ids, current_user).find(
-      :all,
-      :select => 'distinct message_viewers.poster_profile_id',
-      :joins => :message_viewers,
-      :conditions => {
-        :message_viewers => {
-          :archived => false,
-          :poster_profile_id => profile_ids,
-          :viewer_profile_id => current_user,
-          :viewed => false
-        }
+    Message.active.interesting.between(profile_ids, current_user).where(
+      :message_viewers => {
+        :archived => false,
+        :poster_profile_id => profile_ids,
+        :viewer_profile_id => current_user,
+        :viewed => false
       }
-    ).map(&:poster_profile_id).map(&:to_i)
+    )
+      .select('distinct message_viewers.poster_profile_id')
+      .joins(:message_viewers)
+      .map(&:poster_profile_id).map(&:to_i)
   end
   
   def message_content(text) 

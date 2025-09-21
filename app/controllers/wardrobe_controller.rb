@@ -4,7 +4,7 @@ class WardrobeController < ApplicationController
   before_filter :check_role
   
   def index
-    @wardrobe_item_lvel_0 = WardrobeItem.find(:all, :conditions=>["depth = 0"] ,:order=>"sort_order")
+    @wardrobe_item_lvel_0 = WardrobeItem.where(["depth = 0"] ,:order=>"sort_order")
     respond_to do |wants|
       wants.html do
         if request.xhr?
@@ -18,7 +18,9 @@ class WardrobeController < ApplicationController
   
   def show
     if params[:id]
-      @profile = Profile.find(:first,  :select => "school_id", :conditions=>["user_id = ?", current_user.id])
+      @profile = Profile.where(["user_id = ?", current_user.id])
+        .select("school_id")
+        .first
       #@vault = Vault.find(:first, 
       #  :conditions => ["target_id = ? and target_type = 'School' and vault_type = 'AWS S3'", @profile.school_id])
       @wardrobe_item = WardrobeItem.find(params[:id])
@@ -37,7 +39,9 @@ class WardrobeController < ApplicationController
   end
 
   def new
-    @profile = Profile.find(:first,  :select => "school_id", :conditions=>["user_id = ?", current_user.id])
+    @profile = Profile.where(["user_id = ?", current_user.id])
+      .select("school_id")
+      .first
     #@vault = Vault.find(:first, 
     #  :conditions => ["target_id = ? and target_type = 'School' and vault_type = 'AWS S3'", @profile.school_id])
     respond_to do |wants|
@@ -80,7 +84,8 @@ class WardrobeController < ApplicationController
   
   def load_wardrobe_items
     if params[:wardrobe_item_id] && !params[:wardrobe_item_id].empty?
-      @wardrobe_items = WardrobeItem.find(:all, :conditions=>["parent_item_id = ?", params[:wardrobe_item_id]], :order => "sort_order")
+      @wardrobe_items = WardrobeItem.where(["parent_item_id = ?", params[:wardrobe_item_id]])
+      .order("sort_order")
       render :partial => "/wardrobe/wardrobe_items"
     else
       render :nothing => true

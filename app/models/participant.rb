@@ -27,9 +27,7 @@ class Participant < ActiveRecord::Base
   def self.is_member_of(target_type, target_id, profile_id, profile_type = ['M', 'S'])
     is_participant = false
     
-    p = Participant.find(:first, 
-      :conditions => ["target_type = ? and target_id = ? and profile_id = ? and profile_type in (?)", 
-        target_type, target_id, profile_id, profile_type])
+    p = Participant.where(["target_type = ? and target_id = ? and profile_id = ? and profile_type in (?)", target_type, target_id, profile_id, profile_type]).first
 
     is_participant = !p.nil?
     

@@ -1,7 +1,4 @@
 class Profile < ActiveRecord::Base
-
-  attr_accessible :user_id, :school_id, :major_id, :code, :name, :full_name, :salutation, :primary, :archived, :like_given, :like_received, :post_count, :image_file_name, :image_content_type, :image_file_size, :xp, :badge_count, :level, :contact_info, :wardrobe, :interests, :all_comments, :post_date_format, :role_name_id, :extended_logout, :is_public, :friend_privilege
-
   has_one :avatar
   belongs_to :major
   belongs_to :school
@@ -51,7 +48,7 @@ class Profile < ActiveRecord::Base
 
   def self.demo_profile
     demo = School.where(handle: 'demo').first
-    Profile.find(:first, :conditions => ["code = ? and school_id = ?", 'DEFAULT', demo.id], :include => [:avatar])
+  Profile.where(:first, :conditions => ["code = ? and school_id = ?", 'DEFAULT', demo.id], :include => [:avatar]).first
   end
 
   def self.default_avatar_image
@@ -91,9 +88,11 @@ class Profile < ActiveRecord::Base
   # Find the profile for this user in given school. If it doesn't exist, create a new profile using the DEFAULT
   # template for this school.
   def self.create_for_user(user_id, school_id, default = "DEFAULT", role_name = nil)
-    profile = Profile.find(:first, :conditions => ["user_id = ? and school_id = ?", user_id, school_id])
+    profile = Profile.where("user_id = ? and school_id = ?", user_id, school_id).first
     if profile.nil?
-      new_profile = Profile.find(:first, :conditions => ["code = ? and school_id = ?", default, school_id], :include => [:avatar])
+      new_profile = Profile.where(["code = ? and school_id = ?", default, school_id])
+        .include([:avatar])
+        .first
 
       if default == 'DEFAULT' and new_profile.nil?
         new_profile = Profile.demo_profile()
@@ -124,7 +123,7 @@ class Profile < ActiveRecord::Base
   end
 
   def last_action(action_type)
-    return ProfileAction.find(:first, :conditions => ["profile_id = ? and action_type = ?", self.id, action_type])
+  return ProfileAction.where(["profile_id = ? and action_type = ?", self.id, action_type]).first
   end
 
   def record_action(action_type, params)
@@ -148,17 +147,18 @@ class Profile < ActiveRecord::Base
   end
 
   def friends
-    profiles = Participant.find(:all, :conditions=>["target_id = ? AND target_type = 'User' AND profile_type = 'F'", self.id])#.collect! {|x| x.profile}
+    profiles = Participant.where(["target_id = ? AND target_type = 'User' AND profile_type = 'F'", self.id])#.collect! {|x| x.profile}
     return profiles
   end
 
   def sports_reward
-    basic = Wardrobe.find(:first, :conditions=>["name = 'Basic'"])
+    basic = Wardrobe.where(["name = 'Basic'"]).first
     ids = [];
     if basic and !basic.nil?
       ids.push(basic.id)
     end
-    sports_reward = Reward.find(:all, :select => "target_id", :conditions=>["target_type = 'wardrobe' and target_id <= ?",self.wardrobe])
+    sports_reward = Reward.where(["target_type = 'wardrobe' and target_id <= ?",self.wardrobe])
+      .select("target_id")
     if sports_reward and !sports_reward.nil?
       sports_reward.each do |reward|
         ids.push(reward[:target_id])
@@ -173,8 +173,12 @@ class Profile < ActiveRecord::Base
 
   # Call this to make sure the user has the correct rewards for the XP gained
   def update_rewards
-    level_reward = Reward.find(:first, :conditions => ["xp <= ? and target_type = 'level'",  self.xp], :order => "xp DESC")
-    wardrobe_reward = Reward.find(:first, :conditions => ["xp <= ? and target_type = 'wardrobe'",  self.xp], :order => "xp DESC")
+    level_reward = Reward.where(["xp <= ? and target_type = 'level'",  self.xp])
+      .order("xp DESC")
+      .first
+    wardrobe_reward = Reward.where(["xp <= ? and target_type = 'wardrobe'",  self.xp], )
+      .order("xp DESC")
+      .first
     self.level = level_reward.target_id if level_reward
     # It is assumed that the wardrobe IDs are in ascending order of how they are unlocked. e.g. 5 is unlocked after 4
     # This is a bug, but for now we will follow this assumption until this can be fixed. This is okay as long as
@@ -255,15 +259,9 @@ class Profile < ActiveRecord::Base
     total_like += Message.where("profile_id = ? and parent_type = ? and parent_id = ?", self.id, Course.parent_type_course, course_id).sum(:like)
 
     # Course forum messages
-    forumn_ids = Course.select("id").find(
-      :all, 
-      :include => [:participants],
-      :conditions => [
-	"participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?",
-        self.id, course_id, false, false
-      ],
-      :joins => [:participants],
-    )
+    forumn_ids = Course.select("id").where( [ "participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?", self.id, course_id, false, false ])
+      .include([:participants])
+      .joins([:participants])
     forumn_ids.each do |forumn_id|
       total_like += Message.where("profile_id = ? and parent_type = ? and parent_id = ?", self.id, Course.parent_type_forum, forumn_id).sum(:like)
     end
@@ -284,7 +282,7 @@ class Profile < ActiveRecord::Base
     game_ids = Feat.where(profile_id: profile_id).pluck(:game_id).uniq
     # This query searches for games by ids, nad there's a limit to how many in can
     # fit into a single SQL query
-    return Game.find_all_by_id(game_ids[0..max-1])
+    return Game.where(id: game_ids[0..max-1])
   end
 
   def image_url

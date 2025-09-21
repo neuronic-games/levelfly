@@ -13,7 +13,7 @@ class CategoryObserver < ActiveRecord::Observer
   private
 
   def update_task_grade(category)
-    tasks = Task.find(:all, :conditions => ["category_id = ? and archived = ?",category.id,false])
+    tasks = Task.where(["category_id = ? and archived = ?",category.id,false])
       if tasks
         tasks.each do |task|
           task.grade_recalculate

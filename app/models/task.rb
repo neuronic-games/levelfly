@@ -61,7 +61,7 @@ class Task < ActiveRecord::Base
   end
 
   def outcomes
-    return OutcomeTask.find(:all, :conditions => ["task_id = ?", self.id]).collect {|x| x.outcome}
+    return OutcomeTask.where(["task_id = ?", self.id]).collect {|x| x.outcome}
   end
 
   def show_date_format(the_date)
@@ -86,13 +86,10 @@ class Task < ActiveRecord::Base
       conditions[0] += " and task_participants.complete_date is not null"
     end
 
-    tasks = Task.find(
-      :all,
-      :include => [:task_participants],
-      :conditions => conditions,
-      :order => "priority asc,due_date",
-      :joins => [:task_participants]
-    )
+    tasks = Task.where( conditions)
+      .include([:task_participants])
+      .order("priority asc,due_date")
+      .joins([:task_participants])
   end
 
 
@@ -113,32 +110,25 @@ class Task < ActiveRecord::Base
       conditions[0] += " AND task_participants.complete_date IS NOT NULL"
     end
 
-    Task.find(
-      :all,
-      :include => [:task_participants],
-      :conditions => conditions,
-      :order => "priority asc, due_date",
-      :joins => [:task_participants],
-    )
+    Task.where( conditions)
+      .include([:task_participants])
+      .order("priority asc, due_date")
+      .joins([:task_participants])
   end
 
 
   def self.sort_tasks(profile_id,course_id)
     @tasks = [];
-    task_ids = Task.find(
-      :all,
-      :include => [:category, :task_participants],
-      :conditions => ["tasks.course_id = ? and task_participants.profile_id = ? and tasks.archived = ? and (tasks.category_id is null or tasks.category_id = ?)",course_id,profile_id,false,0],
-      :order => "tasks.due_date,tasks.created_at",
-      :joins => [:task_participants],
-    ).map(&:id)
-    categorised_task_ids = Task.find(
-      :all,
-      :include => [:category, :task_participants],
-      :conditions => ["tasks.course_id = ? and task_participants.profile_id = ? and categories.course_id = ? and tasks.archived = ?",course_id,profile_id,course_id,false],
-      :order => "percent_value,categories.name,due_date,tasks.created_at",
-      :joins => [:task_participants],
-    ).map(&:id)
+    task_ids = Task.where( ["tasks.course_id = ? and task_participants.profile_id = ? and tasks.archived = ? and (tasks.category_id is null or tasks.category_id = ?)",course_id,profile_id,false,0])
+      .include([:category, :task_participants])
+      .order("tasks.due_date,tasks.created_at")
+      .joins([:task_participants])
+      .map(&:id)
+    categorised_task_ids = Task.where( ["tasks.course_id = ? and task_participants.profile_id = ? and categories.course_id = ? and tasks.archived = ?",course_id,profile_id,course_id,false])
+      .include([:category, :task_participants])
+      .order("percent_value,categories.name,due_date,tasks.created_at")
+      .joins([:task_participants])
+      .map(&:id)
 
     grade_tasks_ids = TaskGrade.sort_tasks_grade(profile_id, course_id)
     task_ids = task_ids.concat(categorised_task_ids).concat(grade_tasks_ids).uniq
@@ -186,9 +176,8 @@ class Task < ActiveRecord::Base
   # Mark the task as complete and give points
   def self.complete_task(task_id, complete, profile_id)
     status = nil
-    participant = TaskParticipant.find(:first,
-      :include => [:profile, :task],
-      :conditions => ["task_id = ? and profile_id = ?", task_id, profile_id])
+    participant = TaskParticipant.where(["task_id = ? and profile_id = ?", task_id, profile_id])
+      .include([:profile, :task])
     return status if participant.nil?
 
     profile = participant.profile
@@ -241,14 +230,18 @@ class Task < ActiveRecord::Base
     previous_wardrobe = profile.wardrobe
     if complete
       profile.xp += award_points if (participant and !participant.xp_award_date) or course_name
-      @level = Reward.find(:first, :conditions=>["xp <= ? and target_type = 'level'",  profile.xp], :order=>"xp DESC")
+      @level = Reward.where(["xp <= ? and target_type = 'level'",  profile.xp])
+      .order("xp DESC")
+      .first
       puts"#{@level.inspect}"
       profile.level = @level.target_id
-      wardrobe = Reward.find(:first, :conditions=>["xp <= ? and target_type = 'wardrobe'",  profile.xp], :order=>"xp DESC")
+      wardrobe = Reward.where(["xp <= ? and target_type = 'wardrobe'",  profile.xp])
+        .order("xp DESC")
+        .first
       puts"#{wardrobe.inspect}"
       profile.wardrobe = wardrobe.target_id if wardrobe
     else
-      task_grade = TaskGrade.find(:first, :conditions => ["task_id = ? and profile_id = ? and course_id = ? and school_id = ?",task.id,profile.id,task.course_id,profile.school_id])
+      task_grade = TaskGrade.where(["task_id = ? and profile_id = ? and course_id = ? and school_id = ?",task.id,profile.id,task.course_id,profile.school_id]).first
       profile.xp -= task_grade.points if participant.xp_award_date and task_grade
     end
     profile.save
@@ -266,9 +259,8 @@ class Task < ActiveRecord::Base
 
   def self.points_to_student(task_id, complete, profile_id,current_user)
     status = nil
-    participant = TaskParticipant.find(:first,
-      :include => [:profile, :task],
-      :conditions => ["task_id = ? and profile_id = ?", task_id, profile_id])
+    participant = TaskParticipant.where(["task_id = ? and profile_id = ?", task_id, profile_id])
+      .include([:profile, :task])
     if participant
       profile = participant.profile
       task = participant.task
@@ -298,21 +290,16 @@ class Task < ActiveRecord::Base
 
   def task_owner
     if @owner == nil
-      @owner = Profile.find(
-        :first,
-        :include => [:task_participants],
-        :conditions => [
-         "task_participants.task_id = ? AND task_participants.profile_type = ?", 
-         self.id, Task.profile_type_owner
-        ],
-        :joins => [:task_participants],
-      )
+      @owner = Profile.where( [ "task_participants.task_id = ? AND task_participants.profile_type = ?", self.id, Task.profile_type_owner ])
+        .include([:task_participants])
+        .joins([:task_participants])
+        .first
     end
     return @owner
   end
 
   def grade_recalculate
-    participant_profile_ids = TaskGrade.find(:all, :conditions => ["task_id = ?",self.id]).collect(&:profile_id)
+    participant_profile_ids = TaskGrade.where(["task_id = ?",self.id]).collect(&:profile_id)
     if participant_profile_ids
       participant_profile_ids.each do |profile_id|
         previous_task_grade = TaskGrade.where("school_id = ? and course_id = ? and task_id =? and profile_id = ? ",self.school_id,self.course_id,self.id,profile_id).first

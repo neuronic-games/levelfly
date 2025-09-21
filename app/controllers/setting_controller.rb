@@ -5,7 +5,7 @@ class SettingController < ApplicationController
   
   def index
     @profile = Profile.find(user_session[:profile_id])
-    @settings = Setting.find(:all, :conditions=>["target_id = ?", @profile.school_id])
+    @settings = Setting.where(["target_id = ?", @profile.school_id])
     render :partial => "/setting/list"
   end
   

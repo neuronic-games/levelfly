@@ -11,19 +11,17 @@ class CourseController < ApplicationController
       section_type = "C"
     end
 
-    @profile = Profile.find(:first, :conditions => ["user_id = ? and school_id = ?", current_user.id, school.id])
+    @profile = Profile.where(["user_id = ? and school_id = ?", current_user.id, school.id]).first
 
     if params[:search_text]
       search_text =  "%#{params[:search_text]}%"
       find_render = true
       if section_type == "C"
-        @courses = Course.find(
-          :all,
-          :include => [:participants],
-          :conditions => ["(lower(courses.name) LIKE ? OR lower(courses.code) LIKE ?) and parent_type = ? and school_id = ? and removed = ?", search_text.downcase, search_text.downcase, Course.parent_type_course, @profile.school_id, false])
+        @courses = Course.where( ["(lower(courses.name) LIKE ? OR lower(courses.code) LIKE ?) and parent_type = ? and school_id = ? and removed = ?", search_text.downcase, search_text.downcase, Course.parent_type_course, @profile.school_id, false])
+          .includes([:participants])
 
       elsif section_type == "G"
-        @courses = Course.find(:all, :conditions=>["(lower(courses.name) LIKE ? OR lower(courses.code) LIKE ?) and parent_type = ? and school_id = ? and removed = ?",
+        @courses = Course.where(["(lower(courses.name) LIKE ? OR lower(courses.code) LIKE ?) and parent_type = ? and school_id = ? and removed = ?",
                                                    search_text.downcase,search_text.downcase, Course.parent_type_group, @profile.school_id, false])
       end
     else
@@ -32,13 +30,13 @@ class CourseController < ApplicationController
       return if redirect_to_last_action(@profile, 'course', '/course/show')
       unless section_type.nil?
         if section_type == 'C'
-          message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
+          message_ids = MessageViewer.where(["viewer_profile_id = ?", @profile.id]).select(:message_id).collect(&:message_id)
           @invites = Message.invites('course_invite', @profile.id, message_ids)
           course_list = Course.course_filter(@profile.id,"")
           @courses = course_list.sort  # Sort by semester sort rules
         end
         if section_type == 'G'
-          message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
+          message_ids = MessageViewer.where(["viewer_profile_id = ?", @profile.id]).select(message_id).collect(&:message_id)
           @invites = Message.invites('group_invite', @profile.id, message_ids)
           @user_group = false
           @courses = Course.all_group(@profile,"M")
@@ -70,8 +68,8 @@ class CourseController < ApplicationController
     if params[:id] && !params[:id].nil?
       @course = Course.find_by_id(params[:id])
       @profile = Profile.find(user_session[:profile_id])
-      @participant =  participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type = 'Course' AND profile_id = ? ", params[:id], user_session[:profile_id]])
-      @owner = Participant.find(:first, :conditions => ["target_id = ? AND target_type = 'Course' AND profile_type ='M'", params[:id]])
+      @participant =  participant = Participant.where(["target_id = ? AND target_type = 'Course' AND profile_id = ? ", params[:id], user_session[:profile_id]]).first
+      @owner = Participant.where(["target_id = ? AND target_type = 'Course' AND profile_type ='M'", params[:id]]).first
       if !@participant
         @participant = Participant.new
         @participant.target_id    = params[:id] if params[:id]
@@ -140,7 +138,7 @@ class CourseController < ApplicationController
   def show
     @course = Course.find_by_id(params[:id])
     @profile = current_profile
-    @wall = Wall.find(:first,:conditions=>["parent_id = ? AND parent_type='Course'", @course.id])
+    @wall = Wall.where(["parent_id = ? AND parent_type='Course'", @course.id]).first
     if !@profile.nil?
       @badges = AvatarBadge.where("profile_id = ? and course_id = ?",@profile.id,@course.id).count
     end
@@ -153,57 +151,48 @@ class CourseController < ApplicationController
     section_type = ['Course','Group']
     @member_count = Profile.course_participants(@course.id, section_type).count
 
-    @member = Participant.find( :first, :conditions => ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id])
+    @member = Participant.where( ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id]).first
     @pending_count = Profile.count(
       :all,
       :include => [:participants],
       :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')", @course.id],
       :joins => [:participants]
     )
-    @courseMaster = Profile.find(
-      :first,
-      :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", @course.id],
-      :joins => [:participants]
-    )
-    @course_owner = Participant.find(:first, :conditions=>["target_id = ? AND profile_type = 'M' AND target_type='Course'",params[:id]])
+    @courseMaster = Profile.where( ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", @course.id])
+      .includes([:participants])
+      .joins([:participants])
+      .first
+    @course_owner = Participant.where(["target_id = ? AND profile_type = 'M' AND target_type='Course'",params[:id]]).first
     #@totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @totaltask = @tasks = Task.filter_by(user_session[:profile_id], @course.id, "current")
-    @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
-     message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
+    @groups = Group.where(["course_id = ?",@course.id])
+    message_ids = MessageViewer.where(["viewer_profile_id = ?", @profile.id]).select(:message_id).collect(&:message_id)
     if params[:section_type]=="C"
-      @course_messages = Message.find(
-        :all,
-        :conditions => [
+      @course_messages = Message.where([
           "parent_id = ? AND parent_type = 'C' AND messages.archived = ? AND message_viewers.viewer_profile_id = ?", 
           @course.id, false, @profile.id
-        ],
-        :order => "starred DESC, post_date DESC" , 
-        :include => [:message_viewers],
-        :joins => [:message_viewers],
-        limit: 200,
-      )
+        ])
+        .order("starred DESC, post_date DESC")
+        .includes(:message_viewers)
+        .joins(:message_viewers)
+        .limit(200)
     elsif params[:section_type]=="G"
       if @member.nil?
-        @course_messages = Message.find(
-          :all,:conditions => [
+        @course_messages = Message.where([
             "parent_id = ? AND parent_type = 'G' AND archived = ?",
             @course.id, false
           ],
-          :order => "starred DESC, post_date DESC" , 
-          limit: 200
-        )
+        ).order("starred DESC, post_date DESC")
+        .limit(200)
       else
-        @course_messages = Message.find(
-          :all,:conditions => [
+        @course_messages = Message.where([
             "parent_id = ? AND parent_type = 'G' AND messages.archived = ? and message_viewers.viewer_profile_id = ?", 
             @course.id, false, @profile.id
-          ],
-          :order => "starred DESC, post_date DESC" , 
-          :include => [:message_viewers],
-          :joins => [:message_viewers],
-          limit: 200
-        )
+          ])
+          .order("starred DESC, post_date DESC")
+          .includes(:message_viewers)
+          .joins(:message_viewers)
+          .limit(200)
       end
     end
     
@@ -303,7 +292,7 @@ class CourseController < ApplicationController
       end
 
       # Participant record for master
-      participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]])
+      participant = Participant.where(["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]]).first
       if !participant
         @participant = Participant.new
         @participant.target_id = @course.id
@@ -343,7 +332,7 @@ class CourseController < ApplicationController
         if email.length > 0
           # Change 'Group' to 'Course' because of query include `participants`.`target_type` = 'Course' when load group or course! Change by vaibhav
           section_type = 'Course'
-          @user = User.find(:first, :conditions => ["lower(email) = ?", email.downcase])
+          @user = User.where(["lower(email) = ?", email.downcase]).first
           if @user
             @profile = Profile.find_by_user_id(@user.id)
           else
@@ -353,7 +342,7 @@ class CourseController < ApplicationController
           if @profile
           # temp fix to not allow invite user of different school
           # if @profile && @profile.school == school
-            participant_exist = Participant.find(:first, :conditions => ["target_id = ? AND target_type= ? AND profile_id = ?", params[:course_id], section_type, @profile.id])
+            participant_exist = Participant.where(["target_id = ? AND target_type= ? AND profile_id = ?", params[:course_id], section_type, @profile.id]).first
             course = Course.find(params[:course_id])
             unless participant_exist
               @participant = Participant.new
@@ -442,15 +431,9 @@ class CourseController < ApplicationController
     post_message = params[:post_message] == "true" ? true : false if params[:post_message]
     @course = Course.find(params[:id])
     if @course
-      @people = Profile.find(
-         :all,
-         :include => [:participants],
-         :conditions => [
-           "participants.target_id = ? AND participants.target_type= ? AND participants.profile_type in ('S', 'M')", 
-           @course.id,section_type
-         ],
-         :joins => [:participants]
-       )
+      @people = Profile.where( [ "participants.target_id = ? AND participants.target_type= ? AND participants.profile_type in ('S', 'M')", @course.id,section_type ])
+         .includes([:participants])
+         .joins([:participants])
 
       if post_message and post_message == true
         wall_id = Wall.get_wall_id(params[:id], params[:section_type]) #params[:wall_id]
@@ -466,7 +449,7 @@ class CourseController < ApplicationController
         @message.post_date = DateTime.now
         @message.save
         @message_viewer = MessageViewer.add(user_session[:profile_id],@message.id,params[:section_type],params[:id])
-        @feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",user_session[:profile_id],wall_id])
+        @feed = Feed.where(["profile_id = ? and wall_id = ?",user_session[:profile_id],wall_id]).first
         if @feed.nil?
           Feed.create(:profile_id => user_session[:profile_id],:wall_id =>wall_id)
         end
@@ -474,7 +457,7 @@ class CourseController < ApplicationController
 
       if @people
         @msg_content = CGI::unescape(params[:mail_msg])
-        @current_user = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+        @current_user = Profile.where(["user_id = ?", current_user.id]).first
         #threads = []
         @people.each do |person|
           UserMailer.delay.course_private_message(person.user.email, @current_user, @current_user.school, @course, @msg_content)
@@ -489,25 +472,25 @@ class CourseController < ApplicationController
   def delete_participant
     status = false
     if params[:profile_id] && params[:course_id]
-      participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type = 'Course' AND profile_id = ? ", params[:course_id], params[:profile_id]])
+      participant = Participant.where(["target_id = ? AND target_type = 'Course' AND profile_id = ? ", params[:course_id], params[:profile_id]]).first
       if participant
         participant.delete
-        @wall_id = Wall.find(:first, :conditions=>["parent_id = ? and parent_type = 'C'",params[:course_id]])
+        @wall_id = Wall.where(["parent_id = ? and parent_type = 'C'",params[:course_id]]).first
         if !@wall_id.nil?
-          @feed = Feed.find(:first, :conditions=>["profile_id = ? and wall_id = ? ",params[:profile_id],@wall_id.id])
+          @feed = Feed.where(["profile_id = ? and wall_id = ? ",params[:profile_id],@wall_id.id]).first
           if !@feed.nil?
             @feed.delete
           end
         end
-        forum = Course.find(:all, :conditions => ["course_id = ?",params[:course_id]])
+        forum = Course.where(["course_id = ?",params[:course_id]])
         if forum
           forum.each do |forum|
-            forum_participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type = 'Course' AND profile_id = ? ", forum.id, params[:profile_id]])
+            forum_participant = Participant.where(["target_id = ? AND target_type = 'Course' AND profile_id = ? ", forum.id, params[:profile_id]]).first
             if forum_participant
               forum_participant.delete
-              wall_id = Wall.find(:first, :conditions=>["parent_id = ? and parent_type = 'C'",forum.id])
+              wall_id = Wall.where(["parent_id = ? and parent_type = 'C'",forum.id]).first
               if !wall_id.nil?
-                feed = Feed.find(:first, :conditions=>["profile_id = ? and wall_id = ? ",params[:profile_id],wall_id.id])
+                feed = Feed.where(["profile_id = ? and wall_id = ? ",params[:profile_id],wall_id.id]).first
                 if !feed.nil?
                   feed.delete
                 end
@@ -515,15 +498,15 @@ class CourseController < ApplicationController
             end
           end
         end
-        task = Task.find(:all, :conditions => ["course_id = ?",params[:course_id]])
+        task = Task.where(["course_id = ?",params[:course_id]])
         if task
           task.each do |task|
-            task_participant = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_id = ? AND profile_type = 'M'",task.id, params[:profile_id]])
+            task_participant = TaskParticipant.where(["task_id = ? AND profile_id = ? AND profile_type = 'M'",task.id, params[:profile_id]]).first
             if task_participant
               task_participant.delete
-              wall_id = Wall.find(:first, :conditions=>["parent_id = ? and parent_type = 'Task'",task.id])
+              wall_id = Wall.where(["parent_id = ? and parent_type = 'Task'",task.id]).first
               if !wall_id.nil?
-                feed = Feed.find(:first, :conditions => ["profile_id = ? and wall_id = ? ",params[:profile_id], wall_id.id])
+                feed = Feed.where(["profile_id = ? and wall_id = ? ",params[:profile_id], wall_id.id]).first
                 if !feed.nil?
                   feed.delete
                 end
@@ -611,12 +594,10 @@ class CourseController < ApplicationController
       :joins => [:participants],
       :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')", @course.id]
      )
-     @courseMaster = Profile.find(
-      :first,
-      :include => [:participants],
-      :joins => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]]
-      )
+     @courseMaster = Profile.where( ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]])
+      .includes([:participants])
+      .joins([:participants])
+      .first
      render :partial => "/group/setup",:locals=>{:@course=>@course}
   end
 
@@ -624,7 +605,7 @@ class CourseController < ApplicationController
   def show_course
     @course = Course.find(params[:id])
     @files = @course.attachments.order("starred desc,resource_file_name asc")
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = Profile.where(["user_id = ?", current_user.id]).first
     if !@profile.nil?
     @badges = AvatarBadge.where("profile_id = ? and course_id = ?",@profile.id,@course.id).count
     end
@@ -638,57 +619,41 @@ class CourseController < ApplicationController
     @peoples = Profile.course_participants(@course.id, section_type)
     @member_count = @peoples.length
 
-    @member = Participant.find(:first, :conditions => ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id]
-)
+    @member = Participant.where(["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id]
+).first
     @pending_count = Profile.count(
       :all,
       :include => [:participants],
       :conditions => ["participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P')", @course.id],
       :joins => [:participants]
     )
-    @courseMaster = Profile.find(
-      :first,
-      :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]],
-      :joins => [:participants]
-      )
-    @groups = nil# Group.find(:all, :conditions=>["course_id = ?",params[:id]])
+    @courseMaster = Profile.where( ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]])
+      .includes([:participants])
+      .joins([:participants])
+      .first
+    @groups = nil
+    # FIXME: needed?
+    #@groups = Group.find(:all, :conditions=>["course_id = ?",params[:id]])
     enable_forum = false
     @totaltask = @tasks = Task.filter_by(user_session[:profile_id], @course.id, "current")
     if params[:section_type] == "C"
-      @course_messages = Message.find(
-        :all,
-        :conditions => [
-          "parent_id = ? AND parent_type = 'C' AND message_viewers.viewer_profile_id = ?", 
-          @course.id, @profile.id
-        ],
-        :order => "starred DESC, post_date DESC" , 
-        :include => [:message_viewers],
-        :joins => [:message_viewers],
-      )
+      @course_messages = Message.where( [ "parent_id = ? AND parent_type = 'C' AND message_viewers.viewer_profile_id = ?", @course.id, @profile.id ])
+        .order("starred DESC, post_date DESC" )
+        .includes([:message_viewers])
+        .joins([:message_viewers])
     elsif params[:section_type] == "G"
       if @member.nil?
-        @course_messages = Message.find(
-          :all,:conditions => [
-            "parent_id = ? AND parent_type = 'G'",
-            @course.id
-          ],
-          :order => "starred DESC, post_date DESC" , 
-        )
+        @course_messages = Message.where( [ "parent_id = ? AND parent_type = 'G'", @course.id ])
+          .order("starred DESC, post_date DESC")
       else
-        @course_messages = Message.find(
-          :all,:conditions => [
-            "parent_id = ? AND parent_type = 'G' and message_viewers.viewer_profile_id = ?", 
-            @course.id, @profile.id
-          ],
-          :order => "starred DESC, post_date DESC" , 
-          :include => [:message_viewers],
-          :joins => [:message_viewers],
-        )
+        @course_messages = Message.where( [ "parent_id = ? AND parent_type = 'G' and message_viewers.viewer_profile_id = ?", @course.id, @profile.id ])
+          .order("starred DESC, post_date DESC" )
+          .includes([:message_viewers])
+          .joins([:message_viewers])
       end
     end
      if params[:value] == "3"
-         setting = Setting.find(:first, :conditions=>["target_id = ? and value = 'true' and target_type ='school' and name ='enable_course_forums' ",@course.school_id])
+      setting = Setting.where(["target_id = ? and value = 'true' and target_type ='school' and name ='enable_course_forums' ",@course.school_id]).first
        if setting and !setting.nil?
         @groups = @course.course_forum(@profile.id)
         enable_forum = true
@@ -721,12 +686,11 @@ class CourseController < ApplicationController
      # Change 'Group' to 'Course' because of query include `participants`.`target_type` = 'Course' when load groups or courses! Change by vaibhav
      @profile = Profile.find(user_session[:profile_id])
      section_type = 'Course'
-     @courseMaster = Profile.find(
-      :first,
-      :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M' and profile_id = ? ", @course.id,user_session[:profile_id]],
-      :joins => [:participants]
-      )
+      @courseMaster = Profile.where( ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M' and profile_id = ? ", @course.id,user_session[:profile_id]])
+      .includes([:participants])
+      .joins([:participants])
+      .first
+
      # Only show pending members to the course owner
      if @courseMaster
        @people_pending = Profile
@@ -754,7 +718,7 @@ class CourseController < ApplicationController
       task = Task.find(params[:id])
       @course = task.course
     end
-    @profile = Profile.find(params[:profile_id])
+    @profile = Profile.find(params[:profile_id]).first
     #@vault = Vault.find(:first, :conditions => ["target_id = ? and target_type = 'School' and vault_type = 'AWS S3'", school_id])
     #if @vault
       @attachment = Attachment.new(:resource=>params[:file], :target_type=>params[:target_type], :target_id=>course_id, :school_id=>school_id, :owner_id=>user_session[:profile_id])
@@ -788,11 +752,11 @@ class CourseController < ApplicationController
       @points = []
       @badge = []
       @course = Course.find(params[:id])
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-      course_ids = Course.find(:all,:conditions => ["course_id = ?",@course.id]).collect(&:id).push(@course.id)
-      message_ids = Like.find(:all,:select => "message_id",:conditions => ["course_id in (?)",course_ids]).collect(&:message_id)
+      @profile = Profile.where(["user_id = ?", current_user.id]).first
+      course_ids = Course.where(["course_id = ?",@course.id]).collect(&:id).push(@course.id)
+      message_ids = Like.where(["course_id in (?)",course_ids]).select("message_id").collect(&:message_id)
       message_ids = message_ids.uniq
-      @likes = Message.find(:all,:select => "messages.like",:conditions => ["id IN (?) and profile_id = ? and archived = ?",message_ids,@profile.id,false]).collect(&:like).sum
+      @likes = Message.where(["id IN (?) and profile_id = ? and archived = ?",message_ids,@profile.id,false]).select("messages.like"),collect(&:like).sum
       @course_grade, oc = CourseGrade.load_grade(@profile.id, @course.id,@profile.school_id)
       if !@course_grade.nil?
         @course_grade.each do |key , val|
@@ -806,7 +770,7 @@ class CourseController < ApplicationController
          @points , @course_xp = CourseGrade.get_outcomes(@course.id,@outcomes,@profile.school_id,@profile.id)
       end
       if !@profile.nil?
-        @badge = AvatarBadge.find(:all, :select => "id, badge_id", :conditions =>["profile_id = ? and course_id = ?",@profile.id,@course.id])
+        @badge = AvatarBadge.where(["profile_id = ? and course_id = ?",@profile.id,@course.id]).select("id, badge_id")
         #@task_grade = TaskGrade.where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course ,@profile.id)
         @course_tasks = Task.sort_tasks(@profile.id,@course.id)
       end
@@ -817,7 +781,7 @@ class CourseController < ApplicationController
   def top_achivers
     if params[:outcome_id] && !params[:course_id].blank?
        course = Course.find(params[:course_id])
-       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+       @profile = Profile.where(["user_id = ?", current_user.id]).first
        @students = Course.get_top_achievers(course.school_id,params[:course_id], params[:outcome_id])
        render :partial =>"/course/top_achivers"
     end
@@ -852,7 +816,7 @@ class CourseController < ApplicationController
 
   def filter
     if params[:filter] && !params[:filter].blank?
-       @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      @profile = Profile.where(["user_id = ?", current_user.id]).first
        if params[:section_type] && ! params[:section_type].nil?
          if  params[:section_type] =="C"
           course_list = Course.course_filter(@profile.id,params[:filter])
@@ -921,7 +885,7 @@ class CourseController < ApplicationController
          end
          status = true
       else
-         participant = Participant.find( :first, :conditions => ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type = 'S'", @course.id, user_session[:profile_id]])
+        participant = Participant.where( ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type = 'S'", @course.id, user_session[:profile_id]]).first
          participant.delete if participant
          status = true
       end
@@ -932,21 +896,15 @@ class CourseController < ApplicationController
   def show_forum
     if params[:id] and !params[:id].blank?
       @course = Course.find(params[:id])
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-      @peoples = Profile.find(
-        :all,
-        :include => [:participants, :user],
-        :conditions => [
-          "participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S') AND users.status != 'D'",
-          @course.id
-        ],
-        :joins => [:participants]
-      )
-      @member = Participant.find( :first, :conditions => ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id])
+      @profile = Profile.where(["user_id = ?", current_user.id]).first
+      @peoples = Profile.where( [ "participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S') AND users.status != 'D'", @course.id ])
+        .includes([:participants, :user])
+        .joins([:participants])
+      @member = Participant.where( ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id]).first
       @member_count = @peoples.length
       @courseMaster = @course.owner
-      message_ids = MessageViewer.find(:all, :select => "message_id", :conditions =>["viewer_profile_id = ?", @profile.id]).collect(&:message_id)
-      @course_messages = Message.find(:all,:conditions=>["parent_id = ? AND parent_type = 'F' and archived = ? and id in (?)",@course.id,false,message_ids],:order => "starred DESC, post_date DESC" )
+      message_ids = MessageViewer.where(["viewer_profile_id = ?", @profile.id]).select(:message_id).collect(&:message_id)
+      @course_messages = Message.where(["parent_id = ? AND parent_type = 'F' and archived = ? and id in (?)",@course.id,false,message_ids]).order("starred DESC, post_date DESC" )
       render :partial => "/course/forum_wall"
     end
   end
@@ -976,7 +934,7 @@ class CourseController < ApplicationController
     end
     if @course.save
       wall_id = Wall.get_wall_id(@course.id,"Course")
-      participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]])
+      participant = Participant.where(["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]]).first
       if !participant
         @participant = Participant.new
         @participant.target_id = @course.id
@@ -1007,7 +965,7 @@ class CourseController < ApplicationController
        @course = Course.find(params[:course_id])
        wall_id = Wall.get_wall_id(@course.id,"Course")
        if params[:member_id] && !params[:member_id].nil?
-         participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, params[:member_id]])
+        participant = Participant.where(["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, params[:member_id]]).first
          if participant
            participant.delete
            status = true
@@ -1030,9 +988,9 @@ class CourseController < ApplicationController
            @course.all_members = false
          else
            @course.all_members = true
-           course_participants = Participant.find(:all, :conditions => ["target_id = ? AND target_type='Course' AND profile_type = 'S'", @course.course_id])
+           course_participants = Participant.where(["target_id = ? AND target_type='Course' AND profile_type = 'S'", @course.course_id])
            course_participants.each do |participant|
-             forum_participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, participant.profile_id])
+            forum_participant = Participant.where(["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, participant.profile_id]).first
              if forum_participant.nil? and params[:check_val] == "true"
                @participant = Participant.new
                @participant.target_id = @course.id
@@ -1069,15 +1027,10 @@ class CourseController < ApplicationController
 
   def duplicate
     if params[:id]
-      courseMaster = Profile.find(
-          :first,
-          :include => [:participants],
-          :conditions => [
-            "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", 
-            params[:id]
-          ],
-          :joins => [:participants]
-      )
+      courseMaster = Profile.where( [ "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id] ])
+          .includes([:participants])
+          .joins([:participants])
+        .first
       if course = Course.find(params[:id]) and courseMaster.id == current_profile.id
         course.delay.duplicate({:name_ext => "COPY"}, current_user)
         render :nothing => true, :status => 200

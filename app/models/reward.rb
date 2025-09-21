@@ -1,12 +1,14 @@
 class Reward < ActiveRecord::Base
 
   def self.leveling(xp)
-    level = Reward.find(:first, :conditions=>["xp <= ?", xp], :order=>"xp DESC")   
+    level = Reward.where(["xp <= ?", xp])
+    .order("xp DESC")
+    .first
     return level
   end
   
   def self.notification_for_reward_sports(profile,previous_points,current_user)
-    reward = Reward.find(:first, :conditions=>["target_type = 'wardrobe' and target_id = '2'"])
+    reward = Reward.where(["target_type = 'wardrobe' and target_id = '2'"]).first
     if reward and !reward.nil?
      if previous_points < reward.xp and profile.xp >= reward.xp
        content = "Congratulations! You have unlocked a new wardrobe: Sports."

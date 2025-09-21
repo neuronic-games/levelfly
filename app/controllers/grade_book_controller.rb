@@ -9,7 +9,7 @@ class GradeBookController < ApplicationController
     @enable_palette = false
     @profile = current_profile
     if @profile
-      setting = Setting.find(:first, :conditions=>["target_id = ? and value = 'true' and target_type ='school' and name ='enable_grade_palette' ",@profile.school_id])
+      setting = Setting.where(["target_id = ? and value = 'true' and target_type ='school' and name ='enable_grade_palette' ",@profile.school_id]).first
       if setting and !setting.nil?
         @enable_palette = true
       end
@@ -51,19 +51,13 @@ class GradeBookController < ApplicationController
     @people =[];
     @tasks = [];
     @latest_course = nil
-    course_list = Course.find(
-      :all,
-      :select => "distinct *",
-      :include => [:participants],
-      :conditions => [
-       "removed = ? and participants.profile_id = ? AND parent_type = ? AND participants.profile_type = ? AND courses.archived = ?",
-       false, @profile.id, Course.parent_type_course, Course.profile_type_master, archived
-      ],
-      :order => 'courses.name ASC',
-      :joins => [:participants],
-    )
+    course_list = Course.where( [ "removed = ? and participants.profile_id = ? AND parent_type = ? AND participants.profile_type = ? AND courses.archived = ?", false, @profile.id, Course.parent_type_course, Course.profile_type_master, archived ])
+      .includes([:participants])
+      .order('courses.name ASC')
+      .joins([:participants])
+      .distinct
     course_list.each do |c|
-      if c.participants.find(:all, :conditions=>["profile_type in ('M','S')"]).count > 0
+      if c.participants.where(["profile_type in ('M','S')"]).count > 0
         unsorted_courses.push(c)
       end
     end
@@ -75,15 +69,13 @@ class GradeBookController < ApplicationController
       @latest_course = @courses.first
       @course_id = @latest_course.id
       @outcomes = @latest_course.outcomes
-      @participant = Participant.all( 
-        :joins => [:profile => :user], 
-        :conditions => [
+      @participant = Participant.where( [
           "participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course' AND users.status != 'D'",
           @course_id
-        ], 
-        :select => ["profiles.full_name,participants.id,participants.profile_id"], 
-        :order => "full_name"
-      )
+        ]) 
+        .joins([:profile => :user])
+        .select(["profiles.full_name,participants.id,participants.profile_id"])
+        .order("full_name")
       #@participant = @courses.first.participants
       @count = @participant.count
       @tasks = Course.sort_course_task(@course_id)
@@ -355,7 +347,7 @@ end
    if !params[:course_id].blank?
     @course = Course.find(params[:course_id])
     @outcomes_course = @course ? @course.outcomes.order('name') : nil
-    @categories = Category.find(:all, :conditions=>["course_id = ?",@course.id])
+    @categories = Category.where(["course_id = ?",@course.id])
     render :partial => "/grade_book/add_new_task"
   end
 end
@@ -403,7 +395,7 @@ def load_task_setup
     @task = Task.find(params[:task_id])
     @course = @task.course if @task
     @outcomes_course = @course ? @course.outcomes.order('name') : nil
-    @categories = Category.find(:all, :conditions=>["course_id = ?",@course.id])
+    @categories = Category.where(["course_id = ?",@course.id])
     render :partial=>"/grade_book/load_task_setup"
   end
 end
@@ -424,7 +416,7 @@ def task_setup
         if params[:outcomes] && !params[:outcomes].empty?
          new_outcomes.each do |o|
            if o !=""
-             outcome_task = OutcomeTask.find(:first, :conditions => ["task_id = ? AND outcome_id = ?", @task.id, o])
+             outcome_task = OutcomeTask.where(["task_id = ? AND outcome_id = ?", @task.id, o])
              if !outcome_task
                  #OutcomeTask record
                  @outcome_task = OutcomeTask.new
@@ -464,11 +456,11 @@ def task_setup
         row = ['', profile.full_name]
 
         @outcomes.each do |outcome|
-          @outcome_grade = OutcomeGrade.find(:first, :conditions => {
+          @outcome_grade = OutcomeGrade.where({
             :course_id => course.id,
             :outcome_id => outcome.id,
             :profile_id => profile.id
-            })
+            }).first
 
           row.push @outcome_grade && @outcome_grade.grade ? @outcome_grade.grade : '-'
         end

@@ -5,13 +5,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-  # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :reset_password_token
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
-  # devise :database_authenticatable, :registerable,
-  #        :recoverable, :rememberable, :trackable, :validatable, :confirmable
-
   # SELECT `participants`.* FROM `participants` WHERE (target_id = 7 AND target_type = 'User' AND profile_type = 'F')
   # has_many :friends, :as => :participant, :conditions => ['profile_type = ?', 'F']
 
@@ -42,7 +35,7 @@ class User < ActiveRecord::Base
 
   def default_profile
     return self.profiles.first if self.default_school_id.nil?
-    return Profile.find(:first, :conditions => {:school_id => self.default_school_id, :user_id => self.id})
+  return Profile.where({:school_id => self.default_school_id, :user_id => self.id}).first
   end
   
   def default_school=(school)
@@ -51,12 +44,12 @@ class User < ActiveRecord::Base
   end
 
   def friends
-    profiles = Participant.find(:all, :conditions=>["target_id = ? AND target_type = 'User' AND profile_type = 'F'", self.id]).collect! {|x| x.profile}
+    profiles = Participant.where(["target_id = ? AND target_type = 'User' AND profile_type = 'F'", self.id]).collect! {|x| x.profile}
     return profiles
   end
 
   def add_friend(profile_id)
-    profile_ids = Participant.find(:all, :conditions=>["target_id = ? AND target_type = 'User' AND profile_id = ? AND profile_type = 'F'", self.id, profile_id]).collect! {|x| x.profile_id}
+    profile_ids = Participant.where(["target_id = ? AND target_type = 'User' AND profile_id = ? AND profile_type = 'F'", self.id, profile_id]).collect! {|x| x.profile_id}
     if !profile_ids.include?(profile_id)
       Participant.create(:target_id => self.id, :target_type => 'User', :profile_id => profile_id, :profile_type => 'F')
     end
@@ -106,7 +99,7 @@ class User < ActiveRecord::Base
   end
 
   def self.find_by_email_and_school_id(email, school_id)
-    User.joins(:profiles).find(:first, :conditions => ["users.email = ? AND profiles.school_id = ?", email, school_id])
+    User.joins(:profiles).where(["users.email = ? AND profiles.school_id = ?", email, school_id]).first
   end
 
   # Delete User who is not register their acoount yet.
@@ -196,20 +189,31 @@ class User < ActiveRecord::Base
             .joins(:user)
         end
       elsif id == "members_of_courses"
-        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "C", school_id], :order => "name").collect(&:id)
-        profile_ids = Participant.find(:all, :conditions => ["target_id IN (?)",course_ids]).collect(&:profile_id).uniq
+        course_ids = Course.where(["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "C", school_id]).collect(&:id)
+        .distinct
+        .order("name")
+        profile_ids = Participant.where(["target_id IN (?)",course_ids]).collect(&:profile_id).distinct
       elsif id == "members_of_groups"
-        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "G", school_id], :order => "name").collect(&:id)
-        profile_ids = Participant.find(:all, :conditions => ["target_id IN (?)",course_ids]).collect(&:profile_id).uniq
+        course_ids = Course.where(["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "G", school_id])
+          .distinct
+          .order("name")
+          .collect(&:id)
+        profile_ids = Participant.where(["target_id IN (?)",course_ids]).collect(&:profile_id).distinct
       elsif id == "organizers_of_courses"
-        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "C", school_id], :order => "name").collect(&:id)
-        profile_ids = Participant.find(:all, :conditions => ["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).uniq
+        course_ids = Course.where(["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "C", school_id])
+          .order("name")
+          .collect(&:id)
+        profile_ids = Participant.where(["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).distinct
       elsif id == "organizers_of_groups"
-        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "G", school_id], :order => "name").collect(&:id)
-        profile_ids = Participant.find(:all, :conditions => ["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).uniq
+        course_ids = Course.where(["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, "G", school_id])
+          .order("name")
+          .collect(&:id)
+        profile_ids = Participant.where(["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).distinct
       elsif id == "organizers_of_courses_and_groups"
-        course_ids = Course.find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and name is not null and school_id = ?", false, false, school_id], :order => "name").collect(&:id)
-        profile_ids = Participant.find(:all, :conditions => ["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).uniq
+        course_ids = Course.where(["archived = ? and removed = ? and name is not null and school_id = ?", false, false, school_id])
+          .order("name")
+          .collect(&:id)
+        profile_ids = Participant.where(["target_id IN (?) AND profile_type = 'M'", course_ids]).collect(&:profile_id).distinct
       else
         course_ids = []
         if params[:id].split('_').count > 1          

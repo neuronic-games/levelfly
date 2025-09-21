@@ -42,7 +42,7 @@ class AddNamedRoles < ActiveRecord::Migration
     add_column :profiles, :role_name_id, :integer
 
     Profile.all.each do |profile|
-      roles = Role.find_all_by_profile_id(profile.id).map(&:name)
+      roles = Role.where(profile_id: profile.id).map(&:name)
 
       if roles.include?('modify_settings')
         profile.role_name = levelfly_admin

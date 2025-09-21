@@ -63,8 +63,8 @@ class TaskGrade < ActiveRecord::Base
     flag = false
     category_percent_value = []
     category_used = 0
-    tasks = Task.find(:all,:conditions => ["course_id = ? and archived = false",course_id])
-    c = Category.find(:all,:conditions => ["course_id = ?",course_id])
+    tasks = Task.where(["course_id = ? and archived = false",course_id])
+    c = Category.where(["course_id = ?",course_id])
     categories = c.map do |category|
       {:id => category.id, :percent_value => category.percent_value, :count => 0}
     end
@@ -78,7 +78,7 @@ class TaskGrade < ActiveRecord::Base
     end
     tasks.each do |task|
       if task.category
-        tg = TaskGrade.find(:first,:conditions => ["school_id = ? and course_id = ? and task_id =? and profile_id = ?",school_id,course_id,task.id,profile_id])
+        tg = TaskGrade.where(["school_id = ? and course_id = ? and task_id =? and profile_id = ?",school_id,course_id,task.id,profile_id]).first
         if tg and tg.grade
           category_index = categories.index{|category| task.category.id == category[:id]}
           category = categories[category_index]
@@ -96,7 +96,7 @@ class TaskGrade < ActiveRecord::Base
     end
     tasks.each do |task|
       if task.category
-        tg = TaskGrade.find(:first,:conditions => ["school_id = ? and course_id = ? and task_id =? and profile_id = ?",school_id,course_id,task.id,profile_id])
+        tg = TaskGrade.where(["school_id = ? and course_id = ? and task_id =? and profile_id = ?",school_id,course_id,task.id,profile_id]).first
         if tg and tg.grade
           category_index = categories.index{|category| task.category.id == category[:id]}
           percent_share = categories[category_index][:percent_share]
@@ -110,15 +110,10 @@ class TaskGrade < ActiveRecord::Base
   end
   
   def self.sort_tasks_grade(profile_id, course_id)
-    graded_tasks_ids = TaskGrade.find(
-      :all, 
-      :include => [:task],
-      :conditions => [
-        "task_grades.course_id = ? and task_grades.profile_id = ? and task_grades.grade IS NOT NULL and tasks.archived = 'false'",
-        course_id, profile_id
-      ],
-      :joins => [:task],
-    ).map(&:task_id)
+    graded_tasks_ids = TaskGrade.where( [ "task_grades.course_id = ? and task_grades.profile_id = ? and task_grades.grade IS NOT NULL and tasks.archived = 'false'", course_id, profile_id ])
+      .include([:task])
+      .joins([:task])
+      .map(&:task_id)
     return graded_tasks_ids
   end
   

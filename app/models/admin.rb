@@ -5,7 +5,7 @@ class Admin < ActiveRecord::Base
   def self.clean_friends
     pmap = {}
     count = 0
-    plist = Participant.find(:all, :conditions => {:target_type => "User", :profile_type => "F"})
+    plist = Participant.where({:target_type => "User", :profile_type => "F"})
     plist.each do |p|
       index = "#{p.target_id},#{p.profile_id}"
       if pmap[index].nil?
@@ -47,7 +47,7 @@ class Admin < ActiveRecord::Base
   
   # Standardize email addresses. e.g. remove spaces and make them downcase
   def self.clean_bad_emails
-    users = User.find(:all)
+    users = User.all
     users.each do |user|
       email = user.email.downcase.strip
       if user.email != email

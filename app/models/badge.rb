@@ -11,16 +11,19 @@ class Badge < ActiveRecord::Base
     gold_image_id = BadgeImage.find_by_image_file_name(Badge.gold_badge)
     gold_image_id = gold_image_id ? gold_image_id.id : 0
     @badges = Badge.where("school_id = ? and (creator_profile_id = ? or creator_profile_id IS NULL) and badge_image_id not in (?) and archived != true",profile.school_id,profile.id,gold_image_id).order("created_at desc")
-    badge_ids = AvatarBadge.find(:all, :select=>"badge_id", :conditions=>["giver_profile_id = ?",profile.id], :order => "created_at desc").collect(&:badge_id)
+    badge_ids = AvatarBadge.where( ["giver_profile_id = ?",profile.id])
+      .select("badge_id")
+      .order("created_at desc")
+      .collect(&:badge_id)
     badge_ids=badge_ids.uniq
     ids = badge_ids.in_groups_of(4)
-    @last_used = Badge.find(:all, :conditions => ["id in (?) and badge_image_id not in (?) and archived != true",ids[0],gold_image_id])
+    @last_used = Badge.where(["id in (?) and badge_image_id not in (?) and archived != true",ids[0],gold_image_id])
     return @badges,@last_used
   end
 
   # Returns true if the given profile does not have the specified badge for the course
   def self.check_badge(profile_id,badge_id,course_id)
-    @badge = AvatarBadge.find(:first, :conditions=>["profile_id = ? and badge_id = ? and course_id = ?",profile_id,badge_id,course_id])
+    @badge = AvatarBadge.where(["profile_id = ? and badge_id = ? and course_id = ?",profile_id,badge_id,course_id]).first
     if @badge.nil?
       return true
     else
@@ -30,7 +33,8 @@ class Badge < ActiveRecord::Base
 
   def self.badge_count(profile_id)
     @badge = []
-    @badge_ids = AvatarBadge.find(:all, :select => "id, badge_id", :conditions =>["profile_id = ? ",profile_id])
+    @badge_ids = AvatarBadge.where(["profile_id = ? ",profile_id])
+      .select("id, badge_id")
 
     # if @badge_ids and !@badge_ids.nil?
       # @badge_ids.each do |b|
@@ -42,7 +46,7 @@ class Badge < ActiveRecord::Base
   end
 
   def self.badge_detail(badge_id)
-    badge = Badge.find(:first, :conditions=>["id = ? ",badge_id])
+    badge = Badge.where(["id = ? ",badge_id]).first
     return badge
   end
   

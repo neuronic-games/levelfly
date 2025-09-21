@@ -25,7 +25,7 @@ class School < ActiveRecord::Base
   end
   
   def self.new_school(school_name, code, handle)
-    school = School.find(:first, :conditions => ["handle like ?", handle])
+    school = School.where(["handle like ?", handle]).first
     if school.nil?
       school = School.create(:name => school_name, :code => code, :handle => handle)
       vault = Vault.create(:vault_type => 'AWS S3', :target_id => school.id, :target_type => 'School', :account => ENV['S3_KEY'], :secret => ENV['S3_SECRET'], :folder => ENV['S3_PATH'])
@@ -37,9 +37,9 @@ class School < ActiveRecord::Base
   
   # Create a new community admin for the school
   def self.new_admin(handle, email)
-    school = School.find(:first, :conditions => ["handle like ?", handle])
+    school = School.where(["handle like ?", handle]).first
     if school
-      admin_user = User.find(:first, :conditions => ["email like ?", email])
+      admin_user = User.where(["email like ?", email]).first
       if admin_user.nil?
         admin_user, admin_profile = User.new_user(email, school.id, "changeme")
         admin_profile.role_name = RoleName.find_by_name('Community Admin')

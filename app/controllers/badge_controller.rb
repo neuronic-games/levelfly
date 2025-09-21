@@ -5,28 +5,25 @@ before_filter :authenticate_user!
  
  def give_badges
     if params[:course_id] && !params[:course_id].nil?
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-      course_ids = Course.find(
-       :all, 
-       :include => [:participants], 
-       :conditions => [
+      @profile = Profile.where(["user_id = ?", current_user.id]).first
+      course_ids = Course.where([
         "participants.profile_id = ? and participants.profile_type = 'M' and participants.target_type = 'Course' and parent_type = 'C' and removed = ?", 
         user_session[:profile_id], false
-       ],
-       :order => "courses.name",
-       :joins => [:participants],
-      ).map(&:id)
-      @courses = Course.find(
-        :all, 
-        :include => [:participants], 
-        :conditions => [
+       ])
+      .include(:participants)
+      .order("courses.name")
+      .joins(:participants)
+      .map(&:id)
+      
+      @courses = Course.where([
           "participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'", 
           params[:profile_id], course_ids
-        ],
-        :order=>"courses.id",
-       :joins => [:participants]
-      )
-      @selected_course = Course.find_by_id(params[:last_course]) if params[:last_course]
+        ])
+      .include(:participants)
+      .order("courses.id")
+      .joins(:participants)
+
+      @selected_course = Course.find(params[:last_course]) if params[:last_course]
       @badges ,@last_used= Badge.load_all_badges(@profile)
       #@last_used = Badge.last_used(@profile.school_id,@profile.id)
       render :partial =>"/badge/give_badges",:locals=>{:course_id=>params[:course_id],:profile_id=>params[:profile_id]}
@@ -35,38 +32,35 @@ before_filter :authenticate_user!
   
   def new_badges
     #@badges = Badge.create
-    @badge_image = BadgeImage.find(:all, :conditions => ["image_file_name not in (?)","gold_badge.png"])
-    course_ids = Course.find(
-     :all, 
-     :include => [:participants], 
-     :conditions=>[
+    @badge_image = BadgeImage.where(["image_file_name not in (?)","gold_badge.png"])
+    course_ids = Course.where([
       "participants.profile_id = ? and participants.profile_type = 'M' and participants.target_type = 'Course' and parent_type = 'C' and removed = ?", 
       user_session[:profile_id],
       false
-     ],
-     :order => "courses.name",
-     :joins => [:participants]
-    ).map(&:id)
-    @courses = Course.find(
-     :all, 
-     :include => [:participants], 
-     :conditions => [
+     ])
+    .include(:participants) 
+    .order("courses.name")
+    .joins(:participants)
+    .map(&:id)
+
+    @courses = Course.where([
       "participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'",
       params[:profile_id], 
       course_ids
-     ],
-     :order => "courses.id",
-     :joins => [:participants]
-    )
+     ])
+    .include(:participants) 
+    .order("courses.id")
+    .joins(:participants)
+
     @selected_course = Course.find_by_id(params[:last_course])
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = Profile.where(["user_id = ?", current_user.id]).first
     render :partial =>"/badge/new_badges", :locals=>{:course_id=>params[:course_id],:profile_id=>params[:profile_id],:last_course =>params[:last_course]}
   end
   
   def save
     if params[:badge_image_id] && !params[:badge_image_id].nil?
       status = false
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      @profile = Profile.where(["user_id = ?", current_user.id]).first
       @badge = Badge.new
       @badge.name = params[:badge_name]
       @badge.descr = params[:descr]
@@ -103,7 +97,7 @@ before_filter :authenticate_user!
       badge_name = badge.name if badge
       course = Course.find_by_id(params[:course_id])
       course_name = course.name if course
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      @profile = Profile.where(["user_id = ?", current_user.id]).first
       if !@profile.nil?
         status = AvatarBadge.add_badge(params[:profile_id],params[:badge_id],params[:course_id],@profile.id)
       else
@@ -115,7 +109,7 @@ before_filter :authenticate_user!
   
   def warning_box
     if params[:badge_id] && !params[:badge_id].nil?
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      @profile = Profile.where(["user_id = ?", current_user.id]).first
       @count_students = AvatarBadge.where("badge_id = ? and giver_profile_id = ?",params[:badge_id],@profile.id).count
       render :partial =>"/badge/warning_box"
     end

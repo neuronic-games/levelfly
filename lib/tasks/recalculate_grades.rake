@@ -29,15 +29,15 @@ task :recalculate_task_grades => :environment do
     flag = false
     average = 0
     category_used = 0
-    tasks = Task.find(:all,:conditions => ["school_id = ? and course_id = ? and archived = false", cg.school_id, cg.course_id])
-    c = Category.find(:all,:conditions => ["course_id = ?", cg.course_id])
+    tasks = Task.where(["school_id = ? and course_id = ? and archived = false", cg.school_id, cg.course_id])
+    c = Category.where(["course_id = ?", cg.course_id])
     categories = c.map do |category|
       {:id => category.id, :percent_value => category.percent_value, :count => 0}
     end
 
     tasks.each do |task|
       if task.category
-        tg = TaskGrade.find(:first,:conditions => ["school_id = ? and course_id = ? and task_id =? and profile_id = ?", cg.school_id, cg.course_id, task.id, cg.profile_id])
+        tg = TaskGrade.where(["school_id = ? and course_id = ? and task_id =? and profile_id = ?", cg.school_id, cg.course_id, task.id, cg.profile_id]).first
         if tg and tg.grade
           category_index = categories.index{|category| task.category.id == category[:id]}
           category = categories[category_index]
@@ -55,7 +55,7 @@ task :recalculate_task_grades => :environment do
     end
     tasks.each do |task|
       if task.category
-        tg = TaskGrade.find(:first,:conditions => ["school_id = ? and course_id = ? and task_id =? and profile_id = ?", cg.school_id, cg.course_id, task.id, cg.profile_id])
+        tg = TaskGrade.where(["school_id = ? and course_id = ? and task_id =? and profile_id = ?", cg.school_id, cg.course_id, task.id, cg.profile_id]).first
         if tg and tg.grade
           category_index = categories.index{|category| task.category.id == category[:id]}
           percent_share = categories[category_index][:percent_share]

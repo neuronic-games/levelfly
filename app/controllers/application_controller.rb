@@ -12,9 +12,9 @@ class ApplicationController < ActionController::Base
 		valueFind=false
       if (is_a_valid_email(search_text))
 
-        @user = User.find(:all, :conditions => ["email = ?", params[:search_text]])
+        @user = User.where(["email = ?", params[:search_text]])
         if !@user.empty?
-          @peoples = Profile.find(:all, :conditions => ["user_id != ? AND school_id = ? AND user_id = ?", current_user.id, params[:school_id], @user.first.id ])
+          @peoples = Profile.where(["user_id != ? AND school_id = ? AND user_id = ?", current_user.id, params[:school_id], @user.first.id ])
           if !@peoples.empty?
             valueFind=true
           else
@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
           render :partial=>"shared/send_email", :locals=>{:search_text=>"#{params[:search_text]}"}	
         end
       else
-        @peoples = Profile.find(:all, :conditions => ["user_id != ? AND school_id = ? AND (name LIKE ? OR full_name LIKE ?)", current_user.id, params[:school_id],search_text,search_text])
+        @peoples = Profile.where(["user_id != ? AND school_id = ? AND (name LIKE ? OR full_name LIKE ?)", current_user.id, params[:school_id],search_text,search_text])
         if !@peoples.empty?
         valueFind=true
         else

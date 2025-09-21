@@ -4,13 +4,15 @@ class Report < ActiveRecord::Base
     puts "REPORT, Members In Detail, #{from_date}, #{school_code}"
     puts
     
-    school = School.find(:first, :conditions => ["code = ?", school_code])
-    courses = Course.find(:all, :conditions => ["created_at > ? and school_id = ? and archived = ?", from_date, school.id, false], :order => "parent_type, name, code, year, semester")
+    school = School.where(["code = ?", school_code]).first
+    courses = Course.where(["created_at > ? and school_id = ? and archived = ?", from_date, school.id, false])
+  .order("parent_type, name, code, year, semester")
     people_in_courses = Set.new
     people_in_groups = Set.new
     courses.each do |course|
-      participants = Participant.find(:all, :include => [:profile, :profile => [:user]],
-        :conditions => ["target_type = ? and target_id = ? and users.status = ?", 'Course', course.id, User.status_active], :order => "profile_type, profiles.full_name")
+      participants = Participant.where(["target_type = ? and target_id = ? and users.status = ?", 'Course', course.id, User.status_active])
+        .include([:profile, :profile => [:user]])
+        .order("profile_type, profiles.full_name")
       puts "#{course.parent_type == Course.parent_type_course ? 'COURSE' : 'GROUP'}, #{course.name}, #{course.id}, #{course.code}, #{course.semester}, #{course.year}, #{participants.count}"
       puts
       participants.each do |participant|
@@ -45,12 +47,12 @@ class Report < ActiveRecord::Base
     puts "REPORT, Course Members, #{from_date}, #{school_code}"
     puts
 
-    school = School.find(:first, :conditions => ["code = ?", school_code])
-    courses = Course.find(:all, :conditions => ["parent_type = ? and created_at > ? and school_id = ? and archived = ?", Course.parent_type_course, from_date, school.id, false], :order => "name")
+    school = School.where(["code = ?", school_code]).first
+    courses = Course.where(["parent_type = ? and created_at > ? and school_id = ? and archived = ?", Course.parent_type_course, from_date, school.id, false])
+      .order("name")
     people_in_courses = Set.new
     courses.each do |course|
-      participants = Participant.find(:all, :include => [:profile, :profile => [:user]],
-        :conditions => ["target_type = ? and target_id = ? and users.status = ?", 'Course', course.id, User.status_active])
+      participants = Participant.where(:include => [:profile, :profile => [:user]], ["target_type = ? and target_id = ? and users.status = ?", 'Course', course.id, User.status_active])
       participants.each do |participant|
         people_in_courses.add(participant.profile_id)
       end

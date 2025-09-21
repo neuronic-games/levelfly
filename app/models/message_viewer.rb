@@ -13,7 +13,7 @@ class MessageViewer < ActiveRecord::Base
         elsif @type_of_message.parent_type == ""    
           parent_type = @type_of_message.parent_type
         elsif @type_of_message.parent_type == "Profile"
-          @viewers = Profile.find(:all, :conditions => ["id in (?)",[@type_of_message.profile_id,@type_of_message.parent_id]])
+          @viewers = Profile.where(["id in (?)",[@type_of_message.profile_id,@type_of_message.parent_id]])
         end
       end
     end
@@ -25,26 +25,17 @@ class MessageViewer < ActiveRecord::Base
     end
     
     if (parent_type == "C" || parent_type =="G" || parent_type =="F")
-    @viewers = Profile.find(
-       :all, 
-       :include => [:participants], 
-       :conditions => ["participants.target_id = ? AND participants.target_type in ('Course','Group') AND participants.profile_type IN ('M', 'P', 'S')", parent_id],
-       :joins => [:participants], 
-     )
+    @viewers = Profile.where( ["participants.target_id = ? AND participants.target_type in ('Course','Group') AND participants.profile_type IN ('M', 'P', 'S')", parent_id])
+       .include([:participants])
+       .joins([:participants])
     elsif parent_type == "Profile"
       @viewers = Profile.where("id = ?",parent_id)
        MessageViewer.create(:message_id => message_id, :poster_profile_id =>profile_id, :viewer_profile_id => profile_id) 
 
     elsif  parent_type == ""
-       @viewers = Profile.find(
-         :all, 
-         :include => [:participants],
-         :conditions => [
-           "participants.target_id = ? AND participants.target_type = 'User' AND profile_type = 'F'",
-           profile_id
-         ],
-         :joins => [:participants]
-       )
+       @viewers = Profile.where( [ "participants.target_id = ? AND participants.target_type = 'User' AND profile_type = 'F'", profile_id ])
+         .include([:participants])
+         .joins([:participants])
        MessageViewer.create(:message_id => message_id, :poster_profile_id =>profile_id, :viewer_profile_id => profile_id) 
     # elsif  parent_type == "Message"
        # @viewers = Profile.find(

@@ -7,18 +7,10 @@ class ProfileController < ApplicationController
     @profile = Profile.find(user_session[:profile_id])
     if params[:search_text]
       search_text =  "%#{params[:search_text]}%"
-      @profiles = Profile.find(
-        :all,
-        :include => [:user],
-        :conditions => [
-          "school_id = ? and (lower(full_name) LIKE ? OR lower(users.email) LIKE ?) and user_id is not null and users.status != 'D'",
-          @profile.school_id,
-          search_text.downcase,
-          search_text.downcase
-        ],
-        :order => "full_name",
-        :joins => [:user]
-      )
+      @profiles = Profile.where( [ "school_id = ? and (lower(full_name) LIKE ? OR lower(users.email) LIKE ?) and user_id is not null and users.status != 'D'", @profile.school_id, search_text.downcase, search_text.downcase ])
+        .includes([:user])
+        .order("full_name")
+        .joins([:user])
     end
     respond_to do |wants|
       wants.html do
@@ -44,11 +36,12 @@ class ProfileController < ApplicationController
     if @profile.nil?
       school_id = school.id
       if user_session[:profile_id].blank?
-        new_profile = Profile.find(:first, :conditions => ["code = ? and school_id = ?", "DEFAULT", school_id], :include => [:avatar])
+        new_profile = Profile.where(["code = ? and school_id = ?", "DEFAULT", school_id], :include => [:avatar]).first
       else
         @profile = Profile.find_by_id(user_session[:profile_id])
         if @profile.nil?
-          new_profile = Profile.find(:first, :conditions => ["code = ? and school_id = ?", "DEFAULT", school_id], :include => [:avatar])
+          new_profile = Profile.where(["code = ? and school_id = ?", "DEFAULT", school_id])
+          .includes([:avatar])
         end
       end
     end
@@ -64,9 +57,10 @@ class ProfileController < ApplicationController
   def edit
     profile = Profile.find(user_session[:profile_id])
     ids = profile.sports_reward
-    wardrobe_items = WardrobeItem.find(:all,
-      :conditions => ["archived = ? and wardrobe_id in (?)", false, ids],
-      :order => "depth, sort_order")
+    wardrobe_items = WardrobeItem.where(
+      ["archived = ? and wardrobe_id in (?)", false, ids],
+    )
+    .order("depth, sort_order")
 
     render :text => wardrobe_items.to_json
   end
@@ -164,9 +158,10 @@ class ProfileController < ApplicationController
   end
 
   def change_major
-    @majors = Major.find(:all,
-      :conditions => ["archived = ?", false],
-      :order => "name")
+    @majors = Major.where(
+        ["archived = ?", false],
+      )
+      .order("name")
     render :partial => "/profile/major_dialog"
   end
 
@@ -191,7 +186,7 @@ class ProfileController < ApplicationController
     else
       @profile = Profile.find(params[:profile_id])
       @badge = Badge.badge_count(@profile.id)
-      notes = Note.find(:first, :conditions =>["profile_id = ? and about_object_id = ? and about_object_type = 'Profile'",user_session[:profile_id], @profile.id])
+      notes = Note.where(["profile_id = ? and about_object_id = ? and about_object_type = 'Profile'",user_session[:profile_id], @profile.id]).first
       if !notes.nil?
         @notes = notes.content
       end
@@ -199,12 +194,16 @@ class ProfileController < ApplicationController
     previous_level = @profile.level
     @current_friends = @profile.friends
     @groups = Course.all_group(@profile,"M")
-    @major = Major.find(:all, :conditions =>["school_id = ? ",@profile.school_id])
+    @major = Major.where(["school_id = ? ",@profile.school_id])
     #@level = Reward.find(:first, :conditions=>["xp <= ? and target_type = 'level'",  @profile.xp], :order=>"xp DESC")
     #puts"#{@level.inspect}"
     #@profile.level = @level.target_id
     #@profile.save
-    @levels = Reward.find(:all, :select => "distinct xp", :conditions=>["target_type = 'level'"], :order=>"xp ASC").collect(&:xp)
+    @levels = Reward.where(["target_type = 'level'"])
+      .select("xp")
+      .distinct
+      .order("xp ASC")
+      .collect(&:xp)
     if(previous_level != @profile.level)
       content = "Congratulations! You have achieved level #{@profile.level}."
       Message.send_notification(@profile.id,content,@profile.id)
@@ -260,7 +259,7 @@ class ProfileController < ApplicationController
     if params[:id] and not params[:id].nil?
       @profile = Profile.find(params[:id])
     else
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+      @profile = Profile.where(["user_id = ?", current_user.id]).first
     end
     @profile.all_comments = params[:show]== "true" ? true : false
     @profile.save
@@ -270,7 +269,7 @@ class ProfileController < ApplicationController
   def update_show_date
     if params[:id] and params[:update]
       @profile = Profile.find(params[:id])
-      @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id]) unless @profile
+      @profile = Profile.where(["user_id = ?", current_user.id]).first unless @profile
       @profile.post_date_format = @profile.post_date_format == "D" ? "E" : "D"
       if @profile.save
         render :json =>{:status =>true, :show => @profile.post_date_format}

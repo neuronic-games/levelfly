@@ -470,7 +470,7 @@ class GamecenterController < ApplicationController
 
   # Returns active games for my school
   def get_rows
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = Profile.where(["user_id = ?", current_user.id]).first
     school_id = @profile.school_id
     
     # filter is "active", "archived"
@@ -497,7 +497,10 @@ class GamecenterController < ApplicationController
       conditions << true
     end
 
-    @games = Game.find(:all, :joins => [:game_schools, :feats], :conditions => conditions, :order => "name").uniq
+    @games = Game.where(conditions)
+      .joins([:game_schools, :feats]) 
+      .order("name")
+      .uniq
     render :partial => "/gamecenter/rows"
   end
   
@@ -516,7 +519,7 @@ class GamecenterController < ApplicationController
   end
   
   def save_game
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = Profile.where(["user_id = ?", current_user.id]).first
     @game = Game.new(params.require(:game).permit(
       :archived, :published, :school_id, :name, :descr, :last_rev, :mail_to,
       :outcomes_attributes, :image
@@ -599,8 +602,8 @@ class GamecenterController < ApplicationController
       @game.save
     end
     @course = Course.find_by_id(@game.course_id)
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
-    @wall = Wall.find(:first,:conditions=>["parent_id = ? AND parent_type='Course'", @course.id])
+    @profile = Profile.where(["user_id = ?", current_user.id]).first
+    @wall = Wall.where(["parent_id = ? AND parent_type='Course'", @course.id]).first
     if !@profile.nil?
       @badges = AvatarBadge.where("profile_id = ? and course_id = ?",@profile.id,@course.id).count
     end
@@ -614,7 +617,7 @@ class GamecenterController < ApplicationController
     @member_count = Profile.course_participants(@course.id, section_type).count
 
 
-    @member = Participant.find( :first, :conditions => ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id])
+    @member = Participant.where( ["participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id]).first
     @pending_count = Profile.count(
       :all,
       :include => [:participants],
@@ -624,19 +627,15 @@ class GamecenterController < ApplicationController
       ],
       :joins => [:participants]
     )
-    @courseMaster = Profile.find(
-      :first,
-      :include => [:participants],
-      :conditions => [
-        "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", 
-        @course.id
-      ],
-      :joins => [:participants]
-      )
-    @course_owner = Participant.find(:first, :conditions=>["target_id = ? AND profile_type = 'M' AND target_type='Course'",params[:id]])
+    @courseMaster = Profile.where( [ "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", @course.id ])
+      .includes([:participants])
+      .joins([:participants])
+      .first
+
+    @course_owner = Participant.where(["target_id = ? AND profile_type = 'M' AND target_type='Course'",params[:id]]).first
     #@totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
     @totaltask = @tasks = Task.filter_by(user_session[:profile_id], @course.id, "current")
-    @groups = Group.find(:all, :conditions=>["course_id = ?",@course.id])
+    @groups = Group.where(["course_id = ?",@course.id])
     
     @course_messages = @course.find_game_messages()
         
@@ -705,7 +704,7 @@ class GamecenterController < ApplicationController
   end
 
   def save_badge    
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])    
+    @profile = Profile.where(["user_id = ?", current_user.id]).first    
 
     if params[:badge_id].present?
       @badge = Badge.find(params[:badge_id])
@@ -759,7 +758,7 @@ class GamecenterController < ApplicationController
       #get wall id
       wall_id = Wall.get_wall_id(@course.id,"Course")
       # Participant record for master
-      participant = Participant.find(:first, :conditions => ["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]])
+      participant = Participant.where(["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id, user_session[:profile_id]]).first
       if !participant
         @participant = Participant.new
         @participant.target_id = @course.id

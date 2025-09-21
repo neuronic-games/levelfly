@@ -47,7 +47,7 @@ class Like < ActiveRecord::Base
 
   def self.remove(message_id, profile_id,course_id)
     message = nil
-    like = Like.find(:first, :conditions => ["message_id = ? and profile_id = ?", message_id, profile_id])
+    like = Like.where(["message_id = ? and profile_id = ?", message_id, profile_id]).first
     if like
       # Update the like count for the message
       message = Message.find(message_id)

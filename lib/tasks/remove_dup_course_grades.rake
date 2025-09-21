@@ -6,7 +6,9 @@ task :remove_dup_course_grades => :environment do
   courses.each do |course|
     course_participants = course.participants
     course_participants.each do |cp|
-      cg = CourseGrade.find(:first, :conditions => ["course_id = ? and profile_id = ? and outcome_id is null",course.id,cp.profile_id], :order => "created_at ASC")
+      cg = CourseGrade.where(["course_id = ? and profile_id = ? and outcome_id is null",course.id,cp.profile_id])
+        .order("created_at ASC")
+        .first
       deleted = CourseGrade.delete_all(["course_id = ? and profile_id = ? and outcome_id is null and id not in (?)",course.id,cp.profile_id,cg]) if cg
       count += deleted if deleted
     end

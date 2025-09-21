@@ -5,7 +5,7 @@ class Course < ActiveRecord::Base
   has_many :participants, :as => :target
   has_many :messages, :as => :parent
   has_many :categories
-  has_many :tasks, :order => :due_date
+  has_many :tasks, -> { order "due_date" }
   #has_many :outcomes
   has_and_belongs_to_many :outcomes
   has_many :attachments, :as => :target
@@ -16,7 +16,7 @@ class Course < ActiveRecord::Base
    :bucket => ENV['S3_PATH'],
    :s3_protocol => ENV['S3_PROTOCOL']
 
-  has_many :forums, :class_name => 'Course', :conditions => {:parent_type => "F"}, :order => :name
+  has_many :forums, -> {class_name 'Course', conditions {parent_type "F"}, order => "name"}
   has_one :wall, :as => :parent
   has_one :game
 
@@ -136,31 +136,27 @@ class Course < ActiveRecord::Base
   end
 
   def self.is_owner?(course_id, profile_id)
-    owner = Profile.find(
-      :first,
-      :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", course_id],
-      :joins => [:participants]
-    )
+    owner = Profile.where( ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", course_id])
+      .includes([:participants])
+      .joins([:participants])
+      .first
     return false if owner.nil?
     return owner.id == profile_id
   end
   
   def owner
     if @owner == nil
-      @owner = Profile.find(
-      :first,
-      :include => [:participants],
-      :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", self.id],
-      :joins => [:participants],
-      )
+      owner = Profile.where( ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", self.id])
+        .includes([:participants])
+        .joins([:participants])
+        .first
     end
     return @owner
   end
 
   def owner=(o)
     attributes = {:target_type => 'Course', :profile_type => 'M', :target_id => self.id}
-    if p = Participant.find(:first, :conditions => attributes)
+    if p = Participant.where(attributes).first
       p.profile = o
       # p.save
     else
@@ -205,12 +201,10 @@ class Course < ActiveRecord::Base
   end
 
   def self.get_top_achievers(school_id,course_id,outcome_id)
-    member_ids = Profile.find(
-       :all,
-       :include => [:participants],
-       :conditions => ["participants.target_id = ? AND participants.profile_type IN ('P', 'S')", course_id],
-      :joins => [:participants],
-     ).map(&:id)
+    member_ids = Profile.where( ["participants.target_id = ? AND participants.profile_type IN ('P', 'S')", course_id])
+      .includes([:participants])
+      .joins([:participants])
+      .map(&:id)
     @students = CourseGrade.where("school_id = ? and course_id = ? and outcome_id = ? and grade >= '2.1' and profile_id in (?)",school_id,course_id,outcome_id,member_ids).order("grade DESC")
     sorted_gpa = Course.sort_top_achievers(@students,school_id,course_id,"GPA")
     sorted_total_xp = Course.sort_top_achievers(sorted_gpa,school_id,course_id,"XP")
@@ -344,7 +338,8 @@ class Course < ActiveRecord::Base
               end
             end
           else
-            profiles = Profile.find(:all, :conditions => ["id in (?)", profile_ids[i..count+i-1]], :order => "xp desc")
+            profiles = Profile.where(["id in (?)", profile_ids[i..count+i-1]])
+            .order("xp desc")
             sorted_array.concat(profiles)
           end
         else
@@ -358,28 +353,14 @@ class Course < ActiveRecord::Base
 
   def self.all_group(profile,filter)
     if filter == "M"
-    @courses = Course.find(
-            :all,
-            :select => "distinct *",
-            :include => [:participants],
-            :conditions => [
-              "removed = ? and participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?", 
-              false, profile.id, Course.parent_type_group, Course.profile_type_pending, false
-            ],
-            :order => 'courses.name',
-            :joins => [:participants]
-          )
+    @courses = Course.where( [ "removed = ? and participants.profile_id = ? AND parent_type = ? AND participants.profile_type != ? AND courses.archived = ?", false, profile.id, Course.parent_type_group, Course.profile_type_pending, false ])
+        .distinct
+        .includes([:participants])
+        .order('courses.name')
+        .joins([:participants])
     else
-      @courses = Course.find(
-        :all,
-        :conditions => [
-          "removed = ? AND parent_type = ? AND school_id = ?",
-          false,
-          Course.parent_type_group,
-          profile.school_id
-        ],
-        :order => 'courses.name'
-      )
+      @courses = Course.where( [ "removed = ? AND parent_type = ? AND school_id = ?", false, Course.parent_type_group, profile.school_id ])
+        .order('courses.name')
     end
     return @courses
   end
@@ -390,14 +371,12 @@ class Course < ActiveRecord::Base
     else
       archived = true
     end
-     @courses = Course.find(
-            :all,
-            :select => "distinct *",
-            :include => [:participants, :school],
-            :conditions => ["removed = ? and participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?",false, profile_id, Course.parent_type_course, Course.join_type_invite, Course.profile_type_pending, archived],
-            :order => 'courses.name',
-            :joins => [:participants, :school]
-            )
+     @courses = Course.where(
+            ["removed = ? and participants.profile_id = ? AND parent_type = ? AND join_type = ? AND participants.profile_type != ? AND courses.archived = ?",false, profile_id, Course.parent_type_course, Course.join_type_invite, Course.profile_type_pending, archived]
+      ).order("courses.name")
+      .joins(:participants, :school)
+      .includes(:participants, :school)
+      .distinct()
     return @courses
   end
 
@@ -411,22 +390,15 @@ class Course < ActiveRecord::Base
 
   def self.sort_course_task(course_id)
     @tasks = [];
-    task_ids = Task.find(
-      :all,
-      :include => [:category],
-      :conditions => ["tasks.course_id = ? and tasks.archived = ? and (tasks.category_id is null or tasks.category_id = ?)",course_id,false,0],
-      :order => "tasks.due_date,tasks.created_at"
-    ).map(&:id)
-    categorised_task_ids = Task.find(
-      :all,
-      :include => [:category],
-      :conditions => [
-        "tasks.course_id = ? and categories.course_id = ? and tasks.archived = ?",
-        course_id,course_id,false
-      ],
-      :order => "percent_value,categories.name,due_date,tasks.created_at",
-      :joins => [:category],
-    ).map(&:id)
+    task_ids = Task.where( ["tasks.course_id = ? and tasks.archived = ? and (tasks.category_id is null or tasks.category_id = ?)",course_id,false,0])
+      .includes([:category])
+      .order("tasks.due_date,tasks.created_at")
+      .map(&:id)
+    categorised_task_ids = Task.where( [ "tasks.course_id = ? and categories.course_id = ? and tasks.archived = ?", course_id,course_id,false ])
+      .includes([:category])
+      .order("percent_value,categories.name,due_date,tasks.created_at")
+      .joins([:category])
+      .map(&:id)
     task_ids.concat(categorised_task_ids)
     task_ids.each do |task_id|
       @tasks.push(Task.find(task_id))
@@ -436,22 +408,14 @@ class Course < ActiveRecord::Base
   
   def self.search(text)
     d = text.downcase
-    Course.find(:all,
-      :conditions => ["(lower(courses.name) LIKE ? OR lower(courses.code) LIKE ?) and parent_type = ? and school_id = ? and removed = ?", d, d, Course.parent_type_course, @profile.school_id, false]
-    )
+    Course.where(["(lower(courses.name) LIKE ? OR lower(courses.code) LIKE ?) and parent_type = ? and school_id = ? and removed = ?", d, d, Course.parent_type_course, @profile.school_id, false])
   end
 
   def course_forum(profile_id = nil)
-    return Course.find(
-      :all,
-      :include => [:participants],
-      :conditions => [
-        "participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?",
-        profile_id, self.id, false, false
-      ], 
-      :order => 'courses.name',
-      :joins => [:participants]
-    )
+    return Course.where( [ "participants.profile_id = ? AND course_id = ? AND archived = ? AND removed = ?", profile_id, self.id, false, false ])
+      .includes([:participants])
+      .order('courses.name')
+      .joins([:participants])
   end
   
   # Returns the latest messages for this course
@@ -475,18 +439,12 @@ class Course < ActiveRecord::Base
   end
 
   def join_all(profile)
-     @all_members = Profile.find(
-       :all,
-       :include => [:participants],
-       :conditions => [
-         "participants.target_id = ? AND participants.target_type in ('Course','Group') AND participants.profile_type IN ('M', 'S')", 
-         self.course_id
-       ],
-       :joins => [:participants]
-     )
+     @all_members = Profile.where( [ "participants.target_id = ? AND participants.target_type in ('Course','Group') AND participants.profile_type IN ('M', 'S')", self.course_id ])
+       .includes([:participants])
+       .joins([:participants])
      if @all_members and not@all_members.nil?
         @all_members.each do |viewer|
-           participant_exist = Participant.find(:first, :conditions => ["target_id = ? AND target_type = 'Course' AND profile_id = ?",self.id , viewer.id])
+        participant_exist = Participant.where(["target_id = ? AND target_type = 'Course' AND profile_id = ?",self.id , viewer.id]).first
           if !participant_exist
             @participant = Participant.new
             @participant.target_id = self.id
@@ -521,7 +479,7 @@ class Course < ActiveRecord::Base
       duplicate.name = name
       i = 0
 
-      while existing = Course.find(:first, :conditions => {:name => duplicate.name, :archived => false, :removed => false}) do
+      while existing = Course.where({:name => duplicate.name, :archived => false, :removed => false}).first do
         i = i + 1
         duplicate.name = "#{name}#{i}"
       end
@@ -657,7 +615,7 @@ class Course < ActiveRecord::Base
           outcome_grade = CourseGrade.load_outcomes(p.profile_id, id, o.id, current_profile.school_id)
           if !outcome_grade.blank? and outcome_grade >= 2.5
             @badge = Badge.gold_outcome_badge(o.name, current_profile)
-            avatar_badge = AvatarBadge.find(:first, :conditions => ["profile_id = ? and badge_id = ? and course_id = ? and giver_profile_id = ?",p.profile_id,@badge.id,id,current_profile.id]) if @badge
+            avatar_badge = AvatarBadge.where(["profile_id = ? and badge_id = ? and course_id = ? and giver_profile_id = ?",p.profile_id,@badge.id,id,current_profile.id]).first if @badge
             if avatar_badge.nil?
               status = AvatarBadge.add_badge(p.profile_id, @badge.id, id, current_profile.id)
             end
@@ -669,15 +627,21 @@ class Course < ActiveRecord::Base
   end
 
   def self.all_archived_courses_by_school(school_id)
-    find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", true, false, Course.parent_type_course, school_id], :order => "name")
+    where( ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", true, false, Course.parent_type_course, school_id])
+  .order("name")
+  .distinct
   end
 
   def self.all_courses_by_school(school_id)
-    find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, Course.parent_type_course, school_id], :order => "name")
+    where(["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, Course.parent_type_course, school_id])
+    .distinct
+    .order("name")
   end
 
   def self.all_groups_by_school(school_id)
-    find(:all, :select => "distinct *", :conditions => ["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, Course.parent_type_group, school_id], :order => "name")
+    where(["archived = ? and removed = ? and parent_type = ? and name is not null and school_id = ?", false, false, Course.parent_type_group, school_id])
+  .distinct
+    .order("name")
   end
 
   class << self

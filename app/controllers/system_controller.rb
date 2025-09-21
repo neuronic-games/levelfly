@@ -17,14 +17,14 @@ class SystemController < ApplicationController
     if params[:link] and !params[:link].nil?
       invitation_link = Course.hexdigest_to_digest(params[:link])
       links = invitation_link.split("&")
-      @user = User.find(:first, :conditions=>["email = ? OR id = ?", links[0], links[0].to_i])
+      @user = User.where(["email = ? OR id = ?", links[0], links[0].to_i]).first
       @message = links.count > 1 ? links[1] : nil
       if @user.nil? 
         flash[:notice] = "This invitation is no longer valid. Please contact the person who sent you the invite and ask them to send you a new invite."
         redirect_to new_user_session_url
       elsif @user.sign_in_count > 0
         session[:email] = @user.email
-        profile = Profile.find(:first, :conditions=>["user_id = ?",@user.id])
+        profile = Profile.where(["user_id = ?",@user.id]).first
 
         if @message
           accept_course_invitation(@message,profile)
@@ -38,11 +38,11 @@ class SystemController < ApplicationController
   end
   
   def edit
-    @user = User.find(:first, :conditions=>["id = ?",params[:id]])
+    @user = User.where(["id = ?",params[:id]]).first
     @user.password=params[:user][:password]
     @user.skip_confirmation!
     if @user.save
-      profile = Profile.find(:first, :conditions=>["user_id = ?",@user.id])
+      profile = Profile.where(["user_id = ?",@user.id]).first
       profile.full_name = params[:user][:full_name]
       profile.save
       session[:school_id] = profile.school_id
@@ -70,11 +70,11 @@ class SystemController < ApplicationController
           @course_participant.profile_type = 'S'
           @course_participant.save
         end
-        tasks = Task.find(:all, :conditions => ["course_id = ? and archived = ? and all_members = ?", @message.target_id, false, true])
+        tasks = Task.where(["course_id = ? and archived = ? and all_members = ?", @message.target_id, false, true])
         if tasks and !tasks.blank?
           tasks.each do |t|
             wall_id = Wall.get_wall_id(t.id,"Task")
-            task_owner = TaskParticipant.find(:first, :conditions => ["task_id = ? AND profile_type='O'", t.id])
+            task_owner = TaskParticipant.where(["task_id = ? AND profile_type='O'", t.id]).first
             if task_owner
               @profile = Profile.find(task_owner.profile_id)
               @task_participant = TaskParticipant.new
@@ -94,7 +94,7 @@ class SystemController < ApplicationController
             end
           end
         end
-        forums = Course.find(:all, :conditions => ["course_id = ? and archived = ? and all_members = ?", @message.target_id, false, true])
+        forums = Course.where(["course_id = ? and archived = ? and all_members = ?", @message.target_id, false, true])
         if forums and !forums.blank?
           forums.each do |forum|
             wall_id = Wall.get_wall_id(forum.id,"Course")
@@ -119,7 +119,7 @@ class SystemController < ApplicationController
         wall_id = Wall.get_wall_id(@message.target_id, "C")
         Feed.create(:profile_id => @message.parent_id,:wall_id =>wall_id)
       end
-      messages =  Message.find(:all, :conditions =>["profile_id = ? and parent_id = ? and parent_type = ? and message_type = ? and target_id = ? and archived = ?",@message.profile_id,@message.parent_id,@message.parent_type,@message.message_type,@message.target_id,false])     
+      messages =  Message.where(["profile_id = ? and parent_id = ? and parent_type = ? and message_type = ? and target_id = ? and archived = ?",@message.profile_id,@message.parent_id,@message.parent_type,@message.message_type,@message.target_id,false])     
       message_ids = messages.map(&:id)
       messages.each do |message|
         message.update_attributes(:archived => true) 

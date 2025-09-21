@@ -2,23 +2,23 @@ class Wardrobe < ActiveRecord::Base
   has_many :wardrobe_items
 
   def self.add(wardrobe_name, level_0_name, level_1_name, name, item_type, image_file, sort_order=nil, new_name=nil)
-    wardrobe = Wardrobe.find(:first, :conditions => ["name like ?", wardrobe_name])
+    wardrobe = Wardrobe.where(["name like ?", wardrobe_name]).first
     if wardrobe.nil?
       wardrobe = Wardrobe.create(:name => wardrobe_name, :visible_level => 1, :available_level => 1, :available_date => Date.today, :visible_date => Date.today)
       puts "Wardrobe #{wardrobe.name} (#{wardrobe.id}) created"
     end
     
-    level_0 = WardrobeItem.find(:first, :conditions => ["name like ? and parent_item_id is null and depth = 0", level_0_name])
+    level_0 = WardrobeItem.where(["name like ? and parent_item_id is null and depth = 0", level_0_name]).first
     if level_0.nil?
       puts "ERROR: #{level_0_name} does not exit"
       return
     end
-    level_1 = WardrobeItem.find(:first, :conditions => ["name like ? and parent_item_id = ? and depth = 1", level_1_name, level_0.id])
+    level_1 = WardrobeItem.where(["name like ? and parent_item_id = ? and depth = 1", level_1_name, level_0.id]).first
     if level_1.nil?
       puts "ERROR: #{level_1_name} in #{level_0_name} does not exit"
       return
     end
-    exists = WardrobeItem.find(:first, :conditions => ["name like ? and parent_item_id = ? and depth = 2", name, level_1.id])
+    exists = WardrobeItem.where(["name like ? and parent_item_id = ? and depth = 2", name, level_1.id]).first
     
     if exists
       exists.name = new_name if new_name
@@ -35,13 +35,13 @@ class Wardrobe < ActiveRecord::Base
   end
   
   def self.unlock(wardrobe_name, xp)
-    wardrobe = Wardrobe.find(:first, :conditions => ["name like ?", wardrobe_name])
+    wardrobe = Wardrobe.where(["name like ?", wardrobe_name]).first
     if wardrobe.nil?
       wardrobe = Wardrobe.create(:name => wardrobe_name, :visible_level => 1, :available_level => 1, :available_date => Date.today, :visible_date => Date.today)
       puts "Wardrobe #{wardrobe.name} (#{wardrobe.id}) created"
     end
 
-    exists = Reward.find(:first, :conditions => {:target_type => 'wardrobe', :target_id => wardrobe.id})
+    exists = Reward.where({:target_type => 'wardrobe', :target_id => wardrobe.id}).first
     if exists
       exists.xp = xp
       exists.save
@@ -53,16 +53,16 @@ class Wardrobe < ActiveRecord::Base
   end
 
   def self.unlock_lvl(wardrobe_name, lvl)
-    wardrobe = Wardrobe.find(:first, :conditions => ["name like ?", wardrobe_name])
+    wardrobe = Wardrobe.where(["name like ?", wardrobe_name]).first
     if wardrobe.nil?
       wardrobe = Wardrobe.create(:name => wardrobe_name, :visible_level => 1, :available_level => 1, :available_date => Date.today, :visible_date => Date.today)
       puts "Wardrobe #{wardrobe.name} (#{wardrobe.id}) created"
     end
 
-    lvl_reward = Reward.find(:first, :conditions => {:target_type => 'level', :target_id => lvl})
+    lvl_reward = Reward.where({:target_type => 'level', :target_id => lvl}).first
     return unless lvl_reward
 
-    exists = Reward.find(:first, :conditions => {:target_type => 'wardrobe', :target_id => wardrobe.id})
+    exists = Reward.where({:target_type => 'wardrobe', :target_id => wardrobe.id}).first
     if exists
       exists.xp = lvl_reward.xp
       exists.save

@@ -3,9 +3,9 @@ class ProfileAction < ActiveRecord::Base
   def self.last_action(profile_id)
     url = nil
     controller = nil
-    pa = ProfileAction.find(:first, :conditions =>["profile_id = ? and action_type = 'last'",profile_id])
+    pa = ProfileAction.where(["profile_id = ? and action_type = 'last'",profile_id]).first
       if pa and !pa.nil?
-        action = ProfileAction.find(:first, :conditions =>["profile_id = ? and action_type = ?",profile_id, pa.action_param])
+      action = ProfileAction.where(["profile_id = ? and action_type = ?",profile_id, pa.action_param]).first
         url = "/#{pa.action_param}/"
         if action and !action.nil?
           if action.action_param == "C" or action.action_param == "G"

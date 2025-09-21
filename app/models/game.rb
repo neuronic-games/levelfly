@@ -11,7 +11,7 @@ class Game < ActiveRecord::Base
   has_many :feats
   has_many :game_score_leaders
   has_many :game_schools  # In addition to the main school, the same game can be used in other schools
-  has_many :outcomes, :dependent => :destroy, :order => 'id'
+  has_many :outcomes, -> { order 'id' }, dependent: :destroy
   has_many :screen_shots, :dependent => :destroy
   belongs_to :course  # This is not an actual course. It uses the forums of a course as a support forum.
   belongs_to :profile

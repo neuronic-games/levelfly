@@ -9,7 +9,7 @@ class Major < ActiveRecord::Base
     major_list = majors.split(",")
     major_list.each do |major|
       name = major.strip
-      next if Major.find(:first, :conditions => {:school_id => school.id, :name => name})
+      next if Major.where({:school_id => school.id, :name => name}).first
       
       Major.create(:school_id => school.id, :name => name)
     end

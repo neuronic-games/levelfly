@@ -11,12 +11,12 @@ class Message < ActiveRecord::Base
   after_create :push
 
   scope :invites, lambda {|type, profile_id, message_ids| where("message_type = ? AND parent_id = ? AND (archived is NULL or archived = ?) and id in(?)", type, profile_id, false, message_ids).order('created_at DESC')}
-  scope :starred, :conditions => ['starred = ?', true]
-  scope :active, :conditions => {:archived => [false, nil]}
+  scope :starred, -> { where(starred: true)}
+  scope :active, -> {where(archived: [false, nil])}
   scope :involving, lambda {|profile_id| where('profile_id = ? or parent_id = ?', profile_id, profile_id)}
-  scope :interesting, :conditions => ["(message_type = 'Message' and target_type = 'Profile' and parent_type = 'Profile') or parent_type = 'Message'"]
+  scope :interesting, -> {where("(message_type = 'Message' and target_type = 'Profile' and parent_type = 'Profile') or parent_type = 'Message'")}
   scope :respond_to_course, lambda {|profile_id, message_ids|where("target_type in('Course','Notification') AND message_type = 'Message' AND parent_type='Profile' AND parent_id = ? AND archived = ? and id in(?)", profile_id ,false,message_ids).order('created_at DESC') }
-  scope :school_invites, lambda { |message_ids| find(:all, :conditions => ["message_type = 'school_invite' AND (archived is NULL OR archived = ?) AND id IN (?)", false, message_ids], :order => "created_at DESC") }
+  scope :school_invites, lambda { |message_ids| where("message_type = 'school_invite' AND (archived is NULL OR archived = ?) AND id IN (?)", false, message_ids).order("created_at DESC")}
 
   scope :between, (lambda do |ids, id2|
     snippets = ids.map do |id|
@@ -141,7 +141,7 @@ class Message < ActiveRecord::Base
       MessageViewer.add(current_profile.id,message.id,parent_type,parent.id)
       UserMailer.delay.private_message(parent.user.email,current_profile,current_profile.school,content) unless course
       UserMailer.delay.course_private_message(parent.user.email,current_profile,current_profile.school,course,content) if course
-      feed = Feed.find(:first,:conditions=>["profile_id = ? and wall_id = ?",current_profile.id,wall_id])
+      feed = Feed.where(["profile_id = ? and wall_id = ?",current_profile.id,wall_id]).first
       if feed.nil?
         Feed.create(:profile_id => current_profile.id,:wall_id =>wall_id)
       end
@@ -149,12 +149,16 @@ class Message < ActiveRecord::Base
   end
 
   def set_as_viewed(friend_id, profile_id)
-    message_viewer =MessageViewer.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?",false, id, friend_id, profile_id], :order => "created_at DESC")
+    message_viewer =MessageViewer.where(["(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?",false, id, friend_id, profile_id])
+      .order("created_at DESC")
+      .first
     message_viewer.update_attribute("viewed",true) if message_viewer
     comments = Message.comment_list(id).collect(&:id)
     if comments
       comments.each do |comment_id|
-        comment_message_viewer = MessageViewer.find(:first, :conditions => ["(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?",false,comment_id, friend_id, profile_id], :order => "created_at DESC")
+        comment_message_viewer = MessageViewer.where(["(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?",false,comment_id, friend_id, profile_id])
+          .order("created_at DESC")
+          .first
         comment_message_viewer.update_attribute("viewed",true) if comment_message_viewer
       end
     end
@@ -204,15 +208,10 @@ class Message < ActiveRecord::Base
     msg = find(message_id)
     if msg.parent_type == 'F' and msg.message_type == Message.to_s and msg.target_type == 'F'
       ids = MessageViewer.where(message_id: message_id).map(&:viewer_profile_id) - [msg.profile_id]
-      courseMaster = Profile.find(
-          :first,
-          :include => [:participants],
-          :conditions => [
-            "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", 
-            msg.parent_id
-          ],
-          :joins => [:participants]
-      )
+      courseMaster = Profile.where( [ "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", msg.parent_id ])
+        .includes([:participants])
+        .joins([:participants])
+        .first
       partial = 'message/pusher/message'
       channel = 'forum_message'
       ids.each do |push_id|
@@ -227,15 +226,10 @@ class Message < ActiveRecord::Base
   def toggle_star
     update_attribute('starred',(  starred == true ? false : true))
 
-    course_master = Profile.find(
-        :first,
-        :include => [:participants],
-        :conditions => [
-          "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", 
-          parent_id
-        ],
-        :joins => [:participants]
-    )
+    course_master = Profile.where( [ "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", parent_id ])
+      .include([:participants])
+      .joins([:participants])
+      .first
 
     receivers = Profile.course_participants(parent_id, 'Course').map(&:id)
 
@@ -297,12 +291,10 @@ class Message < ActiveRecord::Base
   end
 
   def push_course_message
-    courseMaster = Profile.find(
-        :first,
-        :include => [:participants],
-        :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", parent_id],
-        :joins => [:participants]
-    )
+    courseMaster = Profile.where( ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", parent_id])
+      .include([:participants])
+      .joins([:participants])
+      .first
     receivers = Profile.course_participants(parent_id, 'Course').map(&:id) + [courseMaster.id] - [profile_id]
     partial = 'message/pusher/message'
     channel = target_type == 'C' ? "course_message" : 'group_message'

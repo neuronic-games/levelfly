@@ -592,7 +592,7 @@ var h = new Object();
   var section_type = "C";
   var search_term = $("#search_input").val();
 	// These booleans are set for show / hide all comments on walls & messages
-	<% @profile = @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id]) %>
+	<% @profile = @profile = Profile.where(["user_id = ?", current_user.id]).first %>
 	<% if @profile && @profile.all_comments == false %>
 	    var all_comments = false;
 	<% else %>

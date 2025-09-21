@@ -2,7 +2,7 @@ module TaskHelper
 
   def outcome_associate(outcome_id, task_id)
     if outcome_id
-      outcome_task = OutcomeTask.find(:first, :conditions=>["outcome_id = ? AND task_id = ?", outcome_id, task_id])
+      outcome_task = OutcomeTask.where(["outcome_id = ? AND task_id = ?", outcome_id, task_id]).first
       if outcome_task
         return true
       end
@@ -12,8 +12,7 @@ module TaskHelper
   
   def member_associate(member_id, task_id)
     if member_id
-      participant = TaskParticipant.find(:first, 
-        :conditions => ["profile_id = ? AND task_id = ? AND profile_type = ? ", member_id, task_id, Task.profile_type_member])
+      participant = TaskParticipant.where(["profile_id = ? AND task_id = ? AND profile_type = ? ", member_id, task_id, Task.profile_type_member]).first
       if participant
         return true
       end
@@ -28,7 +27,7 @@ module TaskHelper
   
   def complete_date(profile_id, task_id)
     if profile_id
-      participant = TaskParticipant.find(:first,:conditions => ["profile_id = ? AND task_id = ? AND profile_type = ? ", profile_id, task_id, Task.profile_type_member])
+      participant = TaskParticipant.where(["profile_id = ? AND task_id = ? AND profile_type = ? ", profile_id, task_id, Task.profile_type_member]).first
       if participant
         if participant.complete_date == nil  
           return "NOT COMPLETED"
@@ -42,8 +41,7 @@ module TaskHelper
   
   def member_points(member_id, task_id)
     if member_id && !member_id.nil?
-      task_grade = TaskGrade.find(:first, 
-        :conditions => ["profile_id = ? AND task_id = ? ", member_id, task_id])
+      task_grade = TaskGrade.where(["profile_id = ? AND task_id = ? ", member_id, task_id]).first
       if task_grade
         return task_grade.points if task_grade.points
       end
@@ -63,7 +61,7 @@ module TaskHelper
   
   def task_extra_credit(member_id, task_id)
     if member_id
-      participant = TaskParticipant.find(:first, :conditions => ["profile_id = ? AND task_id = ?", member_id, task_id])
+      participant = TaskParticipant.where(["profile_id = ? AND task_id = ?", member_id, task_id]).first
       if participant
         return participant.extra_credit
       end

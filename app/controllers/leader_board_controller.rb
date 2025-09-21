@@ -10,7 +10,7 @@ class LeaderBoardController < ApplicationController
   end
 
   def get_rows
-    @profile = Profile.find(:first, :conditions => ["user_id = ?", current_user.id])
+    @profile = Profile.where(["user_id = ?", current_user.id]).first
 
     # filter is "school", "course" or "friend"
     filter = params[:filter]
@@ -19,9 +19,10 @@ class LeaderBoardController < ApplicationController
     conditions = ["profiles.archived = ? and profiles.school_id = ? and user_id is not null", false, school_id]
 
     if filter == "course"
-      course_ids = Participant.find(:all, 
-        :conditions => ["target_type = 'Course' and profile_id = ? and profile_type in ('M', 'S')", @profile.id], 
-        :select => "distinct target_id as course_id").map(&:course_id)
+      course_ids = Participant.where(
+        ["target_type = 'Course' and profile_id = ? and profile_type in ('M', 'S')", @profile.id]
+      )
+      .select("distinct target_id as course_id").map(&:course_id)
       conditions[0] += " and participants.target_type = 'Course' and participants.profile_type in ('M', 'S') and participants.target_id in (?)"
       conditions << course_ids
     elsif filter == "friend"
@@ -29,20 +30,16 @@ class LeaderBoardController < ApplicationController
       conditions << @profile.id
     end
     if params[:show] and !params[:show]
-      profiles_temp = Profile.find(
-        :all, :conditions => conditions,
-        :include => [:participants],
-        :joins => [:participants],
-        :order => "xp desc"
-      )
+      profiles_temp = Profile.where( conditions)
+        .includes([:participants])
+        .joins([:participants])
+        .order("xp desc")
     else
-      profiles_temp = Profile.find(
-        :all, :limit => 50,
-        :conditions => conditions,
-        :include => [:participants],
-        :order => "xp desc",
-        :joins => [:participants],
-      )
+      profiles_temp = Profile.where( conditions)
+        .limit(50)
+        .includes([:participants])
+        .order("xp desc")
+        .joins([:participants])
     end
     
         

@@ -80,20 +80,16 @@ module ApplicationHelper
     recently_messaged = profile.recently_messaged
     return false if recently_messaged.count > 0 && recently_messaged.first.unread_message_count.to_i > 0
 
-    recently_messaged = Message.active.involving(profile.id).find(
-      :all,
-      :joins => :message_viewers,
-      :conditions => {
-        :messages => {
-          :message_type => 'Message',
-          :target_type => 'Profile',
-          :parent_type => 'Profile'
-        },
-        :message_viewers => {
-          :viewer_profile_id => profile.id
-        }
+    recently_messaged = Message.active.involving(profile.id).where(
+      :messages => {
+        :message_type => 'Message',
+        :target_type => 'Profile',
+        :parent_type => 'Profile'
+      },
+      :message_viewers => {
+        :viewer_profile_id => profile.id
       }
-    )
+    ).joins(:message_viewers)
 
     profile_ids = []
     recently_messaged.map do |r|

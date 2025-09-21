@@ -5,7 +5,7 @@ class Wall < ActiveRecord::Base
     create = true
     wall_id = nil
     begin
-      @wall = Wall.find(:first, :conditions=>["parent_id = ? AND parent_type = ?", parent_id, parent_type])
+      @wall = Wall.where(["parent_id = ? AND parent_type = ?", parent_id, parent_type]).first
       if @wall
         wall_id = @wall.id
         create = false

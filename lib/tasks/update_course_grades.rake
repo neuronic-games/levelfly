@@ -3,7 +3,7 @@
 task :update_course_grades => :environment do
   courses = Course.where("removed = ?",false)
   courses.each do |course|
-    course_grades = CourseGrade.find_all_by_course_id(course.id)
+    course_grades = CourseGrade.where(course_id: course.id)
     course_grades.each do |cg|
       cg.update_attributes(:school_id => course.school_id)
     end
