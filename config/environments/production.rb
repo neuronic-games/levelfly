@@ -11,7 +11,7 @@ Oncapus::Application.configure do
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  #config.serve_static_assets = true
+  # config.serve_static_assets = true
   config.serve_static_files = true
 
   # Set logging verbosity
@@ -26,8 +26,8 @@ Oncapus::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
-  #Activate observers that should always be running
-  #config.active_record.observers = :participant_observer
+  # Activate observers that should always be running
+  # config.active_record.observers = :participant_observer
 
   # Defaults to Rails.root.join("public/assets")
   # config.assets.manifest = YOUR_PATH
@@ -40,8 +40,8 @@ Oncapus::Application.configure do
   config.force_ssl = false
 
   # See everything in the log (default is :info)
-  #config.logger = Logger.new(STDOUT)
-  #config.log_level = :debug
+  # config.logger = Logger.new(STDOUT)
+  # config.log_level = :debug
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
@@ -54,7 +54,7 @@ Oncapus::Application.configure do
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   # config.assets.precompile += %w( search.js )
-  config.assets.precompile += %w( vendor.js )
+  config.assets.precompile += %w[vendor.js]
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
@@ -70,24 +70,24 @@ Oncapus::Application.configure do
   config.active_support.deprecation = :notify
 
   # Used for password reminder emails
-  config.action_mailer.default_url_options = { :host => ENV['MAILER_DEFAULT_URL'] }
+  config.action_mailer.default_url_options = { host: ENV.fetch('MAILER_DEFAULT_URL', nil) }
 
-  Pusher.url = ENV['PUSHER_URL']
+  Pusher.url = ENV.fetch('PUSHER_URL', nil)
 
   puts(ENV)
 
   ActionMailer::Base.smtp_settings = {
-    :address              => ENV['SMTP_HOST'],
-    :port                 => ENV['SMTP_POST'],
-    :domain               => ENV['SMTP_DOMAIN'],
-    :user_name            => ENV['SMTP_USERNAME'],
-    :password             => ENV['SMTP_PASSWORD'],
-    :authentication       => "plain"
+    address: ENV.fetch('SMTP_HOST', nil),
+    port: ENV.fetch('SMTP_POST', nil),
+    domain: ENV.fetch('SMTP_DOMAIN', nil),
+    user_name: ENV.fetch('SMTP_USERNAME', nil),
+    password: ENV.fetch('SMTP_PASSWORD', nil),
+    authentication: 'plain'
   }
 
   ActionMailer::Base.delivery_method = :smtp
-  ActionMailer::Base.default :content_type => "text/html"
+  ActionMailer::Base.default content_type: 'text/html'
 
   # oink
-  #config.middleware.use( Oink::Middleware, :logger => Hodel3000CompliantLogger.new(STDOUT))
+  # config.middleware.use( Oink::Middleware, :logger => Hodel3000CompliantLogger.new(STDOUT))
 end

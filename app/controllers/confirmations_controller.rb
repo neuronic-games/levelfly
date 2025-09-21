@@ -8,18 +8,18 @@ class ConfirmationsController < Devise::ConfirmationsController
     yield resource if block_given?
 
     if resource.errors.empty?
-      sign_in self.resource
+      sign_in resource
 
       if reconfirmed
-        flash[:notice] = "Your account email has been successfully changed."
+        flash[:notice] = 'Your account email has been successfully changed.'
         flash[:email_confirmation] = true
       else
         set_flash_message(:notice, :confirmed)
       end
 
-      respond_with_navigational(resource){ redirect_to after_confirmation_path_for(resource_name, resource) }
+      respond_with_navigational(resource) { redirect_to after_confirmation_path_for(resource_name, resource) }
     else
-      respond_with_navigational(resource.errors, status: :unprocessable_entity){ render :new }
+      respond_with_navigational(resource.errors, status: :unprocessable_entity) { render :new }
     end
   end
 end

@@ -3,5 +3,4 @@ class OutcomeFeat < ActiveRecord::Base
   belongs_to :outcome
   belongs_to :feat
   belongs_to :profile
-  
 end

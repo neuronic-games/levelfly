@@ -1,5 +1,4 @@
 class Gamecenter
-  
   SUCCESS = 'success'
   FAILURE = 'failure'
 
@@ -12,5 +11,4 @@ class Gamecenter
   incorrect_answers = 0
   login_time = 0
   duration = 0
-  
 end

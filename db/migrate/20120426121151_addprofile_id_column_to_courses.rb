@@ -3,6 +3,5 @@ class AddprofileIdColumnToCourses < ActiveRecord::Migration
     add_column :courses, :profile_id, :integer
   end
 
-  def down
-  end
+  def down; end
 end

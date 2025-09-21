@@ -6,6 +6,6 @@ class CreateGameSchools < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_index :game_schools, [:game_id, :school_id]
+    add_index :game_schools, %i[game_id school_id]
   end
 end

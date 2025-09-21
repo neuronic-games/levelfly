@@ -4,59 +4,59 @@ class ApplicationController < ActionController::Base
 
   # before_filter :prepare_for_mobile
   include ApplicationHelper
-  
+
   # Search people by email or name
   def search_participants
-		if params[:school_id] && !params[:school_id].empty?
-		search_text =  "#{params[:search_text]}%"
-		valueFind=false
-      if (is_a_valid_email(search_text))
+    if params[:school_id] && !params[:school_id].empty?
+      search_text = "#{params[:search_text]}%"
+      valueFind = false
+      if is_a_valid_email(search_text)
 
-        @user = User.where(["email = ?", params[:search_text]])
-        if !@user.empty?
-          @peoples = Profile.where(["user_id != ? AND school_id = ? AND user_id = ?", current_user.id, params[:school_id], @user.first.id ])
-          if !@peoples.empty?
-            valueFind=true
-          else
-            render :text=> "you cant add yourself"
-          end
+        @user = User.where(['email = ?', params[:search_text]])
+        if @user.empty?
+          render partial: 'shared/send_email', locals: { search_text: params[:search_text].to_s }
         else
-          render :partial=>"shared/send_email", :locals=>{:search_text=>"#{params[:search_text]}"}	
+          @peoples = Profile.where(['user_id != ? AND school_id = ? AND user_id = ?', current_user.id,
+                                    params[:school_id], @user.first.id])
+          if @peoples.empty?
+            render text: 'you cant add yourself'
+          else
+            valueFind = true
+          end
         end
       else
-        @peoples = Profile.where(["user_id != ? AND school_id = ? AND (name LIKE ? OR full_name LIKE ?)", current_user.id, params[:school_id],search_text,search_text])
-        if !@peoples.empty?
-        valueFind=true
+        @peoples = Profile.where(['user_id != ? AND school_id = ? AND (name LIKE ? OR full_name LIKE ?)',
+                                  current_user.id, params[:school_id], search_text, search_text])
+        if @peoples.empty?
+          render text: 'No match found'
         else
-        render :text=> "No match found"
+          valueFind = true
         end
       end
-      if valueFind
-        render :partial=>"shared/participant_list", :locals=>{:peoples=>@peoples, :mode=>"result" }
-      end
+      render partial: 'shared/participant_list', locals: { peoples: @peoples, mode: 'result' } if valueFind
     else
-      render :text=> "Error: Parameters missing !!"
+      render text: 'Error: Parameters missing !!'
     end
   end
-  
+
   private
-  
-  def set_current_profile()
+
+  def set_current_profile
     if current_user
       profile = Profile.create_for_user(current_user.id, school.id)
       publish_profile(profile)
-      if current_user.status == "S"
-        flash[:message] = "Your account has been suspended."
+      if current_user.status == 'S'
+        flash[:message] = 'Your account has been suspended.'
         sign_out current_user
       end
-    # elsif current_user
-    #   puts "=== user_session[:profile_id] = #{user_session[:profile_id]}"
-    #   puts "=== current_user.id = #{current_user.id}"
-    #   profile = Profile.create_for_user(current_user.id)
-    #   puts "=== profile.id = #{profile.id}"
+      # elsif current_user
+      #   puts "=== user_session[:profile_id] = #{user_session[:profile_id]}"
+      #   puts "=== current_user.id = #{current_user.id}"
+      #   profile = Profile.create_for_user(current_user.id)
+      #   puts "=== profile.id = #{profile.id}"
     end
   end
-  
+
   def publish_profile(profile)
     user_session[:profile_id] = profile.id
     session[:school_id] = profile.school_id
@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
 
   def mobile_device?
     if session[:mobile_param]
-      session[:mobile_param] == "1"
+      session[:mobile_param] == '1'
     else
       request.user_agent =~ /Mobile|webOS/
     end
@@ -76,19 +76,19 @@ class ApplicationController < ActionController::Base
     session[:mobile_param] = params[:mobile] if params[:mobile]
     request.format = :mobile if mobile_device?
   end
-  
+
   # Allow the user to go directly to a details page that they were working on before
   def redirect_to_last_action(profile, action_type, action_path)
     # Temporarily disabled
     profile.record_action('last', action_type)
     return false
-    
+
     # Check to see if we have any info on this action
     last_action = profile.last_action('last')
     if last_action and last_action.action_param == action_type
       profile.record_action('last', action_type)
     else
-      # The last page that were viewing was not a course page, so show the 
+      # The last page that were viewing was not a course page, so show the
       # last course page viewed instead of the course list
       action = profile.last_action(action_type)
       if action
@@ -97,21 +97,20 @@ class ApplicationController < ActionController::Base
         return true
       end
     end
-    return false
+    false
   end
-  
-  def after_sign_out_path_for(resource_or_scope)
-    session[:slug].blank? ? new_user_session_path : new_user_session_path + "/" + school.handle
+
+  def after_sign_out_path_for(_resource_or_scope)
+    session[:slug].blank? ? new_user_session_path : new_user_session_path + '/' + school.handle
   end
-  
-  def after_sign_in_path_for(resource)
+
+  def after_sign_in_path_for(_resource)
     root_path
   end
-  
+
   # def set_aws_vault(vault)
   #   ENV['S3_KEY']  = vault.account
   #   ENV['S3_SECR'] = vault.secret
   #   ENV['S3_BUCK'] = vault.folder
   # end
-  
 end

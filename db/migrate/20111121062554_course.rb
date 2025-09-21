@@ -1,7 +1,7 @@
 class Course < ActiveRecord::Migration
   def change
     create_table :courses do |t|
-      t.string :name, :limit=>64
+      t.string :name, limit: 64
       t.text :descr
       t.string :code
       t.integer :campus_id

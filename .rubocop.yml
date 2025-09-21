@@ -1,0 +1,4 @@
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'app/controllers/course_controller.rb'

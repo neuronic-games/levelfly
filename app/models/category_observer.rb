@@ -1,9 +1,6 @@
 class CategoryObserver < ActiveRecord::Observer
-
   def after_update(category)
-    if category.percent_value_changed?
-      update_task_grade(category)
-    end
+    update_task_grade(category) if category.percent_value_changed?
   end
 
   def after_destroy(category)
@@ -13,12 +10,11 @@ class CategoryObserver < ActiveRecord::Observer
   private
 
   def update_task_grade(category)
-    tasks = Task.where(["category_id = ? and archived = ?",category.id,false])
-      if tasks
-        tasks.each do |task|
-          task.grade_recalculate
-        end
+    tasks = Task.where(['category_id = ? and archived = ?', category.id, false])
+    if tasks
+      tasks.each do |task|
+        task.grade_recalculate
       end
+    end
   end
-
 end

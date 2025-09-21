@@ -3,9 +3,9 @@ class CreateAccessCodes < ActiveRecord::Migration
     create_table :access_codes do |t|
       t.integer :school_id
       t.integer :major_id
-      t.string :code, :limit=>32
+      t.string :code, limit: 32
       t.date :available_date
-      t.boolean :archived, :default => false
+      t.boolean :archived, default: false
 
       t.timestamps
     end

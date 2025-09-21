@@ -5,7 +5,7 @@ class RemoveObjectFromFeed < ActiveRecord::Migration
   end
 
   def down
-    add_column :feeds, :object_type, :string, :limit=>64
+    add_column :feeds, :object_type, :string, limit: 64
     add_column :feeds, :object_id, :integer
   end
 end

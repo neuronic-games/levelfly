@@ -5,30 +5,29 @@ class SystemController < ApplicationController
     respond_to do |wants|
       wants.html do
         if request.xhr?
-          render :partial => "/system/alert"
+          render partial: '/system/alert'
         else
           render
         end
       end
     end
   end
-  
+
   def new_user
     if params[:link] and !params[:link].nil?
       invitation_link = Course.hexdigest_to_digest(params[:link])
-      links = invitation_link.split("&")
-      @user = User.where(["email = ? OR id = ?", links[0], links[0].to_i]).first
+      links = invitation_link.split('&')
+      @user = User.where(['email = ? OR id = ?', links[0], links[0].to_i]).first
       @message = links.count > 1 ? links[1] : nil
-      if @user.nil? 
-        flash[:notice] = "This invitation is no longer valid. Please contact the person who sent you the invite and ask them to send you a new invite."
+      if @user.nil?
+        flash[:notice] =
+          'This invitation is no longer valid. Please contact the person who sent you the invite and ask them to send you a new invite.'
         redirect_to new_user_session_url
       elsif @user.sign_in_count > 0
         session[:email] = @user.email
-        profile = Profile.where(["user_id = ?",@user.id]).first
+        profile = Profile.where(['user_id = ?', @user.id]).first
 
-        if @message
-          accept_course_invitation(@message,profile)
-        end
+        accept_course_invitation(@message, profile) if @message
 
         redirect_to root_path
       end
@@ -36,95 +35,99 @@ class SystemController < ApplicationController
       redirect_to root_path
     end
   end
-  
+
   def edit
-    @user = User.where(["id = ?",params[:id]]).first
-    @user.password=params[:user][:password]
+    @user = User.where(['id = ?', params[:id]]).first
+    @user.password = params[:user][:password]
     @user.skip_confirmation!
     if @user.save
-      profile = Profile.where(["user_id = ?",@user.id]).first
+      profile = Profile.where(['user_id = ?', @user.id]).first
       profile.full_name = params[:user][:full_name]
       profile.save
       session[:school_id] = profile.school_id
 
       if params[:user][:message_id].to_i > 0
         message_id = params[:user][:message_id]
-        accept_course_invitation(message_id,profile)
+        accept_course_invitation(message_id, profile)
       end
 
-      #@user.update_attributes('password',params[:user][:password])
+      # @user.update_attributes('password',params[:user][:password])
       sign_in @user
       redirect_to root_path
     end
-  end 
+  end
 
   private
 
-  def accept_course_invitation(message_id,profile)
+  def accept_course_invitation(message_id, profile)
     @message = Message.find(message_id)
     if @message
-      @course_participant = Participant.where("target_type = ? AND target_id = ? AND profile_id = ? AND profile_type='P'",@message.parent_type,@message.target_id,@message.parent_id).first
+      @course_participant = Participant.where(
+        "target_type = ? AND target_id = ? AND profile_id = ? AND profile_type='P'", @message.parent_type, @message.target_id, @message.parent_id
+      ).first
       if @course_participant and @course_participant.profile_type == 'P'
         course = Course.find(@message.target_id)
         if @course_participant
           @course_participant.profile_type = 'S'
           @course_participant.save
         end
-        tasks = Task.where(["course_id = ? and archived = ? and all_members = ?", @message.target_id, false, true])
+        tasks = Task.where(['course_id = ? and archived = ? and all_members = ?', @message.target_id, false, true])
         if tasks and !tasks.blank?
           tasks.each do |t|
-            wall_id = Wall.get_wall_id(t.id,"Task")
+            wall_id = Wall.get_wall_id(t.id, 'Task')
             task_owner = TaskParticipant.where(["task_id = ? AND profile_type='O'", t.id]).first
-            if task_owner
-              @profile = Profile.find(task_owner.profile_id)
-              @task_participant = TaskParticipant.new
-              @task_participant.profile_id = profile.id
-              @task_participant.profile_type = "M"
-              @task_participant.status = "A"
-              @task_participant.priority = "L"
-              @task_participant.task_id = t.id
-              if @task_participant.save
-                Feed.create(
-                      :profile_id => profile.id,
-                      :wall_id => wall_id
-                )
-                participant_content = "#{@profile.full_name} assigned you a new task: #{t.name}"   
-                Message.send_notification(@profile.id,participant_content,profile.id)    
-              end
-            end
+            next unless task_owner
+
+            @profile = Profile.find(task_owner.profile_id)
+            @task_participant = TaskParticipant.new
+            @task_participant.profile_id = profile.id
+            @task_participant.profile_type = 'M'
+            @task_participant.status = 'A'
+            @task_participant.priority = 'L'
+            @task_participant.task_id = t.id
+            next unless @task_participant.save
+
+            Feed.create(
+              profile_id: profile.id,
+              wall_id: wall_id
+            )
+            participant_content = "#{@profile.full_name} assigned you a new task: #{t.name}"
+            Message.send_notification(@profile.id, participant_content, profile.id)
           end
         end
-        forums = Course.where(["course_id = ? and archived = ? and all_members = ?", @message.target_id, false, true])
+        forums = Course.where(['course_id = ? and archived = ? and all_members = ?', @message.target_id, false, true])
         if forums and !forums.blank?
           forums.each do |forum|
-            wall_id = Wall.get_wall_id(forum.id,"Course")
+            wall_id = Wall.get_wall_id(forum.id, 'Course')
             @forum_participant = Participant.new
             @forum_participant.target_id = forum.id
-            @forum_participant.target_type = "Course"
+            @forum_participant.target_type = 'Course'
             @forum_participant.profile_id = profile.id
-            @forum_participant.profile_type = "S"
-            if @forum_participant.save
-              Feed.create(
-                    :profile_id => profile.id,
-                    :wall_id => wall_id
-              )
-            end
+            @forum_participant.profile_type = 'S'
+            next unless @forum_participant.save
+
+            Feed.create(
+              profile_id: profile.id,
+              wall_id: wall_id
+            )
           end
         end
         # Respond to course messages
         content = "#{profile.full_name} has accepted your invitation to #{course.name}."
-        @respont_to_course = Message.respond_to_course_invitation(@message.parent_id,@message.profile_id,@message.target_id,content,@message.parent_type)
+        @respont_to_course = Message.respond_to_course_invitation(@message.parent_id, @message.profile_id,
+                                                                  @message.target_id, content, @message.parent_type)
         @message.archived = true
         @message.save
-        wall_id = Wall.get_wall_id(@message.target_id, "C")
-        Feed.create(:profile_id => @message.parent_id,:wall_id =>wall_id)
+        wall_id = Wall.get_wall_id(@message.target_id, 'C')
+        Feed.create(profile_id: @message.parent_id, wall_id: wall_id)
       end
-      messages =  Message.where(["profile_id = ? and parent_id = ? and parent_type = ? and message_type = ? and target_id = ? and archived = ?",@message.profile_id,@message.parent_id,@message.parent_type,@message.message_type,@message.target_id,false])     
+      messages =  Message.where([
+                                  'profile_id = ? and parent_id = ? and parent_type = ? and message_type = ? and target_id = ? and archived = ?', @message.profile_id, @message.parent_id, @message.parent_type, @message.message_type, @message.target_id, false
+                                ])
       message_ids = messages.map(&:id)
       messages.each do |message|
-        message.update_attributes(:archived => true) 
+        message.update_attributes(archived: true)
       end
     end
   end
-
 end

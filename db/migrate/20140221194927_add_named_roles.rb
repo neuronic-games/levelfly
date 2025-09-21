@@ -1,28 +1,28 @@
 class AddNamedRoles < ActiveRecord::Migration
   def up
     create_table :permissions do |t|
-      t.string :name, :null => false
+      t.string :name, null: false
       t.timestamps
     end
 
-    create_group = Permission.create(:name => 'create_group')
-    modify_wardrobe = Permission.create(:name => 'modify_wardrobe')
-    modify_settings = Permission.create(:name => 'modify_settings')
-    create_course = Permission.create(:name => 'create_course')
-    edit_user = Permission.create(:name => 'edit_user')
-    modify_rewards = Permission.create(:name => 'modify_rewards')
-    create_task = Permission.create(:name => 'create_task')
-    edit_grade = Permission.create(:name => 'edit_grade')
+    create_group = Permission.create(name: 'create_group')
+    modify_wardrobe = Permission.create(name: 'modify_wardrobe')
+    modify_settings = Permission.create(name: 'modify_settings')
+    create_course = Permission.create(name: 'create_course')
+    edit_user = Permission.create(name: 'edit_user')
+    modify_rewards = Permission.create(name: 'modify_rewards')
+    create_task = Permission.create(name: 'create_task')
+    edit_grade = Permission.create(name: 'edit_grade')
 
     create_table :role_names do |t|
-      t.string :name, :null => false
+      t.string :name, null: false
       t.timestamps
     end
 
-    student = RoleName.create(:name => 'Student')
-    teacher = RoleName.create(:name => 'Teacher')
-    school_admin = RoleName.create(:name => 'School Admin')
-    levelfly_admin = RoleName.create(:name => 'Levelfly Admin')
+    student = RoleName.create(name: 'Student')
+    teacher = RoleName.create(name: 'Teacher')
+    school_admin = RoleName.create(name: 'School Admin')
+    levelfly_admin = RoleName.create(name: 'Levelfly Admin')
 
     create_table :permissions_role_names do |t|
       t.integer :permission_id
@@ -44,15 +44,15 @@ class AddNamedRoles < ActiveRecord::Migration
     Profile.all.each do |profile|
       roles = Role.where(profile_id: profile.id).map(&:name)
 
-      if roles.include?('modify_settings')
-        profile.role_name = levelfly_admin
-      elsif roles.include?('edit_user')
-        profile.role_name = school_admin
-      elsif roles.include?('create_course')
-        profile.role_name = teacher
-      else
-        profile.role_name = student
-      end
+      profile.role_name = if roles.include?('modify_settings')
+                            levelfly_admin
+                          elsif roles.include?('edit_user')
+                            school_admin
+                          elsif roles.include?('create_course')
+                            teacher
+                          else
+                            student
+                          end
 
       profile.save
     end

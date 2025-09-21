@@ -4,11 +4,11 @@ Oncapus::Application.configure do
   # Load environment variables for development
   config.before_configuration do
     aws_env_file = Rails.root.join('config', 'application.yml').to_s
-    if File.exists?(aws_env_file)
+    if File.exist?(aws_env_file)
       puts "Environment variables loaded from #{aws_env_file}"
       YAML.load_file(aws_env_file).each do |k, v|
         ENV[k.to_s] = v
-        puts "#{k.to_s} = #{v}"
+        puts "#{k} = #{v}"
       end
     end
   end
@@ -42,32 +42,32 @@ Oncapus::Application.configure do
   # Expands the lines which load the assets
   # config.assets.debug = true
 
-  #Activate observers that should always be running
+  # Activate observers that should always be running
   config.active_record.observers = :participant_observer
 
   # Commented for development because causing error on local
   # config.logger = Logger.new(STDOUT)
   # config.log_level = :debug #:warn
 
-  #Expands the lines which load the assets
+  # Expands the lines which load the assets
   config.assets.debug = true
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
 
   # Used for password reminder emails
-  config.action_mailer.default_url_options = { :host => ENV['MAILER_DEFAULT_URL'] }
+  config.action_mailer.default_url_options = { host: ENV.fetch('MAILER_DEFAULT_URL', nil) }
 
   ActionMailer::Base.smtp_settings = {
-    :address              => "localhost",
-    :port                 => 1025,
-    :domain               => "localhost",
+    address: 'localhost',
+    port: 1025,
+    domain: 'localhost'
   }
 
-  ActionMailer::Base.default :content_type => "text/html"
+  ActionMailer::Base.default content_type: 'text/html'
 
-  Pusher.url = ENV['PUSHER_URL']
+  Pusher.url = ENV.fetch('PUSHER_URL', nil)
 
   # oink
-  config.middleware.use( Oink::Middleware, :logger => Hodel3000CompliantLogger.new(STDOUT))
+  config.middleware.use(Oink::Middleware, logger: Hodel3000CompliantLogger.new(STDOUT))
 end

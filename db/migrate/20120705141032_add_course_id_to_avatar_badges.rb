@@ -4,6 +4,6 @@ class AddCourseIdToAvatarBadges < ActiveRecord::Migration
   end
 
   def down
-   remove_column :avatar_badges, :course_id
+    remove_column :avatar_badges, :course_id
   end
 end

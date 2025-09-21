@@ -1,5 +1,5 @@
 # Load the rails application
-require File.expand_path('../application', __FILE__)
+require File.expand_path('application', __dir__)
 
 APP_VERSION = '1.8.30'
 

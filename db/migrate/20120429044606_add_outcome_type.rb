@@ -1,6 +1,6 @@
 class AddOutcomeType < ActiveRecord::Migration
   def up
-    add_column :outcomes, :shared, :boolean, :default => false
+    add_column :outcomes, :shared, :boolean, default: false
   end
 
   def down

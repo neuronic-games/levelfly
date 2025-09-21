@@ -4,6 +4,6 @@ class AddCourseIdToLikes < ActiveRecord::Migration
   end
 
   def down
-   remove_column :likes, :course_id
+    remove_column :likes, :course_id
   end
 end

@@ -1,6 +1,6 @@
 # Update gold medal icon for each outcome
 
-task :update_gold_medal_icon => :environment do
+task update_gold_medal_icon: :environment do
   outcomes = Outcome.all
   updated_image_id = Badge.gold_badge_image
   outcomes.each do |outcome|

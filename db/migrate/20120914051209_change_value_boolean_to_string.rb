@@ -3,6 +3,5 @@ class ChangeValueBooleanToString < ActiveRecord::Migration
     change_column :settings, :value, :string
   end
 
-  def down
-  end
+  def down; end
 end

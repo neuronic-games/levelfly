@@ -59,19 +59,18 @@ Oncapus::Application.configure do
   config.active_support.deprecation = :notify
 
   # Used for password reminder emails
-  config.action_mailer.default_url_options = { :host => 'levelfly-staging.herokuapp.com' }
-  
+  config.action_mailer.default_url_options = { host: 'levelfly-staging.herokuapp.com' }
+
   ActionMailer::Base.smtp_settings = {
-    :address              => ENV['SMTP_HOST'],
-    :port                 => ENV['SMTP_POST'],
-    :domain               => ENV['SMTP_DOMAIN'],
-    :user_name            => ENV['SMTP_USER'],
-    :password             => ENV['SMTP_PASSWORD'],
-    :authentication       => "plain"
+    address: ENV.fetch('SMTP_HOST', nil),
+    port: ENV.fetch('SMTP_POST', nil),
+    domain: ENV.fetch('SMTP_DOMAIN', nil),
+    user_name: ENV.fetch('SMTP_USER', nil),
+    password: ENV.fetch('SMTP_PASSWORD', nil),
+    authentication: 'plain'
   }
-  
+
   Pusher.app_id = '64377'
   Pusher.key = 'c8fb9a955828496c8ed2'
   Pusher.secret = '0be4a588118c56c95029'
-
 end

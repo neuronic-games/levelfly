@@ -1,21 +1,21 @@
 class RegistrationsController < Devise::RegistrationsController
-  before_filter :identify_school, :only => :new
+  before_filter :identify_school, only: :new
   def new
     super
   end
 
   def create
-    puts "Using #{ENV['SMTP_USER']} for mail"
-    
+    puts "Using #{ENV.fetch('SMTP_USER', nil)} for mail"
+
     @user = User.find_by_email(params[:user][:email])
     @school = school
     @role = nil
 
-    if params[:school]
-      school_code = params[:school][:code].upcase
-    else
-      school_code = ''
-    end
+    school_code = if params[:school]
+                    params[:school][:code].upcase
+                  else
+                    ''
+                  end
 
     # if @user && !@user.confirmed?
     #   if @user.unconfirmed_email
@@ -51,26 +51,25 @@ class RegistrationsController < Devise::RegistrationsController
     end
     if @user
       unless @user.valid_password? params[:user][:password]
-        flash[:notice] = ["An account with this email already exists. Enter the correct password or click \"Forgot your password?\" above."]
+        flash[:notice] =
+          ['An account with this email already exists. Enter the correct password or click "Forgot your password?" above.']
         return redirect_to new_registration_path(resource_name)
       end
     else
       @user = User.new(params[:user])
     end
     @user.default_school = @school
-    
+
     @user.skip_confirmation!
     if @user.save
       profile = Profile.create_for_user(@user.id, @school.id)
       profile.full_name = params[:user][:full_name]
       profile.is_public = params[:user][:is_public] || false
 
-      if @role
-        profile.role_name = @role
-      end
+      profile.role_name = @role if @role
 
       profile.save
-      #set_current_profile()
+      # set_current_profile()
       sign_in_and_redirect(resource_name, resource)
     else
       flash[:notice] = resource.errors.full_messages.uniq
@@ -83,8 +82,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def identify_school
-    default_school = School.find_by_handle("demo")
+    default_school = School.find_by_handle('demo')
     session[:school_id] = default_school.id
   end
-
 end

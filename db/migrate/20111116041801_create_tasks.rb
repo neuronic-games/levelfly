@@ -1,7 +1,7 @@
 class CreateTasks < ActiveRecord::Migration
   def change
     create_table :tasks do |t|
-      t.string :name, :limit=>64
+      t.string :name, limit: 64
       t.text :descr
       t.date :due_date
       t.date :available_date

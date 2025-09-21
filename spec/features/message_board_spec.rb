@@ -1,7 +1,7 @@
-require "rails_helper"
-require_relative "helpers/two_browsers"
+require 'rails_helper'
+require_relative 'helpers/two_browsers'
 
-describe "send board message to friends", :js => true do
+describe 'send board message to friends', js: true do
   before :each do
     # create users with profiles
     p1 = FactoryGirl.create(:profile_one)
@@ -13,12 +13,11 @@ describe "send board message to friends", :js => true do
 
   let(:user_one) { FactoryGirl.build(:user_one) }
   let(:user_two) { FactoryGirl.build(:user_two) }
-  let(:content)  { "Message from User One" }
+  let(:content)  { 'Message from User One' }
 
-  sessions = [:one, :two]
+  sessions = %i[one two]
 
   it 'signs in users' do
-
     in_browser(:one) do
       visit '/users/sign_in'
       fill_in 'Email', with: user_one.email
@@ -53,7 +52,5 @@ describe "send board message to friends", :js => true do
       expect(page).to have_content(content)
       save_and_open_screenshot
     end
-
   end
-
 end

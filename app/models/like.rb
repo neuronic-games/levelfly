@@ -8,29 +8,29 @@ class Like < ActiveRecord::Base
   def push_like
     total_likes = message.like
 
-    unless course_id.blank?
+    if course_id.blank?
+      # if like belongs to message boards
+      recievers = Profile.find(profile_id).friends.map(&:profile_id) - [profile_id]
+    else
       # if like belongs_to course
       course_master_id = Course.find(course_id).owner.id
       recievers = Profile.course_participants(course_id, 'Course').map(&:id) + [course_master_id] - [profile_id]
-    else
-      # if like belongs to message boards
-      recievers = Profile.find(profile_id).friends.map(&:profile_id) - [profile_id]
     end
 
     recievers.each do |receiver_id|
-      pusher_content = {message_id: message_id, total_likes: total_likes, event: 'message_likes'}
+      pusher_content = { message_id: message_id, total_likes: total_likes, event: 'message_likes' }
       Pusher.trigger_async("private-my-channel-#{receiver_id}", 'message', pusher_content)
     end
   end
 
-  def self.add(message_id, profile_id,course_id)
+  def self.add(message_id, profile_id, course_id)
     # Update the like count for the message
     message = Message.find(message_id)
     message.like += 1
     message.save
 
     # Record who liked the message
-    like = Like.create(:message_id => message_id, :profile_id => profile_id, :course_id=> course_id)
+    like = Like.create(message_id: message_id, profile_id: profile_id, course_id: course_id)
 
     # Update the like count for the giver
     profile = Profile.find(profile_id)
@@ -42,12 +42,12 @@ class Like < ActiveRecord::Base
     profile.like_received += 1
     profile.save
 
-    return message
+    message
   end
 
-  def self.remove(message_id, profile_id,course_id)
+  def self.remove(message_id, profile_id, _course_id)
     message = nil
-    like = Like.where(["message_id = ? and profile_id = ?", message_id, profile_id]).first
+    like = Like.where(['message_id = ? and profile_id = ?', message_id, profile_id]).first
     if like
       # Update the like count for the message
       message = Message.find(message_id)
@@ -67,6 +67,6 @@ class Like < ActiveRecord::Base
       profile.like_received -= 1
       profile.save
     end
-    return message
+    message
   end
 end

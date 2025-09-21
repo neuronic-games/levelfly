@@ -1,5 +1,4 @@
 FactoryGirl.define do
-
   factory :user do
     email 'admin@test-admin.com'
     password '111111'
@@ -16,8 +15,8 @@ FactoryGirl.define do
   ############
 
   factory :user_one, class: User do
-    email "admin@testing.com"
-    password "111111"
+    email 'admin@testing.com'
+    password '111111'
     default_school_id 2
     confirmed_at Time.now
   end
@@ -42,5 +41,4 @@ FactoryGirl.define do
     school_id 2
     association :user, factory: :user_two
   end
-
 end
