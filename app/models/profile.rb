@@ -53,7 +53,9 @@ class Profile < ActiveRecord::Base
 
   def self.demo_profile
     demo = School.where(handle: 'demo').first
-    Profile.where(:first, conditions: ['code = ? and school_id = ?', 'DEFAULT', demo.id], include: [:avatar]).first
+    Profile.where(['code = ? and school_id = ?', 'DEFAULT', demo.id])
+           .includes([:avatar])
+           .first
   end
 
   def self.default_avatar_image

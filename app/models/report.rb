@@ -52,7 +52,8 @@ class Report < ActiveRecord::Base
       .order("name")
     people_in_courses = Set.new
     courses.each do |course|
-      participants = Participant.where(:include => [:profile, :profile => [:user]], ["target_type = ? and target_id = ? and users.status = ?", 'Course', course.id, User.status_active])
+      participants = Participant.where(["target_type = ? and target_id = ? and users.status = ?", 'Course', course.id, User.status_active])
+        .includes([:profile, :profile => [:user]])
       participants.each do |participant|
         people_in_courses.add(participant.profile_id)
       end
