@@ -14,34 +14,34 @@ RSpec.describe 'Courses', type: :request do
 
   context 'Get /Index' do
     it 'should redirect to login if unauthenticated' do
-      get '/course/'
+      get url_for controller: 'course', action: :index
       expect(response).to redirect_to '/users/sign_in'
     end
 
     it 'should render index page if authenticated' do
       sign_in User.first
-      get '/course/',
-          params: { section_type: 'C' }
+      get url_for controller: 'course', action: :index,
+                  params: { section_type: 'C' }
       expect(response.body).to include @course.name
 
-      get '/course/',
-          params: { section_type: 'C' },
-          xhr: true
+      get url_for controller: 'course', action: :index,
+                  params: { section_type: 'C' },
+                  xhr: true
       expect(response.body).to include @course.name
 
-      get '/course/',
-          params: { section_type: 'C', search_text: @course.code }
+      get url_for controller: 'course', action: :index,
+                  params: { section_type: 'C', search_text: @course.code }
       expect(response.body).to include @course.name
 
-      get '/course/',
-          params: { section_type: 'C', search_text: 'xxxxxxxxxxxxx' }
+      get url_for controller: 'course', action: :index,
+                  params: { section_type: 'C', search_text: 'xxxxxxxxxxxxx' }
       expect(response.body).not_to include @course.name
     end
   end
 
   context 'Get /new' do
     it 'should redirect to login if unauthenticated' do
-      get '/course/new',
+      get url_for(controller: 'course', action: :new),
           params: { section_type: 'C' }
       expect(response).to redirect_to '/users/sign_in'
     end
@@ -50,7 +50,7 @@ RSpec.describe 'Courses', type: :request do
       # NOTE: This doesn't test the non-xhr code path in the controller, because it seems to return an authentication error
       sign_in User.first
 
-      get '/course/new',
+      get url_for(controller: 'course', action: :new),
           params: { section_type: 'C' },
           xhr: true,
           as: :html
@@ -60,7 +60,7 @@ RSpec.describe 'Courses', type: :request do
 
   context 'Get /show' do
     it 'should redirect to login if unauthenticated' do
-      get '/course/show',
+      get url_for(controller: 'course', action: :show, id: @course.id),
           params: { id: @course.id, section_type: 'C' },
           as: :html
       expect(response).to redirect_to '/users/sign_in'
@@ -68,7 +68,7 @@ RSpec.describe 'Courses', type: :request do
 
     it 'should render show page if authenticated' do
       sign_in User.first
-      get "/course/show/#{@course.id}",
+      get url_for(controller: 'course', action: :show, id: @course.id),
           params: { section_type: 'C' },
           xhr: true,
           as: :html
@@ -78,26 +78,26 @@ RSpec.describe 'Courses', type: :request do
 
   context 'Get /view_setup' do
     it 'should redirect to login if unauthenticated' do
-      get '/course/view_setup',
-          params: { id: @course.id },
-          as: :html
+      get url_for controller: 'course', action: :view_setup,
+                  params: { id: @course.id },
+                  as: :html
       expect(response).to redirect_to '/users/sign_in'
     end
 
     it 'should render view_setup page if authenticated' do
       sign_in User.first
-      get '/course/view_setup',
-          params: { id: @course.id },
-          as: :html
+      get url_for controller: 'course', action: :view_setup,
+                  params: { id: @course.id },
+                  as: :html
       expect(response).to render_template 'course/_setup'
     end
   end
 
   context 'Post /save' do
     it 'should redirect to login if unauthenticated' do
-      post '/course/save',
-           params: FactoryGirl.attributes_for(:course).merge!({ id: @course.id }),
-           as: :html
+      post url_for controller: 'course', action: :save,
+                   params: FactoryGirl.attributes_for(:course).merge!({ id: @course.id }),
+                   as: :html
       expect(response).to redirect_to '/users/sign_in'
     end
 
@@ -118,9 +118,9 @@ RSpec.describe 'Courses', type: :request do
       # TODO: test :file param
       # TODO: test :categories param
 
-      post '/course/save',
-           params: course_params,
-           as: :html
+      post url_for controller: 'course', action: :save,
+                   params: course_params,
+                   as: :html
       expect(Course.find(course_two.id).name).to eq(new_name)
     end
   end
