@@ -57,3 +57,7 @@ gem 'rubocop', '~> 1.28'
 gem "rails-controller-testing", "~> 1.0"
 
 gem "faker", "~> 2.22"
+
+gem 'simplecov', require: false, group: :test
+
+gem "pry-byebug", "~> 3.9"

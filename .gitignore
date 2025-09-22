@@ -7,7 +7,12 @@ db/schema.rb
 .ruby-version
 .ruby-gemset
 .env
+
+# TODO: remove from gitignore, switch to env vars
 /config/database.yml
+
+# test coverage data
+/coverage
 
 # Compiled source
 *.com
