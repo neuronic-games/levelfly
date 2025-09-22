@@ -41,6 +41,10 @@ These instructions have been tested on Linux & OSX. If you can add set-up instru
     rails s
     ```
 
+## Automated testing
+
+See [`TESTING.md`](./TESTING.md)
+
 ## Deploying Levelfly
 
 Levelfly is pre-configured to deploy to [Heroku][heroku] using [Drone][drone].

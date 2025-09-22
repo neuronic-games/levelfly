@@ -197,6 +197,7 @@ Oncapus::Application.routes.draw do
 
   post 'course/update_course_categories'
 
+  # TODO: This seems to just return data, should it be a `get`?
   post 'course/get_participants'
 
   post 'course/send_email'
