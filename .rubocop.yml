@@ -1,3 +1,6 @@
+Metrics/BlockLength:
+  AllowedMethods: ['describe', 'context']
+
 AllCops:
   NewCops: enable
   Exclude:
