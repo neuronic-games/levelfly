@@ -30,10 +30,28 @@ RSpec.describe 'Groups', type: :request do
 
     it 'should render filter results' do
       sign_in @user
+
+      user_two = FactoryGirl.create(:user, default_school: @school_demo)
+      profile_two = FactoryGirl.create(:profile, user: user_two, school: @school_demo)
+      group_two = FactoryGirl.create(:course, :group, school: @school_demo, owner: profile_two)
+      participant_two = FactoryGirl.create(:participant, target: group_two, target_type: 'Course', profile: profile_two,
+                                                         profile_type: 'M')
+
       post url_for(controller: 'course', action: :filter),
            params: { filter: 'M', section_type: Course.parent_type_group }
-      File.write('crash.html', response.body)
       expect(response.body).to include @group.name
+      expect(response.body).not_to include group_two.name
+
+      post url_for(controller: 'course', action: :filter),
+           params: { filter: 'A', section_type: Course.parent_type_group }
+
+      expect(response.body).to include @group.name
+      expect(response.body).to include group_two.name
+
+      participant_two.delete
+      group_two.delete
+      profile_two.delete
+      user_two.delete
     end
   end
 end
