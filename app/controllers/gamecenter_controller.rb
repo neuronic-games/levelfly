@@ -507,7 +507,7 @@ class GamecenterController < ApplicationController
     @games = Game.where(conditions)
                  .joins(%i[game_schools feats])
                  .order('name')
-                 .uniq
+                 .distinct
     render partial: '/gamecenter/rows'
   end
 

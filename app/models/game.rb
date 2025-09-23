@@ -1,6 +1,6 @@
 require 'digest'
 
-# Defines the playable games that show up under teh GameCenter
+# Defines the playable games that show up under the GameCenter
 class Game < ActiveRecord::Base
   serialize :download_links, Hash
   PLATFORMS = %w[ios android windows mac linux guide]
