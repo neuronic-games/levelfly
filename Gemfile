@@ -40,26 +40,24 @@ gem 'useragent', '0.16.7'
 gem 'will_paginate', '~> 3.0'
 
 gem 'oink'
-gem 'pry', '~> 0.13.1'
 
-gem 'rspec', '~> 3.13'
+group :development do
+  gem 'rubocop', '~> 1.28'
+  gem 'rubocop-rspec', '~> 2.10'
+end
 
-gem 'rspec-rails', '~> 4.1'
+group :test do
+  gem 'capybara-rails', '~> 0.0.2'
+  gem 'factory_bot_rails', '~> 4.9'
+  gem 'faker', '~> 2.22'
+  gem 'rails-controller-testing', '~> 1.0'
+  gem 'rspec', '~> 3.13'
+  gem 'rspec-rails', '~> 4.1'
+  gem 'selenium-webdriver', '~> 3.142'
+  gem 'simplecov', require: false, group: :test
+end
 
-gem 'capybara-rails', '~> 0.0.2'
-
-gem 'factory_bot_rails', '~> 4.9'
-
-gem 'selenium-webdriver', '~> 3.142'
-
-gem 'rubocop', '~> 1.28'
-
-gem 'rails-controller-testing', '~> 1.0'
-
-gem 'faker', '~> 2.22'
-
-gem 'simplecov', require: false, group: :test
-
-gem 'pry-byebug', '~> 3.9'
-
-gem "rubocop-rspec", "~> 2.10"
+group :development, :test do
+  gem 'pry', '~> 0.13.1'
+  gem 'pry-byebug', '~> 3.9'
+end
