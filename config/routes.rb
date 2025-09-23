@@ -279,6 +279,7 @@ Oncapus::Application.routes.draw do
 
   post 'grade_book/load_task_setup'
 
+  # TODO: This seems to just return data, should it be a `get`?
   post 'grade_book/filter'
 
   get 'wardrobe/index'
