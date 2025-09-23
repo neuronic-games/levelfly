@@ -149,75 +149,75 @@ class CourseController < ApplicationController
     ).group('task_grades.id')
     @course_xp = xp.first.total unless xp.first.nil? else 0
 
-                                                          section_type = %w[Course Group]
-                                                          @member_count = Profile.course_participants(@course.id,
-                                                                                                      section_type).count
+    section_type = %w[Course Group]
+    @member_count = Profile.course_participants(@course.id,
+                                                section_type).count
 
-                                                          @member = Participant.where([
-                                                                                        "participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id
-                                                                                      ]).first
-                                                          @pending_count = Profile.where([
-                                                                                           "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')", @course.id
-                                                                                         ])
-                                                            .includes([:participants])
-                                                            .joins(:participants)
-                                                            .count
-                                                          @courseMaster = Profile.where([
-                                                                                          "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", @course.id
-                                                                                        ])
-                                                            .includes([:participants])
-                                                            .joins([:participants])
-                                                            .first
-                                                          @course_owner = Participant.where(["target_id = ? AND profile_type = 'M' AND target_type='Course'",
-                                                                                             params[:id]]).first
-                                                          # @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
-                                                          @totaltask = @tasks = Task.filter_by(user_session[:profile_id],
-                                                                                               @course.id, 'current')
-                                                          @groups = Group.where(['course_id = ?', @course.id])
-                                                          message_ids = MessageViewer.where(['viewer_profile_id = ?',
-                                                                                             @profile.id]).select(:message_id).collect(&:message_id)
-                                                          if params[:section_type] == 'C'
-                                                            @course_messages = Message.where([
-                                                                                               "parent_id = ? AND parent_type = 'C' AND messages.archived = ? AND message_viewers.viewer_profile_id = ?",
-                                                                                               @course.id, false, @profile.id
-                                                                                             ])
-                                                              .order('starred DESC, post_date DESC')
-                                                              .includes(:message_viewers)
-                                                              .joins(:message_viewers)
-                                                              .limit(200)
-                                                          elsif params[:section_type] == 'G'
-                                                            if @member.nil?
-                                                              @course_messages = Message.where([
-                                                                                                 "parent_id = ? AND parent_type = 'G' AND archived = ?",
-                                                                                                 @course.id, false
-                                                                                               ]).order('starred DESC, post_date DESC')
-                                                              .limit(200)
-                                                            else
-                                                              @course_messages = Message.where([
-                                                                                                 "parent_id = ? AND parent_type = 'G' AND messages.archived = ? and message_viewers.viewer_profile_id = ?",
-                                                                                                 @course.id, false, @profile.id
-                                                                                               ])
-                                                                .order('starred DESC, post_date DESC')
-                                                                .includes(:message_viewers)
-                                                                .joins(:message_viewers)
-                                                                .limit(200)
-                                                            end
-                                                          end
+    @member = Participant.where([
+                                  "participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id
+                                ]).first
+    @pending_count = Profile.where([
+                                     "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')", @course.id
+                                   ])
+                            .includes([:participants])
+                            .joins(:participants)
+                            .count
+    @courseMaster = Profile.where([
+                                    "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", @course.id
+                                  ])
+                           .includes([:participants])
+                           .joins([:participants])
+                           .first
+    @course_owner = Participant.where(["target_id = ? AND profile_type = 'M' AND target_type='Course'",
+                                       params[:id]]).first
+    # @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
+    @totaltask = @tasks = Task.filter_by(user_session[:profile_id],
+                                         @course.id, 'current')
+    @groups = Group.where(['course_id = ?', @course.id])
+    message_ids = MessageViewer.where(['viewer_profile_id = ?',
+                                       @profile.id]).select(:message_id).collect(&:message_id)
+    if params[:section_type] == 'C'
+      @course_messages = Message.where([
+                                         "parent_id = ? AND parent_type = 'C' AND messages.archived = ? AND message_viewers.viewer_profile_id = ?",
+                                         @course.id, false, @profile.id
+                                       ])
+                                .order('starred DESC, post_date DESC')
+                                .includes(:message_viewers)
+                                .joins(:message_viewers)
+                                .limit(200)
+    elsif params[:section_type] == 'G'
+      if @member.nil?
+        @course_messages = Message.where([
+                                           "parent_id = ? AND parent_type = 'G' AND archived = ?",
+                                           @course.id, false
+                                         ]).order('starred DESC, post_date DESC')
+                                  .limit(200)
+      else
+        @course_messages = Message.where([
+                                           "parent_id = ? AND parent_type = 'G' AND messages.archived = ? and message_viewers.viewer_profile_id = ?",
+                                           @course.id, false, @profile.id
+                                         ])
+                                  .order('starred DESC, post_date DESC')
+                                  .includes(:message_viewers)
+                                  .joins(:message_viewers)
+                                  .limit(200)
+      end
+    end
 
-                                                          @profile.record_action('course', @course.id)
-                                                          @profile.record_action('last', 'course')
-                                                          # ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}")
-                                                          session[:controller] = 'course'
-                                                          respond_to do |wants|
-                                                            wants.html do
-                                                              if request.xhr?
-                                                                render partial: '/course/form',
-                                                                       locals: {
-                                                                         course_new: false, section_type: params[:section_type]
-                                                                       }
-                                                              end
-                                                            end
-                                                          end
+    @profile.record_action('course', @course.id)
+    @profile.record_action('last', 'course')
+    # ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}")
+    session[:controller] = 'course'
+    respond_to do |wants|
+      wants.html do
+        if request.xhr?
+          render partial: '/course/form',
+                 locals: {
+                   course_new: false, section_type: params[:section_type]
+                 }
+        end
+      end
+    end
   end
 
   def save
@@ -629,83 +629,83 @@ class CourseController < ApplicationController
     ).group('task_grades.id')
     @course_xp = xp.first.total unless xp.first.nil? else 0
 
-    section_type = %w[Course Group]
-    @peoples = Profile.course_participants(@course.id,
-                                           section_type)
-    @member_count = @peoples.length
+                                                          section_type = %w[Course Group]
+                                                          @peoples = Profile.course_participants(@course.id,
+                                                                                                 section_type)
+                                                          @member_count = @peoples.length
 
-    @member = Participant.where([
-                                  "participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id
-                                ]).first
-    @pending_count = Profile.where([
-                                     "participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P')", @course.id
-                                   ])
-                            .includes([:participants])
-                            .joins([:participants])
-                            .count
-    @courseMaster = Profile.where([
-                                    "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]
-                                  ])
-                           .includes([:participants])
-                           .joins([:participants])
-                           .first
-    @groups = nil
-    # FIXME: needed?
-    # @groups = Group.find(:all, :conditions=>["course_id = ?",params[:id]])
-    enable_forum = false
-    @totaltask = @tasks = Task.filter_by(user_session[:profile_id],
-                                         @course.id, 'current')
-    if params[:section_type] == 'C'
-      @course_messages = Message.where([
-                                         "parent_id = ? AND parent_type = 'C' AND message_viewers.viewer_profile_id = ?", @course.id, @profile.id
-                                       ])
-                                .order('starred DESC, post_date DESC')
-                                .includes([:message_viewers])
-                                .joins([:message_viewers])
-    elsif params[:section_type] == 'G'
-      if @member.nil?
-        @course_messages = Message.where([
-                                           "parent_id = ? AND parent_type = 'G'", @course.id
-                                         ])
-                                  .order('starred DESC, post_date DESC')
-      else
-        @course_messages = Message.where([
-                                           "parent_id = ? AND parent_type = 'G' and message_viewers.viewer_profile_id = ?", @course.id, @profile.id
-                                         ])
-                                  .order('starred DESC, post_date DESC')
-                                  .includes([:message_viewers])
-                                  .joins([:message_viewers])
-      end
-    end
-    if params[:value] == '3'
-      setting = Setting.where([
-                                "target_id = ? and value = 'true' and target_type ='school' and name ='enable_course_forums' ", @course.school_id
-                              ]).first
-      if setting and !setting.nil?
-        @groups = @course.course_forum(@profile.id)
-        enable_forum = true
-      end
-    end
-    # @totaltask = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
-    if params[:value] && !params[:value].nil?
-      if params[:section_type] == 'G' && params[:value] == '1'
-        render partial: '/group/group_wall',
-               locals: {
-                 privilege: params[:privilege].present?, game: @course.game
-               }
-      elsif params[:value] == '1'
-        render partial: '/course/show_course'
-      elsif params[:value] == '3'
-        render partial: '/course/forum',
-               locals: {
-                 :@groups => @groups, :enable_forum => enable_forum
-               }
-      elsif params[:value] == '4'
-        render partial: '/course/files'
-      elsif params[:value] == '5'
-        render partial: '/course/stats'
-      end
-    end
+                                                          @member = Participant.where([
+                                                                                        "participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id
+                                                                                      ]).first
+                                                          @pending_count = Profile.where([
+                                                                                           "participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P')", @course.id
+                                                                                         ])
+                                                                                  .includes([:participants])
+                                                                                  .joins([:participants])
+                                                                                  .count
+                                                          @courseMaster = Profile.where([
+                                                                                          "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]
+                                                                                        ])
+                                                                                 .includes([:participants])
+                                                                                 .joins([:participants])
+                                                                                 .first
+                                                          @groups = nil
+                                                          # FIXME: needed?
+                                                          # @groups = Group.find(:all, :conditions=>["course_id = ?",params[:id]])
+                                                          enable_forum = false
+                                                          @totaltask = @tasks = Task.filter_by(user_session[:profile_id],
+                                                                                               @course.id, 'current')
+                                                          if params[:section_type] == 'C'
+                                                            @course_messages = Message.where([
+                                                                                               "parent_id = ? AND parent_type = 'C' AND message_viewers.viewer_profile_id = ?", @course.id, @profile.id
+                                                                                             ])
+                                                                                      .order('starred DESC, post_date DESC')
+                                                                                      .includes([:message_viewers])
+                                                                                      .joins([:message_viewers])
+                                                          elsif params[:section_type] == 'G'
+                                                            if @member.nil?
+                                                              @course_messages = Message.where([
+                                                                                                 "parent_id = ? AND parent_type = 'G'", @course.id
+                                                                                               ])
+                                                                                        .order('starred DESC, post_date DESC')
+                                                            else
+                                                              @course_messages = Message.where([
+                                                                                                 "parent_id = ? AND parent_type = 'G' and message_viewers.viewer_profile_id = ?", @course.id, @profile.id
+                                                                                               ])
+                                                                                        .order('starred DESC, post_date DESC')
+                                                                                        .includes([:message_viewers])
+                                                                                        .joins([:message_viewers])
+                                                            end
+                                                          end
+                                                          if params[:value] == '3'
+                                                            setting = Setting.where([
+                                                                                      "target_id = ? and value = 'true' and target_type ='school' and name ='enable_course_forums' ", @course.school_id
+                                                                                    ]).first
+                                                            if setting and !setting.nil?
+                                                              @groups = @course.course_forum(@profile.id)
+                                                              enable_forum = true
+                                                            end
+                                                          end
+                                                          # @totaltask = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
+                                                          if params[:value] && !params[:value].nil?
+                                                            if params[:section_type] == 'G' && params[:value] == '1'
+                                                              render partial: '/group/group_wall',
+                                                                     locals: {
+                                                                       privilege: params[:privilege].present?, game: @course.game
+                                                                     }
+                                                            elsif params[:value] == '1'
+                                                              render partial: '/course/show_course'
+                                                            elsif params[:value] == '3'
+                                                              render partial: '/course/forum',
+                                                                     locals: {
+                                                                       :@groups => @groups, :enable_forum => enable_forum
+                                                                     }
+                                                            elsif params[:value] == '4'
+                                                              render partial: '/course/files'
+                                                            elsif params[:value] == '5'
+                                                              render partial: '/course/stats'
+                                                            end
+                                                          end
   end
 
   def view_member
