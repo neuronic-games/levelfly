@@ -1,7 +1,7 @@
 class WardrobeController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!
-  before_filter :check_role
+  before_action :authenticate_user!
+  before_action :check_role
 
   def index
     @wardrobe_item_lvel_0 = WardrobeItem.where(['depth = 0']).order('sort_order')

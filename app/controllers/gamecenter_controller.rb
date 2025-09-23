@@ -1,6 +1,6 @@
 class GamecenterController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!,
+  before_action :authenticate_user!,
                 except: %i[status show connect authenticate get_current_user get_top_users add_progress get_rewards]
 
   def status

@@ -1,6 +1,6 @@
 class ProfileController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   protect_from_forgery except: :auth
 
   def index

@@ -1,6 +1,6 @@
 class LeaderBoardController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
   def index
     @profile = Profile.find(user_session[:profile_id])

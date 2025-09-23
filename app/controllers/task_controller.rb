@@ -2,8 +2,8 @@ class TaskController < ApplicationController
   include TaskHelper
 
   layout 'main'
-  before_filter :authenticate_user!
-  before_filter :check_role, only: %i[new save]
+  before_action :authenticate_user!
+  before_action :check_role, only: %i[new save]
 
   def index
     @tasks = []

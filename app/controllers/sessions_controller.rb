@@ -1,5 +1,5 @@
 class SessionsController < Devise::SessionsController
-  # before_filter :identify_school, :only => :new
+  # before_action :identify_school, :only => :new
   after_filter :active_admin, only: :destroy
 
   private

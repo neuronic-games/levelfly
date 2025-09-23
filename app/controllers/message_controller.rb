@@ -1,6 +1,6 @@
 class MessageController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
   def index
     user_session[:last_check_time] = DateTime.now

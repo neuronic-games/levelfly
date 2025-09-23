@@ -1,5 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
-  before_filter :identify_school, only: :new
+  before_action :identify_school, only: :new
   def new
     super
   end

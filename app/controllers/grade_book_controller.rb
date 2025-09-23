@@ -2,7 +2,7 @@ require 'csv'
 
 class GradeBookController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   include GradeBookHelper
 
   def index

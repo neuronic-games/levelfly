@@ -1,6 +1,6 @@
 class BadgeController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
   def give_badges
     if params[:course_id] && !params[:course_id].nil?

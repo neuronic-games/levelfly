@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :set_current_profile
+  before_action :set_current_profile
 
-  # before_filter :prepare_for_mobile
+  # before_action :prepare_for_mobile
   include ApplicationHelper
 
   # Search people by email or name

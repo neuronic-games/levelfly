@@ -1,8 +1,8 @@
 class CourseController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   require 'digest/sha1'
-  before_filter :check_role, only: %i[new save]
+  before_action :check_role, only: %i[new save]
 
   def index
     section_type = params[:section_type] || 'C'

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   layout 'main'
-  before_filter :authenticate_user!
-  before_filter :check_role
+  before_action :authenticate_user!
+  before_action :check_role
 
   def index
     @profile = Profile.find(user_session[:profile_id])
