@@ -73,7 +73,7 @@ class GradeBookController < ApplicationController
                                 .select(['profiles.full_name,participants.id,participants.profile_id'])
                                 .order('full_name')
       # @participant = @courses.first.participants
-      @count = @participant.count
+      @count = @participant.count('participants.profile_id')
       @tasks = Course.sort_course_task(@course_id)
     end
   end
