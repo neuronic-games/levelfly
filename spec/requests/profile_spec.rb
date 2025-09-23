@@ -18,7 +18,7 @@ RSpec.describe 'Profiles', type: :request do
     @profile_two.delete
   end
 
-  context 'Get /user_profile' do
+  context 'GET /user_profile' do
     it 'should redirect to login if unauthenticated' do
       get url_for controller: 'profile', action: :user_profile
       expect(response).to redirect_to '/users/sign_in'
@@ -38,7 +38,7 @@ RSpec.describe 'Profiles', type: :request do
     end
   end
 
-  context 'Post /save' do
+  context 'POST /save' do
     it 'should redirect to login if unauthenticated' do
       post url_for(controller: 'profile', action: :save),
            params: FactoryGirl.attributes_for(:profile),

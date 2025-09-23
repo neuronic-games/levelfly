@@ -15,7 +15,7 @@ RSpec.describe 'Profiles', type: :request do
                                                           viewer_profile: @profile)
   end
 
-  context 'Get /message' do
+  context 'GET /message' do
     it 'should redirect to login if unauthenticated' do
       get url_for controller: 'message', action: :index
       expect(response).to redirect_to '/users/sign_in'
@@ -29,7 +29,7 @@ RSpec.describe 'Profiles', type: :request do
     end
   end
 
-  context 'Post /message/save' do
+  context 'POST /message/save' do
     it 'should redirect to login if unauthenticated' do
       post url_for controller: 'message', action: :save
       expect(response).to redirect_to '/users/sign_in'

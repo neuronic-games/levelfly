@@ -25,7 +25,7 @@ RSpec.describe 'Courses', type: :request do
     @course.delete
   end
 
-  context 'Get /Index' do
+  context 'GET /Index' do
     it 'should redirect to login if unauthenticated' do
       get url_for controller: 'course', action: :index
       expect(response).to redirect_to '/users/sign_in'
@@ -52,7 +52,7 @@ RSpec.describe 'Courses', type: :request do
     end
   end
 
-  context 'Get /new' do
+  context 'GET /new' do
     it 'should redirect to login if unauthenticated' do
       get url_for(controller: 'course', action: :new),
           params: { section_type: 'C' }
@@ -71,7 +71,7 @@ RSpec.describe 'Courses', type: :request do
     end
   end
 
-  context 'Get /show' do
+  context 'GET /show' do
     it 'should redirect to login if unauthenticated' do
       get url_for(controller: 'course', action: :show, id: @course.id),
           params: { id: @course.id, section_type: 'C' },
@@ -89,7 +89,7 @@ RSpec.describe 'Courses', type: :request do
     end
   end
 
-  context 'Get /view_setup' do
+  context 'GET /view_setup' do
     it 'should redirect to login if unauthenticated' do
       get url_for controller: 'course', action: :view_setup,
                   params: { id: @course.id },
@@ -106,7 +106,7 @@ RSpec.describe 'Courses', type: :request do
     end
   end
 
-  context 'Post /save' do
+  context 'POST /save' do
     it 'should redirect to login if unauthenticated' do
       post url_for controller: 'course', action: :save,
                    params: FactoryGirl.attributes_for(:course),
@@ -138,7 +138,7 @@ RSpec.describe 'Courses', type: :request do
     end
   end
 
-  context 'Post /get_participants' do
+  context 'POST /get_participants' do
     it 'should redirect to login if unauthenticated' do
       post url_for(controller: 'course', action: :get_participants),
            params: { school_id: @course.school.id, search_text: User.first.email }
@@ -175,7 +175,7 @@ RSpec.describe 'Courses', type: :request do
     end
   end
 
-  context 'Post /add_participant' do
+  context 'POST /add_participant' do
     # TODO: Test inviting a non-existant user
     # TODO: Test re-inviting an already-invited user
     it 'should redirect to login if unauthenticated' do
