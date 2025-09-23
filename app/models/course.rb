@@ -151,7 +151,7 @@ class Course < ActiveRecord::Base
 
   def owner
     if @owner.nil?
-      owner = Profile.where([
+      @owner = Profile.where([
                               "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", id
                             ])
                      .includes([:participants])
