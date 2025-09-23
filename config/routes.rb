@@ -206,6 +206,7 @@ Oncapus::Application.routes.draw do
 
   post 'course/delete_participant'
 
+  # TODO: This seems to just return data, should it be a `get`?
   post 'course/filter'
 
   post 'course/share_outcome'
