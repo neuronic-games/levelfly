@@ -8,7 +8,7 @@ RSpec.describe 'Reward', type: :request do
     @school_demo = School.find_by!(handle: 'demo')
     @profile = @user.profiles.first
 
-    @reward = FactoryGirl.create(:reward, target_type: 'wardrobe', target_id: Wardrobe.second.id)
+    @reward = FactoryBot.create(:reward, target_type: 'wardrobe', target_id: Wardrobe.second.id)
   end
 
   after(:all) do

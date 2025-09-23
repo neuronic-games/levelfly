@@ -7,11 +7,11 @@ RSpec.describe 'Profiles', type: :request do
     @user = User.first
     @school_demo = School.find_by!(handle: 'demo')
     @profile = @user.profiles.first
-    @wall = FactoryGirl.create(:wall, parent: @profile)
-    @feed = FactoryGirl.create(:feed, wall_id: @wall.id, profile: @profile)
+    @wall = FactoryBot.create(:wall, parent: @profile)
+    @feed = FactoryBot.create(:feed, wall_id: @wall.id, profile: @profile)
 
-    @message = FactoryGirl.create(:message, profile: @profile, target: @profile, wall: @wall, target_type: '')
-    @message_viewer = FactoryGirl.create(:message_viewer, message: @message, poster_profile: @profile,
+    @message = FactoryBot.create(:message, profile: @profile, target: @profile, wall: @wall, target_type: '')
+    @message_viewer = FactoryBot.create(:message_viewer, message: @message, poster_profile: @profile,
                                                           viewer_profile: @profile)
   end
 
@@ -21,9 +21,10 @@ RSpec.describe 'Profiles', type: :request do
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render user profile page' do
+    it 'should render message list' do
       sign_in @user
       get url_for controller: 'message', action: :index
+      File.write('crash.html', response.body)
       expect(response.status).to eq(200)
       expect(response.body).to include @message.content
     end
@@ -39,7 +40,7 @@ RSpec.describe 'Profiles', type: :request do
       sign_in @user
       message_text = Faker::Lorem.sentence
       post url_for(controller: 'message', action: :save),
-           params: FactoryGirl.attributes_for(:message, content: message_text, profile: @profile, target: @profile, wall: @wall,
+           params: FactoryBot.attributes_for(:message, content: message_text, profile: @profile, target: @profile, wall: @wall,
                                                         target_type: '')
                               .merge({ parent_id: @profile.id })
 

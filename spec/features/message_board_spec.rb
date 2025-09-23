@@ -6,15 +6,15 @@ require_relative 'helpers/two_browsers'
 xdescribe 'send board message to friends', js: true do
   before :each do
     # create users with profiles
-    p1 = FactoryGirl.create(:profile_one)
-    p2 = FactoryGirl.create(:profile_two)
+    p1 = FactoryBot.create(:profile_one)
+    p2 = FactoryBot.create(:profile_two)
     # make users friends
     Participant.create(target_id: p2.id, target_type: 'User', profile_id: p1.id, profile_type: 'F')
     Participant.create(target_id: p1.id, target_type: 'User', profile_id: p2.id, profile_type: 'F')
   end
 
-  let(:user_one) { FactoryGirl.build(:user_one) }
-  let(:user_two) { FactoryGirl.build(:user_two) }
+  let(:user_one) { FactoryBot.build(:user_one) }
+  let(:user_two) { FactoryBot.build(:user_two) }
   let(:content)  { 'Message from User One' }
 
   sessions = %i[one two]

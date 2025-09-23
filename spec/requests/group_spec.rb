@@ -11,8 +11,8 @@ RSpec.describe 'Groups', type: :request do
     @profile = @user.profiles.first
 
     # NOTE: See note in ./course_spec.rb
-    @group = FactoryGirl.create(:course, :group, school: @school_demo, owner: @profile)
-    @participant = FactoryGirl.create(:participant, target: @group, target_type: 'Course', profile: @profile,
+    @group = FactoryBot.create(:course, :group, school: @school_demo, owner: @profile)
+    @participant = FactoryBot.create(:participant, target: @group, target_type: 'Course', profile: @profile,
                                                     profile_type: 'M')
   end
 
@@ -31,10 +31,10 @@ RSpec.describe 'Groups', type: :request do
     it 'should render filter results' do
       sign_in @user
 
-      user_two = FactoryGirl.create(:user, default_school: @school_demo)
-      profile_two = FactoryGirl.create(:profile, user: user_two, school: @school_demo)
-      group_two = FactoryGirl.create(:course, :group, school: @school_demo, owner: profile_two)
-      participant_two = FactoryGirl.create(:participant, target: group_two, target_type: 'Course', profile: profile_two,
+      user_two = FactoryBot.create(:user, default_school: @school_demo)
+      profile_two = FactoryBot.create(:profile, user: user_two, school: @school_demo)
+      group_two = FactoryBot.create(:course, :group, school: @school_demo, owner: profile_two)
+      participant_two = FactoryBot.create(:participant, target: group_two, target_type: 'Course', profile: profile_two,
                                                          profile_type: 'M')
 
       post url_for(controller: 'course', action: :filter),

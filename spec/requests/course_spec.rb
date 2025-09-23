@@ -11,11 +11,11 @@ RSpec.describe 'Courses', type: :request do
     # NOTE: Reluctantly, this seems better than using let or let!:
     # * with let, the participant is not created unless directly referenced in each test case, so index doesn't show any courses
     # * with let!, a new course and participant are created for each test case
-    @course = FactoryGirl.create(:course, school: @school_demo, owner: @profile)
-    @participant = FactoryGirl.create(:participant, target: @course, target_type: 'Course', profile: @profile,
+    @course = FactoryBot.create(:course, school: @school_demo, owner: @profile)
+    @participant = FactoryBot.create(:participant, target: @course, target_type: 'Course', profile: @profile,
                                                     profile_type: 'M')
-    @user_two = FactoryGirl.create(:user, default_school: @school_demo)
-    @profile_two = FactoryGirl.create(:profile, user: @user_two, school: @school_demo)
+    @user_two = FactoryBot.create(:user, default_school: @school_demo)
+    @profile_two = FactoryBot.create(:profile, user: @user_two, school: @school_demo)
   end
 
   after(:all) do
@@ -109,7 +109,7 @@ RSpec.describe 'Courses', type: :request do
   context 'POST /save' do
     it 'should redirect to login if unauthenticated' do
       post url_for controller: 'course', action: :save,
-                   params: FactoryGirl.attributes_for(:course),
+                   params: FactoryBot.attributes_for(:course),
                    as: :html
       expect(response).to redirect_to '/users/sign_in'
     end
@@ -117,7 +117,7 @@ RSpec.describe 'Courses', type: :request do
     it 'should save course' do
       sign_in @user
 
-      course_two = FactoryGirl.create(:course, school: School.find_by!(handle: 'demo'))
+      course_two = FactoryBot.create(:course, school: School.find_by!(handle: 'demo'))
       # NOTE: deliberately don't create a participant here, to test the auto-creation in the controller method
 
       new_name = Faker::Educator.subject
@@ -157,7 +157,7 @@ RSpec.describe 'Courses', type: :request do
     it 'should get participants' do
       sign_in @user
 
-      participant = FactoryGirl.create(:participant, target: @course, target_type: 'Course', profile: @profile_two,
+      participant = FactoryBot.create(:participant, target: @course, target_type: 'Course', profile: @profile_two,
                                        profile_type: 'S')
 
       post url_for(controller: 'course', action: :get_participants),
@@ -203,7 +203,7 @@ RSpec.describe 'Courses', type: :request do
     it 'should add already-added participant' do
       sign_in @user
 
-      FactoryGirl.create(:participant, target: @course, target_type: 'Course', profile: @profile_two,
+      FactoryBot.create(:participant, target: @course, target_type: 'Course', profile: @profile_two,
                                        profile_type: 'S')
 
       post url_for(controller: 'course', action: :add_participant),

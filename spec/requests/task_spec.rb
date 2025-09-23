@@ -8,9 +8,9 @@ RSpec.describe 'Tasks', type: :request do
     @school_demo = School.find_by!(handle: 'demo')
     @profile = @user.profiles.first
 
-    @course = FactoryGirl.create(:course, school: @school_demo, owner: @profile)
-    @task = FactoryGirl.create(:task, school: @school_demo, course: @course)
-    @task_participant = FactoryGirl.create(:task_participant, task: @task, profile: @profile)
+    @course = FactoryBot.create(:course, school: @school_demo, owner: @profile)
+    @task = FactoryBot.create(:task, school: @school_demo, course: @course)
+    @task_participant = FactoryBot.create(:task_participant, task: @task, profile: @profile)
   end
 
   after(:all) do

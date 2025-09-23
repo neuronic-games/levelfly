@@ -8,9 +8,9 @@ RSpec.describe 'Gamecenter', type: :request do
     @school_demo = School.find_by!(handle: 'demo')
     @profile = @user.profiles.first
 
-    @game = FactoryGirl.create(:game, school: @school_demo)
-    @game_school = FactoryGirl.create(:game_school, game: @game, school: @school_demo)
-    @feat = FactoryGirl.create(:feat, game: @game, profile: @profile)
+    @game = FactoryBot.create(:game, school: @school_demo)
+    @game_school = FactoryBot.create(:game_school, game: @game, school: @school_demo)
+    @feat = FactoryBot.create(:feat, game: @game, profile: @profile)
   end
 
   after(:all) do
@@ -37,9 +37,9 @@ RSpec.describe 'Gamecenter', type: :request do
       expect(response.body).to render_template 'gamecenter/_rows'
       expect(response.body).to include CGI.escapeHTML(@game.name)
 
-      game_two = FactoryGirl.create(:game, school: @school_demo, archived: true)
-      game_school_two = FactoryGirl.create(:game_school, game: game_two, school: @school_demo)
-      feat_two = FactoryGirl.create(:feat, game: game_two, profile: @profile)
+      game_two = FactoryBot.create(:game, school: @school_demo, archived: true)
+      game_school_two = FactoryBot.create(:game_school, game: game_two, school: @school_demo)
+      feat_two = FactoryBot.create(:feat, game: game_two, profile: @profile)
 
       get url_for(controller: 'gamecenter', action: :get_rows),
           xhr: true,

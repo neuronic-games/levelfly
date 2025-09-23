@@ -8,7 +8,7 @@ RSpec.describe 'Grade books', type: :request do
     @school_demo = School.find_by!(handle: 'demo')
     @profile = @user.profiles.first
 
-    @course = FactoryGirl.create(:course, school: @school_demo, owner: @profile)
+    @course = FactoryBot.create(:course, school: @school_demo, owner: @profile)
   end
 
   after(:all) do

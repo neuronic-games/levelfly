@@ -120,10 +120,10 @@ GEM
       actionmailer (>= 4.0, < 7)
       activesupport (>= 4.0, < 7)
     execjs (2.7.0)
-    factory_girl (4.9.0)
+    factory_bot (4.11.1)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.9.0)
-      factory_girl (~> 4.9.0)
+    factory_bot_rails (4.11.1)
+      factory_bot (~> 4.11.1)
       railties (>= 3.0.0)
     faker (2.22.0)
       i18n (>= 1.8.11, < 2)
@@ -358,7 +358,7 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   em-http-request
-  factory_girl_rails (~> 4.9)
+  factory_bot_rails (~> 4.9)
   faker (~> 2.22)
   jquery-rails
   json (>= 1.8.5)

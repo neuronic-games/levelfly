@@ -9,8 +9,8 @@ RSpec.describe 'Profiles', type: :request do
     @profile = @user.profiles.first
 
     # NOTE: See note in ./course_spec.rb
-    @user_two = FactoryGirl.create(:user, default_school: @school_demo)
-    @profile_two = FactoryGirl.create(:profile, user: @user_two, school: @school_demo)
+    @user_two = FactoryBot.create(:user, default_school: @school_demo)
+    @profile_two = FactoryBot.create(:profile, user: @user_two, school: @school_demo)
   end
 
   after(:all) do
@@ -41,7 +41,7 @@ RSpec.describe 'Profiles', type: :request do
   context 'POST /save' do
     it 'should redirect to login if unauthenticated' do
       post url_for(controller: 'profile', action: :save),
-           params: FactoryGirl.attributes_for(:profile),
+           params: FactoryBot.attributes_for(:profile),
            as: :html
       expect(response).to redirect_to '/users/sign_in'
     end
