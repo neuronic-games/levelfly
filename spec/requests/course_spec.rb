@@ -18,6 +18,13 @@ RSpec.describe 'Courses', type: :request do
     @profile_two = FactoryGirl.create(:profile, user: @user_two, school: @school_demo)
   end
 
+  after(:all) do
+    @user_two.delete
+    @participant.delete
+    @profile_two.delete
+    @course.delete
+  end
+
   context 'Get /Index' do
     it 'should redirect to login if unauthenticated' do
       get url_for controller: 'course', action: :index
@@ -102,7 +109,7 @@ RSpec.describe 'Courses', type: :request do
   context 'Post /save' do
     it 'should redirect to login if unauthenticated' do
       post url_for controller: 'course', action: :save,
-                   params: FactoryGirl.attributes_for(:course).merge!({ id: @course.id }),
+                   params: FactoryGirl.attributes_for(:course),
                    as: :html
       expect(response).to redirect_to '/users/sign_in'
     end
