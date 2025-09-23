@@ -244,8 +244,10 @@ class TaskController < ApplicationController
         end
       end
       # Participant record
-      course_participants = Participant.all(joins: [:profile],
-                                            conditions: ["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'", params[:course_id] && params[:course_id] != '' && params[:course_id] != 'null' ? params[:course_id] : 0], select: ['profiles.full_name,participants.id,participants.profile_id'], order: 'full_name')
+      course_participants = Participant.where(["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'", params[:course_id] && params[:course_id] != '' && params[:course_id] != 'null' ? params[:course_id] : 0])
+        .select(['profiles.full_name,participants.id,participants.profile_id'])
+        .joins([:profile])
+        .order('full_name')
       task_participant = TaskParticipant.where(["task_id = ? AND profile_type='O' AND profile_id = ?", @task.id,
                                                 user_session[:profile_id]]).first
       unless task_participant
