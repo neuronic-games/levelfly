@@ -142,7 +142,7 @@ class Profile < ActiveRecord::Base
   end
 
   def delete_action
-    ProfileAction.delete_all(['profile_id = ? and action_type = ?', id, 'message'])
+    ProfileAction.where(['profile_id = ? and action_type = ?', id, 'message']).delete_all
   end
 
   def major_school
