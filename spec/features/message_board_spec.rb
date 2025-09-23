@@ -1,7 +1,9 @@
 require 'rails_helper'
 require_relative 'helpers/two_browsers'
 
-describe 'send board message to friends', js: true do
+# NOTE: Currently un-used as of September 2025, left here as an example if and when we implement browser tests in future
+
+xdescribe 'send board message to friends', js: true do
   before :each do
     # create users with profiles
     p1 = FactoryGirl.create(:profile_one)

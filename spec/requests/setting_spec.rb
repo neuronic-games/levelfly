@@ -8,7 +8,7 @@ RSpec.describe 'Settings', type: :request do
     @school_demo = School.find_by!(handle: 'demo')
     @profile = @user.profiles.first
 
-    @setting = FactoryGirl.create(:setting)
+    @setting = FactoryGirl.create(:setting, target_id: @school_demo.id)
   end
 
   after(:all) do
