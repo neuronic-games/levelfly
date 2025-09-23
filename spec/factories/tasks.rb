@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :task do
-    name Faker::Lorem.sentence
+    name Faker::Company.bs
     archived false
   end
 end
