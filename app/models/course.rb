@@ -152,11 +152,11 @@ class Course < ActiveRecord::Base
   def owner
     if @owner.nil?
       @owner = Profile.where([
-                              "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", id
-                            ])
-                     .includes([:participants])
-                     .joins([:participants])
-                     .first
+                               "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", id
+                             ])
+                      .includes([:participants])
+                      .joins([:participants])
+                      .first
     end
     @owner
   end
@@ -189,20 +189,20 @@ class Course < ActiveRecord::Base
 
   def save_messages
     # this only really needs to fire when a course is duplicated
-    if @messages
-      messages.each do |m|
-        m.target_type = parent_type || 'C'
-        m.target_id = id
-        m.parent_type = m.target_type
-        m.parent_id = m.target_id
+    return unless @messages
 
-        mv = MessageViewer.new
-        mv.poster_profile = owner.profile
-        mv.viewer_profile = owner.profile
-        m.message_viewers.push mv
+    messages.each do |m|
+      m.target_type = parent_type || 'C'
+      m.target_id = id
+      m.parent_type = m.target_type
+      m.parent_id = m.target_id
 
-        m.save
-      end
+      mv = MessageViewer.new
+      mv.poster_profile = owner.profile
+      mv.viewer_profile = owner.profile
+      m.message_viewers.push mv
+
+      m.save
     end
   end
 
@@ -459,28 +459,28 @@ class Course < ActiveRecord::Base
                                  ])
                           .includes([:participants])
                           .joins([:participants])
-    if @all_members and !@all_members.nil?
-      @all_members.each do |viewer|
-        participant_exist = Participant.where(["target_id = ? AND target_type = 'Course' AND profile_id = ?", id,
-                                               viewer.id]).first
-        next if participant_exist
+    return unless @all_members and !@all_members.nil?
 
-        @participant = Participant.new
-        @participant.target_id = id
-        @participant.target_type = 'Course'
-        @participant.profile_id = viewer.id
-        @participant.profile_type = 'S'
-        next unless @participant.save
+    @all_members.each do |viewer|
+      participant_exist = Participant.where(["target_id = ? AND target_type = 'Course' AND profile_id = ?", id,
+                                             viewer.id]).first
+      next if participant_exist
 
-        wall_id = Wall.get_wall_id(id, 'Course')
-        Feed.create(
-          profile_id: viewer.id,
-          wall_id: wall_id
-        )
-        course = Course.find(course_id)
-        content = "#{profile.full_name} added you to a new forum in #{course.name} #{course.section}: #{name}"
-        Message.send_notification(profile.id, content, viewer.id)
-      end
+      @participant = Participant.new
+      @participant.target_id = id
+      @participant.target_type = 'Course'
+      @participant.profile_id = viewer.id
+      @participant.profile_type = 'S'
+      next unless @participant.save
+
+      wall_id = Wall.get_wall_id(id, 'Course')
+      Feed.create(
+        profile_id: viewer.id,
+        wall_id: wall_id
+      )
+      course = Course.find(course_id)
+      content = "#{profile.full_name} added you to a new forum in #{course.name} #{course.section}: #{name}"
+      Message.send_notification(profile.id, content, viewer.id)
     end
   end
 
@@ -497,7 +497,7 @@ class Course < ActiveRecord::Base
       duplicate.name = name
       i = 0
 
-      while existing = Course.where({ name: duplicate.name, archived: false, removed: false }).first
+      while Course.where({ name: duplicate.name, archived: false, removed: false }).first
         i += 1
         duplicate.name = "#{name}#{i}"
       end
@@ -613,21 +613,18 @@ class Course < ActiveRecord::Base
 
   def finalize(current_profile)
     status = false
-    grading_completed_at = Time.now
+    Time.now
     save
     @outcomes = outcomes.order('name')
-    @participant = Participant.all(
-      joins: [:profile],
-      conditions: [
-        "participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'", id
-      ],
-      select: [
-        'profiles.full_name,participants.id,participants.profile_id'
-      ]
-    )
+    @participant = Participant.where([
+                                       "participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'", id
+                                     ])
+                              .joins([:profile])
+                              .select([
+                                        'profiles.full_name,participants.id,participants.profile_id'
+                                      ])
     @participant.each do |p|
       TaskGrade.bonus_points(p.profile.school_id, self, p.profile.id, current_profile.id)
-      outcomes_grade = []
       next if @outcomes.nil?
 
       @outcomes.each do |o|
@@ -676,7 +673,6 @@ class Course < ActiveRecord::Base
       all_courses = Course.all_courses_by_school(params[:school_id]).map(&:id)
       archived_courses = Course.all_archived_courses_by_school(params[:school_id]).map(&:id).uniq
       all_course_ids = all_courses + archived_courses
-      courses = []
       courses = if semester == 'All'
                   Course.where(id: all_course_ids, year: year.to_i,
                                semester: Course.pluck(:semester).compact.uniq)
