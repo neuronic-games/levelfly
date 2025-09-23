@@ -61,3 +61,5 @@ gem 'faker', '~> 2.22'
 gem 'simplecov', require: false, group: :test
 
 gem 'pry-byebug', '~> 3.9'
+
+gem "rubocop-rspec", "~> 2.10"
