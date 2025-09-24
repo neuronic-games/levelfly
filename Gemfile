@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
 ruby '2.5.9'
-gem 'pg', '~> 0.18'
-gem 'rails', '~> 6.0.0'
+gem 'pg'
+gem 'rails', '~> 6.1.0'
 gem 'thin', '1.8.0'
 
 # NOTE: Pinned to work around upgrade issues
