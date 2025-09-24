@@ -76,8 +76,6 @@ Oncapus::Application.configure do
 
   Pusher.url = ENV.fetch('PUSHER_URL', nil)
 
-  puts(ENV)
-
   ActionMailer::Base.smtp_settings = {
     address: ENV.fetch('SMTP_HOST', nil),
     port: ENV.fetch('SMTP_POST', nil),
