@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
           @peoples = Profile.where(['user_id != ? AND school_id = ? AND user_id = ?', current_user.id,
                                     params[:school_id], @user.first.id])
           if @peoples.empty?
-            render text: 'you cant add yourself'
+            render body: 'you cant add yourself'
           else
             valueFind = true
           end
@@ -28,14 +28,14 @@ class ApplicationController < ActionController::Base
         @peoples = Profile.where(['user_id != ? AND school_id = ? AND (name LIKE ? OR full_name LIKE ?)',
                                   current_user.id, params[:school_id], search_text, search_text])
         if @peoples.empty?
-          render text: 'No match found'
+          render body: 'No match found'
         else
           valueFind = true
         end
       end
       render partial: 'shared/participant_list', locals: { peoples: @peoples, mode: 'result' } if valueFind
     else
-      render text: 'Error: Parameters missing !!'
+      render body: 'Error: Parameters missing !!'
     end
   end
 

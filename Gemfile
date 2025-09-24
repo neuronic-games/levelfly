@@ -1,9 +1,11 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 ruby '2.5.9'
 gem 'pg', '~> 0.18'
-gem 'rails', '5.0.7.2'
+gem 'rails', '~> 5.1.0'
 gem 'thin', '1.8.0'
+
+gem 'ffi', '< 1.17.0'
 
 gem 'activesupport'
 gem 'acts-as-taggable-on'
@@ -11,7 +13,7 @@ gem 'devise'
 gem 'em-http-request'
 gem 'json', '>= 1.8.5'
 gem 'newrelic_rpm'
-gem 'nokogiri', '~> 1.12'
+gem 'nokogiri', '1.12.0'
 gem 'rails_autolink'
 gem 'rails-observers'
 gem 'rake', '>= 0.9.2'
@@ -41,23 +43,25 @@ gem 'will_paginate', '~> 3.0'
 
 gem 'oink'
 
-group :development do
+# group :development do
   gem 'rubocop', '~> 1.28'
   gem 'rubocop-rspec', '~> 2.10'
-end
+# end
 
-group :test do
-  gem 'capybara-rails', '~> 0.0.2'
+# group :test do
+  gem 'capybara'
   gem 'factory_bot_rails', '~> 4.9'
   gem 'faker', '~> 2.22'
   gem 'rails-controller-testing', '~> 1.0'
   gem 'rspec', '~> 3.13'
   gem 'rspec-rails', '~> 4.1'
   gem 'selenium-webdriver', '~> 3.142'
-  gem 'simplecov', require: false, group: :test
-end
+  gem 'simplecov', require: false
+# end
 
-group :development, :test do
+# group :development, :test do
   gem 'pry', '~> 0.13.1'
   gem 'pry-byebug', '~> 3.9'
-end
+# end
+
+gem "database_cleaner", "~> 2.1"

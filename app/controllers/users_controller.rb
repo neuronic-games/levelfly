@@ -134,7 +134,7 @@ class UsersController < ApplicationController
         status = true
       end
     end
-    render text: { 'status' => status }
+    render body: { 'status' => status }
   end
 
   def save
@@ -182,7 +182,7 @@ class UsersController < ApplicationController
       email_exist = true
     end
 
-    render text: { status: status, email_exist: email_exist }.to_json
+    render body: { status: status, email_exist: email_exist }.to_json
   end
 
   def login_as
@@ -198,7 +198,7 @@ class UsersController < ApplicationController
         status = false
       end
     end
-    render text: { status: status }.to_json
+    render body: { status: status }.to_json
   end
 
   def remove
@@ -222,7 +222,7 @@ class UsersController < ApplicationController
   end
 
   def check_role
-    render text: '' if Role.check_permission(user_session[:profile_id], Role.edit_user) == false
+    render body: '' if Role.check_permission(user_session[:profile_id], Role.edit_user) == false
   end
 
   def new

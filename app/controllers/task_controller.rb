@@ -74,7 +74,7 @@ class TaskController < ApplicationController
         status = true
       end
     end
-    render text: { 'status' => status }.to_json
+    render body: { 'status' => status }.to_json
   end
 
   def show
@@ -162,7 +162,7 @@ class TaskController < ApplicationController
       end
       status = true
     end
-    render text: { status: status, priority: @task.priority }.to_json
+    render body: { status: status, priority: @task.priority }.to_json
   end
 
   def toggle_priority
@@ -173,7 +173,7 @@ class TaskController < ApplicationController
       @task.save
       status = true
     end
-    render text: { status: status, priority: @task.priority }.to_json
+    render body: { status: status, priority: @task.priority }.to_json
   end
 
   def save
@@ -312,7 +312,7 @@ class TaskController < ApplicationController
         category_name = c.name if c and !c.nil?
       end
     end
-    render text: { 'status' => status, 'task' => @task, 'image_url' => image_url, 'participants' => course_participants,
+    render body: { 'status' => status, 'task' => @task, 'image_url' => image_url, 'participants' => course_participants,
                    'outcomes' => @task_outcomes, 'category_name' => category_name }.to_json
   end
 
@@ -335,7 +335,7 @@ class TaskController < ApplicationController
         task_participant.delete
       end
       @task.save
-      render text: { status: true }.to_json
+      render body: { status: true }.to_json
     end
   end
 
@@ -344,7 +344,7 @@ class TaskController < ApplicationController
     if params[:task_id] && !params[:task_id].empty?
       status = Task.complete_task(params[:task_id], params[:check_val] == 'true', user_session[:profile_id])
     end
-    render text: { status: status }.to_json
+    render body: { status: status }.to_json
   end
 
   def points_credit
@@ -356,7 +356,7 @@ class TaskController < ApplicationController
         end
         task = Task.find(params[:task_id])
         task_points = task.points if task
-        render text: { status: status, task_points: task_points }.to_json
+        render body: { status: status, task_points: task_points }.to_json
       else
         task_participants = TaskParticipant.where(["task_id = ? and profile_type = 'M'", params[:task_id]])
         task_participants.each do |participant|
@@ -365,7 +365,7 @@ class TaskController < ApplicationController
         end
         task = Task.find(params[:task_id])
         task_points = task.points if task
-        render text: { status: status, task_points: task_points }.to_json
+        render body: { status: status, task_points: task_points }.to_json
       end
     end
   end
@@ -383,7 +383,7 @@ class TaskController < ApplicationController
         @profile.save
       end
     end
-    render text: { status: status }.to_json
+    render body: { status: status }.to_json
   end
 
   def edit; end
@@ -431,7 +431,7 @@ class TaskController < ApplicationController
                                  target_id: task_id)
     if @attachment.save
       @url = @attachment.resource.url
-      render text: { 'attachment' => @attachment, 'resource_url' => @url }.to_json
+      render body: { 'attachment' => @attachment, 'resource_url' => @url }.to_json
     else
       render nothing: true
     end
@@ -446,7 +446,7 @@ class TaskController < ApplicationController
         @attachment.destroy
       end
     end
-    render text: { 'status' => status, 'attachment_id' => @attachment.id }.to_json
+    render body: { 'status' => status, 'attachment_id' => @attachment.id }.to_json
   end
 
   def course_categories
@@ -500,12 +500,12 @@ class TaskController < ApplicationController
       @task.archived = true
       @task.save
       modify_xp(params[:task_id], false)
-      render text: { status: true }.to_json
+      render body: { status: true }.to_json
     end
   end
 
   def check_role
-    render text: '' if Role.check_permission(user_session[:profile_id], 'T') == false
+    render body: '' if Role.check_permission(user_session[:profile_id], 'T') == false
   end
 
   private

@@ -78,7 +78,7 @@ class WardrobeController < ApplicationController
     @wardrobe_item.image_file = params[:image]
     @wardrobe_item.depth = params[:depth]
     @wardrobe_item.save
-    render text: { 'wardrobe_item' => @wardrobe_item }.to_json
+    render body: { 'wardrobe_item' => @wardrobe_item }.to_json
     # redirect_to 'index'
   end
 
@@ -104,7 +104,7 @@ class WardrobeController < ApplicationController
       end
       status = 'true'
     end
-    render text: { 'status' => status }.to_json
+    render body: { 'status' => status }.to_json
   end
 
   def upload_wardrobe_image
@@ -116,6 +116,6 @@ class WardrobeController < ApplicationController
   end
 
   def check_role
-    render text: '' if Role.check_permission(user_session[:profile_id], Role.modify_wardrobe) == false
+    render body: '' if Role.check_permission(user_session[:profile_id], Role.modify_wardrobe) == false
   end
 end

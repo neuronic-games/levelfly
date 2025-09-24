@@ -153,7 +153,7 @@ class MessageController < ApplicationController
                 UserMailer.private_message(email, @current_user, @school,
                                            @message.content).deliver
               end
-              render text: { 'status' => 'save', 'message' => message }.to_json
+              render body: { 'status' => 'save', 'message' => message }.to_json
             else
               UserMailer.private_message(email, @current_user, @school, @message.content).deliver
               @feed = Feed.where(['profile_id = ? and wall_id = ?', user_session[:profile_id], wall_id]).first
@@ -173,14 +173,14 @@ class MessageController < ApplicationController
   def like
     if params[:message_id] && !params[:message_id].nil?
       @message = Like.add(params[:message_id], user_session[:profile_id], params[:course_id])
-      render text: { 'action' => 'unlike', 'count' => @message.like }.to_json if @message
+      render body: { 'action' => 'unlike', 'count' => @message.like }.to_json if @message
     end
   end
 
   def unlike
     if params[:message_id] && !params[:message_id].nil?
       @message = Like.remove(params[:message_id], user_session[:profile_id], params[:course_id])
-      render text: { 'action' => 'like', 'count' => @message.like }.to_json if @message
+      render body: { 'action' => 'like', 'count' => @message.like }.to_json if @message
     end
   end
 
@@ -392,7 +392,7 @@ class MessageController < ApplicationController
         status = true
       end
     end
-    render text: { 'status' => status }.to_json
+    render body: { 'status' => status }.to_json
   end
 
   def add_note
@@ -402,7 +402,7 @@ class MessageController < ApplicationController
       @note.about_object_id = params[:parent_id]
       @note.about_object_type = 'Note'
       @note.content = params[:content]
-      render text: { 'status' => 'save' }.to_json if @note.save
+      render body: { 'status' => 'save' }.to_json if @note.save
     end
   end
 

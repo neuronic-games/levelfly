@@ -33,7 +33,7 @@ class SettingController < ApplicationController
     @setting.target_type = params[:target_type] if params[:target_type]
     @setting.target_id = params[:target_id] if params[:target_id]
     @setting.value = params[:value] if params[:value]
-    render text: { status: true }.to_json if @setting.save
+    render body: { status: true }.to_json if @setting.save
   end
 
   def delete
@@ -41,12 +41,12 @@ class SettingController < ApplicationController
       setting = Setting.find(params[:id])
       if setting
         setting.delete
-        render text: { status: true }.to_json
+        render body: { status: true }.to_json
       end
     end
   end
 
   def check_role
-    render text: '' if Role.check_permission(user_session[:profile_id], Role.modify_settings) == false
+    render body: '' if Role.check_permission(user_session[:profile_id], Role.modify_settings) == false
   end
 end

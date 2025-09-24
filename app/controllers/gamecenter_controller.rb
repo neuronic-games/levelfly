@@ -7,7 +7,7 @@ class GamecenterController < ApplicationController
     message = 'All OK.'
     status = Gamecenter::SUCCESS
 
-    render text: { 'status' => status, 'message' => message }.to_json
+    render body: { 'status' => status, 'message' => message }.to_json
   end
 
   # Login the player to GameCenter
@@ -66,7 +66,7 @@ class GamecenterController < ApplicationController
       end
     end
 
-    render text: { 'status' => status, 'message' => message, 'user' => data }.to_json
+    render body: { 'status' => status, 'message' => message, 'user' => data }.to_json
   end
 
   def connect
@@ -84,7 +84,7 @@ class GamecenterController < ApplicationController
       message = "Game with handle #{handle} does not exist."
     end
 
-    render text: { 'status' => status, 'message' => message, 'game' => data }.to_json
+    render body: { 'status' => status, 'message' => message, 'game' => data }.to_json
   end
 
   # Returns the current user that was authenticated
@@ -116,7 +116,7 @@ class GamecenterController < ApplicationController
 
     end
 
-    render text: { 'status' => status, 'message' => message, 'user' => user, 'score' => score, 'xp' => xp,
+    render body: { 'status' => status, 'message' => message, 'user' => user, 'score' => score, 'xp' => xp,
                    'badges' => badges }.to_json
   end
 
@@ -137,7 +137,7 @@ class GamecenterController < ApplicationController
                        .sum(:progress)
     end
 
-    render text: { 'status' => status, 'message' => message, 'active' => active_dur }.to_json
+    render body: { 'status' => status, 'message' => message, 'active' => active_dur }.to_json
   end
 
   # Returns the list of top users by score
@@ -152,7 +152,7 @@ class GamecenterController < ApplicationController
     all_score = game.get_all_scores_in_order
     message = "#{all_score.count} score records found."
 
-    render text: { 'status' => status, 'message' => message, 'all_score' => all_score }.to_json
+    render body: { 'status' => status, 'message' => message, 'all_score' => all_score }.to_json
   end
 
   # Returns the list of badges and learning outcomes
@@ -168,7 +168,7 @@ class GamecenterController < ApplicationController
     outcomes = game.get_outcomes
     message = "#{badges.count} badge(s) and #{outcomes.count} outcome(s) record(s) found."
 
-    render text: { 'status' => status, 'message' => message, 'badges' => badges, 'outcomes' => outcomes }.to_json
+    render body: { 'status' => status, 'message' => message, 'badges' => badges, 'outcomes' => outcomes }.to_json
   end
 
   # Save a player's progress in a game
@@ -197,7 +197,7 @@ class GamecenterController < ApplicationController
       message = "Checkpoint #{cp.id} saved for #{game.name} for #{profile.full_name}."
     end
 
-    render text: { 'status' => status, 'message' => message }.to_json
+    render body: { 'status' => status, 'message' => message }.to_json
   end
 
   def get_checkpoint
@@ -219,7 +219,7 @@ class GamecenterController < ApplicationController
       end
     end
 
-    render text: { 'status' => status, 'message' => message, 'checkpoint' => checkpoint }.to_json
+    render body: { 'status' => status, 'message' => message, 'checkpoint' => checkpoint }.to_json
   end
 
   # Adds a player's progress to a game by creating a Feat record
@@ -230,7 +230,7 @@ class GamecenterController < ApplicationController
       message = "Game with handle #{handle} does not exist."
       status = Gamecenter::FAILURE
 
-      render text: { 'status' => status, 'message' => message }.to_json
+      render body: { 'status' => status, 'message' => message }.to_json
       return
     end
 
@@ -359,7 +359,7 @@ class GamecenterController < ApplicationController
       feat.save
     end
 
-    render text: { 'status' => status, 'message' => message }.to_json
+    render body: { 'status' => status, 'message' => message }.to_json
   end
 
   def add_game_badge
@@ -369,7 +369,7 @@ class GamecenterController < ApplicationController
       message = "Game with handle #{handle} does not exist."
       status = Gamecenter::FAILURE
 
-      render text: { 'status' => status, 'message' => message }.to_json
+      render body: { 'status' => status, 'message' => message }.to_json
       return
     end
 
@@ -408,7 +408,7 @@ class GamecenterController < ApplicationController
     message = ''
     status = Gamecenter::SUCCESS
 
-    render text: { 'status' => status, 'message' => message }.to_json
+    render body: { 'status' => status, 'message' => message }.to_json
   end
 
   # Update the player's progress in the game
@@ -416,7 +416,7 @@ class GamecenterController < ApplicationController
     message = ''
     status = Gamecenter::SUCCESS
 
-    render text: { 'status' => status, 'message' => message }.to_json
+    render body: { 'status' => status, 'message' => message }.to_json
   end
 
   # Returns the player's progress in the game
@@ -426,7 +426,7 @@ class GamecenterController < ApplicationController
 
     gc = Gamecenter.new
 
-    render text: { 'status' => status, 'message' => message, 'progress' => gc }.to_json
+    render body: { 'status' => status, 'message' => message, 'progress' => gc }.to_json
   end
 
   # web UI

@@ -92,7 +92,7 @@ class CourseController < ApplicationController
                                                  'Course', message_type, content)
         end
       end
-      render text: { 'status' => status }.to_json
+      render body: { 'status' => status }.to_json
     end
   end
 
@@ -105,7 +105,7 @@ class CourseController < ApplicationController
         @course.save
         status = true
       end
-      render text: { 'status' => status }.to_json
+      render body: { 'status' => status }.to_json
     end
   end
 
@@ -118,7 +118,7 @@ class CourseController < ApplicationController
         @course.save
         status = true
       end
-      render text: { 'status' => status }.to_json
+      render body: { 'status' => status }.to_json
     end
   end
 
@@ -233,7 +233,7 @@ class CourseController < ApplicationController
     # it works.
     if params[:course] == 'null'
       image_url = params[:file] ? @course.image.url : ''
-      render text: { 'course' => @course, 'image_url' => image_url, 'outcome' => @outcome }.to_json
+      render body: { 'course' => @course, 'image_url' => image_url, 'outcome' => @outcome }.to_json
       return
     end
 
@@ -318,7 +318,7 @@ class CourseController < ApplicationController
       end
       image_url = params[:file] ? @course.image.url : ''
     end
-    render text: { 'course' => @course, 'image_url' => image_url, 'outcome' => @outcome }.to_json
+    render body: { 'course' => @course, 'image_url' => image_url, 'outcome' => @outcome }.to_json
   end
 
   def get_participants
@@ -416,7 +416,7 @@ class CourseController < ApplicationController
         users.push @user
       end
       # temp fix to not allow invite user of different school
-      render text: {
+      render body: {
         'status' => status,
         'already_added' => already_added,
         'profiles' => profiles,
@@ -481,7 +481,7 @@ class CourseController < ApplicationController
         status = true
       end
     end
-    render text: { status: status }
+    render body: { status: status }
   end
 
   def delete_participant
@@ -530,7 +530,7 @@ class CourseController < ApplicationController
         User.delete_pending_user(params[:profile_id])
       end
     end
-    render text: { 'status' => status }.to_json
+    render body: { 'status' => status }.to_json
   end
 
   def remove_course_outcomes
@@ -541,14 +541,14 @@ class CourseController < ApplicationController
       else
         Outcome.destroy(params[:outcomes])
       end
-      render text: { 'status' => 'true' }.to_json
+      render body: { 'status' => 'true' }.to_json
     end
   end
 
   def remove_course_files
     if params[:files] && !params[:files].nil?
       Attachment.destroy(params[:files])
-      render text: { 'status' => 'true' }.to_json
+      render body: { 'status' => 'true' }.to_json
     end
   end
 
@@ -558,7 +558,7 @@ class CourseController < ApplicationController
       if @outcome
         @outcome.shared = true
         @outcome.save
-        render text: { 'status' => 'true' }.to_json
+        render body: { 'status' => 'true' }.to_json
       end
     end
   end
@@ -570,7 +570,7 @@ class CourseController < ApplicationController
       outcome.descr = params[:outcome_descr] if params[:outcome_descr] && !params[:outcome_descr].empty?
       outcome.save
     end
-    render text: { 'status' => 'true' }.to_json
+    render body: { 'status' => 'true' }.to_json
   end
 
   def update_course_categories
@@ -580,14 +580,14 @@ class CourseController < ApplicationController
       category.percent_value = params[:category_value] if params[:category_value] && !params[:category_value].empty?
       category.save
     end
-    render text: { 'status' => 'true' }.to_json
+    render body: { 'status' => 'true' }.to_json
   end
 
   def remove_course_categories
     if params[:categories] && !params[:categories].nil?
       category_array = params[:categories].split(',')
       Category.destroy(category_array)
-      render text: { 'status' => 'true' }.to_json
+      render body: { 'status' => 'true' }.to_json
     end
   end
 
@@ -836,7 +836,7 @@ Message.where(['id IN (?) and profile_id = ? and archived = ?', message_ids, @pr
     if params[:id] and !params[:id].blank?
       @att = Attachment.find(params[:id])
       @att.update_attribute('starred', !(@att.starred == true)) unless @att.nil?
-      render text: { starred: @att.starred }.to_json
+      render body: { starred: @att.starred }.to_json
     end
   end
 
@@ -844,7 +844,7 @@ Message.where(['id IN (?) and profile_id = ? and archived = ?', message_ids, @pr
     if params[:id] and !params[:id].blank?
       @msg = Message.find(params[:id])
       @msg.toggle_star unless @msg.nil?
-      render text: { starred: @msg.starred }.to_json
+      render body: { starred: @msg.starred }.to_json
     end
   end
 
@@ -1057,7 +1057,7 @@ Message.where(['id IN (?) and profile_id = ? and archived = ?', message_ids, @pr
         status = true
       end
     end
-    render text: { 'status' => status }.to_json
+    render body: { 'status' => status }.to_json
   end
 
   def check_role
@@ -1067,7 +1067,7 @@ Message.where(['id IN (?) and profile_id = ? and archived = ?', message_ids, @pr
     elsif params[:parent_type] and !params[:parent_type].nil?
       section_type = params[:parent_type]
     end
-    render text: '' if Role.check_permission(user_session[:profile_id], section_type) == false
+    render body: '' if Role.check_permission(user_session[:profile_id], section_type) == false
   end
 
   def duplicate

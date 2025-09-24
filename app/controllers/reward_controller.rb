@@ -29,7 +29,7 @@ class RewardController < ApplicationController
     @reward.xp = params[:xp] if params[:xp]
     @reward.target_type = params[:target_type] if params[:target_type]
     @reward.target_id = params[:target_id] if params[:target_id]
-    render text: { status: true }.to_json if @reward.save
+    render body: { status: true }.to_json if @reward.save
   end
 
   def delete
@@ -37,12 +37,12 @@ class RewardController < ApplicationController
       reward = Reward.find(params[:id])
       if reward
         reward.delete
-        render text: { status: true }.to_json
+        render body: { status: true }.to_json
       end
     end
   end
 
   def check_role
-    render text: '' if Role.check_permission(user_session[:profile_id], Role.modify_rewards) == false
+    render body: '' if Role.check_permission(user_session[:profile_id], Role.modify_rewards) == false
   end
 end

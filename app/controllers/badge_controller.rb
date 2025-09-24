@@ -126,7 +126,7 @@ class BadgeController < ApplicationController
         @badge.save
       end
     end
-    render text: 'DELETED'
+    render body: 'DELETED'
   end
 
   def badge_detail

@@ -53,7 +53,7 @@ class ProfileController < ApplicationController
       publish_profile(@profile)
     end
 
-    render text: { 'profile' => @profile, 'avatar' => @profile.avatar, 'new_profile' => new_profile,
+    render body: { 'profile' => @profile, 'avatar' => @profile.avatar, 'new_profile' => new_profile,
                    'major' => @profile.major, 'school' => @profile.school }.to_json
   end
 
@@ -65,7 +65,7 @@ class ProfileController < ApplicationController
     )
                                  .order('depth, sort_order')
 
-    render text: wardrobe_items.to_json
+    render body: wardrobe_items.to_json
   end
 
   def save_meta
@@ -82,7 +82,7 @@ class ProfileController < ApplicationController
 
     publish_profile(@profile)
 
-    render text: { 'profile' => @profile }.to_json
+    render body: { 'profile' => @profile }.to_json
   end
 
   def save_notes
@@ -98,7 +98,7 @@ class ProfileController < ApplicationController
       new_note.content = params[:notes]
       new_note.save
     end
-    render text: { 'profile' => @profile }.to_json
+    render body: { 'profile' => @profile }.to_json
   end
 
   def save
@@ -150,7 +150,7 @@ class ProfileController < ApplicationController
     end
     publish_profile(@profile)
 
-    render text: { 'profile' => @profile, 'avatar' => @avatar }.to_json
+    render body: { 'profile' => @profile, 'avatar' => @avatar }.to_json
   end
 
   def accept_code
@@ -178,7 +178,7 @@ class ProfileController < ApplicationController
       major = access_code.major
       school = access_code.school
     end
-    render text: { 'major' => major, 'school' => school }.to_json
+    render body: { 'major' => major, 'school' => school }.to_json
   end
 
   def user_profile
@@ -305,7 +305,7 @@ class ProfileController < ApplicationController
       response = Pusher[params[:channel_name]].authenticate(params[:socket_id])
       render json: response
     else
-      render text: 'Forbidden', status: '403'
+      render body: 'Forbidden', status: '403'
     end
   end
 
