@@ -1,1 +1,19 @@
+/.git
 postgres
+# TODO: Article says these shouldn't be ignored? https://hn.mrugesh.dev/how-to-use-a-dockerignore-file-a-comprehensive-guide-with-examples
+# /Dockerfile
+# /.dockerignore
+/public/assets
+
+/.bundle
+/db/*.sqlite3
+/log/*.log
+/tmp/
+/.sass-cache/
+/db/schema.rb
+/.ruby-version
+/.ruby-gemset
+/.env
+
+# test coverage data
+/coverage

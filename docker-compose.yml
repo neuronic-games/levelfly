@@ -1,6 +1,4 @@
 ---
-version: "3"
-
 services:   
   db:
     restart: always
@@ -8,7 +6,7 @@ services:
     environment: 
       POSTGRES_DB: levelfly
       POSTGRES_USER: levelfly
-      POSTGRES_PASSWORD: test
+      POSTGRES_PASSWORD: password
     shm_size: 256mb
     networks:
       - internal_network
@@ -18,17 +16,13 @@ services:
       - postgres_data:/var/lib/postgresql/data
   app:
     build: .
-    image: neuronic-games/levelfly
+    image: neuronicgames/levelfly
     volumes:  
-      - ./:/var/app:Z
+      - ./:/var/app:z
     env_file: .env
     environment: 
       NEW_RELIC_AGENT_ENABLED: false
       RAILS_ENV: production
-      DB_USER: levelfly
-      DB_NAME: levelfly
-      DB_PASSWORD: test
-      DB_HOST: db
     depends_on:
       - db
     networks:
@@ -42,13 +36,9 @@ services:
     env_file: .env
     command: bundle exec rake jobs:work
     volumes:  
-      - ./:/var/app
+      - ./:/var/app:z
     environment: 
       RAILS_ENV: production
-      DB_USER: levelfly
-      DB_NAME: levelfly
-      DB_PASSWORD: test
-      DB_HOST: db
     depends_on:
       - app
       - db
