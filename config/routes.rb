@@ -456,7 +456,23 @@ Oncapus::Application.routes.draw do
   match 'gamecenter' => 'gamecenter#index', :via => %i[get post]
   match 'games/:id' => 'gamecenter#show', :via => %i[get post]
 
-  get 'gamecenter/:handle/:action' => 'gamecenter#:action'
+  # TODO: Great code-golf possibilities here. The context is replacing this line, which relies on behaviour removed in Rails 5.2:
+  # get 'gamecenter/:handle/:action' => 'gamecenter#:action'
+
+  get 'gamecenter/:handle/authenticate' => 'gamecenter#authenticate'
+  get 'gamecenter/:handle/connect' => 'gamecenter#connect'
+  get 'gamecenter/:handle/get_current_user' => 'gamecenter#get_current_user'
+  get 'gamecenter/:handle/get_current_dur' => 'gamecenter#get_current_dur'
+  get 'gamecenter/:handle/get_top_users' => 'gamecenter#get_top_users'
+  get 'gamecenter/:handle/get_rewards' => 'gamecenter#get_rewards'
+  get 'gamecenter/:handle/add_checkpoint' => 'gamecenter#add_checkpoint'
+  get 'gamecenter/:handle/get_checkpoint' => 'gamecenter#get_checkpoint'
+  get 'gamecenter/:handle/add_progress' => 'gamecenter#add_progress'
+  get 'gamecenter/:handle/add_game_badge' => 'gamecenter#add_game_badge'
+  get 'gamecenter/:handle/list_leaders' => 'gamecenter#list_leaders'
+  get 'gamecenter/:handle/list_progress' => 'gamecenter#list_progress'
+
+
   get 'gamecenter/status'
   get 'gamecenter/connect'
   get 'gamecenter/get_rows'
