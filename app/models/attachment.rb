@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'aws/s3'
+require 'aws-sdk-s3'
 require 'open-uri'
 
 class Attachment < ActiveRecord::Base
