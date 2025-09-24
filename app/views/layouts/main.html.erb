@@ -35,7 +35,12 @@
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
     })();
-    var messagePusher = new Pusher('<%= Pusher.key %>', { authEndpoint: '/auth' });
+    <% if defined?(PusherFake) %>
+      // Test environment.
+      var messagePusher = <%= PusherFake.javascript({ authEndpoint: '/auth' }).html_safe %>;
+    <% else %>
+      var messagePusher = new Pusher('<%= Pusher.key %>', { authEndpoint: '/auth' });
+    <% end %>
     var messageChanel = messagePusher.subscribe('private-my-channel-<%= current_profile.id %>');
     messageChanel.bind('message', pusherEventHandler);
     messageChanel.bind('new_message', bipEventHandler);
