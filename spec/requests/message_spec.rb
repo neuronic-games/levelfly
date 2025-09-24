@@ -24,7 +24,6 @@ RSpec.describe 'Profiles', type: :request do
     it 'should render message list' do
       sign_in @user
       get url_for controller: 'message', action: :index
-      File.write('crash.html', response.body)
       expect(response.status).to eq(200)
       expect(response.body).to include @message.content
     end
