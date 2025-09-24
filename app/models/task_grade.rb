@@ -46,7 +46,7 @@ class TaskGrade < ActiveRecord::Base
       'school_id = ? and course_id = ? and profile_id = ?',
       school_id, course.id, profile_id
     ).group('task_grades.id')
-    received_xp = xp.first.total.to_i unless xp.first.nil? else 0
+    received_xp = xp.first.nil? ? 0 : xp.first.total.to_i
 
                                                                 tasks = Task.filter_by(profile_id, course.id, '')
                                                                 xp_could_get = Task.filter_by(profile_id, course.id,

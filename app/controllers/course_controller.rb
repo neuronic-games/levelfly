@@ -147,7 +147,7 @@ class CourseController < ApplicationController
       'school_id = ? and course_id = ? and profile_id = ?',
       @profile.school_id, @course.id, @profile.id
     ).group('task_grades.id')
-    @course_xp = xp.first.total unless xp.first.nil? else 0
+    @course_xp = xp.first.nil? ? 0 : xp.first.total
 
     section_type = %w[Course Group]
     @member_count = Profile.course_participants(@course.id,
@@ -627,7 +627,7 @@ class CourseController < ApplicationController
       'school_id = ? and course_id = ? and profile_id = ?',
       @profile.school_id, @course.id, @profile.id
     ).group('task_grades.id')
-    @course_xp = xp.first.total unless xp.first.nil? else 0
+    @course_xp = xp.first.nil? ? 0 : xp.first.total
 
                                                           section_type = %w[Course Group]
                                                           @peoples = Profile.course_participants(@course.id,
