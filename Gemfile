@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.5.9'
+ruby '2.6.10'
 gem 'pg'
 gem 'rails', '~> 6.1.0'
 gem 'thin', '1.8.0'

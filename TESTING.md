@@ -21,3 +21,12 @@ RAILS_ENV=test URL=http://localhost:3000/ bundle exec rspec spec/requests/course
 ## Coverage
 
 A code coverage analysis report is generated automatically when running tests; check `coverage/index.html`.
+
+## Running tests with a specific version of Ruby using Docker
+
+```
+docker run -it --add-host=host.docker.internal:host-gateway -w /app --entrypoint bash -v $PWD:/app:Z ruby:2.6.10
+bundle install
+apt update && apt install nodejs
+URL=http://localhost:3000 RAILS_ENV=test bundle exec rspec spec/
+```

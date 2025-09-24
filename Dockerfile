@@ -1,6 +1,4 @@
-FROM ruby:2.5.9
-
-RUN sed -i 's/[^/.]*.debian.org/archive.debian.org/g' /etc/apt/sources.list
+FROM ruby:2.6.10
 
 ARG DEBIAN_FRONTEND=noninteractive
 
