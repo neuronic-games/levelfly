@@ -6,7 +6,7 @@ FactoryBot.define do
     removed { false }
 
     trait :group do
-      name { Faker::Lorem.word }
+      name { Faker::Alphanumeric.alpha(number: 10) }
       parent_type { Course.parent_type_group }
     end
   end
