@@ -562,7 +562,7 @@ class MessageController < ApplicationController
   def read_message
     messages = Message.where(id: params[:message_id])
     messages.each { |m| m.set_as_viewed(params[:friend_id], user_session[:profile_id]) } unless messages.empty?
-    render nothing: true
+    head :ok
   end
 
   private
