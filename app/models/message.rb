@@ -446,7 +446,7 @@ class Message < ActiveRecord::Base
   end
 
   def self.get_view
-    view = ActionView::Base.new('app/views', {}, ActionController::Base.new)
+    view = ActionView::Base.new(ActionView::LookupContext.new('app/views'), {}, ActionController::Base.new)
     view.extend(MessageHelper)
     view
   end

@@ -2,9 +2,10 @@ source 'https://rubygems.org'
 
 ruby '2.5.9'
 gem 'pg', '~> 0.18'
-gem 'rails', '~> 5.2.0'
+gem 'rails', '~> 6.0.0'
 gem 'thin', '1.8.0'
 
+# NOTE: Pinned to work around upgrade issues
 gem 'ffi', '< 1.17.0'
 
 gem 'activesupport'
@@ -57,6 +58,7 @@ gem 'oink'
   gem 'rspec-rails', '~> 4.1'
   gem 'selenium-webdriver', '~> 3.142'
   gem 'simplecov', require: false
+  gem "database_cleaner", "~> 2.1"
 # end
 
 # group :development, :test do
@@ -64,4 +66,3 @@ gem 'oink'
   gem 'pry-byebug', '~> 3.9'
 # end
 
-gem "database_cleaner", "~> 2.1"
