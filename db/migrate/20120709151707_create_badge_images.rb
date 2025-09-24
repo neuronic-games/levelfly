@@ -1,4 +1,4 @@
-class CreateBadgeImages < ActiveRecord::Migration
+class CreateBadgeImages < ActiveRecord::Migration[4.2]
   def change
     create_table :badge_images do |t|
       t.string :image_file_name

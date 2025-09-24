@@ -1,4 +1,4 @@
-class AddAvatarFields < ActiveRecord::Migration
+class AddAvatarFields < ActiveRecord::Migration[4.2]
   def up
     change_table :avatars do |t|
       t.string :eyes, limit: 64

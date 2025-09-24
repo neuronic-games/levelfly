@@ -1,4 +1,4 @@
-class ChangeSchoolOfDefaultProfile < ActiveRecord::Migration
+class ChangeSchoolOfDefaultProfile < ActiveRecord::Migration[4.2]
   def up
     default_profile = Profile.where(code: 'DEFAULT').first
     demo = School.where(handle: 'demo').first

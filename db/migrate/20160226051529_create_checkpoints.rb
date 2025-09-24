@@ -1,4 +1,4 @@
-class CreateCheckpoints < ActiveRecord::Migration
+class CreateCheckpoints < ActiveRecord::Migration[4.2]
   def change
     create_table :checkpoints do |t|
       t.integer :game_id,         null: false

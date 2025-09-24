@@ -1,4 +1,4 @@
-class CreateMessageViewers < ActiveRecord::Migration
+class CreateMessageViewers < ActiveRecord::Migration[4.2]
   def change
     create_table :message_viewers do |t|
       t.integer     :message_id

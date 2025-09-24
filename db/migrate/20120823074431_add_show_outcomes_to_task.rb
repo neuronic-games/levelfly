@@ -1,4 +1,4 @@
-class AddShowOutcomesToTask < ActiveRecord::Migration
+class AddShowOutcomesToTask < ActiveRecord::Migration[4.2]
   def change
     add_column :tasks, :show_outcomes, :boolean, default: true
     add_column :tasks, :include_task_grade, :boolean, default: true

@@ -1,4 +1,4 @@
-class CreateQuests < ActiveRecord::Migration
+class CreateQuests < ActiveRecord::Migration[4.2]
   def change
     create_table :quests do |t|
       t.string :name, limit: 64

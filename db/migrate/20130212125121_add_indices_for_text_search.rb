@@ -1,4 +1,4 @@
-class AddIndicesForTextSearch < ActiveRecord::Migration
+class AddIndicesForTextSearch < ActiveRecord::Migration[4.2]
   def up
     execute "CREATE INDEX index_courses_on_lower_name ON courses
              USING gin(to_tsvector('english', lower(name)));"

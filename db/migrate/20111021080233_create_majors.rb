@@ -1,4 +1,4 @@
-class CreateMajors < ActiveRecord::Migration
+class CreateMajors < ActiveRecord::Migration[4.2]
   def change
     create_table :majors do |t|
       t.integer   :school_id

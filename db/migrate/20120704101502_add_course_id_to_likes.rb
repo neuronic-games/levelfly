@@ -1,4 +1,4 @@
-class AddCourseIdToLikes < ActiveRecord::Migration
+class AddCourseIdToLikes < ActiveRecord::Migration[4.2]
   def up
     add_column :likes, :course_id, :integer
   end

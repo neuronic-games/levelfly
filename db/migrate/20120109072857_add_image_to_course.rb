@@ -1,4 +1,4 @@
-class AddImageToCourse < ActiveRecord::Migration
+class AddImageToCourse < ActiveRecord::Migration[4.2]
   def self.up
     add_column :courses, :image_file_name, :string
     add_column :courses, :image_content_type, :string

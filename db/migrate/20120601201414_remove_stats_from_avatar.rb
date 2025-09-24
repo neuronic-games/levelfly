@@ -1,4 +1,4 @@
-class RemoveStatsFromAvatar < ActiveRecord::Migration
+class RemoveStatsFromAvatar < ActiveRecord::Migration[4.2]
   def up
     remove_column :avatars, :level
     remove_column :avatars, :points

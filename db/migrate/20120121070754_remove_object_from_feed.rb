@@ -1,4 +1,4 @@
-class RemoveObjectFromFeed < ActiveRecord::Migration
+class RemoveObjectFromFeed < ActiveRecord::Migration[4.2]
   def up
     remove_column :feeds, :object_type
     remove_column :feeds, :object_id

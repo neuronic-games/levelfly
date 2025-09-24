@@ -1,4 +1,4 @@
-class ChangeSchoolAdminToCommunityAdmin < ActiveRecord::Migration
+class ChangeSchoolAdminToCommunityAdmin < ActiveRecord::Migration[4.2]
   def up
     @role_name = RoleName.find_by_name('School Admin')
     @role_name.name = 'Community Admin'

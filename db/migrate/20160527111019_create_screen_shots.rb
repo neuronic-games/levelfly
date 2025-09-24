@@ -1,4 +1,4 @@
-class CreateScreenShots < ActiveRecord::Migration
+class CreateScreenShots < ActiveRecord::Migration[4.2]
   def change
     create_table :screen_shots do |t|
       t.integer :game_id

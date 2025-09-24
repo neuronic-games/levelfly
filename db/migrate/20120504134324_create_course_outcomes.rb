@@ -1,4 +1,4 @@
-class CreateCourseOutcomes < ActiveRecord::Migration
+class CreateCourseOutcomes < ActiveRecord::Migration[4.2]
   def change
     create_table :courses_outcomes, id: false do |t|
       t.references :course, :outcome

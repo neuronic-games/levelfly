@@ -1,4 +1,4 @@
-class CreateObjectProfiles < ActiveRecord::Migration
+class CreateObjectProfiles < ActiveRecord::Migration[4.2]
   def change
     create_table :object_profiles do |t|
       t.integer :object_id

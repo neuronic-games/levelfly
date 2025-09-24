@@ -1,4 +1,4 @@
-class CreateJoinTableGameOutcome < ActiveRecord::Migration
+class CreateJoinTableGameOutcome < ActiveRecord::Migration[4.2]
   def change
     create_table :games_outcomes, id: false do |t|
       t.references :game, :outcome

@@ -1,4 +1,4 @@
-class AddStatsToProfile < ActiveRecord::Migration
+class AddStatsToProfile < ActiveRecord::Migration[4.2]
   def change
     add_column :profiles, :xp, :integer, default: 0
     add_column :profiles, :badge_count, :integer, default: 0

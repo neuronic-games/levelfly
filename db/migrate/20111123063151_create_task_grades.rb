@@ -1,4 +1,4 @@
-class CreateTaskGrades < ActiveRecord::Migration
+class CreateTaskGrades < ActiveRecord::Migration[4.2]
   def change
     create_table :task_grades do |t|
       t.integer :campus_id

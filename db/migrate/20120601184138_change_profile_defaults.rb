@@ -1,4 +1,4 @@
-class ChangeProfileDefaults < ActiveRecord::Migration
+class ChangeProfileDefaults < ActiveRecord::Migration[4.2]
   def up
     change_column :profiles, :like_given, :integer, default: 0
     change_column :profiles, :like_received, :integer, default: 0

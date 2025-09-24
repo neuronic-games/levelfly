@@ -1,4 +1,4 @@
-class AddCampusIdToVarious < ActiveRecord::Migration
+class AddCampusIdToVarious < ActiveRecord::Migration[4.2]
   def self.up
     add_column :tasks, :campus_id, :integer
     add_column :quests, :campus_id, :integer

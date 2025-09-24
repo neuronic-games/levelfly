@@ -1,4 +1,4 @@
-class RenameCampusToSchool < ActiveRecord::Migration
+class RenameCampusToSchool < ActiveRecord::Migration[4.2]
   def up
     rename_table :campus, :schools
   end

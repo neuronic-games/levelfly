@@ -1,4 +1,4 @@
-class CreateVaults < ActiveRecord::Migration
+class CreateVaults < ActiveRecord::Migration[4.2]
   def change
     create_table :vaults do |t|
       t.string :vault_type, limit: 32

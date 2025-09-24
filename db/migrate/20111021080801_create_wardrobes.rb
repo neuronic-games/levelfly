@@ -1,4 +1,4 @@
-class CreateWardrobes < ActiveRecord::Migration
+class CreateWardrobes < ActiveRecord::Migration[4.2]
   def change
     create_table :wardrobes do |t|
       t.string :name, limit: 64

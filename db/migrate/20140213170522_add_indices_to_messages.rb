@@ -1,4 +1,4 @@
-class AddIndicesToMessages < ActiveRecord::Migration
+class AddIndicesToMessages < ActiveRecord::Migration[4.2]
   def change
     add_index(:messages, %i[profile_id parent_id])
     add_index(:message_viewers, %i[poster_profile_id viewer_profile_id],

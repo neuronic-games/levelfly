@@ -1,4 +1,4 @@
-class CreateAccessCodes < ActiveRecord::Migration
+class CreateAccessCodes < ActiveRecord::Migration[4.2]
   def change
     create_table :access_codes do |t|
       t.integer :school_id

@@ -1,4 +1,4 @@
-class CreateCampusMajors < ActiveRecord::Migration
+class CreateCampusMajors < ActiveRecord::Migration[4.2]
   def change
     create_table :campus_majors do |t|
       t.integer :campus_id

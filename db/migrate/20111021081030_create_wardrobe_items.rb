@@ -1,4 +1,4 @@
-class CreateWardrobeItems < ActiveRecord::Migration
+class CreateWardrobeItems < ActiveRecord::Migration[4.2]
   def change
     create_table :wardrobe_items do |t|
       t.integer :wardrobe_id

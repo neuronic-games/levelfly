@@ -1,4 +1,4 @@
-class ChangeGradeInCourseGrade < ActiveRecord::Migration
+class ChangeGradeInCourseGrade < ActiveRecord::Migration[4.2]
   def up
     change_table :course_grades do |t|
       t.change :grade, :decimal, default: 0.0, precision: 5, scale: 2

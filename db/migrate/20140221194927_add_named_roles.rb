@@ -1,4 +1,4 @@
-class AddNamedRoles < ActiveRecord::Migration
+class AddNamedRoles < ActiveRecord::Migration[4.2]
   def up
     create_table :permissions do |t|
       t.string :name, null: false

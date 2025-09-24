@@ -1,4 +1,4 @@
-class ChangeDefaultGradeInTaskGrade < ActiveRecord::Migration
+class ChangeDefaultGradeInTaskGrade < ActiveRecord::Migration[4.2]
   def up
     change_table :task_grades do |t|
       t.change :grade, :decimal, precision: 5, scale: 2, default: nil

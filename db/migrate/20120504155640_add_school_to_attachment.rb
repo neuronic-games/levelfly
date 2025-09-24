@@ -1,4 +1,4 @@
-class AddSchoolToAttachment < ActiveRecord::Migration
+class AddSchoolToAttachment < ActiveRecord::Migration[4.2]
   def up
     add_column :attachments, :school_id, :integer
   end

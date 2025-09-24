@@ -1,4 +1,4 @@
-class CreateAvatarBadges < ActiveRecord::Migration
+class CreateAvatarBadges < ActiveRecord::Migration[4.2]
   def change
     create_table :avatar_badges do |t|
       t.integer :avatar_id

@@ -1,4 +1,4 @@
-class CreateGameScoreLeaders < ActiveRecord::Migration
+class CreateGameScoreLeaders < ActiveRecord::Migration[4.2]
   def change
     create_table :game_score_leaders do |t|
       t.integer :game_id,         null: false

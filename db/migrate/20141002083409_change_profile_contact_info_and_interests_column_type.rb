@@ -1,4 +1,4 @@
-class ChangeProfileContactInfoAndInterestsColumnType < ActiveRecord::Migration
+class ChangeProfileContactInfoAndInterestsColumnType < ActiveRecord::Migration[4.2]
   def up
     change_column :profiles, :contact_info, :text
     change_column :profiles, :interests, :text

@@ -1,4 +1,4 @@
-class AddFaceToAvatar < ActiveRecord::Migration
+class AddFaceToAvatar < ActiveRecord::Migration[4.2]
   def up
     add_column :avatars, :face, :string, limit: 64
     remove_column :avatars, :eyes

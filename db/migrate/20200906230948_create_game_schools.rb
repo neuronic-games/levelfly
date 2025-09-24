@@ -1,4 +1,4 @@
-class CreateGameSchools < ActiveRecord::Migration
+class CreateGameSchools < ActiveRecord::Migration[4.2]
   def change
     create_table :game_schools do |t|
       t.integer :game_id

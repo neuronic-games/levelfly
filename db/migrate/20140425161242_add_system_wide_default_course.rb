@@ -1,4 +1,4 @@
-class AddSystemWideDefaultCourse < ActiveRecord::Migration
+class AddSystemWideDefaultCourse < ActiveRecord::Migration[4.2]
   def up
     @profile = Profile.where(full_name: 'Neuronic Admin').order('created_at').first
     if @profile

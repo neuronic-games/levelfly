@@ -1,4 +1,4 @@
-class CreateOutcomeGrades < ActiveRecord::Migration
+class CreateOutcomeGrades < ActiveRecord::Migration[4.2]
   def change
     create_table :outcome_grades do |t|
       t.integer :campus_id

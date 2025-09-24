@@ -1,4 +1,4 @@
-class ChangeProfilePrivacyDefault < ActiveRecord::Migration
+class ChangeProfilePrivacyDefault < ActiveRecord::Migration[4.2]
   def up
     change_column :profiles, :is_public, :boolean, default: nil
     Profile.update_all('is_public = null')

@@ -1,4 +1,4 @@
-class AddLikeAndPostCountToProfile < ActiveRecord::Migration
+class AddLikeAndPostCountToProfile < ActiveRecord::Migration[4.2]
   def change
     change_table :profiles do |t|
       t.integer :like_given

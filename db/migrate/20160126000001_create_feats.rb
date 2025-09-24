@@ -1,4 +1,4 @@
-class CreateFeats < ActiveRecord::Migration
+class CreateFeats < ActiveRecord::Migration[4.2]
   def change
     create_table :feats do |t|
       t.integer :game_id,         null: false

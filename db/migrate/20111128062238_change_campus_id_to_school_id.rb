@@ -1,4 +1,4 @@
-class ChangeCampusIdToSchoolId < ActiveRecord::Migration
+class ChangeCampusIdToSchoolId < ActiveRecord::Migration[4.2]
   def up
     rename_column :profiles, :campus_id, :school_id
     rename_column :access_codes, :campus_id, :school_id

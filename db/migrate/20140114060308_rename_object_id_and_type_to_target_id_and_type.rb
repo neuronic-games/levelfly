@@ -1,4 +1,4 @@
-class RenameObjectIdAndTypeToTargetIdAndType < ActiveRecord::Migration
+class RenameObjectIdAndTypeToTargetIdAndType < ActiveRecord::Migration[4.2]
   AFFECTED_TABLES = %i[attachments participants rewards settings vaults]
 
   def up
