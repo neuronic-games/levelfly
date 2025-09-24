@@ -44,12 +44,12 @@ gem 'will_paginate', '~> 3.0'
 
 gem 'oink'
 
-# group :development do
+group :development do
   gem 'rubocop', '~> 1.28'
   gem 'rubocop-rspec', '~> 2.10'
-# end
+end
 
-# group :test do
+group :test do
   gem 'capybara'
   gem 'factory_bot_rails', '~> 4.9'
   gem 'faker', '~> 2.22'
@@ -59,10 +59,10 @@ gem 'oink'
   gem 'selenium-webdriver', '~> 3.142'
   gem 'simplecov', require: false
   gem "database_cleaner", "~> 2.1"
-# end
+  gem "pusher-fake", "~> 2.2"
+end
 
-# group :development, :test do
+group :development, :test do
   gem 'pry', '~> 0.13.1'
   gem 'pry-byebug', '~> 3.9'
-# end
-
+end

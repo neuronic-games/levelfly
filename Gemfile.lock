@@ -1747,6 +1747,9 @@ GEM
     em-socksify (0.3.3)
       base64
       eventmachine (>= 1.0.0.beta.4)
+    em-websocket (0.5.3)
+      eventmachine (>= 0.12.9)
+      http_parser.rb (~> 0)
     erubi (1.13.1)
     eventmachine (1.2.7)
     execjs (2.10.0)
@@ -1833,6 +1836,11 @@ GEM
       httpclient (~> 2.8)
       multi_json (~> 1.15)
       pusher-signature (~> 0.1.8)
+    pusher-fake (2.2.0)
+      em-http-request (~> 1.1)
+      em-websocket (~> 0.5)
+      multi_json (~> 1.6)
+      thin (~> 1.5)
     pusher-signature (0.1.8)
     racc (1.8.1)
     rack (2.2.17)
@@ -2014,6 +2022,7 @@ DEPENDENCIES
   pry (~> 0.13.1)
   pry-byebug (~> 3.9)
   pusher
+  pusher-fake (~> 2.2)
   rails (~> 6.1.0)
   rails-controller-testing (~> 1.0)
   rails-observers
