@@ -1693,7 +1693,7 @@ GEM
     base64 (0.3.0)
     bcrypt (3.1.20)
     builder (3.3.0)
-    byebug (11.1.3)
+    byebug (12.0.0)
     capybara (3.35.3)
       addressable
       mini_mime (>= 0.1.3)
@@ -1761,6 +1761,7 @@ GEM
     faker (2.22.0)
       i18n (>= 1.8.11, < 2)
     ffi (1.16.3)
+    file_exists (0.2.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     http_parser.rb (0.8.0)
@@ -1826,12 +1827,12 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.9)
-    pry (0.13.1)
+    pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    pry-byebug (3.9.0)
-      byebug (~> 11.0)
-      pry (~> 0.13.0)
+    pry-byebug (3.11.0)
+      byebug (~> 12.0)
+      pry (>= 0.13, < 0.16)
     public_suffix (4.0.7)
     pusher (1.4.3)
       httpclient (~> 2.8)
@@ -2017,6 +2018,7 @@ DEPENDENCIES
   factory_bot_rails (~> 4.9)
   faker (~> 2.22)
   ffi (< 1.17.0)
+  file_exists (~> 0.2.0)
   jquery-rails
   json (>= 1.8.5)
   kt-paperclip
@@ -2024,8 +2026,8 @@ DEPENDENCIES
   newrelic_rpm
   nokogiri
   pg
-  pry (~> 0.13.1)
-  pry-byebug (~> 3.9)
+  pry
+  pry-byebug
   pusher
   pusher-fake (~> 2.2)
   rails (~> 6.1.0)
@@ -2051,7 +2053,7 @@ DEPENDENCIES
   will_paginate (~> 3.0)
 
 RUBY VERSION
-   ruby 3.1.3p185
+   ruby 3.2.9p265
 
 BUNDLED WITH
    2.2.33

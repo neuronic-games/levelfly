@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.1.3'
+ruby '3.2.9'
 
 gem 'activesupport'
 gem 'acts-as-taggable-on'
@@ -64,6 +64,8 @@ group :test do
 end
 
 group :development, :test do
-  gem 'pry', '~> 0.13.1'
-  gem 'pry-byebug', '~> 3.9'
+  gem 'pry'
+  gem 'pry-byebug'
 end
+
+gem "file_exists", "~> 0.2.0"
