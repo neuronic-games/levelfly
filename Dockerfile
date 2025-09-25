@@ -1,4 +1,4 @@
-FROM ruby:2.7.7
+FROM ruby:3.0.5
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -7,6 +7,9 @@ RUN apt-get update --allow-releaseinfo-change && apt-get install -y npm libpq-de
 
 RUN mkdir -p /var/app
 WORKDIR /var/app
+
+# TODO: Upgrade to bundler 2
+RUN gem install bundler:1.17.3
 
 # NOTE: Do this first to make cache invalidation happen less often, https://blog.saeloun.com/2022/07/12/docker-cache/
 COPY Gemfile Gemfile.lock ./

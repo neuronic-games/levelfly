@@ -1,24 +1,39 @@
 source 'https://rubygems.org'
 
-ruby '2.7.7'
-gem 'pg'
-gem 'rails', '~> 6.1.0'
-gem 'thin', '1.8.0'
+ruby '3.0.5'
 
 # NOTE: Pinned to work around upgrade issues
 gem 'ffi', '< 1.17.0'
 
 gem 'activesupport'
 gem 'acts-as-taggable-on'
+gem 'aws-sdk'
+gem 'deep_cloneable'
+gem 'delayed_job_active_record'
 gem 'devise'
 gem 'em-http-request'
+gem 'jquery-rails'
 gem 'json', '>= 1.8.5'
 gem 'newrelic_rpm'
 gem 'nokogiri', '1.12.0'
+gem 'pg'
+gem 'pusher'
+gem 'rails', '~> 6.1.0'
 gem 'rails_autolink'
 gem 'rails-observers'
 gem 'rake', '>= 0.9.2'
+gem 'remotipart', '~> 1.2'
 gem 'taps', '>= 0.3.23'
+gem 'thin', '1.8.0'
+gem 'useragent', '0.16.7'
+gem 'webrick', '~> 1.9'
+gem 'will_paginate', '~> 3.0'
+
+# NOTE: Paperclip is deprecated, temporarily use fork to work around missing URI::escape on Ruby >= 3.0.0
+gem 'kt-paperclip'
+
+# TODO: Hasn't had updates in ages, remove?
+gem 'oink'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -31,19 +46,6 @@ end
 
 gem 'rails_12factor', group: :production
 
-gem 'aws-sdk'
-gem 'jquery-rails'
-gem 'paperclip', '3.5.1'
-
-gem 'deep_cloneable'
-gem 'delayed_job_active_record'
-gem 'pusher'
-gem 'remotipart', '~> 1.2'
-gem 'useragent', '0.16.7'
-gem 'will_paginate', '~> 3.0'
-
-gem 'oink'
-
 group :development do
   gem 'rubocop', '~> 1.28'
   gem 'rubocop-rspec', '~> 2.10'
@@ -51,15 +53,15 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'database_cleaner', '~> 2.1'
   gem 'factory_bot_rails', '~> 4.9'
   gem 'faker', '~> 2.22'
+  gem 'pusher-fake', '~> 2.2'
   gem 'rails-controller-testing', '~> 1.0'
   gem 'rspec', '~> 3.13'
   gem 'rspec-rails', '~> 4.1'
   gem 'selenium-webdriver', '~> 3.142'
   gem 'simplecov', require: false
-  gem "database_cleaner", "~> 2.1"
-  gem "pusher-fake", "~> 2.2"
 end
 
 group :development, :test do
