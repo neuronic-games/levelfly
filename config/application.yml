@@ -2,6 +2,8 @@
 # This is only loaded in the development environment from development.rb
 # In production, the variables are set by Heroku / Docker Swarm
 
+# TODO: Maybe drop this file? Development settings might be different depending on Docker vs bare-metal, probably best to set everything in env vars
+
 MAILER_DEFAULT_URL: localhost:3000
 # For outgoing emails - edit config/environments/development.rb
 #SMTP_PASSWORD: AAAAAAAAAAAAAAAAAAAAAA
@@ -9,10 +11,6 @@ MAILER_DEFAULT_URL: localhost:3000
 #SMTP_HOST: smtp.example.com
 #SMTP_PORT: 587
 #SMTP_DOMAIN: example.com
-
-# For notifications
-PUSHER_SOCKET_URL: ws://ws.pusherapp.com/app/ID
-PUSHER_URL: https://ID:KEY@api.pusherapp.com/apps/APP
 
 # Used to prefix URLs (e.g. reference to images in emails)
 URL: http://localhost:3000
