@@ -68,5 +68,10 @@ Oncapus::Application.configure do
 
   ActionMailer::Base.default content_type: 'text/html'
 
-  Pusher.url = ENV.fetch('PUSHER_URL', nil)
+  # Fake details for pusher-fake
+  Pusher.app_id = 'MY_TEST_ID'
+  Pusher.key    = 'MY_TEST_KEY'
+  Pusher.secret = 'MY_TEST_SECRET'
+
+  require 'pusher-fake/support/base'
 end
