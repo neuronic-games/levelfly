@@ -1,4 +1,4 @@
-FROM ruby:3.0.5-slim
+FROM ruby:3.1.3-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 

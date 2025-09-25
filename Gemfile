@@ -1,9 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.0.5'
-
-# NOTE: Pinned to work around upgrade issues
-gem 'ffi', '< 1.17.0'
+ruby '3.1.3'
 
 gem 'activesupport'
 gem 'acts-as-taggable-on'
@@ -14,8 +11,9 @@ gem 'devise'
 gem 'em-http-request'
 gem 'jquery-rails'
 gem 'json', '>= 1.8.5'
+gem 'matrix', '~> 0.4.3'
 gem 'newrelic_rpm'
-gem 'nokogiri', '1.12.0'
+gem 'nokogiri'
 gem 'pg'
 gem 'pusher'
 gem 'rails', '~> 6.1.0'
@@ -29,12 +27,16 @@ gem 'useragent', '0.16.7'
 gem 'webrick', '~> 1.9'
 gem 'will_paginate', '~> 3.0'
 
+# NOTE: Pinned to work around upgrade issues
+gem 'ffi', '< 1.17.0'
+
 # NOTE: Paperclip is deprecated, temporarily use fork to work around missing URI::escape on Ruby >= 3.0.0
 gem 'kt-paperclip'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
+  gem 'activerecord-nulldb-adapter', '~> 1.1'
   gem 'coffee-rails'
   gem 'sass', '~> 3.2.5'
   gem 'sass-rails'
@@ -65,5 +67,3 @@ group :development, :test do
   gem 'pry', '~> 0.13.1'
   gem 'pry-byebug', '~> 3.9'
 end
-
-gem "activerecord-nulldb-adapter", "~> 1.1"
