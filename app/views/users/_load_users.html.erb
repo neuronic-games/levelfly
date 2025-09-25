@@ -1,5 +1,5 @@
-<%if @users.present? %>
-  <% @users.each do |p|%>
+<%if users.present? %>
+  <% users.each do |p|%>
     <%if p.user%>
       <div class="LB_tablecontent <%= cycle("even", "odd") %>">
         <div class="LBT_ava">
@@ -21,9 +21,9 @@
     <% end %>
   <% end %>
 <% end %>
-<input type="hidden" name="user_count" value="<%= @users.count %>">
-<% if @users.count > (@page * Setting.cut_off_number.to_i) %>
-  <input type="hidden" name="next_page" value="/users/load_users/<%= @id %>/<%= @page + 1 %>">
+<input type="hidden" name="user_count" value="<%= users.count %>">
+<% if users.count > (page * Setting.cut_off_number.to_i) %>
+  <input type="hidden" name="next_page" value="/users/load_users/<%= id %>/<%= page + 1 %>">
 <% else %>
   <input type="hidden" name="next_page" value="done">
 <% end %>
