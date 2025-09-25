@@ -55,8 +55,6 @@ module Oncapus
     # TODO: Add optional: true to all belongs_to where needed, https://stackoverflow.com/a/45673178/14269772
     Rails.application.config.active_record.belongs_to_required_by_default = false
 
-    Rails.application.config.active_record.legacy_connection_handling = false
-
     # Load Paperclip S3 details from env
     config.paperclip_defaults = {
       storage: :s3,
