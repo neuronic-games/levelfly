@@ -20,7 +20,7 @@ RAILS_ENV=test URL=http://localhost:3000/ bundle exec rspec spec/requests/course
 
 ## Browser tests
 
-Browser tests, located in `spec/features`, are skipped by default. To run them, add the `--tags browser` argument to `rspec`.
+Browser tests, located in `spec/features`, are skipped by default. To run them, add the `--tag browser` argument to `rspec`.
 
 ## Coverage
 
