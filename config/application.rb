@@ -2,6 +2,7 @@ require File.expand_path('boot', __dir__)
 
 require 'rails/all'
 require 'csv'
+require 'sprockets/railtie'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
