@@ -4,7 +4,6 @@ log/*.log
 tmp/
 .sass-cache/
 db/schema.rb
-.ruby-version
 .ruby-gemset
 .env
 
@@ -49,7 +48,6 @@ Thumbs.db
 .vagrant
 
 # RVM
-.ruby-version
 .ruby-gemset
 
 .idea

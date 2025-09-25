@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.2.9'
+ruby '3.3.9'
 
 gem 'activesupport'
 gem 'acts-as-taggable-on'
