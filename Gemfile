@@ -32,9 +32,6 @@ gem 'will_paginate', '~> 3.0'
 # NOTE: Paperclip is deprecated, temporarily use fork to work around missing URI::escape on Ruby >= 3.0.0
 gem 'kt-paperclip'
 
-# TODO: Hasn't had updates in ages, remove?
-gem 'oink'
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

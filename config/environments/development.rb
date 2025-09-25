@@ -69,7 +69,4 @@ Oncapus::Application.configure do
   ActionMailer::Base.default content_type: 'text/html'
 
   Pusher.url = ENV.fetch('PUSHER_URL', nil)
-
-  # oink
-  config.middleware.use(Oink::Middleware, logger: Hodel3000CompliantLogger.new(STDOUT))
 end
