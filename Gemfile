@@ -65,3 +65,5 @@ group :development, :test do
   gem 'pry', '~> 0.13.1'
   gem 'pry-byebug', '~> 3.9'
 end
+
+gem "activerecord-nulldb-adapter", "~> 1.1"

@@ -33,6 +33,8 @@ RSpec.describe 'Attachments', type: :request do
 
       expect(response.status).to eq(200)
       expect(response.body).to include 'rails.png'
+
+      expect(Attachment.count).to eq(1)
     end
   end
 end
