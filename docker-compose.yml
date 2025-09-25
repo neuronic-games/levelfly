@@ -1,28 +1,30 @@
 ---
+
+x-environment:
+  &default-env
+    - NEW_RELIC_AGENT_ENABLED=false
+    - RAILS_ENV=development
+    - DATABASE_URL=postgresql://levelfly:password@db:5432/levelfly
+    - DATABASE_URL_TEST=postgresql://levelfly:password@db:5432/levelfly_test
+    - DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL=true
+    - S3_PROTOCOL=http
+    - S3_REGION=us-east-1
+    - S3_BUCKET=levelfly
+    - S3_ACCESS_KEY_ID=prissy-parmesan-luxury-paying-purist-marauding
+    - S3_SECRET_ACCESS_KEY=celibacy-civic-gout-botany-congrats-panic
+    - S3_HOST_NAME=localhost:9090
+    - S3_ENDPOINT=http://s3:9090
+    - S3_FORCE_PATH_STYLE=true
+
+
 services:   
-  db:
-    restart: always
-    image: postgres:9.6-alpine
-    environment: 
-      POSTGRES_DB: levelfly
-      POSTGRES_USER: levelfly
-      POSTGRES_PASSWORD: password
-    shm_size: 256mb
-    networks:
-      - internal_network
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "levelfly"]
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
   app:
     build: .
     image: neuronicgames/levelfly
     volumes:  
       - ./:/var/app:z
     env_file: .env
-    environment: 
-      NEW_RELIC_AGENT_ENABLED: false
-      RAILS_ENV: production
+    environment: *default-env
     depends_on:
       - db
     networks:
@@ -37,14 +39,39 @@ services:
     command: bundle exec rake jobs:work
     volumes:  
       - ./:/var/app:z
-    environment: 
-      RAILS_ENV: production
+    environment: *default-env
     depends_on:
       - app
       - db
     networks:
       - external_network
       - internal_network
+  db:
+    restart: always
+    image: postgres:9.6-alpine
+    environment: 
+      POSTGRES_DB: levelfly
+      POSTGRES_USER: levelfly
+      POSTGRES_PASSWORD: password
+    shm_size: 256mb
+    networks:
+      - internal_network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "levelfly"]
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  s3:
+    image: adobe/s3mock:4.9.1
+    environment:
+      - "COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS=levelfly"
+      - "COM_ADOBE_TESTING_S3MOCK_STORE_RETAIN_FILES_ON_EXIT=true"
+    ports:
+      - 9090:9090
+    networks:
+      - external_network
+      - internal_network
+    volumes:
+      - s3_data:/s3mockroot/
                 
 networks:
   external_network:
@@ -53,3 +80,4 @@ networks:
 
 volumes:
   postgres_data:
+  s3_data:

@@ -50,5 +50,24 @@ module Oncapus
     config.assets.version = '1.0'
 
     config.grade_palette = true
+
+    # Load Paperclip S3 details from env
+    config.paperclip_defaults = {
+      storage: :s3,
+      s3_protocol: ENV.fetch('S3_PROTOCOL', nil),
+      s3_permissions: 'private',
+      s3_region: ENV.fetch('S3_REGION', 'us-east-1'),
+      s3_credentials: {
+        bucket: ENV.fetch('S3_bucket', 'levelfly'),
+        access_key_id: ENV.fetch('S3_ACCESS_KEY_ID', nil),
+        secret_access_key: ENV.fetch('S3_ACCESS_KEY_ID', nil)
+      },
+      s3_host_name: ENV.fetch('S3_HOST_NAME', nil),
+      s3_options: {
+        endpoint: ENV.fetch('S3_ENDPOINT', nil),
+        force_path_style: ENV.fetch('S3_FORCE_PATH_STYLE', false)
+      },
+      url: ':s3_path_url'
+    }
   end
 end

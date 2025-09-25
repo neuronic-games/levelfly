@@ -9,13 +9,11 @@ class Attachment < ActiveRecord::Base
 
   acts_as_taggable
   has_attached_file :resource,
-                    storage: :s3,
-                    s3_credentials: { access_key_id: ENV.fetch('S3_KEY', nil),
-                                      secret_access_key: ENV.fetch('S3_SECRET', nil) },
-                    path: 'schools/:school/files/:target/:target_id/:filename',
-                    # :path => "schools/:school/files/:target/:target_id/:id/:filename",  This is the correct solution to allow for files of the same name, but we need to write a script to move all files to the new location
-                    bucket: ENV.fetch('S3_PATH', nil),
-                    s3_protocol: ENV.fetch('S3_PROTOCOL', nil)
+                    path: 'schools/:school/files/:target/:target_id/:filename'
+  # :path => "schools/:school/files/:target/:target_id/:id/:filename",  This is the correct solution to allow for files of the same name, but we need to write a script to move all files to the new location
+
+  # FIXME: https://stackoverflow.com/a/21898204/14269772
+  do_not_validate_attachment_file_type :resource
 
   def self.aws_bucket(bucket)
     create = true

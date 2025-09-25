@@ -14,11 +14,6 @@ MAILER_DEFAULT_URL: localhost:3000
 PUSHER_SOCKET_URL: ws://ws.pusherapp.com/app/ID
 PUSHER_URL: https://ID:KEY@api.pusherapp.com/apps/APP
 
-S3_KEY: AAAAAAAAAAAAAAAAAAAA
-S3_PATH: my-s3-account.s3.amazonaws.com/my-box-name
-S3_PROTOCOL: https
-S3_SECRET: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
 # Used to prefix URLs (e.g. reference to images in emails)
 URL: http://localhost:3000
 

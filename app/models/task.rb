@@ -18,12 +18,9 @@ class Task < ActiveRecord::Base
   after_create :image_save
 
   has_attached_file :image,
-                    storage: :s3,
-                    s3_credentials: { access_key_id: ENV.fetch('S3_KEY', nil),
-                                      secret_access_key: ENV.fetch('S3_SECRET', nil) },
-                    path: 'schools/:school/courses/:course/tasks/:id/:filename',
-                    bucket: ENV.fetch('S3_PATH', nil),
-                    s3_protocol: ENV.fetch('S3_PROTOCOL', nil)
+                    path: 'schools/:school/courses/:course/tasks/:id/:filename'
+  # FIXME: https://stackoverflow.com/a/21898204/14269772
+  do_not_validate_attachment_file_type :image
 
   @@levels = %w[Low Medium High]
   cattr_accessor :levels

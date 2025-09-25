@@ -1,12 +1,10 @@
 class BadgeImage < ActiveRecord::Base
   has_attached_file :image,
-                    storage: :s3,
-                    s3_credentials: { access_key_id: ENV.fetch('S3_KEY', nil),
-                                      secret_access_key: ENV.fetch('S3_SECRET', nil) },
                     path: 'games/:id/:filename',
-                    bucket: ENV.fetch('S3_PATH', nil),
-                    s3_protocol: ENV.fetch('S3_PROTOCOL', nil),
                     default_url: '/assets/:style/missing.jpg'
+
+  # FIXME: https://stackoverflow.com/a/21898204/14269772
+  do_not_validate_attachment_file_type :image
 
   # has_one :badge
   has_one :available_badge, class_name: 'Badge', foreign_key: 'available_badge_image_id'

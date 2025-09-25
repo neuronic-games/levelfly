@@ -40,8 +40,4 @@ Oncapus::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
-
-  Pusher.app_id = '64378'
-  Pusher.key    = '18acef759a4aa6f53d19'
-  Pusher.secret = '4f9384b33dad44150882'
 end
