@@ -18,6 +18,10 @@ Run a specific example:
 RAILS_ENV=test URL=http://localhost:3000/ bundle exec rspec spec/requests/course_spec.rb -e 'Post /add_participant'
 ```
 
+## Browser tests
+
+Browser tests, located in `spec/features`, are skipped by default. To run them, add the `--tags browser` argument to `rspec`.
+
 ## Coverage
 
 A code coverage analysis report is generated automatically when running tests; check `coverage/index.html`.

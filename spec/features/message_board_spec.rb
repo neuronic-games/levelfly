@@ -1,7 +1,7 @@
 require 'rails_helper'
 require_relative 'helpers/two_browsers'
 
-describe 'send board message to friends', js: true do
+describe 'send board message to friends', browser: true, js: true do
   before(:all) do
     @user = User.first
     @school_demo = School.find_by!(handle: 'demo')
