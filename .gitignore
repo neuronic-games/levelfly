@@ -1,14 +1,15 @@
-.bundle
-db/*.sqlite3
-log/
-tmp/
-.sass-cache/
-db/schema.rb
-.ruby-gemset
-.env
+# Environment file
+/.env
 
-# TODO: remove from gitignore, switch to env vars
-/config/database.yml
+# Ruby / rails stuff
+/.bundle
+/db/*.sqlite3
+/log/
+/tmp/
+/.sass-cache/
+/db/schema.rb
+/public/assets
+/bin/
 
 # test coverage data
 /coverage
@@ -51,5 +52,3 @@ Thumbs.db
 .ruby-gemset
 
 .idea
-
-/public/assets
