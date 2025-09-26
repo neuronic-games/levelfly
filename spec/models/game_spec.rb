@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe Game, type: :model do
+RSpec.describe Game do
   it 'has a valid factory' do
-    expect(FactoryBot.build(:game)).to be_valid
+    expect(build(:game)).to be_valid
   end
 end

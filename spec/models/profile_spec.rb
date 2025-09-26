@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe Profile, type: :model do
+RSpec.describe Profile do
   it 'has a valid factory' do
-    expect(FactoryBot.build(:profile)).to be_valid
+    expect(build(:profile)).to be_valid
   end
 end

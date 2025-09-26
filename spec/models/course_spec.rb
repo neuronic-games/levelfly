@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe Course, type: :model do
+RSpec.describe Course do
   it 'has a valid factory' do
-    expect(FactoryBot.build(:course)).to be_valid
+    expect(build(:course)).to be_valid
   end
 end
