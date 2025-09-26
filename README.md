@@ -1,5 +1,4 @@
-Levelfly
-========
+# Levelfly
 
 ![Levelfly logo](public/images/levelfly_tag.png?raw=true)
 
@@ -7,44 +6,87 @@ Levelfly
 
 Levelfly is an open-source, achievement-based Learning Management System (LMS) and social network, developed by [Neuronic Games][neuronic] for [Borough of Manhattan Community College][bmcc] and [City University of New York][cuny] with funding from the [National Science Foundation][nsf] and the [U.S. Department of Education][us-doe].
 
-A demonstration instance of Levelfly is available at https://levelfly-staging.herokuapp.com
+A demonstration instance of Levelfly is available at <https://demo.levelflylearning.com>
 
 ## Working on Levelfly
 
+Check out the Levelfly code:
+
+```shell
+git clone https://github.com/neuronic-games/levelfly.git && cd levelfly
+```
+
+Then, decide how you'd like to run Levelfly and its dependencies.
+
 ### Docker
 
-```
+If you have [Docker][docker] installed, you can use it to run a local development version of Levelfly, including all the necessary software:
+
+```shell
 docker-compose up
 ```
 
+This will probably take a while. You can tell if it's worked if you see messages like this:
+
+```
+app-1   | => Rails 7.2.2.2 application starting in development http://0.0.0.0:3000
+app-1   | => Run `bin/rails server --help` for more startup options
+```
+
+If you see something else, check the "Troubleshooting" section below.
+
+Otherwise, if all is well, run this to set up the database and load initial data:
+
+```shell
+docker-compose exec app db:reset
+```
+
+Then, you should be able to open <http://localhost:3000> in a web browser, and log in with the default user:
+
+* Username: `admin@neuronicgames.com`
+* Password: `changeme`
+
+You can access Mailcatcher to see sent emails at <http://localhost:1080>
+
+#### Troubleshooting
+
+If you get something like "command not found" when running `docker-compose`, you can try `docker compose up` (newer syntax).
+
+You might need `sudo` depending on the permissions settings on your computer.
+
+If you run into a different problem, please open a [Github issue][github-issue]
+
 ### "Bare metal" (non-Docker) install
 
-These instructions have been tested on Linux & OSX. If you can add set-up instructions for any other platform, or for tools like Docker or Vagrant, please [edit this README][editreadme] and share your wisdom!
+These instructions have been tested on Linux & OSX. If you can add set-up instructions for any other platform, please [edit this README][editreadme] and share your wisdom!
 
-1. Install [Postgres][postgres], and Ruby 2.4.10 ([RVM][rvm] is recommended)
-2. Check out the Levelfly code:
-    ```
-    git clone https://github.com/neuronic-games/levelfly.git && cd levelfly
-    ```
-3. Create a Postgres database:
-   ```
+1. Install [Postgres][postgres], and Ruby 3.3.9 ([rbenv][rbenv] is recommended)
+2. Create a Postgres database:
+
+   ```shell
    createdb -U postgres levelfly
    ```
-4. Copy `.env.example` to `.env` and edit as appropriate
-5. Initialise the database:
-    ```
+
+3. Copy `.env.example` to `.env` and edit as appropriate
+4. Initialise the database:
+
+    ```shell
     bundle exec rake db:create
     bundle exec rake db:migrate
     bundle exec rake db:seed
     ```
-6. Set up S3 storage – either sign up for [AWS][aws-s3] or set up [minio][minio]. Then, edit `config/application.yml` to pop in your S3 API key
-7. Install [MailCatcher][mailcatcher] to display outgoing mail in a browser instead of sending it:
-    ```
+
+5. Set up S3 storage – either sign up for [AWS][aws-s3] or set up [minio][minio].
+6. Install [MailCatcher][mailcatcher] to display outgoing mail in a browser instead of sending it:
+
+    ```shell
     gem install mailcatcher
     mailcatcher
     ```
+
 8. Run the server and job workers:
-    ```
+
+    ```shell
     bundle exec rake jobs:work &
     rails s
     ```
@@ -55,14 +97,14 @@ See [`TESTING.md`](./TESTING.md)
 
 ## Deploying Levelfly
 
-Levelfly is pre-configured to deploy to [Heroku][heroku] using [Drone][drone].
+Levelfly is pre-configured to deploy to Docker Swarm using [Drone][drone].
 
 If you're a project collaborator, just push to the `main` or `staging` branches,
 and Drone will automatically deploy your code to the right server.
 
 You can see the status of deployments here:
 
-https://drone.neuronicgames.com/neuronic-games/levelfly
+<https://drone.neuronicgames.com/neuronic-games/levelfly>
 
 ### Tagging a new release
 
@@ -79,13 +121,15 @@ https://drone.neuronicgames.com/neuronic-games/levelfly
 [nsf]: https://nsf.gov
 [us-doe]: http://www.nsf.gov/
 [editreadme]: https://github.com/neuronic-games/levelfly/edit/main/README.md
-[rvm]: https://rvm.io/
+[rbenv]: https://github.com/rbenv/rbenv
 [aws-s3]: https://aws.amazon.com/s3/
 [minio]: https://min.io
 [postgres]: https://www.postgresql.org/
 [mailcatcher]: https://mailcatcher.me/
 [drone]: https://drone.io
 [heroku]: https://herokuapp.com
+[docker]: https://www.docker.com/
+[github-issue]: https://github.com/neuronic-games/levelfly/issues
 
 ## Screens
 
