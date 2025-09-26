@@ -1,0 +1,11 @@
+RSpec/MultipleExpectations:
+  Max: 5
+
+RSpec/LetSetup:
+  Enabled: False
+
+RSpec/ExampleLength:
+  Enabled: false  
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 6

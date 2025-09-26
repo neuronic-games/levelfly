@@ -3,45 +3,45 @@
 require 'rails_helper'
 
 RSpec.describe 'Profiles', type: :request do
-  before(:all) do
-    @user = User.first
-    @school_demo = School.find_by!(handle: 'demo')
-    @profile = @user.profiles.first
-    @wall = FactoryBot.create(:wall, parent: @profile)
-    @feed = FactoryBot.create(:feed, wall_id: @wall.id, profile: @profile)
+  let!(:user_one) { User.first }
+  let!(:profile_one) { user_one.profiles.first }
+  let!(:wall_one) { create(:wall, parent: profile_one) }
+  let!(:message_one) { create(:message, profile: profile_one, target: profile_one, wall: wall_one, target_type: '') }
 
-    @message = FactoryBot.create(:message, profile: @profile, target: @profile, wall: @wall, target_type: '')
-    @message_viewer = FactoryBot.create(:message_viewer, message: @message, poster_profile: @profile,
-                                                         viewer_profile: @profile)
+  before do
+    create(:message_viewer, message: message_one, poster_profile: profile_one,
+                            viewer_profile: profile_one)
+    create(:feed, wall_id: wall_one.id, profile: profile_one)
   end
 
-  context 'GET /message' do
+  context 'when GET /message' do
     it 'redirects to login if unauthenticated' do
       get url_for controller: 'message', action: :index
       expect(response).to redirect_to '/users/sign_in'
     end
 
     it 'renders message list' do
-      sign_in @user
+      sign_in user_one
       get url_for controller: 'message', action: :index
       expect(response.status).to eq(200)
-      expect(response.body).to include @message.content
+      expect(response.body).to include message_one.content
     end
   end
 
-  context 'POST /message/save' do
+  context 'when POST /message/save' do
     it 'redirects to login if unauthenticated' do
       post url_for controller: 'message', action: :save
       expect(response).to redirect_to '/users/sign_in'
     end
 
     it 'saves a new message' do
-      sign_in @user
+      sign_in user_one
       message_text = Faker::Lorem.sentence
       post url_for(controller: 'message', action: :save),
-           params: FactoryBot.attributes_for(:message, content: message_text, profile: @profile, target: @profile, wall: @wall,
+           params: FactoryBot.attributes_for(:message, content: message_text, profile: profile_one, target: profile_one,
+                                                       wall: wall_one,
                                                        target_type: '')
-                             .merge({ parent_id: @profile.id })
+                             .merge({ parent_id: profile_one.id })
 
       expect(response.status).to eq(200)
       expect(response.body).to include message_text

@@ -2,41 +2,38 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Profiles', type: :request do
-  before(:all) do
-    @user = User.first
-    @school_demo = School.find_by!(handle: 'demo')
-    @profile = @user.profiles.first
+RSpec.describe 'Profiles' do
+  let!(:user_one) { User.first }
+  let!(:school_demo) { School.find_by!(handle: 'demo') }
+  let!(:profile_one) { user_one.profiles.first }
 
-    # NOTE: See note in ./course_spec.rb
-    @user_two = FactoryBot.create(:user, default_school: @school_demo)
-    @profile_two = FactoryBot.create(:profile, user: @user_two, school: @school_demo)
-  end
+  let!(:user_two) { create(:user, default_school: school_demo) }
+  let!(:profile_two) { create(:profile, user: user_two, school: school_demo) }
 
-  context 'GET /user_profile' do
+  context 'when GET /user_profile' do
     it 'redirects to login if unauthenticated' do
       get url_for controller: 'profile', action: :user_profile
       expect(response).to redirect_to '/users/sign_in'
     end
 
     it 'renders user profile page' do
-      sign_in @user
+      sign_in user_one
       get url_for controller: 'profile', action: :user_profile
-      expect(response.body).to include @profile.full_name
+      expect(response.body).to include profile_one.full_name
     end
 
     it "renders other user's user profile page" do
-      sign_in @user
+      sign_in user_one
       get url_for(controller: 'profile', action: :user_profile),
-          params: { profile_id: @profile_two.id }
-      expect(response.body).to include @profile_two.full_name
+          params: { profile_id: profile_two.id }
+      expect(response.body).to include CGI.escapeHTML(profile_two.full_name)
     end
   end
 
-  context 'POST /save' do
+  context 'when POST /save' do
     it 'redirects to login if unauthenticated' do
       post url_for(controller: 'profile', action: :save),
-           params: FactoryBot.attributes_for(:profile)
+           params: attributes_for(:profile)
       expect(response).to redirect_to '/users/sign_in'
     end
 

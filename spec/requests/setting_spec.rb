@@ -3,24 +3,20 @@
 require 'rails_helper'
 
 RSpec.describe 'Settings', type: :request do
-  before(:all) do
-    @user = User.first
-    @school_demo = School.find_by!(handle: 'demo')
-    @profile = @user.profiles.first
+  let!(:user_one) { User.first }
+  let!(:school_demo) { School.find_by!(handle: 'demo') }
+  let!(:setting_one) { create(:setting, target_id: school_demo.id) }
 
-    @setting = FactoryBot.create(:setting, target_id: @school_demo.id)
-  end
-
-  context 'GET /index' do
+  context 'when GET /index' do
     it 'redirects to login if unauthenticated' do
       get url_for controller: 'setting', action: :index
       expect(response).to redirect_to '/users/sign_in'
     end
 
     it 'renders settings list' do
-      sign_in @user
+      sign_in user_one
       get url_for controller: 'setting', action: :index
-      expect(response.body).to include @setting.name
+      expect(response.body).to include setting_one.name
     end
   end
 end
