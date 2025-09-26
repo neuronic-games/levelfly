@@ -1,11 +1,3 @@
-GIT
-  remote: https://github.com/nulldb/nulldb.git
-  revision: af58f3d5426ab1a0649608c8c5273508e81d43ce
-  ref: af58f3d5426ab1a0649608c8c5273508e81d43ce
-  specs:
-    activerecord-nulldb-adapter (1.1.1)
-      activerecord (>= 6.0, < 8.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -62,6 +54,8 @@ GEM
       activemodel (= 7.2.2.2)
       activesupport (= 7.2.2.2)
       timeout (>= 0.4.0)
+    activerecord-nulldb-adapter (1.1.1)
+      activerecord (>= 6.0, < 8.1)
     activestorage (7.2.2.2)
       actionpack (= 7.2.2.2)
       activejob (= 7.2.2.2)
@@ -2048,6 +2042,7 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
+    sqlite (1.0.2)
     stringio (3.1.7)
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)
@@ -2085,7 +2080,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord-nulldb-adapter!
+  activerecord-nulldb-adapter
   activesupport
   acts-as-taggable-on
   aws-sdk
@@ -2137,6 +2132,7 @@ DEPENDENCIES
   sass-rails
   selenium-webdriver (~> 3.142)
   simplecov
+  sqlite
   stringio (~> 3.1)
   thin (= 1.8.0)
   uglifier (>= 1.0.3)

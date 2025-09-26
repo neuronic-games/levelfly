@@ -21,7 +21,8 @@ ARG DATABASE_URL=nulldb://nulldb \
   RAILS_ENV=production \
   PUSHER_URL=https://example.com \
   PUSHER_SOCKET_URL=ws://example.com \
-  SECRET_KEY_BASE=8e1f4c03075883a1fc379b58ed1212e96cc44e2e41443288f0786eb8da167230
+  SECRET_KEY_BASE_DUMMY=1 \
+  COMPILE_ASSETS=1
 
 RUN bundle exec rake assets:precompile && \
   bundle exec rake assets:clean

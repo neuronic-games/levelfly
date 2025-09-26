@@ -45,7 +45,7 @@ gem "stringio", "~> 3.1"
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'activerecord-nulldb-adapter', :git => 'https://github.com/nulldb/nulldb.git', :ref => 'af58f3d5426ab1a0649608c8c5273508e81d43ce'
+  gem 'activerecord-nulldb-adapter'
   gem 'coffee-rails'
   gem 'sass', '~> 3.2.5'
   gem 'sass-rails'

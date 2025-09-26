@@ -1,4 +1,5 @@
 require 'pusher'
+require 'activerecord-nulldb-adapter'
 
 Oncapus::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
@@ -87,4 +88,12 @@ Oncapus::Application.configure do
 
   ActionMailer::Base.delivery_method = :smtp
   ActionMailer::Base.default content_type: 'text/html'
+
+  if ENV.fetch('COMPILE_ASSETS', nil)
+    NullDB.configure do |ndb|
+      def ndb.project_root
+        Oncapus.root
+      end
+    end
+  end
 end
