@@ -1760,6 +1760,7 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.6.2)
     docile (1.4.1)
+    dotenv (3.1.8)
     drb (2.2.3)
     em-http-request (1.1.7)
       addressable (>= 2.3.4)
@@ -2042,7 +2043,6 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
-    sqlite (1.0.2)
     stringio (3.1.7)
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)
@@ -2092,6 +2092,7 @@ DEPENDENCIES
   deep_cloneable
   delayed_job_active_record
   devise
+  dotenv (~> 3.1)
   em-http-request
   factory_bot_rails (~> 4.9)
   faker (~> 2.22)
@@ -2132,7 +2133,6 @@ DEPENDENCIES
   sass-rails
   selenium-webdriver (~> 3.142)
   simplecov
-  sqlite
   stringio (~> 3.1)
   thin (= 1.8.0)
   uglifier (>= 1.0.3)

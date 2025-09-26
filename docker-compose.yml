@@ -16,14 +16,12 @@ x-environment:
     - S3_ENDPOINT=http://s3:9090
     - S3_FORCE_PATH_STYLE=true
 
-
 services:   
   app:
     build: .
     image: neuronicgames/levelfly
     volumes:  
       - ./:/var/app:z
-    env_file: .env
     environment: *default-env
     depends_on:
       - db
@@ -35,7 +33,6 @@ services:
   jobs:
     build: .
     image: neuronicgames/levelfly
-    env_file: .env
     command: bundle exec rake jobs:work
     volumes:  
       - ./:/var/app:z

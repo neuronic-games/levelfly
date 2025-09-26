@@ -11,6 +11,14 @@ A demonstration instance of Levelfly is available at https://levelfly-staging.he
 
 ## Working on Levelfly
 
+### Docker
+
+```
+docker-compose up
+```
+
+### "Bare metal" (non-Docker) install
+
 These instructions have been tested on Linux & OSX. If you can add set-up instructions for any other platform, or for tools like Docker or Vagrant, please [edit this README][editreadme] and share your wisdom!
 
 1. Install [Postgres][postgres], and Ruby 2.4.10 ([RVM][rvm] is recommended)

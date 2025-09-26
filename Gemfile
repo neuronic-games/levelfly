@@ -83,3 +83,5 @@ group :development, :test do
   gem 'pry'
   gem 'pry-byebug'
 end
+
+gem "dotenv", "~> 3.1"
