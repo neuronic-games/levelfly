@@ -13,7 +13,7 @@ end
 
 module Oncapus
   class Application < Rails::Application
-    config.load_defaults '7.1'
+    config.load_defaults '7.2'
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
