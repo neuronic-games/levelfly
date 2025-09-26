@@ -79,5 +79,23 @@ module Oncapus
       },
       url: ':s3_path_url'
     }
+
+    # Disable delivery errors, bad email addresses will be ignored
+    # config.action_mailer.raise_delivery_errors = false
+
+    ActionMailer::Base.delivery_method = :smtp
+    ActionMailer::Base.default content_type: 'text/html'
+
+    # Used for password reminder emails
+    config.action_mailer.default_url_options = { host: ENV.fetch('MAILER_DEFAULT_URL', nil) }
+
+    ActionMailer::Base.smtp_settings = {
+      address: ENV.fetch('SMTP_HOST', nil),
+      port: ENV.fetch('SMTP_PORT', nil),
+      domain: ENV.fetch('SMTP_DOMAIN', nil),
+      user_name: ENV.fetch('SMTP_USERNAME', nil),
+      password: ENV.fetch('SMTP_PASSWORD', nil),
+      authentication: 'plain'
+    }
   end
 end

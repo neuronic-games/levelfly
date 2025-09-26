@@ -59,9 +59,6 @@ Oncapus::Application.configure do
   # config.assets.precompile += %w( search.js )
   config.assets.precompile += %w[vendor.js]
 
-  # Disable delivery errors, bad email addresses will be ignored
-  # config.action_mailer.raise_delivery_errors = false
-
   # Enable threaded mode
   # config.threadsafe!
 
@@ -72,22 +69,7 @@ Oncapus::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  # Used for password reminder emails
-  config.action_mailer.default_url_options = { host: ENV.fetch('MAILER_DEFAULT_URL', nil) }
-
   Pusher.url = ENV.fetch('PUSHER_URL', nil)
-
-  ActionMailer::Base.smtp_settings = {
-    address: ENV.fetch('SMTP_HOST', nil),
-    port: ENV.fetch('SMTP_POST', nil),
-    domain: ENV.fetch('SMTP_DOMAIN', nil),
-    user_name: ENV.fetch('SMTP_USERNAME', nil),
-    password: ENV.fetch('SMTP_PASSWORD', nil),
-    authentication: 'plain'
-  }
-
-  ActionMailer::Base.delivery_method = :smtp
-  ActionMailer::Base.default content_type: 'text/html'
 
   if ENV.fetch('COMPILE_ASSETS', nil)
     NullDB.configure do |ndb|
