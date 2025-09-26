@@ -2,7 +2,7 @@ FROM ruby:3.3.9-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ARG DEBIAN_PACKAGES_BUILD="npm libpq-dev"
+ARG DEBIAN_PACKAGES_BUILD="npm libpq-dev libyaml-dev"
 
 RUN apt-get update --allow-releaseinfo-change && apt-get install -y ${DEBIAN_PACKAGES_BUILD} file \ 
   && rm -rf /var/lib/apt/lists/*

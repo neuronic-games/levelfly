@@ -65,8 +65,7 @@ RSpec.describe 'Courses', type: :request do
 
       get url_for(controller: 'course', action: :new),
           params: { section_type: 'C' },
-          xhr: true,
-          as: :html
+          xhr: true
       expect(response.body).to include 'Click the Add Outcome button'
     end
   end
@@ -74,8 +73,7 @@ RSpec.describe 'Courses', type: :request do
   context 'GET /show' do
     it 'should redirect to login if unauthenticated' do
       get url_for(controller: 'course', action: :show, id: @course.id),
-          params: { id: @course.id, section_type: 'C' },
-          as: :html
+          params: { id: @course.id, section_type: 'C' }
       expect(response).to redirect_to '/users/sign_in'
     end
 
@@ -83,8 +81,7 @@ RSpec.describe 'Courses', type: :request do
       sign_in @user
       get url_for(controller: 'course', action: :show, id: @course.id),
           params: { section_type: 'C' },
-          xhr: true,
-          as: :html
+          xhr: true
       expect(response.body).to include @course.name
     end
   end
@@ -92,16 +89,14 @@ RSpec.describe 'Courses', type: :request do
   context 'GET /view_setup' do
     it 'should redirect to login if unauthenticated' do
       get url_for controller: 'course', action: :view_setup,
-                  params: { id: @course.id },
-                  as: :html
+                  params: { id: @course.id }
       expect(response).to redirect_to '/users/sign_in'
     end
 
     it 'should render view_setup page' do
       sign_in @user
       get url_for controller: 'course', action: :view_setup,
-                  params: { id: @course.id },
-                  as: :html
+                  params: { id: @course.id }
       expect(response).to render_template 'course/_setup'
     end
   end
@@ -109,8 +104,7 @@ RSpec.describe 'Courses', type: :request do
   context 'POST /save' do
     it 'should redirect to login if unauthenticated' do
       post url_for controller: 'course', action: :save,
-                   params: FactoryBot.attributes_for(:course),
-                   as: :html
+                   params: FactoryBot.attributes_for(:course)
       expect(response).to redirect_to '/users/sign_in'
     end
 
@@ -132,8 +126,7 @@ RSpec.describe 'Courses', type: :request do
       # TODO: test :categories param
 
       post url_for controller: 'course', action: :save,
-                   params: course_params,
-                   as: :html
+                   params: course_params
       expect(Course.find(course_two.id).name).to eq(new_name)
     end
   end
@@ -163,12 +156,12 @@ RSpec.describe 'Courses', type: :request do
       post url_for(controller: 'course', action: :get_participants),
            params: { school_id: @course.school.id, search_text: @user_two.email }
 
-      expect(response.body).to include @profile_two.full_name
+      expect(response.body).to include CGI.escapeHTML(@profile_two.full_name)
 
       post url_for(controller: 'course', action: :get_participants),
            params: { school_id: @course.school.id, search_text: @profile_two.full_name }
 
-      expect(response.body).to include @profile_two.full_name
+      expect(response.body).to include CGI.escapeHTML(@profile_two.full_name)
 
       # TODO: Should this be necessary?
       participant.delete

@@ -41,8 +41,7 @@ RSpec.describe 'Profiles', type: :request do
   context 'POST /save' do
     it 'should redirect to login if unauthenticated' do
       post url_for(controller: 'profile', action: :save),
-           params: FactoryBot.attributes_for(:profile),
-           as: :html
+           params: FactoryBot.attributes_for(:profile)
       expect(response).to redirect_to '/users/sign_in'
     end
 
