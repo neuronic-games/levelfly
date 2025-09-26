@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :school do
     name { Faker::University.name }
-    code { Faker::Alphanumeric.alpha(number: 5) }
+    code { Faker::Alphanumeric.alpha(number: 5).upcase }
+    handle { Faker::Alphanumeric.alpha(number: 5) }
   end
 end
