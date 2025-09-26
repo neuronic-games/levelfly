@@ -47,7 +47,12 @@ gem 'rails_12factor', group: :production
 
 group :development do
   gem 'rubocop'
+  gem 'rubocop-capybara', '~> 2.22'
+  gem 'rubocop-factory_bot', '~> 2.27'
+  gem 'rubocop-rails', '~> 2.33'
+  gem 'rubocop-rake', '~> 0.7.1'
   gem 'rubocop-rspec'
+  gem 'rubocop-rspec_rails', '~> 2.31'
 end
 
 group :test do
@@ -68,4 +73,4 @@ group :development, :test do
   gem 'pry-byebug'
 end
 
-gem "file_exists", "~> 0.2.0"
+gem 'file_exists', '~> 0.2.0'

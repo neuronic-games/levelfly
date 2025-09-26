@@ -1,7 +1,15 @@
+plugins:
+  - rubocop-capybara
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-rspec_rails
+  - rubocop-factory_bot
+  - rubocop-rake
+
 Metrics/BlockLength:
-  AllowedMethods: ['describe', 'context']
+  AllowedMethods: ["describe", "context"]
 
 AllCops:
   NewCops: enable
   Exclude:
-    - 'app/controllers/course_controller.rb'
+    - "app/controllers/course_controller.rb"
