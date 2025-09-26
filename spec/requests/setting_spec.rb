@@ -11,10 +11,6 @@ RSpec.describe 'Settings', type: :request do
     @setting = FactoryBot.create(:setting, target_id: @school_demo.id)
   end
 
-  after(:all) do
-    @setting.delete
-  end
-
   context 'GET /index' do
     it 'redirects to login if unauthenticated' do
       get url_for controller: 'setting', action: :index

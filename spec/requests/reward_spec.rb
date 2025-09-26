@@ -11,10 +11,6 @@ RSpec.describe 'Reward', type: :request do
     @reward = FactoryBot.create(:reward, target_type: 'wardrobe', target_id: Wardrobe.second.id)
   end
 
-  after(:all) do
-    @reward.delete
-  end
-
   context 'GET /index' do
     it 'redirects to login if unauthenticated' do
       get url_for(controller: 'reward', action: :index)

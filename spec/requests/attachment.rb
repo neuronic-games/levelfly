@@ -14,11 +14,6 @@ RSpec.describe 'Attachments', type: :request do
                                                    profile_type: 'M')
   end
 
-  after(:all) do
-    @participant.delete
-    @course.delete
-  end
-
   context 'POST /add_file' do
     it 'redirects to login if unauthenticated' do
       post url_for controller: 'course', action: :add_file

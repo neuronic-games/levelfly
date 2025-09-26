@@ -50,8 +50,7 @@ RSpec.configure do |config|
   end
 
   config.after do
-    # FIXME: NoMethodError: undefined method `lock' for #<ActiveRecord::ConnectionAdapters::PostgreSQLAdapter:0x000000002d665c88>
-    # DatabaseCleaner.clean
+    DatabaseCleaner.clean
   end
 
   # RSpec Rails can automatically mix in different behaviours to your tests

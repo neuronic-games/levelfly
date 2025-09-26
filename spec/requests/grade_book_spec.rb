@@ -11,10 +11,6 @@ RSpec.describe 'Grade books', type: :request do
     @course = FactoryBot.create(:course, school: @school_demo, owner: @profile)
   end
 
-  after(:all) do
-    @course.delete
-  end
-
   context 'GET /index' do
     it 'redirects to login if unauthenticated' do
       get url_for(controller: 'grade_book', action: :index)

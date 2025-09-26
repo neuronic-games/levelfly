@@ -13,11 +13,6 @@ RSpec.describe 'Profiles', type: :request do
     @profile_two = FactoryBot.create(:profile, user: @user_two, school: @school_demo)
   end
 
-  after(:all) do
-    @user_two.delete
-    @profile_two.delete
-  end
-
   context 'GET /user_profile' do
     it 'redirects to login if unauthenticated' do
       get url_for controller: 'profile', action: :user_profile

@@ -13,11 +13,6 @@ RSpec.describe 'Tasks', type: :request do
     @task_participant = FactoryBot.create(:task_participant, task: @task, profile: @profile)
   end
 
-  after(:all) do
-    @task.delete
-    @course.delete
-  end
-
   context 'GET /index' do
     it 'redirects to login if unauthenticated' do
       get url_for(controller: 'task', action: :index),

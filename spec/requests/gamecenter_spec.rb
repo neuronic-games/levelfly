@@ -13,12 +13,6 @@ RSpec.describe 'Gamecenter', type: :request do
     @feat = FactoryBot.create(:feat, game: @game, profile: @profile)
   end
 
-  after(:all) do
-    @feat.delete
-    @game_school.delete
-    @game.delete
-  end
-
   # TODO: Test index
 
   context 'GET /get_rows' do
@@ -47,10 +41,6 @@ RSpec.describe 'Gamecenter', type: :request do
       expect(response.body).to render_template 'gamecenter/_rows'
       expect(response.body).not_to include CGI.escapeHTML(@game.name)
       expect(response.body).to include CGI.escapeHTML(game_two.name)
-
-      feat_two.delete
-      game_school_two.delete
-      game_two.delete
     end
   end
 end

@@ -18,13 +18,6 @@ RSpec.describe 'Courses', type: :request do
     @profile_two = FactoryBot.create(:profile, user: @user_two, school: @school_demo)
   end
 
-  after(:all) do
-    @user_two.delete
-    @participant.delete
-    @profile_two.delete
-    @course.delete
-  end
-
   context 'GET /Index' do
     it 'redirects to login if unauthenticated' do
       get url_for controller: 'course', action: :index
@@ -162,9 +155,6 @@ RSpec.describe 'Courses', type: :request do
            params: { school_id: @course.school.id, search_text: @profile_two.full_name }
 
       expect(response.body).to include CGI.escapeHTML(@profile_two.full_name)
-
-      # TODO: Should this be necessary?
-      participant.delete
     end
   end
 
@@ -188,9 +178,6 @@ RSpec.describe 'Courses', type: :request do
       expect(response_parsed['status']).to be true
       expect(response_parsed['already_added']).to be false
       expect(response_parsed['profiles'][0]['full_name']).to eq(@profile_two.full_name)
-
-      # TODO: Should this be necessary?
-      @profile_two.participants.first.delete
     end
 
     it 'adds already-added participant' do

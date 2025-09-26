@@ -16,11 +16,6 @@ RSpec.describe 'Groups', type: :request do
                                                    profile_type: 'M')
   end
 
-  after(:all) do
-    @participant.delete
-    @group.delete
-  end
-
   context 'POST /filter' do
     it 'redirects to login if unauthenticated' do
       post url_for(controller: 'course', action: :filter),
@@ -47,11 +42,6 @@ RSpec.describe 'Groups', type: :request do
 
       expect(response.body).to include @group.name
       expect(response.body).to include group_two.name
-
-      participant_two.delete
-      group_two.delete
-      profile_two.delete
-      user_two.delete
     end
   end
 end
