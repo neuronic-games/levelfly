@@ -5,6 +5,7 @@ ruby '3.3.9'
 gem 'activesupport'
 gem 'acts-as-taggable-on'
 gem 'aws-sdk'
+gem 'csv', '~> 3.3'
 gem 'deep_cloneable'
 gem 'delayed_job_active_record'
 gem 'devise'
@@ -14,6 +15,7 @@ gem 'json', '>= 1.8.5'
 gem 'matrix', '~> 0.4.3'
 gem 'newrelic_rpm'
 gem 'nokogiri'
+gem 'observer', '~> 0.1.2'
 gem 'pg'
 gem 'pusher'
 gem 'rails', '~> 7.2.0'
@@ -21,13 +23,11 @@ gem 'rails_autolink'
 gem 'rails-observers'
 gem 'rake', '>= 0.9.2'
 gem 'remotipart', '~> 1.2'
+gem 'rexml', '~> 3.4'
 gem 'thin', '1.8.0'
 gem 'useragent', '0.16.7'
 gem 'webrick', '~> 1.9'
 gem 'will_paginate', '~> 3.0'
-gem "rexml", "~> 3.4"
-gem "csv", "~> 3.3"
-gem "observer", "~> 0.1.2"
 
 # NOTE: Pinned to work around upgrade issues
 gem 'ffi', '< 1.17.0'
@@ -39,8 +39,8 @@ gem 'kt-paperclip'
 gem 'file_exists', '~> 0.2.0'
 
 # NOTE: Pinned here to avoid bundler warnings; unclear where open-uri requirement is coming from (it wasn't listed here before, and `gem dependency` doesn't show what pulled it in)
-gem "open-uri", "~> 0.5.0"
-gem "stringio", "~> 3.1"
+gem 'open-uri', '~> 0.5.0'
+gem 'stringio', '~> 3.1'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -55,6 +55,7 @@ end
 gem 'rails_12factor', group: :production
 
 group :development do
+  gem 'bundle-audit', '~> 0.1.0'
   gem 'rubocop'
   gem 'rubocop-capybara', '~> 2.22'
   gem 'rubocop-factory_bot', '~> 2.27'
@@ -62,8 +63,7 @@ group :development do
   gem 'rubocop-rake', '~> 0.7.1'
   gem 'rubocop-rspec'
   gem 'rubocop-rspec_rails', '~> 2.31'
-  gem "bundle-audit", "~> 0.1.0"
-  gem "ruby-lsp", "~> 0.26.1"
+  gem 'ruby-lsp', '~> 0.26.1'
 end
 
 group :test do
@@ -84,4 +84,4 @@ group :development, :test do
   gem 'pry-byebug'
 end
 
-gem "dotenv", "~> 3.1"
+gem 'dotenv', '~> 3.1'

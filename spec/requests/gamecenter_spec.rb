@@ -32,8 +32,8 @@ RSpec.describe 'Gamecenter', type: :request do
       expect(response.body).to include CGI.escapeHTML(@game.name)
 
       game_two = FactoryBot.create(:game, school: @school_demo, archived: true)
-      game_school_two = FactoryBot.create(:game_school, game: game_two, school: @school_demo)
-      feat_two = FactoryBot.create(:feat, game: game_two, profile: @profile)
+      FactoryBot.create(:game_school, game: game_two, school: @school_demo)
+      FactoryBot.create(:feat, game: game_two, profile: @profile)
 
       get url_for(controller: 'gamecenter', action: :get_rows),
           xhr: true,

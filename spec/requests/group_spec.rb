@@ -29,8 +29,8 @@ RSpec.describe 'Groups', type: :request do
       user_two = FactoryBot.create(:user, default_school: @school_demo)
       profile_two = FactoryBot.create(:profile, user: user_two, school: @school_demo)
       group_two = FactoryBot.create(:course, :group, school: @school_demo, owner: profile_two)
-      participant_two = FactoryBot.create(:participant, target: group_two, target_type: 'Course', profile: profile_two,
-                                                        profile_type: 'M')
+      FactoryBot.create(:participant, target: group_two, target_type: 'Course', profile: profile_two,
+                                      profile_type: 'M')
 
       post url_for(controller: 'course', action: :filter),
            params: { filter: 'M', section_type: Course.parent_type_group }

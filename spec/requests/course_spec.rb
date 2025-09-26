@@ -143,8 +143,8 @@ RSpec.describe 'Courses', type: :request do
     it 'gets participants' do
       sign_in @user
 
-      participant = FactoryBot.create(:participant, target: @course, target_type: 'Course', profile: @profile_two,
-                                                    profile_type: 'S')
+      FactoryBot.create(:participant, target: @course, target_type: 'Course', profile: @profile_two,
+                                      profile_type: 'S')
 
       post url_for(controller: 'course', action: :get_participants),
            params: { school_id: @course.school.id, search_text: @user_two.email }
