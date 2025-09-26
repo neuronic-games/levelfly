@@ -26,6 +26,8 @@ gem 'useragent', '0.16.7'
 gem 'webrick', '~> 1.9'
 gem 'will_paginate', '~> 3.0'
 gem "rexml", "~> 3.4"
+gem "csv", "~> 3.3"
+gem "observer", "~> 0.1.2"
 
 # NOTE: Pinned to work around upgrade issues
 gem 'ffi', '< 1.17.0'
@@ -36,10 +38,14 @@ gem 'kt-paperclip'
 # TODO: Drop this once all dependent gems are updated far enough to not rely on it
 gem 'file_exists', '~> 0.2.0'
 
+# NOTE: Pinned here to avoid bundler warnings; unclear where open-uri requirement is coming from (it wasn't listed here before, and `gem dependency` doesn't show what pulled it in)
+gem "open-uri", "~> 0.5.0"
+gem "stringio", "~> 3.1"
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'activerecord-nulldb-adapter'
+  gem 'activerecord-nulldb-adapter', :git => 'https://github.com/nulldb/nulldb.git', :ref => 'af58f3d5426ab1a0649608c8c5273508e81d43ce'
   gem 'coffee-rails'
   gem 'sass', '~> 3.2.5'
   gem 'sass-rails'
@@ -57,6 +63,7 @@ group :development do
   gem 'rubocop-rspec'
   gem 'rubocop-rspec_rails', '~> 2.31'
   gem "bundle-audit", "~> 0.1.0"
+  gem "ruby-lsp", "~> 0.26.1"
 end
 
 group :test do
