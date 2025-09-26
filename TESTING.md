@@ -2,19 +2,19 @@
 
 Run all tests:
 
-```
+```shell
 RAILS_ENV=test URL=http://localhost:3000/ bundle exec rspec
 ```
 
 Run a single file:
 
-```
+```shell
 RAILS_ENV=test URL=http://localhost:3000/ bundle exec rspec spec/requests/course_spec.rb
 ```
 
 Run a specific example:
 
-```
+```shell
 RAILS_ENV=test URL=http://localhost:3000/ bundle exec rspec spec/requests/course_spec.rb -e 'Post /add_participant'
 ```
 
@@ -28,7 +28,7 @@ A code coverage analysis report is generated automatically when running tests; c
 
 ## Running tests with a specific version of Ruby using Docker
 
-```
+```shell
 docker run -it --add-host=host.docker.internal:host-gateway -w /app --entrypoint bash -v $PWD:/app:Z ruby:2.6.10
 bundle install
 apt update && apt install nodejs

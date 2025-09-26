@@ -97,12 +97,15 @@ See [`TESTING.md`](./TESTING.md)
 
 ## Deploying Levelfly
 
-Levelfly is pre-configured to deploy to Docker Swarm using [Drone][drone].
+The easiest way to deploy Levelfly is using the [`neuronicgames/levelfly` Docker image][docker-image].
 
-If you're a project collaborator, just push to the `main` or `staging` branches,
-and Drone will automatically deploy your code to the right server.
+An example production `compose.yml` for Docker Swarm is available from [Co-op Cloud][coop-cloud-levelfly].
 
-You can see the status of deployments here:
+Otherwise, you could make a production `docker-compose.yml` based on the existing development `docker-compose.yml` in this repo.
+
+### Updating
+
+The `neuronicgames/levelfly` Docker image is automatically updated using [Drone][drone] push to the `main` or `staging` branches of this repository. You can see the status of deployments here:
 
 <https://drone.neuronicgames.com/neuronic-games/levelfly>
 
@@ -130,6 +133,8 @@ You can see the status of deployments here:
 [heroku]: https://herokuapp.com
 [docker]: https://www.docker.com/
 [github-issue]: https://github.com/neuronic-games/levelfly/issues
+[docker-image]: https://hub.docker.com/r/neuronicgames/levelfly
+[coop-cloud-levelfly]: https://git.coopcloud.tech/coop-cloud/levelfly
 
 ## Screens
 
