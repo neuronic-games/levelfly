@@ -26,17 +26,21 @@ gem 'thin', '1.8.0'
 gem 'useragent', '0.16.7'
 gem 'webrick', '~> 1.9'
 gem 'will_paginate', '~> 3.0'
+gem "rexml", "~> 3.4"
 
 # NOTE: Pinned to work around upgrade issues
 gem 'ffi', '< 1.17.0'
 
-# NOTE: Paperclip is deprecated, temporarily use fork to work around missing URI::escape on Ruby >= 3.0.0
+# TODO: Paperclip is deprecated, we're temporarily using this fork to work around missing URI::escape on Ruby >= 3.0.0, but we should switch to ActiveStorage
 gem 'kt-paperclip'
+
+# TODO: Drop this once all dependent gems are updated far enough to not rely on it
+gem 'file_exists', '~> 0.2.0'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'activerecord-nulldb-adapter', '~> 1.1'
+  gem 'activerecord-nulldb-adapter'
   gem 'coffee-rails'
   gem 'sass', '~> 3.2.5'
   gem 'sass-rails'
@@ -72,5 +76,3 @@ group :development, :test do
   gem 'pry'
   gem 'pry-byebug'
 end
-
-gem 'file_exists', '~> 0.2.0'
