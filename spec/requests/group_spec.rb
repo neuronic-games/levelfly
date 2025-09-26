@@ -13,7 +13,7 @@ RSpec.describe 'Groups', type: :request do
     # NOTE: See note in ./course_spec.rb
     @group = FactoryBot.create(:course, :group, school: @school_demo, owner: @profile)
     @participant = FactoryBot.create(:participant, target: @group, target_type: 'Course', profile: @profile,
-                                                    profile_type: 'M')
+                                                   profile_type: 'M')
   end
 
   after(:all) do
@@ -22,20 +22,20 @@ RSpec.describe 'Groups', type: :request do
   end
 
   context 'POST /filter' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       post url_for(controller: 'course', action: :filter),
            params: { filter: 'M', section_type: Course.parent_type_group }
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render filter results' do
+    it 'renders filter results' do
       sign_in @user
 
       user_two = FactoryBot.create(:user, default_school: @school_demo)
       profile_two = FactoryBot.create(:profile, user: user_two, school: @school_demo)
       group_two = FactoryBot.create(:course, :group, school: @school_demo, owner: profile_two)
       participant_two = FactoryBot.create(:participant, target: group_two, target_type: 'Course', profile: profile_two,
-                                                         profile_type: 'M')
+                                                        profile_type: 'M')
 
       post url_for(controller: 'course', action: :filter),
            params: { filter: 'M', section_type: Course.parent_type_group }

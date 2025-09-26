@@ -22,13 +22,13 @@ RSpec.describe 'Gamecenter', type: :request do
   # TODO: Test index
 
   context 'GET /get_rows' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       get url_for(controller: 'gamecenter', action: :get_rows),
           params: { filter: 'archived' }
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render game list' do
+    it 'renders game list' do
       sign_in @user
 
       get url_for(controller: 'gamecenter', action: :get_rows),

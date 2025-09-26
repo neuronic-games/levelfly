@@ -2,7 +2,7 @@
 
 task create_semesters_for_existing_school: :environment do
   School.all.each do |school|
-    next unless school.semesters.blank?
+    next if school.semesters.present?
 
     Semester.create(name: 'Fall', start_month: 8, end_month: 12, school_id: school)
     Semester.create(name: 'Winter', start_month: 1, end_month: 1, school_id: school)

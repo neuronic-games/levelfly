@@ -53,7 +53,7 @@ class Wardrobe < ActiveRecord::Base
       exists.xp = xp
       exists.save
     else
-      exists = Reward.create(xp: xp, target_type: 'wardrobe', target_id: wardrobe.id)
+      Reward.create(xp: xp, target_type: 'wardrobe', target_id: wardrobe.id)
     end
 
     puts "Wardrobe #{wardrobe.name} (#{wardrobe.id}) unlocked at #{xp} XP"
@@ -75,7 +75,7 @@ class Wardrobe < ActiveRecord::Base
       exists.xp = lvl_reward.xp
       exists.save
     else
-      exists = Reward.create(xp: lvl_reward.xp, target_type: 'wardrobe', target_id: wardrobe.id)
+      Reward.create(xp: lvl_reward.xp, target_type: 'wardrobe', target_id: wardrobe.id)
     end
 
     puts "Wardrobe #{wardrobe.name} (#{wardrobe.id}) unlocked at level #{lvl_reward.target_id} and #{lvl_reward.xp} XP"

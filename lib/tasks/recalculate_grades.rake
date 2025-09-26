@@ -1,5 +1,5 @@
 task recalculate_outcome_grades: :environment do
-  outcome_averages = CourseGrade.where('outcome_id IS NOT NULL')
+  outcome_averages = CourseGrade.where.not(outcome_id: nil)
   outcome_averages.each do |o|
     outcome_grades = OutcomeGrade.where(
       school_id: o.school_id,
@@ -68,7 +68,7 @@ task recalculate_task_grades: :environment do
     end
 
     cg.grade = flag ? average : nil
-    puts cg.grade.to_s
+    puts cg.grade
     cg.save
   end
 end

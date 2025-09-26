@@ -1,7 +1,7 @@
 require 'rails_helper'
 require_relative 'helpers/two_browsers'
 
-describe 'send board message to friends', browser: true, js: true do
+describe 'send board message to friends', :browser, :js do
   before(:all) do
     @user = User.first
     @school_demo = School.find_by!(handle: 'demo')
@@ -9,13 +9,13 @@ describe 'send board message to friends', browser: true, js: true do
 
     @user_two = FactoryBot.create(:user, default_school: @school_demo)
     @profile_two = FactoryBot.create(:profile, user: @user_two, school: @school_demo)
-    
+
     # make users friends
     Participant.create(target: @profile_two, target_type: 'User', profile: @profile, profile_type: 'F')
     Participant.create(target: @profile, target_type: 'User', profile: @profile_two, profile_type: 'F')
   end
 
-  let(:content)  { 'Message from User One' }
+  let(:content) { 'Message from User One' }
 
   sessions = %i[one two]
 

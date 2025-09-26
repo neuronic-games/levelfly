@@ -20,12 +20,12 @@ RSpec.describe 'Attachments', type: :request do
   end
 
   context 'POST /add_file' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       post url_for controller: 'course', action: :add_file
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should attach file' do
+    it 'attaches file' do
       sign_in @user
 
       post url_for(controller: 'course', action: :add_file),

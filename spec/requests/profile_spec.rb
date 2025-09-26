@@ -19,18 +19,18 @@ RSpec.describe 'Profiles', type: :request do
   end
 
   context 'GET /user_profile' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       get url_for controller: 'profile', action: :user_profile
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render user profile page' do
+    it 'renders user profile page' do
       sign_in @user
       get url_for controller: 'profile', action: :user_profile
       expect(response.body).to include @profile.full_name
     end
 
-    it "should render other user's user profile page" do
+    it "renders other user's user profile page" do
       sign_in @user
       get url_for(controller: 'profile', action: :user_profile),
           params: { profile_id: @profile_two.id }
@@ -39,7 +39,7 @@ RSpec.describe 'Profiles', type: :request do
   end
 
   context 'POST /save' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       post url_for(controller: 'profile', action: :save),
            params: FactoryBot.attributes_for(:profile)
       expect(response).to redirect_to '/users/sign_in'

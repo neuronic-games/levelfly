@@ -48,7 +48,7 @@ module ApplicationHelper
 
   # Returns true if the email is a valid email
   def is_a_valid_email(email)
-    r = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
+    r = /\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/
     email.scan(r).uniq.length > 0
   end
 
@@ -99,7 +99,7 @@ module ApplicationHelper
 
   # Convert text content into formatted HTML, including clickable URLs
   def formatted_html_content(content)
-    return auto_link(content.gsub(/\n/, '<br/>').html_safe) unless content.nil?
+    auto_link(content.gsub("\n", '<br/>').html_safe) unless content.nil?
   end
 
   # Your active school

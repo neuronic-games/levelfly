@@ -13,12 +13,12 @@ RSpec.describe 'Wardrobes', type: :request do
   end
 
   context 'GET /index' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       get url_for(controller: 'wardrobe', action: :index)
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render wardrobe page' do
+    it 'renders wardrobe page' do
       sign_in @user
       get url_for(controller: 'wardrobe', action: :index),
           xhr: true
@@ -27,13 +27,13 @@ RSpec.describe 'Wardrobes', type: :request do
   end
 
   context 'GET /show' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       get url_for(controller: 'wardrobe', action: :show),
           params: { wardrobe: @wardrobe.id, id: @wardrobe_item.id }
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render wardrobe page' do
+    it 'renders wardrobe page' do
       sign_in @user
       get url_for(controller: 'wardrobe', action: :show),
           xhr: true,

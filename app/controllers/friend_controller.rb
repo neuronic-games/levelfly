@@ -4,7 +4,7 @@ class FriendController < ApplicationController
 
   def index
     if params[:search_text]
-      search_text = params[:search_text].to_s
+      params[:search_text].to_s
       @friend = Profile.where("upper(profiles.full_name) LIKE '#{params[:search_text].upcase}%'")
     end
     respond_to do |wants|

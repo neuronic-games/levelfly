@@ -8,11 +8,10 @@
 
 require 'csv'
 require 'fileutils'
-require 'set'
 
 source_path = nil
 target_root = File.expand_path('../public/images/wardrobe', __dir__)
-file_path = File.expand_path('wardrobe.csv',  __dir__)
+file_path = File.expand_path('wardrobe.csv', __dir__)
 out_path = File.expand_path('../lib/tasks/load_wardrobe.rake', __dir__)
 
 ARGV.each do |argv|
@@ -59,7 +58,7 @@ csv_data.tr("\r", "\n").each_line do |line|
 
   sort_order["#{wardrobe_top},#{wardrobe_sub}"] = 0 unless sort_order["#{wardrobe_top},#{wardrobe_sub}"]
 
-  if reward and !reward.empty?
+  if reward.present?
     if reward_name != reward
       # Update the unlock level at the end of the wardrobe item block
       out.write "\n  # === #{reward} ===\n"
@@ -67,7 +66,7 @@ csv_data.tr("\r", "\n").each_line do |line|
       wardrobe_count += 1
     end
     reward_name = reward
-    reward_level = level
+    level
   end
   reward_folder = reward_name.to_s.downcase.strip.sub(/\s+/, '_')
 
@@ -91,10 +90,10 @@ csv_data.tr("\r", "\n").each_line do |line|
   if img_file.match(/\#/)
     # Hair and facial hair sequence files. e.g. gotee_#.png => gotee_1.png .. gotee_5.png
     (1..5).each do |i|
-      temp_img_file = img_file.sub(/\#/, i.to_s)
+      temp_img_file = img_file.sub('#', i.to_s)
       FileUtils.cp("#{source_path}/avatar/#{img_folder}/#{temp_img_file}", target_path)
     end
-    temp_img_file = img_file.sub(/\#/, '4')
+    temp_img_file = img_file.sub('#', '4')
     basename = File.basename(temp_img_file, extname)
   else
     FileUtils.cp("#{source_path}/avatar/#{img_folder}/#{img_file}", target_path)

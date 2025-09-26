@@ -16,12 +16,12 @@ RSpec.describe 'Settings', type: :request do
   end
 
   context 'GET /index' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       get url_for controller: 'setting', action: :index
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render settings list' do
+    it 'renders settings list' do
       sign_in @user
       get url_for controller: 'setting', action: :index
       expect(response.body).to include @setting.name

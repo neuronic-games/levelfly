@@ -1,10 +1,9 @@
 class Task < ActiveRecord::Base
-  has_many :group
+  belongs_to :group
   belongs_to :category
   belongs_to :school
   belongs_to :task
   belongs_to :course
-  belongs_to :group
   has_many :task_participants
   has_many :participants, as: :target
   has_many :attachments, as: :target
@@ -53,9 +52,7 @@ class Task < ActiveRecord::Base
     image_file_name ? image.url : Course.default_image_file
   end
 
-  def image_save
-    image.save
-  end
+  delegate :save, to: :image, prefix: true
 
   def outcomes
     OutcomeTask.where(['task_id = ?', id]).collect { |x| x.outcome }
@@ -82,10 +79,10 @@ class Task < ActiveRecord::Base
       conditions[0] += ' and task_participants.complete_date is not null'
     end
 
-    tasks = Task.where(conditions)
-                .includes([:task_participants])
-                .order('priority asc,due_date')
-                .joins([:task_participants])
+    Task.where(conditions)
+        .includes([:task_participants])
+        .order('priority asc,due_date')
+        .joins([:task_participants])
   end
 
   def self.search_tasks(profile_id, search_text, filter, course_id)
@@ -96,7 +93,7 @@ class Task < ActiveRecord::Base
     if course_id == 'starred'
       conditions[0] += ' AND task_participants.priority = ?'
       conditions << 'H'
-    elsif !course_id.blank?
+    elsif course_id.present?
       conditions[0] += ' AND course_id = ?'
       conditions << course_id
     end
@@ -182,8 +179,8 @@ class Task < ActiveRecord::Base
                                  .includes(%i[profile task])
     return status if participant.nil?
 
-    profile = participant.profile
-    task = participant.task
+    participant.profile
+    participant.task
 
     if participant.profile_type == Task.profile_type_owner
       # If the owner marks the task as complete, we need to close out the task for all members,
@@ -221,11 +218,11 @@ class Task < ActiveRecord::Base
       @task_grade << TaskGrade.new({ school_id: @task.school_id, course_id: @task.course_id, task_id: task_id,
                                      profile_id: profile_id })
     end
-    unless @task_grade.nil?
-      @task_grade.each do |t|
-        t.points = complete ? award_points : nil
-        t.save
-      end
+    return if @task_grade.nil?
+
+    @task_grade.each do |t|
+      t.points = complete ? award_points : nil
+      t.save
     end
   end
 
@@ -235,15 +232,15 @@ class Task < ActiveRecord::Base
     previous_wardrobe = profile.wardrobe
     if complete
       profile.xp += award_points if (participant and !participant.xp_award_date) or course_name
-      @level = Reward.where(["xp <= ? and target_type = 'level'",  profile.xp])
+      @level = Reward.where(["xp <= ? and target_type = 'level'", profile.xp])
                      .order('xp DESC')
                      .first
-      puts @level.inspect.to_s
+      puts @level.inspect
       profile.level = @level.target_id
       wardrobe = Reward.where(["xp <= ? and target_type = 'wardrobe'", profile.xp])
                        .order('xp DESC')
                        .first
-      puts wardrobe.inspect.to_s
+      puts wardrobe.inspect
       profile.wardrobe = wardrobe.target_id if wardrobe
     else
       task_grade = TaskGrade.where(['task_id = ? and profile_id = ? and course_id = ? and school_id = ?', task.id,
@@ -309,16 +306,16 @@ class Task < ActiveRecord::Base
 
   def grade_recalculate
     participant_profile_ids = TaskGrade.where(['task_id = ?', id]).collect(&:profile_id)
-    if participant_profile_ids
-      participant_profile_ids.each do |profile_id|
-        previous_task_grade = TaskGrade.where('school_id = ? and course_id = ? and task_id =? and profile_id = ? ',
-                                              school_id, course_id, id, profile_id).first
-        next unless previous_task_grade
+    return unless participant_profile_ids
 
-        average, previous_grade = TaskGrade.grade_average(school_id, course_id, profile_id)
-        grade = average.round(2).to_s + ' ' + GradeType.value_to_letter(average, school_id) if average
-        CourseGrade.save_grade(profile_id, grade, course_id, school_id)
-      end
+    participant_profile_ids.each do |profile_id|
+      previous_task_grade = TaskGrade.where('school_id = ? and course_id = ? and task_id =? and profile_id = ? ',
+                                            school_id, course_id, id, profile_id).first
+      next unless previous_task_grade
+
+      average, = TaskGrade.grade_average(school_id, course_id, profile_id)
+      grade = average.round(2).to_s + ' ' + GradeType.value_to_letter(average, school_id) if average
+      CourseGrade.save_grade(profile_id, grade, course_id, school_id)
     end
   end
 

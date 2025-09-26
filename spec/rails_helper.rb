@@ -37,19 +37,19 @@ RSpec.configure do |config|
     Rails.application.load_seed
   end
 
-  config.before(:each) do
+  config.before do
     DatabaseCleaner.strategy = :transaction
   end
 
-  config.before(:each, js: true) do
+  config.before(:each, :js) do
     DatabaseCleaner.strategy = :truncation
   end
 
-  config.before(:each) do
+  config.before do
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after do
     # FIXME: NoMethodError: undefined method `lock' for #<ActiveRecord::ConnectionAdapters::PostgreSQLAdapter:0x000000002d665c88>
     # DatabaseCleaner.clean
   end

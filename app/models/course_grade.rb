@@ -13,7 +13,7 @@ class CourseGrade < ActiveRecord::Base
     cg = CourseGrade.where(profile_id: profile_id, course_id: course_id, outcome_id: outcome_id,
                            school_id: school_id).first
     if cg.nil?
-      profile = Profile.find(profile_id)
+      Profile.find(profile_id)
       cg = CourseGrade.create(
         school_id: school_id,
         profile_id: profile_id,

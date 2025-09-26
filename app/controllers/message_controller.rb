@@ -5,7 +5,7 @@ class MessageController < ApplicationController
   def index
     user_session[:last_check_time] = DateTime.now
     @profile = Profile.find(user_session[:profile_id])
-    wall_ids = Feed.where(['profile_id = ?', @profile.id]).select('wall_id').collect(&:wall_id)
+    Feed.where(['profile_id = ?', @profile.id]).select('wall_id').collect(&:wall_id)
 
     message_ids = MessageViewer.where(['viewer_profile_id = ?', @profile.id]).select(:message_id).collect(&:message_id)
 
@@ -60,7 +60,7 @@ class MessageController < ApplicationController
     @messages = Message.where(conditions)
                        .order(order)
                        .limit(messages_limit)
-    count = Message.where(conditions).count()
+    count = Message.where(conditions).count
     @show_more_btn = (count > messages_limit)
 
     @users = @profile.recently_messaged[0..users_limit - 1]
@@ -103,280 +103,276 @@ class MessageController < ApplicationController
   end
 
   def save
-    if params[:parent_id] && !params[:parent_id].nil?
-      wall_id = Wall.get_wall_id(params[:parent_id], params[:parent_type]) # params[:wall_id]
-      @message = Message.new
-      @message.profile_id = user_session[:profile_id]
-      @message.parent_id = params[:parent_id] # params[:target_id]
-      @message.parent_type = params[:parent_type]
-      @message.content = params[:content]
-      @message.target_id = params[:parent_id]
-      @message.target_type = params[:parent_type]
-      @message.message_type = params[:message_type] if params[:message_type]
-      @message.wall_id = wall_id
-      @message.post_date = DateTime.now
+    return unless params[:parent_id] && !params[:parent_id].nil?
 
-      Message.transaction do
-        if @message.save
-          if params[:parent_id] && !params[:parent_id].nil? && %w[C G F].include?(@message.parent_type)
-            @courseMaster = Profile.where([
-                                            "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:parent_id]
-                                          ])
-                                   .includes([:participants])
-                                   .joins([:participants])
-                                   .first
-          end
-          @message_viewer = MessageViewer.add(user_session[:profile_id], @message.id, params[:parent_type],
-                                              params[:parent_id])
-          send_if_board_message(@message.id)
-          # Message.send_if_board_comment(@message.id)
-          Message.send_to_forum(@message.id)
-          case params[:parent_type]
-          when 'Message'
-            @msg = Message.find(params[:parent_id])
-            if @msg and @msg.parent_type == 'Profile'
-              @msg.touch
-              @current_user = Profile.where(['user_id = ?', current_user.id]).first
-              @school = @current_user.school
-              email = Profile.find(@msg.parent_id).user.email if @current_user.id == @msg.profile_id
-              email = @msg.profile.user.email unless @current_user.id == @msg.profile_id
-              UserMailer.private_message(email, @current_user, @school, @message.content).deliver
-            end
-            render partial: 'comments', locals: { comment: @message, course_id: @msg.parent_id }
-          when 'Profile'
-            email = Profile.find(params[:parent_id]).user.email if params[:parent_id]
+    wall_id = Wall.get_wall_id(params[:parent_id], params[:parent_type]) # params[:wall_id]
+    @message = Message.new
+    @message.profile_id = user_session[:profile_id]
+    @message.parent_id = params[:parent_id] # params[:target_id]
+    @message.parent_type = params[:parent_type]
+    @message.content = params[:content]
+    @message.target_id = params[:parent_id]
+    @message.target_type = params[:parent_type]
+    @message.message_type = params[:message_type] if params[:message_type]
+    @message.wall_id = wall_id
+    @message.post_date = DateTime.now
+
+    Message.transaction do
+      if @message.save
+        if params[:parent_id] && !params[:parent_id].nil? && %w[C G F].include?(@message.parent_type)
+          @courseMaster = Profile.where([
+                                          "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:parent_id]
+                                        ])
+                                 .includes([:participants])
+                                 .joins([:participants])
+                                 .first
+        end
+        @message_viewer = MessageViewer.add(user_session[:profile_id], @message.id, params[:parent_type],
+                                            params[:parent_id])
+        send_if_board_message(@message.id)
+        # Message.send_if_board_comment(@message.id)
+        Message.send_to_forum(@message.id)
+        case params[:parent_type]
+        when 'Message'
+          @msg = Message.find(params[:parent_id])
+          if @msg and @msg.parent_type == 'Profile'
+            @msg.touch
             @current_user = Profile.where(['user_id = ?', current_user.id]).first
             @school = @current_user.school
-            if params[:message_type] && !params[:message_type].nil?
-              message = params[:message_type] == 'Friend' ? 'Friend request sent' : 'Message sent'
-              if message == 'Message sent'
-                UserMailer.private_message(email, @current_user, @school,
-                                           @message.content).deliver
-              end
-              render body: { 'status' => 'save', 'message' => message }.to_json
-            else
-              UserMailer.private_message(email, @current_user, @school, @message.content).deliver
-              @feed = Feed.where(['profile_id = ? and wall_id = ?', user_session[:profile_id], wall_id]).first
-              Feed.create(profile_id: user_session[:profile_id], wall_id: wall_id) if @feed.nil?
-              render partial: 'messages', locals: { message: @message }
+            email = Profile.find(@msg.parent_id).user.email if @current_user.id == @msg.profile_id
+            email = @msg.profile.user.email unless @current_user.id == @msg.profile_id
+            UserMailer.private_message(email, @current_user, @school, @message.content).deliver
+          end
+          render partial: 'comments', locals: { comment: @message, course_id: @msg.parent_id }
+        when 'Profile'
+          email = Profile.find(params[:parent_id]).user.email if params[:parent_id]
+          @current_user = Profile.where(['user_id = ?', current_user.id]).first
+          @school = @current_user.school
+          if params[:message_type] && !params[:message_type].nil?
+            message = params[:message_type] == 'Friend' ? 'Friend request sent' : 'Message sent'
+            if message == 'Message sent'
+              UserMailer.private_message(email, @current_user, @school,
+                                         @message.content).deliver
             end
+            render body: { 'status' => 'save', 'message' => message }.to_json
           else
+            UserMailer.private_message(email, @current_user, @school, @message.content).deliver
             @feed = Feed.where(['profile_id = ? and wall_id = ?', user_session[:profile_id], wall_id]).first
             Feed.create(profile_id: user_session[:profile_id], wall_id: wall_id) if @feed.nil?
             render partial: 'messages', locals: { message: @message }
           end
+        else
+          @feed = Feed.where(['profile_id = ? and wall_id = ?', user_session[:profile_id], wall_id]).first
+          Feed.create(profile_id: user_session[:profile_id], wall_id: wall_id) if @feed.nil?
+          render partial: 'messages', locals: { message: @message }
         end
       end
     end
   end
 
   def like
-    if params[:message_id] && !params[:message_id].nil?
-      @message = Like.add(params[:message_id], user_session[:profile_id], params[:course_id])
-      render body: { 'action' => 'unlike', 'count' => @message.like }.to_json if @message
-    end
+    return unless params[:message_id] && !params[:message_id].nil?
+
+    @message = Like.add(params[:message_id], user_session[:profile_id], params[:course_id])
+    render body: { 'action' => 'unlike', 'count' => @message.like }.to_json if @message
   end
 
   def unlike
-    if params[:message_id] && !params[:message_id].nil?
-      @message = Like.remove(params[:message_id], user_session[:profile_id], params[:course_id])
-      render body: { 'action' => 'like', 'count' => @message.like }.to_json if @message
-    end
+    return unless params[:message_id] && !params[:message_id].nil?
+
+    @message = Like.remove(params[:message_id], user_session[:profile_id], params[:course_id])
+    render body: { 'action' => 'like', 'count' => @message.like }.to_json if @message
   end
 
   def add_friend_card
-    if params[:profile_id] && !params[:profile_id].nil?
-      @profile = Profile.find(params[:profile_id])
-      course_id = nil
-      @current_user = Profile.where(['user_id = ?', current_user.id]).first
-      # @owner = Participant.find(:first,:conditions=>["target_id = ? and profile_id = ? and profile_type= 'M' and target_type = 'Course'",params[:course_id],@current_user.id])
-      course_ids = Course.where([
-                                  "participants.profile_id = ? and participants.profile_type = 'M' and participants.target_type = 'Course' and parent_type = 'C' and removed = ?",
-                                  user_session[:profile_id], false
-                                ])
-                         .includes([:participants])
-                         .joins([:participants])
-      @courses = Course.where([
-                                "participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'",
-                                params[:profile_id], course_ids
+    return unless params[:profile_id] && !params[:profile_id].nil?
+
+    @profile = Profile.find(params[:profile_id])
+    @current_user = Profile.where(['user_id = ?', current_user.id]).first
+    # @owner = Participant.find(:first,:conditions=>["target_id = ? and profile_id = ? and profile_type= 'M' and target_type = 'Course'",params[:course_id],@current_user.id])
+    course_ids = Course.where([
+                                "participants.profile_id = ? and participants.profile_type = 'M' and participants.target_type = 'Course' and parent_type = 'C' and removed = ?",
+                                user_session[:profile_id], false
                               ])
                        .includes([:participants])
-                       .order('courses.id')
                        .joins([:participants])
-      if @courses && !@courses.empty?
-        course_id = if params[:course_id] && !params[:course_id].nil?
-                      params[:course_id]
-                    else
-                      @courses.first.id
-                    end
-        @participant = Participant.where([
-                                           "target_id = ? and profile_id = ? and target_type = 'Course' and profile_type='S'", course_id, @profile.id
-                                         ]).first
-      end
-      render partial: 'add_friend_card', locals: { profile: @profile }
+    @courses = Course.where([
+                              "participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'",
+                              params[:profile_id], course_ids
+                            ])
+                     .includes([:participants])
+                     .order('courses.id')
+                     .joins([:participants])
+    if @courses.present?
+      course_id = if params[:course_id] && !params[:course_id].nil?
+                    params[:course_id]
+                  else
+                    @courses.first.id
+                  end
+      @participant = Participant.where([
+                                         "target_id = ? and profile_id = ? and target_type = 'Course' and profile_type='S'", course_id, @profile.id
+                                       ]).first
     end
+    render partial: 'add_friend_card', locals: { profile: @profile }
   end
 
   def respond_to_course_request
     status = nil
-    if params[:message_id] && !params[:message_id].nil?
-      @message = Message.find(params[:message_id])
-      p_id = Profile.find(user_session[:profile_id])
-      if @message
-        group_request = false
-        action = nil
-        content = nil
-        if params[:activity] && !params[:activity].nil?
-          action = if params[:activity] == 'add'
-                     'accepted'
-                   else
-                     'rejected'
-                   end
-          course = Course.find(@message.target_id)
-          if params[:message_type] == 'course_invite'
-            content = "#{p_id.full_name} has #{action} your invitation to #{course.name}."
-          elsif params[:message_type] == 'Friend'
-            content = "#{p_id.full_name} has #{action} your friend request."
-          elsif params[:message_type] == 'group_request'
-            content = "#{p_id.full_name} has #{action} your request to join #{course.name}."
-          elsif params[:message_type] == 'group_invite'
-            content = "#{p_id.full_name} has #{action} your invitation to #{course.name}."
-          end
-          if params[:message_type] == 'group_request'
-            group_request = true
-            profile_id = @message.profile_id
-          else
-            profile_id = @message.parent_id
-          end
+    return unless params[:message_id] && !params[:message_id].nil?
 
-          @course_participant = Participant.where(
-            "target_type = ? AND target_id = ? AND profile_id = ? AND profile_type='P'", params[:section_type], @message.target_id, profile_id
-          ).first
-          tasks = Task.where(['course_id = ? and archived = ? and all_members = ?', @message.target_id, false, true])
-          if tasks and !tasks.blank? && (params[:activity] == 'add')
-            tasks.each do |t|
-              wall_id = Wall.get_wall_id(t.id, 'Task')
-              task_owner = TaskParticipant.where(["task_id = ? AND profile_type='O'", t.id]).first
-              task_member = TaskParticipant.where('task_id = ? AND profile_id = ?', t.id, p_id.id).count
-              next unless task_owner && task_member == 0
+    @message = Message.find(params[:message_id])
+    p_id = Profile.find(user_session[:profile_id])
+    return unless @message
 
-              @profile = Profile.find(task_owner.profile_id)
-              @task_participant = TaskParticipant.new
-              @task_participant.profile_id = user_session[:profile_id]
-              @task_participant.profile_type = 'M'
-              @task_participant.status = 'A'
-              @task_participant.priority = 'L'
-              @task_participant.task_id = t.id
-              next unless @task_participant.save
+    content = nil
+    return unless params[:activity] && !params[:activity].nil?
 
-              Feed.create(
-                profile_id: user_session[:profile_id],
-                wall_id: wall_id
-              )
-              participant_content = "#{@profile.full_name} assigned you a new task: #{t.name}"
-              Message.send_notification(@profile.id, participant_content, user_session[:profile_id])
-            end
-          end
-          forums = Course.where(['course_id = ? and archived = ? and all_members = ?', @message.target_id, false, true])
-          if forums and !forums.blank? && (params[:activity] == 'add')
-            forums.each do |forum|
-              wall_id = Wall.get_wall_id(forum.id, 'Course')
-              @forum_participant = Participant.new
-              @forum_participant.target_id = forum.id
-              @forum_participant.target_type = 'Course'
-              @forum_participant.profile_id = user_session[:profile_id]
-              @forum_participant.profile_type = 'S'
-              next unless @forum_participant.save
+    action = if params[:activity] == 'add'
+               'accepted'
+             else
+               'rejected'
+             end
+    course = Course.find(@message.target_id)
+    if params[:message_type] == 'course_invite'
+      content = "#{p_id.full_name} has #{action} your invitation to #{course.name}."
+    elsif params[:message_type] == 'Friend'
+      content = "#{p_id.full_name} has #{action} your friend request."
+    elsif params[:message_type] == 'group_request'
+      content = "#{p_id.full_name} has #{action} your request to join #{course.name}."
+    elsif params[:message_type] == 'group_invite'
+      content = "#{p_id.full_name} has #{action} your invitation to #{course.name}."
+    end
+    profile_id = if params[:message_type] == 'group_request'
+                   @message.profile_id
+                 else
+                   @message.parent_id
+                 end
 
-              Feed.create(
-                profile_id: user_session[:profile_id],
-                wall_id: wall_id
-              )
-            end
-          end
+    @course_participant = Participant.where(
+      "target_type = ? AND target_id = ? AND profile_id = ? AND profile_type='P'", params[:section_type], @message.target_id, profile_id
+    ).first
+    tasks = Task.where(['course_id = ? and archived = ? and all_members = ?', @message.target_id, false, true])
+    if tasks and tasks.present? && (params[:activity] == 'add')
+      tasks.each do |t|
+        wall_id = Wall.get_wall_id(t.id, 'Task')
+        task_owner = TaskParticipant.where(["task_id = ? AND profile_type='O'", t.id]).first
+        task_member = TaskParticipant.where('task_id = ? AND profile_id = ?', t.id, p_id.id).count
+        next unless task_owner && task_member == 0
 
-          if params[:activity] == 'add'
-            if @course_participant
-              @course_participant.profile_type = 'S'
-              @course_participant.save
-            end
-            # Notification according to message type
-            @respont_to_course = Message.respond_to_course_invitation(@message.parent_id, @message.profile_id,
-                                                                      @message.target_id, content, params[:section_type])
-            status = "Added to #{course.name} (#{course.code_section})"
-          else
-            @course_participant.delete if @course_participant
-            @respont_to_course = Message.respond_to_course_invitation(@message.parent_id, @message.profile_id,
-                                                                      @message.target_id, content, params[:section_type])
-            status = 'friend_list'
-          end
-          wall_id = Wall.get_wall_id(@message.target_id, 'C')
-          Feed.create(
-            profile_id: @message.parent_id,
-            wall_id: wall_id
-          )
+        @profile = Profile.find(task_owner.profile_id)
+        @task_participant = TaskParticipant.new
+        @task_participant.profile_id = user_session[:profile_id]
+        @task_participant.profile_type = 'M'
+        @task_participant.status = 'A'
+        @task_participant.priority = 'L'
+        @task_participant.task_id = t.id
+        next unless @task_participant.save
 
-          messages =  Message.where([
-                                      'profile_id = ? and parent_id = ? and parent_type = ? and message_type = ? and target_id = ? and archived = ?', @message.profile_id, @message.parent_id, @message.parent_type, @message.message_type, @message.target_id, false
-                                    ])
-          message_ids = messages.map(&:id)
-          messages.each do |message|
-            message.update_attributes(archived: true)
-          end
-          render json: { status: status, message_ids: message_ids }
-        end
+        Feed.create(
+          profile_id: user_session[:profile_id],
+          wall_id: wall_id
+        )
+        participant_content = "#{@profile.full_name} assigned you a new task: #{t.name}"
+        Message.send_notification(@profile.id, participant_content, user_session[:profile_id])
       end
     end
+    forums = Course.where(['course_id = ? and archived = ? and all_members = ?', @message.target_id, false, true])
+    if forums and forums.present? && (params[:activity] == 'add')
+      forums.each do |forum|
+        wall_id = Wall.get_wall_id(forum.id, 'Course')
+        @forum_participant = Participant.new
+        @forum_participant.target_id = forum.id
+        @forum_participant.target_type = 'Course'
+        @forum_participant.profile_id = user_session[:profile_id]
+        @forum_participant.profile_type = 'S'
+        next unless @forum_participant.save
+
+        Feed.create(
+          profile_id: user_session[:profile_id],
+          wall_id: wall_id
+        )
+      end
+    end
+
+    if params[:activity] == 'add'
+      if @course_participant
+        @course_participant.profile_type = 'S'
+        @course_participant.save
+      end
+      # Notification according to message type
+      @respont_to_course = Message.respond_to_course_invitation(@message.parent_id, @message.profile_id,
+                                                                @message.target_id, content, params[:section_type])
+      status = "Added to #{course.name} (#{course.code_section})"
+    else
+      @course_participant.delete if @course_participant
+      @respont_to_course = Message.respond_to_course_invitation(@message.parent_id, @message.profile_id,
+                                                                @message.target_id, content, params[:section_type])
+      status = 'friend_list'
+    end
+    wall_id = Wall.get_wall_id(@message.target_id, 'C')
+    Feed.create(
+      profile_id: @message.parent_id,
+      wall_id: wall_id
+    )
+
+    messages =  Message.where([
+                                'profile_id = ? and parent_id = ? and parent_type = ? and message_type = ? and target_id = ? and archived = ?', @message.profile_id, @message.parent_id, @message.parent_type, @message.message_type, @message.target_id, false
+                              ])
+    message_ids = messages.map(&:id)
+    messages.each do |message|
+      message.update_attributes(archived: true)
+    end
+    render json: { status: status, message_ids: message_ids }
   end
 
   def respond_to_friend_request
-    if params[:message_id] && !params[:message_id].nil?
-      @message = Message.find(params[:message_id])
-      profile = Profile.find(user_session[:profile_id])
-      if @message
-        already_friend = Participant.where([
-                                             "target_id = ? AND profile_id = ? AND target_type = 'User' AND profile_type = 'F'", @message.parent_id, @message.profile_id
-                                           ]).first
-        if params[:activity] && !params[:activity].nil?
-          if params[:activity] == 'add' and !already_friend
-            content = "#{profile.full_name} has accepted your friend request."
-            @friend_participant = Participant.new
-            @friend_participant.target_id = @message.parent_id
-            @friend_participant.target_type = 'User'
-            @friend_participant.profile_id = @message.profile_id
-            @friend_participant.profile_type = 'F'
-            if @friend_participant.save
-              Feed.create(
-                wall_id: @message.wall_id,
-                profile_id: @friend_participant.profile_id
-              )
-              # Participant record for friend
-              @participant = Participant.new
-              @participant.target_id = @message.profile_id
-              @participant.target_type = 'User'
-              @participant.profile_id = @message.parent_id
-              @participant.profile_type = 'F'
-              if @participant.save
-                # Feed for friend participant
-                Feed.create(
-                  wall_id: @message.wall_id,
-                  profile_id: @participant.profile_id
-                )
-              end
-              @message.archived = true
-              @message.save
-              Message.send_notification(profile.id, content, @message.profile_id)
-            end
-          elsif params[:activity] == 'dntadd'
-            content = "#{profile.full_name} has rejected your friend request."
-            Message.send_notification(profile.id, content, @message.profile_id)
-            @message.archived = true
-            @message.save
-          end
-          render nothing: true
+    return unless params[:message_id] && !params[:message_id].nil?
+
+    @message = Message.find(params[:message_id])
+    profile = Profile.find(user_session[:profile_id])
+    return unless @message
+
+    already_friend = Participant.where([
+                                         "target_id = ? AND profile_id = ? AND target_type = 'User' AND profile_type = 'F'", @message.parent_id, @message.profile_id
+                                       ]).first
+    return unless params[:activity] && !params[:activity].nil?
+
+    if params[:activity] == 'add' and !already_friend
+      content = "#{profile.full_name} has accepted your friend request."
+      @friend_participant = Participant.new
+      @friend_participant.target_id = @message.parent_id
+      @friend_participant.target_type = 'User'
+      @friend_participant.profile_id = @message.profile_id
+      @friend_participant.profile_type = 'F'
+      if @friend_participant.save
+        Feed.create(
+          wall_id: @message.wall_id,
+          profile_id: @friend_participant.profile_id
+        )
+        # Participant record for friend
+        @participant = Participant.new
+        @participant.target_id = @message.profile_id
+        @participant.target_type = 'User'
+        @participant.profile_id = @message.parent_id
+        @participant.profile_type = 'F'
+        if @participant.save
+          # Feed for friend participant
+          Feed.create(
+            wall_id: @message.wall_id,
+            profile_id: @participant.profile_id
+          )
         end
+        @message.archived = true
+        @message.save
+        Message.send_notification(profile.id, content, @message.profile_id)
       end
+    elsif params[:activity] == 'dntadd'
+      content = "#{profile.full_name} has rejected your friend request."
+      Message.send_notification(profile.id, content, @message.profile_id)
+      @message.archived = true
+      @message.save
     end
+    render nothing: true
   end
 
   def unfriend
@@ -396,20 +392,19 @@ class MessageController < ApplicationController
   end
 
   def add_note
-    if params[:parent_id] && !params[:parent_id].nil?
-      @note = Note.new
-      @note.profile_id = user_session[:profile_id]
-      @note.about_object_id = params[:parent_id]
-      @note.about_object_type = 'Note'
-      @note.content = params[:content]
-      render body: { 'status' => 'save' }.to_json if @note.save
-    end
+    return unless params[:parent_id] && !params[:parent_id].nil?
+
+    @note = Note.new
+    @note.profile_id = user_session[:profile_id]
+    @note.about_object_id = params[:parent_id]
+    @note.about_object_type = 'Note'
+    @note.content = params[:content]
+    render body: { 'status' => 'save' }.to_json if @note.save
   end
 
   def friend_messages
-    if params[:profile_id]
-      # @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend'", wall_ids, false])
-    end
+    nil unless params[:profile_id]
+    # @messages = Message.find(:all, :conditions => ["wall_id in (?) AND (archived is NULL or archived = ?) AND message_type !='Friend'", wall_ids, false])
   end
 
   def show_all
@@ -427,9 +422,9 @@ class MessageController < ApplicationController
   end
 
   def friends_only
-    wall_ids = Feed.where(['profile_id = ?', user_session[:profile_id]])
-                   .select('wall_id')
-                   .collect(&:wall_id)
+    Feed.where(['profile_id = ?', user_session[:profile_id]])
+        .select('wall_id')
+        .collect(&:wall_id)
     message_ids = MessageViewer.where(['viewer_profile_id = ?', user_session[:profile_id]])
                                .select('message_id')
                                .collect(&:message_id)
@@ -447,7 +442,7 @@ class MessageController < ApplicationController
     @show_more_btn = messages.length > @messages.length
     profile.record_action('message', @friend.id)
     profile.record_action('last', 'message')
-    if @messages and !@messages.blank?
+    if @messages and @messages.present?
       @messages.each { |message| message.set_as_viewed(params[:friend_id], user_session[:profile_id]) }
     end
     render partial: 'list',
@@ -455,11 +450,11 @@ class MessageController < ApplicationController
   end
 
   def notes
-    if params[:friend_id] && !params[:friend_id].nil?
-      @notes = Note.where(["profile_id = ? AND about_object_id = ? AND about_object_type = 'Note' ",
-                           user_session[:profile_id], params[:friend_id]])
-      render partial: 'list', locals: { friend_id: params[:friend_id] }
-    end
+    return unless params[:friend_id] && !params[:friend_id].nil?
+
+    @notes = Note.where(["profile_id = ? AND about_object_id = ? AND about_object_type = 'Note' ",
+                         user_session[:profile_id], params[:friend_id]])
+    render partial: 'list', locals: { friend_id: params[:friend_id] }
   end
 
   def friends_only_all
@@ -473,35 +468,35 @@ class MessageController < ApplicationController
   end
 
   def remove_request_message
-    if params[:id] && !params[:id].nil?
-      delete_notification(params[:id]) unless eval(params[:id]).is_a?(Array)
-      eval(params[:id]).each { |id| delete_notification(id) } if eval(params[:id]).is_a?(Array)
-      render json: { status: true }
-    end
+    return unless params[:id] && !params[:id].nil?
+
+    delete_notification(params[:id]) unless eval(params[:id]).is_a?(Array)
+    eval(params[:id]).each { |id| delete_notification(id) } if eval(params[:id]).is_a?(Array)
+    render json: { status: true }
   end
 
   def confirm
-    if params[:id] && !params[:id].nil?
-      course_master = params[:course_master_id] if params[:course_master_id]
-      @del = false
-      @message = Message.find(params[:id])
-      if course_master and !course_master.nil? && (course_master.to_i != user_session[:profile_id])
-        comments_ids = Message.where(['parent_id = ? AND archived = ?', params[:id], false])
-                              .select('profile_id')
-                              .distinct
-                              .collect(&:profile_id)
-        comments_ids.each do |c|
-          if c != user_session[:profile_id]
-            @del = true
-            break
-          end
-        end
+    return unless params[:id] && !params[:id].nil?
 
+    course_master = params[:course_master_id] if params[:course_master_id]
+    @del = false
+    @message = Message.find(params[:id])
+    if course_master and !course_master.nil? && (course_master.to_i != user_session[:profile_id])
+      comments_ids = Message.where(['parent_id = ? AND archived = ?', params[:id], false])
+                            .select('profile_id')
+                            .distinct
+                            .collect(&:profile_id)
+      comments_ids.each do |c|
+        if c != user_session[:profile_id]
+          @del = true
+          break
+        end
       end
-      render partial: 'message/warning_box',
-             locals: { :@message_id => @message.id, :@type => params[:message_type], :@delete_all => params[:delete_all],
-                       :@del => @del }
+
     end
+    render partial: 'message/warning_box',
+           locals: { :@message_id => @message.id, :@type => params[:message_type], :@delete_all => params[:delete_all],
+                     :@del => @del }
   end
 
   def delete_message
@@ -549,14 +544,14 @@ class MessageController < ApplicationController
   end
 
   def save_topic
-    if params[:id] and !params[:id].nil?
-      @message = Message.find(params[:id])
-      if @message
-        @message.topic = params[:content]
-        @message.save
-        render json: { status: true }
-      end
-    end
+    return unless params[:id] and !params[:id].nil?
+
+    @message = Message.find(params[:id])
+    return unless @message
+
+    @message.topic = params[:content]
+    @message.save
+    render json: { status: true }
   end
 
   def read_message

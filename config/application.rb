@@ -25,7 +25,7 @@ module Oncapus
     # Configuration for the application, engines, and railties goes here.
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
-    
+
     # TODO: Review all following settings, which are not part of Rails 7.1 default application.rb
 
     # Activate observers that should always be running.

@@ -472,7 +472,6 @@ Oncapus::Application.routes.draw do
   get 'gamecenter/:handle/list_leaders' => 'gamecenter#list_leaders'
   get 'gamecenter/:handle/list_progress' => 'gamecenter#list_progress'
 
-
   get 'gamecenter/status'
   get 'gamecenter/connect'
   get 'gamecenter/get_rows'

@@ -12,16 +12,16 @@ RSpec.describe 'Profiles', type: :request do
 
     @message = FactoryBot.create(:message, profile: @profile, target: @profile, wall: @wall, target_type: '')
     @message_viewer = FactoryBot.create(:message_viewer, message: @message, poster_profile: @profile,
-                                                          viewer_profile: @profile)
+                                                         viewer_profile: @profile)
   end
 
   context 'GET /message' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       get url_for controller: 'message', action: :index
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render message list' do
+    it 'renders message list' do
       sign_in @user
       get url_for controller: 'message', action: :index
       expect(response.status).to eq(200)
@@ -30,18 +30,18 @@ RSpec.describe 'Profiles', type: :request do
   end
 
   context 'POST /message/save' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       post url_for controller: 'message', action: :save
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should save a new message' do
+    it 'saves a new message' do
       sign_in @user
       message_text = Faker::Lorem.sentence
       post url_for(controller: 'message', action: :save),
            params: FactoryBot.attributes_for(:message, content: message_text, profile: @profile, target: @profile, wall: @wall,
-                                                        target_type: '')
-                              .merge({ parent_id: @profile.id })
+                                                       target_type: '')
+                             .merge({ parent_id: @profile.id })
 
       expect(response.status).to eq(200)
       expect(response.body).to include message_text

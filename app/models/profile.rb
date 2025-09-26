@@ -81,7 +81,7 @@ class Profile < ActiveRecord::Base
 
     return { name: full_name, image: image_file_name } if id == viewer_profile_id
 
-    unless viewer_profile_id.blank?
+    if viewer_profile_id.present?
       viewer_profile = Profile.find(viewer_profile_id)
       return { name: full_name, image: image_file_name } if viewer_profile.has_role(Role.edit_user)
 

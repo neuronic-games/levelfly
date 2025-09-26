@@ -72,7 +72,7 @@ class Game < ActiveRecord::Base
 
   # Returns the last level achieved
   def get_level(profile_id)
-    feat = Feat.where(game_id: id, profile_id: profile_id).where('level is not null').last
+    feat = Feat.where(game_id: id, profile_id: profile_id).where.not(level: nil).last
     feat ? feat.level : ''
   end
 
@@ -121,14 +121,14 @@ class Game < ActiveRecord::Base
       end
     end
 
-    if add_new
-      leader = GameScoreLeader.new
-      leader.game_id = feat.game_id
-      leader.profile_id = feat.profile_id
-      leader.full_name = feat.profile.full_name
-      leader.score = feat.progress
-      leader.save
-    end
+    return unless add_new
+
+    leader = GameScoreLeader.new
+    leader.game_id = feat.game_id
+    leader.profile_id = feat.profile_id
+    leader.full_name = feat.profile.full_name
+    leader.score = feat.progress
+    leader.save
   end
 
   # Owns the game or have played the game
@@ -243,7 +243,7 @@ class Game < ActiveRecord::Base
             row << profile.id
             row << profile.full_name
             row << Setting.default_date_time_format(created_at)
-            row << (score.present? ? score : '-')
+            row << (score.presence || '-')
             row << feat.progress
 
             csv << row

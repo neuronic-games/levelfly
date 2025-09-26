@@ -84,11 +84,10 @@ module MessageHelper
   end
 
   def message_content(text)
-    r = Regexp.new(%r{(http|https|ftp|ftps)://[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,3}(/\S*)?})
     link = text.scan(%r{(https?://([-\w.]+)+(:\d+)?(/([\w/_.]*(\?\S+)?)?)?)})
     if text.scan(%r{(http|https|ftp|ftps)://[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,3}(/\S*)?}).uniq.length > 0
       text = text.tr(link[0][0], "<a href = #{link[0][0]}>#{link[0][0]}</>")
-      puts (link[0][0]).to_s
+      puts(link[0][0])
     end
     text
   end

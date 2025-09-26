@@ -59,44 +59,44 @@ class UsersController < ApplicationController
   end
 
   def show
-    if params[:id] and !params[:id].nil?
-      @profile = Profile.find(params[:id])
-      @disable_edit = @profile && @profile.has_role(Role.modify_settings) && !current_profile.has_role(Role.modify_settings)
-      @avatar = @profile.avatar.to_json
-      @all_permissions  = Permission.names
-      @user_permissions = @profile.role_name.permissions.names
-      if @profile
-        respond_to do |wants|
-          wants.html do
-            if request.xhr?
-              render partial: '/users/user'
-            else
-              puts 'HERE'
-              render
-            end
-          end
+    return unless params[:id] and !params[:id].nil?
+
+    @profile = Profile.find(params[:id])
+    @disable_edit = @profile && @profile.has_role(Role.modify_settings) && !current_profile.has_role(Role.modify_settings)
+    @avatar = @profile.avatar.to_json
+    @all_permissions  = Permission.names
+    @user_permissions = @profile.role_name.permissions.names
+    return unless @profile
+
+    respond_to do |wants|
+      wants.html do
+        if request.xhr?
+          render partial: '/users/user'
+        else
+          puts 'HERE'
+          render
         end
       end
     end
   end
 
   def load_permissions
-    if params[:role_name_id]
-      @all_permissions  = Permission.names
-      @user_permissions = RoleName.find(params[:role_name_id]).permissions.names
-      render partial: '/users/permissions'
-    end
+    return unless params[:role_name_id]
+
+    @all_permissions  = Permission.names
+    @user_permissions = RoleName.find(params[:role_name_id]).permissions.names
+    render partial: '/users/permissions'
   end
 
   def load_users
     course_id = params[:id]
-    if course_id.present?
-      @course_owner = Course.where(id: course_id).first.try(:owner)
-      profile_id = user_session[:profile_id]
-      @users = User.find_with_filters(course_id, profile_id, params, params[:page].to_i)
-      render partial: '/users/load_users',
-             locals: { :@users => @users, :@page => params[:page].to_i, :@id => course_id }
-    end
+    return unless course_id.present?
+
+    @course_owner = Course.where(id: course_id).first.try(:owner)
+    profile_id = user_session[:profile_id]
+    @users = User.find_with_filters(course_id, profile_id, params, params[:page].to_i)
+    render partial: '/users/load_users',
+           locals: { :@users => @users, :@page => params[:page].to_i, :@id => course_id }
   end
 
   def load_user_emails
@@ -140,7 +140,7 @@ class UsersController < ApplicationController
   def save
     status = false
     email_exist = false
-    if params[:id] and !params[:id].blank?
+    if params[:id] and params[:id].present?
       profile = Profile.find(params[:id])
     else
       @email = User.find_by_email_and_school_id(params[:email], current_profile.school_id)
@@ -187,7 +187,7 @@ class UsersController < ApplicationController
 
   def login_as
     status = nil
-    if params[:email] and !params[:email].blank?
+    if params[:email] and params[:email].present?
       @user = User.find_by_email(params[:email])
       if @user and !@user.nil?
         cookies[:active_admin] = current_user.email

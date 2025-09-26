@@ -17,22 +17,22 @@ class WardrobeController < ApplicationController
   end
 
   def show
-    if params[:id]
-      @profile = Profile.where(['user_id = ?', current_user.id])
-                        .select('school_id')
-                        .first
-      # @vault = Vault.find(:first,
-      #  :conditions => ["target_id = ? and target_type = 'School' and vault_type = 'AWS S3'", @profile.school_id])
-      @wardrobe_item = WardrobeItem.find(params[:id])
-      @wardrobe_id = @wardrobe_item.wardrobe_id
-      respond_to do |wants|
-        wants.html do
-          @wardrobe_item_parent_id = @wardrobe_item.parent_item_id
-          if request.xhr?
-            render partial: '/wardrobe/form'
-          else
-            render
-          end
+    return unless params[:id]
+
+    @profile = Profile.where(['user_id = ?', current_user.id])
+                      .select('school_id')
+                      .first
+    # @vault = Vault.find(:first,
+    #  :conditions => ["target_id = ? and target_type = 'School' and vault_type = 'AWS S3'", @profile.school_id])
+    @wardrobe_item = WardrobeItem.find(params[:id])
+    @wardrobe_id = @wardrobe_item.wardrobe_id
+    respond_to do |wants|
+      wants.html do
+        @wardrobe_item_parent_id = @wardrobe_item.parent_item_id
+        if request.xhr?
+          render partial: '/wardrobe/form'
+        else
+          render
         end
       end
     end
@@ -46,7 +46,7 @@ class WardrobeController < ApplicationController
     #  :conditions => ["target_id = ? and target_type = 'School' and vault_type = 'AWS S3'", @profile.school_id])
     respond_to do |wants|
       wants.html do
-        if params[:id] && !params[:id].empty?
+        if params[:id].present?
           @wardrobe_item_parent_id = params[:id]
           @wardrobe_id = params[:wardrobe_id]
           if request.xhr?
@@ -60,7 +60,7 @@ class WardrobeController < ApplicationController
   end
 
   def save
-    @wardrobe_item = if params[:id] && !params[:id].empty?
+    @wardrobe_item = if params[:id].present?
                        WardrobeItem.find(params[:id])
                      else
                        # Save a new wardrboe item
@@ -83,7 +83,7 @@ class WardrobeController < ApplicationController
   end
 
   def load_wardrobe_items
-    if params[:wardrobe_item_id] && !params[:wardrobe_item_id].empty?
+    if params[:wardrobe_item_id].present?
       @wardrobe_items = WardrobeItem.where(['parent_item_id = ?', params[:wardrobe_item_id]])
                                     .order('sort_order')
       render partial: '/wardrobe/wardrobe_items'

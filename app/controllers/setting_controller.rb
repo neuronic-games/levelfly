@@ -9,22 +9,22 @@ class SettingController < ApplicationController
     render partial: '/setting/list'
   end
 
+  def show
+    return unless params[:id] and params[:id].present?
+
+    @profile = Profile.find(user_session[:profile_id])
+    @setting = Setting.find(params[:id])
+    render partial: '/setting/form' if @setting
+  end
+
   def new
     @profile = Profile.find(user_session[:profile_id])
     render partial: '/setting/form'
   end
 
-  def show
-    if params[:id] and !params[:id].blank?
-      @profile = Profile.find(user_session[:profile_id])
-      @setting = Setting.find(params[:id])
-      render partial: '/setting/form' if @setting
-    end
-  end
-
   def save
-    profile = Profile.find(user_session[:profile_id])
-    @setting = if params[:id] and !params[:id].blank?
+    Profile.find(user_session[:profile_id])
+    @setting = if params[:id] and params[:id].present?
                  Setting.find(params[:id])
                else
                  Setting.new
@@ -37,13 +37,13 @@ class SettingController < ApplicationController
   end
 
   def delete
-    if params[:id] and !params[:id].blank?
-      setting = Setting.find(params[:id])
-      if setting
-        setting.delete
-        render body: { status: true }.to_json
-      end
-    end
+    return unless params[:id] and params[:id].present?
+
+    setting = Setting.find(params[:id])
+    return unless setting
+
+    setting.delete
+    render body: { status: true }.to_json
   end
 
   def check_role

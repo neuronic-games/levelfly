@@ -17,9 +17,9 @@ class SessionsController < Devise::SessionsController
   end
 
   def active_admin
-    if cookies[:active_admin]
-      user = User.find_by_email(cookies.delete(:active_admin))
-      sign_in user
-    end
+    return unless cookies[:active_admin]
+
+    user = User.find_by_email(cookies.delete(:active_admin))
+    sign_in user
   end
 end

@@ -7,7 +7,7 @@ class MessageViewer < ActiveRecord::Base
     if parent_type == 'Message'
       @type_of_message = Message.find(parent_id)
       if @type_of_message and !@type_of_message.nil?
-        if @type_of_message.parent_type == 'C' || @type_of_message.parent_type == 'G' || @type_of_message.parent_type == 'F'
+        if %w[C G F].include?(@type_of_message.parent_type)
           parent_type = @type_of_message.parent_type
           parent_id = @type_of_message.parent_id
         elsif @type_of_message.parent_type == ''
@@ -17,11 +17,10 @@ class MessageViewer < ActiveRecord::Base
         end
       end
     end
-    target_type = nil
     if parent_type == 'C'
-      target_type = 'Course'
+      'Course'
     elsif parent_type == 'G'
-      target_type = 'Group'
+      'Group'
     end
 
     if %w[C G F].include?(parent_type)
@@ -49,11 +48,11 @@ class MessageViewer < ActiveRecord::Base
       # :include => [:participants],
       # :conditions=>["participants.target_id = ? AND participants.target_type = 'User' AND profile_type = 'F'",profile_id])
     end
-    if @viewers and !@viewers.nil?
-      @viewers.each do |viewer|
-        MessageViewer.create(message_id: message_id, poster_profile_id: profile_id,
-                             viewer_profile_id: viewer.id)
-      end
+    return unless @viewers and !@viewers.nil?
+
+    @viewers.each do |viewer|
+      MessageViewer.create(message_id: message_id, poster_profile_id: profile_id,
+                           viewer_profile_id: viewer.id)
     end
   end
 

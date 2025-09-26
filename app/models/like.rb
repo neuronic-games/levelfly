@@ -30,7 +30,7 @@ class Like < ActiveRecord::Base
     message.save
 
     # Record who liked the message
-    like = Like.create(message_id: message_id, profile_id: profile_id, course_id: course_id)
+    Like.create(message_id: message_id, profile_id: profile_id, course_id: course_id)
 
     # Update the like count for the giver
     profile = Profile.find(profile_id)

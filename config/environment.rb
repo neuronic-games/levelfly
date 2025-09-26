@@ -1,5 +1,5 @@
 # Load the Rails application.
-require_relative "application"
+require_relative 'application'
 
 APP_VERSION = '1.8.30'
 

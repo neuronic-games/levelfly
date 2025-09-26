@@ -19,13 +19,13 @@ RSpec.describe 'Tasks', type: :request do
   end
 
   context 'GET /index' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       get url_for(controller: 'task', action: :index),
           params: { course_id: @course.id }
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render index page' do
+    it 'renders index page' do
       sign_in @user
       get url_for(controller: 'task', action: :index),
           params: { course_id: @course.id }
@@ -34,16 +34,16 @@ RSpec.describe 'Tasks', type: :request do
   end
 
   context 'POST /save' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       post url_for controller: 'task', action: :save
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should save a new task' do
+    it 'saves a new task' do
       sign_in @user
       task_name = Faker::Lorem.sentence
       post url_for(controller: 'task', action: :save),
-        params: { task: task_name, course_id: @course.id, school_id: @school_demo.id }
+           params: { task: task_name, course_id: @course.id, school_id: @school_demo.id }
 
       expect(response.status).to eq(200)
       expect(response.body).to include task_name

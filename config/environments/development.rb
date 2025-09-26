@@ -2,10 +2,10 @@ Oncapus::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # TODO: Consider removing this; even development settings should probably be loaded from env
-  
+
   # Load environment variables for development
   config.before_configuration do
-    aws_env_file = Rails.root.join('config', 'application.yml').to_s
+    aws_env_file = Rails.root.join('config/application.yml').to_s
     if File.exist?(aws_env_file)
       puts "Environment variables loaded from #{aws_env_file}"
       YAML.load_file(aws_env_file).each do |k, v|

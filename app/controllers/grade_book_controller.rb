@@ -79,7 +79,7 @@ class GradeBookController < ApplicationController
   end
 
   def filter
-    return unless params[:filter] && !params[:filter].blank?
+    return unless params[:filter] && params[:filter].present?
 
     filter_course(params[:filter])
 
@@ -100,7 +100,7 @@ class GradeBookController < ApplicationController
   end
 
   def get_task
-    if params[:course_id] && !params[:course_id].blank?
+    if params[:course_id] && params[:course_id].present?
       @profile = Profile.find(user_session[:profile_id])
       @course = Course.find(params[:course_id])
       @categories = Category.all(conditions: { course_id: params[:course_id] })
@@ -141,7 +141,7 @@ class GradeBookController < ApplicationController
             @tasks.each do |t|
               task_grade = TaskGrade.load_task_grade(@profile.school_id, params[:course_id], t.id, p.profile_id)
               grade = ''
-              unless task_grade.blank?
+              if task_grade.present?
                 grade = task_grade.to_f if t.course.display_number_grades
                 unless t.course.display_number_grades
                   grade = GradeType.value_to_letter(task_grade,
@@ -194,7 +194,7 @@ class GradeBookController < ApplicationController
 
   # used for caclulation for grade
   def grade_calculate
-    return unless params[:characters] && !params[:characters].blank?
+    return unless params[:characters] && params[:characters].present?
 
     characters = params[:characters].split(',') if params[:characters]
     school_id = params[:school_id]
@@ -210,7 +210,7 @@ class GradeBookController < ApplicationController
     arr_task_grade = []
     undo = params[:undo]
     previous_values = params[:last_changes].split(',') if params[:last_changes]
-    if undo == 'true' and !previous_values.blank?
+    if undo == 'true' and previous_values.present?
       previous_values.each do |pg|
         num = GradeType.is_num(pg)
         arr_task_grade.push(GradeType.letter_to_value(pg, school_id)) if num == false
@@ -234,11 +234,11 @@ class GradeBookController < ApplicationController
           previous_grade = GradeType.value_to_letter(previous_grade,
                                                      school_id)
         end
-        course.update_attribute('display_number_grades', num) unless task_grade.blank?
+        course.update_attribute('display_number_grades', num) if task_grade.present?
         @grade = average.round(2).to_s + ' ' + GradeType.value_to_letter(average, school_id) if average
         arr_grade.push(@grade)
         arr_previous_grade.push(previous_grade)
-        @grade_task = if undo == 'true' and !previous_values.blank?
+        @grade_task = if undo == 'true' and previous_values.present?
                         TaskGrade.task_grades(school_id, course_id, task_id, profile_ids[j], arr_task_grade[j],
                                               average)
                       else
@@ -251,7 +251,7 @@ class GradeBookController < ApplicationController
 
   # save outcome points
   def outcomes_points
-    return unless params[:course_id] && !params[:course_id].blank?
+    return unless params[:course_id] && params[:course_id].present?
 
     average = params[:average].split(',') if params[:average]
     school_id = params[:school_id]
@@ -268,7 +268,7 @@ class GradeBookController < ApplicationController
     end
     return if profile_ids.nil?
 
-    previous_grade = if undo == 'true' and !previous_values.blank?
+    previous_grade = if undo == 'true' and previous_values.present?
                        OutcomeGrade.outcome_points(school_id, course_id, outcome_id, profile_ids, average, task_id,
                                                    previous_values)
                      else
@@ -280,7 +280,7 @@ class GradeBookController < ApplicationController
 
   # load Notes
   def load_notes
-    return unless params[:course_id] && !params[:course_id].blank?
+    return unless params[:course_id] && params[:course_id].present?
 
     @profile = Profile.find(user_session[:profile_id])
     @participant = Participant.where([
@@ -291,11 +291,7 @@ class GradeBookController < ApplicationController
     unless @participant.nil?
       @participant.each do |p|
         participant_note = CourseGrade.load_notes(p.profile_id, params[:course_id], @profile.school_id)
-        p.notes = if participant_note.blank?
-                    ''
-                  else
-                    participant_note
-                  end
+        p.notes = (participant_note.presence || '')
       end
     end
     @count = @participant.count('participants.profile_id')
@@ -304,7 +300,7 @@ class GradeBookController < ApplicationController
 
   def load_achievements
     course_id = params[:course_id]
-    return unless course_id && !course_id.blank?
+    return unless course_id && course_id.present?
 
     @profile = Profile.find(user_session[:profile_id])
     @participant = Participant.where([
@@ -328,7 +324,7 @@ class GradeBookController < ApplicationController
 
   # Save Notes for praticipants
   def save_notes
-    return unless params[:course_id] && !params[:course_id].blank?
+    return unless params[:course_id] && params[:course_id].present?
 
     school_id = params[:school_id]
     course_id = params[:course_id]
@@ -385,7 +381,7 @@ class GradeBookController < ApplicationController
   end
 
   def grading_complete
-    return unless params[:id] and !params[:id].blank?
+    return unless params[:id] and params[:id].present?
 
     if @course = Course.find(params[:id])
       @course.delay.finalize(current_profile)
@@ -396,7 +392,7 @@ class GradeBookController < ApplicationController
   end
 
   def load_task_setup
-    return unless params[:task_id] and !params[:task_id].blank?
+    return unless params[:task_id] and params[:task_id].present?
 
     @task = Task.find(params[:task_id])
     @course = @task.course if @task
@@ -406,7 +402,7 @@ class GradeBookController < ApplicationController
   end
 
   def task_setup
-    return unless params[:task_id] and !params[:task_id].blank?
+    return unless params[:task_id] and params[:task_id].present?
 
     @task = Task.find(params[:task_id])
     return unless @task
@@ -427,7 +423,7 @@ class GradeBookController < ApplicationController
     end
 
     new_outcomes = params[:outcomes].map { |s| s.to_i } - @task.outcomes.map(&:id) if params[:outcomes]
-    if params[:outcomes] && !params[:outcomes].empty?
+    if params[:outcomes].present?
       new_outcomes.each do |o|
         next unless o != ''
 
@@ -487,7 +483,7 @@ class GradeBookController < ApplicationController
   def export_course_grade_csv
     x = []
     y = []
-    return unless params[:course_id] && !params[:course_id].blank?
+    return unless params[:course_id] && params[:course_id].present?
 
     @course = Course.find(params[:course_id])
     @outcomes = @course.outcomes.order('name')
@@ -550,11 +546,7 @@ class GradeBookController < ApplicationController
         end
 
         participant_note = CourseGrade.load_notes(p.profile_id, @course.id, @course.school_id)
-        x << if participant_note.blank?
-               ''
-             else
-               participant_note
-             end
+        x << (participant_note.presence || '')
 
         if @outcomes.length > 0 && !@outcomes.nil?
           @outcomes.each do |o|

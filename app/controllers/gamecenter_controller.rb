@@ -18,7 +18,7 @@ class GamecenterController < ApplicationController
 
     if params[:username] == '' or params[:password] == ''
       message = 'Empty username/password.'
-      user = nil
+      nil
     else
       user = User.find_by_like_email(params[:username])
       new_user = params[:new]
@@ -43,8 +43,8 @@ class GamecenterController < ApplicationController
             unless demo_school.nil?
               role_name = RoleName.find_by_name('Student')
               send_confirmation_email = false
-              user, profile = User.new_user(params[:username], demo_school.id, params[:password],
-                                            send_confirmation_email, role_name)
+              user, = User.new_user(params[:username], demo_school.id, params[:password],
+                                    send_confirmation_email, role_name)
               unless game.profile.nil?
                 # The invitation comes from the owner of the game
                 Message.send_school_invitations(user, game.profile, demo_school)
@@ -95,7 +95,6 @@ class GamecenterController < ApplicationController
     user = {}
     score = 0
     xp = 0
-    active_dur = 0
     badges = []
 
     if current_user
@@ -111,8 +110,8 @@ class GamecenterController < ApplicationController
       user = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_url,
                'last_sign_in_at' => current_user.last_sign_in_at }
 
-      active_dur = Feat.where(game_id: game.id, profile_id: profile.id, progress_type: Feat.duration)
-                       .sum(:progress)
+      Feat.where(game_id: game.id, profile_id: profile.id, progress_type: Feat.duration)
+          .sum(:progress)
 
     end
 
@@ -143,9 +142,6 @@ class GamecenterController < ApplicationController
   # Returns the list of top users by score
   def get_top_users
     handle = params[:handle]
-    message = ''
-    status = Gamecenter::FAILURE
-    all_score = []
 
     status = Gamecenter::SUCCESS
     game = Game.find_by_handle(handle)
@@ -158,9 +154,6 @@ class GamecenterController < ApplicationController
   # Returns the list of badges and learning outcomes
   def get_rewards
     handle = params[:handle]
-
-    badges = []
-    outcomes = []
 
     status = Gamecenter::SUCCESS
     game = Game.find_by_handle(handle)
@@ -270,13 +263,7 @@ class GamecenterController < ApplicationController
       # When using the additive mode of recording XP, add up the reported XP to what is already recorded for this game
       if addition
         new_xp = feat.progress + last_xp
-        feat.progress = if new_xp > 1000
-                          1000
-                        elsif new_xp < 0
-                          0
-                        else
-                          new_xp
-                        end
+        feat.progress = new_xp.clamp(0, 1000)
       end
 
       if feat.progress < 0 or feat.progress > 1000
@@ -338,7 +325,6 @@ class GamecenterController < ApplicationController
 
     when Feat.rating
       rating = params[:rating]
-      outcome = nil
       outcome = if feat.progress.to_i > 0
                   Outcome.find(feat.progress)
                 else
@@ -399,7 +385,7 @@ class GamecenterController < ApplicationController
     limit = params[:count]
     limit = 100 if limit.nil?
 
-    profile_id = current_user.default_profile.id
+    current_user.default_profile.id
     @feats = @game.list_feats(cprofile_id, limit)
   end
 
@@ -409,24 +395,6 @@ class GamecenterController < ApplicationController
     status = Gamecenter::SUCCESS
 
     render body: { 'status' => status, 'message' => message }.to_json
-  end
-
-  # Update the player's progress in the game
-  def update
-    message = ''
-    status = Gamecenter::SUCCESS
-
-    render body: { 'status' => status, 'message' => message }.to_json
-  end
-
-  # Returns the player's progress in the game
-  def view
-    message = ''
-    status = Gamecenter::SUCCESS
-
-    gc = Gamecenter.new
-
-    render body: { 'status' => status, 'message' => message, 'progress' => gc }.to_json
   end
 
   # web UI
@@ -445,14 +413,13 @@ class GamecenterController < ApplicationController
               Game.find_by_name(id)
             end
     if @game.nil?
-      render file: "#{Rails.root}/public/404.html", layout: false, status: 404
+      render file: "#{Rails.public_path.join('404.html')}", layout: false, status: :not_found
       return
     end
 
     agent_by_request = request.env['HTTP_USER_AGENT']
     user_agent = UserAgent.parse(agent_by_request)
     platform = user_agent.platform
-    conditions = ['profiles.archived = ? and user_id is not null', false]
 
     @download_link = ''
     # ['ios', 'android', 'windows', 'mac', 'linux']
@@ -473,6 +440,24 @@ class GamecenterController < ApplicationController
     respond_to do |format|
       format.html { render layout: 'public' }
     end
+  end
+
+  # Update the player's progress in the game
+  def update
+    message = ''
+    status = Gamecenter::SUCCESS
+
+    render body: { 'status' => status, 'message' => message }.to_json
+  end
+
+  # Returns the player's progress in the game
+  def view
+    message = ''
+    status = Gamecenter::SUCCESS
+
+    gc = Gamecenter.new
+
+    render body: { 'status' => status, 'message' => message, 'progress' => gc }.to_json
   end
 
   # Returns active games for my school
@@ -623,53 +608,53 @@ class GamecenterController < ApplicationController
     ).group('task_grades.id')
     @course_xp = xp.first.nil? ? 0 : xp.first.total.to_i
 
-                                                               section_type = %w[Course Group]
-                                                               @member_count = Profile.course_participants(@course.id,
-                                                                                                           section_type).count
+    section_type = %w[Course Group]
+    @member_count = Profile.course_participants(@course.id,
+                                                section_type).count
 
-                                                               @member = Participant.where([
-                                                                                             "participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id
-                                                                                           ]).first
-                                                               @pending_count = Profile.count(
-                                                                 :all,
-                                                                 include: [:participants],
-                                                                 conditions: [
-                                                                   "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')",
-                                                                   @course.id
-                                                                 ],
-                                                                 joins: [:participants]
-                                                               )
-                                                               @courseMaster = Profile.where([
-                                                                                               "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", @course.id
-                                                                                             ])
-                                                                 .includes([:participants])
-                                                                 .joins([:participants])
-                                                                 .first
+    @member = Participant.where([
+                                  "participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id
+                                ]).first
+    @pending_count = Profile.count(
+      :all,
+      include: [:participants],
+      conditions: [
+        "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')",
+        @course.id
+      ],
+      joins: [:participants]
+    )
+    @courseMaster = Profile.where([
+                                    "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", @course.id
+                                  ])
+                           .includes([:participants])
+                           .joins([:participants])
+                           .first
 
-                                                               @course_owner = Participant.where(["target_id = ? AND profile_type = 'M' AND target_type='Course'",
-                                                                                                  params[:id]]).first
-                                                               # @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
-                                                               @totaltask = @tasks = Task.filter_by(
-                                                                 user_session[:profile_id], @course.id, 'current'
-                                                               )
-                                                               @groups = Group.where(['course_id = ?', @course.id])
+    @course_owner = Participant.where(["target_id = ? AND profile_type = 'M' AND target_type='Course'",
+                                       params[:id]]).first
+    # @totaltask = Task.find(:all, :conditions =>["course_id = ?",@course.id])
+    @totaltask = @tasks = Task.filter_by(
+      user_session[:profile_id], @course.id, 'current'
+    )
+    @groups = Group.where(['course_id = ?', @course.id])
 
-                                                               @course_messages = @course.find_game_messages
+    @course_messages = @course.find_game_messages
 
-                                                               @profile.record_action('course', @course.id)
-                                                               @profile.record_action('last', 'course')
-                                                               # ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}")
-                                                               session[:controller] = 'course'
-                                                               respond_to do |wants|
-                                                                 wants.html do
-                                                                   if request.xhr?
-                                                                     render partial: '/course/form',
-                                                                            locals: {
-                                                                              course_new: false, section_type: 'G', privilege: true
-                                                                            }
-                                                                   end
-                                                                 end
-                                                               end
+    @profile.record_action('course', @course.id)
+    @profile.record_action('last', 'course')
+    # ProfileAction.add_action(@profile.id, "/course/show/#{@course.id}?section_type=#{params[:section_type]}")
+    session[:controller] = 'course'
+    respond_to do |wants|
+      wants.html do
+        if request.xhr?
+          render partial: '/course/form',
+                 locals: {
+                   course_new: false, section_type: 'G', privilege: true
+                 }
+        end
+      end
+    end
   end
 
   # Add badges created for a game
@@ -769,27 +754,27 @@ class GamecenterController < ApplicationController
     @course.school_id = game.school_id
     @course.join_type = 'A'
 
-    if @course.save
-      # get wall id
-      wall_id = Wall.get_wall_id(@course.id, 'Course')
-      # Participant record for master
-      participant = Participant.where(["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id,
-                                       user_session[:profile_id]]).first
-      unless participant
-        @participant = Participant.new
-        @participant.target_id = @course.id
-        @participant.target_type = 'Course'
-        @participant.profile_id = user_session[:profile_id]
-        @participant.profile_type = 'M'
-        if @participant.save
-          Feed.create(
-            profile_id: user_session[:profile_id],
-            wall_id: wall_id
-          )
-        end
+    return unless @course.save
+
+    # get wall id
+    wall_id = Wall.get_wall_id(@course.id, 'Course')
+    # Participant record for master
+    participant = Participant.where(["target_id = ? AND target_type='Course' AND profile_id = ?", @course.id,
+                                     user_session[:profile_id]]).first
+    unless participant
+      @participant = Participant.new
+      @participant.target_id = @course.id
+      @participant.target_type = 'Course'
+      @participant.profile_id = user_session[:profile_id]
+      @participant.profile_type = 'M'
+      if @participant.save
+        Feed.create(
+          profile_id: user_session[:profile_id],
+          wall_id: wall_id
+        )
       end
-      @course
     end
+    @course
   end
 
   def export_game_csv

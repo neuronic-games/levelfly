@@ -16,12 +16,12 @@ RSpec.describe 'Grade books', type: :request do
   end
 
   context 'GET /index' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       get url_for(controller: 'grade_book', action: :index)
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render index page' do
+    it 'renders index page' do
       sign_in @user
       get url_for(controller: 'grade_book', action: :index),
           xhr: true
@@ -33,12 +33,12 @@ RSpec.describe 'Grade books', type: :request do
   end
 
   context 'POST /filter' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       post url_for(controller: 'grade_book', action: :filter)
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render filter page' do
+    it 'renders filter page' do
       sign_in @user
       post url_for(controller: 'grade_book', action: :filter),
            xhr: true,
@@ -49,13 +49,13 @@ RSpec.describe 'Grade books', type: :request do
   end
 
   context 'POST /grading_complete' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       post url_for(controller: 'grade_book', action: :grading_complete),
            params: { id: @course.id }
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should finalize grading' do
+    it 'finalizes grading' do
       sign_in @user
       post url_for(controller: 'grade_book', action: :grading_complete),
            xhr: true,

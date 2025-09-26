@@ -34,14 +34,14 @@ admin.default_school_id = school.id
 admin.skip_confirmation!
 admin.save!
 
-vault = Vault.create(vault_type: 'AWS S3', target_id: school.id, target_type: 'School',
-                     account: ENV.fetch('S3_KEY', nil), secret: ENV.fetch('S3_SECRET', nil), folder: ENV.fetch('S3_PATH', nil))
+Vault.create(vault_type: 'AWS S3', target_id: school.id, target_type: 'School',
+             account: ENV.fetch('S3_KEY', nil), secret: ENV.fetch('S3_SECRET', nil), folder: ENV.fetch('S3_PATH', nil))
 
 profile = Profile.new(code: 'DEFAULT', image_file_name: Profile.default_avatar_image, level: 1)
 profile.school_id = school.id
 profile.save!
-default = Avatar.create(profile: profile, skin: 3, body: 'avatar/body/body_3',
-                        head: 'avatar/head/diamond_3', face: 'avatar/face/latin_female', top: 'basic/tops/polo_short_sleeve_blue', bottom: 'basic/bottoms/trousers_long_brown', shoes: 'basic/shoes/sneakers_gray')
+Avatar.create(profile: profile, skin: 3, body: 'avatar/body/body_3',
+              head: 'avatar/head/diamond_3', face: 'avatar/face/latin_female', top: 'basic/tops/polo_short_sleeve_blue', bottom: 'basic/bottoms/trousers_long_brown', shoes: 'basic/shoes/sneakers_gray')
 
 # admin = User.create(:email => 'admin@neuronicgames.com', :encrypted_password => '$2a$10$RvALTroqUHXm4oE2ID8O5OU/napTft9S6EzCWaAww7G6nIkZPe1Au')
 # Profile.create(:user => admin, :school => school, :image_file_name => Profile.default_avatar_image, :level => 1, :full_name => "Admin")
@@ -51,8 +51,8 @@ admin_profile = Profile.create(user: admin, school: school, full_name: 'Neuronic
                                image_file_name: Profile.default_avatar_image)
 
 # <Profile id: 1, user_id: nil, school_id: 3, major_id: nil, code: "DEFAULT", name: nil, full_name: nil, salutation: nil, primary: false, archived: false, created_at: "2012-09-15 00:33:33", updated_at: "2014-09-30 07:19:48", like_given: 0, like_received: 0, post_count: 0, image_file_name: "/images/wardrobe/null_profile.png", image_content_type: nil, image_file_size: nil, xp: 0, badge_count: 0, level: 1, contact_info: nil, wardrobe: 1, interests: "", all_comments: true, post_date_format: "D", role_name_id: 1, extended_logout: nil, is_public: true, friend_privilege: nil>
-default_profile = Profile.create(code: 'DEFAULT', school: school,
-                                 image_file_name: Profile.default_avatar_image)
+Profile.create(code: 'DEFAULT', school: school,
+               image_file_name: Profile.default_avatar_image)
 
 # NOTE: Copied from db/migrate/20140221194927_add_named_roles.rb temporarily
 create_group = Permission.find_or_create_by(name: 'create_group')
@@ -89,7 +89,7 @@ admin_profile.save!
 
 #================================================================================
 
-role_name = RoleName.find_by_name('Student')
+RoleName.find_by_name('Student')
 
 # generate_users(3, school, school, role_name)
 

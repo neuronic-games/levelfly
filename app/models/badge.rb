@@ -27,11 +27,7 @@ class Badge < ActiveRecord::Base
   def self.check_badge(profile_id, badge_id, course_id)
     @badge = AvatarBadge.where(['profile_id = ? and badge_id = ? and course_id = ?', profile_id, badge_id,
                                 course_id]).first
-    if @badge.nil?
-      true
-    else
-      false
-    end
+    @badge.nil? || false
   end
 
   def self.badge_count(profile_id)

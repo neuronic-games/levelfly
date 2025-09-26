@@ -8,7 +8,7 @@ class BadgeImage < ActiveRecord::Base
 
   # has_one :badge
   has_one :available_badge, class_name: 'Badge', foreign_key: 'available_badge_image_id'
-  has_one :uploaded_badge, class_name: 'Badge', foreign_key: 'badge_image_id'
+  has_one :uploaded_badge, class_name: 'Badge'
 
   @@base_url = '/images/badges'
   cattr_accessor :base_url

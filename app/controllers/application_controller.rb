@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   # Search people by email or name
   def search_participants
-    if params[:school_id] && !params[:school_id].empty?
+    if params[:school_id].present?
       search_text = "#{params[:search_text]}%"
       valueFind = false
       if is_a_valid_email(search_text)
@@ -42,19 +42,20 @@ class ApplicationController < ActionController::Base
   private
 
   def set_current_profile
-    if current_user
-      profile = Profile.create_for_user(current_user.id, school.id)
-      publish_profile(profile)
-      if current_user.status == 'S'
-        flash[:message] = 'Your account has been suspended.'
-        sign_out current_user
-      end
-      # elsif current_user
-      #   puts "=== user_session[:profile_id] = #{user_session[:profile_id]}"
-      #   puts "=== current_user.id = #{current_user.id}"
-      #   profile = Profile.create_for_user(current_user.id)
-      #   puts "=== profile.id = #{profile.id}"
-    end
+    return unless current_user
+
+    profile = Profile.create_for_user(current_user.id, school.id)
+    publish_profile(profile)
+    return unless current_user.status == 'S'
+
+    flash[:message] = 'Your account has been suspended.'
+    sign_out current_user
+
+    # elsif current_user
+    #   puts "=== user_session[:profile_id] = #{user_session[:profile_id]}"
+    #   puts "=== current_user.id = #{current_user.id}"
+    #   profile = Profile.create_for_user(current_user.id)
+    #   puts "=== profile.id = #{profile.id}"
   end
 
   def publish_profile(profile)

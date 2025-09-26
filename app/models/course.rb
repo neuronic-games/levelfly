@@ -107,13 +107,13 @@ class Course < ActiveRecord::Base
     self.rating_medium = Course.default_rating_medium
     self.rating_high = Course.default_rating_high
 
-    self.tasks_low = tasks_low.blank? ? Course.default_tasks_low : tasks_low
-    self.tasks_medium = tasks_medium.blank? ? Course.default_tasks_medium : tasks_medium
-    self.tasks_high = tasks_high.blank? ? Course.default_tasks_high : tasks_high
+    self.tasks_low = (tasks_low.presence || Course.default_tasks_low)
+    self.tasks_medium = (tasks_medium.presence || Course.default_tasks_medium)
+    self.tasks_high = (tasks_high.presence || Course.default_tasks_high)
   end
 
   def code_section
-    "#{code}#{'-' unless section.blank?}#{section}"
+    "#{code}#{'-' if section.present?}#{section}"
   end
 
   def semester_year
@@ -306,7 +306,7 @@ class Course < ActiveRecord::Base
 
           outcome_list = game.outcomes
           outcome_list.each do |outcome|
-            row << "#{outcome.name}: #{ratings[outcome.id]}" unless outcome.name.blank?
+            row << "#{outcome.name}: #{ratings[outcome.id]}" if outcome.name.present?
           end
 
           csv << row
@@ -626,7 +626,7 @@ class Course < ActiveRecord::Base
 
       @outcomes.each do |o|
         outcome_grade = CourseGrade.load_outcomes(p.profile_id, id, o.id, current_profile.school_id)
-        next unless !outcome_grade.blank? and outcome_grade >= 2.5
+        next unless outcome_grade.present? and outcome_grade >= 2.5
 
         @badge = Badge.gold_outcome_badge(o.name, current_profile)
         if @badge

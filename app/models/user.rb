@@ -22,8 +22,8 @@ class User < ActiveRecord::Base
   @@status_suspended = 'S'
   cattr_accessor :status_suspended
 
-  before_create :lower_email
   before_save :lower_email
+  before_create :lower_email
 
   def lower_email
     self.email = email.downcase.strip
@@ -56,9 +56,9 @@ class User < ActiveRecord::Base
                                     ]).collect! do |x|
       x.profile_id
     end
-    unless profile_ids.include?(profile_id)
-      Participant.create(target_id: id, target_type: 'User', profile_id: profile_id, profile_type: 'F')
-    end
+    return if profile_ids.include?(profile_id)
+
+    Participant.create(target_id: id, target_type: 'User', profile_id: profile_id, profile_type: 'F')
   end
 
   def regenerate_confirmation_token
@@ -66,9 +66,7 @@ class User < ActiveRecord::Base
   end
 
   def self.new_user(email, school_id, password = nil, send_email = false, role_name = nil)
-    if @user = find_by_email(email)
-
-    else
+    unless @user = find_by_email(email)
       @user = User.new do |u|
         u.email = email
         u.password = password || 'defaultpassword'
@@ -107,13 +105,13 @@ class User < ActiveRecord::Base
   # Delete User who is not register their acoount yet.
   def self.delete_pending_user(profile_id)
     profile = Profile.find(profile_id)
-    if profile
-      user = User.find(profile.user_id)
-      if user and user.sign_in_count == 0
-        user.delete
-        profile.delete
-      end
-    end
+    return unless profile
+
+    user = User.find(profile.user_id)
+    return unless user and user.sign_in_count == 0
+
+    user.delete
+    profile.delete
   end
 
   def self.find_first_by_auth_conditions(warden_conditions)
@@ -156,11 +154,11 @@ class User < ActiveRecord::Base
 
   def self.find_demo_users
     demo_school = School.find_by_handle('demo')
-    if demo_school
-      demo_profiles = Profile.includes(:user)
-                             .where("school_id = ? and user_id is not null and users.status != 'D'", demo_school.id)
-                             .order('last_sign_in_at DESC NULLS LAST, full_name')
-    end
+    return unless demo_school
+
+    Profile.includes(:user)
+           .where("school_id = ? and user_id is not null and users.status != 'D'", demo_school.id)
+           .order('last_sign_in_at DESC NULLS LAST, full_name')
   end
 
   def self.find_by_like_email(email)

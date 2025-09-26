@@ -29,12 +29,12 @@ class School < ActiveRecord::Base
     school = School.where(['handle like ?', handle]).first
     if school.nil?
       school = School.create(name: school_name, code: code, handle: handle)
-      vault = Vault.create(vault_type: 'AWS S3', target_id: school.id, target_type: 'School',
-                           account: ENV.fetch('S3_KEY', nil), secret: ENV.fetch('S3_SECRET', nil), folder: ENV.fetch('S3_PATH', nil))
+      Vault.create(vault_type: 'AWS S3', target_id: school.id, target_type: 'School',
+                   account: ENV.fetch('S3_KEY', nil), secret: ENV.fetch('S3_SECRET', nil), folder: ENV.fetch('S3_PATH', nil))
       profile = Profile.create(code: 'DEFAULT', school: school, image_file_name: Profile.default_avatar_image,
                                level: 1)
-      default = Avatar.create(profile: profile, skin: 3, body: 'avatar/body/body_3',
-                              head: 'avatar/head/diamond_3', face: 'avatar/face/latin_male', hair: 'avatar/hair/short_wavy_5', hair_back: 'avatar/hair/short_wavy_5_back', top: 'basic/tops/polo_short_sleeve_blue', bottom: 'basic/bottoms/trousers_long_brown', shoes: 'basic/shoes/sneakers_gray')
+      Avatar.create(profile: profile, skin: 3, body: 'avatar/body/body_3',
+                    head: 'avatar/head/diamond_3', face: 'avatar/face/latin_male', hair: 'avatar/hair/short_wavy_5', hair_back: 'avatar/hair/short_wavy_5_back', top: 'basic/tops/polo_short_sleeve_blue', bottom: 'basic/bottoms/trousers_long_brown', shoes: 'basic/shoes/sneakers_gray')
     end
     school
   end

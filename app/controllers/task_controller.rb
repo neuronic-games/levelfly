@@ -44,39 +44,6 @@ class TaskController < ApplicationController
     end
   end
 
-  def new
-    @profile = current_profile
-    @no_course = Course.find_by_code('') || Course.find_by_code(nil)
-
-    @courses = Course.where([
-                              'participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and courses.archived = ? and courses.removed = ?', @profile.id, 'M', Course.parent_type_course, false, false
-                            ])
-                     .includes([:participants])
-                     .joins([:participants])
-    @task = Task.new
-    respond_to do |wants|
-      wants.html do
-        if request.xhr?
-          render partial: '/task/form', locals: { task_new: true, course_id: params[:course_id] }
-        else
-          render
-        end
-      end
-    end
-  end
-
-  def outcome_unchecked
-    status = false
-    if params[:task_id] && !params[:task_id].blank?
-      outcome_task = OutcomeTask.where(['outcome_id = ? AND task_id = ?', params[:outcome_id], params[:task_id]]).first
-      if outcome_task
-        outcome_task.destroy
-        status = true
-      end
-    end
-    render body: { 'status' => status }.to_json
-  end
-
   def show
     @task = Task.find_by_id(params[:id])
     @course = @task.course
@@ -138,6 +105,39 @@ class TaskController < ApplicationController
     end
   end
 
+  def new
+    @profile = current_profile
+    @no_course = Course.find_by_code('') || Course.find_by_code(nil)
+
+    @courses = Course.where([
+                              'participants.profile_id = ? and participants.profile_type = ? and parent_type = ? and courses.archived = ? and courses.removed = ?', @profile.id, 'M', Course.parent_type_course, false, false
+                            ])
+                     .includes([:participants])
+                     .joins([:participants])
+    @task = Task.new
+    respond_to do |wants|
+      wants.html do
+        if request.xhr?
+          render partial: '/task/form', locals: { task_new: true, course_id: params[:course_id] }
+        else
+          render
+        end
+      end
+    end
+  end
+
+  def outcome_unchecked
+    status = false
+    if params[:task_id] && params[:task_id].present?
+      outcome_task = OutcomeTask.where(['outcome_id = ? AND task_id = ?', params[:outcome_id], params[:task_id]]).first
+      if outcome_task
+        outcome_task.destroy
+        status = true
+      end
+    end
+    render body: { 'status' => status }.to_json
+  end
+
   def get_task
     @profile = current_profile
     tasks = Task.filter_by(@profile.id, params[:show], params[:filter])
@@ -149,7 +149,7 @@ class TaskController < ApplicationController
 
   def check_priorities
     status = false
-    if params[:task_id] && !params[:task_id].empty?
+    if params[:task_id].present?
       @task = TaskParticipant.where(['task_id =?', params[:task_id]]).first
       if @task
         if params[:priority] == 'L'
@@ -179,7 +179,7 @@ class TaskController < ApplicationController
   def save
     status = false
     category_name = ''
-    @task = if params[:id] && !params[:id].empty?
+    @task = if params[:id].present?
               Task.find(params[:id])
             else
               # Save a new task
@@ -224,8 +224,8 @@ class TaskController < ApplicationController
     if @task.save
       # get wall id
       wall_id = Wall.get_wall_id(@task.id, 'Task')
-      if params[:outcomes] && !params[:outcomes].empty?
-        outcome_ids = params[:outcomes].split(',')
+      if params[:outcomes].present?
+        params[:outcomes].split(',')
         # OutcomeTask.delete_all(["outcome_id NOT IN (?) AND task_id = ?", outcome_ids, @task.id])
         OutcomeTask.destroy_all(['outcome_id is NULL AND task_id = ?', @task.id])
         outcomes_array = params[:outcomes].split(',')
@@ -244,10 +244,12 @@ class TaskController < ApplicationController
         end
       end
       # Participant record
-      course_participants = Participant.where(["participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'", params[:course_id] && params[:course_id] != '' && params[:course_id] != 'null' ? params[:course_id] : 0])
-        .select(['profiles.full_name,participants.id,participants.profile_id'])
-        .joins([:profile])
-        .order('full_name')
+      course_participants = Participant.where([
+                                                "participants.target_id=? AND participants.profile_type = 'S' AND target_type = 'Course'", params[:course_id] && params[:course_id] != '' && params[:course_id] != 'null' ? params[:course_id] : 0
+                                              ])
+                                       .select(['profiles.full_name,participants.id,participants.profile_id'])
+                                       .joins([:profile])
+                                       .order('full_name')
       task_participant = TaskParticipant.where(["task_id = ? AND profile_type='O' AND profile_id = ?", @task.id,
                                                 user_session[:profile_id]]).first
       unless task_participant
@@ -264,7 +266,7 @@ class TaskController < ApplicationController
           )
         end
       end
-      if params[:remove_people_ids] && !params[:remove_people_ids].empty?
+      if params[:remove_people_ids].present?
         remove_people = params[:remove_people_ids].split(',')
         remove_participants = TaskParticipant.where(["task_id = ? and profile_type = 'M' and profile_id in (?)",
                                                      @task.id, remove_people])
@@ -273,8 +275,7 @@ class TaskController < ApplicationController
           participant.delete
         end
       end
-      peoples_array = []
-      if params[:people_id] && !params[:people_id].empty?
+      if params[:people_id].present?
         if params[:people_id] == 'all_people'
           @task.all_members = false
           @task.save
@@ -307,7 +308,7 @@ class TaskController < ApplicationController
       status = true
       image_url = params[:file] ? @task.image.url : ''
       @task_outcomes = @task.outcomes
-      if params[:category_id] and !params[:category_id].blank? and params[:category_id] != 'null' and params[:category_id] != 'undefined'
+      if params[:category_id] and params[:category_id].present? and params[:category_id] != 'null' and params[:category_id] != 'undefined'
         c = Category.where(['id = ?', params[:category_id]]).select(:name).first
         category_name = c.name if c and !c.nil?
       end
@@ -316,6 +317,7 @@ class TaskController < ApplicationController
                    'outcomes' => @task_outcomes, 'category_name' => category_name }.to_json
   end
 
+  def edit; end
   def create; end
 
   def view_setup
@@ -324,49 +326,49 @@ class TaskController < ApplicationController
   end
 
   def remove_tasks
-    if params[:task_id] && !params[:task_id].empty?
-      @task = Task.find(params[:task_id])
-      task_participant = TaskParticipant.where(['task_id = ? and profile_id = ?', @task.id,
-                                                user_session[:profile_id]]).first
-      if task_participant.profile_type == 'O'
-        @task.archived = true
-        modify_xp(params[:task_id], false)
-      else
-        task_participant.delete
-      end
-      @task.save
-      render body: { status: true }.to_json
+    return unless params[:task_id].present?
+
+    @task = Task.find(params[:task_id])
+    task_participant = TaskParticipant.where(['task_id = ? and profile_id = ?', @task.id,
+                                              user_session[:profile_id]]).first
+    if task_participant.profile_type == 'O'
+      @task.archived = true
+      modify_xp(params[:task_id], false)
+    else
+      task_participant.delete
     end
+    @task.save
+    render body: { status: true }.to_json
   end
 
   def task_complete
     status = nil
-    if params[:task_id] && !params[:task_id].empty?
+    if params[:task_id].present?
       status = Task.complete_task(params[:task_id], params[:check_val] == 'true', user_session[:profile_id])
     end
     render body: { status: status }.to_json
   end
 
   def points_credit
-    if params[:task_id] && !params[:task_id].nil?
-      if params[:member_ids] && !params[:member_ids].nil?
-        params[:member_ids].each do |member_id|
-          status = Task.points_to_student(params[:task_id], params[:check_val] == 'true', member_id,
-                                          user_session[:profile_id])
-        end
-        task = Task.find(params[:task_id])
-        task_points = task.points if task
-        render body: { status: status, task_points: task_points }.to_json
-      else
-        task_participants = TaskParticipant.where(["task_id = ? and profile_type = 'M'", params[:task_id]])
-        task_participants.each do |participant|
-          status = Task.points_to_student(params[:task_id], params[:check_val] == 'true', participant.profile_id,
-                                          user_session[:profile_id])
-        end
-        task = Task.find(params[:task_id])
-        task_points = task.points if task
-        render body: { status: status, task_points: task_points }.to_json
+    return unless params[:task_id] && !params[:task_id].nil?
+
+    if params[:member_ids] && !params[:member_ids].nil?
+      params[:member_ids].each do |member_id|
+        Task.points_to_student(params[:task_id], params[:check_val] == 'true', member_id,
+                               user_session[:profile_id])
       end
+      task = Task.find(params[:task_id])
+      task_points = task.points if task
+      render body: { status: status, task_points: task_points }.to_json
+    else
+      task_participants = TaskParticipant.where(["task_id = ? and profile_type = 'M'", params[:task_id]])
+      task_participants.each do |participant|
+        Task.points_to_student(params[:task_id], params[:check_val] == 'true', participant.profile_id,
+                               user_session[:profile_id])
+      end
+      task = Task.find(params[:task_id])
+      task_points = task.points if task
+      render body: { status: status, task_points: task_points }.to_json
     end
   end
 
@@ -386,10 +388,8 @@ class TaskController < ApplicationController
     render body: { status: status }.to_json
   end
 
-  def edit; end
-
   def duplicate
-    if params[:id] && !params[:id].empty?
+    if params[:id].present?
       @task = Task.find(params[:id])
       @dup_task = Task.new
       @dup_task.name = "#{@task.name} Copy"
@@ -439,7 +439,7 @@ class TaskController < ApplicationController
   end
 
   def remove_attachment
-    if params[:attachment_id] && !params[:attachment_id].empty?
+    if params[:attachment_id].present?
       @attachment = Attachment.find(params[:attachment_id])
       if @attachment
         @attachment.resource.destroy
@@ -450,35 +450,35 @@ class TaskController < ApplicationController
   end
 
   def course_categories
-    unless params[:course_id].nil?
-      @categories = Category.where(['course_id = ?', params[:course_id]])
-      render partial: '/task/course_categories', locals: { categories: @categories }
-    end
+    return if params[:course_id].nil?
+
+    @categories = Category.where(['course_id = ?', params[:course_id]])
+    render partial: '/task/course_categories', locals: { categories: @categories }
   end
 
   def course_outcomes
-    unless params[:course_id].nil?
-      @course = Course.find(params[:course_id])
-      @outcomes = @course ? @course.outcomes.order('name') : nil
-      render partial: '/task/course_outcomes'
-    end
+    return if params[:course_id].nil?
+
+    @course = Course.find(params[:course_id])
+    @outcomes = @course ? @course.outcomes.order('name') : nil
+    render partial: '/task/course_outcomes'
   end
 
   def course_peoples
-    unless params[:course_id].nil?
-      @course = Course.find(params[:course_id])
-      @people = Participant.where([
-                                    "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'S' AND users.status != 'D'", params[:course_id]
-                                  ])
-                           .includes([profile: :user])
-                           .order('profiles.full_name')
-      all_tasks = []
-      Task.filter_by(@course.owner.id, @course.id, '').collect(&:points) if @course.owner
-      @tasks_created = all_tasks.count
-      @allocated_points = all_tasks.sum
-      @remaining_points = 1000 - @allocated_points
-      render partial: '/task/course_peoples'
-    end
+    return if params[:course_id].nil?
+
+    @course = Course.find(params[:course_id])
+    @people = Participant.where([
+                                  "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'S' AND users.status != 'D'", params[:course_id]
+                                ])
+                         .includes([profile: :user])
+                         .order('profiles.full_name')
+    all_tasks = []
+    Task.filter_by(@course.owner.id, @course.id, '').collect(&:points) if @course.owner
+    @tasks_created = all_tasks.count
+    @allocated_points = all_tasks.sum
+    @remaining_points = 1000 - @allocated_points
+    render partial: '/task/course_peoples'
   end
 
   def view_task
@@ -495,13 +495,13 @@ class TaskController < ApplicationController
   end
 
   def remove_task
-    if params[:task_id] && !params[:task_id].empty?
-      @task = Task.find(params[:task_id])
-      @task.archived = true
-      @task.save
-      modify_xp(params[:task_id], false)
-      render body: { status: true }.to_json
-    end
+    return unless params[:task_id].present?
+
+    @task = Task.find(params[:task_id])
+    @task.archived = true
+    @task.save
+    modify_xp(params[:task_id], false)
+    render body: { status: true }.to_json
   end
 
   def check_role
@@ -513,7 +513,7 @@ class TaskController < ApplicationController
   def modify_xp(task_id, complete)
     task_participants = TaskParticipant.where(["task_id = ? and profile_type = 'M'", task_id])
     task_participants.each do |participant|
-      status = Task.points_to_student(task_id, complete, participant.profile_id, user_session[:profile_id])
+      Task.points_to_student(task_id, complete, participant.profile_id, user_session[:profile_id])
       participant.delete
     end
   end

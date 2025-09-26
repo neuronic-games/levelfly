@@ -2,6 +2,7 @@ require 'pusher'
 
 class Message < ActiveRecord::Base
   extend MessageHelper
+
   belongs_to :profile
   belongs_to :parent, polymorphic: true
   belongs_to :target, polymorphic: true
@@ -28,7 +29,7 @@ class Message < ActiveRecord::Base
 
   scope :between, (lambda do |ids, id2|
     snippets = ids.map do |id|
-      '((parent_id = :other and profile_id = :current_user) or (parent_id = :current_user and profile_id = :other))'.gsub(/:other/, id.to_s)
+      '((parent_id = :other and profile_id = :current_user) or (parent_id = :current_user and profile_id = :other))'.gsub(':other', id.to_s)
     end
 
     where(snippets.join(' or '), { current_user: id2 })
@@ -51,7 +52,7 @@ class Message < ActiveRecord::Base
   end
 
   def self.send_course_request(profile_id, parent_id, wall_id, target_id, section_type, message_type, content)
-    course = Course.find(target_id)
+    Course.find(target_id)
     @message = Message.new
     @message.profile_id = profile_id
     @message.parent_id = parent_id
@@ -95,7 +96,7 @@ class Message < ActiveRecord::Base
   end
 
   def self.respond_to_course_invitation(parent_id, profile_id, target_id, content, section_type)
-    course = Course.find(target_id)
+    Course.find(target_id)
     @message = Message.new
     @message.profile_id = parent_id
     @message.parent_id = profile_id
@@ -113,7 +114,7 @@ class Message < ActiveRecord::Base
   end
 
   def formatted_content
-    content.gsub(/\n/, '<br/>').html_safe
+    content.gsub("\n", '<br/>').html_safe
   end
 
   def self.send_notification(current_user, content, profile_id)
@@ -144,19 +145,19 @@ class Message < ActiveRecord::Base
     message.wall_id = wall_id
     message.post_date = DateTime.now
 
-    if message.save
-      MessageViewer.add(current_profile.id, message.id, parent_type, parent.id)
-      unless course
-        UserMailer.delay.private_message(parent.user.email, current_profile, current_profile.school,
-                                         content)
-      end
-      if course
-        UserMailer.delay.course_private_message(parent.user.email, current_profile, current_profile.school, course,
-                                                content)
-      end
-      feed = Feed.where(['profile_id = ? and wall_id = ?', current_profile.id, wall_id]).first
-      Feed.create(profile_id: current_profile.id, wall_id: wall_id) if feed.nil?
+    return unless message.save
+
+    MessageViewer.add(current_profile.id, message.id, parent_type, parent.id)
+    unless course
+      UserMailer.delay.private_message(parent.user.email, current_profile, current_profile.school,
+                                       content)
     end
+    if course
+      UserMailer.delay.course_private_message(parent.user.email, current_profile, current_profile.school, course,
+                                              content)
+    end
+    feed = Feed.where(['profile_id = ? and wall_id = ?', current_profile.id, wall_id]).first
+    Feed.create(profile_id: current_profile.id, wall_id: wall_id) if feed.nil?
   end
 
   def set_as_viewed(friend_id, profile_id)
@@ -167,15 +168,15 @@ class Message < ActiveRecord::Base
                                   .first
     message_viewer.update_attribute('viewed', true) if message_viewer
     comments = Message.comment_list(id).collect(&:id)
-    if comments
-      comments.each do |comment_id|
-        comment_message_viewer = MessageViewer.where([
-                                                       '(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?', false, comment_id, friend_id, profile_id
-                                                     ])
-                                              .order('created_at DESC')
-                                              .first
-        comment_message_viewer.update_attribute('viewed', true) if comment_message_viewer
-      end
+    return unless comments
+
+    comments.each do |comment_id|
+      comment_message_viewer = MessageViewer.where([
+                                                     '(archived is NULL or archived = ?) AND message_id = ? AND poster_profile_id = ? AND viewer_profile_id = ?', false, comment_id, friend_id, profile_id
+                                                   ])
+                                            .order('created_at DESC')
+                                            .first
+      comment_message_viewer.update_attribute('viewed', true) if comment_message_viewer
     end
   end
 
@@ -203,39 +204,39 @@ class Message < ActiveRecord::Base
   def self.send_if_board_comment(message_id)
     msg = find(message_id)
 
-    if msg.parent_type == Message.to_s and msg.message_type == Message.to_s
-      parent = find(msg.parent_id)
-      if parent.parent_type == '' and parent.target_type == ''
-        ids = MessageViewer.where(message_id: parent.id).map(&:viewer_profile_id) - [msg.profile_id]
-        partial = 'message/pusher/comment'
-        channel = 'private_comment'
-        ids.each do |push_id|
-          locals = { comment: msg, course_id: msg.profile_id, user_session_profile_id: push_id, chanel: channel }
-          pusher_content = Message.get_view.render(partial: partial, locals: locals)
-          Pusher.trigger_async("private-my-channel-#{push_id}", 'message', pusher_content)
-          Pusher.trigger_async("private-my-channel-#{push_id}", 'new_message', {})
-        end
-      end
+    return unless msg.parent_type == Message.to_s and msg.message_type == Message.to_s
+
+    parent = find(msg.parent_id)
+    return unless parent.parent_type == '' and parent.target_type == ''
+
+    ids = MessageViewer.where(message_id: parent.id).map(&:viewer_profile_id) - [msg.profile_id]
+    partial = 'message/pusher/comment'
+    channel = 'private_comment'
+    ids.each do |push_id|
+      locals = { comment: msg, course_id: msg.profile_id, user_session_profile_id: push_id, chanel: channel }
+      pusher_content = Message.get_view.render(partial: partial, locals: locals)
+      Pusher.trigger_async("private-my-channel-#{push_id}", 'message', pusher_content)
+      Pusher.trigger_async("private-my-channel-#{push_id}", 'new_message', {})
     end
   end
 
   def self.send_to_forum(message_id)
     msg = find(message_id)
-    if msg.parent_type == 'F' and msg.message_type == Message.to_s and msg.target_type == 'F'
-      ids = MessageViewer.where(message_id: message_id).map(&:viewer_profile_id) - [msg.profile_id]
-      courseMaster = Profile.where([
-                                     "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", msg.parent_id
-                                   ])
-                            .includes([:participants])
-                            .joins([:participants])
-                            .first
-      partial = 'message/pusher/message'
-      channel = 'forum_message'
-      ids.each do |push_id|
-        locals = { message: msg, course_id: msg.parent_id, user_session_profile_id: push_id, course_master: courseMaster, chanel: channel } # course_master_of changed to course_master because of message/pusher/_message template
-        pusher_content = Message.get_view.render(partial: partial, locals: locals)
-        Pusher.trigger_async("private-my-channel-#{push_id}", 'message', pusher_content)
-      end
+    return unless msg.parent_type == 'F' and msg.message_type == Message.to_s and msg.target_type == 'F'
+
+    ids = MessageViewer.where(message_id: message_id).map(&:viewer_profile_id) - [msg.profile_id]
+    courseMaster = Profile.where([
+                                   "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", msg.parent_id
+                                 ])
+                          .includes([:participants])
+                          .joins([:participants])
+                          .first
+    partial = 'message/pusher/message'
+    channel = 'forum_message'
+    ids.each do |push_id|
+      locals = { message: msg, course_id: msg.parent_id, user_session_profile_id: push_id, course_master: courseMaster, chanel: channel } # course_master_of changed to course_master because of message/pusher/_message template
+      pusher_content = Message.get_view.render(partial: partial, locals: locals)
+      Pusher.trigger_async("private-my-channel-#{push_id}", 'message', pusher_content)
     end
   end
 
@@ -368,7 +369,7 @@ class Message < ActiveRecord::Base
     sender = profile_id
     parent_message = Message.find(parent_id)
 
-    if parent_message.parent_type == '' || parent_message.parent_type == 'Profile'
+    if ['', 'Profile'].include?(parent_message.parent_type)
       receivers = Profile.find(sender).friends.map(&:profile_id)
     else
       course_id = parent_message.parent_id
@@ -402,7 +403,6 @@ class Message < ActiveRecord::Base
     msg = self
     receiver = msg.profile_id == profile_id ? msg.target_id : msg.profile_id
     friend = msg.profile_id == receiver ? msg.target_id : msg.profile_id
-    courseMaster = nil
     partial = 'message/pusher/friend_request'
     channel = 'new_friend'
     locals = { request: self, course_id: friend, chanel: channel }
@@ -416,8 +416,7 @@ class Message < ActiveRecord::Base
   def push_school_request
     msg = self
     receiver = msg.profile_id == profile_id ? msg.target_id : msg.profile_id
-    friend = msg.profile_id == receiver ? msg.target_id : msg.profile_id
-    courseMaster = nil # Profile.find(
+    friend = msg.profile_id == receiver ? msg.target_id : msg.profile_id # Profile.find(
     #    :first,
     #    :include => [:participants],
     #    :conditions => ["participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", parent_id]

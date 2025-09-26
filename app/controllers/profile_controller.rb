@@ -90,7 +90,7 @@ class ProfileController < ApplicationController
     @profile = Profile.find(id)
     Note.delete_all(["profile_id = ? and about_object_id = ? and about_object_type = 'Profile'",
                      user_session[:profile_id], @profile.id])
-    unless params[:notes].blank?
+    if params[:notes].present?
       new_note = Note.new
       new_note.profile_id = user_session[:profile_id]
       new_note.about_object_id = @profile.id
@@ -182,7 +182,6 @@ class ProfileController < ApplicationController
   end
 
   def user_profile
-    previous_level = nil
     if params[:profile_id].blank?
       @profile = current_profile
       @badge = Badge.badge_count(@profile.id)
@@ -225,35 +224,35 @@ class ProfileController < ApplicationController
   end
 
   def account_setup
-    if params[:id] && !params[:id].nil?
-      @selected_user = Profile.find(params[:id])
-      render partial: 'profile/account_setup'
-    end
+    return unless params[:id] && !params[:id].nil?
+
+    @selected_user = Profile.find(params[:id])
+    render partial: 'profile/account_setup'
   end
 
   def change_password
-    if params[:id] and !params[:id].nil?
-      @user = User.find(params[:id])
+    return unless params[:id] and !params[:id].nil?
 
-      if params[:email] == @user.email
-        msg = alert = 'You updated your account successfully.'
-      else
-        msg = "An email has been sent to '#{params[:email]}' to confirm that you are the owner of this email address. Please click on the confirmation link in this email address to complete the email change. Check your spam folder if you don't see the email. If you still don't see the email, please contact Levelfly Support."
-        alert = 'Email verification sent.'
-      end
+    @user = User.find(params[:id])
 
-      @user.email = params[:email] if params[:email]
-      @user.password = params[:password] if params[:password] and !params[:password].blank?
-      if @user.save
-        profile = Profile.find(params[:profile_id])
-        profile.full_name = params[:full_name]
-        profile.save
-        # sign_in(@user, :bypass => true)
-        render json: { text: msg, alert: alert, status: true,
-                       current_user_profile: user_session[:profile_id] }
-      else
-        render json: { text: 'ERROR', alert: 'ERROR', status: false }
-      end
+    if params[:email] == @user.email
+      msg = alert = 'You updated your account successfully.'
+    else
+      msg = "An email has been sent to '#{params[:email]}' to confirm that you are the owner of this email address. Please click on the confirmation link in this email address to complete the email change. Check your spam folder if you don't see the email. If you still don't see the email, please contact Levelfly Support."
+      alert = 'Email verification sent.'
+    end
+
+    @user.email = params[:email] if params[:email]
+    @user.password = params[:password] if params[:password] and params[:password].present?
+    if @user.save
+      profile = Profile.find(params[:profile_id])
+      profile.full_name = params[:full_name]
+      profile.save
+      # sign_in(@user, :bypass => true)
+      render json: { text: msg, alert: alert, status: true,
+                     current_user_profile: user_session[:profile_id] }
+    else
+      render json: { text: 'ERROR', alert: 'ERROR', status: false }
     end
   end
 
@@ -269,15 +268,15 @@ class ProfileController < ApplicationController
   end
 
   def update_show_date
-    if params[:id] and params[:update]
-      @profile = Profile.find(params[:id])
-      @profile ||= Profile.where(['user_id = ?', current_user.id]).first
-      @profile.post_date_format = @profile.post_date_format == 'D' ? 'E' : 'D'
-      if @profile.save
-        render json: { status: true, show: @profile.post_date_format }
-      else
-        render json: { status: false }
-      end
+    return unless params[:id] and params[:update]
+
+    @profile = Profile.find(params[:id])
+    @profile ||= Profile.where(['user_id = ?', current_user.id]).first
+    @profile.post_date_format = @profile.post_date_format == 'D' ? 'E' : 'D'
+    if @profile.save
+      render json: { status: true, show: @profile.post_date_format }
+    else
+      render json: { status: false }
     end
   end
 
@@ -305,7 +304,7 @@ class ProfileController < ApplicationController
       response = Pusher[params[:channel_name]].authenticate(params[:socket_id])
       render json: response
     else
-      render body: 'Forbidden', status: '403'
+      render body: 'Forbidden', status: :forbidden
     end
   end
 

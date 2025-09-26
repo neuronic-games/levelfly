@@ -25,11 +25,10 @@ module TaskHelper
       participant = TaskParticipant.where(['profile_id = ? AND task_id = ? AND profile_type = ? ', profile_id, task_id,
                                            Task.profile_type_member]).first
       if participant
-        if participant.complete_date.nil?
-          return 'NOT COMPLETED'
-        else
-          return show_date_format(participant.complete_date)
-        end
+        return 'NOT COMPLETED' if participant.complete_date.nil?
+
+        return show_date_format(participant.complete_date)
+
       end
     end
     nil

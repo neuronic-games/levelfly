@@ -9,19 +9,19 @@ class RewardController < ApplicationController
     # @profile.record_action('last', 'leader_board')
   end
 
+  def show
+    return unless params[:id] and !params[:id].nil?
+
+    @reward = Reward.find(params[:id])
+    render partial: '/reward/form' if @reward
+  end
+
   def new
     render partial: '/reward/form'
   end
 
-  def show
-    if params[:id] and !params[:id].nil?
-      @reward = Reward.find(params[:id])
-      render partial: '/reward/form' if @reward
-    end
-  end
-
   def save
-    @reward = if params[:id] and !params[:id].blank?
+    @reward = if params[:id] and params[:id].present?
                 Reward.find(params[:id])
               else
                 Reward.new
@@ -33,13 +33,13 @@ class RewardController < ApplicationController
   end
 
   def delete
-    if params[:id] and !params[:id].blank?
-      reward = Reward.find(params[:id])
-      if reward
-        reward.delete
-        render body: { status: true }.to_json
-      end
-    end
+    return unless params[:id] and params[:id].present?
+
+    reward = Reward.find(params[:id])
+    return unless reward
+
+    reward.delete
+    render body: { status: true }.to_json
   end
 
   def check_role

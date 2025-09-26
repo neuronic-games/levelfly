@@ -13,7 +13,7 @@ RSpec.describe 'Courses', type: :request do
     # * with let!, a new course and participant are created for each test case
     @course = FactoryBot.create(:course, school: @school_demo, owner: @profile)
     @participant = FactoryBot.create(:participant, target: @course, target_type: 'Course', profile: @profile,
-                                                    profile_type: 'M')
+                                                   profile_type: 'M')
     @user_two = FactoryBot.create(:user, default_school: @school_demo)
     @profile_two = FactoryBot.create(:profile, user: @user_two, school: @school_demo)
   end
@@ -26,12 +26,12 @@ RSpec.describe 'Courses', type: :request do
   end
 
   context 'GET /Index' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       get url_for controller: 'course', action: :index
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render index page' do
+    it 'renders index page' do
       sign_in @user
       get url_for controller: 'course', action: :index,
                   params: { section_type: 'C' }
@@ -53,13 +53,13 @@ RSpec.describe 'Courses', type: :request do
   end
 
   context 'GET /new' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       get url_for(controller: 'course', action: :new),
           params: { section_type: 'C' }
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render new page' do
+    it 'renders new page' do
       # NOTE: This doesn't test the non-xhr code path in the controller, because it seems to return an authentication error
       sign_in @user
 
@@ -71,13 +71,13 @@ RSpec.describe 'Courses', type: :request do
   end
 
   context 'GET /show' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       get url_for(controller: 'course', action: :show, id: @course.id),
           params: { id: @course.id, section_type: 'C' }
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render show page' do
+    it 'renders show page' do
       sign_in @user
       get url_for(controller: 'course', action: :show, id: @course.id),
           params: { section_type: 'C' },
@@ -87,13 +87,13 @@ RSpec.describe 'Courses', type: :request do
   end
 
   context 'GET /view_setup' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       get url_for controller: 'course', action: :view_setup,
                   params: { id: @course.id }
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render view_setup page' do
+    it 'renders view_setup page' do
       sign_in @user
       get url_for controller: 'course', action: :view_setup,
                   params: { id: @course.id }
@@ -102,13 +102,13 @@ RSpec.describe 'Courses', type: :request do
   end
 
   context 'POST /save' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       post url_for controller: 'course', action: :save,
                    params: FactoryBot.attributes_for(:course)
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should save course' do
+    it 'saves course' do
       sign_in @user
 
       course_two = FactoryBot.create(:course, school: School.find_by!(handle: 'demo'))
@@ -132,13 +132,13 @@ RSpec.describe 'Courses', type: :request do
   end
 
   context 'POST /get_participants' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       post url_for(controller: 'course', action: :get_participants),
            params: { school_id: @course.school.id, search_text: User.first.email }
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should fail on self' do
+    it 'fails on self' do
       sign_in @user
 
       post url_for(controller: 'course', action: :get_participants),
@@ -147,11 +147,11 @@ RSpec.describe 'Courses', type: :request do
       expect(response.body).to eq('you cant add yourself')
     end
 
-    it 'should get participants' do
+    it 'gets participants' do
       sign_in @user
 
       participant = FactoryBot.create(:participant, target: @course, target_type: 'Course', profile: @profile_two,
-                                       profile_type: 'S')
+                                                    profile_type: 'S')
 
       post url_for(controller: 'course', action: :get_participants),
            params: { school_id: @course.school.id, search_text: @user_two.email }
@@ -171,13 +171,13 @@ RSpec.describe 'Courses', type: :request do
   context 'POST /add_participant' do
     # TODO: Test inviting a non-existant user
     # TODO: Test re-inviting an already-invited user
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       post url_for(controller: 'course', action: :add_participant),
            params: { course_id: @course.id, section_type: 'C', email: @user_two.email }
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should add participant' do
+    it 'adds participant' do
       sign_in @user
 
       post url_for(controller: 'course', action: :add_participant),
@@ -193,11 +193,11 @@ RSpec.describe 'Courses', type: :request do
       @profile_two.participants.first.delete
     end
 
-    it 'should add already-added participant' do
+    it 'adds already-added participant' do
       sign_in @user
 
       FactoryBot.create(:participant, target: @course, target_type: 'Course', profile: @profile_two,
-                                       profile_type: 'S')
+                                      profile_type: 'S')
 
       post url_for(controller: 'course', action: :add_participant),
            params: { course_id: @course.id, section_type: 'C', email: @user_two.email }

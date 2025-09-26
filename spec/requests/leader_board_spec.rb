@@ -16,12 +16,12 @@ RSpec.describe 'Leader boards', type: :request do
   end
 
   context 'GET /index' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       get url_for(controller: 'leader_board', action: :index)
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render index page' do
+    it 'renders index page' do
       sign_in @user
       get url_for(controller: 'leader_board', action: :index)
       expect(response.body).to render_template 'leader_board/_list'
@@ -29,13 +29,13 @@ RSpec.describe 'Leader boards', type: :request do
   end
 
   context 'GET /get_rows' do
-    it 'should redirect to login if unauthenticated' do
+    it 'redirects to login if unauthenticated' do
       get url_for(controller: 'leader_board', action: :get_rows),
           params: { filter: 'school' }
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'should render rows' do
+    it 'renders rows' do
       sign_in @user
       get url_for(controller: 'leader_board', action: :get_rows),
           params: { filter: 'school' }
