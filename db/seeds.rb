@@ -11,7 +11,7 @@ def generate_users(count, u_school, p_school, role_name)
     user = User.new(email: "user#{i}@user.com", password: '111111', password_confirmation: '111111',
                     status: 'A', default_school_id: u_school.id)
     user.skip_confirmation!
-    user.save
+    user.save!
     user_profile = Profile.create(user: user, school: p_school, full_name: 'Neuronic user',
                                   image_file_name: Profile.default_avatar_image)
     Role.create(name: 'edit_user', profile: user_profile)
@@ -21,7 +21,7 @@ def generate_users(count, u_school, p_school, role_name)
 
     role_name.profiles << user_profile
     user_profile.role_name = role_name
-    user_profile.save
+    user_profile.save!
   end
 end
 
@@ -32,14 +32,14 @@ school = School.create(name: 'The Levelfly Community', code: 'LEVELFLY', handle:
 admin = User.new(email: 'admin@neuronicgames.com', password: 'changeme', password_confirmation: 'changeme')
 admin.default_school_id = school.id
 admin.skip_confirmation!
-admin.save
+admin.save!
 
 vault = Vault.create(vault_type: 'AWS S3', target_id: school.id, target_type: 'School',
                      account: ENV.fetch('S3_KEY', nil), secret: ENV.fetch('S3_SECRET', nil), folder: ENV.fetch('S3_PATH', nil))
 
 profile = Profile.new(code: 'DEFAULT', image_file_name: Profile.default_avatar_image, level: 1)
 profile.school_id = school.id
-profile.save
+profile.save!
 default = Avatar.create(profile: profile, skin: 3, body: 'avatar/body/body_3',
                         head: 'avatar/head/diamond_3', face: 'avatar/face/latin_female', top: 'basic/tops/polo_short_sleeve_blue', bottom: 'basic/bottoms/trousers_long_brown', shoes: 'basic/shoes/sneakers_gray')
 
@@ -74,10 +74,10 @@ teacher.permissions = student.permissions + [create_course, create_task, edit_gr
 school_admin.permissions = teacher.permissions + [edit_user]
 levelfly_admin.permissions = school_admin.permissions + [modify_settings, modify_wardrobe, modify_rewards]
 
-student.save
-teacher.save
-school_admin.save
-levelfly_admin.save
+student.save!
+teacher.save!
+school_admin.save!
+levelfly_admin.save!
 
 # NOTE: End copypasta
 
@@ -85,7 +85,7 @@ role_name = RoleName.find_by_name('Levelfly Admin')
 
 role_name.profiles << admin_profile
 admin_profile.role_name = role_name
-admin_profile.save
+admin_profile.save!
 
 #================================================================================
 
