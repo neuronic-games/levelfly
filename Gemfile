@@ -21,7 +21,6 @@ gem 'rails_autolink'
 gem 'rails-observers'
 gem 'rake', '>= 0.9.2'
 gem 'remotipart', '~> 1.2'
-gem 'taps', '>= 0.3.23'
 gem 'thin', '1.8.0'
 gem 'useragent', '0.16.7'
 gem 'webrick', '~> 1.9'
@@ -57,6 +56,7 @@ group :development do
   gem 'rubocop-rake', '~> 0.7.1'
   gem 'rubocop-rspec'
   gem 'rubocop-rspec_rails', '~> 2.31'
+  gem "bundle-audit", "~> 0.1.0"
 end
 
 group :test do
