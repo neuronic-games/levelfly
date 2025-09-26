@@ -3,19 +3,19 @@
 Run all tests:
 
 ```shell
-RAILS_ENV=test URL=http://localhost:3000/ bundle exec rspec
+bundle exec rspec
 ```
 
 Run a single file:
 
 ```shell
-RAILS_ENV=test URL=http://localhost:3000/ bundle exec rspec spec/requests/course_spec.rb
+bundle exec rspec spec/requests/course_spec.rb
 ```
 
 Run a specific example:
 
 ```shell
-RAILS_ENV=test URL=http://localhost:3000/ bundle exec rspec spec/requests/course_spec.rb -e 'Post /add_participant'
+bundle exec rspec spec/requests/course_spec.rb -e 'Post /add_participant'
 ```
 
 ## Browser tests
