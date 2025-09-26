@@ -13,7 +13,7 @@ end
 
 module Oncapus
   class Application < Rails::Application
-    config.load_defaults '7.0'
+    config.load_defaults '7.1'
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -58,6 +58,8 @@ module Oncapus
 
     # TODO: Add optional: true to all belongs_to where needed, https://stackoverflow.com/a/45673178/14269772
     Rails.application.config.active_record.belongs_to_required_by_default = false
+
+    Rails.application.config.active_record.default_column_serializer = 'YAML'
 
     # Load Paperclip S3 details from env
     config.paperclip_defaults = {
