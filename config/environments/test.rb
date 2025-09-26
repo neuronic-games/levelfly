@@ -41,6 +41,9 @@ Oncapus::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
+  # Raise exceptions for disallowed deprecations.
+  config.active_support.disallowed_deprecation = :raise
+
   # Fake details for pusher-fake
   Pusher.app_id = 'MY_TEST_ID'
   Pusher.key    = 'MY_TEST_KEY'

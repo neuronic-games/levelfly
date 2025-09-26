@@ -1,6 +1,8 @@
 Oncapus::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
+  # TODO: Consider removing this; even development settings should probably be loaded from env
+  
   # Load environment variables for development
   config.before_configuration do
     aws_env_file = Rails.root.join('config', 'application.yml').to_s
@@ -13,6 +15,7 @@ Oncapus::Application.configure do
     end
   end
 
+  # Do not eager load code on boot.
   config.eager_load = false
 
   # In the development environment your application's code is reloaded on
@@ -22,6 +25,9 @@ Oncapus::Application.configure do
 
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
+
+  # Enable server timing
+  config.server_timing = true
 
   config.eager_load = false
 
