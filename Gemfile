@@ -58,7 +58,7 @@ group :test do
   gem 'pusher-fake', '~> 2.2'
   gem 'rails-controller-testing', '~> 1.0'
   gem 'rspec', '~> 3.13'
-  gem 'rspec-rails', '~> 4.1'
+  gem 'rspec-rails'
   gem 'selenium-webdriver', '~> 3.142'
   gem 'simplecov', require: false
 end

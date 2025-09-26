@@ -2,7 +2,7 @@ require 'digest'
 
 # Defines the playable games that show up under the GameCenter
 class Game < ActiveRecord::Base
-  serialize :download_links, Hash
+  serialize :download_links, type: Hash
   PLATFORMS = %w[ios android windows mac linux guide]
   validates :handle, uniqueness: true
   belongs_to :school # This is the school of the game's creator's profile. If a new user sign up for Levelfly from the app,
