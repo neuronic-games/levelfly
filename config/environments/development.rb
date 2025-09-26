@@ -74,5 +74,5 @@ Oncapus::Application.configure do
 
   ActionMailer::Base.default content_type: 'text/html'
 
-  Pusher.url = ENV.fetch('PUSHER_URL', nil)
+  Pusher.url = ENV.fetch('PUSHER_URL', 'https://example.com')
 end
