@@ -30,7 +30,7 @@ These instructions have been tested on Linux & OSX. If you can add set-up instru
    ```
    createdb -U postgres levelfly
    ```
-4. Edit `config/database.yml` to set your database username and password
+4. Copy `.env.example` to `.env` and edit as appropriate
 5. Initialise the database:
     ```
     bundle exec rake db:create
