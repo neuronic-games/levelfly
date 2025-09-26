@@ -46,8 +46,8 @@ end
 gem 'rails_12factor', group: :production
 
 group :development do
-  gem 'rubocop', '~> 1.28'
-  gem 'rubocop-rspec', '~> 2.10'
+  gem 'rubocop'
+  gem 'rubocop-rspec'
 end
 
 group :test do
