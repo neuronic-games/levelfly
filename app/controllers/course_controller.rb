@@ -593,22 +593,18 @@ class CourseController < ApplicationController
 
   def view_group_setup
     @course = Course.find_by_id(params[:id])
-    @member_count = Profile.count(
-      :all,
-      include: %i[participants user],
-      joins: [:participants],
-      conditions: [
-        "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S') AND users.status != 'D'", @course.id
-      ]
-    )
-    @pending_count = Profile.count(
-      :all,
-      include: [:participants],
-      joins: [:participants],
-      conditions: [
-        "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')", @course.id
-      ]
-    )
+    @member_count = Profile.where([
+                                    "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S') AND users.status != 'D'", @course.id
+                                  ])
+                           .includes(%i[participants user])
+                           .joins([:participants])
+                           .count
+    @pending_count = Profile.where([
+                                     "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')", @course.id
+                                   ])
+                            .includes([:participants])
+                            .joins([:participants])
+                            .count
     @courseMaster = Profile.where([
                                     "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]
                                   ])
