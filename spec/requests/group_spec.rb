@@ -91,4 +91,25 @@ RSpec.describe 'Groups', type: :request do
       expect(profile_two.participants.first.profile_type).to eq('P')
     end
   end
+
+  context 'when POST /group_joinning' do
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :group_joinning),
+           params: { id: group_one.id }
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'changes group joining setting' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :group_joinning),
+           params: { id: group_one.id, join_type: 'C' }
+
+      response_parsed = JSON.parse(response.body)
+
+      group_one.reload
+      expect(response_parsed['status']).to be true
+      expect(group_one.join_type).to eq('C')
+    end
+  end
 end
