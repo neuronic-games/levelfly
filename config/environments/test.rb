@@ -50,4 +50,7 @@ Oncapus::Application.configure do
   Pusher.secret = 'MY_TEST_SECRET'
 
   require 'pusher-fake/support/base'
+
+  # Disable job queuing during testing https://github.com/collectiveidea/delayed_job?tab=readme-ov-file
+  Delayed::Worker.delay_jobs = false
 end
