@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Profiles', type: :request do
+RSpec.describe 'Messages', type: :request do
   let!(:user_one) { User.first }
   let!(:profile_one) { user_one.profiles.first }
   let!(:wall_one) { create(:wall, parent: profile_one) }

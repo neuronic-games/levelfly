@@ -206,4 +206,34 @@ RSpec.describe 'Courses' do
       expect(response_parsed['profiles'][0]['full_name']).to eq(profile_two.full_name)
     end
   end
+
+  context 'when POST /send_email_to_all_participants' do
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :send_email_to_all_participants),
+           params: { id: course_one.id, post_message: 'true', mail_msg: Faker::Hipster.sentence }
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'emails participants' do
+      sign_in user_one
+
+      create(:participant, target: course_one, target_type: 'Course', profile: profile_two,
+                           profile_type: 'S')
+      create(:wall, parent: profile_one)
+
+      message_text = Faker::Hipster.sentence
+
+      post url_for(controller: 'course', action: :send_email_to_all_participants),
+           params: { id: course_one.id, post_message: 'true', mail_msg: message_text }
+
+      response_parsed = JSON.parse(response.body)
+
+      expect(response_parsed['status']).to be true
+
+      expect(ActionMailer::Base.deliveries.length).to eq 2
+      sent_message = ActionMailer::Base.deliveries.first
+      expect(sent_message.recipients).to include user_one.email
+      expect(sent_message.body.parts.first.to_s).to include message_text
+    end
+  end
 end
