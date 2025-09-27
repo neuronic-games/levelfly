@@ -66,76 +66,60 @@ class CourseController < ApplicationController
 
   def send_group_invitation
     status = false
-    if params[:id] && !params[:id].nil?
-      @course = Course.find_by_id(params[:id])
-      @profile = Profile.find(user_session[:profile_id])
-      @participant =  participant = Participant.where(["target_id = ? AND target_type = 'Course' AND profile_id = ? ",
-                                                       params[:id], user_session[:profile_id]]).first
-      @owner = Participant.where(["target_id = ? AND target_type = 'Course' AND profile_type ='M'", params[:id]]).first
-      unless @participant
-        @participant = Participant.new
-        @participant.target_id    = params[:id] if params[:id]
-        @participant.profile_id   = user_session[:profile_id]
-        @participant.target_type  = 'Course' # Change 'Group' to 'Course' because of query include `participants`.`target_type` = 'Course' when load group or course! Change by vaibhav
-        @participant.profile_type = @course.join_type == 'A' ? 'S' : 'P'
-        if @participant.save
-          status = true
-          wall_id = Wall.get_wall_id(params[:id], 'Course')
-          Feed.create(
-            profile_id: user_session[:profile_id],
-            wall_id: wall_id
-          )
-          # @message.content ="Please accept my group invitation (#{@course.code_section})."
-          content = "#{@profile.full_name} has requested to become a member of #{@course.name}"
-          message_type = 'group_request'
-          @message = Message.send_course_request(user_session[:profile_id], @owner.profile_id, wall_id, params[:id],
-                                                 'Course', message_type, content)
-        end
+    return unless params[:id] && !params[:id].nil?
+
+    @course = Course.find_by_id(params[:id])
+    @profile = Profile.find(user_session[:profile_id])
+    @participant = Participant.where(["target_id = ? AND target_type = 'Course' AND profile_id = ? ",
+                                      params[:id], user_session[:profile_id]]).first
+    @owner = Participant.where(["target_id = ? AND target_type = 'Course' AND profile_type ='M'", params[:id]]).first
+    unless @participant
+      @participant = Participant.new
+      @participant.target_id    = params[:id] if params[:id]
+      @participant.profile_id   = user_session[:profile_id]
+      @participant.target_type  = 'Course' # Change 'Group' to 'Course' because of query include `participants`.`target_type` = 'Course' when load group or course! Change by vaibhav
+      @participant.profile_type = @course.join_type == 'A' ? 'S' : 'P'
+      if @participant.save
+        status = true
+        wall_id = Wall.get_wall_id(params[:id], 'Course')
+        Feed.create(
+          profile_id: user_session[:profile_id],
+          wall_id: wall_id
+        )
+        # @message.content ="Please accept my group invitation (#{@course.code_section})."
+        content = "#{@profile.full_name} has requested to become a member of #{@course.name}"
+        message_type = 'group_request'
+        @message = Message.send_course_request(user_session[:profile_id], @owner.profile_id, wall_id, params[:id],
+                                               'Course', message_type, content)
       end
-      render body: { 'status' => status }.to_json
     end
+    render body: { 'status' => status }.to_json
   end
 
   def group_joinning
     status = false
-    if params[:id] && !params[:id].nil?
-      @course = Course.find_by_id(params[:id])
-      if @course
-        @course.join_type = params[:join_type]
-        @course.save
-        status = true
-      end
-      render body: { 'status' => status }.to_json
+    return unless params[:id] && !params[:id].nil?
+
+    @course = Course.find_by_id(params[:id])
+    if @course
+      @course.join_type = params[:join_type]
+      @course.save
+      status = true
     end
+    render body: { 'status' => status }.to_json
   end
 
   def group_viewing
     status = false
-    if params[:id] && !params[:id].nil?
-      @course = Course.find_by_id(params[:id])
-      if @course
-        @course.visibility_type = params[:visibility_type]
-        @course.save
-        status = true
-      end
-      render body: { 'status' => status }.to_json
-    end
-  end
+    return unless params[:id] && !params[:id].nil?
 
-  def new
-    @profile = current_profile
-    # TODO: There is a bug in the view that occurs if a blank course is not saved first.
-    # We need to make sure that the id is sent back to the view and the view updated with the id.
-    @course = Course.create
-    respond_to do |wants|
-      wants.html do
-        if request.xhr?
-          render partial: '/course/form', locals: { course_new: true, section_type: params[:section_type] }
-        else
-          render
-        end
-      end
+    @course = Course.find_by_id(params[:id])
+    if @course
+      @course.visibility_type = params[:visibility_type]
+      @course.save
+      status = true
     end
+    render body: { 'status' => status }.to_json
   end
 
   def show
@@ -174,8 +158,8 @@ class CourseController < ApplicationController
     @totaltask = @tasks = Task.filter_by(user_session[:profile_id],
                                          @course.id, 'current')
     @groups = Group.where(['course_id = ?', @course.id])
-    message_ids = MessageViewer.where(['viewer_profile_id = ?',
-                                       @profile.id]).select(:message_id).collect(&:message_id)
+    MessageViewer.where(['viewer_profile_id = ?',
+                         @profile.id]).select(:message_id).collect(&:message_id)
     if params[:section_type] == 'C'
       @course_messages = Message.where([
                                          "parent_id = ? AND parent_type = 'C' AND messages.archived = ? AND message_viewers.viewer_profile_id = ?",
@@ -220,8 +204,24 @@ class CourseController < ApplicationController
     end
   end
 
+  def new
+    @profile = current_profile
+    # TODO: There is a bug in the view that occurs if a blank course is not saved first.
+    # We need to make sure that the id is sent back to the view and the view updated with the id.
+    @course = Course.create
+    respond_to do |wants|
+      wants.html do
+        if request.xhr?
+          render partial: '/course/form', locals: { course_new: true, section_type: params[:section_type] }
+        else
+          render
+        end
+      end
+    end
+  end
+
   def save
-    @course = if params[:id] && !params[:id].empty?
+    @course = if params[:id].present?
                 Course.find(params[:id])
               else
                 # Save a new course
@@ -270,7 +270,7 @@ class CourseController < ApplicationController
       # get wall id
       wall_id = Wall.get_wall_id(@course.id, 'Course')
       # Save categories
-      if params[:categories] && !params[:categories].empty?
+      if params[:categories].present?
         categories_array = params[:categories]
         loaded_categories_array = params[:percent_value]
         categories_array.each_with_index do |category, i|
@@ -284,7 +284,7 @@ class CourseController < ApplicationController
       end
 
       # Save outcomes
-      if params[:outcomes] && !params[:outcomes].empty?
+      if params[:outcomes].present?
         outcomes_array = params[:outcomes]
         outcomes_descs_array = params[:outcomes_descr]
         outcomes_share_array = params[:outcome_share]
@@ -333,99 +333,99 @@ class CourseController < ApplicationController
     content = nil
     resend = false
     email_exist = []
-    if params[:email]
-      emails = params[:email].split(/[ ,;]+/)
-      profiles = []
-      users = []
+    return unless params[:email]
 
-      emails.each do |email|
-        next unless email.length > 0
+    emails = params[:email].split(/[ ,;]+/)
+    profiles = []
+    users = []
 
-        # Change 'Group' to 'Course' because of query include `participants`.`target_type` = 'Course' when load group or course! Change by vaibhav
-        section_type = 'Course'
-        @user = User.where(['lower(email) = ?', email.downcase]).first
-        if @user
-          @profile = Profile.find_by_user_id(@user.id)
-        else
-          @user, @profile = User.new_user(email, school.id)
-          new_user = true
-        end
-        if @profile
-          # temp fix to not allow invite user of different school
-          # if @profile && @profile.school == school
-          participant_exist = Participant.where(['target_id = ? AND target_type= ? AND profile_id = ?',
-                                                 params[:course_id], section_type, @profile.id]).first
-          course = Course.find(params[:course_id])
-          if participant_exist
-            if participant_exist.profile_type == 'P'
-              wall_id = Wall.get_wall_id(params[:course_id], 'Course')
-              if params[:section_type] == 'G'
-                message_type = 'group_invite'
-                content = "You are invited to join the group: #{course.name}."
-              elsif params[:section_type] == 'C'
-                message_type = 'course_invite'
-                content = "Please join #{course.name} (#{course.code_section})."
-              end
-              @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id,
-                                                     params[:course_id], section_type, message_type, content)
-              @message = Message.where(
-                profile_id: user_session[:profile_id],
-                parent_id: @profile.id,
-                parent_type: section_type,
-                wall_id: wall_id,
-                target_id: params[:course_id],
-                target_type: section_type,
-                message_type: message_type
-              ).first
-              send_email(@user, params[:course_id], @message.id, new_user)
-              resend = true
-            else
-              already_added = true
-            end
-          else
-            @participant = Participant.new
-            @participant.target_id = params[:course_id]
-            @participant.target_type = section_type
-            @participant.profile_id = @profile.id
-            @participant.profile_type = 'P'
-            if @participant.save
-              wall_id = Wall.get_wall_id(params[:course_id], 'Course')
-              Feed.create(
-                profile_id: @profile.id,
-                wall_id: wall_id
-              )
-              # Send a message. It may also send an email.
-              if params[:section_type] == 'G'
-                message_type = 'group_invite'
-                content = "You are invited to join the group: #{course.name}."
-              elsif params[:section_type] == 'C'
-                message_type = 'course_invite'
-                content = "Please join #{course.name} (#{course.code_section})."
-              end
-              @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id,
-                                                     params[:course_id], section_type, message_type, content)
-              send_email(@user, params[:course_id], @message.id, new_user)
-              status = true
-            end
-          end
-          # else
-          #   # temp fix to not allow invite user of different school
-          #   email_exist.push(@user.email)
-        end
-        profiles.push @profile
-        users.push @user
+    emails.each do |email|
+      next unless email.length > 0
+
+      # Change 'Group' to 'Course' because of query include `participants`.`target_type` = 'Course' when load group or course! Change by vaibhav
+      section_type = 'Course'
+      @user = User.where(['lower(email) = ?', email.downcase]).first
+      if @user
+        @profile = Profile.find_by_user_id(@user.id)
+      else
+        @user, @profile = User.new_user(email, school.id)
+        new_user = true
       end
-      # temp fix to not allow invite user of different school
-      render body: {
-        'status' => status,
-        'already_added' => already_added,
-        'profiles' => profiles,
-        'users' => users,
-        'new_user' => new_user,
-        'resend' => resend,
-        'email_exist' => email_exist
-      }.to_json
+      if @profile
+        # temp fix to not allow invite user of different school
+        # if @profile && @profile.school == school
+        participant_exist = Participant.where(['target_id = ? AND target_type= ? AND profile_id = ?',
+                                               params[:course_id], section_type, @profile.id]).first
+        course = Course.find(params[:course_id])
+        if participant_exist
+          if participant_exist.profile_type == 'P'
+            wall_id = Wall.get_wall_id(params[:course_id], 'Course')
+            if params[:section_type] == 'G'
+              message_type = 'group_invite'
+              content = "You are invited to join the group: #{course.name}."
+            elsif params[:section_type] == 'C'
+              message_type = 'course_invite'
+              content = "Please join #{course.name} (#{course.code_section})."
+            end
+            @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id,
+                                                   params[:course_id], section_type, message_type, content)
+            @message = Message.where(
+              profile_id: user_session[:profile_id],
+              parent_id: @profile.id,
+              parent_type: section_type,
+              wall_id: wall_id,
+              target_id: params[:course_id],
+              target_type: section_type,
+              message_type: message_type
+            ).first
+            send_email(@user, params[:course_id], @message.id, new_user)
+            resend = true
+          else
+            already_added = true
+          end
+        else
+          @participant = Participant.new
+          @participant.target_id = params[:course_id]
+          @participant.target_type = section_type
+          @participant.profile_id = @profile.id
+          @participant.profile_type = 'P'
+          if @participant.save
+            wall_id = Wall.get_wall_id(params[:course_id], 'Course')
+            Feed.create(
+              profile_id: @profile.id,
+              wall_id: wall_id
+            )
+            # Send a message. It may also send an email.
+            if params[:section_type] == 'G'
+              message_type = 'group_invite'
+              content = "You are invited to join the group: #{course.name}."
+            elsif params[:section_type] == 'C'
+              message_type = 'course_invite'
+              content = "Please join #{course.name} (#{course.code_section})."
+            end
+            @message = Message.send_course_request(user_session[:profile_id], @profile.id, wall_id,
+                                                   params[:course_id], section_type, message_type, content)
+            send_email(@user, params[:course_id], @message.id, new_user)
+            status = true
+          end
+        end
+        # else
+        #   # temp fix to not allow invite user of different school
+        #   email_exist.push(@user.email)
+      end
+      profiles.push @profile
+      users.push @user
     end
+    # temp fix to not allow invite user of different school
+    render body: {
+      'status' => status,
+      'already_added' => already_added,
+      'profiles' => profiles,
+      'users' => users,
+      'new_user' => new_user,
+      'resend' => resend,
+      'email_exist' => email_exist
+    }.to_json
   end
 
   def send_email(user, course, message_id, new_user)
@@ -534,61 +534,61 @@ class CourseController < ApplicationController
   end
 
   def remove_course_outcomes
-    if params[:outcomes] && !params[:outcomes].nil?
-      if Outcome.find(params[:outcomes]).shared == true && !params[:course_id].nil?
-        @course = Course.find(params[:course_id])
-        @course.outcomes.destroy(params[:outcomes]) if @course
-      else
-        Outcome.destroy(params[:outcomes])
-      end
-      render body: { 'status' => 'true' }.to_json
+    return unless params[:outcomes] && !params[:outcomes].nil?
+
+    if Outcome.find(params[:outcomes]).shared == true && !params[:course_id].nil?
+      @course = Course.find(params[:course_id])
+      @course.outcomes.destroy(params[:outcomes]) if @course
+    else
+      Outcome.destroy(params[:outcomes])
     end
+    render body: { 'status' => 'true' }.to_json
   end
 
   def remove_course_files
-    if params[:files] && !params[:files].nil?
-      Attachment.destroy(params[:files])
-      render body: { 'status' => 'true' }.to_json
-    end
+    return unless params[:files] && !params[:files].nil?
+
+    Attachment.destroy(params[:files])
+    render body: { 'status' => 'true' }.to_json
   end
 
   def share_outcome
-    if params[:course_id] and !params[:course_id].nil?
-      @outcome = Outcome.find(params[:outcome_id])
-      if @outcome
-        @outcome.shared = true
-        @outcome.save
-        render body: { 'status' => 'true' }.to_json
-      end
-    end
+    return unless params[:course_id] and !params[:course_id].nil?
+
+    @outcome = Outcome.find(params[:outcome_id])
+    return unless @outcome
+
+    @outcome.shared = true
+    @outcome.save
+    render body: { 'status' => 'true' }.to_json
   end
 
   def update_course_outcomes
-    if params[:outcome_id] && !params[:outcome_id].empty?
+    if params[:outcome_id].present?
       outcome = Outcome.find(params[:outcome_id])
-      outcome.name = params[:outcome] if params[:outcome] && !params[:outcome].empty?
-      outcome.descr = params[:outcome_descr] if params[:outcome_descr] && !params[:outcome_descr].empty?
+      outcome.name = params[:outcome] if params[:outcome].present?
+      outcome.descr = params[:outcome_descr] if params[:outcome_descr].present?
       outcome.save
     end
     render body: { 'status' => 'true' }.to_json
   end
 
   def update_course_categories
-    if params[:category_id] && !params[:category_id].empty?
+    if params[:category_id].present?
       category = Category.find(params[:category_id])
-      category.name = params[:category] if params[:category] && !params[:category].empty?
-      category.percent_value = params[:category_value] if params[:category_value] && !params[:category_value].empty?
+      category.name = params[:category] if params[:category].present?
+      category.percent_value = params[:category_value] if params[:category_value].present?
       category.save
     end
     render body: { 'status' => 'true' }.to_json
   end
 
   def remove_course_categories
-    if params[:categories] && !params[:categories].nil?
-      category_array = params[:categories].split(',')
-      Category.destroy(category_array)
-      render body: { 'status' => 'true' }.to_json
-    end
+    return unless params[:categories] && !params[:categories].nil?
+
+    category_array = params[:categories].split(',')
+    Category.destroy(category_array)
+    render body: { 'status' => 'true' }.to_json
   end
 
   def view_group_setup
@@ -629,83 +629,83 @@ class CourseController < ApplicationController
     ).group('task_grades.id')
     @course_xp = xp.first.nil? ? 0 : xp.first.total
 
-                                                          section_type = %w[Course Group]
-                                                          @peoples = Profile.course_participants(@course.id,
-                                                                                                 section_type)
-                                                          @member_count = @peoples.length
+    section_type = %w[Course Group]
+    @peoples = Profile.course_participants(@course.id,
+                                           section_type)
+    @member_count = @peoples.length
 
-                                                          @member = Participant.where([
-                                                                                        "participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id
-                                                                                      ]).first
-                                                          @pending_count = Profile.where([
-                                                                                           "participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P')", @course.id
-                                                                                         ])
-                                                                                  .includes([:participants])
-                                                                                  .joins([:participants])
-                                                                                  .count
-                                                          @courseMaster = Profile.where([
-                                                                                          "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]
-                                                                                        ])
-                                                                                 .includes([:participants])
-                                                                                 .joins([:participants])
-                                                                                 .first
-                                                          @groups = nil
-                                                          # FIXME: needed?
-                                                          # @groups = Group.find(:all, :conditions=>["course_id = ?",params[:id]])
-                                                          enable_forum = false
-                                                          @totaltask = @tasks = Task.filter_by(user_session[:profile_id],
-                                                                                               @course.id, 'current')
-                                                          if params[:section_type] == 'C'
-                                                            @course_messages = Message.where([
-                                                                                               "parent_id = ? AND parent_type = 'C' AND message_viewers.viewer_profile_id = ?", @course.id, @profile.id
-                                                                                             ])
-                                                                                      .order('starred DESC, post_date DESC')
-                                                                                      .includes([:message_viewers])
-                                                                                      .joins([:message_viewers])
-                                                          elsif params[:section_type] == 'G'
-                                                            if @member.nil?
-                                                              @course_messages = Message.where([
-                                                                                                 "parent_id = ? AND parent_type = 'G'", @course.id
-                                                                                               ])
-                                                                                        .order('starred DESC, post_date DESC')
-                                                            else
-                                                              @course_messages = Message.where([
-                                                                                                 "parent_id = ? AND parent_type = 'G' and message_viewers.viewer_profile_id = ?", @course.id, @profile.id
-                                                                                               ])
-                                                                                        .order('starred DESC, post_date DESC')
-                                                                                        .includes([:message_viewers])
-                                                                                        .joins([:message_viewers])
-                                                            end
-                                                          end
-                                                          if params[:value] == '3'
-                                                            setting = Setting.where([
-                                                                                      "target_id = ? and value = 'true' and target_type ='school' and name ='enable_course_forums' ", @course.school_id
-                                                                                    ]).first
-                                                            if setting and !setting.nil?
-                                                              @groups = @course.course_forum(@profile.id)
-                                                              enable_forum = true
-                                                            end
-                                                          end
-                                                          # @totaltask = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
-                                                          if params[:value] && !params[:value].nil?
-                                                            if params[:section_type] == 'G' && params[:value] == '1'
-                                                              render partial: '/group/group_wall',
-                                                                     locals: {
-                                                                       privilege: params[:privilege].present?, game: @course.game
-                                                                     }
-                                                            elsif params[:value] == '1'
-                                                              render partial: '/course/show_course'
-                                                            elsif params[:value] == '3'
-                                                              render partial: '/course/forum',
-                                                                     locals: {
-                                                                       :@groups => @groups, :enable_forum => enable_forum
-                                                                     }
-                                                            elsif params[:value] == '4'
-                                                              render partial: '/course/files'
-                                                            elsif params[:value] == '5'
-                                                              render partial: '/course/stats'
-                                                            end
-                                                          end
+    @member = Participant.where([
+                                  "participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id
+                                ]).first
+    @pending_count = Profile.where([
+                                     "participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P')", @course.id
+                                   ])
+                            .includes([:participants])
+                            .joins([:participants])
+                            .count
+    @courseMaster = Profile.where([
+                                    "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]
+                                  ])
+                           .includes([:participants])
+                           .joins([:participants])
+                           .first
+    @groups = nil
+    # FIXME: needed?
+    # @groups = Group.find(:all, :conditions=>["course_id = ?",params[:id]])
+    enable_forum = false
+    @totaltask = @tasks = Task.filter_by(user_session[:profile_id],
+                                         @course.id, 'current')
+    if params[:section_type] == 'C'
+      @course_messages = Message.where([
+                                         "parent_id = ? AND parent_type = 'C' AND message_viewers.viewer_profile_id = ?", @course.id, @profile.id
+                                       ])
+                                .order('starred DESC, post_date DESC')
+                                .includes([:message_viewers])
+                                .joins([:message_viewers])
+    elsif params[:section_type] == 'G'
+      if @member.nil?
+        @course_messages = Message.where([
+                                           "parent_id = ? AND parent_type = 'G'", @course.id
+                                         ])
+                                  .order('starred DESC, post_date DESC')
+      else
+        @course_messages = Message.where([
+                                           "parent_id = ? AND parent_type = 'G' and message_viewers.viewer_profile_id = ?", @course.id, @profile.id
+                                         ])
+                                  .order('starred DESC, post_date DESC')
+                                  .includes([:message_viewers])
+                                  .joins([:message_viewers])
+      end
+    end
+    if params[:value] == '3'
+      setting = Setting.where([
+                                "target_id = ? and value = 'true' and target_type ='school' and name ='enable_course_forums' ", @course.school_id
+                              ]).first
+      if setting and !setting.nil?
+        @groups = @course.course_forum(@profile.id)
+        enable_forum = true
+      end
+    end
+    # @totaltask = Task.joins(:participants).where(["profile_id =?",user_session[:profile_id]])
+    return unless params[:value] && !params[:value].nil?
+
+    if params[:section_type] == 'G' && params[:value] == '1'
+      render partial: '/group/group_wall',
+             locals: {
+               privilege: params[:privilege].present?, game: @course.game
+             }
+    elsif params[:value] == '1'
+      render partial: '/course/show_course'
+    elsif params[:value] == '3'
+      render partial: '/course/forum',
+             locals: {
+               :@groups => @groups, :enable_forum => enable_forum
+             }
+    elsif params[:value] == '4'
+      render partial: '/course/files'
+    elsif params[:value] == '5'
+      render partial: '/course/stats'
+    end
   end
 
   def view_member
@@ -765,14 +765,14 @@ class CourseController < ApplicationController
   end
 
   def download
-    if params[:id] and !params[:id].blank?
-      @attachment = Attachment.find(params[:id])
-      if @attachment
-        render partial: '/course/download_dialog',
-               locals: { a: @attachment, request_type: params[:request_type] }
-      end
+    return unless params[:id] and params[:id].present?
 
-    end
+    @attachment = Attachment.find(params[:id])
+    return unless @attachment
+
+    render partial: '/course/download_dialog',
+           locals: { a: @attachment, request_type: params[:request_type] }
+
     # upload = Attachment.find(params[:id])
     # send_file upload.resource.url,
     # :filename => upload.resource_file_name,
@@ -781,134 +781,133 @@ class CourseController < ApplicationController
   end
 
   def course_stats
-    if params[:id] && !params[:id].blank?
-      @grade = []
-      @points = []
-      @badge = []
-      @course = Course.find(params[:id])
-      @profile = Profile.where(['user_id = ?', current_user.id]).first
-      course_ids = Course.where(['course_id = ?', @course.id]).collect(&:id).push(@course.id)
-      message_ids = Like.where(['course_id in (?)', course_ids]).select('message_id').collect(&:message_id)
-      message_ids = message_ids.uniq
-      @likes =
+    return unless params[:id] && params[:id].present?
+
+    @grade = []
+    @points = []
+    @badge = []
+    @course = Course.find(params[:id])
+    @profile = Profile.where(['user_id = ?', current_user.id]).first
+    course_ids = Course.where(['course_id = ?', @course.id]).collect(&:id).push(@course.id)
+    message_ids = Like.where(['course_id in (?)', course_ids]).select('message_id').collect(&:message_id)
+    message_ids = message_ids.uniq
+    @likes =
 
 
-        
+      
 Message.where(['id IN (?) and profile_id = ? and archived = ?', message_ids, @profile.id, false]).select('messages.like'), collect(&:like).sum
-      @course_grade, oc = CourseGrade.load_grade(@profile.id, @course.id, @profile.school_id)
-      unless @course_grade.nil?
-        @course_grade.each do |_key, val|
-          @grade.push(val)
-          letter = GradeType.value_to_letter(val, @profile.school_id) if val
-          @grade.push(letter)
-        end
+    @course_grade, = CourseGrade.load_grade(@profile.id, @course.id, @profile.school_id)
+    unless @course_grade.nil?
+      @course_grade.each do |_key, val|
+        @grade.push(val)
+        letter = GradeType.value_to_letter(val, @profile.school_id) if val
+        @grade.push(letter)
       end
-      @outcomes = @course.outcomes.order('name')
-      unless @outcomes.nil?
-        @points, @course_xp = CourseGrade.get_outcomes(@course.id, @outcomes, @profile.school_id, @profile.id)
-      end
-      unless @profile.nil?
-        @badge = AvatarBadge.where(['profile_id = ? and course_id = ?', @profile.id, @course.id]).select('id, badge_id')
-        # @task_grade = TaskGrade.where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course ,@profile.id)
-        @course_tasks = Task.sort_tasks(@profile.id, @course.id)
-      end
-      render partial: '/course/course_stats'
     end
+    @outcomes = @course.outcomes.order('name')
+    unless @outcomes.nil?
+      @points, @course_xp = CourseGrade.get_outcomes(@course.id, @outcomes, @profile.school_id, @profile.id)
+    end
+    unless @profile.nil?
+      @badge = AvatarBadge.where(['profile_id = ? and course_id = ?', @profile.id, @course.id]).select('id, badge_id')
+      # @task_grade = TaskGrade.where("school_id = ? and course_id = ? and profile_id = ?",@profile.school_id,@course ,@profile.id)
+      @course_tasks = Task.sort_tasks(@profile.id, @course.id)
+    end
+    render partial: '/course/course_stats'
   end
 
   def top_achivers
-    if params[:outcome_id] && !params[:course_id].blank?
-      course = Course.find(params[:course_id])
-      @profile = Profile.where(['user_id = ?', current_user.id]).first
-      @students = Course.get_top_achievers(course.school_id, params[:course_id], params[:outcome_id])
-      render partial: '/course/top_achivers'
-    end
+    return unless params[:outcome_id] && params[:course_id].present?
+
+    course = Course.find(params[:course_id])
+    @profile = Profile.where(['user_id = ?', current_user.id]).first
+    @students = Course.get_top_achievers(course.school_id, params[:course_id], params[:outcome_id])
+    render partial: '/course/top_achivers'
   end
 
   def task_outcomes
-    if params[:task_id] && !params[:task_id].blank?
-      @task_outcomes = Task.find(params[:task_id]).outcomes
-      render partial: '/course/task_outcomes'
-    end
+    return unless params[:task_id] && params[:task_id].present?
+
+    @task_outcomes = Task.find(params[:task_id]).outcomes
+    render partial: '/course/task_outcomes'
   end
 
   def toggle_priority_file
-    if params[:id] and !params[:id].blank?
-      @att = Attachment.find(params[:id])
-      @att.update_attribute('starred', !(@att.starred == true)) unless @att.nil?
-      render body: { starred: @att.starred }.to_json
-    end
+    return unless params[:id] and params[:id].present?
+
+    @att = Attachment.find(params[:id])
+    @att.update_attribute('starred', !(@att.starred == true)) unless @att.nil?
+    render body: { starred: @att.starred }.to_json
   end
 
   def toggle_priority_message
-    if params[:id] and !params[:id].blank?
-      @msg = Message.find(params[:id])
-      @msg.toggle_star unless @msg.nil?
-      render body: { starred: @msg.starred }.to_json
-    end
+    return unless params[:id] and params[:id].present?
+
+    @msg = Message.find(params[:id])
+    @msg.toggle_star unless @msg.nil?
+    render body: { starred: @msg.starred }.to_json
   end
 
   def filter
-    if params[:filter] && !params[:filter].blank?
-      @profile = Profile.where(['user_id = ?', current_user.id]).first
-      if params[:section_type] && !params[:section_type].nil?
-        if params[:section_type] == 'C'
-          course_list = Course.course_filter(@profile.id, params[:filter])
-          @courses = course_list.sort # Sort by semester sort rules
-        elsif params[:section_type] == 'G'
-          @courses = Course.all_group(@profile, params[:filter])
-        end
+    return unless params[:filter] && params[:filter].present?
+
+    @profile = Profile.where(['user_id = ?', current_user.id]).first
+    if params[:section_type] && !params[:section_type].nil?
+      if params[:section_type] == 'C'
+        course_list = Course.course_filter(@profile.id, params[:filter])
+        @courses = course_list.sort # Sort by semester sort rules
+      elsif params[:section_type] == 'G'
+        @courses = Course.all_group(@profile, params[:filter])
       end
-      render partial: '/course/content_list', locals: { section_type: params[:section_type] }
     end
+    render partial: '/course/content_list', locals: { section_type: params[:section_type] }
   end
 
   def set_archive
     unarchive = params[:unarchive]
-    if params[:id] && !params[:id].blank?
-      @course = Course.find(params[:id])
-      if @course
+    return unless params[:id] && params[:id].present?
 
-        if unarchive && @course.parent_type != Course.parent_type_forum
-          @course.update_attribute('archived', false)
-        else
-          @course.update_attribute('archived', true)
-          @course.update_attribute('removed', true) if @course.parent_type == Course.parent_type_forum
-        end
+    @course = Course.find(params[:id])
+    return unless @course
 
-        render json: { status: 'Success' }
-      end
+    if unarchive && @course.parent_type != Course.parent_type_forum
+      @course.update_attribute('archived', false)
+    else
+      @course.update_attribute('archived', true)
+      @course.update_attribute('removed', true) if @course.parent_type == Course.parent_type_forum
     end
+
+    render json: { status: 'Success' }
   end
 
   def load_files
-    if params[:id] and !params[:id].blank?
-      id = params[:id]
-      @profile = Profile.find(params[:profile_id])
-      @course = Course.find(params[:course_id])
+    return unless params[:id] and params[:id].present?
 
-      if id == 'all'
-        @files = @course.attachments.order('starred desc,resource_file_name asc')
+    id = params[:id]
+    @profile = Profile.find(params[:profile_id])
+    @course = Course.find(params[:course_id])
+
+    if id == 'all'
+      @files = @course.attachments.order('starred desc,resource_file_name asc')
+    else
+      @task = Task.find(params[:id])
+      @task_owner = @task.task_owner
+      # Course owner can see all the files related to the course and their tasks
+      # even if the files are uploaded by other participents
+      if @profile.id == @task_owner.id
+        @files = @task.attachments.order('starred desc,resource_file_name asc')
+      # but other users can see only those files which are uploaded by them via tasks
       else
-        @task = Task.find(params[:id])
-        @task_owner = @task.task_owner
-        # Course owner can see all the files related to the course and their tasks
-        # even if the files are uploaded by other participents
-        if @profile.id == @task_owner.id
-          @files = @task.attachments.order('starred desc,resource_file_name asc')
-        # but other users can see only those files which are uploaded by them via tasks
-        else
-          @files = @task.attachments.where('owner_id IN (?)',
-                                           [@profile.id, @task_owner.id]).order('starred desc,resource_file_name asc')
-        end
+        @files = @task.attachments.where('owner_id IN (?)',
+                                         [@profile.id, @task_owner.id]).order('starred desc,resource_file_name asc')
       end
-      render partial: '/course/load_files', locals: { files: @files }
     end
+    render partial: '/course/load_files', locals: { files: @files }
   end
 
   def removed
     status = nil
-    if params[:id] and !params[:id].blank?
+    if params[:id] and params[:id].present?
       @course = Course.find(params[:id])
       @owner = @course.owner
       if @owner and !@owner.nil? and @owner.id == user_session[:profile_id]
@@ -931,25 +930,25 @@ Message.where(['id IN (?) and profile_id = ? and archived = ?', message_ids, @pr
   end
 
   def show_forum
-    if params[:id] and !params[:id].blank?
-      @course = Course.find(params[:id])
-      @profile = Profile.where(['user_id = ?', current_user.id]).first
-      @peoples = Profile.where([
-                                 "participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S') AND users.status != 'D'", @course.id
-                               ])
-                        .includes(%i[participants user])
-                        .joins([:participants])
-      @member = Participant.where([
-                                    "participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id
-                                  ]).first
-      @member_count = @peoples.length
-      @courseMaster = @course.owner
-      message_ids = MessageViewer.where(['viewer_profile_id = ?',
-                                         @profile.id]).select(:message_id).collect(&:message_id)
-      @course_messages = Message.where(["parent_id = ? AND parent_type = 'F' and archived = ? and id in (?)", @course.id,
-                                        false, message_ids]).order('starred DESC, post_date DESC')
-      render partial: '/course/forum_wall'
-    end
+    return unless params[:id] and params[:id].present?
+
+    @course = Course.find(params[:id])
+    @profile = Profile.where(['user_id = ?', current_user.id]).first
+    @peoples = Profile.where([
+                               "participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S') AND users.status != 'D'", @course.id
+                             ])
+                      .includes(%i[participants user])
+                      .joins([:participants])
+    @member = Participant.where([
+                                  "participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id
+                                ]).first
+    @member_count = @peoples.length
+    @courseMaster = @course.owner
+    message_ids = MessageViewer.where(['viewer_profile_id = ?',
+                                       @profile.id]).select(:message_id).collect(&:message_id)
+    @course_messages = Message.where(["parent_id = ? AND parent_type = 'F' and archived = ? and id in (?)", @course.id,
+                                      false, message_ids]).order('starred DESC, post_date DESC')
+    render partial: '/course/forum_wall'
   end
 
   def new_forum
@@ -958,7 +957,7 @@ Message.where(['id IN (?) and profile_id = ? and archived = ?', message_ids, @pr
   end
 
   def save_forum
-    @course = if params[:id] && !params[:id].empty?
+    @course = if params[:id].present?
                 Course.find(params[:id])
               else
                 Course.new
@@ -1071,19 +1070,19 @@ Message.where(['id IN (?) and profile_id = ? and archived = ?', message_ids, @pr
   end
 
   def duplicate
-    if params[:id]
-      courseMaster = Profile.where([
-                                     "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]
-                                   ])
-                            .includes([:participants])
-                            .joins([:participants])
-                            .first
-      if course = Course.find(params[:id]) and courseMaster.id == current_profile.id
-        course.delay.duplicate({ name_ext: 'COPY' }, current_user)
-        render nothing: true, status: 200
-      else
-        render nothing: true, status: 401
-      end
+    return unless params[:id]
+
+    courseMaster = Profile.where([
+                                   "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", params[:id]
+                                 ])
+                          .includes([:participants])
+                          .joins([:participants])
+                          .first
+    if course = Course.find(params[:id]) and courseMaster.id == current_profile.id
+      course.delay.duplicate({ name_ext: 'COPY' }, current_user)
+      render nothing: true, status: :ok
+    else
+      render nothing: true, status: :unauthorized
     end
   end
 
