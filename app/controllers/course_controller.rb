@@ -481,7 +481,7 @@ class CourseController < ApplicationController
         status = true
       end
     end
-    render body: { status: status }
+  render body: { status: status }.to_json
   end
 
   def delete_participant
