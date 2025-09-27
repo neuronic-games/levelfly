@@ -112,4 +112,25 @@ RSpec.describe 'Groups', type: :request do
       expect(group_one.join_type).to eq('C')
     end
   end
+
+  context 'when POST /group_viewing' do
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :group_viewing),
+           params: { id: group_one.id, visibility_type: 'C' }
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'changes group visibility setting' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :group_viewing),
+           params: { id: group_one.id, visibility_type: 'C' }
+
+      response_parsed = JSON.parse(response.body)
+
+      group_one.reload
+      expect(response_parsed['status']).to be true
+      expect(group_one.visibility_type).to eq('C')
+    end
+  end
 end
