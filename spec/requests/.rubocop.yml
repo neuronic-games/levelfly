@@ -1,5 +1,5 @@
 RSpec/MultipleExpectations:
-  Max: 5
+  Max: 8
 
 RSpec/LetSetup:
   Enabled: False
