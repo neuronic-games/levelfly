@@ -6,11 +6,42 @@
 require 'rails_helper'
 
 RSpec.describe 'Attachments' do
-  let!(:course_one) { create(:course, school: school_demo, owner: profile_one) }
+  let(:course_one) { create(:course, school: school_demo, owner: profile_one) }
+  let(:user_two) { create(:user, default_school: school_demo) }
 
   before do
     create(:participant, target: course_one, target_type: 'Course', profile: profile_one,
                          profile_type: 'M')
+  end
+
+  context 'when GET /download' do
+    let(:attachment) { create(:attachment, target: course_one, target_type: 'Course') }
+    let(:params) { { id: attachment.id } }
+
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :download),
+           params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'denies unrelated user' do
+      sign_in user_two
+
+      post url_for(controller: 'course', action: :download),
+           params: params
+
+      expect(response.status).to eq(:forbidden)
+    end
+
+    it 'shows file download dialog' do
+      skip 'Need to verify if this is intended behaviour, see note in course_controller.rb'
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :download),
+           params: params
+
+      expect(response).to render_template 'course/_download_dialog'
+    end
   end
 
   context 'when POST /add_file' do

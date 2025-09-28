@@ -212,6 +212,7 @@ Oncapus::Application.routes.draw do
 
   post 'course/share_outcome'
 
+  # TODO: Doesn't modify data, should be a GET?
   post 'course/download'
 
   post 'course/load_files'

@@ -774,6 +774,7 @@ class CourseController < ApplicationController
   end
 
   def download
+    # FIXME: Doesn't appear to check course membership? i.e. can view any file by ID
     return unless params[:id] and params[:id].present?
 
     @attachment = Attachment.find(params[:id])
