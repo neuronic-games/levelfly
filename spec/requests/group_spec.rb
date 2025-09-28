@@ -148,4 +148,6 @@ RSpec.describe 'Groups', type: :request do
       expect(group_one.visibility_type).to eq('C')
     end
   end
+
+  # TODO: Test /show_course with section_type: 'G'
 end

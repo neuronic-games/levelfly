@@ -486,4 +486,24 @@ RSpec.describe 'Courses' do
       expect(Category.count).to eq(0)
     end
   end
+
+  context 'when GET /show_course' do
+    let(:params) { { id: course_one.id, section_type: 'C', value: 1 } }
+
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :show_course),
+           params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'shows the course' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :show_course),
+           params: params
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include(course_one.name)
+    end
+  end
 end

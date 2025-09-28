@@ -151,6 +151,7 @@ Oncapus::Application.routes.draw do
 
   get 'course/show'
 
+  # TODO: Doesn't modify data, should be a GET?
   post 'course/show_course'
 
   post 'course/set_archive'
