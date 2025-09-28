@@ -3,9 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Grade books' do
-  let!(:user_one) { User.first }
-  let!(:school_demo) { School.find_by!(handle: 'demo') }
-  let!(:profile_one)  { user_one.profiles.first }
   let!(:course_one) { create(:course, school: school_demo, owner: profile_one) }
 
   context 'when GET /index' do
@@ -26,8 +23,11 @@ RSpec.describe 'Grade books' do
   end
 
   context 'when POST /filter' do
+    let(:params) { { filter: 'past' } }
+
     it 'redirects to login if unauthenticated' do
-      post url_for(controller: 'grade_book', action: :filter)
+      post url_for(controller: 'grade_book', action: :filter),
+           params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
@@ -35,16 +35,18 @@ RSpec.describe 'Grade books' do
       sign_in user_one
       post url_for(controller: 'grade_book', action: :filter),
            xhr: true,
-           params: { filter: 'past' }
+           params: params
       expect(response.body).to render_template 'grade_book/_load_data'
       expect(response.body).not_to include course_one.name
     end
   end
 
   context 'when POST /grading_complete' do
+    let(:params) { { id: course_one.id } }
+
     it 'redirects to login if unauthenticated' do
       post url_for(controller: 'grade_book', action: :grading_complete),
-           params: { id: course_one.id }
+           params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
@@ -52,7 +54,7 @@ RSpec.describe 'Grade books' do
       sign_in user_one
       post url_for(controller: 'grade_book', action: :grading_complete),
            xhr: true,
-           params: { id: course_one.id }
+           params: params
 
       expect(response.parsed_body['running']).to be true
     end

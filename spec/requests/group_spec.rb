@@ -6,10 +6,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Groups', type: :request do
-  let!(:user_one) { User.first }
-  let!(:school_demo) { School.find_by!(handle: 'demo') }
-  let!(:profile_one) { user_one.profiles.first }
-
   let!(:group_one) { create(:course, :group, school: school_demo, owner: profile_one) }
 
   before do
@@ -27,9 +23,11 @@ RSpec.describe 'Groups', type: :request do
   end
 
   context 'when GET /view_group_setup' do
+    let(:params) { { id: group_one.id } }
+
     it 'redirects to login if unauthenticated' do
       get url_for(controller: 'course', action: :view_group_setup),
-          params: { id: group_one.id }
+          params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
@@ -37,7 +35,7 @@ RSpec.describe 'Groups', type: :request do
       sign_in user_one
 
       get url_for(controller: 'course', action: :view_group_setup),
-          params: { id: group_one.id }
+          params: params
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include CGI.escapeHTML(group_one.name)
@@ -45,9 +43,11 @@ RSpec.describe 'Groups', type: :request do
   end
 
   context 'when POST /filter' do
+    let(:params) { { filter: 'M', section_type: Course.parent_type_group } }
+
     it 'redirects to login if unauthenticated' do
       post url_for(controller: 'course', action: :filter),
-           params: { filter: 'M', section_type: Course.parent_type_group }
+           params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
@@ -61,7 +61,7 @@ RSpec.describe 'Groups', type: :request do
                            profile_type: 'M')
 
       post url_for(controller: 'course', action: :filter),
-           params: { filter: 'M', section_type: Course.parent_type_group }
+           params: params
       expect(response).to have_http_status(:ok)
       expect(response.body).to include group_one.name
       expect(response.body).not_to include group_two.name
@@ -76,9 +76,11 @@ RSpec.describe 'Groups', type: :request do
   end
 
   context 'when POST /send_group_invitation' do
+    let(:params) { { id: group_one.id } }
+
     it 'redirects to login if unauthenticated' do
       post url_for(controller: 'course', action: :send_group_invitation),
-           params: { id: group_one.id }
+           params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
@@ -89,7 +91,7 @@ RSpec.describe 'Groups', type: :request do
       sign_in user_two
 
       post url_for(controller: 'course', action: :send_group_invitation),
-           params: { id: group_one.id }
+           params: params
 
       expect(response).to have_http_status(:ok)
 
@@ -102,9 +104,11 @@ RSpec.describe 'Groups', type: :request do
   end
 
   context 'when POST /group_joinning' do
+    let(:params) { { id: group_one.id, join_type: 'C' } }
+
     it 'redirects to login if unauthenticated' do
       post url_for(controller: 'course', action: :group_joinning),
-           params: { id: group_one.id }
+           params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
@@ -112,7 +116,7 @@ RSpec.describe 'Groups', type: :request do
       sign_in user_one
 
       post url_for(controller: 'course', action: :group_joinning),
-           params: { id: group_one.id, join_type: 'C' }
+           params: params
 
       response_parsed = JSON.parse(response.body)
 
@@ -123,9 +127,11 @@ RSpec.describe 'Groups', type: :request do
   end
 
   context 'when POST /group_viewing' do
+    let(:params) { { id: group_one.id, visibility_type: 'C' } }
+
     it 'redirects to login if unauthenticated' do
       post url_for(controller: 'course', action: :group_viewing),
-           params: { id: group_one.id, visibility_type: 'C' }
+           params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
@@ -133,7 +139,7 @@ RSpec.describe 'Groups', type: :request do
       sign_in user_one
 
       post url_for(controller: 'course', action: :group_viewing),
-           params: { id: group_one.id, visibility_type: 'C' }
+           params: params
 
       response_parsed = JSON.parse(response.body)
 

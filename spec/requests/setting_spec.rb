@@ -3,8 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Settings', type: :request do
-  let!(:user_one) { User.first }
-  let!(:school_demo) { School.find_by!(handle: 'demo') }
   let!(:setting_one) { create(:setting, target_id: school_demo.id) }
 
   context 'when GET /index' do

@@ -3,9 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Tasks' do
-  let!(:user_one) { User.first }
-  let!(:school_demo) { School.find_by!(handle: 'demo') }
-  let!(:profile_one) { user_one.profiles.first }
   let!(:course_one) { create(:course, school: school_demo, owner: profile_one) }
   let!(:task_one) { create(:task, school: school_demo, course: course_one) }
 
@@ -14,31 +11,36 @@ RSpec.describe 'Tasks' do
   end
 
   context 'when GET /index' do
+    let(:params) { { course_id: course_one.id } }
+
     it 'redirects to login if unauthenticated' do
       get url_for(controller: 'task', action: :index),
-          params: { course_id: course_one.id }
+          params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
     it 'renders index page' do
       sign_in user_one
       get url_for(controller: 'task', action: :index),
-          params: { course_id: course_one.id }
+          params: params
       expect(response.body).to include task_one.name
     end
   end
 
   context 'when POST /save' do
+    let(:task_name) { Faker::Lorem.sentence }
+    let(:params) { { task: task_name, course_id: course_one.id, school_id: school_demo.id } }
+
     it 'redirects to login if unauthenticated' do
-      post url_for controller: 'task', action: :save
+      post url_for(controller: 'task', action: :save),
+           params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
     it 'saves a new task' do
       sign_in user_one
-      task_name = Faker::Lorem.sentence
       post url_for(controller: 'task', action: :save),
-           params: { task: task_name, course_id: course_one.id, school_id: school_demo.id }
+           params: params
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include task_name

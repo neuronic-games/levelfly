@@ -3,9 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Courses' do
-  let!(:user_one) { User.first }
-  let!(:school_demo) { School.find_by!(handle: 'demo') }
-  let!(:profile_one)  { user_one.profiles.first }
   let!(:course_one) { create(:course, school: school_demo, owner: profile_one) }
   let!(:user_two) { create(:user, default_school: school_demo) }
   let!(:profile_two) { create(:profile, user: user_two, school: school_demo) }

@@ -3,8 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Reward', type: :request do
-  let!(:user_one) { User.first }
-
   let!(:reward_one) { FactoryBot.create(:reward, target_type: 'wardrobe', target_id: Wardrobe.second.id) }
 
   context 'when GET /index' do

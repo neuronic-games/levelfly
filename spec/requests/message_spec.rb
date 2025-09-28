@@ -3,8 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Messages', type: :request do
-  let!(:user_one) { User.first }
-  let!(:profile_one) { user_one.profiles.first }
   let!(:wall_one) { create(:wall, parent: profile_one) }
   let!(:message_one) { create(:message, profile: profile_one, target: profile_one, wall: wall_one, target_type: '') }
 
@@ -29,19 +27,24 @@ RSpec.describe 'Messages', type: :request do
   end
 
   context 'when POST /message/save' do
+    let(:message_text) { Faker::Lorem.sentence }
+    let(:params) do
+      FactoryBot.attributes_for(:message, content: message_text, profile: profile_one, target: profile_one,
+                                          wall: wall_one,
+                                          target_type: '')
+                .merge({ parent_id: profile_one.id })
+    end
+
     it 'redirects to login if unauthenticated' do
-      post url_for controller: 'message', action: :save
+      post url_for(controller: 'message', action: :save),
+           params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
     it 'saves a new message' do
       sign_in user_one
-      message_text = Faker::Lorem.sentence
       post url_for(controller: 'message', action: :save),
-           params: FactoryBot.attributes_for(:message, content: message_text, profile: profile_one, target: profile_one,
-                                                       wall: wall_one,
-                                                       target_type: '')
-                             .merge({ parent_id: profile_one.id })
+           params: params
 
       expect(response.status).to eq(200)
       expect(response.body).to include message_text

@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Wardrobes' do
-  let!(:user_one) { User.first }
   let!(:wardrobe_one) { Wardrobe.first }
   let!(:wardrobe_item_one) { WardrobeItem.first }
 
@@ -22,9 +21,11 @@ RSpec.describe 'Wardrobes' do
   end
 
   context 'when GET /show' do
+    let(:params) { { wardrobe: wardrobe_one.id, id: wardrobe_item_one.id } }
+
     it 'redirects to login if unauthenticated' do
       get url_for(controller: 'wardrobe', action: :show),
-          params: { wardrobe: wardrobe_one.id, id: wardrobe_item_one.id }
+          params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
@@ -32,7 +33,7 @@ RSpec.describe 'Wardrobes' do
       sign_in user_one
       get url_for(controller: 'wardrobe', action: :show),
           xhr: true,
-          params: { wardrobe: wardrobe_one.id, id: wardrobe_item_one.id }
+          params: params
       expect(response.body).to render_template 'wardrobe/_form'
       expect(response.body).to include wardrobe_item_one.name
     end

@@ -3,10 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Gamecenter' do
-  let!(:user_one) { User.first }
-  let!(:school_demo) { School.find_by!(handle: 'demo') }
-  let!(:profile_one) { user_one.profiles.first }
-
   let!(:game_one) { create(:game, school: school_demo) }
 
   before do
@@ -17,9 +13,11 @@ RSpec.describe 'Gamecenter' do
   # TODO: Test index
 
   context 'when GET /get_rows' do
+    let(:params) {{ filter: 'gameboard' }}
+
     it 'redirects to login if unauthenticated' do
       get url_for(controller: 'gamecenter', action: :get_rows),
-          params: { filter: 'archived' }
+          params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
@@ -28,7 +26,7 @@ RSpec.describe 'Gamecenter' do
 
       get url_for(controller: 'gamecenter', action: :get_rows),
           xhr: true,
-          params: { filter: 'gameboard' }
+          params: params
       expect(response.body).to render_template 'gamecenter/_rows'
       expect(response.body).to include CGI.escapeHTML(game_one.name)
 
