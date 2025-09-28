@@ -232,12 +232,12 @@ RSpec.describe 'Courses' do
 
       expect(response_parsed['status']).to be true
 
-      require 'pry'; binding.pry
-
       expect(ActionMailer::Base.deliveries.length).to eq 2
       sent_message = ActionMailer::Base.deliveries.first
       expect(sent_message.recipients).to include user_one.email
       expect(sent_message.body.parts.first.to_s).to include message_text
+
+      Delayed::Worker.delay_jobs = true
     end
   end
 end
