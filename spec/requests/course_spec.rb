@@ -10,6 +10,12 @@ RSpec.describe 'Courses' do
   let!(:user_two) { create(:user, default_school: school_demo) }
   let!(:profile_two) { create(:profile, user: user_two, school: school_demo) }
 
+  let(:outcome) do
+    outcome = create(:outcome, school_id: school_demo.id)
+    course_one.outcomes << outcome
+    return outcome
+  end
+
   before do
     create(:participant, target: course_one, target_type: 'Course', profile: profile_one,
                          profile_type: 'M')
@@ -268,12 +274,6 @@ RSpec.describe 'Courses' do
   end
 
   context 'when POST /remove_course_outcomes' do
-    let!(:outcome) do
-      outcome = create(:outcome, school_id: school_demo.id)
-      course_one.outcomes << outcome
-      return outcome
-    end
-
     it 'redirects to login if unauthenticated' do
       post url_for(controller: 'course', action: :remove_course_outcomes),
            params: { course_id: course_one.id, outcomes: outcome.id }
@@ -304,43 +304,114 @@ RSpec.describe 'Courses' do
       response_parsed = JSON.parse(response.body)
       expect(response_parsed['status']).to eq('true')
 
-      expect(course_one.outcomes).to_not include outcome
+      expect(course_one.outcomes).not_to include outcome
       # Shouldn't delete the outcome completely
-      expect{outcome.reload}.not_to raise_exception ActiveRecord::RecordNotFound
+      expect { outcome.reload }.not_to raise_exception ActiveRecord::RecordNotFound
     end
   end
 
   context 'when POST /remove_course_files' do
-    let!(:attachment) { create(:attachment, school: school_demo, owner: profile_one, target: course_one, target_type: 'Course' )}
+    let!(:attachment) do
+      create(:attachment, school: school_demo, owner: profile_one, target: course_one, target_type: 'Course')
+    end
 
     it 'redirects to login if unauthenticated' do
       post url_for(controller: 'course', action: :remove_course_files),
-        params: { files: attachment.id }
+           params: { files: attachment.id }
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    xit 'denies unrelated user' do
-      # FIXME: See note in course_controller.rb
+    it 'denies unrelated user' do
+      skip 'Need to verify if this is intended behaviour, see note in course_controller.rb'
       sign_in user_two
 
       post url_for(controller: 'course', action: :remove_course_files),
-        params: { files: attachment.id }
+           params: { files: attachment.id }
 
       expect(response.status).to eq(:forbidden)
 
       expect { attachment.reload }.not_to raise_exception ActiveRecord::RecordNotFound
-    end 
+    end
 
     it 'removes attachment' do
       sign_in user_one
 
       post url_for(controller: 'course', action: :remove_course_files),
-        params: { files: attachment.id }
+           params: { files: attachment.id }
 
       response_parsed = JSON.parse(response.body)
       expect(response_parsed['status']).to eq('true')
 
       expect { attachment.reload }.to raise_exception ActiveRecord::RecordNotFound
+    end
+  end
+
+  context 'when POST /share_outcome' do
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :share_outcome),
+           params: { course_id: course_one.id, outcome_id: outcome.id }
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'denies unrelated user' do
+      skip 'Need to verify if this is intended behaviour, see note in course_controller.rb'
+      sign_in user_two
+
+      post url_for(controller: 'course', action: :share_outcome),
+           params: { course_id: course_one.id, outcome_id: outcome.id }
+
+      expect(response.status).to eq(:forbidden)
+
+      expect { attachment.reload }.not_to raise_exception ActiveRecord::RecordNotFound
+    end
+
+    it 'makes outcome shared' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :share_outcome),
+           params: { course_id: course_one.id, outcome_id: outcome.id }
+
+      response_parsed = JSON.parse(response.body)
+      expect(response_parsed['status']).to eq('true')
+
+      outcome.reload
+      expect(outcome.shared).to be true
+    end
+  end
+
+  context 'when POST /update_course_outcomes' do
+    let(:outcome_new) { build(:outcome) }
+
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :update_course_outcomes),
+           params: { outcome_id: outcome.id, outcome: outcome_new.name, outcome_descr: outcome_new.descr }
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'denies unrelated user' do
+      skip 'Need to verify if this is intended behaviour, see note in course_controller.rb'
+      sign_in user_two
+
+      post url_for(controller: 'course', action: :update_course_outcomes),
+           params: { outcome_id: outcome.id, outcome: outcome_new.name, outcome_descr: outcome_new.descr }
+
+      expect(response.status).to eq(:forbidden)
+
+      outcome.reload
+      expect(outcome.name).not_to eq(outcome_new.name)
+    end
+
+    it 'updates outcome' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :update_course_outcomes),
+           params: { outcome_id: outcome.id, outcome: outcome_new.name, outcome_descr: outcome_new.descr }
+
+      response_parsed = JSON.parse(response.body)
+      expect(response_parsed['status']).to eq('true')
+
+      outcome.reload
+      expect(outcome.name).to eq(outcome_new.name)
     end
   end
 end
