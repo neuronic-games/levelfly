@@ -89,7 +89,7 @@ RSpec.describe 'Courses' do
     end
   end
 
-  context 'when GET /view_setup' do
+  context 'when POST /view_setup' do
     it 'redirects to login if unauthenticated' do
       get url_for controller: 'course', action: :view_setup,
                   params: { id: course_one.id }
@@ -487,23 +487,38 @@ RSpec.describe 'Courses' do
     end
   end
 
-  context 'when GET /show_course' do
-    let(:params) { { id: course_one.id, section_type: 'C', value: 1 } }
+  context 'when GET /view_member' do
+    let(:params) { { id: course_one.id } }
 
     it 'redirects to login if unauthenticated' do
-      post url_for(controller: 'course', action: :show_course),
-           params: params
+      get url_for(controller: 'course', action: :view_member),
+          params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
     it 'shows the course' do
       sign_in user_one
 
-      post url_for(controller: 'course', action: :show_course),
-           params: params
+      create(:participant, target: course_one, target_type: 'Course', profile: profile_two,
+                           profile_type: 'S')
+
+      get url_for(controller: 'course', action: :view_member),
+          params: params
 
       expect(response.status).to eq(200)
-      expect(response.body).to include(course_one.name)
+      expect(response).to render_template 'course/_member_list'
+      expect(response.body).to include(participant_two.profile.full_name)
+    end
+
+    it 'only shows course participants' do
+      sign_in user_one
+
+      get url_for(controller: 'course', action: :view_member),
+          params: params
+
+      expect(response.status).to eq(200)
+      expect(response).to render_template 'course/_member_list'
+      expect(response.body).not_to include(participant_two.profile.full_name)
     end
   end
 end
