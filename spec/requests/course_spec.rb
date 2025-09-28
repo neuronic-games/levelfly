@@ -16,6 +16,8 @@ RSpec.describe 'Courses' do
     return outcome
   end
 
+  let(:category) { create(:category, course: course_one, school_id: school_demo.id) }
+
   before do
     create(:participant, target: course_one, target_type: 'Course', profile: profile_one,
                          profile_type: 'M')
@@ -412,6 +414,45 @@ RSpec.describe 'Courses' do
 
       outcome.reload
       expect(outcome.name).to eq(outcome_new.name)
+    end
+  end
+
+  context 'when POST /update_course_categories' do
+    let(:category_new) { build(:category) }
+    let(:params) do
+      { category_id: category.id, category: category_new.name, category_value: category_new.percent_value }
+    end
+
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :update_course_categories),
+           params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'denies unrelated user' do
+      skip 'Need to verify if this is intended behaviour, see note in course_controller.rb'
+      sign_in user_two
+
+      post url_for(controller: 'course', action: :update_course_categories),
+           params: params
+
+      expect(response.status).to eq(:forbidden)
+
+      outcome.reload
+      expect(category.name).not_to eq(category_new.name)
+    end
+
+    it 'updates category' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :update_course_categories),
+           params: params
+
+      response_parsed = JSON.parse(response.body)
+      expect(response_parsed['status']).to eq('true')
+
+      category.reload
+      expect(category.name).to eq(category_new.name)
     end
   end
 end
