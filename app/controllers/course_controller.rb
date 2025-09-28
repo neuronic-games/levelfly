@@ -801,12 +801,11 @@ class CourseController < ApplicationController
     course_ids = Course.where(['course_id = ?', @course.id]).collect(&:id).push(@course.id)
     message_ids = Like.where(['course_id in (?)', course_ids]).select('message_id').collect(&:message_id)
     message_ids = message_ids.uniq
-    @likes =
-
-
-      
-Message.where(['id IN (?) and profile_id = ? and archived = ?', message_ids, @profile.id, false]).select('messages.like'), collect(&:like).sum
-    @course_grade, = CourseGrade.load_grade(@profile.id, @course.id, @profile.school_id)
+    @likes = Message.where(['id IN (?) and profile_id = ? and archived = ?', message_ids, @profile.id, false])
+      .select('messages.like')
+      .collect(&:like)
+      .sum
+    @course_grade = CourseGrade.load_grade(@profile.id, @course.id, @profile.school_id)
     unless @course_grade.nil?
       @course_grade.each do |_key, val|
         @grade.push(val)
@@ -815,7 +814,7 @@ Message.where(['id IN (?) and profile_id = ? and archived = ?', message_ids, @pr
       end
     end
     @outcomes = @course.outcomes.order('name')
-    unless @outcomes.nil?
+    unless @outcomes.empty?
       @points, @course_xp = CourseGrade.get_outcomes(@course.id, @outcomes, @profile.school_id, @profile.id)
     end
     unless @profile.nil?
