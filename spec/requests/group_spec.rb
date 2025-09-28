@@ -17,6 +17,15 @@ RSpec.describe 'Groups', type: :request do
                          profile_type: 'M')
   end
 
+  context 'when GET /Index' do
+    it 'renders index page' do
+      sign_in user_one
+      get url_for controller: 'course', action: :index,
+                  params: { section_type: 'G' }
+      expect(response.body).to include group_one.name
+    end
+  end
+
   context 'when GET /view_group_setup' do
     it 'redirects to login if unauthenticated' do
       get url_for(controller: 'course', action: :view_group_setup),
