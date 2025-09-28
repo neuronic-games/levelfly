@@ -259,6 +259,10 @@ RSpec.describe 'Courses' do
       post url_for(controller: 'course', action: :delete_participant),
            params: { course_id: course_one.id, profile_id: profile_two.id }
 
+      response_parsed = JSON.parse(response.body)
+
+      expect(response_parsed['status']).to be true
+
       expect { participant_two.reload }.to raise_exception ActiveRecord::RecordNotFound
     end
   end
