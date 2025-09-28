@@ -507,7 +507,7 @@ RSpec.describe 'Courses' do
 
       expect(response.status).to eq(200)
       expect(response).to render_template 'course/_member_list'
-      expect(response.body).to include(participant_two.profile.full_name)
+      expect(response.body).to include(profile_two.full_name)
     end
 
     it 'only shows course participants' do
@@ -518,7 +518,7 @@ RSpec.describe 'Courses' do
 
       expect(response.status).to eq(200)
       expect(response).to render_template 'course/_member_list'
-      expect(response.body).not_to include(participant_two.profile.full_name)
+      expect(response.body).not_to include(profile_two.full_name)
     end
   end
 end
