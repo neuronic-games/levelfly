@@ -534,6 +534,7 @@ class CourseController < ApplicationController
   end
 
   def remove_course_outcomes
+    # FIXME: Appears to allow removing outcomes from any course regardless of membership or role?
     return unless params[:outcomes] && !params[:outcomes].nil?
 
     if Outcome.find(params[:outcomes]).shared == true && !params[:course_id].nil?
@@ -547,6 +548,7 @@ class CourseController < ApplicationController
   end
 
   def remove_course_files
+    # FIXME: Appears to allow removing a file from any course regardless of membership or role?
     return unless params[:files] && !params[:files].nil?
 
     Attachment.destroy(params[:files])

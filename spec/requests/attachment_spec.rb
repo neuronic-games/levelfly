@@ -27,7 +27,6 @@ RSpec.describe 'Attachments' do
       post url_for(controller: 'course', action: :add_file),
            params: { file: Rack::Test::UploadedFile.new('app/assets/images/rails.png', 'image/png'), school_id: school_demo.id, id: course_one.id, target_type: 'Course', profile_id: profile_one.id }
 
-      File.write('crash.html', response.body)
       expect(response).to have_http_status(:ok)
       expect(response.body).to include 'rails.png'
 

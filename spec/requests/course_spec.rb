@@ -309,4 +309,38 @@ RSpec.describe 'Courses' do
       expect{outcome.reload}.not_to raise_exception ActiveRecord::RecordNotFound
     end
   end
+
+  context 'when POST /remove_course_files' do
+    let!(:attachment) { create(:attachment, school: school_demo, owner: profile_one, target: course_one, target_type: 'Course' )}
+
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :remove_course_files),
+        params: { files: attachment.id }
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    xit 'denies unrelated user' do
+      # FIXME: See note in course_controller.rb
+      sign_in user_two
+
+      post url_for(controller: 'course', action: :remove_course_files),
+        params: { files: attachment.id }
+
+      expect(response.status).to eq(:forbidden)
+
+      expect { attachment.reload }.not_to raise_exception ActiveRecord::RecordNotFound
+    end 
+
+    it 'removes attachment' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :remove_course_files),
+        params: { files: attachment.id }
+
+      response_parsed = JSON.parse(response.body)
+      expect(response_parsed['status']).to eq('true')
+
+      expect { attachment.reload }.to raise_exception ActiveRecord::RecordNotFound
+    end
+  end
 end
