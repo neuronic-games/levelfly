@@ -266,4 +266,30 @@ RSpec.describe 'Courses' do
       expect { participant_two.reload }.to raise_exception ActiveRecord::RecordNotFound
     end
   end
+
+  context 'when POST /remove_course_outcomes' do
+    let!(:outcome) do
+      outcome = create(:outcome, school_id: school_demo.id)
+      course_one.outcomes << outcome
+      return outcome
+    end
+
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :remove_course_outcomes),
+           params: { course_id: course_one.id, outcomes: outcome.id }
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'removes outcome' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :remove_course_outcomes),
+           params: { course_id: course_one.id, outcomes: outcome.id }
+
+      response_parsed = JSON.parse(response.body)
+      expect(response_parsed['status']).to eq('true')
+
+      expect { outcome.reload }.to raise_exception ActiveRecord::RecordNotFound
+    end
+  end
 end

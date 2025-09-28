@@ -542,6 +542,7 @@ class CourseController < ApplicationController
     else
       Outcome.destroy(params[:outcomes])
     end
+    # TODO: Inconsistent string 'true', other methods return boolean true
     render body: { 'status' => 'true' }.to_json
   end
 
@@ -549,6 +550,7 @@ class CourseController < ApplicationController
     return unless params[:files] && !params[:files].nil?
 
     Attachment.destroy(params[:files])
+    # TODO: Inconsistent string 'true', other methods return boolean true
     render body: { 'status' => 'true' }.to_json
   end
 
@@ -560,6 +562,7 @@ class CourseController < ApplicationController
 
     @outcome.shared = true
     @outcome.save
+    # TODO: Inconsistent string 'true', other methods return boolean true
     render body: { 'status' => 'true' }.to_json
   end
 
@@ -570,6 +573,7 @@ class CourseController < ApplicationController
       outcome.descr = params[:outcome_descr] if params[:outcome_descr].present?
       outcome.save
     end
+    # TODO: Inconsistent string 'true', other methods return boolean true
     render body: { 'status' => 'true' }.to_json
   end
 
@@ -580,6 +584,7 @@ class CourseController < ApplicationController
       category.percent_value = params[:category_value] if params[:category_value].present?
       category.save
     end
+    # TODO: Inconsistent string 'true', other methods return boolean true
     render body: { 'status' => 'true' }.to_json
   end
 
@@ -588,6 +593,7 @@ class CourseController < ApplicationController
 
     category_array = params[:categories].split(',')
     Category.destroy(category_array)
+    # TODO: Inconsistent string 'true', other methods return boolean true
     render body: { 'status' => 'true' }.to_json
   end
 
