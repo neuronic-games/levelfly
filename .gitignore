@@ -7,7 +7,6 @@
 /log/
 /tmp/
 /.sass-cache/
-/db/schema.rb
 /public/assets
 /bin/
 
