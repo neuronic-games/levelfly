@@ -240,4 +240,26 @@ RSpec.describe 'Courses' do
       Delayed::Worker.delay_jobs = true
     end
   end
+
+  context 'when POST /delete_participant' do
+    let!(:participant_two) do
+      create(:participant, target: course_one, target_type: 'Course', profile: profile_two,
+                           profile_type: 'S')
+    end
+
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :delete_participant),
+           params: { course_id: course_one.id, participant_id: participant_two.id }
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'deletes participant' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :delete_participant),
+           params: { course_id: course_one.id, profile_id: profile_two.id }
+
+      expect { participant_two.reload }.to raise_exception ActiveRecord::RecordNotFound
+    end
+  end
 end
