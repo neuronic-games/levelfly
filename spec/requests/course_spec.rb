@@ -521,4 +521,24 @@ RSpec.describe 'Courses' do
       expect(response.body).not_to include(profile_two.full_name)
     end
   end
+
+  context 'when POST /course_stats' do
+    let(:params) { { id: course_one.id } }
+
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :course_stats),
+           params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'shows course stats' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :course_stats),
+           params: params
+
+      expect(response.status).to eq(200)
+      expect(response).to render_template 'course/_stats'
+    end
+  end
 end

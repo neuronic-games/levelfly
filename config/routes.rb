@@ -162,6 +162,7 @@ Oncapus::Application.routes.draw do
 
   get 'course/view_member'
 
+  # TODO: Doesn't modify data, should be a GET?
   post 'course/course_stats'
 
   post 'course/top_achivers'
