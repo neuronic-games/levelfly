@@ -766,6 +766,7 @@ class CourseController < ApplicationController
                                  school_id: school_id, owner_id: user_session[:profile_id])
     if @attachment.save
       @url = @attachment.resource.url
+      # FIXME: Remove debugging output?
       puts "#{@url}--#{params[:target_type]}"
     end
     # end

@@ -306,7 +306,7 @@ RSpec.describe 'Courses' do
 
       expect(course_one.outcomes).not_to include outcome
       # Shouldn't delete the outcome completely
-      expect { outcome.reload }.not_to raise_exception ActiveRecord::RecordNotFound
+      expect { outcome.reload }.not_to raise_exception
     end
   end
 
