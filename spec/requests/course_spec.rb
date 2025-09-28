@@ -280,7 +280,7 @@ RSpec.describe 'Courses' do
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'removes outcome' do
+    it 'removes un-shared outcome' do
       sign_in user_one
 
       post url_for(controller: 'course', action: :remove_course_outcomes),
@@ -290,6 +290,23 @@ RSpec.describe 'Courses' do
       expect(response_parsed['status']).to eq('true')
 
       expect { outcome.reload }.to raise_exception ActiveRecord::RecordNotFound
+    end
+
+    it 'removes shared outcome' do
+      sign_in user_one
+
+      outcome.shared = true
+      outcome.save
+
+      post url_for(controller: 'course', action: :remove_course_outcomes),
+           params: { course_id: course_one.id, outcomes: outcome.id }
+
+      response_parsed = JSON.parse(response.body)
+      expect(response_parsed['status']).to eq('true')
+
+      expect(course_one.outcomes).to_not include outcome
+      # Shouldn't delete the outcome completely
+      expect{outcome.reload}.not_to raise_exception ActiveRecord::RecordNotFound
     end
   end
 end
