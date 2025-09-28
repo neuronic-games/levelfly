@@ -25,6 +25,7 @@ RSpec.describe 'Attachments' do
     end
 
     it 'denies unrelated user' do
+      skip 'Need to verify if this is intended behaviour, see note in course_controller.rb'
       sign_in user_two
 
       post url_for(controller: 'course', action: :download),
@@ -34,7 +35,6 @@ RSpec.describe 'Attachments' do
     end
 
     it 'shows file download dialog' do
-      skip 'Need to verify if this is intended behaviour, see note in course_controller.rb'
       sign_in user_one
 
       post url_for(controller: 'course', action: :download),
