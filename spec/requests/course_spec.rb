@@ -215,6 +215,8 @@ RSpec.describe 'Courses' do
     end
 
     it 'emails participants' do
+      Delayed::Worker.delay_jobs = false
+
       sign_in user_one
 
       create(:participant, target: course_one, target_type: 'Course', profile: profile_two,
@@ -229,6 +231,8 @@ RSpec.describe 'Courses' do
       response_parsed = JSON.parse(response.body)
 
       expect(response_parsed['status']).to be true
+
+      require 'pry'; binding.pry
 
       expect(ActionMailer::Base.deliveries.length).to eq 2
       sent_message = ActionMailer::Base.deliveries.first
