@@ -209,7 +209,7 @@ RSpec.describe 'Courses' do
   context 'when POST /send_email_to_all_participants' do
     it 'redirects to login if unauthenticated' do
       post url_for(controller: 'course', action: :send_email_to_all_participants),
-           params: { id: course_one.id, post_message: 'true', mail_msg: Faker::Hipster.sentence }
+           params: { id: course_one.id, post_message: 'true', mail_msg: Faker::Lorem.sentence }
       expect(response).to redirect_to '/users/sign_in'
     end
 
@@ -222,7 +222,7 @@ RSpec.describe 'Courses' do
                            profile_type: 'S')
       create(:wall, parent: profile_one)
 
-      message_text = Faker::Hipster.sentence
+      message_text = Faker::Lorem.sentence
 
       post url_for(controller: 'course', action: :send_email_to_all_participants),
            params: { id: course_one.id, post_message: 'true', mail_msg: message_text }
