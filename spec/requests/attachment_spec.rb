@@ -112,4 +112,37 @@ RSpec.describe 'Attachments' do
       expect(json_body['starred']).to be true
     end
   end
+
+  context 'when POST /load_files' do
+    let!(:attachment) { create(:attachment, target: course_one, target_type: 'Course', owner: profile_one) }
+
+    let(:params) { { id: 'all', course_id: course_one.id, profile_id: profile_one.id } }
+
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :load_files),
+           params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'denies unrelated user' do
+      skip 'Need to verify if this is intended behaviour, see note in course_controller.rb'
+      sign_in user_two
+
+      post url_for(controller: 'course', action: :load_files),
+           params: params
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it 'loads course files' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :load_files),
+           params: params
+
+      expect(response).to have_http_status(:ok)
+      expect(response).to render_template 'course/_load_files'
+      expect(response.body).to include attachment.resource_file_name
+    end
+  end
 end

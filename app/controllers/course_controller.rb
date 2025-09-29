@@ -895,6 +895,7 @@ class CourseController < ApplicationController
   end
 
   def load_files
+    # FIXME: Doesn't appear to check course membership? i.e. can view any file by ID
     return unless params[:id] and params[:id].present?
 
     id = params[:id]

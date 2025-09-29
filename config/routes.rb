@@ -218,6 +218,7 @@ Oncapus::Application.routes.draw do
   # TODO: Doesn't modify data, should be a GET?
   post 'course/download'
 
+  # TODO: Doesn't modify data, should be a GET?
   post 'course/load_files'
 
   post 'course/removed'
