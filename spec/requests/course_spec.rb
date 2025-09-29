@@ -644,4 +644,43 @@ RSpec.describe 'Courses' do
       expect(course_one.archived).to be false
     end
   end
+
+  context 'when POST /removed' do
+    let(:params) { { id: course_one.id } }
+
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :removed),
+           params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'leaves course' do
+      sign_in user_two
+
+      participant_two = create(:participant, target: course_one, target_type: 'Course', profile: profile_two,
+                                             profile_type: 'S')
+
+      post url_for(controller: 'course', action: :removed),
+           params: params
+
+      expect(response).to have_http_status(:ok)
+      expect(json_body['status']).to be true
+
+      expect { participant_two.reload }.to raise_exception ActiveRecord::RecordNotFound
+    end
+
+    it 'removes course' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :removed),
+           params: params
+
+      expect(response).to have_http_status(:ok)
+      expect(json_body['status']).to be true
+      course_one.reload
+      expect(course_one.removed).to be true
+
+      # TODO: Test that course tasks are archived
+    end
+  end
 end
