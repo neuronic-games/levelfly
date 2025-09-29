@@ -683,4 +683,34 @@ RSpec.describe 'Courses' do
       # TODO: Test that course tasks are archived
     end
   end
+
+  context 'when POST /duplicate' do
+    let(:params) { { id: course_one.id } }
+
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :duplicate),
+           params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'denies unrelated user' do
+      sign_in user_two
+
+      post url_for(controller: 'course', action: :duplicate),
+           params: params
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(Course.count).to eq(1)
+    end
+
+    it 'duplicates course' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :duplicate),
+           params: params
+
+      expect(response).to have_http_status(:ok)
+      expect(Delayed::Job.count).to eq(1)
+    end
+  end
 end
