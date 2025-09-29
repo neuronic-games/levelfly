@@ -14,7 +14,7 @@ RSpec.describe 'Attachments' do
                          profile_type: 'M')
   end
 
-  context 'when GET /download' do
+  context 'when GET /course/download' do
     let(:attachment) { create(:attachment, target: course_one, target_type: 'Course') }
     let(:params) { { id: attachment.id } }
 
@@ -44,7 +44,7 @@ RSpec.describe 'Attachments' do
     end
   end
 
-  context 'when POST /add_file' do
+  context 'when POST /course/add_file' do
     let(:params) { { file: Rack::Test::UploadedFile.new('app/assets/images/rails.png', 'image/png'), school_id: school_demo.id, id: course_one.id, target_type: 'Course', profile_id: profile_one.id } }
 
     it 'redirects to login if unauthenticated' do
@@ -63,6 +63,57 @@ RSpec.describe 'Attachments' do
       expect(response.body).to include 'rails.png'
 
       expect(Attachment.count).to eq(1)
+    end
+  end
+
+  context 'when POST /course/toggle_priority_file' do
+    let(:attachment_starred) { create(:attachment, target: course_one, target_type: 'Course', starred: true) }
+    let(:attachment_unstarred) { create(:attachment, target: course_one, target_type: 'Course', starred: false) }
+
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :toggle_priority_file),
+           params: { id: attachment_starred.id }
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'denies unrelated user' do
+      skip 'Need to verify if this is intended behaviour, see note in course_controller.rb'
+      sign_in user_two
+
+      post url_for(controller: 'course', action: :toggle_priority_file),
+           params: { id: attachment_starred.id }
+
+      expect(response).to have_http_status(:forbidden)
+      attachment_starred.reload
+      expect(attachment_starred.starred).to be true
+    end
+
+    it 'toggles file star status' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :toggle_priority_file),
+           params: { id: attachment_starred.id }
+
+      expect(response).to have_http_status(:ok)
+
+      attachment_starred.reload
+      expect(attachment_starred.starred).to be false
+
+      response_parsed = JSON.parse(response.body)
+
+      expect(response_parsed['starred']).to be false
+
+      post url_for(controller: 'course', action: :toggle_priority_file),
+           params: { id: attachment_unstarred.id }
+
+      expect(response).to have_http_status(:ok)
+
+      attachment_unstarred.reload
+      expect(attachment_unstarred.starred).to be true
+
+      response_parsed = JSON.parse(response.body)
+
+      expect(response_parsed['starred']).to be true
     end
   end
 end

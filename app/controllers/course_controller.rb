@@ -791,6 +791,7 @@ class CourseController < ApplicationController
   end
 
   def course_stats
+    # FIXME: Doesn't appear to check course membership? i.e. can view any file by ID
     return unless params[:id] && params[:id].present?
 
     @grade = []
@@ -826,6 +827,7 @@ class CourseController < ApplicationController
   end
 
   def top_achivers
+    # FIXME: Doesn't appear to check course membership? i.e. can view any file by ID
     return unless params[:outcome_id] && params[:course_id].present?
 
     course = Course.find(params[:course_id])
@@ -835,6 +837,7 @@ class CourseController < ApplicationController
   end
 
   def task_outcomes
+    # FIXME: Doesn't appear to check course membership? i.e. can view any file by ID
     return unless params[:task_id] && params[:task_id].present?
 
     @task_outcomes = Task.find(params[:task_id]).outcomes
@@ -842,6 +845,7 @@ class CourseController < ApplicationController
   end
 
   def toggle_priority_file
+    # FIXME: Doesn't appear to check course membership? i.e. can view any file by ID
     return unless params[:id] and params[:id].present?
 
     @att = Attachment.find(params[:id])
@@ -850,6 +854,7 @@ class CourseController < ApplicationController
   end
 
   def toggle_priority_message
+    # FIXME: Doesn't appear to check course membership? i.e. can view any file by ID
     return unless params[:id] and params[:id].present?
 
     @msg = Message.find(params[:id])
