@@ -534,7 +534,7 @@ class CourseController < ApplicationController
   end
 
   def remove_course_outcomes
-    # FIXME: Appears to allow users to make changes regardless of membership or role?
+    # FIXME: Appears to allow users regardless of membership or role?
     return unless params[:outcomes] && !params[:outcomes].nil?
 
     if Outcome.find(params[:outcomes]).shared == true && !params[:course_id].nil?
@@ -548,7 +548,7 @@ class CourseController < ApplicationController
   end
 
   def remove_course_files
-    # FIXME: Appears to allow users to make changes regardless of membership or role?
+    # FIXME: Appears to allow users regardless of membership or role?
     return unless params[:files] && !params[:files].nil?
 
     Attachment.destroy(params[:files])
@@ -557,7 +557,7 @@ class CourseController < ApplicationController
   end
 
   def share_outcome
-    # FIXME: Appears to allow users to make changes regardless of membership or role?
+    # FIXME: Appears to allow users regardless of membership or role?
     return unless params[:course_id] and !params[:course_id].nil?
 
     @outcome = Outcome.find(params[:outcome_id])
@@ -570,7 +570,7 @@ class CourseController < ApplicationController
   end
 
   def update_course_outcomes
-    # FIXME: Appears to allow users to make changes regardless of membership or role?
+    # FIXME: Appears to allow users regardless of membership or role?
     if params[:outcome_id].present?
       outcome = Outcome.find(params[:outcome_id])
       outcome.name = params[:outcome] if params[:outcome].present?
@@ -582,7 +582,7 @@ class CourseController < ApplicationController
   end
 
   def update_course_categories
-    # FIXME: Appears to allow users to make changes regardless of membership or role?
+    # FIXME: Appears to allow users regardless of membership or role?
     if params[:category_id].present?
       category = Category.find(params[:category_id])
       category.name = params[:category] if params[:category].present?
@@ -594,7 +594,7 @@ class CourseController < ApplicationController
   end
 
   def remove_course_categories
-    # FIXME: Appears to allow users to make changes regardless of membership or role?
+    # FIXME: Appears to allow users regardless of membership or role?
     return unless params[:categories] && !params[:categories].nil?
 
     category_array = params[:categories].split(',')
@@ -774,7 +774,7 @@ class CourseController < ApplicationController
   end
 
   def download
-    # FIXME: Doesn't appear to check course membership? i.e. can view any file by ID
+    # FIXME: Appears to allow users regardless of membership or role?
     return unless params[:id] and params[:id].present?
 
     @attachment = Attachment.find(params[:id])
@@ -791,7 +791,7 @@ class CourseController < ApplicationController
   end
 
   def course_stats
-    # FIXME: Doesn't appear to check course membership? i.e. can view any file by ID
+    # FIXME: Appears to allow users regardless of membership or role?
     return unless params[:id] && params[:id].present?
 
     @grade = []
@@ -827,7 +827,7 @@ class CourseController < ApplicationController
   end
 
   def top_achivers
-    # FIXME: Doesn't appear to check course membership? i.e. can view any file by ID
+    # FIXME: Appears to allow users regardless of membership or role?
     return unless params[:outcome_id] && params[:course_id].present?
 
     course = Course.find(params[:course_id])
@@ -837,7 +837,7 @@ class CourseController < ApplicationController
   end
 
   def task_outcomes
-    # FIXME: Doesn't appear to check course membership? i.e. can view any file by ID
+    # FIXME: Appears to allow users regardless of membership or role?
     return unless params[:task_id] && params[:task_id].present?
 
     @task_outcomes = Task.find(params[:task_id]).outcomes
@@ -845,7 +845,7 @@ class CourseController < ApplicationController
   end
 
   def toggle_priority_file
-    # FIXME: Doesn't appear to check course membership? i.e. can view any file by ID
+    # FIXME: Appears to allow users regardless of membership or role?
     return unless params[:id] and params[:id].present?
 
     @att = Attachment.find(params[:id])
@@ -854,7 +854,7 @@ class CourseController < ApplicationController
   end
 
   def toggle_priority_message
-    # FIXME: Doesn't appear to check course membership? i.e. can view any file by ID
+    # FIXME: Appears to allow users regardless of membership or role?
     return unless params[:id] and params[:id].present?
 
     @msg = Message.find(params[:id])
@@ -895,7 +895,7 @@ class CourseController < ApplicationController
   end
 
   def load_files
-    # FIXME: Doesn't appear to check course membership? i.e. can view any file by ID
+    # FIXME: Appears to allow users regardless of membership or role?
     return unless params[:id] and params[:id].present?
 
     id = params[:id]

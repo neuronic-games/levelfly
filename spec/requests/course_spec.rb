@@ -200,7 +200,6 @@ RSpec.describe 'Courses' do
       post url_for(controller: 'course', action: :add_participant),
            params: { course_id: course_one.id, section_type: 'C', email: user_two.email }
 
-
       expect(json_body['status']).to be false
       expect(json_body['already_added']).to be true
       expect(json_body['profiles'][0]['full_name']).to eq(profile_two.full_name)
@@ -227,7 +226,6 @@ RSpec.describe 'Courses' do
 
       post url_for(controller: 'course', action: :send_email_to_all_participants),
            params: { id: course_one.id, post_message: 'true', mail_msg: message_text }
-
 
       expect(json_body['status']).to be true
 
@@ -257,7 +255,6 @@ RSpec.describe 'Courses' do
 
       post url_for(controller: 'course', action: :delete_participant),
            params: { course_id: course_one.id, profile_id: profile_two.id }
-
 
       expect(json_body['status']).to be true
 
@@ -593,6 +590,58 @@ RSpec.describe 'Courses' do
       expect(response).to have_http_status(:ok)
       expect(response).to render_template 'course/_task_outcomes'
       expect(response.body).to include outcome.name
+    end
+  end
+
+  context 'when POST /set_archive' do
+    let(:course_archived) { create(:course, school: school_demo, owner: profile_one, archived: true) }
+    let(:params) { { id: course_one.id } }
+
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :set_archive),
+           params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'denies unrelated user' do
+      skip 'Need to verify if this is intended behaviour, see note in course_controller.rb'
+      sign_in user_two
+
+      post url_for(controller: 'course', action: :set_archive),
+           params: params
+
+      expect(response).to have_http_status(:forbidden)
+      course_one.reload
+      expect(course_one.archived).to be false
+    end
+
+    it 'archives course' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :set_archive),
+           params: params
+
+      expect(response).to have_http_status(:ok)
+      expect(json_body['status']).to eq('Success')
+      course_one.reload
+      expect(course_one.archived).to be true
+
+      course_archived.reload
+      expect(course_archived.archived).to be true
+    end
+
+    it 'unarchives course' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :set_archive),
+           params: { id: course_archived.id, unarchive: true }
+
+      expect(response).to have_http_status(:ok)
+      expect(json_body['status']).to eq('Success')
+      course_archived.reload
+      expect(course_archived.archived).to be false
+
+      expect(course_one.archived).to be false
     end
   end
 end
