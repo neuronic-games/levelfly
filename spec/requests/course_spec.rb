@@ -565,7 +565,6 @@ RSpec.describe 'Courses' do
     let(:params) { { task_id: task.id } }
 
     before do
-      outcome = create(:outcome)
       create(:outcome_task, outcome: outcome, task: task)
     end
 
