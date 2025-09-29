@@ -541,4 +541,34 @@ RSpec.describe 'Courses' do
       expect(response).to render_template 'course/_course_stats'
     end
   end
+
+  context 'when POST /top_achivers' do
+    let(:params) { { course_id: course_one.id, outcome_id: outcome.id } }
+
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :top_achivers),
+           params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'denies unrelated user' do
+      skip 'Need to verify if this is intended behaviour, see note in course_controller.rb'
+      sign_in user_two
+
+      post url_for(controller: 'course', action: :top_achivers),
+           params: params
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it 'shows top achievers' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :top_achivers),
+           params: params
+
+      expect(response).to have_http_status(:ok)
+      expect(response).to render_template 'course/_top_achivers'
+    end
+  end
 end

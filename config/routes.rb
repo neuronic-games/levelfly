@@ -165,6 +165,7 @@ Oncapus::Application.routes.draw do
   # TODO: Doesn't modify data, should be a GET?
   post 'course/course_stats'
 
+  # TODO: Doesn't modify data, should be a GET?
   post 'course/top_achivers'
 
   post 'course/task_outcomes'
