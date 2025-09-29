@@ -96,6 +96,61 @@ RSpec.describe 'Gamecenter' do
     end
   end
 
+  context 'when GET /connect' do
+    let(:url) { url_for(controller: 'gamecenter', action: :connect, handle: game_one.handle) }
+
+    it 'connects to a game' do
+      get url
+      expect(response).to have_http_status :ok
+      expect(json_body['status']).to eq(Gamecenter::SUCCESS)
+      expect(json_body['message']).to eq("Connected to #{game_one.name}.")
+      expect(json_body['game']['id']).to eq(game_one.id)
+      expect(json_body['game']['name']).to eq(game_one.name)
+    end
+
+    # TODO: Test error on nonexistent game
+  end
+
+  context 'when GET /get_current_user' do
+    let(:url) { url_for(controller: 'gamecenter', action: :get_current_user, handle: game_one.handle) }
+
+    it 'fails if unauthenticated' do
+      get url
+      expect(response).to have_http_status :ok
+      expect(json_body['status']).to eq(Gamecenter::FAILURE)
+      expect(json_body['message']).to be_empty
+      expect(json_body['user']).to be_empty
+    end
+
+    it 'returns current user info' do
+      sign_in user_one
+      get url
+      expect(response).to have_http_status :ok
+      expect(json_body['status']).to eq(Gamecenter::SUCCESS)
+      expect(json_body['message']).to eq("#{profile_one.full_name} signed in.")
+      expect(json_body['user']['alias']).to eq(profile_one.full_name)
+    end
+  end
+
+  context 'when GET /get_active_dur' do
+    let(:url) { url_for(controller: 'gamecenter', action: :get_active_dur, handle: game_one.handle) }
+    let!(:feat) { create(:feat, game: game_one, profile: profile_one, progress_type: Feat.duration, progress: Faker::Number.between(from: 2.0, to: 100.0))}
+
+    it 'redirects to login if unauthenticated' do
+      get url
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'returns current user info' do
+      sign_in user_one
+      get url
+      expect(response).to have_http_status :ok
+      expect(json_body['status']).to eq(Gamecenter::SUCCESS)
+      expect(json_body['message']).to eq("#{profile_one.full_name} signed in.")
+      expect(json_body['active']).to eq(feat.progress)
+    end
+  end
+
   context 'when GET /get_rows' do
     let(:params) { { filter: 'gameboard' } }
 

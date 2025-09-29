@@ -31,6 +31,7 @@ class GamecenterController < ApplicationController
           message = 'User already exist.'
           user = nil
         elsif params[:password] == ''
+          # FIXME: Probably unreachable code path?
           message = 'Empty password.'
           user = nil
         else
@@ -132,6 +133,7 @@ class GamecenterController < ApplicationController
       status = Gamecenter::SUCCESS
       profile = current_user.default_profile
       game = Game.find_by_handle(handle)
+      # TODO: Seems fishy
       message = "#{profile.full_name} signed in."
 
       active_dur = Feat.where(game_id: game.id, profile_id: profile.id, progress_type: Feat.duration)
