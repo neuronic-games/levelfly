@@ -465,6 +465,7 @@ Oncapus::Application.routes.draw do
   # TODO: Great code-golf possibilities here. The context is replacing this line, which relies on behaviour removed in Rails 5.2:
   # get 'gamecenter/:handle/:action' => 'gamecenter#:action'
 
+  # TODO: Should possibly be POST?
   get 'gamecenter/:handle/authenticate' => 'gamecenter#authenticate'
   get 'gamecenter/:handle/connect' => 'gamecenter#connect'
   get 'gamecenter/:handle/get_current_user' => 'gamecenter#get_current_user'

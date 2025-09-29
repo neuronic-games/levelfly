@@ -60,10 +60,12 @@ class GamecenterController < ApplicationController
         sign_in user
         status = Gamecenter::SUCCESS
         profile = user.default_profile
+        # TODO: This results in " signed in" for newly-created users
         message = "#{profile.full_name} signed in"
         data = { 'alias' => profile.full_name, 'level' => profile.level, 'image' => profile.image_url,
                  'last_sign_in_at' => user.last_sign_in_at }
       end
+      # TODO: Maybe set an 'incorrect password' message in an else branch here?
     end
 
     render body: { 'status' => status, 'message' => message, 'user' => data }.to_json
