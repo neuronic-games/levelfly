@@ -538,7 +538,7 @@ RSpec.describe 'Courses' do
            params: params
 
       expect(response.status).to eq(200)
-      expect(response).to render_template 'course/_stats'
+      expect(response).to render_template 'course/_course_stats'
     end
   end
 end
