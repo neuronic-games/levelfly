@@ -21,7 +21,7 @@ RSpec.describe 'Messages', type: :request do
     it 'renders message list' do
       sign_in user_one
       get url_for controller: 'message', action: :index
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
       expect(response.body).to include message_one.content
     end
   end
@@ -46,7 +46,7 @@ RSpec.describe 'Messages', type: :request do
       post url_for(controller: 'message', action: :save),
            params: params
 
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
       expect(response.body).to include message_text
     end
   end

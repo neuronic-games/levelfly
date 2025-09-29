@@ -505,7 +505,7 @@ RSpec.describe 'Courses' do
       get url_for(controller: 'course', action: :view_member),
           params: params
 
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
       expect(response).to render_template 'course/_member_list'
       expect(response.body).to include(profile_two.full_name)
     end
@@ -516,7 +516,7 @@ RSpec.describe 'Courses' do
       get url_for(controller: 'course', action: :view_member),
           params: params
 
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
       expect(response).to render_template 'course/_member_list'
       expect(response.body).not_to include(profile_two.full_name)
     end
@@ -537,7 +537,7 @@ RSpec.describe 'Courses' do
       post url_for(controller: 'course', action: :course_stats),
            params: params
 
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
       expect(response).to render_template 'course/_course_stats'
     end
   end
