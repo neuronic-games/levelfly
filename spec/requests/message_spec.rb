@@ -50,4 +50,50 @@ RSpec.describe 'Messages', type: :request do
       expect(response.body).to include message_text
     end
   end
+
+  context 'when POST /course/toggle_priority_message' do
+    let(:params) { { id: message_one.id } }
+
+    it 'redirects to login if unauthenticated' do
+      post url_for(controller: 'course', action: :toggle_priority_message),
+           params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'denies unrelated user' do
+      skip 'Need to verify if this is intended behaviour, see note in course_controller.rb'
+      sign_in user_two
+
+      post url_for(controller: 'course', action: :toggle_priority_message),
+           params: params
+
+      expect(response).to have_http_status(:forbidden)
+      message_one.reload
+      expect(message_one.starred).to be false
+    end
+
+    it 'toggles message starred status' do
+      sign_in user_one
+
+      post url_for(controller: 'course', action: :toggle_priority_message),
+           params: params
+
+      expect(response).to have_http_status(:ok)
+      expect(json_body['starred']).to be true
+      message_one.reload
+      expect(message_one.starred).to be true
+
+      message_two = create(:message, profile: profile_one, target: profile_one, wall: wall_one, target_type: '',
+                                     starred: true)
+
+      post url_for(controller: 'course', action: :toggle_priority_message),
+           params: { id: message_two.id }
+
+      expect(response).to have_http_status(:ok)
+      expect(json_body['starred']).to be false
+
+      message_two.reload
+      expect(message_two.starred).to be false
+    end
+  end
 end
