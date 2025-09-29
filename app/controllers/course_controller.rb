@@ -1095,9 +1095,9 @@ class CourseController < ApplicationController
                           .first
     if course = Course.find(params[:id]) and courseMaster.id == current_profile.id
       course.delay.duplicate({ name_ext: 'COPY' }, current_user)
-      render nothing: true, status: :ok
+      head :ok
     else
-      render nothing: true, status: :unauthorized
+      head :unauthorized
     end
   end
 
