@@ -24,8 +24,12 @@ RSpec.shared_context 'with request spec' do
   let(:profile_one) { user_one.profiles.first }
 end
 
+require_relative 'requests/helpers/json_helper'
+
 RSpec.configure do |config|
   config.include_context 'with request spec', type: :request
+
+  config.include JSONHelpers, type: :request
   # The settings below are suggested to provide a good initial experience
   # with RSpec, but feel free to customize to your heart's content.
   #   # These two settings work together to allow you to limit a spec run

@@ -99,9 +99,8 @@ RSpec.describe 'Attachments' do
       attachment_starred.reload
       expect(attachment_starred.starred).to be false
 
-      response_parsed = JSON.parse(response.body)
 
-      expect(response_parsed['starred']).to be false
+      expect(json_body['starred']).to be false
 
       post url_for(controller: 'course', action: :toggle_priority_file),
            params: { id: attachment_unstarred.id }
@@ -111,9 +110,8 @@ RSpec.describe 'Attachments' do
       attachment_unstarred.reload
       expect(attachment_unstarred.starred).to be true
 
-      response_parsed = JSON.parse(response.body)
 
-      expect(response_parsed['starred']).to be true
+      expect(json_body['starred']).to be true
     end
   end
 end

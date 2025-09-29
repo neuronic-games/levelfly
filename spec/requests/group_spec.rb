@@ -95,9 +95,8 @@ RSpec.describe 'Groups', type: :request do
 
       expect(response).to have_http_status(:ok)
 
-      response_parsed = JSON.parse(response.body)
 
-      expect(response_parsed['status']).to be true
+      expect(json_body['status']).to be true
       expect(profile_two.participants.first.profile_id).to eq(profile_two.id)
       expect(profile_two.participants.first.profile_type).to eq('P')
     end
@@ -118,10 +117,9 @@ RSpec.describe 'Groups', type: :request do
       post url_for(controller: 'course', action: :group_joinning),
            params: params
 
-      response_parsed = JSON.parse(response.body)
 
       group_one.reload
-      expect(response_parsed['status']).to be true
+      expect(json_body['status']).to be true
       expect(group_one.join_type).to eq('C')
     end
   end
@@ -141,10 +139,9 @@ RSpec.describe 'Groups', type: :request do
       post url_for(controller: 'course', action: :group_viewing),
            params: params
 
-      response_parsed = JSON.parse(response.body)
 
       group_one.reload
-      expect(response_parsed['status']).to be true
+      expect(json_body['status']).to be true
       expect(group_one.visibility_type).to eq('C')
     end
   end

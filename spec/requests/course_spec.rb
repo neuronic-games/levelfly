@@ -186,11 +186,9 @@ RSpec.describe 'Courses' do
       post url_for(controller: 'course', action: :add_participant),
            params: { course_id: course_one.id, section_type: 'C', email: user_two.email }
 
-      response_parsed = JSON.parse(response.body)
-
-      expect(response_parsed['status']).to be true
-      expect(response_parsed['already_added']).to be false
-      expect(response_parsed['profiles'][0]['full_name']).to eq(profile_two.full_name)
+      expect(json_body['status']).to be true
+      expect(json_body['already_added']).to be false
+      expect(json_body['profiles'][0]['full_name']).to eq(profile_two.full_name)
     end
 
     it 'adds already-added participant' do
@@ -202,11 +200,10 @@ RSpec.describe 'Courses' do
       post url_for(controller: 'course', action: :add_participant),
            params: { course_id: course_one.id, section_type: 'C', email: user_two.email }
 
-      response_parsed = JSON.parse(response.body)
 
-      expect(response_parsed['status']).to be false
-      expect(response_parsed['already_added']).to be true
-      expect(response_parsed['profiles'][0]['full_name']).to eq(profile_two.full_name)
+      expect(json_body['status']).to be false
+      expect(json_body['already_added']).to be true
+      expect(json_body['profiles'][0]['full_name']).to eq(profile_two.full_name)
     end
   end
 
@@ -231,9 +228,8 @@ RSpec.describe 'Courses' do
       post url_for(controller: 'course', action: :send_email_to_all_participants),
            params: { id: course_one.id, post_message: 'true', mail_msg: message_text }
 
-      response_parsed = JSON.parse(response.body)
 
-      expect(response_parsed['status']).to be true
+      expect(json_body['status']).to be true
 
       expect(ActionMailer::Base.deliveries.length).to eq 2
       sent_message = ActionMailer::Base.deliveries.first
@@ -262,9 +258,8 @@ RSpec.describe 'Courses' do
       post url_for(controller: 'course', action: :delete_participant),
            params: { course_id: course_one.id, profile_id: profile_two.id }
 
-      response_parsed = JSON.parse(response.body)
 
-      expect(response_parsed['status']).to be true
+      expect(json_body['status']).to be true
 
       expect { participant_two.reload }.to raise_exception ActiveRecord::RecordNotFound
     end
@@ -283,8 +278,7 @@ RSpec.describe 'Courses' do
       post url_for(controller: 'course', action: :remove_course_outcomes),
            params: { course_id: course_one.id, outcomes: outcome.id }
 
-      response_parsed = JSON.parse(response.body)
-      expect(response_parsed['status']).to eq('true')
+      expect(json_body['status']).to eq('true')
 
       expect { outcome.reload }.to raise_exception ActiveRecord::RecordNotFound
     end
@@ -298,8 +292,7 @@ RSpec.describe 'Courses' do
       post url_for(controller: 'course', action: :remove_course_outcomes),
            params: { course_id: course_one.id, outcomes: outcome.id }
 
-      response_parsed = JSON.parse(response.body)
-      expect(response_parsed['status']).to eq('true')
+      expect(json_body['status']).to eq('true')
 
       expect(course_one.outcomes).not_to include outcome
       # Shouldn't delete the outcome completely
@@ -336,8 +329,7 @@ RSpec.describe 'Courses' do
       post url_for(controller: 'course', action: :remove_course_files),
            params: { files: attachment.id }
 
-      response_parsed = JSON.parse(response.body)
-      expect(response_parsed['status']).to eq('true')
+      expect(json_body['status']).to eq('true')
 
       expect { attachment.reload }.to raise_exception ActiveRecord::RecordNotFound
     end
@@ -368,8 +360,7 @@ RSpec.describe 'Courses' do
       post url_for(controller: 'course', action: :share_outcome),
            params: { course_id: course_one.id, outcome_id: outcome.id }
 
-      response_parsed = JSON.parse(response.body)
-      expect(response_parsed['status']).to eq('true')
+      expect(json_body['status']).to eq('true')
 
       outcome.reload
       expect(outcome.shared).to be true
@@ -404,8 +395,7 @@ RSpec.describe 'Courses' do
       post url_for(controller: 'course', action: :update_course_outcomes),
            params: { outcome_id: outcome.id, outcome: outcome_new.name, outcome_descr: outcome_new.descr }
 
-      response_parsed = JSON.parse(response.body)
-      expect(response_parsed['status']).to eq('true')
+      expect(json_body['status']).to eq('true')
 
       outcome.reload
       expect(outcome.name).to eq(outcome_new.name)
@@ -444,8 +434,7 @@ RSpec.describe 'Courses' do
       post url_for(controller: 'course', action: :update_course_categories),
            params: params
 
-      response_parsed = JSON.parse(response.body)
-      expect(response_parsed['status']).to eq('true')
+      expect(json_body['status']).to eq('true')
 
       category.reload
       expect(category.name).to eq(category_new.name)
@@ -480,8 +469,7 @@ RSpec.describe 'Courses' do
       post url_for(controller: 'course', action: :remove_course_categories),
            params: params
 
-      response_parsed = JSON.parse(response.body)
-      expect(response_parsed['status']).to eq('true')
+      expect(json_body['status']).to eq('true')
 
       expect(Category.count).to eq(0)
     end

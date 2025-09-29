@@ -32,8 +32,7 @@ RSpec.describe 'Users' do
       sign_in user_one
       post url_for(controller: 'users', action: :set_invite_codes),
            params: params
-      response_parsed = JSON.parse(response.body)
-      expect(response_parsed['status']).to be true
+      expect(json_body['status']).to be true
 
       # TODO: Test that duplicate codes can't be set
     end
