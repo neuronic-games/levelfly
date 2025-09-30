@@ -294,7 +294,7 @@ class GradeBookController < ApplicationController
         p.notes = (participant_note.presence || '')
       end
     end
-    @count = @participant.count('participants.profile_id')
+    @count = @participant.select('participants.profile_id').distinct.count
     render json: { participant: @participant, count: @count }
   end
 
@@ -318,7 +318,7 @@ class GradeBookController < ApplicationController
         p.avatar_badge_ids = course_badges.collect { |x| x.id }
       end
     end
-    @count = @participant.count('participants.profile_id')
+    @count = @participant.select('participants.profile_id').distinct.count
     render json: { participant: @participant, count: @count }
   end
 
@@ -376,7 +376,7 @@ class GradeBookController < ApplicationController
         p.course_outcomes = outcomes_grade
       end
     end
-    @count = @participant.count
+    @count = @participant.count(:id)
     render json: { outcomes: @outcomes, participants: @participant, count: @count }
   end
 
