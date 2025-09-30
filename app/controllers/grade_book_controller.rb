@@ -103,7 +103,7 @@ class GradeBookController < ApplicationController
     if params[:course_id] && params[:course_id].present?
       @profile = Profile.find(user_session[:profile_id])
       @course = Course.find(params[:course_id])
-      @categories = Category.all(conditions: { course_id: params[:course_id] })
+      @categories = Category.where({course_id: params[:course_id]})
       show_outcomes = @course.show_outcomes if @course
       @outcomes = @course.outcomes.order('name')
       @participant = Participant.where([
@@ -171,7 +171,7 @@ class GradeBookController < ApplicationController
           t.task_category = load_caregory_name(t.id)
         end
       end
-      @count = @participant.count('participants.profile_id')
+      @count = @participant.select('participants.profile_id').distinct.count
     end
 
     respond_to do |format|
@@ -183,7 +183,7 @@ class GradeBookController < ApplicationController
           outcomes: @outcomes,
           categories: @categories,
           grade_types: GradeType.order('value DESC'),
-          task_grades: TaskGrade.all(conditions: { course_id: params[:course_id] }),
+          task_grades: TaskGrade.where({ course_id: params[:course_id] }),
           profile: @profile,
           count: @count,
           show_outcomes: show_outcomes
@@ -600,6 +600,7 @@ class GradeBookController < ApplicationController
       end
     end
     filename = @course.code + '-' + @course.section + '-' + Date.today.strftime('%Y%m%d') + '.csv'
+    # FIXME: Probably 'text/csv'?
     send_data(user_csv, type: 'test/csv', filename: filename)
   end
 end
