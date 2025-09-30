@@ -9,5 +9,10 @@ FactoryBot.define do
       name { Faker::Alphanumeric.alpha(number: 10) }
       parent_type { Course.parent_type_group }
     end
+
+    trait :forum do
+      name { Faker::Alphanumeric.alpha(number: 10)}
+      parent_type { Course.parent_type_forum }
+    end
   end
 end
