@@ -19,45 +19,45 @@ RSpec.describe 'Courses' do
   end
 
   context 'when GET /Index' do
+    let(:url) { url_for controller: 'course', action: :index }
+    let(:params) { { section_type: 'C' } }
+
     it 'redirects to login if unauthenticated' do
-      get url_for controller: 'course', action: :index
+      get url, params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
     it 'renders index page' do
       sign_in user_one
-      get url_for controller: 'course', action: :index,
-                  params: { section_type: 'C' }
+      get url, params: params
       expect(response.body).to include course_one.name
     end
 
     it 'renders index page as XHR' do
       sign_in user_one
-      get url_for controller: 'course', action: :index,
-                  params: { section_type: 'C' },
-                  xhr: true
+      get url, params: params, xhr: true
       expect(response.body).to include course_one.name
     end
 
     it 'searches successfully by course code' do
       sign_in user_one
-      get url_for controller: 'course', action: :index,
-                  params: { section_type: 'C', search_text: course_one.code }
+      get url, params: params.merge!({ search_text: course_one.code })
       expect(response.body).to include course_one.name
     end
 
     it "doesn't return unexpected results for a search" do
       sign_in user_one
-      get url_for controller: 'course', action: :index,
-                  params: { section_type: 'C', search_text: 'xxxxxxxxxxxxx' }
+      get url, params: params.merge!({ search_text: 'xxxxxxxxxxxxx' })
       expect(response.body).not_to include course_one.name
     end
   end
 
   context 'when GET /new' do
+    let(:url) { url_for(controller: 'course', action: :new) }
+    let(:params) { { section_type: 'C' } }
+
     it 'redirects to login if unauthenticated' do
-      get url_for(controller: 'course', action: :new),
-          params: { section_type: 'C' }
+      get url, params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
@@ -66,9 +66,7 @@ RSpec.describe 'Courses' do
       # an authentication error
       sign_in user_one
 
-      get url_for(controller: 'course', action: :new),
-          params: { section_type: 'C' },
-          xhr: true
+      get url, params: params, xhr: true
       expect(response.body).to include 'Click the Add Outcome button'
     end
   end
@@ -646,10 +644,11 @@ RSpec.describe 'Courses' do
   end
 
   context 'when POST /removed' do
+    let(:url) { url_for(controller: 'course', action: :removed) }
     let(:params) { { id: course_one.id } }
 
     it 'redirects to login if unauthenticated' do
-      post url_for(controller: 'course', action: :removed),
+      post url,
            params: params
       expect(response).to redirect_to '/users/sign_in'
     end
@@ -660,7 +659,7 @@ RSpec.describe 'Courses' do
       participant_two = create(:participant, target: course_one, target_type: 'Course', profile: profile_two,
                                              profile_type: 'S')
 
-      post url_for(controller: 'course', action: :removed),
+      post url,
            params: params
 
       expect(response).to have_http_status(:ok)
@@ -672,7 +671,7 @@ RSpec.describe 'Courses' do
     it 'removes course' do
       sign_in user_one
 
-      post url_for(controller: 'course', action: :removed),
+      post url,
            params: params
 
       expect(response).to have_http_status(:ok)
@@ -685,10 +684,11 @@ RSpec.describe 'Courses' do
   end
 
   context 'when POST /duplicate' do
+    let(:url) { url_for(controller: 'course', action: :duplicate) }
     let(:params) { { id: course_one.id } }
 
     it 'redirects to login if unauthenticated' do
-      post url_for(controller: 'course', action: :duplicate),
+      post url,
            params: params
       expect(response).to redirect_to '/users/sign_in'
     end
@@ -696,7 +696,7 @@ RSpec.describe 'Courses' do
     it 'denies unrelated user' do
       sign_in user_two
 
-      post url_for(controller: 'course', action: :duplicate),
+      post url,
            params: params
 
       expect(response).to have_http_status(:unauthorized)
@@ -706,11 +706,69 @@ RSpec.describe 'Courses' do
     it 'duplicates course' do
       sign_in user_one
 
-      post url_for(controller: 'course', action: :duplicate),
+      post url,
            params: params
 
       expect(response).to have_http_status(:ok)
       expect(Delayed::Job.count).to eq(1)
+    end
+  end
+
+  context 'when GET /edit', skip: 'Missing controller method?' do
+    let(:url) { url_for(controller: 'course', action: :edit) }
+    let(:params) { { id: course_one.id } }
+
+    it 'redirects to login if unauthenticated' do
+      get url,
+          params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'renders edit page' do
+      sign_in user_one
+      get url,
+          params: params
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include course_one.name
+    end
+  end
+
+  context 'when GET /export_activity_csv' do
+    let(:url) { url_for(controller: 'course', action: :export_activity_csv, id: course_one.id) }
+    let(:params) { { id: course_one.id } }
+
+    it 'redirects to login if unauthenticated' do
+      get url,
+          params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'exports CSV data' do
+      sign_in user_one
+      get url,
+          params: params
+      expect(response).to have_http_status(:ok)
+      # FIXME: Probably 'text/csv'?
+      expect(response.content_type).to include 'test/csv'
+    end
+  end
+
+  context 'when POST /show_course' do
+    let(:url) { url_for(controller: 'course', action: :show_course) }
+    let(:params) { { id: course_one.id, section_type: 'C', value: 1 } }
+
+    it 'redirects to login if unauthenticated' do
+      post url,
+           params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'renders course show page' do
+      sign_in user_one
+      post url,
+           params: params
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include course_one.name
     end
   end
 end
