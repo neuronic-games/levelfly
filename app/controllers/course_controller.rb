@@ -972,6 +972,7 @@ class CourseController < ApplicationController
   end
 
   def save_forum
+    # FIXME: Appears to allow users regardless of membership or role?
     @course = if params[:id].present?
                 Course.find(params[:id])
               else
@@ -1108,6 +1109,7 @@ class CourseController < ApplicationController
 
     csv_rows = course.get_activity_csv
     filename = "course-#{course.code}-#{course.section}-#{Date.today.strftime('%Y%m%d')}.csv"
+    # FIXME: Probably 'text/csv'?
     send_data(csv_rows, type: 'test/csv', filename: filename)
   end
 end

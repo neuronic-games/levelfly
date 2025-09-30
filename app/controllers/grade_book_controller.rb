@@ -452,11 +452,9 @@ class GradeBookController < ApplicationController
         csv << Array.new(@outcomes.count + 1, '')
         csv << ([course.code_section, ''] + @outcomes.map(&:name))
 
-        @profiles = Profile.all(
-          include: [:participants],
-          conditions: { participants: { target_id: course.id, profile_type: 'S' } },
-          order: 'full_name'
-        )
+        @profiles = Profile.where({ participants: { target_id: course.id, profile_type: 'S' } })
+                           .includes([:participants])
+                           .order('full_name')
 
         @profiles.each do |profile|
           row = ['', profile.full_name]
