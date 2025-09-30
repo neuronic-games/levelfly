@@ -12,6 +12,7 @@ namespace :levelfly do
     Rails.application.routes.routes.to_a.each do |route|
       controller = route.defaults[:controller]
       action = route.defaults[:action]
+      verb = route.verb
 
       next if controller.nil? || controller.include?('/')
 
@@ -25,7 +26,7 @@ namespace :levelfly do
       else
         puts "#{controller}##{action} missing" if verbose
         counts[:missing] += 1
-        missing_routes << "#{controller}##{action}"
+        missing_routes << "#{verb} #{controller}##{action}"
       end
     end
 
