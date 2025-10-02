@@ -353,6 +353,7 @@ class GamecenterController < ApplicationController
   end
 
   def add_game_badge
+    # FIXME: Maybe unused? 
     handle = params[:handle]
     game = Game.find_by_handle(handle)
     if game.nil?
@@ -383,14 +384,14 @@ class GamecenterController < ApplicationController
 
   def list_progress
     handle = params[:handle]
-    game = Game.find_by_handle(handle)
-    return if game.nil?
+    @game = Game.find_by_handle(handle)
+    return if @game.nil?
 
     limit = params[:count]
     limit = 100 if limit.nil?
 
-    current_user.default_profile.id
-    @feats = @game.list_feats(cprofile_id, limit)
+    profile_id = current_user.default_profile.id
+    @feats = @game.list_feats(profile_id, limit)
   end
 
   # Returns 50 top scores for your game
@@ -543,6 +544,7 @@ class GamecenterController < ApplicationController
   end
 
   def edit_game
+    # FIXME: Appears to allow users regardless of membership or role?
     @game = Game.find(params[:id])
     @game.mail_to = ENV.fetch('SUPPORT_EMAIL', nil) if @game.mail_to.blank?
     five_screens = 5 - @game.screen_shots.count
@@ -558,10 +560,10 @@ class GamecenterController < ApplicationController
   def update_game
     params[:game].merge!('image' => params['file']) if params['file'].present?
     @game = Game.find(params[:id])
-    @game.update_attributes(params.require(:game).permit(
-                              :archived, :published, :school_id, :name, :descr, :last_rev, :mail_to,
-                              :outcomes_attributes, :image, download_links: params[:game][:download_links].keys
-                            ))
+    @game.update(params.require(:game).permit(
+                   :archived, :published, :school_id, :name, :descr, :last_rev, :mail_to,
+                   :outcomes_attributes, :image, download_links: params[:game][:download_links].keys
+                 ))
     @game.mail_to = ENV.fetch('SUPPORT_EMAIL', nil) if @game.mail_to.blank?
     forum = @game.course
     forum.update_attribute(:name, "Support for #{@game.name}") if forum.present?
@@ -619,15 +621,13 @@ class GamecenterController < ApplicationController
     @member = Participant.where([
                                   "participants.target_id = ? AND participants.profile_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('M', 'S')", @course.id, @profile.id
                                 ]).first
-    @pending_count = Profile.count(
-      :all,
-      include: [:participants],
-      conditions: [
-        "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')",
-        @course.id
-      ],
-      joins: [:participants]
-    )
+    @pending_count = Profile.where([
+                                     "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type IN ('P')",
+                                     @course.id
+                                   ])
+                            .includes([:participants])
+                            .joins([:participants])
+                            .count
     @courseMaster = Profile.where([
                                     "participants.target_id = ? AND participants.target_type='Course' AND participants.profile_type = 'M'", @course.id
                                   ])
@@ -671,6 +671,7 @@ class GamecenterController < ApplicationController
   end
 
   # Badges I have acquired in a game
+  # TODO: Typo, achivements → achievements
   def achivements
     @game = Game.find(params[:game_id])
     @profile = current_profile
@@ -702,6 +703,7 @@ class GamecenterController < ApplicationController
   end
 
   def edit_badge
+    # FIXME: Appears to allow users regardless of membership or role?
     @game = Game.find(params[:game_id])
     @badge = Badge.find(params[:id])
     # default images
@@ -869,6 +871,7 @@ class GamecenterController < ApplicationController
     end
 
     filename = 'game-' + @game.handle + '-' + Date.today.strftime('%Y%m%d') + '.csv'
+    # FIXME: Probably 'text/csv'?
     send_data(user_csv, type: 'test/csv', filename: filename)
   end
 
@@ -882,6 +885,7 @@ class GamecenterController < ApplicationController
     user_csv = @game.list_sessions_to_csv
 
     filename = 'activity-' + @game.handle + '-' + Date.today.strftime('%Y%m%d') + '.csv'
+    # FIXME: Probably 'text/csv'?
     send_data(user_csv, type: 'test/csv', filename: filename)
   end
 end
