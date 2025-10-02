@@ -26,6 +26,8 @@ end
 
 require_relative 'requests/helpers/json_helper'
 
+SimpleCov.add_filter 'spec'
+
 RSpec.configure do |config|
   config.include_context 'with request spec', type: :request
 

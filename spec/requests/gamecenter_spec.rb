@@ -570,7 +570,7 @@ RSpec.describe 'GameCenter' do
     end
   end
 
-  context 'when GET /add_game_badge', skip: 'Unused controller method?' do
+  context 'when GET /add_game_badge' do
     let(:url) { url_for(controller: 'gamecenter', action: :add_game_badge, handle: game_one.handle) }
     let(:params) { attributes_for(:badge).merge!({ handle: game_one.handle }) }
 
@@ -579,13 +579,13 @@ RSpec.describe 'GameCenter' do
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'creates game badge' do
+    it 'render add_game_badge partial' do
       sign_in user_one
 
       get url, params: params
 
       expect(response).to have_http_status :ok
-      # TODO: Check response
+      expect(response).to render_template 'add_game_badge'
     end
   end
 

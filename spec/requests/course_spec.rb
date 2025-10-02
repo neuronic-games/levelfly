@@ -105,7 +105,7 @@ RSpec.describe 'Courses' do
   context 'when POST /save' do
     it 'redirects to login if unauthenticated' do
       post url_for controller: 'course', action: :save,
-                   params: FactoryBot.attributes_for(:course)
+                   params: attributes_for(:course)
       expect(response).to redirect_to '/users/sign_in'
     end
 
