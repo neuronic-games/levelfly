@@ -97,5 +97,7 @@ module Oncapus
       password: ENV.fetch('SMTP_PASSWORD', nil),
       authentication: 'plain'
     }
+
+    config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess]
   end
 end
