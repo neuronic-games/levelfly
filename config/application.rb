@@ -68,9 +68,9 @@ module Oncapus
       s3_permissions: 'private',
       s3_region: ENV.fetch('S3_REGION', 'us-east-1'),
       s3_credentials: {
-        bucket: ENV.fetch('S3_bucket', 'levelfly'),
+        bucket: ENV.fetch('S3_BUCKET', 'levelfly'),
         access_key_id: ENV.fetch('S3_ACCESS_KEY_ID', nil),
-        secret_access_key: ENV.fetch('S3_ACCESS_KEY_ID', nil)
+        secret_access_key: ENV.fetch('S3_SECRET_ACCESS_KEY', nil)
       },
       s3_host_name: ENV.fetch('S3_HOST_NAME', nil),
       s3_options: {
@@ -79,6 +79,15 @@ module Oncapus
       },
       url: ':s3_path_url'
     }
+
+    # Configuration for direct calls to Aws::S3
+    Aws.config.update(
+      endpoint: ENV.fetch('S3_ENDPOINT', nil),
+      access_key_id: ENV.fetch('S3_ACCESS_KEY_ID', nil),
+      secret_access_key: ENV.fetch('S3_SECRET_ACCESS_KEY', nil),
+      region: ENV.fetch('S3_REGION', nil),
+      force_path_style: ENV.fetch('S3_FORCE_PATH_STYLE', false)
+    )
 
     # Disable delivery errors, bad email addresses will be ignored
     # config.action_mailer.raise_delivery_errors = false
