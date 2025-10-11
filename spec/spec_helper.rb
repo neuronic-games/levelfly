@@ -16,6 +16,12 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 require 'simplecov'
+require 'simplecov-html'
+require 'simplecov_json_formatter'
+SimpleCov.formatters = [
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::JSONFormatter
+]
 SimpleCov.start
 
 RSpec.shared_context 'with request spec' do

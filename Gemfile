@@ -85,3 +85,5 @@ group :development, :test do
 end
 
 gem 'dotenv', '~> 3.1'
+
+gem "simplecov_json_formatter", "~> 0.1.4"
