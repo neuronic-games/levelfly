@@ -118,8 +118,15 @@ RSpec.describe 'Grade books' do
 
   context 'when POST /get_task' do
     let!(:task_one) { create(:task, school: school_demo, course: course_one) }
+    let!(:user_two) { create(:user, default_school: school_demo) }
+    let!(:profile_two) { create(:profile, user: user_two, school: school_demo) }
+
     let(:url) { url_for(controller: 'grade_book', action: :get_task) }
     let(:params) { { course_id: course_one.id, task_id: task_one.id } }
+
+    before do
+      create(:participant, :course_student, target: course_one, profile: profile_two)
+    end
 
     it 'redirects to login if unauthenticated' do
       post url, params: params
@@ -152,6 +159,10 @@ RSpec.describe 'Grade books' do
   end
 
   context 'when POST /load_achievements' do
+    let!(:user_two) { create(:user, default_school: school_demo) }
+    let!(:profile_two) { create(:profile, user: user_two, school: school_demo) }
+    let!(:participant_student) { create(:participant, :course_student, target: course_one, profile: profile_two) }
+
     let(:url) { url_for(controller: 'grade_book', action: :load_achievements) }
     let(:params) { { course_id: course_one.id } }
 
@@ -164,7 +175,8 @@ RSpec.describe 'Grade books' do
       sign_in user_one
       post url, params: params
       expect(response).to have_http_status(:ok)
-      # FIXME: Test response content
+      expect(json_body['participant'].first['id']).to eq(participant_student.id)
+      expect(json_body['count']).to eq(1)
     end
   end
 
@@ -187,6 +199,12 @@ RSpec.describe 'Grade books' do
 
   context 'when POST /load_outcomes' do
     let!(:outcome) { create(:outcome, school_id: school_demo.id) }
+    let!(:participant_student) do
+      create(:participant, :course_student, target: course_one,
+                                            profile: create(:profile, user: create(:user, default_school: school_demo),
+                                                                      school: school_demo))
+    end
+
     let(:url) { url_for(controller: 'grade_book', action: :load_outcomes) }
     let(:params) { { course_id: course_one.id } }
 
@@ -203,7 +221,10 @@ RSpec.describe 'Grade books' do
       sign_in user_one
       post url, params: params
       expect(response).to have_http_status(:ok)
-      # FIXME: Test response content
+      expect(json_body['outcomes'].first).to eq(outcome.as_json)
+      # TODO: Compare more properties
+      expect(json_body['participants'].first['id']).to eq(participant_student.id)
+      expect(json_body['count']).to eq(1)
     end
   end
 
@@ -285,20 +306,26 @@ RSpec.describe 'Grade books' do
   end
 
   context 'when POST /task_setup' do
-    let(:url) { url_for(controller: 'grade_book', action: :task_setup) }
     let!(:task_one) { create(:task, school: school_demo, course: course_one) }
-    let(:params) { {  task_id: task_one.id } }
+
+    let(:url) { url_for(controller: 'grade_book', action: :task_setup) }
+    let(:params) { { task_id: task_one.id } }
 
     it 'redirects to login if unauthenticated' do
       post url, params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
-    it 'shows task setup' do
+    it 'assigns outcomes' do
       sign_in user_one
-      post url, params: params
+
+      outcome = create(:outcome, school_id: school_demo.id)
+
+      post url, params: params.merge({ outcomes: [outcome.id] })
       expect(response).to have_http_status(:ok)
-      # FIXME: Test response content
+      expect(json_body['status']).to be true
+      expect(OutcomeTask.count).to eq(1)
+      expect(OutcomeTask.first.task).to eq(task_one)
     end
   end
 end
