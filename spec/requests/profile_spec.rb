@@ -30,7 +30,7 @@ RSpec.describe 'Profiles' do
 
   context 'when POST /save' do
     let(:url) { url_for(controller: 'profile', action: :save) }
-    let(:avatar) { create(:avatar, profile: profile_one) }
+    let!(:avatar) { create(:avatar, profile: profile_one) }
     let(:params) do
       {
         profile: attributes_for(:profile, code: 'DEFAULT').merge({
@@ -64,15 +64,21 @@ RSpec.describe 'Profiles' do
     it 'edits existing profile' do
       sign_in user_one
 
+      new_major = Faker::Number.number(digits: 1)
+
       post url,
            params: params.update({
                                    id: profile_one.id,
                                    profile: params[:profile].update(
                                      code: profile_one.code,
                                      school_id: school_demo.id,
-                                     full_name: Faker::Name.name
+                                     major_id: new_major
                                    )
                                  })
+
+      profile_one.reload
+      expect(profile_one.major_id).to eq(new_major)
+      # TODO: Test more things?
     end
   end
 end
