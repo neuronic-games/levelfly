@@ -9,6 +9,7 @@
 /.sass-cache/
 /public/assets
 /bin/
+/rspec-examples.txt
 
 # test coverage data
 /coverage
