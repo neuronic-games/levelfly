@@ -1,4 +1,5 @@
 ---
+# NOTE: For local development! See https://git.coopcloud.tech/coop-cloud/levelfly for a production config
 
 x-environment:
   &default-env
@@ -22,7 +23,9 @@ x-environment:
 
 services:   
   app:
-    build: .
+    build: 
+      context: .
+      target: dev
     image: neuronicgames/levelfly
     volumes:  
       - ./:/var/app:z
