@@ -6,7 +6,8 @@ FROM ruby:3.3.9-slim AS base
 
 ARG DEBIAN_PACKAGES_BUILD \
   DEBIAN_PACKAGES_RUN \
-  DEBIAN_FRONTEND
+  DEBIAN_FRONTEND \
+  BUNDLE_WITHOUT="development:test"
 
 RUN apt-get update --allow-releaseinfo-change && apt-get install --no-install-recommends -y ${DEBIAN_PACKAGES_BUILD} ${DEBIAN_PACKAGES_RUN} \ 
   && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives
@@ -21,13 +22,25 @@ RUN bundle install
 
 COPY . /var/app
 
+##############################################################################
+# Dev image
+##############################################################################
+
 FROM base AS dev
 
 ENV RAILS_ENV=development
 
+# Install dev and test dependencies
+# TODO: Switch to non-deprecated method
+RUN bundle install --with development:test
+
 EXPOSE 3000
 
 CMD bundle exec rails s -b 0.0.0.0 -P /dev/null
+
+##############################################################################
+# Production image
+##############################################################################
 
 FROM base AS assets
 
@@ -44,8 +57,7 @@ RUN bundle exec rake assets:precompile && \
 
 FROM ruby:3.3.9-slim AS prod
 
-ARG DEBIAN_PACKAGES_BUILD \
-  DEBIAN_PACKAGES_RUN \
+ARG DEBIAN_PACKAGES_RUN \
   DEBIAN_FRONTEND
 
 RUN mkdir -p /var/app
