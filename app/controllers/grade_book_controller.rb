@@ -427,7 +427,7 @@ class GradeBookController < ApplicationController
       new_outcomes.each do |o|
         next unless o != ''
 
-        outcome_task = OutcomeTask.where(['task_id = ? AND outcome_id = ?', @task.id, o])
+        outcome_task = OutcomeTask.find_by(task_id: @task.id, outcome_id: o)
         next if outcome_task
 
         # OutcomeTask record
