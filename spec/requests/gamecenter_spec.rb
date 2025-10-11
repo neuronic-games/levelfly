@@ -364,7 +364,7 @@ RSpec.describe 'GameCenter' do
 
       expect(response).to have_http_status :ok
       expect(response).to render_template 'gamecenter/_game_details'
-      expect(response.body).to include game_one.name
+      expect(response.body).to include CGI.escapeHTML(game_one.name)
     end
   end
 
