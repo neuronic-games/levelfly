@@ -7,7 +7,7 @@ postgres
 
 /.bundle
 /db/*.sqlite3
-/log/*.log
+/log/**
 /tmp/
 /.sass-cache/
 /db/schema.rb

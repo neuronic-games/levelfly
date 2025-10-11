@@ -4,7 +4,7 @@ ruby '3.3.9'
 
 gem 'activesupport'
 gem 'acts-as-taggable-on'
-gem 'aws-sdk'
+gem 'aws-sdk-s3'
 gem 'csv', '~> 3.3'
 gem 'deep_cloneable'
 gem 'delayed_job_active_record'
