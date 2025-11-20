@@ -62,7 +62,13 @@ RSpec.describe 'Grade books' do
 
   context 'when GET /export_course_grade_csv' do
     let!(:course_sectioned) { create(:course, school: school_demo, owner: profile_one, section: 'Section') }
+    let!(:user_two) { create(:user, default_school: school_demo) }
+    let!(:profile_two) { create(:profile, user: user_two, school: school_demo) }
     let(:url) { url_for(controller: 'grade_book', action: :export_course_grade_csv, course_id: course_sectioned.id) }
+
+    before do
+      create(:participant, :course_student, target: course_one, profile: profile_two)
+    end
 
     it 'redirects to login if unauthenticated' do
       get url
@@ -73,7 +79,7 @@ RSpec.describe 'Grade books' do
       sign_in user_one
       get url
       expect(response).to have_http_status(:ok)
-      # FIXME: Probably 'text/csv'?
+      # TODO: Probably 'text/csv'?
       expect(response.content_type).to include 'test/csv'
       # FIXME: Test response content
     end
@@ -81,8 +87,14 @@ RSpec.describe 'Grade books' do
 
   context 'when GET /export_course_sectioned_csv' do
     let!(:course_sectioned) { create(:course, school: school_demo, owner: profile_one, section: 'Section') }
+    let!(:outcome) { create(:outcome, school_id: school_demo.id) }
+
     let(:url) do
       url_for(controller: 'grade_book', action: :export_course_sectioned_csv, course_id: course_sectioned.id)
+    end
+
+    before do
+      course_one.outcomes << outcome
     end
 
     it 'redirects to login if unauthenticated' do
@@ -95,7 +107,8 @@ RSpec.describe 'Grade books' do
       get url
       expect(response).to have_http_status(:ok)
       expect(response.content_type).to include 'text/csv'
-      # FIXME: Test response content
+      expect(response.body).to include course_sectioned.code
+      expect(response.body).to include course_sectioned.section
     end
   end
 
