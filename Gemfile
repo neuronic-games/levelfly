@@ -42,6 +42,8 @@ gem 'file_exists', '~> 0.2.0'
 gem 'open-uri', '~> 0.5.0'
 gem 'stringio', '~> 3.1'
 
+gem 'faker', '~> 2.22'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -70,7 +72,6 @@ group :test do
   gem 'capybara'
   gem 'database_cleaner', '~> 2.1'
   gem 'factory_bot_rails', '~> 4.9'
-  gem 'faker', '~> 2.22'
   gem 'pusher-fake', '~> 2.2'
   gem 'rails-controller-testing', '~> 1.0'
   gem 'rspec', '~> 3.13'
