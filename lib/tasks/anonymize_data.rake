@@ -21,7 +21,12 @@ namespace :levelfly do
       Profile.connection.execute(sql)
     end
 
-    User.find_in_batches(batch_size: 1000) do |batch|
+    # Exclude users who have at least one profile with role_name.name == "Levelfly Admin"
+    admin_role_name = RoleName.find_by(name: 'Levelfly Admin')
+    admin_user_ids = Profile.where(role_name: admin_role_name).pluck(:user_id)
+    users_to_anonymize = User.where.not(id: admin_user_ids)
+
+    users_to_anonymize.find_in_batches(batch_size: 1000) do |batch|
       values = batch.map do |u|
         email = Faker::Internet.email.gsub("'", "''")
         current_ip = Faker::Internet.ip_v4_address
