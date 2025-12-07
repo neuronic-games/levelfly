@@ -196,6 +196,7 @@ class MessageController < ApplicationController
                               ])
                        .includes([:participants])
                        .joins([:participants])
+                       .pluck(:id)
     @courses = Course.where([
                               "participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'",
                               params[:profile_id], course_ids
