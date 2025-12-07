@@ -111,7 +111,7 @@ RSpec.describe 'Messages', type: :request do
 
       post url
 
-      require 'pry'; binding.pry
+      expect(response.body).to include 'I\'d like to be your friend.'
     end
   end
 end
