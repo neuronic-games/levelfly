@@ -81,6 +81,7 @@ RSpec.describe 'Grade books' do
       expect(response).to have_http_status(:ok)
       # TODO: Probably 'text/csv'?
       expect(response.content_type).to include 'test/csv'
+      require 'pry'; binding.pry
       # FIXME: Test response content
     end
   end

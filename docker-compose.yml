@@ -47,6 +47,8 @@ services:
   db:
     restart: always
     image: postgres:9.6-alpine
+    ports:
+      - 55432:5432
     environment: 
       POSTGRES_DB: levelfly
       POSTGRES_USER: levelfly
@@ -68,6 +70,7 @@ services:
   mail:
     image: dockage/mailcatcher:0.9.0
     ports:
+      - 1025:1025
       - 1080:1080
                 
 networks:
