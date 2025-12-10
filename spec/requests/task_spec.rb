@@ -45,18 +45,33 @@ RSpec.describe 'Tasks' do
 
   context 'when POST /save' do
     let(:task_name) { Faker::Lorem.sentence }
+    let!(:outcome_one) { create(:outcome) }
+
     let(:params) { { task: task_name, course_id: course_one.id, school_id: school_demo.id } }
+    let(:url) { url_for(controller: 'task', action: :save) }
 
     it 'redirects to login if unauthenticated' do
-      post url_for(controller: 'task', action: :save),
+      post url,
            params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
     it 'saves a new task' do
       sign_in user_one
-      post url_for(controller: 'task', action: :save),
+      post url,
            params: params
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include task_name
+    end
+
+    it 'edits an existing task with outcomes' do
+      sign_in user_one
+      post url,
+           params: {
+             id: task_one.id,
+             outcomes: outcome_one.id
+           }
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include task_name
