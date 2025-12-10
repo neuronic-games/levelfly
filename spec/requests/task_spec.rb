@@ -74,7 +74,7 @@ RSpec.describe 'Tasks' do
            }
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include task_name
+      expect(json_body['outcomes'][0]['id']).to eq(outcome_one.id)
     end
   end
 end

@@ -229,7 +229,7 @@ class TaskController < ApplicationController
       if params[:outcomes].present?
         params[:outcomes].split(',')
         # OutcomeTask.delete_all(["outcome_id NOT IN (?) AND task_id = ?", outcome_ids, @task.id])
-        OutcomeTask.destroy_all(['outcome_id is NULL AND task_id = ?', @task.id])
+        OutcomeTask.where(['outcome_id is NULL AND task_id = ?', @task.id]).destroy_all
         outcomes_array = params[:outcomes].split(',')
         outcomes_array.each do |o|
           next unless o != ''
