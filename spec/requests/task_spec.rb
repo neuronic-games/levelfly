@@ -7,7 +7,7 @@ RSpec.describe 'Tasks' do
   let!(:task_one) { create(:task, school: school_demo, course: course_one) }
 
   before do
-    create(:task_participant, task: task_one, profile: profile_one)
+    create(:task_participant, task: task_one, profile: profile_one, profile_type: Task.profile_type_owner)
   end
 
   context 'when GET /index' do
@@ -23,6 +23,22 @@ RSpec.describe 'Tasks' do
       sign_in user_one
       get url_for(controller: 'task', action: :index),
           params: params
+      expect(response.body).to include task_one.name
+    end
+  end
+
+  context 'when GET /show' do
+    let(:params) { { id: task_one.id } }
+    let(:url) { url_for(controller: 'task', action: :show) }
+
+    it 'redirects to login if unauthenticated' do
+      get url, params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'renders task details page' do
+      sign_in user_one
+      get url, params: params
       expect(response.body).to include task_one.name
     end
   end
