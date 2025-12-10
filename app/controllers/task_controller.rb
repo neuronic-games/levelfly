@@ -89,7 +89,9 @@ class TaskController < ApplicationController
 
     participant = TaskParticipant.where(['task_id = ? and profile_id = ?', @task.id, @profile.id])
                                  .includes(%i[profile task])
-    @check_complete_task = true if participant and participant.status == Task.status_complete
+                                 .first
+
+    @check_complete_task = true if participant && participant.status == Task.status_complete
 
     @profile.record_action('last', 'task')
     @profile.record_action('task', @task.id)

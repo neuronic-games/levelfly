@@ -38,7 +38,7 @@ RSpec.describe 'Tasks' do
 
     it 'renders task details page' do
       sign_in user_one
-      get url, params: params
+      get url, params: params, xhr: true
       expect(response.body).to include task_one.name
     end
   end
