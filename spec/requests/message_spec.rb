@@ -114,4 +114,29 @@ RSpec.describe 'Messages', type: :request do
       expect(response.body).to include 'I\'d like to be your friend.'
     end
   end
+
+  context 'when POST /message/respond_to_course_request' do
+    let!(:course_one) { create(:course, school: school_demo, owner: profile_one) }
+    let!(:user_two) { create(:user, default_school: school_demo) }
+    let!(:profile_two) { create(:profile, user: user_two, school: school_demo) }
+    let!(:message_two) do
+      create(:message, profile: profile_one, parent_id: profile_two.id, parent_type: 'Course', target: course_one,
+                       wall: wall_one, target_type: 'Course', message_type: 'course_invite')
+    end
+    let(:params) { { message_id: message_two.id, activity: 'add', message_type: 'course_invite' } }
+    let(:url) { url_for(controller: 'message', action: :respond_to_course_request, params: params) }
+
+    it 'redirects to login if unauthenticated' do
+      post url, params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'accepts course invitation' do
+      sign_in user_one
+
+      post url, params: params
+
+      expect(response.body).to include "Added to #{course_one.name}"
+    end
+  end
 end
