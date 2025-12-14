@@ -321,7 +321,7 @@ class MessageController < ApplicationController
                               ])
     message_ids = messages.map(&:id)
     messages.each do |message|
-      message.update_attributes(archived: true)
+      message.update(archived: true)
     end
     render json: { status: status, message_ids: message_ids }
   end
