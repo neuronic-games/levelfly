@@ -119,11 +119,12 @@ RSpec.describe 'Messages', type: :request do
     let!(:course_one) { create(:course, school: school_demo, owner: profile_one) }
     let!(:user_two) { create(:user, default_school: school_demo) }
     let!(:profile_two) { create(:profile, user: user_two, school: school_demo) }
+    let!(:participant_two) { create(:participant, target: course_one, profile: profile_two, profile_type: 'P')}
     let!(:message_two) do
       create(:message, profile: profile_one, parent_id: profile_two.id, parent_type: 'Course', target: course_one,
                        wall: wall_one, target_type: 'Course', message_type: 'course_invite')
     end
-    let(:params) { { message_id: message_two.id, activity: 'add', message_type: 'course_invite' } }
+    let(:params) { { message_id: message_two.id, activity: 'add', message_type: 'course_invite', section_type: 'Course' } }
     let(:url) { url_for(controller: 'message', action: :respond_to_course_request, params: params) }
 
     it 'redirects to login if unauthenticated' do
@@ -137,6 +138,8 @@ RSpec.describe 'Messages', type: :request do
       post url, params: params
 
       expect(response.body).to include "Added to #{course_one.name}"
+      participant_two.reload
+      expect(participant_two.profile_type).to eq('S')
     end
   end
 end
