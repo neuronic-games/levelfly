@@ -81,7 +81,7 @@ RSpec.describe 'Tasks' do
   context 'when POST /task_complete' do
     let!(:outcome_one) { create(:outcome) }
 
-    let(:params) { { task_id: task_one.id } }
+    let(:params) { { task_id: task_one.id, check_val: 'true' } }
     let(:url) { url_for(controller: 'task', action: :task_complete) }
 
     it 'redirects to login if unauthenticated' do
@@ -94,9 +94,8 @@ RSpec.describe 'Tasks' do
       sign_in user_one
       post url,
            params: params
-
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include task_name
+      expect(task_one.task_participants[0].status).to eq(Task.status_complete)
     end
   end
 end

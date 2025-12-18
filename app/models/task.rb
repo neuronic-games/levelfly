@@ -177,6 +177,7 @@ class Task < ActiveRecord::Base
     status = nil
     participant = TaskParticipant.where(['task_id = ? and profile_id = ?', task_id, profile_id])
                                  .includes(%i[profile task])
+                                 .first
     return status if participant.nil?
 
     participant.profile
