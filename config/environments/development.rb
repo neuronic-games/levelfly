@@ -45,5 +45,10 @@ Oncapus::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  Pusher.url = ENV.fetch('PUSHER_URL', 'https://example.com')
+  # Fake details for pusher-fake
+  Pusher.app_id = 'MY_TEST_ID'
+  Pusher.key    = 'MY_TEST_KEY'
+  Pusher.secret = 'MY_TEST_SECRET'
+
+  require 'pusher-fake/support/base'
 end

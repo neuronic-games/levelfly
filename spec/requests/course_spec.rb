@@ -687,6 +687,12 @@ RSpec.describe 'Courses' do
     let(:url) { url_for(controller: 'course', action: :duplicate) }
     let(:params) { { id: course_one.id } }
 
+    before do
+      forum = create(:course, :forum, course_id: course_one.id)
+      create(:participant, target: forum, target_type: 'Course', profile: profile_one,
+                           profile_type: 'M')
+    end
+
     it 'redirects to login if unauthenticated' do
       post url,
            params: params
@@ -706,11 +712,15 @@ RSpec.describe 'Courses' do
     it 'duplicates course' do
       sign_in user_one
 
+      Delayed::Worker.delay_jobs = false
       post url,
            params: params
+      Delayed::Worker.delay_jobs = true
 
       expect(response).to have_http_status(:ok)
-      expect(Delayed::Job.count).to eq(1)
+      expect {
+        duplicate = Course.find_by!(:name => "#{course_one.name} COPY")
+      }.not_to raise_error
     end
   end
 

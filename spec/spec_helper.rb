@@ -15,6 +15,14 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require 'pusher'
+# Fake details for pusher-fake
+Pusher.app_id = 'MY_TEST_ID'
+Pusher.key    = 'MY_TEST_KEY'
+Pusher.secret = 'MY_TEST_SECRET'
+require 'pusher-fake'
+require 'pusher-fake/support/rspec'
+
 require 'simplecov'
 require 'simplecov-html'
 require 'simplecov_json_formatter'

@@ -44,10 +44,4 @@ Oncapus::Application.configure do
   # Raise exceptions for disallowed deprecations.
   config.active_support.disallowed_deprecation = :raise
 
-  # Fake details for pusher-fake
-  Pusher.app_id = 'MY_TEST_ID'
-  Pusher.key    = 'MY_TEST_KEY'
-  Pusher.secret = 'MY_TEST_SECRET'
-
-  require 'pusher-fake/support/base'
 end
