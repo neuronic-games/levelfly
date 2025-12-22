@@ -14,7 +14,7 @@ class Course < ActiveRecord::Base
   # FIXME: https://stackoverflow.com/a/21898204/14269772
   do_not_validate_attachment_file_type :image
 
-  has_many :forums, -> { class_name 'Course', conditions { parent_type 'F' }, order => 'name' }
+  has_many :forums, -> { where(parent_type: 'F').order(:name) }, :class_name => 'Course'
   has_one :wall, as: :parent
   has_one :game
 
