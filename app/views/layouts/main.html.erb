@@ -39,7 +39,7 @@
       // Test environment.
       var messagePusher = <%= PusherFake.javascript({ authEndpoint: '/auth' }).html_safe %>;
     <% else %>
-      var messagePusher = new Pusher('<%= Pusher.key %>', { authEndpoint: '/auth' });
+      var messagePusher = new Pusher('<%= Pusher.key %>', { cluster: '<%= Pusher.cluster %>', authEndpoint: '/auth' });
     <% end %>
     var messageChanel = messagePusher.subscribe('private-my-channel-<%= current_profile.id %>');
     messageChanel.bind('message', pusherEventHandler);
