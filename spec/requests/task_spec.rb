@@ -98,4 +98,32 @@ RSpec.describe 'Tasks' do
       expect(task_one.task_participants[0].status).to eq(Task.status_complete)
     end
   end
+
+  context 'when POST /remove_tasks' do
+    let(:params) { { task_id: task_one.id } }
+    let(:url) { url_for(controller: 'task', action: :remove_tasks) }
+    let!(:user_two) { create(:user, default_school: school_demo) }
+    let!(:profile_two) { create(:profile, user: user_two, school: school_demo) }
+
+    before do
+      create(:task_participant, task: task_one, profile: profile_two, profile_type: Task.profile_type_member)
+    end
+
+    it 'redirects to login if unauthenticated' do
+      post url,
+           params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'removes a task' do
+      sign_in user_one
+      post url,
+           params: params
+      expect(response).to have_http_status(:ok)
+      expect(json_body['status']).to be(true)
+
+      task_one.reload
+      expect(task_one.archived).to be(true)
+    end
+  end
 end

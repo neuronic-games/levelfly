@@ -214,7 +214,7 @@ class Task < ActiveRecord::Base
 
   def self.task_grade_points(task_id, profile_id, complete, award_points)
     @task = Task.find(task_id)
-    @task_grade = TaskGrade.where('task_id = ? and profile_id = ?', task_id, profile_id)
+    @task_grade = TaskGrade.where(profile_id: profile_id, task_id: task_id).to_a
     if @task_grade.blank?
       @task_grade << TaskGrade.new({ school_id: @task.school_id, course_id: @task.course_id, task_id: task_id,
                                      profile_id: profile_id })
@@ -267,6 +267,7 @@ class Task < ActiveRecord::Base
     status = nil
     participant = TaskParticipant.where(['task_id = ? and profile_id = ?', task_id, profile_id])
                                  .includes(%i[profile task])
+                                 .first
     if participant
       profile = participant.profile
       task = participant.task
@@ -288,8 +289,8 @@ class Task < ActiveRecord::Base
   end
 
   def remaining_points(profile_id)
-    total_points = TaskGrade.sum(:points,
-                                 conditions: ['course_id = ? and profile_id = ?', course.id, profile_id])
+    total_points = TaskGrade.where(['course_id = ? and profile_id = ?', course.id, profile_id])
+                            .sum(:points)
 
     Course.default_points_max - total_points
   end
