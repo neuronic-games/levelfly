@@ -104,7 +104,7 @@ class CourseGrade < ActiveRecord::Base
   def self.update_outcome_average(outcome_id, task_id, course_id)
     participant_profile_ids = OutcomeGrade.where(['task_id = ? and outcome_id = ?', task_id,
                                                   outcome_id]).map(&:profile_id)
-    OutcomeGrade.destroy_all(['task_id = ? and outcome_id = ?', task_id, outcome_id])
+    OutcomeGrade.where(['task_id = ? and outcome_id = ?', task_id, outcome_id]).destroy_all
     tasks = Course.sort_course_task(course_id).collect(&:id)
     participant_profile_ids.each do |profile_id|
       course_grade = CourseGrade.where(profile_id: profile_id, course_id: course_id,
