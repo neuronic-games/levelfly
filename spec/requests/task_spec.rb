@@ -126,4 +126,29 @@ RSpec.describe 'Tasks' do
       expect(task_one.archived).to be(true)
     end
   end
+
+  context 'when POST /outcome_unchecked' do
+    let!(:outcome_one) { create(:outcome) }
+    let!(:outcome_task_one) { create(:outcome_task, task: task_one, outcome: outcome_one) }
+    let(:params) { { task_id: task_one.id, outcome_id: outcome_one.id } }
+    let(:url) { url_for(controller: 'task', action: :outcome_unchecked) }
+
+    before do
+    end
+
+    it 'redirects to login if unauthenticated' do
+      post url,
+           params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'unchecks an outcome' do
+      sign_in user_one
+      post url,
+           params: params
+      expect(response).to have_http_status(:ok)
+      expect(json_body['status']).to be(true)
+      expect { outcome_task_one.reload }.to raise_exception ActiveRecord::RecordNotFound
+    end
+  end
 end
