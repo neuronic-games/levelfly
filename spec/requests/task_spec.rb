@@ -12,16 +12,17 @@ RSpec.describe 'Tasks' do
 
   context 'when GET /index' do
     let(:params) { { course_id: course_one.id } }
+    let(:url) { url_for(controller: 'task', action: :index) }
 
     it 'redirects to login if unauthenticated' do
-      get url_for(controller: 'task', action: :index),
+      get url,
           params: params
       expect(response).to redirect_to '/users/sign_in'
     end
 
     it 'renders index page' do
       sign_in user_one
-      get url_for(controller: 'task', action: :index),
+      get url,
           params: params
       expect(response.body).to include task_one.name
     end
@@ -40,6 +41,29 @@ RSpec.describe 'Tasks' do
       sign_in user_one
       get url, params: params, xhr: true
       expect(response.body).to include task_one.name
+    end
+  end
+
+  context 'when POST /get_task' do
+    # TODO: Also test non-blank `show`
+    let(:url) { url_for(controller: 'task', action: :get_task) }
+
+    let!(:task_two) { create(:task, school: school_demo, course: course_one) }
+
+    before do
+      create(:task_participant, task: task_two, profile: profile_one, profile_type: Task.profile_type_owner, complete_date: Time.now)
+    end
+
+    it 'redirects to login if unauthenticated' do
+      post url
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'shows list of completed tasks' do
+      sign_in user_one
+      post url, params: { filter: 'past', show: '' }, xhr: true
+      expect(response.body).to include task_two.name
+      expect(response.body).not_to include task_one.name
     end
   end
 
