@@ -142,11 +142,14 @@ class TaskController < ApplicationController
 
   def get_task
     @profile = current_profile
-    tasks = Task.filter_by(@profile.id, params[:show], params[:filter])
-    logger.info tasks
-    puts '!!!!!!!!!!!!!'
-    puts params.inspect
-    render partial: '/task/task_list', locals: { :@tasks => tasks }
+    # NOTE: Previously, this was initialized as a local variable, and set as an
+    # instance variable using `render... locals:` -- but some time between
+    # Rails 4 and Rails 7, this seems to have stopped working. Initializing it
+    # as an instance variable seems to work, and hopefully has no unintended
+    # consequences...
+    @tasks = Task.filter_by(@profile.id, params[:show], params[:filter])
+    logger.info @tasks
+    render partial: '/task/task_list'
   end
 
   def check_priorities
