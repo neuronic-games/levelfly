@@ -71,7 +71,7 @@ class TaskGrade < ActiveRecord::Base
     flag = false
     category_used = 0
     tasks = Task.where(['course_id = ? and archived = false', course_id])
-    c = Category.where(['course_id = ?', course_id])
+    c = Category.where(course_id: course_id)
     categories = c.map do |category|
       { id: category.id, percent_value: category.percent_value, count: 0 }
     end
