@@ -268,6 +268,7 @@ class Profile < ActiveRecord::Base
                                            ])
                        .includes([:participants])
                        .joins([:participants])
+                       .pluck(:id)
     forumn_ids.each do |forumn_id|
       total_like += Message.where('profile_id = ? and parent_type = ? and parent_id = ?', id,
                                   Course.parent_type_forum, forumn_id).sum(:like)
