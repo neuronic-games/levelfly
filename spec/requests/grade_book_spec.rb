@@ -156,8 +156,20 @@ RSpec.describe 'Grade books' do
   end
 
   context 'when POST /grade_calculate' do
+    let!(:category_one) { create(:category, course: course_one) }
+    let!(:task_one) { create(:task, school: school_demo, course: course_one, category: category_one) }
+
     let(:url) { url_for(controller: 'grade_book', action: :grade_calculate) }
-    let(:params) { { course_id: course_one.id, characters: 'A,B,C', profile_id: profile_one.id } }
+    # TODO: Also test letter-based grades
+    let(:params) do
+      { course_id: course_one.id, characters: 'A,B,C', profile_id: profile_one.id, task_id: task_one.id, task_grade: 80.00,
+        school_id: school_demo.id }
+    end
+
+    before do
+      create(:task_grade, profile_id: profile_one.id, task: task_one, course_id: course_one.id,
+                          school_id: school_demo.id)
+    end
 
     it 'redirects to login if unauthenticated' do
       post url, params: params
