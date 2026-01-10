@@ -180,6 +180,12 @@ RSpec.describe 'Grade books' do
     let(:url) { url_for(controller: 'grade_book', action: :load_achievements) }
     let(:params) { { course_id: course_one.id } }
 
+    before do
+      forum = create(:course, :forum, owner: profile_one, course_id: course_one.id)
+      create(:participant, :course_student, target: forum, profile: profile_two)
+      create(:message, profile: profile_two, parent_type: Course.parent_type_forum, parent: forum)
+    end
+
     it 'redirects to login if unauthenticated' do
       post url, params: params
       expect(response).to redirect_to '/users/sign_in'
