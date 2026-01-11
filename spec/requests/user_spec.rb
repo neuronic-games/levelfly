@@ -53,7 +53,8 @@ RSpec.describe 'Users' do
     it 'lists users' do
       sign_in user_one
       get url
-      expect(json_body['status']).to be true
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(profile_one.full_name)
     end
   end
 end

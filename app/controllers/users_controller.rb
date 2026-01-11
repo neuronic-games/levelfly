@@ -96,7 +96,7 @@ class UsersController < ApplicationController
     profile_id = user_session[:profile_id]
     @users = User.find_with_filters(course_id, profile_id, params, params[:page].to_i)
     render partial: '/users/load_users',
-           locals: { :@users => @users, :@page => params[:page].to_i, :@id => course_id }
+           locals: { :users => @users, :page => params[:page].to_i, :id => course_id }
   end
 
   def load_user_emails
