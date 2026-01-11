@@ -688,9 +688,10 @@ RSpec.describe 'Courses' do
     let(:params) { { id: course_one.id } }
 
     before do
-      forum = create(:course, :forum, course_id: course_one.id)
+      forum = create(:course, :forum, course_id: course_one.id, owner: profile_one)
       create(:participant, target: forum, target_type: 'Course', profile: profile_one,
                            profile_type: 'M')
+      create(:message, target_id: course_one.id, target_type: course_one.parent_type, starred: true, profile: profile_one)
     end
 
     it 'redirects to login if unauthenticated' do
@@ -706,7 +707,7 @@ RSpec.describe 'Courses' do
            params: params
 
       expect(response).to have_http_status(:unauthorized)
-      expect(Course.count).to eq(1)
+      expect(Course.count).to eq(2)
     end
 
     it 'duplicates course' do
@@ -721,6 +722,7 @@ RSpec.describe 'Courses' do
       expect {
         duplicate = Course.find_by!(:name => "#{course_one.name} COPY")
       }.not_to raise_error
+      expect(Course.count).to eq(4)
     end
   end
 
