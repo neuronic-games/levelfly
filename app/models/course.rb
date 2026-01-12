@@ -489,6 +489,8 @@ class Course < ActiveRecord::Base
     duplicate.owner = owner
     duplicate.wall = wall.dup if wall
 
+    duplicate_messages = []
+
     if params[:name_ext]
       name = "#{duplicate.name} #{params[:name_ext]}"
       duplicate.name = name
@@ -524,7 +526,12 @@ class Course < ActiveRecord::Base
       m = message.dup
       m.wall = duplicate.wall
       m.like = 0
-      duplicate.messages.push m
+      m.target = duplicate
+      # NOTE: Unclear why this is required, but if it's not included then
+      # `target_type` ends up as 'Course' instead of 'C', and the message won't
+      # be included in .messages
+      m.target_type = duplicate.parent_type
+      duplicate_messages.push(m)
     end
 
     attachments.each do |attachment|
@@ -602,6 +609,15 @@ class Course < ActiveRecord::Base
 
     if current_user
       duplicate.save
+      # NOTE: This is a bit hacky, previously we just did
+      # `duplicate.messages.push m` above, but some time between Rails 4 and
+      # Rails 7.1 this stopped working, so here we find ourselves
+      duplicate_messages.each do |m|
+        m.target = duplicate
+        # NOTE: Again, required in order for target_type to be 'C' instead of 'Course'
+        m.target_type = duplicate.parent_type
+        m.save
+      end
       Pusher["course-duplicate-#{current_user.id}"].trigger('complete', {})
     else
       duplicate
