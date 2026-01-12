@@ -719,10 +719,13 @@ RSpec.describe 'Courses' do
       Delayed::Worker.delay_jobs = true
 
       expect(response).to have_http_status(:ok)
-      expect {
-        duplicate = Course.find_by!(:name => "#{course_one.name} COPY")
-      }.not_to raise_error
+      course_one.reload
+      duplicate = Course.find_by!(:name => "#{course_one.name} COPY")
+      expect(duplicate).not_to be(nil)
       expect(Course.count).to eq(4)
+      expect(Message.count).to eq(2)
+      expect(course_one.messages.count).to eq(1)
+      expect(duplicate.messages.count).to eq(1)
     end
   end
 
