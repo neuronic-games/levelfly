@@ -761,7 +761,9 @@ RSpec.describe 'GameCenter' do
     let(:url) { url_for(controller: 'gamecenter', action: :show, id: game_one.id) }
 
     it 'shows game without authentication' do
-      post url
+      # NOTE: Set HTTP_USER_AGENT because the controller uses this to select the appropriate download link
+      post url,
+           headers: { 'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 15.7; rv:146.0) Gecko/20100101 Firefox/146.0' }
 
       expect(response).to have_http_status :ok
       expect(response).to render_template layout: 'public'
