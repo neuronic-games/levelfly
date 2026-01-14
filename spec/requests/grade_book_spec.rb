@@ -179,7 +179,14 @@ RSpec.describe 'Grade books' do
       post url, params: params
       expect(response).to have_http_status(:ok)
       expect(json_body['grade']).to eq(['80.0 B-'])
-      # TODO: Test previous_grade
+    end
+
+    it 'calculates grades with letters' do
+      sign_in user_one
+      post url, params: params.merge!({ task_grade: 'B-' })
+      expect(response).to have_http_status(:ok)
+      # TODO: Check this numeric value is correct
+      expect(json_body['grade']).to eq(['81.66 B-'])
     end
   end
 
