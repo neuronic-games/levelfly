@@ -50,7 +50,7 @@ class Attachment < ActiveRecord::Base
     bucket_name = aws_ensure_bucket(client, bucket_name)
     if client
       logger.info "(aws_upload_base64) school_id: #{school_id}, bucket_name: #{bucket_name}, filename: #{filename}"
-      client.put_object(bucket: bucket_name, acl: :public_read, key: filename, body: base64)
+      client.put_object(bucket: bucket_name, key: filename, body: base64)
     else
       logger.error "(aws_upload_base64) Error uploading, school_id: #{school_id}, bucket_name: #{bucket_name}, filename: #{filename}"
     end
