@@ -629,7 +629,7 @@ class CourseController < ApplicationController
   def show_course
     @course = Course.find(params[:id])
     @files = @course.attachments.order('starred desc,resource_file_name asc')
-    @profile = Profile.where(['user_id = ?', current_user.id]).first
+    @profile = Profile.find(user_session[:profile_id])
     @badges = AvatarBadge.where('profile_id = ? and course_id = ?', @profile.id, @course.id).count unless @profile.nil?
     xp = TaskGrade.select('sum(points) as total').where(
       'school_id = ? and course_id = ? and profile_id = ?',
@@ -685,6 +685,7 @@ class CourseController < ApplicationController
                                   .joins([:message_viewers])
       end
     end
+    # TODO: Some kind of naming here would be clearer
     if params[:value] == '3'
       setting = Setting.where([
                                 "target_id = ? and value = 'true' and target_type ='school' and name ='enable_course_forums' ", @course.school_id
@@ -948,7 +949,7 @@ class CourseController < ApplicationController
     return unless params[:id] and params[:id].present?
 
     @course = Course.find(params[:id])
-    @profile = Profile.where(['user_id = ?', current_user.id]).first
+    @profile = Profile.find(user_session[:profile_id])
     @peoples = Profile.where([
                                "participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S') AND users.status != 'D'", @course.id
                              ])
