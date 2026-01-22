@@ -949,6 +949,7 @@ class CourseController < ApplicationController
     return unless params[:id] and params[:id].present?
 
     @course = Course.find(params[:id])
+    # FIXME: Test this change
     @profile = Profile.find(user_session[:profile_id])
     @peoples = Profile.where([
                                "participants.target_id = ? AND participants.target_type IN ('Course','Group') AND participants.profile_type IN ('P', 'S') AND users.status != 'D'", @course.id

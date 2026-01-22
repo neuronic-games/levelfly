@@ -94,6 +94,8 @@ RSpec.describe 'Forums' do
     end
 
     it 'renders forum show page' do
+      # FIXME: Test auth
+      # FIXME: Test cross-school behaviour
       sign_in user_one
       get url, params: params
       expect(response).to have_http_status(:ok)
