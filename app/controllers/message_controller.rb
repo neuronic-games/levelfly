@@ -484,7 +484,6 @@ class MessageController < ApplicationController
     @prevent_delete = false
     @message = Message.find(params[:id])
     if course_master && !course_master.nil? and (course_master.to_i != user_session[:profile_id])
-      @prevent_delete = true
       comments_ids = Message.where(['parent_id = ? AND archived = ?', params[:id], false])
                             .distinct(:profile_id)
                             .pluck('profile_id')
