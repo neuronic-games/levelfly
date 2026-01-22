@@ -373,7 +373,7 @@ class MessageController < ApplicationController
       @message.archived = true
       @message.save
     end
-    render nothing: true
+    head :ok
   end
 
   def unfriend
