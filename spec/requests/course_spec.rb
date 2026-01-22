@@ -803,4 +803,31 @@ RSpec.describe 'Courses' do
       expect(response.body).to include(forum.name)
     end
   end
+
+  context 'when POST /filter' do
+    let(:url) { url_for(controller: 'course', action: :filter) }
+    let(:params) { { filter: 'past', section_type: 'C' } }
+
+    it 'redirects to login if unauthenticated' do
+      post url,
+           params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'lists archived courses' do
+      school_two = create(:school)
+      user_one.update!(default_school: school_two)
+
+      profile_two = create(:profile, user: user_one, school: school_two)
+      course_two = create(:course, course_id: course_one.id, owner: profile_two, archived: true, parent_type: Course.parent_type_course, join_type: Course.join_type_invite, school: school_two)
+
+      # Course owned by the user's second profile
+      create(:participant, :course_master, target_id: course_two, target_type: 'Course', profile_id: profile_two)
+
+      sign_in user_one
+      post url, params: params
+
+      expect(response.body).to include(course_two.name)
+    end
+  end
 end
