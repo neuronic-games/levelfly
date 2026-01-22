@@ -204,6 +204,12 @@ RSpec.describe 'Messages', type: :request do
       expect(response).to redirect_to '/users/sign_in'
     end
 
+    it 'renders the confirm delete dialog' do
+      sign_in user_one
+      post url, params: params
+      expect(response.body).to include('You are about to remove this message. Are you sure?')
+    end
+
     it 'warns about trying to delete a thread with replies from others' do
       sign_in user_one
       post url, params: params
