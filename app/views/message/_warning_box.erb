@@ -1,15 +1,16 @@
-<%if @message_id && !@message_id.nil?%>
+<% require 'pry'; binding.pry %>
+<%if message_id && !message_id.nil?%>
 <div class="message_warning_box ">
   <div class="heading">Warning</div>
     <div class="clear"></div>
     <div class="spacebar10px"></div>
     <div class="spacebar10px"></div>
      <div >
-     <%if @del == true%>
+     <%if del == true%>
         You are not able to delete this message<br />
 		because other users have already commented on it.
      <%else%>
-        <%if @type=="message"%>
+        <%if type=="message"%>
 		You are about to remove this message along with<br />
 		any comments on this message. Are you sure?
 		<%else%>
@@ -19,11 +20,11 @@
     </div>
     <div class="spacebar10px"></div>
   <div align="right">
-  <%if @del == true%>
+  <%if del == true%>
       <a class="big_blue_btn  inlineblock" id = "dont_delete_btn" href="javascript:void(0)">OK</a>
   <% else %> 
      <a class="smaller_text big_blue_btn  inlineblock" id = "dont_delete_btn" href="javascript:void(0)">DON'T DELETE</a>
-    <a class="big_orange_btn  inlineblock clr_red" id = "delete_btn" href="javascript:void(0)" rel ="<%=@message_id%>"  rev ="<%=@delete_all%>">DELETE</a> 
+    <a class="big_orange_btn  inlineblock clr_red" id = "delete_btn" href="javascript:void(0)" rel ="<%=message_id%>"  rev ="<%=delete_all%>">DELETE</a> 
   <% end %>
   
   </div>

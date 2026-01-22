@@ -479,46 +479,44 @@ class MessageController < ApplicationController
   def confirm
     return unless params[:id] && !params[:id].nil?
 
+    # FIXME: Should be Course.find(params[:id]).owner
     course_master = params[:course_master_id] if params[:course_master_id]
-    @del = false
+    @prevent_delete = false
     @message = Message.find(params[:id])
-    if course_master and !course_master.nil? && (course_master.to_i != user_session[:profile_id])
+    if course_master && !course_master.nil? and (course_master.to_i != user_session[:profile_id])
+      @prevent_delete = true
       comments_ids = Message.where(['parent_id = ? AND archived = ?', params[:id], false])
-                            .select('profile_id')
-                            .distinct
-                            .collect(&:profile_id)
+                            .distinct(:profile_id)
+                            .pluck('profile_id')
       comments_ids.each do |c|
         if c != user_session[:profile_id]
-          @del = true
+          @prevent_delete = true
           break
         end
       end
 
     end
     render partial: 'message/warning_box',
-           locals: { :@message_id => @message.id, :@type => params[:message_type], :@delete_all => params[:delete_all],
-                     :@del => @del }
+           locals: { message_id: @message.id, type: params[:message_type], delete_all: params[:delete_all],
+                     del: @prevent_delete }
   end
 
   def delete_message
     if params[:id] && !params[:id].nil? && params[:message_friends].nil?
-      comments_ids = Message.where(['parent_id = ?', params[:id]])
-                            .select('id')
-                            .collect(&:id)
+      comments_ids = Message.where(parent_id: params[:id])
+                            .pluck(:id)
       # Message.update_all({:archived => true},["id = ?",params[:id]])
       message = Message.find(params[:id])
-      message.update_attributes(archived: true)
+      message.update!(archived: true)
       message.send_delete_notification(current_profile)
-      Message.update_all({ archived: true }, ['id in (?)', comments_ids])
-      if params[:delete_all] and params[:delete_all] == 'delete_all'
-        MessageViewer.delete_all(['message_id = ?', params[:id]])
-        MessageViewer.delete_all(['message_id in(?)', comments_ids])
+      Message.where(id: comments_ids).update!({ archived: true })
+      if params[:delete_all] && params[:delete_all] == 'delete_all'
+        MessageViewer.where(message_id: [params[:id]] + comments_ids).delete_all
       else
         @message_viewer = MessageViewer.where(['viewer_profile_id = ? and message_id = ?', user_session[:profile_id],
                                                params[:id]]).first
         if @message_viewer
-          MessageViewer.delete_all(['message_id in(?) and viewer_profile_id = ?', comments_ids,
-                                    user_session[:profile_id]])
+          MessageViewer.where(message_id: comments_ids, viewer_profile_id: user_session[:profile_id]).delete_all
           @message_viewer.delete
         end
       end
@@ -526,17 +524,15 @@ class MessageController < ApplicationController
     elsif params[:id] && !params[:id].nil? && params[:message_friends]
       @message_viewer = MessageViewer.where(['viewer_profile_id = ? and message_id = ?', user_session[:profile_id],
                                              params[:id]]).first
-      comments_ids = Message.where(['parent_id = ?', params[:id]])
-                            .select('id')
-                            .collect(&:id)
-      if @message_viewer and @message_viewer.poster_profile_id == user_session[:profile_id]
+      comments_ids = Message.where(parent_id: params[:id])
+                            .pluck(:id)
+      if @message_viewer && @message_viewer.poster_profile_id == user_session[:profile_id]
         # Message.update_all({:archived => true},["id = ?",params[:id]])
         message = Message.find(params[:id])
-        message.update_attributes(archived: true)
+        message.update!(archived: true)
         message.send_delete_notification_to_friends(current_profile)
-        Message.update_all({ archived: true }, ['id in (?)', comments_ids])
-        MessageViewer.delete_all(['message_id = ?', params[:id]])
-        MessageViewer.delete_all(['message_id in(?)', comments_ids])
+        Message.where(id: comments_ids).update!({ archived: true })
+        MessageViewer.where(message_id: [params[:id]] + comments_ids).delete_all
       elsif @message_viewer
         @message_viewer.delete
       end
