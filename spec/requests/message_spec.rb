@@ -142,4 +142,72 @@ RSpec.describe 'Messages', type: :request do
       expect(participant_two.profile_type).to eq('S')
     end
   end
+
+  context 'when POST /delete_message' do
+    let!(:wall_two) { create(:wall, parent: course_one, parent_type: 'C') }
+    let!(:course_one) { create(:course, school: school_demo, owner: profile_one) }
+    let!(:message_two) do
+      create(:message, parent: course_one, parent_type: 'C', target: course_one, wall: wall_two, target_type: 'C',
+                       message_type: Message.to_s, profile: profile_one)
+    end
+    let!(:message_three) do
+      create(:message, parent: message_two, parent_type: Message.to_s, target: course_one, wall: wall_two, target_type: 'C',
+                       message_type: Message.to_s, profile: profile_one)
+    end
+
+    let(:url) { url_for(controller: 'message', action: :delete_message) }
+    # TODO: Test `delete_all`
+    let(:params) { { id: message_two.id } }
+
+    before do
+      create(:message_viewer, message: message_two, poster_profile: profile_one,
+                              viewer_profile: profile_one)
+    end
+
+    it 'redirects to login if unauthenticated' do
+      post url, params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'deletes a message, not notifying friends' do
+      sign_in user_one
+      post url, params: params
+      expect(json_body['status']).to be(true)
+      message_two.reload
+      message_three.reload
+      expect(message_two.archived).to be(true)
+      expect(message_three.archived).to be(true)
+    end
+
+    it 'deletes a message, notifying friends' do
+      sign_in user_one
+      post url, params: params.merge({ message_friends: 'true' })
+      expect(json_body['status']).to be(true)
+      message_two.reload
+      message_three.reload
+      expect(message_two.archived).to be(true)
+      expect(message_three.archived).to be(true)
+    end
+  end
+
+  # NOTE: "Confirm delete" pop-up
+  context 'when POST /message/confirm' do
+    let!(:course_one) { create(:course, school: school_demo, owner: profile_one) }
+    let!(:wall_two) { create(:wall, parent: course_one, parent_type: 'C') }
+    let!(:message_two) { create(:message, profile: profile_one, target: profile_one, wall: wall_two, target_type: 'C') }
+    let(:url) { url_for(controller: 'message', action: :confirm) }
+    let(:params) { { course_master_id: profile_one.id, id: message_two.id } }
+    # FIXME: add second user, profile, message
+
+    it 'redirects to login if unauthenticated' do
+      post url, params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'warns about trying to delete a thread with replies from others' do
+      sign_in user_one
+      post url, params: params
+      # FIXME: Test content
+    end
+  end
 end
