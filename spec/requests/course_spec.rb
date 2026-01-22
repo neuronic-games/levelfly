@@ -785,5 +785,22 @@ RSpec.describe 'Courses' do
       expect(response).to have_http_status(:ok)
       expect(response.body).to include course_one.name
     end
+
+    it 'renders forum list' do
+      school_two = create(:school)
+      user_one.update!(default_school: school_two)
+
+      profile_two = create(:profile, user: user_one, school: school_two)
+      forum = create(:course, :forum, course_id: course_one.id, owner: profile_two)
+
+      # Forum owned by the user's second profile
+      create(:participant, :course_master, target_id: forum, target_type: 'Course', profile_id: profile_two)
+      create(:setting, target_id: school_demo.id, target_type: 'school', name: 'enable_course_forums', value: 'true')      
+
+      sign_in user_one
+      post url, params: params.merge!({ value: 3 })
+
+      expect(response.body).to include(forum.name)
+    end
   end
 end
