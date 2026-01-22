@@ -216,4 +216,33 @@ RSpec.describe 'Messages', type: :request do
       # FIXME: Test content
     end
   end
+
+  context 'when POST /message/respond_to_friend_request' do
+    let!(:user_two) { create(:user, default_school: school_demo) }
+    let!(:profile_two) { create(:profile, user: user_two, school: school_demo) }
+    let!(:message_two) do
+      create(:message, profile: profile_one, parent_id: profile_two.id, parent_type: 'Profile',
+                       target_type: 'Notification', message_type: 'Message')
+    end
+
+    let(:url) { url_for(controller: 'message', action: :respond_to_friend_request, params: params) }
+    let(:params) { { message_id: message_two.id, activity: 'add' } }
+
+    it 'redirects to login if unauthenticated' do
+      post url, params: params
+      expect(response).to redirect_to '/users/sign_in'
+    end
+
+    it 'accepts friend request' do
+      sign_in user_one
+
+      post url, params: params
+
+      expect(response).to have_http_status(:ok)
+      expect do
+        Participant.find_by!(target_id: profile_one.id, profile_id: profile_two.id)
+        Participant.find_by!(target_id: profile_two.id, profile_id: profile_one.id)
+      end.not_to raise_error
+    end
+  end
 end
