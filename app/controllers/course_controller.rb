@@ -866,7 +866,7 @@ class CourseController < ApplicationController
   def filter
     return unless params[:filter] && params[:filter].present?
 
-    @profile = Profile.where(['user_id = ?', current_user.id]).first
+    @profile = Profile.find(user_session[:profile_id])
     if params[:section_type] && !params[:section_type].nil?
       if params[:section_type] == 'C'
         course_list = Course.course_filter(@profile.id, params[:filter])
