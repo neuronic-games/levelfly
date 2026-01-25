@@ -9,7 +9,7 @@ class Attachment < ActiveRecord::Base
 
   acts_as_taggable
   has_attached_file :resource,
-                    path: 'schools/:school/files/:target/:target_id/:filename'
+                    path: "#{ENV.fetch('S3_PATH', '')}schools/:school/files/:target/:target_id/:filename"
   # TODO: This is the correct solution to allow for files of the same name, but we need to write a script to move all files to the new location
   # :path => "schools/:school/files/:target/:target_id/:id/:filename"
 
@@ -38,6 +38,8 @@ class Attachment < ActiveRecord::Base
   def self.aws_upload(school_id, filename, temp_image_path)
     client = aws_connection(school_id)
     bucket = aws_ensure_bucket(client)
+    path = ENV.fetch('S3_PATH', '')
+    filename = "#{path}#{filename}"
     if client
       client.put_object(bucket: bucket, acl: :public_read, key: filename, body: File.read(temp_image_path))
     else
@@ -48,6 +50,8 @@ class Attachment < ActiveRecord::Base
   def self.aws_upload_base64(school_id, bucket_name = nil, filename, base64)
     client = aws_connection(school_id)
     bucket_name = aws_ensure_bucket(client, bucket_name)
+    path = ENV.fetch('S3_PATH', '')
+    filename = "#{path}#{filename}"
     if client
       logger.info "(aws_upload_base64) school_id: #{school_id}, bucket_name: #{bucket_name}, filename: #{filename}"
       client.put_object(bucket: bucket_name, key: filename, body: base64)
@@ -59,6 +63,8 @@ class Attachment < ActiveRecord::Base
   def self.aws_get_file_data(school_id, filename, bucket_name = nil)
     client = aws_connection(school_id)
     bucket_name = aws_ensure_bucket(client, bucket_name)
+    path = ENV.fetch('S3_PATH', '')
+    filename = "#{path}#{filename}"
     if client
       client.get_object(bucket: bucket_name, key: filename).body.read
     else
@@ -69,6 +75,8 @@ class Attachment < ActiveRecord::Base
   def self.aws_delete_file(school_id, filename, bucket_name = nil)
     client = aws_connection(school_id)
     bucket_name = aws_ensure_bucket(client, bucket_name)
+    path = ENV.fetch('S3_PATH', '')
+    filename = "#{path}#{filename}"
     if connection
       client.delete_object(bucket: bucket_name, key: filename)
     else
