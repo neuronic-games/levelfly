@@ -1,6 +1,6 @@
-class AddCourseDetails < ActiveRecord::Migration
+class AddCourseDetails < ActiveRecord::Migration[4.2]
   def up
-    add_column :courses, :section, :string, :length => 3
+    add_column :courses, :section, :string, length: 3
     add_column :courses, :rating_low, :integer
     add_column :courses, :rating_medium, :integer
     add_column :courses, :rating_high, :integer

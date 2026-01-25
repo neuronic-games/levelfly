@@ -1,17 +1,10 @@
 Oncapus::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
-  # Load environment variables for development
-  config.before_configuration do
-    aws_env_file = Rails.root.join('config', 'application.yml').to_s
-    if File.exists?(aws_env_file)
-      puts "Environment variables loaded from #{aws_env_file}"
-      YAML.load_file(aws_env_file).each do |k, v|
-        ENV[k.to_s] = v
-        puts "#{k.to_s} = #{v}"
-      end
-    end
-  end
+  # TODO: Consider removing this; even development settings should probably be loaded from env
+
+  # Do not eager load code on boot.
+  config.eager_load = false
 
   # In the development environment your application's code is reloaded on
   # every request.  This slows down response time but is perfect for development
@@ -21,14 +14,14 @@ Oncapus::Application.configure do
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
 
+  # Enable server timing
+  config.server_timing = true
+
   config.eager_load = false
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
-
-  # Don't care if the mailer can't send
-  config.action_mailer.raise_delivery_errors = false
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
@@ -42,32 +35,17 @@ Oncapus::Application.configure do
   # Expands the lines which load the assets
   # config.assets.debug = true
 
-  #Activate observers that should always be running
+  # Activate observers that should always be running
   config.active_record.observers = :participant_observer
 
   # Commented for development because causing error on local
   # config.logger = Logger.new(STDOUT)
   # config.log_level = :debug #:warn
 
-  #Expands the lines which load the assets
+  # Expands the lines which load the assets
   config.assets.debug = true
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :smtp
 
-  # Used for password reminder emails
-  config.action_mailer.default_url_options = { :host => ENV['MAILER_DEFAULT_URL'] }
-
-  ActionMailer::Base.smtp_settings = {
-    :address              => "localhost",
-    :port                 => 1025,
-    :domain               => "localhost",
-  }
-
-  ActionMailer::Base.default :content_type => "text/html"
-
-  Pusher.url = ENV['PUSHER_URL']
-
-  # oink
-  config.middleware.use( Oink::Middleware, :logger => Hodel3000CompliantLogger.new(STDOUT))
+  Pusher.app_id = 'MY_TEST_ID'
+  Pusher.key    = 'MY_TEST_KEY'
+  Pusher.secret = 'MY_TEST_SECRET'
 end

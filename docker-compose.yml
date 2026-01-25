@@ -1,64 +1,82 @@
 ---
-version: "3"
+# NOTE: For local development! See https://git.coopcloud.tech/coop-cloud/levelfly for a production config
+
+x-environment:
+  &default-env
+    - NEW_RELIC_AGENT_ENABLED=false
+    - RAILS_ENV=development
+    - DATABASE_URL=postgresql://levelfly:password@db:5432/levelfly
+    - DATABASE_URL_TEST=postgresql://levelfly:password@db:5432/levelfly_test
+    - DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL=true
+    - S3_PROTOCOL=http
+    - S3_REGION=us-east-1
+    - S3_BUCKET=levelfly
+    - S3_ACCESS_KEY_ID=prissy-parmesan-luxury-paying-purist-marauding
+    - S3_SECRET_ACCESS_KEY=celibacy-civic-gout-botany-congrats-panic
+    - S3_HOST_NAME=localhost:9090
+    - S3_ENDPOINT=http://s3:9090
+    - S3_FORCE_PATH_STYLE=true
+    - URL=http://localhost:3000
+    - LOG_LEVEL=debug
+    - SMTP_HOST=mail
+    - SMTP_PORT=1025
 
 services:   
-  db:
-    restart: always
-    image: postgres:9.6-alpine
-    environment: 
-      POSTGRES_DB: levelfly
-      POSTGRES_USER: levelfly
-      POSTGRES_PASSWORD: test
-    shm_size: 256mb
-    networks:
-      - internal_network
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "levelfly"]
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
   app:
-    build: .
-    image: neuronic-games/levelfly
+    build: 
+      context: .
+      target: dev
+    image: neuronicgames/levelfly
     volumes:  
-      - ./:/var/app
-    env_file: .env
-    environment: 
-      RAILS_ENV: production
-      DB_USER: levelfly
-      DB_NAME: levelfly
-      DB_PASSWORD: test
-      DB_HOST: db
+      - ./:/var/app:z
+    environment: *default-env
     depends_on:
       - db
-    networks:
-      - external_network
-      - internal_network
     ports: 
       - 3000:3000
   jobs:
     build: .
     image: neuronicgames/levelfly
-    env_file: .env
     command: bundle exec rake jobs:work
     volumes:  
-      - ./:/var/app
-    environment: 
-      RAILS_ENV: production
-      DB_USER: levelfly
-      DB_NAME: levelfly
-      DB_PASSWORD: test
-      DB_HOST: db
+      - ./:/var/app:z
+    environment: *default-env
     depends_on:
       - app
       - db
-    networks:
-      - external_network
-      - internal_network
+  db:
+    restart: always
+    image: postgres:9.6-alpine
+    ports:
+      - 55432:5432
+    environment: 
+      POSTGRES_DB: levelfly
+      POSTGRES_USER: levelfly
+      POSTGRES_PASSWORD: password
+    shm_size: 256mb
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "levelfly"]
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  s3:
+    image: adobe/s3mock:4.9.1
+    environment:
+      - "COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS=levelfly"
+      - "COM_ADOBE_TESTING_S3MOCK_STORE_RETAIN_FILES_ON_EXIT=true"
+    ports:
+      - 9090:9090
+    volumes:
+      - s3_data:/s3mockroot/
+  mail:
+    image: dockage/mailcatcher:0.9.0
+    ports:
+      - 1025:1025
+      - 1080:1080
                 
 networks:
-  external_network:
   internal_network:
     internal: true
 
 volumes:
   postgres_data:
+  s3_data:

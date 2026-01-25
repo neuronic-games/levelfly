@@ -1,4 +1,4 @@
-class RemoveCourseIdFromOutcomes < ActiveRecord::Migration
+class RemoveCourseIdFromOutcomes < ActiveRecord::Migration[4.2]
   def up
     remove_column :outcomes, :course_id
   end

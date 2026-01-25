@@ -1,4 +1,4 @@
-class RemoveProfileIdFromCourse < ActiveRecord::Migration
+class RemoveProfileIdFromCourse < ActiveRecord::Migration[4.2]
   def up
     remove_column :courses, :profile_id
   end

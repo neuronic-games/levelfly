@@ -1,4 +1,4 @@
-class AddResourceFieldsToAttachment < ActiveRecord::Migration
+class AddResourceFieldsToAttachment < ActiveRecord::Migration[4.2]
   def self.up
     add_column :attachments, :resource_file_name, :string
     add_column :attachments, :resource_content_type, :string

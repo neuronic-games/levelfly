@@ -5,11 +5,13 @@ Oncapus::Application.configure do
   # test suite.  You never need to work with it otherwise.  Remember that
   # your test database is "scratch space" for the test suite and is wiped
   # and recreated between test runs.  Don't rely on the data there!
+  config.eager_load = false
+
   config.cache_classes = true
 
   # Configure static asset server for tests with Cache-Control for performance
   config.serve_static_assets = true
-  config.static_cache_control = "public, max-age=3600"
+  config.public_file_server.headers = { 'Cache-Control' => 'public, max-age=3600' }
 
   # Log error messages when you accidentally call methods on nil
   config.whiny_nils = true
@@ -19,12 +21,12 @@ Oncapus::Application.configure do
   config.action_controller.perform_caching = false
 
   # Raise exceptions instead of rendering exception templates
-  config.action_dispatch.show_exceptions = false
+  config.action_dispatch.show_exceptions = :none
 
   # Disable request forgery protection in test environment
-  config.action_controller.allow_forgery_protection    = false
+  config.action_controller.allow_forgery_protection = false
 
-  config.action_mailer.default_url_options = { :host => '0.0.0.0:3000' }
+  config.action_mailer.default_url_options = { host: '0.0.0.0:3000' }
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
@@ -37,9 +39,9 @@ Oncapus::Application.configure do
   # config.active_record.schema_format = :sql
 
   # Print deprecation notices to the stderr
-  config.active_support.deprecation = :stderr
+  config.active_support.deprecation = :raise
 
-  Pusher.app_id = '64378'
-  Pusher.key    = '18acef759a4aa6f53d19'
-  Pusher.secret = '4f9384b33dad44150882'
+  # Raise exceptions for disallowed deprecations.
+  config.active_support.disallowed_deprecation = :raise
+
 end

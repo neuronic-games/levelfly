@@ -1,4 +1,4 @@
-class AddWallToMessage < ActiveRecord::Migration
+class AddWallToMessage < ActiveRecord::Migration[4.2]
   def up
     add_column :messages, :wall_id, :integer
   end

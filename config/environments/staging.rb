@@ -1,6 +1,8 @@
 Oncapus::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
+  config.eager_load = true
+
   # Code is not reloaded between requests
   config.cache_classes = false
 
@@ -45,9 +47,6 @@ Oncapus::Application.configure do
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   # config.assets.precompile += %w( search.js )
 
-  # Disable delivery errors, bad email addresses will be ignored
-  # config.action_mailer.raise_delivery_errors = false
-
   # Enable threaded mode
   # config.threadsafe!
 
@@ -58,20 +57,7 @@ Oncapus::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  # Used for password reminder emails
-  config.action_mailer.default_url_options = { :host => 'levelfly-staging.herokuapp.com' }
-  
-  ActionMailer::Base.smtp_settings = {
-    :address              => ENV['SMTP_HOST'],
-    :port                 => ENV['SMTP_POST'],
-    :domain               => ENV['SMTP_DOMAIN'],
-    :user_name            => ENV['SMTP_USER'],
-    :password             => ENV['SMTP_PASSWORD'],
-    :authentication       => "plain"
-  }
-  
   Pusher.app_id = '64377'
   Pusher.key = 'c8fb9a955828496c8ed2'
   Pusher.secret = '0be4a588118c56c95029'
-
 end

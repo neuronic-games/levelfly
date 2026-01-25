@@ -29,23 +29,22 @@ class Feat < ActiveRecord::Base
 
   @@duration = 7
   cattr_accessor :duration
-  
+
   before_save :check_xp
-  
+
   private
-  
+
   # Make sure the constraints on xp and score are met before saving
   def check_xp
-    if self.progress_type == Feat.xp
+    if progress_type == Feat.xp
       # xp cannot be more than a 1000
-      return false if self.progress > 1000
-      
+      return false if progress > 1000
+
       # xp cannot go down
-      last_xp = game.get_xp(self.profile_id)
-      return false if self.progress < last_xp
+      last_xp = game.get_xp(profile_id)
+      return false if progress < last_xp
     end
 
-    return true
+    true
   end
-  
 end

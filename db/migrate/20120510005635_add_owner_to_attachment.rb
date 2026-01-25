@@ -1,4 +1,4 @@
-class AddOwnerToAttachment < ActiveRecord::Migration
+class AddOwnerToAttachment < ActiveRecord::Migration[4.2]
   def up
     add_column :attachments, :owner_id, :integer
   end

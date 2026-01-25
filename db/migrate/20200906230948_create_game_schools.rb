@@ -1,4 +1,4 @@
-class CreateGameSchools < ActiveRecord::Migration
+class CreateGameSchools < ActiveRecord::Migration[4.2]
   def change
     create_table :game_schools do |t|
       t.integer :game_id
@@ -6,6 +6,6 @@ class CreateGameSchools < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_index :game_schools, [:game_id, :school_id]
+    add_index :game_schools, %i[game_id school_id]
   end
 end

@@ -1,4 +1,4 @@
-class CreateWalls < ActiveRecord::Migration
+class CreateWalls < ActiveRecord::Migration[4.2]
   def change
     create_table :walls do |t|
       t.integer :parent_id

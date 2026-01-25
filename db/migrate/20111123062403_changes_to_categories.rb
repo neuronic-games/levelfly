@@ -1,4 +1,4 @@
-class ChangesToCategories < ActiveRecord::Migration
+class ChangesToCategories < ActiveRecord::Migration[4.2]
   def up
     add_column :categories, :percent_value, :integer
     add_column :categories, :campus_id, :integer

@@ -1,13 +1,18 @@
-.bundle
-db/*.sqlite3
-log/*.log
-tmp/
-.sass-cache/
-db/schema.rb
-.ruby-version
-.ruby-gemset
-.env
-/config/database.yml
+# Environment file
+/.env
+
+# Ruby / rails stuff
+/.bundle
+/db/*.sqlite3
+/log/
+/tmp/
+/.sass-cache/
+/public/assets
+/bin/
+/rspec-examples.txt
+
+# test coverage data
+/coverage
 
 # Compiled source
 *.com
@@ -44,9 +49,6 @@ Thumbs.db
 .vagrant
 
 # RVM
-.ruby-version
 .ruby-gemset
 
 .idea
-
-/public/assets

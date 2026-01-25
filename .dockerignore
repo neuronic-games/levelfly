@@ -1,1 +1,19 @@
+/.git
 postgres
+/docker-compose.yml
+/Dockerfile
+/.dockerignore
+/public/assets
+
+/.bundle
+/db/*.sqlite3
+/log/**
+/tmp/
+/.sass-cache/
+/db/schema.rb
+/.ruby-version
+/.ruby-gemset
+/.env
+
+# test coverage data
+/coverage

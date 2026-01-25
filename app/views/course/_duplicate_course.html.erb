@@ -38,7 +38,7 @@
       var section_type = $("#section_type").val();
       if (id) {
         var channel_name = 'course-duplicate-<%= current_user.id %>',
-            pusher = new Pusher('<%= Pusher.key %>'),
+            pusher = new Pusher('<%= Pusher.key %>', { cluster: 'us2', authEndpoint: '/auth' }),
             channel = pusher.subscribe(channel_name);
 
         channel.bind('complete', function(data) {

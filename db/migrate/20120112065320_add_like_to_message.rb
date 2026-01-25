@@ -1,6 +1,6 @@
-class AddLikeToMessage < ActiveRecord::Migration
+class AddLikeToMessage < ActiveRecord::Migration[4.2]
   def self.up
-    add_column :messages, :like, :integer, :default=>0
+    add_column :messages, :like, :integer, default: 0
   end
 
   def self.down

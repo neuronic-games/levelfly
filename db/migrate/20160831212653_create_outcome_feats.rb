@@ -1,4 +1,4 @@
-class CreateOutcomeFeats < ActiveRecord::Migration
+class CreateOutcomeFeats < ActiveRecord::Migration[4.2]
   def change
     create_table :outcome_feats do |t|
       t.integer :feat_id
@@ -8,6 +8,6 @@ class CreateOutcomeFeats < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index(:outcome_feats, [:profile_id, :outcome_id, :feat_id])
+    add_index(:outcome_feats, %i[profile_id outcome_id feat_id])
   end
 end

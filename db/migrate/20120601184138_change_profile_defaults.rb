@@ -1,13 +1,12 @@
-class ChangeProfileDefaults < ActiveRecord::Migration
+class ChangeProfileDefaults < ActiveRecord::Migration[4.2]
   def up
-    change_column :profiles, :like_given, :integer, :default => 0
-    change_column :profiles, :like_received, :integer, :default => 0
-    change_column :profiles, :post_count, :integer, :default => 0
-    Profile.update_all("like_given = 0", "like_given is null")
-    Profile.update_all("like_received = 0", "like_received is null")
-    Profile.update_all("post_count = 0", "post_count is null")
+    change_column :profiles, :like_given, :integer, default: 0
+    change_column :profiles, :like_received, :integer, default: 0
+    change_column :profiles, :post_count, :integer, default: 0
+    Profile.where(like_given: nil).update_all(like_given: 0)
+    Profile.where(like_received: nil).update_all(like_received: 0)
+    Profile.where(post_count: nil).update_all(post_count: 0)
   end
 
-  def down
-  end
+  def down; end
 end
