@@ -17,7 +17,7 @@ class Task < ActiveRecord::Base
   after_create :image_save
 
   has_attached_file :image,
-                    path: "#{ENV.fetch('S3_PATH', '')}schools/:school/courses/:course/tasks/:id/:filename:"
+                    path: "#{ENV.fetch('S3_PATH', '')}schools/:school/courses/:course/tasks/:id/:filename"
   # FIXME: https://stackoverflow.com/a/21898204/14269772
   do_not_validate_attachment_file_type :image
 
