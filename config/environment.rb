@@ -3,7 +3,7 @@
 # Load the Rails application.
 require_relative 'application'
 
-APP_VERSION = '1.9.2'
+APP_VERSION = '1.9.3'
 
 # Initialize the rails application
 Oncapus::Application.initialize!
