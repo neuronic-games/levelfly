@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 # Load the Rails application.
 require_relative 'application'
 
-APP_VERSION = '1.9.1'
+APP_VERSION = '1.9.2'
 
 # Initialize the rails application
 Oncapus::Application.initialize!
