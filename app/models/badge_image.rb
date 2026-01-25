@@ -1,6 +1,6 @@
 class BadgeImage < ActiveRecord::Base
   has_attached_file :image,
-                    path: 'games/:id/:filename',
+                    path: "#{ENV.fetch('S3_PATH', '')}games/:id/:filename",
                     default_url: '/assets/:style/missing.jpg'
 
   # FIXME: https://stackoverflow.com/a/21898204/14269772

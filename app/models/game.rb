@@ -18,7 +18,7 @@ class Game < ActiveRecord::Base
   accepts_nested_attributes_for :screen_shots, allow_destroy: true
 
   has_attached_file :image,
-                    path: 'games/:id/:filename',
+                    path: "#{ENV.fetch('S3_PATH', '')}games/:id/:filename",
                     default_url: '/assets/:style/missing.jpg'
   # FIXME: https://stackoverflow.com/a/21898204/14269772
   do_not_validate_attachment_file_type :image

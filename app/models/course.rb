@@ -10,7 +10,7 @@ class Course < ActiveRecord::Base
   has_and_belongs_to_many :outcomes
   has_many :attachments, as: :target
   has_attached_file :image,
-                    path: 'schools/:school/courses/:id/:filename'
+                    path: "#{ENV.fetch('S3_PATH', '')}schools/:school/courses/:id/:filename"
   # FIXME: https://stackoverflow.com/a/21898204/14269772
   do_not_validate_attachment_file_type :image
 
