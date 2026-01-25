@@ -10,5 +10,4 @@ steps:
       password:
         from_secret: docker_password
       repo: neuronicgames/levelfly
-      tags: rails-upgrade
-      # tags: ${DRONE_COMMIT_BRANCH}
+      auto_tag: true
