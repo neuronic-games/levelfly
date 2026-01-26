@@ -16,6 +16,8 @@ Check out the Levelfly code:
 git clone https://github.com/neuronic-games/levelfly.git && cd levelfly
 ```
 
+Sign up for an account on https://pusher.com, and create a new "channel". When you come to configure settings later, your `PUSHER_URL` will be: `http://<app key>:<app secret>@api-<cluster>.pusher.com/apps/<app ID>`.
+
 Then, decide how you'd like to run Levelfly and its dependencies.
 
 ### Docker
