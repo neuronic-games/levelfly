@@ -523,6 +523,8 @@ class Course < ActiveRecord::Base
       m.wall = duplicate.wall
       m.like = 0
       m.target = duplicate
+      m.parent = duplicate
+      m.parent_type = 'C'
       # NOTE: Unclear why this is required, but if it's not included then
       # `target_type` ends up as 'Course' instead of 'C', and the message won't
       # be included in .messages
@@ -613,6 +615,7 @@ class Course < ActiveRecord::Base
         # NOTE: Again, required in order for target_type to be 'C' instead of 'Course'
         m.target_type = duplicate.parent_type
         m.save
+        MessageViewer.add(m.profile.id, m.id, m.parent_type, m.parent_id)
       end
       Pusher["course-duplicate-#{current_user.id}"].trigger('complete', {})
     else
