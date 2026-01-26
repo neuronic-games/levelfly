@@ -127,7 +127,7 @@ class SystemController < ApplicationController
                              ])
     messages.map(&:id)
     messages.each do |message|
-      message.update_attributes(archived: true)
+      message.update!(archived: true)
     end
   end
 end
