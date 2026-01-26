@@ -727,6 +727,7 @@ RSpec.describe 'Courses' do
       expect(course_one.messages.count).to eq(1)
       expect(duplicate.messages.count).to eq(1)
       expect(duplicate.messages.first.parent_id).to eq(duplicate.id)
+      expect(duplicate.messages.first.message_viewers.count).to eq(1)
     end
   end
 
