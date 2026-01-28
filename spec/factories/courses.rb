@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :course do
+    id { Faker::Number.unique.number(digits: 9) }
     name { Faker::Educator.subject }
     code { Faker::Alphanumeric.alpha(number: 3) }
 
