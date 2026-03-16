@@ -5,12 +5,12 @@ class BadgeController < ApplicationController
   def give_badges
     return unless params[:course_id] && !params[:course_id].nil?
 
-    @profile = Profile.where(['user_id = ?', current_user.id]).first
+    @profile = Profile.where(user_id: current_user.id).first
     course_ids = Course.where([
                                 "participants.profile_id = ? and participants.profile_type = 'M' and participants.target_type = 'Course' and parent_type = 'C' and removed = ?",
                                 user_session[:profile_id], false
                               ])
-                       .include(:participants)
+                       .includes(:participants)
                        .order('courses.name')
                        .joins(:participants)
                        .map(&:id)
@@ -19,7 +19,7 @@ class BadgeController < ApplicationController
                               "participants.profile_id = ? and participants.target_id in(?) and participants.profile_type = 'S' and participants.target_type = 'Course' and parent_type = 'C'",
                               params[:profile_id], course_ids
                             ])
-                     .include(:participants)
+                     .includes(:participants)
                      .order('courses.id')
                      .joins(:participants)
 
