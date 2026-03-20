@@ -14,12 +14,8 @@ class Task < ActiveRecord::Base
   attr_accessor :task_outcomes, :task_category
 
   after_initialize :init_defaults
-  after_create :image_save
 
-  has_attached_file :image,
-                    path: "#{ENV.fetch('S3_PATH', '')}schools/:school/courses/:course/tasks/:id/:filename"
-  # FIXME: https://stackoverflow.com/a/21898204/14269772
-  do_not_validate_attachment_file_type :image
+  has_one_attached :image
 
   @@levels = %w[Low Medium High]
   cattr_accessor :levels
@@ -49,10 +45,8 @@ class Task < ActiveRecord::Base
   end
 
   def image_file
-    image_file_name ? image.url : Course.default_image_file
+    image.attached? ? url_for(image) : Course.default_image_file
   end
-
-  delegate :save, to: :image, prefix: true
 
   def outcomes
     OutcomeTask.where(['task_id = ?', id]).collect { |x| x.outcome }

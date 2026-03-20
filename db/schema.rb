@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_11_101507) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_table "access_codes", id: :serial, force: :cascade do |t|
@@ -26,13 +25,41 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
     t.datetime "updated_at", precision: nil
   end
 
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
   create_table "attachments", id: :serial, force: :cascade do |t|
     t.string "target_type", limit: 64
     t.integer "target_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.string "resource_file_name"
-    t.string "resource_content_type"
+    t.string "resource_file_name", limit: 255
+    t.string "resource_content_type", limit: 255
     t.integer "resource_file_size"
     t.integer "school_id"
     t.integer "owner_id"
@@ -74,8 +101,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
   end
 
   create_table "badge_images", id: :serial, force: :cascade do |t|
-    t.string "image_file_name"
-    t.string "image_content_type"
+    t.string "image_file_name", limit: 255
+    t.string "image_content_type", limit: 255
     t.integer "image_file_size"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
@@ -94,7 +121,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
     t.integer "school_id"
     t.integer "badge_image_id"
     t.integer "creator_profile_id"
-    t.string "descr"
+    t.string "descr", limit: 255
     t.integer "available_badge_image_id"
   end
 
@@ -119,8 +146,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
     t.integer "game_id", null: false
     t.integer "profile_id", null: false
     t.text "checkpoint"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["profile_id", "game_id"], name: "index_checkpoints_on_profile_id_and_game_id"
   end
 
@@ -132,22 +159,22 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
     t.decimal "grade", precision: 5, scale: 2, default: "0.0"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.string "notes"
+    t.string "notes", limit: 255
     t.index ["profile_id", "course_id", "outcome_id"], name: "index_course_grades_on_profile_id_and_course_id_and_outcome_id"
   end
 
   create_table "courses", id: :serial, force: :cascade do |t|
     t.string "name", limit: 64
     t.text "descr"
-    t.string "code"
+    t.string "code", limit: 255
     t.integer "school_id"
     t.boolean "archived", default: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.string "image_file_name"
-    t.string "image_content_type"
+    t.string "image_file_name", limit: 255
+    t.string "image_content_type", limit: 255
     t.integer "image_file_size"
-    t.string "section"
+    t.string "section", limit: 255
     t.integer "rating_low"
     t.integer "rating_medium"
     t.integer "rating_high"
@@ -165,7 +192,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
     t.boolean "show_grade", default: true
     t.boolean "display_number_grades", default: false
     t.boolean "show_outcomes", default: true
-    t.string "semester"
+    t.string "semester", limit: 255
     t.integer "year"
     t.boolean "allow_uploads"
     t.index "to_tsvector('english'::regconfig, lower((code)::text))", name: "index_courses_on_lower_code", using: :gin
@@ -186,8 +213,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
     t.datetime "run_at", precision: nil
     t.datetime "locked_at", precision: nil
     t.datetime "failed_at", precision: nil
-    t.string "locked_by"
-    t.string "queue"
+    t.string "locked_by", limit: 255
+    t.string "queue", limit: 255
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
@@ -196,7 +223,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
   create_table "departments", id: :serial, force: :cascade do |t|
     t.string "name", limit: 64
     t.text "descr"
-    t.string "code"
+    t.string "code", limit: 255
     t.boolean "archived"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
@@ -208,9 +235,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
     t.integer "profile_id", null: false
     t.integer "progress"
     t.integer "progress_type", null: false
-    t.string "level"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.string "level", limit: 255
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["profile_id", "game_id"], name: "index_feats_on_profile_id_and_game_id"
   end
 
@@ -232,31 +259,31 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
   create_table "game_score_leaders", id: :serial, force: :cascade do |t|
     t.integer "game_id", null: false
     t.integer "profile_id", null: false
-    t.string "full_name"
+    t.string "full_name", limit: 255
     t.integer "score"
     t.index ["profile_id", "game_id"], name: "index_game_score_leaders_on_profile_id_and_game_id"
   end
 
   create_table "games", id: :serial, force: :cascade do |t|
-    t.string "handle"
-    t.string "name"
+    t.string "handle", limit: 255
+    t.string "name", limit: 255
     t.text "descr"
-    t.string "image"
-    t.string "last_rev"
+    t.string "image", limit: 255
+    t.string "last_rev", limit: 255
     t.datetime "last_rev_date", precision: nil
     t.integer "player_count", default: 0
     t.boolean "published", default: false
     t.datetime "first_publish_date", precision: nil
     t.boolean "archived", default: false
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "image_file_name"
-    t.string "image_content_type"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "image_file_name", limit: 255
+    t.string "image_content_type", limit: 255
     t.integer "image_file_size"
     t.integer "school_id"
     t.integer "profile_id"
     t.text "download_links"
-    t.string "mail_to"
+    t.string "mail_to", limit: 255
     t.integer "course_id"
     t.index ["archived", "published", "handle"], name: "index_games_on_archived_and_published_and_handle"
     t.index ["archived", "published", "name"], name: "index_games_on_archived_and_published_and_name"
@@ -282,14 +309,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
   end
 
   create_table "groups", id: :serial, force: :cascade do |t|
-    t.string "name"
+    t.string "name", limit: 255
     t.text "descr"
     t.integer "course_id"
     t.integer "task_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.string "image_file_name"
-    t.string "image_content_type"
+    t.string "image_file_name", limit: 255
+    t.string "image_content_type", limit: 255
     t.integer "image_file_size"
   end
 
@@ -335,8 +362,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
     t.string "message_type", limit: 32, default: "Message"
     t.integer "wall_id"
     t.integer "target_id"
-    t.string "target_type"
-    t.string "topic"
+    t.string "target_type", limit: 255
+    t.string "topic", limit: 255
     t.boolean "starred", default: false
     t.index "to_tsvector('english'::regconfig, lower((topic)::text))", name: "index_messages_on_lower_topic", using: :gin
     t.index "to_tsvector('english'::regconfig, lower(content))", name: "index_messages_on_lower_content", using: :gin
@@ -357,8 +384,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
     t.integer "outcome_id"
     t.integer "profile_id"
     t.integer "rating"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["profile_id", "outcome_id", "feat_id"], name: "index_outcome_feats_on_profile_id_and_outcome_id_and_feat_id"
   end
 
@@ -376,7 +403,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
   create_table "outcome_tasks", id: :serial, force: :cascade do |t|
     t.integer "task_id"
     t.integer "outcome_id"
-    t.decimal "points_percentage"
+    t.decimal "points_percentage", precision: 10
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
   end
@@ -403,7 +430,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
   end
 
   create_table "permissions", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
+    t.string "name", limit: 255, null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
   end
@@ -416,7 +443,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
   create_table "profile_actions", id: :serial, force: :cascade do |t|
     t.integer "profile_id"
     t.string "action_type", limit: 10
-    t.string "action_param"
+    t.string "action_param", limit: 255
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
   end
@@ -436,8 +463,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
     t.integer "like_given", default: 0
     t.integer "like_received", default: 0
     t.integer "post_count", default: 0
-    t.string "image_file_name"
-    t.string "image_content_type"
+    t.string "image_file_name", limit: 255
+    t.string "image_content_type", limit: 255
     t.integer "image_file_size"
     t.integer "xp", default: 0
     t.integer "badge_count", default: 0
@@ -446,7 +473,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
     t.integer "wardrobe", default: 1
     t.text "interests"
     t.boolean "all_comments", default: true
-    t.string "post_date_format", default: "D"
+    t.string "post_date_format", limit: 255, default: "D"
     t.integer "role_name_id"
     t.boolean "extended_logout"
     t.boolean "is_public"
@@ -476,7 +503,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
   end
 
   create_table "role_names", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
+    t.string "name", limit: 255, null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
   end
@@ -496,22 +523,22 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "handle", limit: 16
-    t.string "student_code"
-    t.string "teacher_code"
+    t.string "student_code", limit: 255
+    t.string "teacher_code", limit: 255
   end
 
   create_table "screen_shots", id: :serial, force: :cascade do |t|
     t.integer "game_id"
-    t.string "image_file_name"
-    t.string "image_content_type"
+    t.string "image_file_name", limit: 255
+    t.string "image_content_type", limit: 255
     t.integer "image_file_size"
     t.datetime "image_updated_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "semesters", id: :serial, force: :cascade do |t|
-    t.string "name"
+    t.string "name", limit: 255
     t.integer "start_month"
     t.integer "end_month"
     t.integer "school_id"
@@ -522,19 +549,19 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
 
   create_table "settings", id: :serial, force: :cascade do |t|
     t.integer "target_id"
-    t.string "target_type"
-    t.string "name"
-    t.string "value", default: "false"
+    t.string "target_type", limit: 255
+    t.string "name", limit: 255
+    t.string "value", limit: 255
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
-    t.string "taggable_type"
     t.integer "taggable_id"
-    t.string "tagger_type"
+    t.string "taggable_type", limit: 255
     t.integer "tagger_id"
+    t.string "tagger_type", limit: 255
     t.string "context", limit: 128
     t.datetime "created_at", precision: nil
     t.index ["context"], name: "index_taggings_on_context"
@@ -549,7 +576,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
-    t.string "name"
+    t.string "name", limit: 255
     t.integer "taggings_count", default: 0
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
@@ -594,8 +621,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
     t.integer "school_id"
     t.integer "course_id"
     t.integer "level"
-    t.string "image_file_name"
-    t.string "image_content_type"
+    t.string "image_file_name", limit: 255
+    t.string "image_content_type", limit: 255
     t.integer "image_file_size"
     t.integer "points", default: 0
     t.boolean "extra_credit", default: false
@@ -610,21 +637,21 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
   create_table "users", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
+    t.string "email", limit: 255, null: false
+    t.string "encrypted_password", limit: 255, null: false
+    t.string "reset_password_token", limit: 255
     t.datetime "reset_password_sent_at", precision: nil
     t.datetime "remember_created_at", precision: nil
     t.integer "sign_in_count", default: 0
     t.datetime "current_sign_in_at", precision: nil
     t.datetime "last_sign_in_at", precision: nil
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
+    t.string "current_sign_in_ip", limit: 255
+    t.string "last_sign_in_ip", limit: 255
     t.string "status", limit: 1, default: "A"
-    t.string "confirmation_token"
+    t.string "confirmation_token", limit: 255
     t.datetime "confirmed_at", precision: nil
     t.datetime "confirmation_sent_at", precision: nil
-    t.string "unconfirmed_email"
+    t.string "unconfirmed_email", limit: 255
     t.integer "default_school_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -634,16 +661,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
     t.string "vault_type", limit: 32
     t.integer "target_id"
     t.string "target_type", limit: 64
-    t.string "account"
-    t.string "secret"
-    t.string "folder"
+    t.string "account", limit: 255
+    t.string "secret", limit: 255
+    t.string "folder", limit: 255
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
   end
 
   create_table "walls", id: :serial, force: :cascade do |t|
     t.integer "parent_id"
-    t.string "parent_type"
+    t.string "parent_type", limit: 255
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
   end
@@ -683,4 +710,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_18_215314) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
   end
+
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
 end

@@ -8,38 +8,32 @@ x-environment:
     - DATABASE_URL=postgresql://levelfly:password@db:5432/levelfly
     - DATABASE_URL_TEST=postgresql://levelfly:password@db:5432/levelfly_test
     - DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL=true
-    - S3_PROTOCOL=http
-    - S3_REGION=us-east-1
-    - S3_BUCKET=levelfly
-    - S3_ACCESS_KEY_ID=prissy-parmesan-luxury-paying-purist-marauding
-    - S3_SECRET_ACCESS_KEY=celibacy-civic-gout-botany-congrats-panic
-    - S3_HOST_NAME=localhost:9090
-    - S3_ENDPOINT=http://s3:9090
-    - S3_FORCE_PATH_STYLE=true
     - URL=http://localhost:3000
     - LOG_LEVEL=debug
     - SMTP_HOST=mail
     - SMTP_PORT=1025
 
-services:   
+services:
   app:
-    build: 
+    build:
       context: .
       target: dev
     image: neuronicgames/levelfly
-    volumes:  
+    volumes:
       - ./:/var/app:z
+      - levelfly_storage:/var/app/storage
     environment: *default-env
     depends_on:
       - db
-    ports: 
+    ports:
       - 3000:3000
   jobs:
     build: .
     image: neuronicgames/levelfly
     command: bundle exec rake jobs:work
-    volumes:  
+    volumes:
       - ./:/var/app:z
+      - levelfly_storage:/var/app/storage
     environment: *default-env
     depends_on:
       - app
@@ -58,15 +52,6 @@ services:
       test: ["CMD", "pg_isready", "-U", "levelfly"]
     volumes:
       - postgres_data:/var/lib/postgresql/data
-  s3:
-    image: adobe/s3mock:4.9.1
-    environment:
-      - "COM_ADOBE_TESTING_S3MOCK_STORE_INITIAL_BUCKETS=levelfly"
-      - "COM_ADOBE_TESTING_S3MOCK_STORE_RETAIN_FILES_ON_EXIT=true"
-    ports:
-      - 9090:9090
-    volumes:
-      - s3_data:/s3mockroot/
   mail:
     image: dockage/mailcatcher:0.9.0
     ports:
@@ -79,4 +64,4 @@ networks:
 
 volumes:
   postgres_data:
-  s3_data:
+  levelfly_storage:

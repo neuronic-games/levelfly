@@ -5,15 +5,15 @@
 <!-- Main area -->
 <div class="course_detailbox">
    <div class="course_field_box0">
-     <div class="course_left">
-         <div id="course_image" class="course_profile_image gamePhoto">
-         		<% if @game.image.present? %>
-         			<%= image_tag @game.image.url, height: '156', width: '156'%>
-         		<% else %>
-            	<img width="156" height="156" alt="Course image" src="/images/course_img_default.jpg" class="c_iamge" id="c_iamge">
-         		<% end %>            
-         </div>
-      </div>
+      <div class="course_left">
+          <div id="course_image" class="course_profile_image gamePhoto">
+          	<% if @game.image.attached? %>
+          			<%= image_tag url_for(@game.image), height: '156', width: '156'%>
+          		<% else %>
+             	<img width="156" height="156" alt="Course image" src="/images/course_img_default.jpg" class="c_iamge" id="c_iamge">
+          		<% end %>
+          </div>
+       </div>
    </div>
    <div class="course_field_box1">
       <div class="catagory_viewfield field_label" style="margin-right: 5px;">
@@ -39,14 +39,14 @@
   Screenshots
   <div id="thumbs" style="float:left;">
   	<% index = 1%>
-    <% @game.screen_shots.each do |screen| %>
-      <div class="screen-shot sub_course_profile_image screen_<%=index%>">
-      	<% if @game.screen_shots.order(:id)[index-1]%>
-      		<%= image_tag @game.screen_shots.order(:id)[index-1].image.url, height: '120', width: '120'%>
-      	<% else %>
-      		<img src="/images/course_img_drop.png" alt="" class="imaa" height="120" width="120" />
-      	<% end %>
-      </div>
+     <% @game.screen_shots.each do |screen| %>
+       <div class="screen-shot sub_course_profile_image screen_<%=index%>">
+       	<% if @game.screen_shots.order(:id)[index-1]&.image&.attached? %>
+       		<%= image_tag url_for(@game.screen_shots.order(:id)[index-1].image), height: '120', width: '120'%>
+       	<% else %>
+       		<img src="/images/course_img_drop.png" alt="" class="imaa" height="120" width="120" />
+       	<% end %>
+       </div>
       <% index = index + 1%>
     <% end %>
 

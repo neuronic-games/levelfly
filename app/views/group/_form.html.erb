@@ -7,7 +7,11 @@
       <div id="div_1" class="form_container">
         <div class="left_form_container">
           <div class="thumbnail_large" id="course_image">
-            <img id="group_thumb" src='<%= @course && @course.image_file_name ? @course.image.url : "/images/majors/ACCOUNTING.png" %>' alt="Group image" />
+            <% if @course && @course.image.attached? %>
+              <img id="group_thumb" src='<%= url_for(@course.image) %>' alt="Group image" />
+            <% else %>
+              <img id="group_thumb" src='/images/majors/ACCOUNTING.png' alt="Group image" />
+            <% end %>
           </div>
         </div>
         <div class="right_form_container">

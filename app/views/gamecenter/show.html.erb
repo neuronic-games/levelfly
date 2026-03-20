@@ -10,7 +10,7 @@
     <div id="VectorSmartObject_0"></div>
     <div class='row' style="height:210px;">
       <div class="col-sm-4">
-        <img src="<%= @game.image.url%>" height='156' width='156' class="Layer30"> 
+        <%= image_tag url_for(@game.image), height: '156', width: '156', class: "Layer30" if @game.image.attached? %>
       </div>
       <div class="col-sm-8">
         <div style="margin: 0px 0px 0px 14px;">
@@ -54,12 +54,14 @@
         <div class="screenshot">
           <b> <h4>Screenshots</h4></b>
         </div>
-        <div id="thumbs">
-          <% @game.screen_shots.each do |ss|%>
-            <span class="imgg">              
-              <a href="<%=h ss.image.url %>" alt="Screen Shot" target="_window"><%= image_tag ss.image.url, class: 'imaa crop'%></a>
-            </span>
-          <% end unless !@game.screen_shots.present?%>
+         <div id="thumbs">
+           <% @game.screen_shots.each do |ss|%>
+             <span class="imgg">
+               <% if ss.image.attached? %>
+                 <a href="<%=h url_for(ss.image) %>" alt="Screen Shot" target="_window"><%= image_tag url_for(ss.image), class: 'imaa crop'%></a>
+               <% end %>
+             </span>
+           <% end unless !@game.screen_shots.present?%>
           <% (5 - @game.screen_shots.count).times do %>
             <span class="imgg"><img src="../images/blank_screen.png" alt="" class="imaa"/></span>
           <% end %>

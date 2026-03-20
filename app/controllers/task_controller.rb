@@ -212,14 +212,19 @@ class TaskController < ApplicationController
       @task.image = params[:file]
     end
 
-    if course != 0 && course != @task.course_id && @task.image.to_s != '/images/original/missing.png'
+    if course != 0 && course != @task.course_id && @task.image.attached?
       school_id = @task.school_id || 1
-      filename = @task.image_file_name
-      bucket = "#{ENV.fetch('S3_PATH', nil)}/schools/#{school_id}/courses/#{course}/tasks/#{@task.id}"
-      data = Attachment.aws_get_file_data(school_id, filename, bucket)
-      bucket_2 = "#{ENV.fetch('S3_PATH', nil)}/schools/#{school_id}/courses/#{@task.course_id}/tasks/#{@task.id}"
-      Attachment.aws_upload_base64(school_id, bucket_2, filename, data)
-      Attachment.aws_delete_file(school_id, filename, bucket)
+      filename = @task.image.filename.to_s
+      data = Attachment.get_file_data(@task.id)
+      if data
+        Attachment.new(
+          school_id: school_id,
+          target: @task,
+          owner: @task.owner
+        )
+        Attachment.upload_base64(school_id, filename, Base64.encode64(data))
+        Attachment.delete_file(@task.id)
+      end
     end
 
     if @task.course_id != 0 && @task.image.to_s == '/images/original/missing.png' && @task.course.image_file_name.present?
@@ -311,7 +316,7 @@ class TaskController < ApplicationController
         end
       end
       status = true
-      image_url = params[:file] ? @task.image.url : ''
+      image_url = params[:file] && @task.image.attached? ? url_for(@task.image) : ''
       @task_outcomes = @task.outcomes
       if params[:category_id] and params[:category_id].present? and params[:category_id] != 'null' and params[:category_id] != 'undefined'
         c = Category.where(['id = ?', params[:category_id]]).select(:name).first
@@ -430,24 +435,22 @@ class TaskController < ApplicationController
   def upload_resource
     school_id = params[:school_id]
     task_id = params[:id]
-    # @vault = Vault.find(:first, :conditions => ["object_id = ? and object_type = 'School' and vault_type = 'AWS S3'", school_id])
-    # if @vault
-    @attachment = Attachment.new(resource: params[:file], school_id: school_id, target_type: 'task',
+    @attachment = Attachment.new(school_id: school_id, target_type: 'task',
                                  target_id: task_id)
+    @attachment.resource.attach(params[:file]) if params[:file].present?
     if @attachment.save
-      @url = @attachment.resource.url
+      @url = @attachment.resource.attached? ? url_for(@attachment.resource) : ''
       render body: { 'attachment' => @attachment, 'resource_url' => @url }.to_json
     else
       render nothing: true
     end
-    # end
   end
 
   def remove_attachment
     if params[:attachment_id].present?
       @attachment = Attachment.find(params[:attachment_id])
       if @attachment
-        @attachment.resource.destroy
+        @attachment.resource.purge if @attachment.resource.attached?
         @attachment.destroy
       end
     end

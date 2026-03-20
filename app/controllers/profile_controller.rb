@@ -143,11 +143,12 @@ class ProfileController < ApplicationController
 
     if @avatar.save
       file_name = "schools/#{@profile.school_id}/avatars/avatar_#{@profile.id}_#{@profile.updated_at.strftime('%Y%m%d%H%M%S')}.jpg"
-      # FIXME: Avoid looking this up here; maybe have aws_upload_base64 return the full endpoint + bucket + filename path?
-      bucket = ENV.fetch('S3_BUCKET', nil)
-      @profile.image_file_name = "https://s3.amazonaws.com/#{bucket}/#{ENV.fetch('S3_PATH', nil)}#{file_name}"
-      @profile.save
-      Attachment.aws_upload_base64(@profile.school_id, bucket, file_name, Base64.decode64(params[:avatar_img]))
+      # Create a temporary attachment for avatar storage
+      attachment = Attachment.upload_base64(@profile.school_id, file_name, Base64.decode64(params[:avatar_img]))
+      if attachment && attachment.save
+        @profile.image_file_name = url_for(attachment.resource)
+        @profile.save
+      end
     end
     publish_profile(@profile)
 

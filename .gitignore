@@ -1,6 +1,9 @@
 # Environment file
 /.env
 
+# ActiveStorage
+storage/
+
 # Ruby / rails stuff
 /.bundle
 /db/*.sqlite3

@@ -232,7 +232,7 @@ class CourseController < ApplicationController
     # and then immediately going to the Files tab. This is not the best fix, but
     # it works.
     if params[:course] == 'null'
-      image_url = params[:file] ? @course.image.url : ''
+      image_url = params[:file] && @course.image.attached? ? url_for(@course.image) : ''
       render body: { 'course' => @course, 'image_url' => image_url, 'outcome' => @outcome }.to_json
       return
     end
@@ -316,7 +316,7 @@ class CourseController < ApplicationController
           )
         end
       end
-      image_url = params[:file] ? @course.image.url : ''
+      image_url = params[:file] && @course.image.attached? ? url_for(@course.image) : ''
     end
     render body: { 'course' => @course, 'image_url' => image_url, 'outcome' => @outcome }.to_json
   end
@@ -481,7 +481,7 @@ class CourseController < ApplicationController
         status = true
       end
     end
-  render body: { status: status }.to_json
+    render body: { status: status }.to_json
   end
 
   def delete_participant
@@ -763,10 +763,11 @@ class CourseController < ApplicationController
     @profile = Profile.find(params[:profile_id])
     # @vault = Vault.find(:first, :conditions => ["target_id = ? and target_type = 'School' and vault_type = 'AWS S3'", school_id])
     # if @vault
-    @attachment = Attachment.new(resource: params[:file], target_type: params[:target_type], target_id: course_id,
+    @attachment = Attachment.new(target_type: params[:target_type], target_id: course_id,
                                  school_id: school_id, owner_id: user_session[:profile_id])
+    @attachment.resource.attach(params[:file]) if params[:file].present?
     if @attachment.save
-      @url = @attachment.resource.url
+      @url = @attachment.resource.attached? ? url_for(@attachment.resource) : ''
       # FIXME: Remove debugging output?
       puts "#{@url}--#{params[:target_type]}"
     end
@@ -804,9 +805,9 @@ class CourseController < ApplicationController
     message_ids = Like.where(['course_id in (?)', course_ids]).select('message_id').collect(&:message_id)
     message_ids = message_ids.uniq
     @likes = Message.where(['id IN (?) and profile_id = ? and archived = ?', message_ids, @profile.id, false])
-      .select('messages.like')
-      .collect(&:like)
-      .sum
+                    .select('messages.like')
+                    .collect(&:like)
+                    .sum
     @course_grade = CourseGrade.load_grade(@profile.id, @course.id, @profile.school_id)
     unless @course_grade.nil?
       @course_grade.each do |_key, val|
@@ -1010,7 +1011,7 @@ class CourseController < ApplicationController
         end
       end
       @course.join_all(@profile)
-      image_url = params[:file] ? @course.image.url : ''
+      image_url = params[:file] && @course.image.attached? ? url_for(@course.image) : ''
     end
     render json: { course: @course, image_url: image_url }
   end

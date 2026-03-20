@@ -109,9 +109,11 @@ class WardrobeController < ApplicationController
 
   def upload_wardrobe_image
     tmp = params[:file]
-    file_name = params[:name]
+    params[:name]
     school_id = params[:school_id]
-    Attachment.aws_upload(school_id, file_name, tmp.path)
+    attachment = Attachment.new(school_id: school_id)
+    attachment.resource.attach(tmp) if tmp.present?
+    attachment.save
     render nothing: true
   end
 

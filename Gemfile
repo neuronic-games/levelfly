@@ -4,7 +4,6 @@ ruby '3.3.9'
 
 gem 'activesupport'
 gem 'acts-as-taggable-on'
-gem 'aws-sdk-s3'
 gem 'csv', '~> 3.3'
 gem 'deep_cloneable'
 gem 'delayed_job_active_record'
@@ -21,6 +20,7 @@ gem 'pusher'
 gem 'rails', '~> 7.2.0'
 gem 'rails_autolink'
 gem 'rails-observers'
+gem 'image_processing', '~> 1.2'
 gem 'rake', '>= 0.9.2'
 gem 'remotipart', '~> 1.2'
 gem 'rexml', '~> 3.4'
@@ -31,9 +31,6 @@ gem 'will_paginate', '~> 3.0'
 
 # NOTE: Pinned to work around upgrade issues
 gem 'ffi', '< 1.17.0'
-
-# TODO: Paperclip is deprecated, we're temporarily using this fork to work around missing URI::escape on Ruby >= 3.0.0, but we should switch to ActiveStorage
-gem 'kt-paperclip'
 
 # TODO: Drop this once all dependent gems are updated far enough to not rely on it
 gem 'file_exists', '~> 0.2.0'

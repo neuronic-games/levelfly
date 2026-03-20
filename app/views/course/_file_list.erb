@@ -14,24 +14,26 @@
           <div class="avatar_white_bdrC2">
              <img src="<%=a.owner.image_file_name%>" class="profile" profile_id="<%=a.owner_id%>" />
           </div>
-          <div class="titleTextheading">
-            <h4 class="name"><%=a.resource_file_name%></h4>
-            <p>
-              Uploaded by <%=h a.owner.full_name%><br />
-            </p>
-          </div>
-          <% if a.resource_file_size && a.updated_at %>
-          <div class="titleTextRight"> <%= show_kilo_byte(a.resource_file_size) %>KB</div>
-          <div class="titleTextRightC2"><%= change_date_time_format(a.updated_at) %></div>
-          <% end %>
-          <div class="clear"></div>
-          <div id="files_hover" class="msg_bottom_linksC2" style="display:none;">
-              <div class="like_cmt"> 
-			  <% if (@course and @course.owner.id == user_session[:profile_id]) %>
-                <a href="javascript:void(0)" class="file_pri_toggle file_pri_toggle_btn blue_bt19px" rel="<%=a.id%>"><%if a.starred == true %>Un-Star<%else%>Star<%end%></a>
-              <% end %>
-				<a href="javascript:void(0)" class="files_download blue_bt19px" rev="download" rel="<%= a.resource.url %>">Download</a> 
-                <a href="javascript:void(0)" class="blue_bt19px files_download" rev="share" rel="<%= a.resource.url %>">Share</a> 
+           <div class="titleTextheading">
+             <h4 class="name"><% if a.resource.attached? %><%= a.resource.filename.to_s %><% end %></h4>
+             <p>
+               Uploaded by <%=h a.owner.full_name%><br />
+             </p>
+           </div>
+           <% if a.resource&.blob && a.updated_at %>
+           <div class="titleTextRight"> <%= show_kilo_byte(a.resource.byte_size) %>KB</div>
+           <div class="titleTextRightC2"><%= change_date_time_format(a.updated_at) %></div>
+           <% end %>
+           <div class="clear"></div>
+           <div id="files_hover" class="msg_bottom_linksC2" style="display:none;">
+               <div class="like_cmt">
+ 			  <% if (@course and @course.owner.id == user_session[:profile_id]) %>
+                 <a href="javascript:void(0)" class="file_pri_toggle file_pri_toggle_btn blue_bt19px" rel="<%=a.id%>"><%if a.starred == true %>Un-Star<%else%>Star<%end%></a>
+               <% end %>
+ 				<% if a.resource.attached? %>
+                 <a href="javascript:void(0)" class="files_download blue_bt19px" rev="download" rel="<%= url_for(a.resource) %>">Download</a>
+                 <a href="javascript:void(0)" class="blue_bt19px files_download" rev="share" rel="<%= url_for(a.resource) %>">Share</a>
+               <% end %>
                 <% if ( a.owner_id == @profile.id or ( @course and @course.owner.id == user_session[:profile_id]) ) %>
                   <a href="javascript:void(0)" class="files_del blue_bt19px" rel="<%= a.id %>">Remove</a>
                 <% end %>

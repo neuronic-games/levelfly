@@ -1,7 +1,7 @@
 Oncapus::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
-  # TODO: Consider removing this; even development settings should probably be loaded from env
+  config.active_storage.service = :local
 
   # Do not eager load code on boot.
   config.eager_load = false

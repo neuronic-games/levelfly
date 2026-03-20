@@ -30,22 +30,22 @@
 <!-- Main area -->
 <div class="course_detailbox">
    <div class="course_field_box0">
-     <div class="course_left">
-         <div id="course_image" class="course_profile_image gamePhoto">
-         		<% if f.object.image.present? %>
-         			<%= image_tag f.object.image.url, height: '156', width: '156'%>
-         		<% else %>
-            	<img width="156" height="156" alt="Game Image" src="/images/game_img_default.jpg" class="c_iamge" id="c_iamge">
-         		<% end %>
-            <div class="browse_link_div image_input_field hide">
-            	<!-- <img src="/images/course_img_drop.png" class="image_icon_drop_target"> -->
-              <a id="course_browse_btn" href="javascript:void(0)">
-            		<%= f.file_field :image, :class => 'file-opener', id: 'gamePhoto'%>
-              	CLICK TO UPLOAD
-            	</a>
-            </div>
-         </div>
-      </div>
+      <div class="course_left">
+          <div id="course_image" class="course_profile_image gamePhoto">
+          	<% if f.object.image.attached? %>
+          			<%= image_tag url_for(f.object.image), height: '156', width: '156'%>
+          		<% else %>
+             	<img width="156" height="156" alt="Game Image" src="/images/game_img_default.jpg" class="c_iamge" id="c_iamge">
+          		<% end %>
+             <div class="browse_link_div image_input_field hide">
+             	<!-- <img src="/images/course_img_drop.png" class="image_icon_drop_target"> -->
+               <a id="course_browse_btn" href="javascript:void(0)">
+             		<%= f.file_field :image, :class => 'file-opener', id: 'gamePhoto', direct_upload: true%>
+               	CLICK TO UPLOAD
+             	</a>
+             </div>
+          </div>
+       </div>
       <div class="field_label" style="margin-top:215px;">
         Created: <%=h change_date_format(@game.created_at) %><br />
         <%if @game.id and gamecenter_write_access(@game.id) and !@game.handle.blank? %>
@@ -96,20 +96,20 @@
   <div>Screenshots</div>
   <div id="thumbs" style="float:left;">
   	<% index = 1%>
-    <%= f.fields_for :screen_shots do |ff| %>
-      <div class="screen-shot sub_course_profile_image screen_<%=index%>">
-      	<% if f.object.screen_shots.present? && @game.screen_shots.order(:id)[index-1]%>
-      		<a href="<%=h @game.screen_shots.order(:id)[index-1].image.url %>" target="_window"><%= image_tag @game.screen_shots.order(:id)[index-1].image.url, height: '120', width: '120', style: 'object-fit: cover;' %></a>
-      	<% else %>
-      		<img src="/images/game_screen_default.png" alt="" class="imaa" height="120" width="120" />
-      	<% end %>
-        <div class="browse_link_div image_input_field hide">          
-          <a id="course_browse_btn" href="javascript:void(0)">
-            <%= ff.file_field :image, :class => 'file-opener', id: "screen_#{index}" %>
-            CLICK TO UPLOAD
-          </a>
-        </div>
-      </div>
+     <%= f.fields_for :screen_shots do |ff| %>
+       <div class="screen-shot sub_course_profile_image screen_<%=index%>">
+       	<% if f.object.screen_shots.present? && @game.screen_shots.order(:id)[index-1]&.image&.attached? %>
+       		<a href="<%=h url_for(@game.screen_shots.order(:id)[index-1].image) %>" target="_window"><%= image_tag url_for(@game.screen_shots.order(:id)[index-1].image), height: '120', width: '120', style: 'object-fit: cover;' %></a>
+       	<% else %>
+       		<img src="/images/game_screen_default.png" alt="" class="imaa" height="120" width="120" />
+       	<% end %>
+         <div class="browse_link_div image_input_field hide">
+           <a id="course_browse_btn" href="javascript:void(0)">
+             <%= ff.file_field :image, :class => 'file-opener', id: "screen_#{index}", direct_upload: true %>
+             CLICK TO UPLOAD
+           </a>
+         </div>
+       </div>
       <% index = index + 1%>
     <% end %>
 

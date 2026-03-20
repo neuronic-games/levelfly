@@ -9,12 +9,9 @@ class Course < ActiveRecord::Base
   # has_many :outcomes
   has_and_belongs_to_many :outcomes
   has_many :attachments, as: :target
-  has_attached_file :image,
-                    path: "#{ENV.fetch('S3_PATH', '')}schools/:school/courses/:id/:filename"
-  # FIXME: https://stackoverflow.com/a/21898204/14269772
-  do_not_validate_attachment_file_type :image
+  has_one_attached :image
 
-  has_many :forums, -> { where(parent_type: 'F').order(:name) }, :class_name => 'Course'
+  has_many :forums, -> { where(parent_type: 'F').order(:name) }, class_name: 'Course'
   has_one :wall, as: :parent
   has_one :game
 
@@ -99,7 +96,7 @@ class Course < ActiveRecord::Base
   end
 
   def image_file
-    image_file_name ? image.url : Course.default_image_file
+    image.attached? ? url_for(image) : Course.default_image_file
   end
 
   def init_defaults
@@ -503,11 +500,7 @@ class Course < ActiveRecord::Base
       duplicate.outcomes << outcomes[outcome.id]
     end
 
-    begin
-      duplicate.image = image
-    rescue StandardError
-      logger.error "AWS::S3::NoSuchKey: #{image.url}"
-    end
+    duplicate.image.attach(image.blob) if image.attached?
 
     self.categories.each do |category|
       categories[category.id] ||= category.dup
@@ -542,12 +535,7 @@ class Course < ActiveRecord::Base
       a.owner = attachment.owner
       a.starred = attachment.starred
 
-      begin
-        a.resource = attachment.resource
-      rescue StandardError
-        # a.resource = nil
-        logger.error "AWS::S3::NoSuchKey: #{attachment.resource.url}"
-      end
+      a.resource.attach(attachment.resource.blob) if attachment.resource.attached?
 
       duplicate.attachments << a
     end
@@ -582,12 +570,7 @@ class Course < ActiveRecord::Base
         a.owner = attachment.owner
         a.starred = attachment.starred
 
-        begin
-          a.resource = attachment.resource
-        rescue StandardError
-          # a.resource = nil
-          logger.error "AWS::S3::NoSuchKey: #{attachment.resource.url}"
-        end
+        a.resource.attach(attachment.resource.blob) if attachment.resource.attached?
 
         t.attachments << a
       end

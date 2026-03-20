@@ -142,7 +142,7 @@ RSpec.describe 'Attachments' do
 
       expect(response).to have_http_status(:ok)
       expect(response).to render_template 'course/_load_files'
-      expect(response.body).to include attachment.resource_file_name
+      expect(response.body).to include attachment.resource.filename.sanitized
     end
   end
 end

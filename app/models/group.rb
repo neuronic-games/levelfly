@@ -3,8 +3,5 @@ class Group < ActiveRecord::Base
   has_many :participants, as: :target
   has_many :messages, as: :parent
 
-  has_attached_file :image,
-                    path: "#{ENV.fetch('S3_PATH', '')}schools/:school/courses/:course/group/:id/:filename"
-  # FIXME: https://stackoverflow.com/a/21898204/14269772
-  do_not_validate_attachment_file_type :image
+  has_one_attached :image
 end
